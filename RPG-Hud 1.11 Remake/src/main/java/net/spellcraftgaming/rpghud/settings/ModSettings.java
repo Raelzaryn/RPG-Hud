@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ModSettings {
@@ -166,33 +165,33 @@ public class ModSettings {
 
 	public boolean getOptionOrdinalValue(EnumOptionsMod options) {
 		switch (ModSettings.SwitchOptions.optionIds[options.ordinal()]) {
-		case 1:
+		case 0:
 			return this.show_armor;
-		case 2:
+		case 1:
 			return this.show_numbers_health;
-		case 3:
+		case 2:
 			return this.show_numbers_stamina;
-		case 4:
+		case 3:
 			return this.show_numbers_experience;
-		case 5:
+		case 4:
 			return this.render_player_face;
-		case 6:
+		case 5:
 			return this.show_hunger_preview;
-		case 7:
+		case 6:
 			return this.enable_clock;
-		case 8:
+		case 7:
 			return this.enable_clock_color;
-		case 9:
+		case 8:
 			return this.enable_immersive_clock;
-		case 10:
+		case 9:
 			return this.button_tooltip_enabled;
-		case 11:
+		case 10:
 			return this.show_itemdurability;
-		case 12:
+		case 11:
 			return this.show_arrowcount;
-		case 13:
+		case 12:
 			return this.show_blockcount;
-		case 14:
+		case 13:
 			return this.reduce_size;
 		default:
 			return false;
@@ -201,76 +200,76 @@ public class ModSettings {
 
 	@SuppressWarnings("unused")
 	static final class SwitchOptions {
-		static final int[] optionIds = new int[GameSettings.Options.values().length];
+		static final int[] optionIds = new int[EnumOptionsMod.values().length];
 
 		static {
 			try {
-				optionIds[EnumOptionsMod.SHOW_ARMOR.ordinal()] = 1;
+				optionIds[EnumOptionsMod.SHOW_ARMOR.ordinal()] = 0;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_NUMBERS_HEALTH.ordinal()] = 2;
+				optionIds[EnumOptionsMod.SHOW_NUMBERS_HEALTH.ordinal()] = 1;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_NUMBERS_STAMINA.ordinal()] = 3;
+				optionIds[EnumOptionsMod.SHOW_NUMBERS_STAMINA.ordinal()] = 2;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE.ordinal()] = 4;
+				optionIds[EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE.ordinal()] = 3;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.RENDER_PLAYER_FACE.ordinal()] = 5;
+				optionIds[EnumOptionsMod.RENDER_PLAYER_FACE.ordinal()] = 4;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_HUNGERPREVIEW.ordinal()] = 6;
+				optionIds[EnumOptionsMod.SHOW_HUNGERPREVIEW.ordinal()] = 5;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.ENABLE_CLOCK.ordinal()] = 7;
+				optionIds[EnumOptionsMod.ENABLE_CLOCK.ordinal()] = 6;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.ENABLE_TIMECOLOR.ordinal()] = 8;
+				optionIds[EnumOptionsMod.ENABLE_TIMECOLOR.ordinal()] = 7;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK.ordinal()] = 9;
+				optionIds[EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK.ordinal()] = 8;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.BUTTON_TOOLTIP_ENABLED.ordinal()] = 10;
+				optionIds[EnumOptionsMod.BUTTON_TOOLTIP_ENABLED.ordinal()] = 9;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_ITEMDURABILITY.ordinal()] = 11;
+				optionIds[EnumOptionsMod.SHOW_ITEMDURABILITY.ordinal()] = 10;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_ARROWCOUNT.ordinal()] = 12;
+				optionIds[EnumOptionsMod.SHOW_ARROWCOUNT.ordinal()] = 11;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.SHOW_ITEMCOUNT.ordinal()] = 13;
+				optionIds[EnumOptionsMod.SHOW_ITEMCOUNT.ordinal()] = 12;
 			} catch (NoSuchFieldError e) {
 				;
 			}
 			try {
-				optionIds[EnumOptionsMod.REDUCE_SIZE.ordinal()] = 14;
+				optionIds[EnumOptionsMod.REDUCE_SIZE.ordinal()] = 13;
 			} catch (NoSuchFieldError e) {
 				;
 			}

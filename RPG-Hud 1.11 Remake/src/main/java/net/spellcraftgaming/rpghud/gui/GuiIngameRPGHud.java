@@ -45,6 +45,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
+import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod.EnumOptionsType;
 
 public class GuiIngameRPGHud extends GuiIngame{
 
@@ -637,111 +639,36 @@ public class GuiIngameRPGHud extends GuiIngame{
     }
     
     private boolean forceRenderType(HudElementType type) {
-    	switch(type) {
-    	case HOTBAR:
-    		return this.rpgHud.settingsDebug.forceRenderHotbar;
-    	case CROSSHAIR:
-    		return this.rpgHud.settingsDebug.forceRenderCrosshair;
-    	case HEALTH:
-    		return this.rpgHud.settingsDebug.forceRenderHealth;
-    	case ARMOR:
-    		return this.rpgHud.settingsDebug.forceRenderArmor;
-    	case FOOD:
-    		return this.rpgHud.settingsDebug.forceRenderFood;
-    	case HEALTH_MOUNT:
-    		return this.rpgHud.settingsDebug.forceRenderHealthMount;
-    	case AIR:
-    		return this.rpgHud.settingsDebug.forceRenderAir;
-    	case JUMP_BAR:
-    		return this.rpgHud.settingsDebug.forceRenderJumpBar;
-    	case EXPERIENCE:
-    		return this.rpgHud.settingsDebug.forceRenderExp;
-    	case LEVEL:
-    		return this.rpgHud.settingsDebug.forceRenderExpLv;
-    	default: 
-    		return false;
+    	EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.FORCE_RENDER);
+    	if(option != null) {
+    		System.out.println(option.toString());
+    		return rpgHud.settingsDebug.getOptionOrdinalValue(option);
     	}
+		return false;
     }
     
     private boolean preventElementRenderType(HudElementType type) {
-    	switch(type) {
-    	case HOTBAR:
-    		return this.rpgHud.settingsDebug.preventElementRenderHotbar;
-    	case CROSSHAIR:
-    		return this.rpgHud.settingsDebug.preventElementRenderCrosshair;
-    	case HEALTH:
-    		return this.rpgHud.settingsDebug.preventElementRenderHealth;
-    	case ARMOR:
-    		return this.rpgHud.settingsDebug.preventElementRenderArmor;
-    	case FOOD:
-    		return this.rpgHud.settingsDebug.preventElementRenderFood;
-    	case HEALTH_MOUNT:
-    		return this.rpgHud.settingsDebug.preventElementRenderHealthMount;
-    	case AIR:
-    		return this.rpgHud.settingsDebug.preventElementRenderAir;
-    	case JUMP_BAR:
-    		return this.rpgHud.settingsDebug.preventElementRenderJumpBar;
-    	case EXPERIENCE:
-    		return this.rpgHud.settingsDebug.preventElementRenderExp;
-    	case LEVEL:
-    		return this.rpgHud.settingsDebug.preventElementRenderExpLv;
-    	default: 
-    		return false;
+    	EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.PREVENT_RENDER);
+    	if(option != null) {
+    		return rpgHud.settingsDebug.getOptionOrdinalValue(option);
     	}
+		return false;
     }
     
     private boolean forceRenderTypeVanilla(HudElementType type) {
-    	switch(type) {
-    	case HOTBAR:
-    		return this.rpgHud.settingsDebug.renderVanillaHotbar;
-    	case CROSSHAIR:
-    		return this.rpgHud.settingsDebug.renderVanillaCrosshair;
-    	case HEALTH:
-    		return this.rpgHud.settingsDebug.renderVanillaHealth;
-    	case ARMOR:
-    		return this.rpgHud.settingsDebug.renderVanillaArmor;
-    	case FOOD:
-    		return this.rpgHud.settingsDebug.renderVanillaFood;
-    	case HEALTH_MOUNT:
-    		return this.rpgHud.settingsDebug.renderVanillaHealthMount;
-    	case AIR:
-    		return this.rpgHud.settingsDebug.renderVanillaAir;
-    	case JUMP_BAR:
-    		return this.rpgHud.settingsDebug.renderVanillaJumpBar;
-    	case EXPERIENCE:
-    		return this.rpgHud.settingsDebug.renderVanillaExp;
-    	case LEVEL:
-    		return this.rpgHud.settingsDebug.renderVanillaExpLv;
-    	default: 
-    		return false;
+    	EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.RENDER_VANILLA);
+    	if(option != null) {
+    		return rpgHud.settingsDebug.getOptionOrdinalValue(option);
     	}
+		return false;
     }
     
     private boolean preventEventType(HudElementType type) {
-    	switch(type) {
-    	case HOTBAR:
-    		return this.rpgHud.settingsDebug.preventEventHotbar;
-    	case CROSSHAIR:
-    		return this.rpgHud.settingsDebug.preventEventCrosshair;
-    	case HEALTH:
-    		return this.rpgHud.settingsDebug.preventEventHealth;
-    	case ARMOR:
-    		return this.rpgHud.settingsDebug.preventEventArmor;
-    	case FOOD:
-    		return this.rpgHud.settingsDebug.preventEventFood;
-    	case HEALTH_MOUNT:
-    		return this.rpgHud.settingsDebug.preventEventHealthMount;
-    	case AIR:
-    		return this.rpgHud.settingsDebug.preventEventAir;
-    	case JUMP_BAR:
-    		return this.rpgHud.settingsDebug.preventEventJumpBar;
-    	case EXPERIENCE:
-    		return this.rpgHud.settingsDebug.preventEventExp;
-    	case LEVEL:
-    		return this.rpgHud.settingsDebug.preventEventExpLv;
-    	default: 
-    		return false;
+    	EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.PREVENT_EVENT);
+    	if(option != null) {
+    		return rpgHud.settingsDebug.getOptionOrdinalValue(option);
     	}
+		return false;
     }
     
     private static ElementType getEventAlias(HudElementType type) {
