@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
+  "modid": "rpghud",
+  "name": "RPG-Hud",
   "description": "Example placeholder mod.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["KurodaAkira"],
+  "credits": "KurodaAkira",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
