@@ -137,4 +137,8 @@ public enum EnumOptionsDebugMod {
 	public EnumOptionsType getOptionType() {
 		return optionType;
 	}
+
+	public String getTooltip() {
+		return null;
+	}
 }

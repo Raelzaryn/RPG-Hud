@@ -121,30 +121,7 @@ public class GuiButtonTooltip {
 	
 	public static void initTooltips(){
 		String[] strings = new String[4];
-		strings[0] = "Change the Hud style:";
-		strings[1] = "§nDefault§r, §nExtended Widget§r,";
-		strings[2] = "§nFull Texture§r, §nHotbar Widget§r and";
-		strings[3] = "§6§nNew Style (complete rework)";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.HUD_TYPE.ordinal(), strings);
-		strings = new String[4];
-		strings[0] = "Enabled/Disable player face";
-		strings[1] = "If disabled Steve's face will";
-		strings[2] = "be rendered instead.";
-		strings[3] = "Except if you use the new style";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.RENDER_PLAYER_FACE.ordinal(), strings);
-		strings = new String[1];
-		strings[0] = "Enable/Disable Experience Numbers";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE.ordinal(), strings);
-		strings = new String[1];
-		strings[0] = "Enable/Disable Health Numbers";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.SHOW_NUMBERS_HEALTH.ordinal(), strings);
-		strings = new String[1];
-		strings[0] = "Enable/Disable Stamina Numbers";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.SHOW_NUMBERS_STAMINA.ordinal(), strings);
-		strings = new String[2];
-		strings[0] = "Set the color of the";
-		strings[1] = "breath bar";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.COLOR_AIR.ordinal(), strings);
+
 		strings = new String[2];
 		strings[0] = "Set the color of the";
 		strings[1] = "experience bar";

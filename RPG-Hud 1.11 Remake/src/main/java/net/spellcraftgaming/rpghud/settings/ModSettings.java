@@ -361,9 +361,9 @@ public class ModSettings {
 	}
 
 	public String getKeyBinding(EnumOptionsMod par1EnumOptions) {
-		String s = I18n.format(par1EnumOptions.getEnumString(), new Object[0])
+		String s = I18n.format(par1EnumOptions.getName(), new Object[0])
 				+ ": ";
-		if (par1EnumOptions.getEnumBoolean()) {
+		if (par1EnumOptions.isBoolean()) {
 			boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 		}

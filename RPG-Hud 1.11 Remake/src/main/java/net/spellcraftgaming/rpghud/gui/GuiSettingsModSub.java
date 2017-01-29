@@ -19,8 +19,6 @@ import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_HUNGERPRE
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ITEMCOUNT;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ITEMDURABILITY;
 
-import java.util.ArrayList;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -30,7 +28,7 @@ import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
 import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
 
-public class GuiSettingsModSub extends GuiScreen {
+public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsGeneral = {BUTTON_TOOLTIP_ENABLED};
 	private static final EnumOptionsMod[] optionsHUD = {HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE};
 	private static final EnumOptionsMod[] optionsColors = {COLOR_HEALTH, COLOR_STAMINA, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR};
@@ -58,7 +56,7 @@ public class GuiSettingsModSub extends GuiScreen {
 		if(this.subgui < MAIN_DEBUG) {
 			initSettingsGui();
 		}
-		this.buttonList.add(new GuiButton(150, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+		this.buttonList.add(new GuiButton(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
 	}
 	
 	private void initSettingsGui() {
@@ -69,29 +67,28 @@ public class GuiSettingsModSub extends GuiScreen {
 		for (int k = 0; k < j; k++) {
 			EnumOptionsMod enumoptions = options[k];
 			GuiButtonSettings guismallbutton = new GuiButtonSettings(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160,
-					this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions));
+					this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions)).setTooltip();
 			this.buttonList.add(guismallbutton);
 			i++;
 		}
-		this.buttonList.add(new GuiButton(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+		this.buttonList.add(new GuiButtonSettings(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			if ((button.id < 100) && ((button instanceof GuiButtonSettings))) {
-				this.settings.setOptionValue(((GuiButtonSettings) button).returnEnumOptions(), 1);
+				this.settings.setOptionValue(((GuiButtonSettings) button).returnOptions(EnumOptionsMod.class), 1);
 				button.displayString = this.settings.getKeyBinding(EnumOptionsMod.getEnumOptions(button.id));
 			} else if ((button.id < 200) && ((button instanceof GuiButtonSettings))) {
-				this.debug.setOptionValue(((GuiButtonDebug) button).returnEnumOptions());
+				this.debug.setOptionValue(((GuiButtonSettings) button).returnOptions(EnumOptionsDebugMod.class));
 				button.displayString = this.debug.getKeyBinding(EnumOptionsDebugMod.getEnumOptions(button.id - 100));
 			} else if (button.id == 250) {
 				if(this.subgui >= GENERAL && this.subgui <= MAIN_DEBUG) {
 					this.mc.displayGuiScreen(new GuiSettingsMod(this.parent));
 					this.settings.saveOptions();
 				} else if(this.subgui > MAIN_DEBUG) {
-					this.mc.displayGuiScreen(new GuiSettingsMod(this.parent));
-					this.debug.saveOptions();
+					//TODO
 				}
 			}
 		}
@@ -100,9 +97,8 @@ public class GuiSettingsModSub extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, I18n.format("RPG-Hud Settings", new Object[0]), this.width / 2, 12, 16777215);
-        GuiButtonTooltip.drawTooltip(this, (ArrayList<GuiButton>) this.buttonList);
+		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 	
 	public EnumOptionsMod[] getOptions() {

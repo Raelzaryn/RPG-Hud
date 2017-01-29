@@ -4,35 +4,64 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonSettings extends GuiButton{
 	private final EnumOptionsMod enumOptions;
+	private final EnumOptionsDebugMod enumOptionsDebug;
 
-	public GuiButtonSettings(int par1, int par2, int par3, String par4Str) {
-		this(par1, par2, par3, (EnumOptionsMod) null, par4Str);
-	}
-
-	public GuiButtonSettings(int par1, int par2, int par3, int par4, int par5, String par6Str) {
-		super(par1, par2, par3, par4, par5, par6Str);
+	private String[] tooltip;
+	
+	public GuiButtonSettings(int buttonId, int x, int y, String buttonText) {
+		super(buttonId, x, y, buttonText);
 		this.enumOptions = null;
+		this.enumOptionsDebug = null;
 	}
 
-	public GuiButtonSettings(int par1, int par2, int par3, EnumOptionsMod par4EnumOptions, String par5Str) {
-		super(par1, par2, par3, 150, 20, par5Str);
-		this.enumOptions = par4EnumOptions;
+	public GuiButtonSettings(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
+		super(buttonId, x, y, widthIn, heightIn, buttonText);
+		this.enumOptions = null;
+		this.enumOptionsDebug = null;
 	}
 
-	public EnumOptionsMod returnEnumOptions() {
-		return this.enumOptions;
+	public GuiButtonSettings(int buttonId, int x, int y, EnumOptionsMod setting, String buttonText) {
+		super(buttonId, x, y, 150, 20, buttonText);
+		this.enumOptions = setting;
+		this.enumOptionsDebug = null;
+	}
+	
+	public GuiButtonSettings(int buttonId, int x, int y, EnumOptionsDebugMod setting, String buttonText) {
+		super(buttonId, x, y, 150, 20, buttonText);
+		this.enumOptions = null;
+		this.enumOptionsDebug = setting;
+	}
+
+	public GuiButtonSettings setTooltip(String s) {
+		System.out.println(s);
+		this.tooltip = s.split("/n");
+		return this;
+	}
+	
+	public GuiButtonSettings setTooltip() {
+		if(enumOptions != null) return setTooltip(enumOptions.getTooltip());
+		if(enumOptionsDebug != null) return setTooltip(enumOptionsDebug.getTooltip());
+		return this;
+	}
+	
+	public <Type> Type returnOptions(Class<Type> c){
+		if(c == EnumOptionsMod.class) return (Type) this.enumOptions;
+		if(c == EnumOptionsDebugMod.class) return (Type) this.enumOptionsDebug;
+		return null;
 	}
 	
 	@Override
-	public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_) {
-		super.drawButton(p_146112_1_, p_146112_2_, p_146112_3_);
-        this.hovered = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
-        int k = this.getHoverState(this.hovered);
-		if(k == 2)GuiButtonTooltip.setTooltip(Minecraft.getMinecraft().currentScreen, this);
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+		super.drawButton(mc, mouseX, mouseY);
+	}
+
+	public String[] getTooltip() {
+		return tooltip;
 	}
 }

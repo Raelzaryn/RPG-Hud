@@ -641,7 +641,6 @@ public class GuiIngameRPGHud extends GuiIngame{
     private boolean forceRenderType(HudElementType type) {
     	EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.FORCE_RENDER);
     	if(option != null) {
-    		System.out.println(option.toString());
     		return rpgHud.settingsDebug.getOptionOrdinalValue(option);
     	}
 		return false;
