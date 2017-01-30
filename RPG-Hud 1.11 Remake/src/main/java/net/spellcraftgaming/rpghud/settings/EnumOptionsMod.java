@@ -67,6 +67,6 @@ public enum EnumOptionsMod {
 	}
 
 	public String getTooltip() {
-		return tooltip;
+		return this.tooltip;
 	}
 }

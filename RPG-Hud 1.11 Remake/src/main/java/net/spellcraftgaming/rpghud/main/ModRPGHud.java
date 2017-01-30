@@ -1,6 +1,7 @@
 package net.spellcraftgaming.rpghud.main;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -11,10 +12,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.spellcraftgaming.rpghud.event.ClientTickHandler;
 import net.spellcraftgaming.rpghud.event.PlayerContainerHandler;
-import net.spellcraftgaming.rpghud.event.RenderGameOverlayHandler;
-import net.spellcraftgaming.rpghud.gui.GuiButtonTooltip;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
+import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
@@ -30,7 +30,6 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 public class ModRPGHud {
 	
 	//TODO 3.1: Create settings menu
-	//TODO 3.1: Add Default HUD
 	//TODO 3.1: Add Extended Widget HUD
 	//TODO 3.1: Add Full Texture HUD
 	//TODO 3.1: Add Hotbar HUD
@@ -57,7 +56,7 @@ public class ModRPGHud {
 	public ModDebugSettings settingsDebug;
 	public ModSettings settings;
 	
-	public LinkedHashMap<String, Hud> huds = new LinkedHashMap<String, Hud>();
+	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
 	
 	public static boolean[] renderDetailsAgain =  {false, false, false};
 	
@@ -70,15 +69,13 @@ public class ModRPGHud {
 	@EventHandler
 	public void init(@SuppressWarnings("unused") FMLInitializationEvent event){		
 		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
-		MinecraftForge.EVENT_BUS.register(new RenderGameOverlayHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
 		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
-		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "extended", "Extended Widget"));
+		this.registerHud(new HudExtendedWidget(Minecraft.getMinecraft(), "extended", "Extended Widget"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "texture", "Full Texture"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "modern", "Modern Style"));
-		GuiButtonTooltip.initTooltips();
 	}
 	
 	@EventHandler
@@ -91,7 +88,7 @@ public class ModRPGHud {
 	}
 	
 	public Hud getActiveHud() {
-		return this.huds.get(settings.hud_type);
+		return this.huds.get(this.settings.hud_type);
 	}
 	
 	public Hud getVanillaHud() {

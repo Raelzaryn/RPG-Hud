@@ -23,33 +23,33 @@ public abstract class HudElementBarred extends HudElement{
 		switch (setting)
 		{
 		case 0:
-			color[0] = colorRed[0];
-			color[1] = colorRed[1];
+			color[0] = this.colorRed[0];
+			color[1] = this.colorRed[1];
 			break;
 		case 1:
-			color[0] = colorBlue[0];
-			color[1] = colorBlue[1];
+			color[0] = this.colorBlue[0];
+			color[1] = this.colorBlue[1];
 			break;
 		case 2:
-			color[0] = colorGreen[0];
-			color[1] = colorGreen[1];
+			color[0] = this.colorGreen[0];
+			color[1] = this.colorGreen[1];
 			break;
 		case 3:
-			color[0] = colorYellow[0];
-			color[1] = colorYellow[1];
+			color[0] = this.colorYellow[0];
+			color[1] = this.colorYellow[1];
 			break;
 		case 4:
-			color[0] = colorWhite[0];
-			color[1] = colorWhite[1];
+			color[0] = this.colorWhite[0];
+			color[1] = this.colorWhite[1];
 			break;
 		case 5:
-			color[0] = colorGrey[0];
-			color[1] = colorGrey[1];
+			color[0] = this.colorGrey[0];
+			color[1] = this.colorGrey[1];
 		}
 		return color;
 	}
 	
-	protected void drawOutline(int x, int y, int width, int height, int color) {
+	protected static void drawOutline(int x, int y, int width, int height, int color) {
 		Gui.drawRect(x, y, x + width, y + 1, color);
 		Gui.drawRect(x, y, x + 1, y + height, color);
 		Gui.drawRect(x + width - 1, y, x + width, y + height, color);
@@ -57,18 +57,18 @@ public abstract class HudElementBarred extends HudElement{
 	}
 	
 	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
-		drawCustomBar(x, y, width, height, value, colorDefault[0], colorDefault[1], colorBarLight, colorBarDark, true, colorBlack);
+		drawCustomBar(x, y, width, height, value, this.colorDefault[0], this.colorDefault[1], colorBarLight, colorBarDark, true, this.colorBlack);
 	}
 	
 	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorBlack);
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, this.colorBlack);
 	}
 	
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+	protected static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
 		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
 	}
 	
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+	protected static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
 		if (value < 0.0D) {
 			value = 0.0D;
 		}

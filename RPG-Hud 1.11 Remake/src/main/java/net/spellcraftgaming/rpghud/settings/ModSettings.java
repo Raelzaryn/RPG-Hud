@@ -167,10 +167,10 @@ public class ModSettings {
 		String[] keys = huds.toArray(new String[huds.size()]);
 		int size = keys.length;
 		for(int n = 0; n < size; n++) {
-			if(keys[n] == hud_type) {
+			if(keys[n] == this.hud_type) {
 				n++;
 				if(n == size) n = 0;
-				hud_type = keys[n];
+				this.hud_type = keys[n];
 				System.out.println(n);
 				return;
 			}
@@ -293,7 +293,7 @@ public class ModSettings {
 	}
 
 	public void loadOptions() {
-		System.out.println(hud_type);
+		System.out.println(this.hud_type);
 		try {
 			if (!this.optionsFile.exists()) {
 				return;
@@ -375,7 +375,7 @@ public class ModSettings {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(hud_type);
+		System.out.println(this.hud_type);
 	}
 
 	public String getKeyBinding(EnumOptionsMod par1EnumOptions) {
@@ -387,7 +387,7 @@ public class ModSettings {
 		}
 		switch(par1EnumOptions) {
 		case HUD_TYPE:
-			return s + getHudName(hud_type);
+			return s + getHudName(this.hud_type);
 		case COLOR_JUMPBAR:
 			return s + getTranslation(COLOR, this.color_jumpbar);
 		case COLOR_EXPERIENCE:
@@ -405,7 +405,7 @@ public class ModSettings {
 		}
 	}
 
-	private String getHudName(String hudtype) {
+	private static String getHudName(String hudtype) {
 		Hud hud = ModRPGHud.instance.huds.get(hudtype);
 		return hud.getHudName();
 	}

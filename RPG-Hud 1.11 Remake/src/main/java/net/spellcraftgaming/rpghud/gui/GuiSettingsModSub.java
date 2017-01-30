@@ -18,6 +18,9 @@ import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ARROWCOUN
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_HUNGERPREVIEW;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ITEMCOUNT;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ITEMDURABILITY;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_HEALTH;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_STAMINA;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,7 +33,7 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsGeneral = {BUTTON_TOOLTIP_ENABLED};
-	private static final EnumOptionsMod[] optionsHUD = {HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE};
+	private static final EnumOptionsMod[] optionsHUD = {HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE};
 	private static final EnumOptionsMod[] optionsColors = {COLOR_HEALTH, COLOR_STAMINA, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR};
 	private static final EnumOptionsMod[] optionsDetails = {SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, SHOW_HUNGERPREVIEW};
 	
@@ -66,22 +69,22 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 		int j = options.length;
 		for (int k = 0; k < j; k++) {
 			EnumOptionsMod enumoptions = options[k];
-			GuiButtonSettings guismallbutton = new GuiButtonSettings(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160,
+			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160,
 					this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions)).setTooltip();
 			this.buttonList.add(guismallbutton);
 			i++;
 		}
-		this.buttonList.add(new GuiButtonSettings(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
+		this.buttonList.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
-			if ((button.id < 100) && ((button instanceof GuiButtonSettings))) {
-				this.settings.setOptionValue(((GuiButtonSettings) button).returnOptions(EnumOptionsMod.class), 1);
+			if ((button.id < 100) && ((button instanceof GuiButtonTooltip))) {
+				this.settings.setOptionValue(((GuiButtonTooltip) button).returnOptions(EnumOptionsMod.class), 1);
 				button.displayString = this.settings.getKeyBinding(EnumOptionsMod.getEnumOptions(button.id));
-			} else if ((button.id < 200) && ((button instanceof GuiButtonSettings))) {
-				this.debug.setOptionValue(((GuiButtonSettings) button).returnOptions(EnumOptionsDebugMod.class));
+			} else if ((button.id < 200) && ((button instanceof GuiButtonTooltip))) {
+				this.debug.setOptionValue(((GuiButtonTooltip) button).returnOptions(EnumOptionsDebugMod.class));
 				button.displayString = this.debug.getKeyBinding(EnumOptionsDebugMod.getEnumOptions(button.id - 100));
 			} else if (button.id == 250) {
 				if(this.subgui >= GENERAL && this.subgui <= MAIN_DEBUG) {

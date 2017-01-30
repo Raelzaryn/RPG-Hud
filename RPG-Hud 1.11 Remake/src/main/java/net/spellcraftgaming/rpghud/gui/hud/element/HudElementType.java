@@ -1,6 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
 public enum HudElementType {
+	VOID("Void"),
 	HOTBAR("Hotbar"),
 	CROSSHAIR("Crosshair"),
 	HEALTH("Player health"),
@@ -12,7 +13,9 @@ public enum HudElementType {
 	EXPERIENCE("Player experience"),
 	LEVEL("Player level"),
 	CLOCK("Clock"),
-	DETAILS("Item Details");
+	DETAILS("Item Details"),
+	WIDGET("Widget"),
+	RECORD_OVERLAY("Record Overlay");
 	
 	private String displayName;
 	private HudElementType(String displayName) {

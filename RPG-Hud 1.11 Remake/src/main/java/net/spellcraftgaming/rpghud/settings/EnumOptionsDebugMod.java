@@ -131,14 +131,14 @@ public enum EnumOptionsDebugMod {
 	}
 	
 	public HudElementType getType() {
-		return type;
+		return this.type;
 	}
 
 	public EnumOptionsType getOptionType() {
-		return optionType;
+		return this.optionType;
 	}
 
-	public String getTooltip() {
+	public static String getTooltip() {
 		return null;
 	}
 }

@@ -14,6 +14,9 @@ public class GuiScreenTooltip extends GuiScreen{
 		drawTooltip();
 	}
 	
+	/**
+	 *  Checks if a tooltip should be rendered and if so renders it on the screen.
+	 */
 	private void drawTooltip() {	
 		Minecraft mc = Minecraft.getMinecraft();
 		GuiScreenTooltip gui = null;
@@ -24,13 +27,13 @@ public class GuiScreenTooltip extends GuiScreen{
         int mouseY = gui.height - Mouse.getEventY() * gui.height / mc.displayHeight - 1;
         
         boolean shouldRenderTooltip = false;
-        GuiButtonSettings button = null;
-		for(int x = 0; x < buttonList.size(); x++){
-			GuiButton b = buttonList.get(x);
-			if(b instanceof GuiButtonSettings) button = (GuiButtonSettings) b;
+        GuiButtonTooltip button = null;
+		for(int x = 0; x < this.buttonList.size(); x++){
+			GuiButton b = this.buttonList.get(x);
+			if(b instanceof GuiButtonTooltip) button = (GuiButtonTooltip) b;
 			
 	        shouldRenderTooltip = mouseX >= button.xPosition && mouseY >= button.yPosition && mouseX < button.xPosition + button.width && mouseY < button.yPosition + button.height;
-			if(shouldRenderTooltip) x = buttonList.size();
+			if(shouldRenderTooltip) x = this.buttonList.size();
 		}
 		if(shouldRenderTooltip) {
 	        int posX = mouseX + 5;

@@ -7,18 +7,12 @@ import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 
 public class ClientTickHandler {
 	
-	private Minecraft mc;
-	
-	public ClientTickHandler() {
-		this.mc = Minecraft.getMinecraft();
-	}
-	
 	/**Event to change the ingameHud.
 	 * 
 	 * @param event
 	 */
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event){
-		if(!(this.mc.ingameGUI instanceof GuiIngameRPGHud)) this.mc.ingameGUI = new GuiIngameRPGHud(Minecraft.getMinecraft());
+		if(!(Minecraft.getMinecraft().ingameGUI instanceof GuiIngameRPGHud)) Minecraft.getMinecraft().ingameGUI = new GuiIngameRPGHud(Minecraft.getMinecraft());
 	}
 }

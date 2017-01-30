@@ -21,13 +21,13 @@ public class GuiSettingsMod extends GuiScreenTooltip{
 	
 	@Override
 	public void initGui() {
-		this.buttonList.add(new GuiButtonSettings(1, this.width / 2 - 100, this.height / 6 - 12, "General Settings").setTooltip("tooltip.general"));
-		this.buttonList.add(new GuiButtonSettings(2, this.width / 2 - 100, this.height / 6 + 12, "HUD Settings").setTooltip("tooltip.hud"));
-		this.buttonList.add(new GuiButtonSettings(3, this.width / 2 - 100, this.height / 6 + 36 , "Color Settings").setTooltip("tooltip.color"));
-		this.buttonList.add(new GuiButtonSettings(4, this.width / 2 - 100, this.height / 6 + 60, "Detail Settings").setTooltip("tooltip.detail"));
-		this.buttonList.add(new GuiButtonSettings(5, this.width / 2 - 100, this.height / 6 + 96, "Debug Settings").setTooltip("tooltip.debug"));
+		this.buttonList.add(new GuiButtonTooltip(1, this.width / 2 - 100, this.height / 6 - 12, "General Settings").setTooltip("tooltip.general"));
+		this.buttonList.add(new GuiButtonTooltip(2, this.width / 2 - 100, this.height / 6 + 12, "HUD Settings").setTooltip("tooltip.hud"));
+		this.buttonList.add(new GuiButtonTooltip(3, this.width / 2 - 100, this.height / 6 + 36 , "Color Settings").setTooltip("tooltip.color"));
+		this.buttonList.add(new GuiButtonTooltip(4, this.width / 2 - 100, this.height / 6 + 60, "Detail Settings").setTooltip("tooltip.detail"));
+		this.buttonList.add(new GuiButtonTooltip(5, this.width / 2 - 100, this.height / 6 + 96, "Debug Settings").setTooltip("tooltip.debug"));
 		
-		this.buttonList.add(new GuiButtonSettings(0, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
+		this.buttonList.add(new GuiButtonTooltip(0, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
 	}
 	
 	@Override

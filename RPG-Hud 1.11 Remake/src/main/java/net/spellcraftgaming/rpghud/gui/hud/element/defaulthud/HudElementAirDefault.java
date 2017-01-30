@@ -15,7 +15,7 @@ public class HudElementAirDefault extends HudElementBarred{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		ScaledResolution res = new ScaledResolution(mc);
+		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		int adjustedWidth = width / 2 - 91;

@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.*;
 
 public class HudVanilla extends Hud {
@@ -47,7 +48,7 @@ public class HudVanilla extends Hud {
 
 	@Override
 	public HudElement setElementLevel() {
-		return new HudElementExperienceLevelVanilla();
+		return new HudElementLevelVanilla();
 	}
 
 	@Override
@@ -69,4 +70,14 @@ public class HudVanilla extends Hud {
 	public HudElement setElementDetails() {
 		return new HudElementDetailsVanilla();
 	}
+	
+	@Override
+	public HudElement setElementWidget() {
+		return new HudElementEmpty();
+	}
+	
+	@Override
+	public HudElement setElementRecordOverlay() {
+		return new HudElementRecordOverlayVanilla();
+	};
 }

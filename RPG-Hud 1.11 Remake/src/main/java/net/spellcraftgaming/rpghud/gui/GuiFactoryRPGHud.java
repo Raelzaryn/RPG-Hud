@@ -12,6 +12,9 @@ public class GuiFactoryRPGHud implements IModGuiFactory{
 	public void initialize(Minecraft minecraftInstance) {
 	}
 
+	/**
+	 * Links to the Settings Gui of this mod. Is called by the Forge Mod Menu.
+	 */
 	@Override
 	public Class<? extends GuiScreen> mainConfigGuiClass() {
 		return GuiSettingsMod.class;

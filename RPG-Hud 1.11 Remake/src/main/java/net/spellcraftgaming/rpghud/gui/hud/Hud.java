@@ -44,15 +44,17 @@ public abstract class Hud {
 		this.elements.put(LEVEL, setElementLevel());
 		this.elements.put(CLOCK, setElementClock());
 		this.elements.put(DETAILS, setElementDetails());
+		this.elements.put(WIDGET, setElementWidget());
+		this.elements.put(RECORD_OVERLAY, setElementRecordOverlay());
 		
 	}
 	
 	public String getHudKey() {
-		return hudKey;
+		return this.hudKey;
 	}
 	
 	public String getHudName() {
-		return hudName;
+		return this.hudName;
 	}
 	
 	/** Function which returns a new element which is the crosshair element*/
@@ -90,6 +92,12 @@ public abstract class Hud {
 	
 	/** Function which returns a new element which is the details element*/
 	protected abstract HudElement setElementDetails();
+	
+	/** Function which returns a new element which is the widget element*/
+	protected abstract HudElement setElementWidget();
+	
+	/** Function which returns a new element which is the widget element*/
+	protected abstract HudElement setElementRecordOverlay();
 	
 	/** Draws the an element of the HudElementType type on the screen
 	 * 

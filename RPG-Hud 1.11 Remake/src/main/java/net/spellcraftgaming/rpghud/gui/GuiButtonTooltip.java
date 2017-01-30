@@ -1,142 +1,119 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.lwjgl.input.Mouse;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
 
-public class GuiButtonTooltip {
-
-	public static HashMap<String, String[]> button = new HashMap<String, String[]>();
-	static String[] stringsToDraw = null;
-	static int buttonId;
-	static GuiScreen screen;
+@SideOnly(Side.CLIENT)
+public class GuiButtonTooltip extends GuiButton{
 	
-	public static void drawTooltip(GuiScreen gui, GuiButton[] buttons){
-			Minecraft mc = Minecraft.getMinecraft();
-	        int mx = Mouse.getEventX() * gui.width / gui.mc.displayWidth;
-	        int my = gui.height - Mouse.getEventY() * gui.height / gui.mc.displayHeight - 1;
-	        int i = mx + 5;
-	        int j = my + 5;
-			String[] strings = stringsToDraw;
-			int maxY = 0;
-			boolean should = false;
-			boolean reverse = false;
-			for(int x = 0; x < buttons.length; x++){
-		        boolean field_146123_n = mx >= buttons[x].xPosition && my >= buttons[x].yPosition && mx < buttons[x].xPosition + buttons[x].width && my < buttons[x].yPosition + buttons[x].height;
-				if(buttons[x].id == buttonId && screen == gui && getHoverState(buttons[x], field_146123_n) == 2) should = true;
-			}
-			if(!(strings == null) && should){
-				int counter = 0;
-				for(int id = 0; id < strings.length; id++){
-					int x = mc.fontRendererObj.getStringWidth(strings[id]);
-					if(maxY < x) maxY = mc.fontRendererObj.getStringWidth(strings[id]);
-					counter++;
-				}
-				if((j + 5 + 12 * counter + 10) > gui.height) reverse = true;
-				if(reverse) Gui.drawRect(mx, my - 3 - strings.length * 12 - 2, mx + maxY + 10, my, 0xA0000000);
-				else Gui.drawRect(i, j, i + maxY + 10, j + 3 + strings.length * 12 + 2, 0xA0000000);
-				for(int id = 0; id < strings.length; id++){
-					if(!strings[id].isEmpty()) {
-						if(reverse) gui.drawString(mc.fontRendererObj, strings[id], i, my - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
-						else gui.drawString(mc.fontRendererObj, strings[id], i + 5, j + 5 + 12 * id, 0xBBBBBB);
-					}
-				}
-			}
-		
-	}
+	/** Variable to contain the (possible) setting of this button*/
+	private final EnumOptionsMod enumOptions;
 	
-    protected static int getHoverState(GuiButton button, boolean mouseOver)
-    {
-        int i = 1;
+	/** Variable to contain the (possible) debug setting of this button*/
+	private final EnumOptionsDebugMod enumOptionsDebug;
 
-        if (!button.enabled)
-        {
-            i = 0;
-        }
-        else if (mouseOver)
-        {
-            i = 2;
-        }
-
-        return i;
-    }
-    
-	public static void drawTooltip(GuiScreen gui, ArrayList<GuiButton> buttons){
-			Minecraft mc = Minecraft.getMinecraft();
-	        int mx = Mouse.getEventX() * gui.width / gui.mc.displayWidth;
-	        int my = gui.height - Mouse.getEventY() * gui.height / gui.mc.displayHeight - 1;
-	        int i = mx;
-	        int j = my + 8;
-			String[] strings = stringsToDraw;
-			int maxY = 0;
-			boolean should = false;
-			boolean reverse = false;
-			GuiButton button;
-			for(int x = 0; x < buttons.size(); x++){
-				button = buttons.get(x);
-		        boolean field_146123_n = mx >= button.xPosition && my >= button.yPosition && mx < button.xPosition + button.width && my < button.yPosition + button.height;
-				if(button.id == buttonId && screen == gui && getHoverState(button, field_146123_n) == 2) should = true;
-			}
-			if(!(strings == null) && should){
-				int counter = 0;
-				for(int id = 0; id < strings.length; id++){
-					int x = mc.fontRendererObj.getStringWidth(strings[id]);
-					if(maxY < x) maxY = mc.fontRendererObj.getStringWidth(strings[id]);
-					counter++;
-				}
-				i -= maxY/2;
-				if((i + maxY + 10) > gui.width) i -= (i + maxY + 10) - gui.width;
-				if(i < 0) i = 0;
-				
-				if((j + 5 + 12 * counter + 10) > gui.height) reverse = true;
-				if(reverse) Gui.drawRect(i, my - 3 - strings.length * 12 - 2, mx + maxY + 10, my, 0xA0000000);
-				else Gui.drawRect(i, j, i + maxY + 10, j + 3 + strings.length * 12 + 2, 0xA0000000);
-				for(int id = 0; id < strings.length; id++){
-					if(!strings[id].isEmpty()) {
-						if(reverse) gui.drawString(mc.fontRendererObj, strings[id], i, my - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
-						else gui.drawString(mc.fontRendererObj, strings[id], i + 5, j + 5 + 12 * id, 0xBBBBBB);
-					}
-				}
-			}
-		
-	}
+	/** Array that contains the tooltip of this button*/
+	private String[] tooltip;
 	
-	public static void setTooltip(GuiScreen gui, GuiButton button){
-		stringsToDraw = getToolTip(gui, button.id);
-		buttonId = button.id;
-		screen = gui;
+	/**Initiates a new button	
+	 * 
+	 * @param buttonId The ID of the button
+	 * @param x The x position on the screen
+	 * @param y The y position on the screen
+	 * @param buttonText The display Text of this button
+	 */
+	public GuiButtonTooltip(int buttonId, int x, int y, String buttonText) {
+		super(buttonId, x, y, buttonText);
+		this.enumOptions = null;
+		this.enumOptionsDebug = null;
 	}
 
-	private static String[] getToolTip(GuiScreen gui, int buttonId) {
-		return button.get(gui.getClass().getSimpleName() + "." + buttonId);
-		
+	/**Initiates a new button
+	 * 
+	 * @param buttonId The ID of the button
+	 * @param x The x position on the screen
+	 * @param y The y position on the screen
+	 * @param width the width of the button
+	 * @param height the height of the button
+	 * @param buttonText The display Text of this button
+	 */
+	public GuiButtonTooltip(int buttonId, int x, int y, int width, int height, String buttonText) {
+		super(buttonId, x, y, width, height, buttonText);
+		this.enumOptions = null;
+		this.enumOptionsDebug = null;
+	}
+
+	/**Initiates a new button
+	 * 
+	 * @param buttonId The ID of the button
+	 * @param x The x position on the screen
+	 * @param y The y position on the screen
+	 * @param setting The possible setting of this button
+	 * @param buttonText The display Text of this button
+	 */
+	public GuiButtonTooltip(int buttonId, int x, int y, EnumOptionsMod setting, String buttonText) {
+		super(buttonId, x, y, 150, 20, buttonText);
+		this.enumOptions = setting;
+		this.enumOptionsDebug = null;
 	}
 	
-	public static void initTooltips(){
-		String[] strings = new String[4];
+	/**Initiates a new button
+	 * 
+	 * @param buttonId The ID of the button
+	 * @param x The x position on the screen
+	 * @param y The y position on the screen
+	 * @param setting The possible debug setting of this button
+	 * @param buttonText The display Text of this button
+	 */
+	public GuiButtonTooltip(int buttonId, int x, int y, EnumOptionsDebugMod setting, String buttonText) {
+		super(buttonId, x, y, 150, 20, buttonText);
+		this.enumOptions = null;
+		this.enumOptionsDebug = setting;
+	}
 
-		strings = new String[2];
-		strings[0] = "Set the color of the";
-		strings[1] = "experience bar";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.COLOR_EXPERIENCE.ordinal(), strings);
-		strings = new String[2];
-		strings[0] = "Set the color of the";
-		strings[1] = "health bar";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.COLOR_HEALTH.ordinal(), strings);
-		strings = new String[2];
-		strings[0] = "Set the color of the";
-		strings[1] = "jump bar";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.COLOR_JUMPBAR.ordinal(), strings);
-		strings = new String[2];
-		strings[0] = "Set the color of the";
-		strings[1] = "stamina/food bar";
-		button.put(GuiSettingsMod.class.getSimpleName() + "." + EnumOptionsMod.COLOR_STAMINA.ordinal(), strings);
+	/**Sets the tooltip of this button.
+	 * Should be appended at the constructor.
+	 * 
+	 * @param tooltip The String which'll be the button's tooltip. 
+	 * 		Line breaks are managed via the /n symbol combination.
+	 * @return the button
+	 */
+	public GuiButtonTooltip setTooltip(String tooltip) {
+		System.out.println(tooltip);
+		this.tooltip = tooltip.split("/n");
+		return this;
+	}
+	
+	/**Sets the tooltip to the one the setting of hits button contain.
+	 * 
+	 * @return the button
+	 */
+	public GuiButtonTooltip setTooltip() {
+		if(this.enumOptions != null) return setTooltip(this.enumOptions.getTooltip());
+		if(this.enumOptionsDebug != null) return setTooltip(this.enumOptionsDebug.getTooltip());
+		return this;
+	}
+	
+	/** Returns the setting or debug setting of this button depending which one is set.
+	 * Otherwise returns null.
+	 * 
+	 * @param c the class off the setting (EnumOptionsMod.class OR EnumOptionsDebugMod.class)
+	 * @return the setting
+	 */
+	public <Type> Type returnOptions(Class<Type> c){
+		if(c == EnumOptionsMod.class) return (Type) this.enumOptions;
+		if(c == EnumOptionsDebugMod.class) return (Type) this.enumOptionsDebug;
+		return null;
+	}
+
+	/**Gives the tooltip of this button
+	 * 
+	 * @return the Tooltip
+	 */
+	public String[] getTooltip() {
+		return this.tooltip;
 	}
 }
