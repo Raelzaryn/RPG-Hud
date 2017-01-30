@@ -6,10 +6,10 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.*;
 
 public class HudVanilla extends Hud {
 
-	public HudVanilla(Minecraft mc) {
-		super(mc, "vanilla", "Vanilla Hud");
+	public HudVanilla(Minecraft mc, String hudKey, String hudName) {
+		super(mc, hudKey, hudName);
 	}
-
+	
 	@Override
 	public HudElement setElementCrosshair() {
 		return new HudElementCrosshairVanilla();

@@ -13,9 +13,10 @@ import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.*;
 public abstract class Hud {
 
 	/** Hud key for registering*/
-	public final String hudKey;
+	private final String hudKey;
+	
 	/** Hud name for display in settings*/
-	public final String hudName;
+	private final String hudName;
 	
 	protected Map<HudElementType, HudElement> elements = new HashMap<HudElementType, HudElement>();
 	
@@ -44,6 +45,14 @@ public abstract class Hud {
 		this.elements.put(CLOCK, setElementClock());
 		this.elements.put(DETAILS, setElementDetails());
 		
+	}
+	
+	public String getHudKey() {
+		return hudKey;
+	}
+	
+	public String getHudName() {
+		return hudName;
 	}
 	
 	/** Function which returns a new element which is the crosshair element*/

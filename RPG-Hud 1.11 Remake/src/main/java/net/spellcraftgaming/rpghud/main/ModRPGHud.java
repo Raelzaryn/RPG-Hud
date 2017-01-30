@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.main;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +14,7 @@ import net.spellcraftgaming.rpghud.event.PlayerContainerHandler;
 import net.spellcraftgaming.rpghud.event.RenderGameOverlayHandler;
 import net.spellcraftgaming.rpghud.gui.GuiButtonTooltip;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
+import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
@@ -57,7 +57,7 @@ public class ModRPGHud {
 	public ModDebugSettings settingsDebug;
 	public ModSettings settings;
 	
-	public Map<String, Hud> huds = new HashMap<String, Hud>();
+	public LinkedHashMap<String, Hud> huds = new LinkedHashMap<String, Hud>();
 	
 	public static boolean[] renderDetailsAgain =  {false, false, false};
 	
@@ -72,8 +72,13 @@ public class ModRPGHud {
 		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
 		MinecraftForge.EVENT_BUS.register(new RenderGameOverlayHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
+		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
+		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
+		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "extended", "Extended Widget"));
+		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
+		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "texture", "Full Texture"));
+		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "modern", "Modern Style"));
 		GuiButtonTooltip.initTooltips();
-		this.registerHud(new HudVanilla(Minecraft.getMinecraft()));
 	}
 	
 	@EventHandler
@@ -82,11 +87,11 @@ public class ModRPGHud {
 	}
 	
 	public void registerHud(Hud hud) {
-		this.huds.put(hud.hudKey, hud);
+		this.huds.put(hud.getHudKey(), hud);
 	}
 	
 	public Hud getActiveHud() {
-		return getVanillaHud();
+		return this.huds.get(settings.hud_type);
 	}
 	
 	public Hud getVanillaHud() {

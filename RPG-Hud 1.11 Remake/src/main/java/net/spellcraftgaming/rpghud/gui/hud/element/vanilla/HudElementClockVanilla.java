@@ -17,7 +17,9 @@ public class HudElementClockVanilla extends HudElement{
 	@Override
 	public boolean checkConditions() {
 		return super.checkConditions() 
-				&& this.settings.enable_clock
+				&& this
+				.settings
+				.enable_clock
 				&& !this.mc.gameSettings.showDebugInfo
 				&& (this.settings.enable_immersive_clock ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
 	}

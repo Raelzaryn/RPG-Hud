@@ -5,10 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.spellcraftgaming.rpghud.gui.hud.Hud;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class ModSettings {
 
@@ -16,7 +19,6 @@ public class ModSettings {
 	private File optionsFile;
 
 	private static final String[] COLOR = { "Red", "Blue", "Green", "Yellow", "White", "Grey" };
-	private static final String[] HUD_TYPE = {"Default", "Extended Widget", "Full Texture", "Hotbar Widget", "New Style"};
 	private static final String[] TIME_FORMAT = {"24 Hours", "12 Hours"};
 
 	public boolean button_tooltip_enabled = true;
@@ -33,7 +35,9 @@ public class ModSettings {
 	public boolean render_player_face = true;
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
-	public int hudtype = 0;
+	
+	public String hud_type = "vanilla";
+	
 	public int color_health = 0;
 	public int color_stamina = 2;
 	public int color_air = 1;
@@ -153,14 +157,26 @@ public class ModSettings {
 			System.out.println(options + ":" + this.clock_time_format);
 		}
 		if (options == EnumOptionsMod.HUD_TYPE) {
-			if (this.hudtype >= 4) {
-				this.hudtype = 0;
-			} else {
-				this.hudtype += value;
-			}
-			System.out.println(options + ":" + this.hudtype);
+			this.incrementHudType();
 		}
 		saveOptions();
+	}
+	
+	private void incrementHudType() {
+		Set<String> huds = ModRPGHud.instance.huds.keySet();
+		String[] keys = huds.toArray(new String[huds.size()]);
+		int size = keys.length;
+		for(int n = 0; n < size; n++) {
+			if(keys[n] == hud_type) {
+				n++;
+				if(n == size) n = 0;
+				hud_type = keys[n];
+				System.out.println(n);
+				return;
+			}
+		}
+
+
 	}
 
 	public boolean getOptionOrdinalValue(EnumOptionsMod options) {
@@ -277,6 +293,7 @@ public class ModSettings {
 	}
 
 	public void loadOptions() {
+		System.out.println(hud_type);
 		try {
 			if (!this.optionsFile.exists()) {
 				return;
@@ -308,8 +325,8 @@ public class ModSettings {
 					if (string[0].equals("clock_time_format")) {
 						this.clock_time_format = Integer.parseInt(string[1]);
 					}
-					if (string[0].equals("hudtype")) {
-						this.hudtype = Integer.parseInt(string[1]);
+					if (string[0].equals("hud_type")) {
+						this.hud_type = string[1];
 					}
 					if (string[0].equals("show_armor")) {
 						this.show_armor = string[1].equals("true");
@@ -358,6 +375,7 @@ public class ModSettings {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(hud_type);
 	}
 
 	public String getKeyBinding(EnumOptionsMod par1EnumOptions) {
@@ -369,7 +387,7 @@ public class ModSettings {
 		}
 		switch(par1EnumOptions) {
 		case HUD_TYPE:
-			return s + getTranslation(HUD_TYPE, this.hudtype);
+			return s + getHudName(hud_type);
 		case COLOR_JUMPBAR:
 			return s + getTranslation(COLOR, this.color_jumpbar);
 		case COLOR_EXPERIENCE:
@@ -385,6 +403,11 @@ public class ModSettings {
 		default: 
 			return s;
 		}
+	}
+
+	private String getHudName(String hudtype) {
+		Hud hud = ModRPGHud.instance.huds.get(hudtype);
+		return hud.getHudName();
 	}
 
 	private static String getTranslation(String[] par0ArrayOfStr, int par1) {
@@ -406,7 +429,7 @@ public class ModSettings {
 				exception.println("color_experience:" + this.color_experience);
 				exception.println("color_jumpbar:" + this.color_jumpbar);
 				exception.println("clock_time_format:" + this.clock_time_format);
-				exception.println("hudtype:" + this.hudtype);
+				exception.println("hud_type:" + this.hud_type);
 				exception.println("show_armor:" + this.show_armor);
 				exception.println("show_blockcount:" + this.show_blockcount);
 				exception.println("show_arrowcount:" + this.show_arrowcount);
