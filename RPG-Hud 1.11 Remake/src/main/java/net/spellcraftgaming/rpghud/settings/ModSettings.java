@@ -167,7 +167,8 @@ public class ModSettings {
 		String[] keys = huds.toArray(new String[huds.size()]);
 		int size = keys.length;
 		for(int n = 0; n < size; n++) {
-			if(keys[n] == this.hud_type) {
+			System.out.println(keys[n]);
+			if(keys[n].equals(this.hud_type)) {
 				n++;
 				if(n == size) n = 0;
 				this.hud_type = keys[n];
@@ -420,8 +421,7 @@ public class ModSettings {
 	public void saveOptions() {
 		if (!FMLClientHandler.instance().isLoading()) {
 			try {
-				PrintWriter exception = new PrintWriter(new FileWriter(
-						this.optionsFile));
+				PrintWriter exception = new PrintWriter(new FileWriter(this.optionsFile));
 				exception.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
 				exception.println("color_health:" + this.color_health);
 				exception.println("color_air:" + this.color_air);

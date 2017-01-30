@@ -51,7 +51,7 @@ public class HudElementClockVanilla extends HudElement{
 		return get12HourTimeForString(currentHour, currentMin);
 	}
 	
-	public String get24HourTimeForString(long currentHour, long currentMin){
+	public static String get24HourTimeForString(long currentHour, long currentMin){
 		StringBuilder sb = new StringBuilder();
 		if(currentHour == 24)  currentHour = 0;
 		if(currentHour < 10) sb.append("0");
@@ -59,7 +59,7 @@ public class HudElementClockVanilla extends HudElement{
 		return sb.toString() + ":" + getMinuteForString(currentMin);
 	}
 	
-	public String get12HourTimeForString(long currentHour, long currentMin){
+	public static String get12HourTimeForString(long currentHour, long currentMin){
 		StringBuilder sb = new StringBuilder();
 		String period = "am";
 		if(currentHour == 12) {
@@ -78,7 +78,7 @@ public class HudElementClockVanilla extends HudElement{
 		return sb.toString() + ":" + getMinuteForString(currentMin) + " " + period;
 	}
 	
-	public String getMinuteForString(long currentMin){
+	public static String getMinuteForString(long currentMin){
 		StringBuilder sb = new StringBuilder();
 		if(currentMin < 10) sb.append("0");
 		sb.append(currentMin);

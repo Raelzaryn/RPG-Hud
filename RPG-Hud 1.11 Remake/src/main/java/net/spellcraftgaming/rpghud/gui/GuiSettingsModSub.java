@@ -18,17 +18,17 @@ import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ARROWCOUN
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_HUNGERPREVIEW;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ITEMCOUNT;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ITEMDURABILITY;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_HEALTH;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_STAMINA;
-import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
-import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class GuiSettingsModSub extends GuiScreenTooltip {
@@ -38,7 +38,6 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsDetails = {SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, SHOW_HUNGERPREVIEW};
 	
 	private ModSettings settings;
-	private ModDebugSettings debug;
 	private GuiScreen parent;
 	private int subgui;
 	public static final int GENERAL = 0;
@@ -50,7 +49,6 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	public GuiSettingsModSub(GuiScreen parent, int subgui) {
 		this.parent = parent;
 		this.settings = ModRPGHud.instance.settings;
-		this.debug = ModRPGHud.instance.settingsDebug;
 		this.subgui = subgui;
 	}
 	
@@ -58,8 +56,18 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	public void initGui() {
 		if(this.subgui < MAIN_DEBUG) {
 			initSettingsGui();
+		} else if(this.subgui == MAIN_DEBUG) {
+			HudElementType[] debugTypes = EnumOptionsDebugMod.getDebugTypes();
+			int i = 0;
+			int j = debugTypes.length;
+			for (int k = 0; k < j; k++) {
+				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(200 + k, this.width / 2 - 155 + i % 2 * 160,
+						this.height / 6 - 12 + 24 * (i >> 1), 150, 20, debugTypes[k].getDisplayName()).setTooltip();
+				this.buttonList.add(guismallbutton);
+				i++;
+			}
 		}
-		this.buttonList.add(new GuiButton(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+		this.buttonList.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
 	}
 	
 	private void initSettingsGui() {
@@ -74,18 +82,17 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 			this.buttonList.add(guismallbutton);
 			i++;
 		}
-		this.buttonList.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			if ((button.id < 100) && ((button instanceof GuiButtonTooltip))) {
-				this.settings.setOptionValue(((GuiButtonTooltip) button).returnOptions(EnumOptionsMod.class), 1);
+				this.settings.setOptionValue(((GuiButtonTooltip) button).returnOptions(), 1);
 				button.displayString = this.settings.getKeyBinding(EnumOptionsMod.getEnumOptions(button.id));
-			} else if ((button.id < 200) && ((button instanceof GuiButtonTooltip))) {
-				this.debug.setOptionValue(((GuiButtonTooltip) button).returnOptions(EnumOptionsDebugMod.class));
-				button.displayString = this.debug.getKeyBinding(EnumOptionsDebugMod.getEnumOptions(button.id - 100));
+			} else if (button.id >= 200 && button.id < 250) {
+				HudElementType[] types = EnumOptionsDebugMod.getDebugTypes();
+				this.mc.displayGuiScreen(new GuiSettingsModDebug(this.parent, types[button.id - 200]));
 			} else if (button.id == 250) {
 				if(this.subgui >= GENERAL && this.subgui <= MAIN_DEBUG) {
 					this.mc.displayGuiScreen(new GuiSettingsMod(this.parent));

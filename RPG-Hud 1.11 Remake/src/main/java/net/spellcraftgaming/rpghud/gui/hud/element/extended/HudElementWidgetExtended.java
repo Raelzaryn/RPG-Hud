@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
+package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import org.lwjgl.opengl.GL11;
 
@@ -10,11 +10,11 @@ import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementWidgetDefault extends HudElement{
+public class HudElementWidgetExtended extends HudElement{
 
 	protected static final ResourceLocation INTERFACE = new ResourceLocation("rpghud:textures/interface.png");
 	
-	public HudElementWidgetDefault() {
+	public HudElementWidgetExtended() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);
 	}
 
@@ -26,9 +26,9 @@ public class HudElementWidgetDefault extends HudElement{
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		((GuiIngameRPGHud) gui).bind(INTERFACE);
-		gui.drawTexturedModalRect(0, 0, 0, 0, 162, 50);
+		gui.drawTexturedModalRect(0, 0, 0, 50, 162, 50);
 		if (this.mc.player.getRidingEntity() instanceof EntityLivingBase) {
-			gui.drawTexturedModalRect(51, 39, 163, 0, 92, 20);
+			gui.drawTexturedModalRect(51, 44, 163, 0, 92, 20);
 		}
 		((GuiIngameRPGHud) gui).bind(Gui.ICONS);
 		

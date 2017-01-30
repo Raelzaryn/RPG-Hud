@@ -72,172 +72,172 @@ public class ModDebugSettings {
 	}
     
     public void setOptionValue(EnumOptionsDebugMod options) {
-		if (options.ordinal() == 1) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_CROSSHAIR) {
 			this.forceRenderCrosshair = !this.forceRenderCrosshair;
 			System.out.println(options + ":" + this.forceRenderCrosshair);
 		}
-		if (options.ordinal() == 2) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_CROSSHAIR) {
 			this.renderVanillaCrosshair = !this.renderVanillaCrosshair;
 			System.out.println(options + ":" + this.renderVanillaCrosshair);
 		}
-		if (options.ordinal() == 3) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_CROSSHAIR) {
 			this.preventEventCrosshair = !this.preventEventCrosshair;
 			System.out.println(options + ":" + this.preventEventCrosshair);
 		}
-		if (options.ordinal() == 4) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_CROSSHAIR) {
 			this.preventElementRenderCrosshair = !this.preventElementRenderCrosshair;
 			System.out.println(options + ":" + this.preventElementRenderCrosshair);
 		}
 		
-		if (options.ordinal() == 5) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_ARMOR) {
 			this.forceRenderArmor = !this.forceRenderArmor;
 			System.out.println(options + ":" + this.forceRenderArmor);
 		}
-		if (options.ordinal() == 6) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_ARMOR) {
 			this.renderVanillaArmor = !this.renderVanillaArmor;
 			System.out.println(options + ":" + this.renderVanillaArmor);
 		}
-		if (options.ordinal() == 7) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_ARMOR) {
 			this.preventEventArmor = !this.preventEventArmor;
 			System.out.println(options + ":" + this.preventEventArmor);
 		}
-		if (options.ordinal() == 8) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_ARMOR) {
 			this.preventElementRenderArmor = !this.preventElementRenderArmor;
 			System.out.println(options + ":" + this.preventElementRenderArmor);
 		}
 		
-		if (options.ordinal() == 9) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_HOTBAR) {
 			this.forceRenderHotbar = !this.forceRenderHotbar;
 			System.out.println(options + ":" + this.forceRenderHotbar);
 		}
-		if (options.ordinal() == 10) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_HOTBAR) {
 			this.renderVanillaHotbar = !this.renderVanillaHotbar;
 			System.out.println(options + ":" + this.renderVanillaHotbar);
 		}
-		if (options.ordinal() == 11) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_HOTBAR) {
 			this.preventEventHotbar = !this.preventEventHotbar;
 			System.out.println(options + ":" + this.preventEventHotbar);
 		}
-		if (options.ordinal() == 12) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HOTBAR) {
 			this.preventElementRenderHotbar = !this.preventElementRenderHotbar;
 			System.out.println(options + ":" + this.preventElementRenderHotbar);
 		}
 		
-		if (options.ordinal() == 13) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_AIR) {
 			this.forceRenderAir = !this.forceRenderAir;
 			System.out.println(options + ":" + this.forceRenderAir);
 		}
-		if (options.ordinal() == 14) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_AIR) {
 			this.renderVanillaAir = !this.renderVanillaAir;
 			System.out.println(options + ":" + this.renderVanillaAir);
 		}
-		if (options.ordinal() == 15) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_AIR) {
 			this.preventEventAir = !this.preventEventAir;
 			System.out.println(options + ":" + this.preventEventAir);
 		}
-		if (options.ordinal() == 16) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_AIR) {
 			this.preventElementRenderAir = !this.preventElementRenderAir;
 			System.out.println(options + ":" + this.preventElementRenderAir);
 		}
 		
-		if (options.ordinal() == 17) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_HEALTH) {
 			this.forceRenderHealth = !this.forceRenderHealth;
 			System.out.println(options + ":" + this.forceRenderHealth);
 		}
-		if (options.ordinal() == 18) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_HEALTH) {
 			this.renderVanillaHealth = !this.renderVanillaHealth;
 			System.out.println(options + ":" + this.renderVanillaHealth);
 		}
-		if (options.ordinal() == 19) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_HEALTH) {
 			this.preventEventHealth = !this.preventEventHealth;
 			System.out.println(options + ":" + this.preventEventHealth);
 		}
-		if (options.ordinal() == 20) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH) {
 			this.preventElementRenderHealth = !this.preventElementRenderHealth;
 			System.out.println(options + ":" + this.preventElementRenderHealth);
 		}
 		
-		if (options.ordinal() == 21) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_FOOD) {
 			this.forceRenderFood = !this.forceRenderFood;
 			System.out.println(options + ":" + this.forceRenderFood);
 		}
-		if (options.ordinal() == 22) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_FOOD) {
 			this.renderVanillaFood = !this.renderVanillaFood;
 			System.out.println(options + ":" + this.renderVanillaFood);
 		}
-		if (options.ordinal() == 23) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_FOOD) {
 			this.preventEventFood = !this.preventEventFood;
 			System.out.println(options + ":" + this.preventEventFood);
 		}
-		if (options.ordinal() == 24) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_FOOD) {
 			this.preventElementRenderFood = !this.preventElementRenderFood;
 			System.out.println(options + ":" + this.preventElementRenderFood);
 		}
 		
-		if (options.ordinal() == 25) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_EXPERIENCE) {
 			this.forceRenderExp = !this.forceRenderExp;
 			System.out.println(options + ":" + this.forceRenderExp);
 		}
-		if (options.ordinal() == 26) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_EXPERIENCE) {
 			this.renderVanillaExp = !this.renderVanillaExp;
 			System.out.println(options + ":" + this.renderVanillaExp);
 		}
-		if (options.ordinal() == 27) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_EXPERIENCE) {
 			this.preventEventExp = !this.preventEventExp;
 			System.out.println(options + ":" + this.preventEventExp);
 		}
-		if (options.ordinal() == 28) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_EXPERIENCE) {
 			this.preventElementRenderExp = !this.preventElementRenderExp;
 			System.out.println(options + ":" + this.preventElementRenderExp);
 		}
 		
-		if (options.ordinal() == 29) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_LEVEL) {
 			this.forceRenderExpLv = !this.forceRenderExpLv;
 			System.out.println(options + ":" + this.forceRenderExpLv);
 		}
-		if (options.ordinal() == 30) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_LEVEL) {
 			this.renderVanillaExpLv = !this.renderVanillaExpLv;
 			System.out.println(options + ":" + this.renderVanillaExpLv);
 		}
-		if (options.ordinal() == 31) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_LEVEL) {
 			this.preventEventExpLv = !this.preventEventExpLv;
 			System.out.println(options + ":" + this.preventEventExpLv);
 		}
-		if (options.ordinal() == 32) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_LEVEL) {
 			this.preventElementRenderExpLv = !this.preventElementRenderExpLv;
 			System.out.println(options + ":" + this.preventElementRenderExpLv);
 		}
 		
-		if (options.ordinal() == 33) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_HEALTH_MOUNT) {
 			this.forceRenderHealthMount = !this.forceRenderHealthMount;
 			System.out.println(options + ":" + this.forceRenderHealthMount);
 		}
-		if (options.ordinal() == 34) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_HEALTH_MOUNT) {
 			this.renderVanillaHealthMount = !this.renderVanillaHealthMount;
 			System.out.println(options + ":" + this.renderVanillaHealthMount);
 		}
-		if (options.ordinal() == 35) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_HEALTH_MOUNT) {
 			this.preventEventHealthMount = !this.preventEventHealthMount;
 			System.out.println(options + ":" + this.preventEventHealthMount);
 		}
-		if (options.ordinal() == 36) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH_MOUNT) {
 			this.preventElementRenderHealthMount = !this.preventElementRenderHealthMount;
 			System.out.println(options + ":" + this.preventElementRenderHealthMount);
 		}
 		
-		if (options.ordinal() == 37) {
+		if (options == EnumOptionsDebugMod.FORCE_RENDER_JUMP_BAR) {
 			this.forceRenderJumpBar = !this.forceRenderJumpBar;
 			System.out.println(options + ":" + this.forceRenderJumpBar);
 		}
-		if (options.ordinal() == 38) {
+		if (options == EnumOptionsDebugMod.RENDER_VANILLA_JUMP_BAR) {
 			this.renderVanillaJumpBar = !this.renderVanillaJumpBar;
 			System.out.println(options + ":" + this.renderVanillaJumpBar);
 		}
-		if (options.ordinal() == 39) {
+		if (options == EnumOptionsDebugMod.PREVENT_EVENT_JUMP_BAR) {
 			this.preventEventJumpBar = !this.preventEventJumpBar;
 			System.out.println(options + ":" + this.preventEventJumpBar);
 		}
-		if (options.ordinal() == 40) {
+		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR) {
 			this.preventElementRenderJumpBar = !this.preventElementRenderJumpBar;
 			System.out.println(options + ":" + this.preventElementRenderJumpBar);
 		}
@@ -458,7 +458,7 @@ public class ModDebugSettings {
 		case 0: 
 			return this.forceRenderCrosshair;
 		case 1: 
-			 return this.renderVanillaCrosshair;
+			return this.renderVanillaCrosshair;
 	    case 2: 
 	    	return this.preventEventCrosshair;
 	    case 3: 

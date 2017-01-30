@@ -97,16 +97,12 @@ public class GuiButtonTooltip extends GuiButton{
 		return this;
 	}
 	
-	/** Returns the setting or debug setting of this button depending which one is set.
-	 * Otherwise returns null.
-	 * 
-	 * @param c the class off the setting (EnumOptionsMod.class OR EnumOptionsDebugMod.class)
-	 * @return the setting
-	 */
-	public <Type> Type returnOptions(Class<Type> c){
-		if(c == EnumOptionsMod.class) return (Type) this.enumOptions;
-		if(c == EnumOptionsDebugMod.class) return (Type) this.enumOptionsDebug;
-		return null;
+	public EnumOptionsMod returnOptions() {
+		return this.enumOptions;
+	}
+	
+	public EnumOptionsDebugMod returnOptionsDebug() {
+		return this.enumOptionsDebug;
 	}
 
 	/**Gives the tooltip of this button

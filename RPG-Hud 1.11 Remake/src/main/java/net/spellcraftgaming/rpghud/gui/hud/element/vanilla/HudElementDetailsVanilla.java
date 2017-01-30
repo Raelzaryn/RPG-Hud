@@ -178,13 +178,13 @@ public class HudElementDetailsVanilla extends HudElement{
 		this.itemMainHandLastArrow = item.copy();
 	}
 	
-    private ItemStack findAmmo(EntityPlayer player)
+    private static ItemStack findAmmo(EntityPlayer player)
     {
-        if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND)))
+        if (isArrow(player.getHeldItem(EnumHand.OFF_HAND)))
         {
             return player.getHeldItem(EnumHand.OFF_HAND);
         }
-        else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND)))
+        else if (isArrow(player.getHeldItem(EnumHand.MAIN_HAND)))
         {
             return player.getHeldItem(EnumHand.MAIN_HAND);
         }
@@ -194,7 +194,7 @@ public class HudElementDetailsVanilla extends HudElement{
             {
                 ItemStack itemstack = player.inventory.getStackInSlot(i);
 
-                if (this.isArrow(itemstack))
+                if (isArrow(itemstack))
                 {
                     return itemstack;
                 }
@@ -204,7 +204,7 @@ public class HudElementDetailsVanilla extends HudElement{
         }
     }
 	
-    protected boolean isArrow(ItemStack stack)
+    protected static boolean isArrow(ItemStack stack)
     {
         return stack.getItem() instanceof ItemArrow;
     }
