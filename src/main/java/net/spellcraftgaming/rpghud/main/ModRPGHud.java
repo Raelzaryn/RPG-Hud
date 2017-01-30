@@ -41,6 +41,7 @@ public class ModRPGHud {
 	//TODO 3.x: Add compass element
 	//TODO 3.x: Simple debug settings configuration
 	
+	/** The mod ID of RPG-Hud*/
 	public static final String MOD_ID = "rpghud";
 	public static final String NAME = "RPG-Hud";
 	public static final String VERSION = "3.1";
