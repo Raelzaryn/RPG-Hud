@@ -9,7 +9,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 public class HudElementJumpBarDefault extends HudElementBarred{
 
 	public HudElementJumpBarDefault() {
-		super(HudElementType.JUMP_BAR, 0, 0, 0, 0, false);
+		super(HudElementType.JUMP_BAR, 0, 0, 0, 0, true);
 	}
 
 	@Override
