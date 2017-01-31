@@ -15,6 +15,7 @@ import net.spellcraftgaming.rpghud.event.PlayerContainerHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
+import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
@@ -29,8 +30,6 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class ModRPGHud {
 	
-	//TODO 3.1: Create settings menu
-	//TODO 3.1: Add Extended Widget HUD
 	//TODO 3.1: Add Full Texture HUD
 	//TODO 3.1: Add Hotbar HUD
 	//TODO 3.1: Add Modern Style HUD
@@ -74,8 +73,8 @@ public class ModRPGHud {
 		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getMinecraft(), "extended", "Extended Widget"));
+		this.registerHud(new HudFullTexture(Minecraft.getMinecraft(), "texture", "Full Texture"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
-		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "texture", "Full Texture"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "modern", "Modern Style"));
 	}
 	
