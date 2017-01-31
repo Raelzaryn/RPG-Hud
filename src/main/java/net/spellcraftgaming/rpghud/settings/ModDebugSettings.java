@@ -245,7 +245,6 @@ public class ModDebugSettings {
 		saveOptions();
     }
 		
-	@SuppressWarnings("unused")
 	static final class SwitchOptions {
 		static final int[] optionIds = new int[EnumOptionsDebugMod.values().length];
 		
@@ -253,202 +252,162 @@ public class ModDebugSettings {
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_CROSSHAIR.ordinal()] = 0;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_CROSSHAIR.ordinal()] = 1;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_CROSSHAIR.ordinal()] = 2;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_CROSSHAIR.ordinal()] = 3;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_ARMOR.ordinal()] = 4;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_ARMOR.ordinal()] = 5;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_ARMOR.ordinal()] = 6;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_ARMOR.ordinal()] = 7;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_HOTBAR.ordinal()] = 8;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_HOTBAR.ordinal()] = 9;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_HOTBAR.ordinal()] = 10;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HOTBAR.ordinal()] = 11;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_AIR.ordinal()] = 12;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_AIR.ordinal()] = 13;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_AIR.ordinal()] = 14;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_AIR.ordinal()] = 15;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_HEALTH.ordinal()] = 16;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_HEALTH.ordinal()] = 17;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_HEALTH.ordinal()] = 18;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH.ordinal()] = 19;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_FOOD.ordinal()] = 20;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_FOOD.ordinal()] = 21;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_FOOD.ordinal()] = 22;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_FOOD.ordinal()] = 23;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_EXPERIENCE.ordinal()] = 24;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_EXPERIENCE.ordinal()] = 25;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_EXPERIENCE.ordinal()] = 26;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_EXPERIENCE.ordinal()] = 27;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_LEVEL.ordinal()] = 28;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_LEVEL.ordinal()] = 29;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_LEVEL.ordinal()] = 30;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_LEVEL.ordinal()] = 31;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_HEALTH_MOUNT.ordinal()] = 32;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_HEALTH_MOUNT.ordinal()] = 33;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_HEALTH_MOUNT.ordinal()] = 34;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH_MOUNT.ordinal()] = 35;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.FORCE_RENDER_JUMP_BAR.ordinal()] = 36;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_JUMP_BAR.ordinal()] = 37;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_JUMP_BAR.ordinal()] = 38;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR.ordinal()] = 39;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 		}
     }

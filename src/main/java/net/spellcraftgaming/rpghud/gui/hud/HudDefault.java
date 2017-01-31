@@ -73,5 +73,5 @@ public class HudDefault extends HudVanilla{
 	@Override
 	public HudElement setElementRecordOverlay() {
 		return new HudElementRecordOverlayVanilla();
-	};
+	}
 }

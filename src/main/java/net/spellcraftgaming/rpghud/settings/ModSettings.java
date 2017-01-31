@@ -215,7 +215,6 @@ public class ModSettings {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	static final class SwitchOptions {
 		static final int[] optionIds = new int[EnumOptionsMod.values().length];
 
@@ -223,72 +222,58 @@ public class ModSettings {
 			try {
 				optionIds[EnumOptionsMod.SHOW_ARMOR.ordinal()] = 0;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_NUMBERS_HEALTH.ordinal()] = 1;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_NUMBERS_STAMINA.ordinal()] = 2;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE.ordinal()] = 3;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.RENDER_PLAYER_FACE.ordinal()] = 4;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_HUNGERPREVIEW.ordinal()] = 5;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.ENABLE_CLOCK.ordinal()] = 6;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.ENABLE_TIMECOLOR.ordinal()] = 7;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK.ordinal()] = 8;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.BUTTON_TOOLTIP_ENABLED.ordinal()] = 9;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_ITEMDURABILITY.ordinal()] = 10;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_ARROWCOUNT.ordinal()] = 11;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.SHOW_ITEMCOUNT.ordinal()] = 12;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 			try {
 				optionIds[EnumOptionsMod.REDUCE_SIZE.ordinal()] = 13;
 			} catch (NoSuchFieldError e) {
-				;
 			}
 		}
 	}
