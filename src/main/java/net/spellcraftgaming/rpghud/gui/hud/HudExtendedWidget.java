@@ -7,6 +7,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementFoodExtend
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthMountExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExtended;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementArmorVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
 
 public class HudExtendedWidget extends HudDefault{
@@ -43,5 +44,10 @@ public class HudExtendedWidget extends HudDefault{
 	@Override
 	public HudElement setElementWidget() {
 		return new HudElementWidgetExtended();
+	}
+	
+	@Override
+	public HudElement setElementArmor() {
+		return new HudElementArmorVanilla();
 	}
 }

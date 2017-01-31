@@ -26,7 +26,7 @@ public class HudElementHealthTexture extends HudElementTexture{
 		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		int maxHealth = (int) attrMaxHealth.getAttributeValue();
 		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
-			gui.drawTexturedModalRect(49, 9, 141, 160, (int) (110.0D * ((double) health / (double) maxHealth)), 12);
+			gui.drawTexturedModalRect(49, 9, 34, 222, (int) (110.0D * ((double) health / (double) maxHealth)), 12);
 		} else {
 			gui.drawTexturedModalRect(49, 9, 0, 100, (int) (110.0D * ((double) health / (double) maxHealth)), 12);
 		}

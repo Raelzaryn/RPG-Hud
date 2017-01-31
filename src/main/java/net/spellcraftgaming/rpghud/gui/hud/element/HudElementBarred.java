@@ -64,17 +64,20 @@ public abstract class HudElementBarred extends HudElement{
 		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, this.colorBlack);
 	}
 	
-	protected static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, this.colorBlack);
+	}
+	
+	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
 		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
 	}
 	
-	protected static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
 		if (value < 0.0D) {
 			value = 0.0D;
 		}
 		int percentFilled = (int) Math.round(value / 100.0D * (width - 2));
-		if (outlined)
-			drawOutline(x, y, width, height, colorOutline);
+		if (outlined) drawOutline(x, y, width, height, colorOutline);
 		int var2 = width - 2;
 		if (var2 < 0)
 			var2 = 0;

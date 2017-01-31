@@ -80,4 +80,9 @@ public class HudVanilla extends Hud {
 	public HudElement setElementRecordOverlay() {
 		return new HudElementRecordOverlayVanilla();
 	}
+
+	@Override
+	protected HudElement setElementChat() {
+		return new HudElementChatVanilla();
+	}
 }

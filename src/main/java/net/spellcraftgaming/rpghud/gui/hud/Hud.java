@@ -46,6 +46,7 @@ public abstract class Hud {
 		this.elements.put(DETAILS, setElementDetails());
 		this.elements.put(WIDGET, setElementWidget());
 		this.elements.put(RECORD_OVERLAY, setElementRecordOverlay());
+		this.elements.put(CHAT, setElementChat());
 		
 	}
 	
@@ -98,6 +99,9 @@ public abstract class Hud {
 	
 	/** Function which returns a new element which is the widget element*/
 	protected abstract HudElement setElementRecordOverlay();
+	
+	/** Function which returns a new element which is the chat element*/
+	protected abstract HudElement setElementChat();
 	
 	/** Draws the an element of the HudElementType type on the screen
 	 * 

@@ -16,6 +16,7 @@ import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
+import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
@@ -32,6 +33,8 @@ public class ModRPGHud {
 	
 	//TODO 3.1: Add Hotbar HUD
 	//TODO 3.1: Add Modern Style HUD
+	//TODO 3.1: Finish localization
+	//TODO 3.1: Finish comments
 	
 	//TODO 3.x: Make elements moveable onscreen
 	//TODO 3.x: Make color set able by #HexCode
@@ -73,7 +76,7 @@ public class ModRPGHud {
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getMinecraft(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(Minecraft.getMinecraft(), "texture", "Full Texture"));
-		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
+		this.registerHud(new HudHotbarWidget(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "modern", "Modern Style"));
 	}
 	

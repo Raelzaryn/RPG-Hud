@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiOverlayDebug;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -51,7 +52,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 	/** Constant for the color white*/
 	private static final int WHITE = 0xFFFFFF;
-
+	
 	/** left height of this gui screen*/
 	public static int left_height = 39;
 	/** right height of this gui screen*/
@@ -72,6 +73,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	/** Instance of the RPG-Hud mod*/
 	private ModRPGHud rpgHud;
 
+	private final GuiChatRPGHud chat;
 	/** Constructor
 	 * 
 	 * @param mc Instance of Minecraft
@@ -80,6 +82,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		super(mc);
 		this.debugOverlay = new GuiOverlayDebugForge(mc);
 		this.rpgHud = ModRPGHud.instance;
+		this.chat = new GuiChatRPGHud(mc);
 	}
 
 	/** Main render function
@@ -116,6 +119,8 @@ public class GuiIngameRPGHud extends GuiIngame {
 			renderPortal(this.res, partialTicks);
 		}
 
+		this.drawElement(HudElementType.WIDGET, partialTicks);
+		
 		this.drawElement(HudElementType.HOTBAR, partialTicks);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -128,7 +133,6 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.mc.playerController.shouldDrawHUD() && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-			this.drawElement(HudElementType.WIDGET, partialTicks);
 			this.drawElement(HudElementType.HEALTH, partialTicks);
 			this.drawElement(HudElementType.ARMOR, partialTicks);
 			this.drawElement(HudElementType.FOOD, partialTicks);
@@ -170,7 +174,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 		GlStateManager.disableAlpha();
 
-		renderChat(height);
+		this.drawElementChat(partialTicks);
 
 		renderPlayerList(width);
 
@@ -412,24 +416,6 @@ public class GuiIngameRPGHud extends GuiIngame {
 			this.mc.mcProfiler.endSection();
 		}
 	}
-	
-	/** Renders the chat via it's class*/
-	private void renderChat(int height) {
-		this.mc.mcProfiler.startSection("chat");
-
-		RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(this.eventParent, 0, height - 48);
-		if (MinecraftForge.EVENT_BUS.post(event))
-			return;
-
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(event.getPosX(), event.getPosY(), 0.0F);
-		this.persistantChatGUI.drawChat(this.updateCounter);
-		GlStateManager.popMatrix();
-
-		post(CHAT);
-
-		this.mc.mcProfiler.endSection();
-	}
 
 	/** Renders the player list via it's class*/
 	private void renderPlayerList(int width) {
@@ -511,6 +497,15 @@ public class GuiIngameRPGHud extends GuiIngame {
 		return this.overlayMessage;
 	}
 
+	
+	@Override
+	public GuiNewChat getChatGUI() {
+		return this.chat;
+	}
+	
+	public GuiChatRPGHud getChat() {
+		return this.chat;
+	}
 	/**Draw the specified HudElement of the HudElementType from the active Hud
 	 * 
 	 * @param type the HudElementType to be rendered
@@ -627,7 +622,76 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 
 	}
+	
+	private void drawElementChat(float partialTicks) {
+		if (this.rpgHud.getActiveHud().checkElementConditions(HudElementType.CHAT)) {
+			RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(this.eventParent, 0, this.res.getScaledHeight() - 48);
+			this.chat.setXOffset(event.getPosX());
+			this.chat.setYOffset(event.getPosY());
+			if (forceRenderType(HudElementType.CHAT)) {
+				if (forceRenderTypeVanilla(HudElementType.CHAT)) {
+					if (!preventElementRenderType(HudElementType.CHAT)) {
+						bind(Gui.ICONS);
+						GlStateManager.enableBlend();
+						this.rpgHud.getVanillaHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
 
+						GlStateManager.disableBlend();
+					}
+
+					if (!preventEventType(HudElementType.CHAT)) {
+						if (MinecraftForge.EVENT_BUS.post(event))
+							return;
+						post(CHAT);
+					}
+				} else {
+					if (!preventElementRenderType(HudElementType.CHAT)) {
+						bind(Gui.ICONS);
+						GlStateManager.enableBlend();
+
+						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
+
+						GlStateManager.disableBlend();
+					}
+					if (!preventEventType(HudElementType.CHAT)) {
+						if (MinecraftForge.EVENT_BUS.post(event))
+							return;
+						post(CHAT);
+					}
+				}
+			} else {
+				if (forceRenderTypeVanilla(HudElementType.CHAT)) {
+					if (!preventEventType(HudElementType.CHAT)) {
+						if (MinecraftForge.EVENT_BUS.post(event))
+							return;
+					}
+					if (!preventElementRenderType(HudElementType.CHAT)) {
+						bind(Gui.ICONS);
+						GlStateManager.enableBlend();
+						this.rpgHud.getVanillaHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
+						GlStateManager.disableBlend();
+					}
+					if (!preventEventType(HudElementType.CHAT)) {
+						post(CHAT);
+					}
+				} else {
+					if (!preventEventType(HudElementType.CHAT)) {
+						if (MinecraftForge.EVENT_BUS.post(event))
+							return;
+					}
+					if (!preventElementRenderType(HudElementType.CHAT)) {
+						bind(Gui.ICONS);
+						GlStateManager.enableBlend();
+						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
+
+						GlStateManager.disableBlend();
+					}
+					if (!preventEventType(HudElementType.CHAT)) {
+						post(CHAT);
+					}
+				}
+			}
+		}
+	}
 	/**Checks if the HudElementType has a setting to force it to be rendered regardless of the forge event and if it is activated*/
 	private boolean forceRenderType(HudElementType type) {
 		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.FORCE_RENDER);

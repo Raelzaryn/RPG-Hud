@@ -15,7 +15,8 @@ public enum HudElementType {
 	CLOCK("Clock"),
 	DETAILS("Item Details"),
 	WIDGET("Widget"),
-	RECORD_OVERLAY("Record Overlay");
+	RECORD_OVERLAY("Record Overlay"),
+	CHAT("Chat");
 	
 	private String displayName;
 	private HudElementType(String displayName) {

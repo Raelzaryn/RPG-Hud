@@ -33,13 +33,14 @@ public class HudElementDetailsVanilla extends HudElement{
 	protected ItemStack itemOffhandLast = new ItemStack(Blocks.AIR);
 	protected ItemStack itemMainHandLastArrow = new ItemStack(Blocks.AIR);
 	protected ItemStack itemArrow = new ItemStack(Blocks.AIR);
+	
 	public HudElementDetailsVanilla() {
 		super(HudElementType.DETAILS, 0, 0, 0, 0, true);
 	}
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.showDebugInfo;
+		return !this.mc.gameSettings.showDebugInfo && !((GuiIngameRPGHud) this.mc.ingameGUI).getChat().getChatOpen();
 	}
 	
 	@Override
