@@ -11,6 +11,6 @@ public abstract class HudElementTexture extends HudElement{
 	}
 	
 	protected void bind(ResourceLocation res) {
-		mc.getTextureManager().bindTexture(res);
+		this.mc.getTextureManager().bindTexture(res);
 	}
 }

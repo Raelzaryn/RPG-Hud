@@ -20,14 +20,13 @@ public class HudElementJumpBarTexture extends HudElementTexture{
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
-		ScaledResolution res = new ScaledResolution(mc);
+		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int adjustedWidth = res.getScaledWidth() / 2;
 		float var14 = this.mc.player.getHorseJumpPower();
 		int color = (int) (var14 * 100.0F);
 		gui.drawTexturedModalRect(adjustedWidth - 71, height - 80, 0, 160, 141, 10);
 		gui.drawTexturedModalRect(adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10);
-
 		this.bind(Gui.ICONS);
 	}
 

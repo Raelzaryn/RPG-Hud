@@ -22,8 +22,8 @@ public class HudElementExperienceTexture extends HudElementTexture {
 		String levelString = String.valueOf(this.mc.player.experienceLevel);
 		gui.drawTexturedModalRect(49, 35, 0, 132, (int) (88.0D * (experience / (double) this.mc.player.xpBarCap())), 8);
 		
-		if (settings.show_numbers_experience) {
-			mc.fontRendererObj.drawStringWithShadow(levelString, 38 - mc.fontRendererObj.getStringWidth(levelString) / 2, 38, 0x80FF20);
+		if (this.settings.show_numbers_experience) {
+			this.mc.fontRendererObj.drawStringWithShadow(levelString, 38 - this.mc.fontRendererObj.getStringWidth(levelString) / 2, 38, 0x80FF20);
 		}
 		bind(Gui.ICONS);
 	}

@@ -20,7 +20,7 @@ public class HudElementAirTexture extends HudElementTexture{
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
-		ScaledResolution res = new ScaledResolution(mc);
+		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int adjustedWidth = res.getScaledWidth() / 2;
 		int airAmount = this.mc.player.getAir();
