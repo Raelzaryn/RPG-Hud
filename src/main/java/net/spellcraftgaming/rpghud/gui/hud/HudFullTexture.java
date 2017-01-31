@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementAirTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementExperienceTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementFoodTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthMountTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementJumpBarTexture;
@@ -37,6 +38,11 @@ public class HudFullTexture extends HudExtendedWidget{
 	@Override
 	public HudElement setElementJumpBar() {
 		return new HudElementJumpBarTexture();
+	}
+	
+	@Override
+	public HudElement setElementFood() {
+		return new HudElementFoodTexture();
 	}
 
 }

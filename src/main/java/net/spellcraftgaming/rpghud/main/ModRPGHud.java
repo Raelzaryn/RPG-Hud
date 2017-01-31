@@ -30,7 +30,6 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class ModRPGHud {
 	
-	//TODO 3.1: Add Full Texture HUD
 	//TODO 3.1: Add Hotbar HUD
 	//TODO 3.1: Add Modern Style HUD
 	
