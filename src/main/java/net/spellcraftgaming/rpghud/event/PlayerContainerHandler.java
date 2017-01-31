@@ -6,7 +6,8 @@ import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class PlayerContainerHandler {
 
-	/**Event to set stack sizes of the HUD display to be recalculated again
+	/**
+	 * Event to set stack sizes of the HUD display to be recalculated again
 	 * 
 	 * @param event
 	 */

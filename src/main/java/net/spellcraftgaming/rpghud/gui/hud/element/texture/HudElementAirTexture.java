@@ -6,7 +6,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementAirTexture extends HudElementTexture{
+public class HudElementAirTexture extends HudElementTexture {
 
 	public HudElementAirTexture() {
 		super(HudElementType.AIR, 0, 0, 0, 0, true);
@@ -16,7 +16,7 @@ public class HudElementAirTexture extends HudElementTexture{
 	public boolean checkConditions() {
 		return this.mc.player.isInsideOfMaterial(Material.WATER);
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);

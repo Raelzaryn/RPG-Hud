@@ -7,7 +7,7 @@ import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementArmorVanilla extends HudElement{
+public class HudElementArmorVanilla extends HudElement {
 
 	public HudElementArmorVanilla() {
 		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
@@ -19,26 +19,20 @@ public class HudElementArmorVanilla extends HudElement{
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		int left = width / 2 - 91;
-        int top = height - GuiIngameRPGHud.left_height;
+		int top = height - GuiIngameRPGHud.left_height;
 
-        int level = ForgeHooks.getTotalArmorValue(this.mc.player);
-        for (int i = 1; level > 0 && i < 20; i += 2)
-        {
-            if (i < level)
-            {
-                gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);
-            }
-            else if (i == level)
-            {
-                gui.drawTexturedModalRect(left, top, 25, 9, 9, 9);
-            }
-            else if (i > level)
-            {
-                gui.drawTexturedModalRect(left, top, 16, 9, 9, 9);
-            }
-            left += 8;
-        }
-        GuiIngameRPGHud.left_height += 10;
+		int level = ForgeHooks.getTotalArmorValue(this.mc.player);
+		for (int i = 1; level > 0 && i < 20; i += 2) {
+			if (i < level) {
+				gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);
+			} else if (i == level) {
+				gui.drawTexturedModalRect(left, top, 25, 9, 9, 9);
+			} else if (i > level) {
+				gui.drawTexturedModalRect(left, top, 16, 9, 9, 9);
+			}
+			left += 8;
+		}
+		GuiIngameRPGHud.left_height += 10;
 	}
 
 }

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementAirDefault extends HudElementBarred{
+public class HudElementAirDefault extends HudElementBarred {
 
 	public HudElementAirDefault() {
 		super(HudElementType.AIR, 0, 0, 0, 0, true);
@@ -24,7 +24,7 @@ public class HudElementAirDefault extends HudElementBarred{
 		GlStateManager.disableLighting();
 		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, airColor[0], airColor[1]);
 	}
-	
+
 	@Override
 	public boolean checkConditions() {
 		return this.mc.player.isInsideOfMaterial(Material.WATER);

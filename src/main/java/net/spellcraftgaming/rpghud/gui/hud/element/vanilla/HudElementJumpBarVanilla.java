@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementJumpBarVanilla extends HudElement{
+public class HudElementJumpBarVanilla extends HudElement {
 
 	public HudElementJumpBarVanilla() {
 		super(HudElementType.JUMP_BAR, 0, 0, 0, 0, true);
@@ -18,31 +18,30 @@ public class HudElementJumpBarVanilla extends HudElement{
 	public boolean checkConditions() {
 		return this.mc.player.isRidingHorse();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
-		
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.disableBlend();
 
-        this.mc.mcProfiler.startSection("jumpBar");
-        float charge = this.mc.player.getHorseJumpPower();
-        final int barWidth = 182;
-        int x = (res.getScaledWidth() / 2) - (barWidth / 2);
-        int filled = (int)(charge * (barWidth + 1));
-        int top = res.getScaledHeight() - 32 + 3;
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.disableBlend();
 
-        gui.drawTexturedModalRect(x, top, 0, 84, barWidth, 5);
+		this.mc.mcProfiler.startSection("jumpBar");
+		float charge = this.mc.player.getHorseJumpPower();
+		final int barWidth = 182;
+		int x = (res.getScaledWidth() / 2) - (barWidth / 2);
+		int filled = (int) (charge * (barWidth + 1));
+		int top = res.getScaledHeight() - 32 + 3;
 
-        if (filled > 0)
-        {
-            gui.drawTexturedModalRect(x, top, 0, 89, filled, 5);
-        }
+		gui.drawTexturedModalRect(x, top, 0, 84, barWidth, 5);
 
-        GlStateManager.enableBlend();
-        this.mc.mcProfiler.endSection();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		if (filled > 0) {
+			gui.drawTexturedModalRect(x, top, 0, 89, filled, 5);
+		}
+
+		GlStateManager.enableBlend();
+		this.mc.mcProfiler.endSection();
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 }

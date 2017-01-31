@@ -50,33 +50,39 @@ import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod.EnumOptionsType;
 
 public class GuiIngameRPGHud extends GuiIngame {
 
-	/** Constant for the color white*/
+	/** Constant for the color white */
 	private static final int WHITE = 0xFFFFFF;
-	
-	/** left height of this gui screen*/
+
+	/** left height of this gui screen */
 	public static int left_height = 39;
-	/** right height of this gui screen*/
+	/** right height of this gui screen */
 	public static int right_height = 39;
 
-	/** The scaled resolution of minecraft*/
+	/** The scaled resolution of minecraft */
 	private ScaledResolution res = null;
-	
-	/** Instance of Minecraft's font renderer*/
+
+	/** Instance of Minecraft's font renderer */
 	private FontRenderer fontrenderer = null;
-	
-	/** Event used by forge to allow modders influence render events*/
+
+	/** Event used by forge to allow modders influence render events */
 	private RenderGameOverlayEvent eventParent;
-	
-	/** Gui that contains all the debug information to be rendered on the screen by pressing F3 (default)*/
+
+	/**
+	 * Gui that contains all the debug information to be rendered on the screen
+	 * by pressing F3 (default)
+	 */
 	private GuiOverlayDebugForge debugOverlay;
 
-	/** Instance of the RPG-Hud mod*/
+	/** Instance of the RPG-Hud mod */
 	private ModRPGHud rpgHud;
 
 	private final GuiChatRPGHud chat;
-	/** Constructor
+
+	/**
+	 * Constructor
 	 * 
-	 * @param mc Instance of Minecraft
+	 * @param mc
+	 *            Instance of Minecraft
 	 */
 	public GuiIngameRPGHud(Minecraft mc) {
 		super(mc);
@@ -85,9 +91,11 @@ public class GuiIngameRPGHud extends GuiIngame {
 		this.chat = new GuiChatRPGHud(mc);
 	}
 
-	/** Main render function
+	/**
+	 * Main render function
 	 * 
-	 * @param partialTicks the ticks used by animations
+	 * @param partialTicks
+	 *            the ticks used by animations
 	 */
 	@Override
 	public void renderGameOverlay(float partialTicks) {
@@ -120,7 +128,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 
 		this.drawElement(HudElementType.WIDGET, partialTicks);
-		
+
 		this.drawElement(HudElementType.HOTBAR, partialTicks);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -185,7 +193,8 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(ALL);
 	}
 
-	/** Returns the resolution of Minecraft
+	/**
+	 * Returns the resolution of Minecraft
 	 * 
 	 * @return the scaled resolution of Minecraft
 	 */
@@ -193,7 +202,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		return this.res;
 	}
 
-	/** Function that calls the renderPotionIcons function of GuiIngame*/
+	/** Function that calls the renderPotionIcons function of GuiIngame */
 	private void renderPotionIcons(ScaledResolution resolution) {
 		if (pre(POTION_ICONS))
 			return;
@@ -201,7 +210,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(POTION_ICONS);
 	}
 
-	/** Function that calls the renderSubtitles function of GuiIngame*/
+	/** Function that calls the renderSubtitles function of GuiIngame */
 	private void renderSubtitles() {
 		if (pre(SUBTITLES))
 			return;
@@ -209,7 +218,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(SUBTITLES);
 	}
 
-	/**Function that renders the boss health via overlayBoss*/
+	/** Function that renders the boss health via overlayBoss */
 	private void renderBossHealth() {
 		if (pre(BOSSHEALTH))
 			return;
@@ -223,7 +232,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(BOSSHEALTH);
 	}
 
-	/**Function that renders the helmet screen overlay*/
+	/** Function that renders the helmet screen overlay */
 	private void renderHelmet(ScaledResolution res, float partialTicks) {
 		if (pre(HELMET))
 			return;
@@ -241,7 +250,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(HELMET);
 	}
 
-	/**Function that renders the portal screen overlay*/
+	/** Function that renders the portal screen overlay */
 	private void renderPortal(ScaledResolution res, float partialTicks) {
 		if (pre(PORTAL))
 			return;
@@ -255,7 +264,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(PORTAL);
 	}
 
-	/**Function that renders the sleep fade screen overlay*/
+	/** Function that renders the sleep fade screen overlay */
 	private void renderSleepFade(int width, int height) {
 		if (this.mc.player.getSleepTimer() > 0) {
 			this.mc.mcProfiler.startSection("sleep");
@@ -276,7 +285,9 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 	}
 
-	/**Function that renders the tool highlight on the screen upn equipping it*/
+	/**
+	 * Function that renders the tool highlight on the screen upn equipping it
+	 */
 	private void renderToolHighlight(ScaledResolution res) {
 		if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator()) {
 			this.mc.mcProfiler.startSection("toolHighlight");
@@ -319,9 +330,11 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 	}
 
-	/** Renders the HUD text on the screen
+	/**
+	 * Renders the HUD text on the screen
 	 * 
-	 * @param width screen width
+	 * @param width
+	 *            screen width
 	 */
 	private void renderHUDText(int width) {
 		this.mc.mcProfiler.startSection("forgeHudText");
@@ -371,7 +384,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		post(TEXT);
 	}
 
-	/** Renders the FPS graph of the debug overlay*/
+	/** Renders the FPS graph of the debug overlay */
 	private void renderFPSGraph() {
 		if (this.mc.gameSettings.showDebugInfo && this.mc.gameSettings.showLagometer && !pre(FPS_GRAPH)) {
 			this.debugOverlay.renderLagometer();
@@ -379,7 +392,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 	}
 
-	/** Renders the title and subtitle*/
+	/** Renders the title and subtitle */
 	private void renderTitle(int width, int height, float partialTicks) {
 		if (this.titlesTimer > 0) {
 			this.mc.mcProfiler.startSection("titleAndSubtitle");
@@ -417,7 +430,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 	}
 
-	/** Renders the player list via it's class*/
+	/** Renders the player list via it's class */
 	private void renderPlayerList(int width) {
 		ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
 		NetHandlerPlayClient handler = this.mc.player.connection;
@@ -433,17 +446,17 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 	}
 
-	/**Checks if the event should be run and runs the pre forge event*/
+	/** Checks if the event should be run and runs the pre forge event */
 	private boolean pre(ElementType type) {
 		return MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Pre(this.eventParent, type));
 	}
 
-	/**Runs the forge event*/
+	/** Runs the forge event */
 	private void post(ElementType type) {
 		MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Post(this.eventParent, type));
 	}
 
-	/**Binds a texture to the engine to be used*/
+	/** Binds a texture to the engine to be used */
 	public void bind(ResourceLocation res) {
 		this.mc.getTextureManager().bindTexture(res);
 	}
@@ -477,39 +490,43 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 	}
 
-	/** Returns the updateCounter Variable*/
+	/** Returns the updateCounter Variable */
 	public int getUpdateCounter() {
 		return this.updateCounter;
 	}
 
-	/** Returns the overlayMessageTime variable*/
+	/** Returns the overlayMessageTime variable */
 	public int getOverlayMessageTime() {
 		return this.overlayMessageTime;
 	}
 
-	/** Returns the animateOverlayMessageColor variable*/
+	/** Returns the animateOverlayMessageColor variable */
 	public boolean getAnimateOverlayMessageColor() {
 		return this.animateOverlayMessageColor;
 	}
 
-	/** Return the overlayMessage variable*/
+	/** Return the overlayMessage variable */
 	public String getOverlayMessage() {
 		return this.overlayMessage;
 	}
 
-	
 	@Override
 	public GuiNewChat getChatGUI() {
 		return this.chat;
 	}
-	
+
 	public GuiChatRPGHud getChat() {
 		return this.chat;
 	}
-	/**Draw the specified HudElement of the HudElementType from the active Hud
+
+	/**
+	 * Draw the specified HudElement of the HudElementType from the active Hud
 	 * 
-	 * @param type the HudElementType to be rendered
-	 * @param partialTicks the partialTicks to be sued for animations*/
+	 * @param type
+	 *            the HudElementType to be rendered
+	 * @param partialTicks
+	 *            the partialTicks to be sued for animations
+	 */
 	private void drawElement(HudElementType type, float partialTicks) {
 		// Check if conditions for rendering the element are met
 		if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
@@ -622,7 +639,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 
 	}
-	
+
 	private void drawElementChat(float partialTicks) {
 		if (this.rpgHud.getActiveHud().checkElementConditions(HudElementType.CHAT)) {
 			RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(this.eventParent, 0, this.res.getScaledHeight() - 48);
@@ -692,7 +709,11 @@ public class GuiIngameRPGHud extends GuiIngame {
 			}
 		}
 	}
-	/**Checks if the HudElementType has a setting to force it to be rendered regardless of the forge event and if it is activated*/
+
+	/**
+	 * Checks if the HudElementType has a setting to force it to be rendered
+	 * regardless of the forge event and if it is activated
+	 */
 	private boolean forceRenderType(HudElementType type) {
 		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.FORCE_RENDER);
 		if (option != null) {
@@ -701,7 +722,10 @@ public class GuiIngameRPGHud extends GuiIngame {
 		return false;
 	}
 
-	/**Checks if the HudElementType has a setting to prevent it's rendering and if it is activated*/
+	/**
+	 * Checks if the HudElementType has a setting to prevent it's rendering and
+	 * if it is activated
+	 */
 	private boolean preventElementRenderType(HudElementType type) {
 		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.PREVENT_RENDER);
 		if (option != null) {
@@ -709,8 +733,11 @@ public class GuiIngameRPGHud extends GuiIngame {
 		}
 		return false;
 	}
-	
-	/**Checks if the HudElementType has a setting to force the vanilla hud element to be rendered and if it is activated*/
+
+	/**
+	 * Checks if the HudElementType has a setting to force the vanilla hud
+	 * element to be rendered and if it is activated
+	 */
 	private boolean forceRenderTypeVanilla(HudElementType type) {
 		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.RENDER_VANILLA);
 		if (option != null) {
@@ -719,7 +746,10 @@ public class GuiIngameRPGHud extends GuiIngame {
 		return false;
 	}
 
-	/**Checks if the HudElementType has a setting to prevent the forge event and if it is activated*/
+	/**
+	 * Checks if the HudElementType has a setting to prevent the forge event and
+	 * if it is activated
+	 */
 	private boolean preventEventType(HudElementType type) {
 		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.PREVENT_EVENT);
 		if (option != null) {
@@ -728,10 +758,12 @@ public class GuiIngameRPGHud extends GuiIngame {
 		return false;
 	}
 
-	/**Returns the Forge RenderOverlayEvent alias of the respective HudElementType.
-	 * Returns null if it has none
+	/**
+	 * Returns the Forge RenderOverlayEvent alias of the respective
+	 * HudElementType. Returns null if it has none
 	 * 
-	 * @param type the HudElementType
+	 * @param type
+	 *            the HudElementType
 	 * @return RenderOverlayEvent type
 	 */
 	private static ElementType getEventAlias(HudElementType type) {

@@ -19,10 +19,11 @@ public enum HudElementType {
 	CHAT("Chat");
 	
 	private String displayName;
+
 	private HudElementType(String displayName) {
 		this.displayName = displayName;
 	}
-	
+
 	public String getDisplayName() {
 		return this.displayName;
 	}

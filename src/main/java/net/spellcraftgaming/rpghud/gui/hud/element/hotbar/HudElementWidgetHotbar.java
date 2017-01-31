@@ -9,12 +9,12 @@ import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementWidgetHotbar extends HudElementTexture{
-	
+public class HudElementWidgetHotbar extends HudElementTexture {
+
 	public HudElementWidgetHotbar() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
@@ -22,7 +22,7 @@ public class HudElementWidgetHotbar extends HudElementTexture{
 		int height = res.getScaledHeight();
 		gui.drawTexturedModalRect(0, height - 16 - 52 + 7, 0, 170, 231, 52);
 		bind(Gui.ICONS);
-		
+
 		if (!this.mc.gameSettings.showDebugInfo) {
 
 			bind(getPlayerSkin(this.mc.player));
@@ -33,7 +33,7 @@ public class HudElementWidgetHotbar extends HudElementTexture{
 			bind(Gui.ICONS);
 		}
 	}
-	
+
 	protected static ResourceLocation getPlayerSkin(AbstractClientPlayer player) {
 		return player.getLocationSkin();
 	}

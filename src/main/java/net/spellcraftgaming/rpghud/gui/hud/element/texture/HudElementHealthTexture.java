@@ -8,7 +8,7 @@ import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthTexture extends HudElementTexture{
+public class HudElementHealthTexture extends HudElementTexture {
 
 	public HudElementHealthTexture() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, false);
@@ -18,7 +18,7 @@ public class HudElementHealthTexture extends HudElementTexture{
 	public boolean checkConditions() {
 		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
@@ -30,9 +30,10 @@ public class HudElementHealthTexture extends HudElementTexture{
 		} else {
 			gui.drawTexturedModalRect(49, 9, 0, 100, (int) (110.0D * ((double) health / (double) maxHealth)), 12);
 		}
-	
+
 		String stringHealth = health + "/" + maxHealth;
-		if(this.settings.show_numbers_health) gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 55, 11, -1);
+		if (this.settings.show_numbers_health)
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 55, 11, -1);
 		bind(Gui.ICONS);
 	}
 

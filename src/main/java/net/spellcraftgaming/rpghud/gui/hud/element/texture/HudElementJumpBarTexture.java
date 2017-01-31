@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementJumpBarTexture extends HudElementTexture{
+public class HudElementJumpBarTexture extends HudElementTexture {
 
 	public HudElementJumpBarTexture() {
 		super(HudElementType.JUMP_BAR, 0, 0, 0, 0, true);
@@ -16,7 +16,7 @@ public class HudElementJumpBarTexture extends HudElementTexture{
 	public boolean checkConditions() {
 		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);

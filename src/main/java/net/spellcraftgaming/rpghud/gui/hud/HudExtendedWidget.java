@@ -10,7 +10,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExte
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementArmorVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
 
-public class HudExtendedWidget extends HudDefault{
+public class HudExtendedWidget extends HudDefault {
 
 	public HudExtendedWidget(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
@@ -20,32 +20,32 @@ public class HudExtendedWidget extends HudDefault{
 	public HudElement setElementExperience() {
 		return new HudElementExperienceExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementHealthMount() {
 		return new HudElementHealthMountExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementHotbar() {
 		return new HudElementHotbarVanilla();
 	}
-	
+
 	@Override
 	public HudElement setElementFood() {
 		return new HudElementFoodExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementHealth() {
 		return new HudElementHealthExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementWidget() {
 		return new HudElementWidgetExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementArmor() {
 		return new HudElementArmorVanilla();

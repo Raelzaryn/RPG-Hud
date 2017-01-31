@@ -27,16 +27,14 @@ public enum EnumOptionsMod {
 	CLOCK_TIME_FORMAT(INTEGER, "Clock Time Format", I18n.format("tooltip.clock_time_format", new Object[0])),
 	REDUCE_SIZE(BOOLEAN, "Reduced Detail Size", I18n.format("tooltip.reduce_size", new Object[0]));
 	
-	public enum EnumOptionType{
-		INTEGER,
-		BOOLEAN,
-		STRING;
+	public enum EnumOptionType {
+		INTEGER, BOOLEAN, STRING;
 	}
-	
+
 	private final String enumName;
 	private final String tooltip;
 	private final EnumOptionType type;
-	
+
 	public static EnumOptionsMod getEnumOptions(int par0) {
 		EnumOptionsMod[] aenumoptions = values();
 		int j = aenumoptions.length;
@@ -70,7 +68,7 @@ public enum EnumOptionsMod {
 	public EnumOptionType getType() {
 		return this.type;
 	}
-	
+
 	public boolean isBoolean() {
 		return this.type == BOOLEAN ? true : false;
 	}

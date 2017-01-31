@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementWidgetDefault extends HudElementTexture{
-	
+public class HudElementWidgetDefault extends HudElementTexture {
+
 	public HudElementWidgetDefault() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);
 	}
@@ -19,7 +19,7 @@ public class HudElementWidgetDefault extends HudElementTexture{
 	public boolean checkConditions() {
 		return !this.mc.gameSettings.showDebugInfo;
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
@@ -28,7 +28,7 @@ public class HudElementWidgetDefault extends HudElementTexture{
 			gui.drawTexturedModalRect(51, 39, 163, 0, 92, 20);
 		}
 		bind(Gui.ICONS);
-		
+
 		if (!this.mc.gameSettings.showDebugInfo) {
 
 			bind(getPlayerSkin(this.mc.player));
@@ -39,7 +39,7 @@ public class HudElementWidgetDefault extends HudElementTexture{
 			bind(Gui.ICONS);
 		}
 	}
-	
+
 	protected static ResourceLocation getPlayerSkin(AbstractClientPlayer player) {
 		return player.getLocationSkin();
 	}

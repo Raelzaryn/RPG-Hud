@@ -16,15 +16,15 @@ public class HudElementLevelHotbar extends HudElement {
 	public boolean checkConditions() {
 		return this.mc.playerController.gameIsSurvivalOrAdventure();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
-	    GlStateManager.disableBlend();
-	    String level = String.valueOf(this.mc.player.experienceLevel);
-	    this.mc.fontRendererObj.drawStringWithShadow(level, 25 - this.mc.fontRendererObj.getStringWidth(level) / 2, height - 22, 0x80FF20);
-	    GlStateManager.enableBlend();
+		GlStateManager.disableBlend();
+		String level = String.valueOf(this.mc.player.experienceLevel);
+		this.mc.fontRendererObj.drawStringWithShadow(level, 25 - this.mc.fontRendererObj.getStringWidth(level) / 2, height - 22, 0x80FF20);
+		GlStateManager.enableBlend();
 	}
 
 }

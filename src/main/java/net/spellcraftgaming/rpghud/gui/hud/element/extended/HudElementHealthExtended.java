@@ -8,7 +8,7 @@ import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthExtended extends HudElementBarred{
+public class HudElementHealthExtended extends HudElementBarred {
 
 	public HudElementHealthExtended() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
@@ -18,7 +18,7 @@ public class HudElementHealthExtended extends HudElementBarred{
 	public boolean checkConditions() {
 		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int[] healthColor = getColor(this.settings.color_health);
@@ -31,13 +31,14 @@ public class HudElementHealthExtended extends HudElementBarred{
 			drawCustomBar(49, 9, 110, 12, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[0], healthColor[1]);
 		}
 		String stringHealth = health + "/" + maxHealth;
-		if(this.settings.show_numbers_health) gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 55, 11, -1);
+		if (this.settings.show_numbers_health)
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 55, 11, -1);
 	}
 
 	@Override
 	public int[] getColor(int setting) {
 		int[] color = new int[4];
-		switch (this.settings.color_health){
+		switch (this.settings.color_health) {
 		case 0:
 			color[0] = this.colorRed[0];
 			color[1] = this.colorRed[1];

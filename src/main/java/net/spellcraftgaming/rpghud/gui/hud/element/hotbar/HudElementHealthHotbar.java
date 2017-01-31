@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthHotbar extends HudElementBarred{
+public class HudElementHealthHotbar extends HudElementBarred {
 
 	public HudElementHealthHotbar() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
@@ -20,7 +20,7 @@ public class HudElementHealthHotbar extends HudElementBarred{
 	public boolean checkConditions() {
 		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD() && !(this.mc.player.getRidingEntity() instanceof EntityLivingBase);
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -35,13 +35,14 @@ public class HudElementHealthHotbar extends HudElementBarred{
 			drawCustomBar(49, height - 56, 200, 10, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[0], healthColor[1]);
 		}
 		String stringHealth = health + "/" + maxHealth;
-		if(this.settings.show_numbers_health) gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 100, height - 55, -1);
+		if (this.settings.show_numbers_health)
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 100, height - 55, -1);
 	}
 
 	@Override
 	public int[] getColor(int setting) {
 		int[] color = new int[4];
-		switch (this.settings.color_health){
+		switch (this.settings.color_health) {
 		case 0:
 			color[0] = this.colorRed[0];
 			color[1] = this.colorRed[1];

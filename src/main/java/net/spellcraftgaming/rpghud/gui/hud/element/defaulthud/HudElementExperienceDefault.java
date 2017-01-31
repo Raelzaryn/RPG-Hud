@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementExperienceDefault extends HudElementBarred{
+public class HudElementExperienceDefault extends HudElementBarred {
 
 	public HudElementExperienceDefault() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);
@@ -16,7 +16,7 @@ public class HudElementExperienceDefault extends HudElementBarred{
 	public boolean checkConditions() {
 		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -29,7 +29,8 @@ public class HudElementExperienceDefault extends HudElementBarred{
 		drawCustomBar(0, height - 10, width, 10, exp * full, experienceColor[0], experienceColor[1]);
 		String stringExp = exp + "/" + this.mc.player.xpBarCap();
 		int var7 = width / 2;
-		if (this.settings.show_numbers_experience) gui.drawCenteredString(this.mc.fontRendererObj, stringExp, var7, height - 9, -1);
+		if (this.settings.show_numbers_experience)
+			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, var7, height - 9, -1);
 	}
 
 }

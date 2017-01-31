@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementJumpBarDefault extends HudElementBarred{
+public class HudElementJumpBarDefault extends HudElementBarred {
 
 	public HudElementJumpBarDefault() {
 		super(HudElementType.JUMP_BAR, 0, 0, 0, 0, true);
@@ -16,7 +16,7 @@ public class HudElementJumpBarDefault extends HudElementBarred{
 	public boolean checkConditions() {
 		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int[] jumpColor = getColor(this.settings.color_jumpbar);

@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementExperienceExtended extends HudElementBarred{
+public class HudElementExperienceExtended extends HudElementBarred {
 
 	public HudElementExperienceExtended() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
@@ -15,7 +15,7 @@ public class HudElementExperienceExtended extends HudElementBarred{
 	public boolean checkConditions() {
 		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int[] experienceColor = getColor(this.settings.color_experience);

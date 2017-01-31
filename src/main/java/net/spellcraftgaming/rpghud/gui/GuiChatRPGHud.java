@@ -35,7 +35,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	protected boolean isScrolled;
 	protected int xOffset = 0;
 	protected int yOffset = 0;
-	
+
 	public GuiChatRPGHud(Minecraft mc) {
 		super(mc);
 		this.mc = mc;
@@ -63,8 +63,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	 */
 	public void printChatMessageWithOptionalDeletion(ITextComponent chatComponent, int chatLineId) {
 		this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
-		LOGGER.info("[CHAT] {}", new Object[] {
-				NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText())) });
+		LOGGER.info("[CHAT] {}", new Object[] { NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText())) });
 	}
 
 	private void setChatLine(ITextComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly) {
@@ -73,8 +72,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		}
 
 		int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
-		List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false,
-				false);
+		List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
 		boolean flag = this.getChatOpen();
 
 		for (ITextComponent itextcomponent : list) {
@@ -167,8 +165,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		if (j >= 0 && k >= 0) {
 			int l = Math.min(this.getLineCount(), this.getDrawnChatLines().size());
 
-			if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale())
-					&& k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
+			if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
 				int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
 
 				if (i1 >= 0 && i1 < this.getDrawnChatLines().size()) {
@@ -177,9 +174,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 
 					for (ITextComponent itextcomponent : chatline.getChatComponent()) {
 						if (itextcomponent instanceof TextComponentString) {
-							j1 += this.mc.fontRendererObj
-									.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(
-											((TextComponentString) itextcomponent).getText(), false));
+							j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString) itextcomponent).getText(), false));
 
 							if (j1 > j) {
 								return itextcomponent;
@@ -233,8 +228,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	}
 
 	public int getChatHeight() {
-		return calculateChatboxHeight(
-				this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
+		return calculateChatboxHeight(this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
 	}
 
 	/**

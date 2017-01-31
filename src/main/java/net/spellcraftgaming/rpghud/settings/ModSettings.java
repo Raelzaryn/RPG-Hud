@@ -19,7 +19,7 @@ public class ModSettings {
 	private File optionsFile;
 
 	private static final String[] COLOR = { "Red", "Blue", "Green", "Yellow", "White", "Grey" };
-	private static final String[] TIME_FORMAT = {"24 Hours", "12 Hours"};
+	private static final String[] TIME_FORMAT = { "24 Hours", "12 Hours" };
 
 	public boolean button_tooltip_enabled = true;
 	public boolean show_armor = true;
@@ -35,9 +35,9 @@ public class ModSettings {
 	public boolean render_player_face = true;
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
-	
+
 	public String hud_type = "vanilla";
-	
+
 	public int color_health = 0;
 	public int color_stamina = 2;
 	public int color_air = 1;
@@ -54,59 +54,45 @@ public class ModSettings {
 	public void setOptionValue(EnumOptionsMod options, int value) {
 		if (options == EnumOptionsMod.BUTTON_TOOLTIP_ENABLED) {
 			this.button_tooltip_enabled = (!this.button_tooltip_enabled);
-			System.out.println(options + ":" + this.button_tooltip_enabled);
-		}	
+		}
 		if (options == EnumOptionsMod.SHOW_ARMOR) {
 			this.show_armor = (!this.show_armor);
-			System.out.println(options + ":" + this.show_armor);
 		}
 		if (options == EnumOptionsMod.SHOW_ARROWCOUNT) {
-			this.show_arrowcount= (!this.show_arrowcount);
-			System.out.println(options + ":" + this.show_arrowcount);
+			this.show_arrowcount = (!this.show_arrowcount);
 		}
 		if (options == EnumOptionsMod.SHOW_ITEMDURABILITY) {
 			this.show_itemdurability = (!this.show_itemdurability);
-			System.out.println(options + ":" + this.show_itemdurability);
 		}
 		if (options == EnumOptionsMod.SHOW_ITEMCOUNT) {
 			this.show_blockcount = (!this.show_blockcount);
-			System.out.println(options + ":" + this.show_blockcount);
 		}
 		if (options == EnumOptionsMod.SHOW_NUMBERS_HEALTH) {
 			this.show_numbers_health = (!this.show_numbers_health);
-			System.out.println(options + ":" + this.show_numbers_health);
 		}
 		if (options == EnumOptionsMod.SHOW_NUMBERS_STAMINA) {
 			this.show_numbers_stamina = (!this.show_numbers_stamina);
-			System.out.println(options + ":" + this.show_numbers_stamina);
 		}
 		if (options == EnumOptionsMod.SHOW_NUMBERS_EXPERIENCE) {
 			this.show_numbers_experience = (!this.show_numbers_experience);
-			System.out.println(options + ":" + this.show_numbers_experience);
 		}
 		if (options == EnumOptionsMod.ENABLE_CLOCK) {
 			this.enable_clock = (!this.enable_clock);
-			System.out.println(options + ":" + this.enable_clock);
 		}
 		if (options == EnumOptionsMod.ENABLE_TIMECOLOR) {
 			this.enable_clock_color = (!this.enable_clock_color);
-			System.out.println(options + ":" + this.enable_clock_color);
 		}
 		if (options == EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK) {
 			this.enable_immersive_clock = (!this.enable_immersive_clock);
-			System.out.println(options + ":" + this.enable_immersive_clock);
 		}
 		if (options == EnumOptionsMod.RENDER_PLAYER_FACE) {
 			this.render_player_face = (!this.render_player_face);
-			System.out.println(options + ":" + this.render_player_face);
 		}
 		if (options == EnumOptionsMod.SHOW_HUNGERPREVIEW) {
 			this.show_hunger_preview = (!this.show_hunger_preview);
-			System.out.println(options + ":" + this.show_hunger_preview);
 		}
 		if (options == EnumOptionsMod.REDUCE_SIZE) {
 			this.reduce_size = (!this.reduce_size);
-			System.out.println(options + ":" + this.reduce_size);
 		}
 		if (options == EnumOptionsMod.COLOR_HEALTH) {
 			if (this.color_health >= 5) {
@@ -114,7 +100,6 @@ public class ModSettings {
 			} else {
 				this.color_health += value;
 			}
-			System.out.println(options + ":" + this.color_health);
 		}
 		if (options == EnumOptionsMod.COLOR_STAMINA) {
 			if (this.color_stamina >= 5) {
@@ -122,7 +107,6 @@ public class ModSettings {
 			} else {
 				this.color_stamina += value;
 			}
-			System.out.println(options + ":" + this.color_stamina);
 		}
 		if (options == EnumOptionsMod.COLOR_AIR) {
 			if (this.color_air >= 5) {
@@ -130,7 +114,6 @@ public class ModSettings {
 			} else {
 				this.color_air += value;
 			}
-			System.out.println(options + ":" + this.color_air);
 		}
 		if (options == EnumOptionsMod.COLOR_EXPERIENCE) {
 			if (this.color_experience >= 5) {
@@ -138,7 +121,6 @@ public class ModSettings {
 			} else {
 				this.color_experience += value;
 			}
-			System.out.println(options + ":" + this.color_experience);
 		}
 		if (options == EnumOptionsMod.COLOR_JUMPBAR) {
 			if (this.color_jumpbar >= 5) {
@@ -146,7 +128,6 @@ public class ModSettings {
 			} else {
 				this.color_jumpbar += value;
 			}
-			System.out.println(options + ":" + this.color_jumpbar);
 		}
 		if (options == EnumOptionsMod.CLOCK_TIME_FORMAT) {
 			if (this.clock_time_format >= 1) {
@@ -154,29 +135,26 @@ public class ModSettings {
 			} else {
 				this.clock_time_format += value;
 			}
-			System.out.println(options + ":" + this.clock_time_format);
 		}
 		if (options == EnumOptionsMod.HUD_TYPE) {
 			this.incrementHudType();
 		}
 		saveOptions();
 	}
-	
+
 	private void incrementHudType() {
 		Set<String> huds = ModRPGHud.instance.huds.keySet();
 		String[] keys = huds.toArray(new String[huds.size()]);
 		int size = keys.length;
-		for(int n = 0; n < size; n++) {
-			System.out.println(keys[n]);
-			if(keys[n].equals(this.hud_type)) {
+		for (int n = 0; n < size; n++) {
+			if (keys[n].equals(this.hud_type)) {
 				n++;
-				if(n == size) n = 0;
+				if (n == size)
+					n = 0;
 				this.hud_type = keys[n];
-				System.out.println(n);
 				return;
 			}
 		}
-
 
 	}
 
@@ -284,8 +262,7 @@ public class ModSettings {
 			if (!this.optionsFile.exists()) {
 				return;
 			}
-			BufferedReader reader = new BufferedReader(new FileReader(
-					this.optionsFile));
+			BufferedReader reader = new BufferedReader(new FileReader(this.optionsFile));
 			String s = "";
 			while ((s = reader.readLine()) != null) {
 				try {
@@ -365,13 +342,12 @@ public class ModSettings {
 	}
 
 	public String getKeyBinding(EnumOptionsMod par1EnumOptions) {
-		String s = I18n.format(par1EnumOptions.getName(), new Object[0])
-				+ ": ";
+		String s = I18n.format(par1EnumOptions.getName(), new Object[0]) + ": ";
 		if (par1EnumOptions.isBoolean()) {
 			boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 		}
-		switch(par1EnumOptions) {
+		switch (par1EnumOptions) {
 		case HUD_TYPE:
 			return s + getHudName(this.hud_type);
 		case COLOR_JUMPBAR:
@@ -386,7 +362,7 @@ public class ModSettings {
 			return s + getTranslation(COLOR, this.color_air);
 		case CLOCK_TIME_FORMAT:
 			return s + getTranslation(ModSettings.TIME_FORMAT, this.clock_time_format);
-		default: 
+		default:
 			return s;
 		}
 	}

@@ -14,7 +14,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementLevelDef
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementWidgetDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementRecordOverlayVanilla;
 
-public class HudDefault extends HudVanilla{
+public class HudDefault extends HudVanilla {
 
 	public HudDefault(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
@@ -24,52 +24,52 @@ public class HudDefault extends HudVanilla{
 	public HudElement setElementAir() {
 		return new HudElementAirDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementArmor() {
 		return new HudElementArmorDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementExperience() {
 		return new HudElementExperienceDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementLevel() {
 		return new HudElementLevelDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementFood() {
 		return new HudElementFoodDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementHealth() {
 		return new HudElementHealthDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementHealthMount() {
 		return new HudElementHealthMountDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementJumpBar() {
 		return new HudElementJumpBarDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementHotbar() {
 		return new HudElementHotbarDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementWidget() {
 		return new HudElementWidgetDefault();
 	}
-	
+
 	@Override
 	public HudElement setElementRecordOverlay() {
 		return new HudElementRecordOverlayVanilla();
