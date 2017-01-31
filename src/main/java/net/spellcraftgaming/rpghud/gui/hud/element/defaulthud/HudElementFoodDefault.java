@@ -19,15 +19,15 @@ public class HudElementFoodDefault extends HudElementBarred{
 		int stamina = this.mc.player.getFoodStats().getFoodLevel();
 		ItemStack currentItem = this.mc.player.getHeldItemMainhand();
 			if(currentItem != null && currentItem.getItem() instanceof ItemFood && this.mc.player.getFoodStats().needFood() && this.settings.show_hunger_preview) {
-				float value = ((ItemFood)this.mc.player.getHeldItemMainhand().getItem()).getSaturationModifier(this.mc.player.getHeldItemMainhand());
+				float value = ((ItemFood)this.mc.player.getHeldItemMainhand().getItem()).getHealAmount(this.mc.player.getHeldItemMainhand());
 				int bonusHunger = (int) (value + stamina);
 				if(bonusHunger > 20) bonusHunger = 20;
 				drawCustomBar(49, 26, 110, 12, bonusHunger / 20.0D * 100.0D, 0, 0, staminaColor[4], staminaColor[5]);
 			}
-		if (!this.mc.player.isPotionActive(MobEffects.HUNGER)) {
-			drawCustomBar(49, 26, 110, 12, stamina / 20.0D * 100.0D, 0, 0, staminaColor[0], staminaColor[1]);
-		} else {
+		if (this.mc.player.isPotionActive(MobEffects.HUNGER)) {
 			drawCustomBar(49, 26, 110, 12, stamina / 20.0D * 100.0D, 0, 0, staminaColor[2], staminaColor[3]);
+		} else {
+			drawCustomBar(49, 26, 110, 12, stamina / 20.0D * 100.0D, 0, 0, staminaColor[0], staminaColor[1]);
 		}
 		String staminaString = stamina + "/" + "20";
 		if(this.settings.show_numbers_stamina) gui.drawCenteredString(this.mc.fontRendererObj, staminaString, 49 + 55, 28, -1);

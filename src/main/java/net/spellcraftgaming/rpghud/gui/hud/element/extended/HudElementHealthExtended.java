@@ -25,10 +25,10 @@ public class HudElementHealthExtended extends HudElementBarred{
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		int maxHealth = (int) attrMaxHealth.getAttributeValue();
-		if (!this.mc.player.isPotionActive(MobEffects.POISON)) {
-			drawCustomBar(49, 9, 110, 12, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[0], healthColor[1]);
-		} else {
+		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
 			drawCustomBar(49, 9, 110, 12, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[2], healthColor[3]);
+		} else {
+			drawCustomBar(49, 9, 110, 12, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[0], healthColor[1]);
 		}
 		String stringHealth = health + "/" + maxHealth;
 		if(this.settings.show_numbers_health) gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 55, 11, -1);
