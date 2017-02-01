@@ -21,7 +21,12 @@ import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
 
-@Mod(modid = ModRPGHud.MOD_ID, version = ModRPGHud.VERSION, name = ModRPGHud.NAME, clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY, guiFactory = ModRPGHud.GUI_FACTORY)
+@Mod(	modid = ModRPGHud.MOD_ID, 
+		version = ModRPGHud.VERSION, 
+		name = ModRPGHud.NAME, 
+		clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY, 
+		guiFactory = ModRPGHud.GUI_FACTORY,
+		updateJSON = ModRPGHud.UPDATE_JSON)
 
 public class ModRPGHud {
 
@@ -41,6 +46,8 @@ public class ModRPGHud {
 	/** Path to GuiFactory class of this mod */
 	public static final String GUI_FACTORY = "net.spellcraftgaming.rpghud.gui.GuiFactoryRPGHud";
 
+	/** The URL to the update Json file*/
+	public static final String UPDATE_JSON= "http://download.spellcraftgaming.net/rpghud/version/update.json";
 	/** If this mod is client side only */
 	public static final boolean CLIENT_SIDE_ONLY = true;
 
