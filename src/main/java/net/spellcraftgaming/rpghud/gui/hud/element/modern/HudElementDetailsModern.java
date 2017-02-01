@@ -130,24 +130,28 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.player);
-				this.itemArrow = item.copy();
-				PotionType type1 = null;
-				if (item.getItem() instanceof ItemTippedArrow)
-					type1 = PotionUtils.getPotionTypeFromNBT(item.getTagCompound());
-				for (int y = 0; y < x; y++) {
-					ItemStack item3 = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
-					if (ItemStack.areItemsEqual(item, item3)) {
-						if (item.getItem() instanceof ItemTippedArrow) {
-							PotionType type2 = PotionUtils.getPotionTypeFromNBT(item3.getTagCompound());
-							if (type1.getEffects() == type2.getEffects()) {
+				if(!item.isEmpty()) {
+					this.itemArrow = item.copy();
+					PotionType type1 = null;
+					if (item.getItem() instanceof ItemTippedArrow)
+						type1 = PotionUtils.getPotionTypeFromNBT(item.getTagCompound());
+					for (int y = 0; y < x; y++) {
+						ItemStack item3 = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
+						if (ItemStack.areItemsEqual(item, item3)) {
+							if (item.getItem() instanceof ItemTippedArrow) {
+								PotionType type2 = PotionUtils.getPotionTypeFromNBT(item3.getTagCompound());
+								if (type1.getEffects() == type2.getEffects()) {
+									z += item3.getCount();
+								}
+							} else {
 								z += item3.getCount();
 							}
-						} else {
-							z += item3.getCount();
 						}
 					}
+					this.count3 = z;
+				} else {
+					this.count3 = 0;
 				}
-				this.count3 = z;
 			} else {
 				z = this.count3;
 			}
@@ -271,24 +275,28 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.player);
-				this.itemArrow = item.copy();
-				PotionType type1 = null;
-				if (item.getItem() instanceof ItemTippedArrow)
-					type1 = PotionUtils.getPotionTypeFromNBT(item.getTagCompound());
-				for (int y = 0; y < x; y++) {
-					ItemStack item3 = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
-					if (ItemStack.areItemsEqual(item, item3)) {
-						if (item.getItem() instanceof ItemTippedArrow) {
-							PotionType type2 = PotionUtils.getPotionTypeFromNBT(item3.getTagCompound());
-							if (type1.getEffects() == type2.getEffects()) {
+				if(!item.isEmpty()) {
+					this.itemArrow = item.copy();
+					PotionType type1 = null;
+					if (item.getItem() instanceof ItemTippedArrow)
+						type1 = PotionUtils.getPotionTypeFromNBT(item.getTagCompound());
+					for (int y = 0; y < x; y++) {
+						ItemStack item3 = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
+						if (ItemStack.areItemsEqual(item, item3)) {
+							if (item.getItem() instanceof ItemTippedArrow) {
+								PotionType type2 = PotionUtils.getPotionTypeFromNBT(item3.getTagCompound());
+								if (type1.getEffects() == type2.getEffects()) {
+									z += item3.getCount();
+								}
+							} else {
 								z += item3.getCount();
 							}
-						} else {
-							z += item3.getCount();
 						}
 					}
+					this.count3 = z;
+				} else {
+					this.count3 = 0;
 				}
-				this.count3 = z;
 			} else {
 				z = this.count3;
 			}
