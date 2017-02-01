@@ -14,7 +14,7 @@ public class HudElementHealthMountDefault extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
+		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override

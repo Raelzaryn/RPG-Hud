@@ -14,6 +14,11 @@ public class HudElementAirDefault extends HudElementBarred {
 	}
 
 	@Override
+	public boolean checkConditions() {
+		return this.mc.getRenderViewEntity().isInsideOfMaterial(Material.WATER) && this.mc.playerController.shouldDrawHUD();
+	}
+	
+	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
@@ -23,11 +28,6 @@ public class HudElementAirDefault extends HudElementBarred {
 		int airAmount = this.mc.player.getAir();
 		GlStateManager.disableLighting();
 		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, airColor[0], airColor[1]);
-	}
-
-	@Override
-	public boolean checkConditions() {
-		return this.mc.player.isInsideOfMaterial(Material.WATER);
 	}
 
 }

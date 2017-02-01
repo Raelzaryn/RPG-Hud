@@ -53,6 +53,9 @@ public class GuiChatRPGHud extends GuiNewChat {
 		}
 	}
 
+	/**
+	 * prints the ChatComponent to Chat.
+	 */
 	public void printChatMessage(ITextComponent chatComponent) {
 		this.printChatMessageWithOptionalDeletion(chatComponent, 0);
 	}

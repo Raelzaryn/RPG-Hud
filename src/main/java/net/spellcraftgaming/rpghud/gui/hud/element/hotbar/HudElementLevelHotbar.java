@@ -14,7 +14,7 @@ public class HudElementLevelHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.gameIsSurvivalOrAdventure();
+		return this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override

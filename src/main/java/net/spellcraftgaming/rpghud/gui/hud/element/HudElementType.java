@@ -1,22 +1,24 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
+import net.minecraft.client.resources.I18n;
+
 public enum HudElementType {
-	VOID("Void"),
-	HOTBAR("Hotbar"),
-	CROSSHAIR("Crosshair"),
-	HEALTH("Player health"),
-	ARMOR("Player armor"),
-	FOOD("Player hunger"),
-	HEALTH_MOUNT("Mount health"),
-	AIR("Player breath"),
-	JUMP_BAR("Mount Jump bar"),
-	EXPERIENCE("Player experience"),
-	LEVEL("Player level"),
-	CLOCK("Clock"),
-	DETAILS("Item Details"),
-	WIDGET("Widget"),
-	RECORD_OVERLAY("Record Overlay"),
-	CHAT("Chat");
+	VOID(I18n.format("name.void", new Object[0])),
+	HOTBAR(I18n.format("name.hotbar", new Object[0])),
+	CROSSHAIR(I18n.format("name.crosshair", new Object[0])),
+	HEALTH(I18n.format("name.health", new Object[0])),
+	ARMOR(I18n.format("name.armor", new Object[0])),
+	FOOD(I18n.format("name.food", new Object[0])),
+	HEALTH_MOUNT(I18n.format("name.health_mount", new Object[0])),
+	AIR(I18n.format("name.air", new Object[0])),
+	JUMP_BAR(I18n.format("name.jump_bar", new Object[0])),
+	EXPERIENCE(I18n.format("name.experience", new Object[0])),
+	LEVEL(I18n.format("name.level", new Object[0])),
+	CLOCK(I18n.format("name.clock", new Object[0])),
+	DETAILS(I18n.format("name.details", new Object[0])),
+	WIDGET(I18n.format("name.widget", new Object[0])),
+	RECORD_OVERLAY(I18n.format("name.record_overlay", new Object[0])),
+	CHAT(I18n.format("name.chat", new Object[0]));
 	
 	private String displayName;
 

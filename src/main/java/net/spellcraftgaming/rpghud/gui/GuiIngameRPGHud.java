@@ -76,6 +76,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	/** Instance of the RPG-Hud mod */
 	private ModRPGHud rpgHud;
 
+	/** The GuiChat of Minecraft */
 	private final GuiChatRPGHud chat;
 
 	/**
@@ -510,11 +511,13 @@ public class GuiIngameRPGHud extends GuiIngame {
 		return this.overlayMessage;
 	}
 
+	/** Returns the chat instance as a GuiNewChat object */
 	@Override
 	public GuiNewChat getChatGUI() {
 		return this.chat;
 	}
 
+	/** Returns the chat instance as a GuiChatRPGHud object */
 	public GuiChatRPGHud getChat() {
 		return this.chat;
 	}
@@ -525,7 +528,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	 * @param type
 	 *            the HudElementType to be rendered
 	 * @param partialTicks
-	 *            the partialTicks to be sued for animations
+	 *            the partialTicks to be used for animations
 	 */
 	private void drawElement(HudElementType type, float partialTicks) {
 		// Check if conditions for rendering the element are met
@@ -640,6 +643,12 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 	}
 
+	/**
+	 * Draw the Chat HudElement from the active Hud
+	 * 
+	 * @param partialTicks
+	 *            the partialTicks to be used for animations
+	 */
 	private void drawElementChat(float partialTicks) {
 		if (this.rpgHud.getActiveHud().checkElementConditions(HudElementType.CHAT)) {
 			RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(this.eventParent, 0, this.res.getScaledHeight() - 48);

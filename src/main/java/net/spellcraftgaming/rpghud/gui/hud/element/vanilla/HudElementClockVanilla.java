@@ -33,6 +33,7 @@ public class HudElementClockVanilla extends HudElement {
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 	}
 
+	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
 		long time = this.mc.world.getWorldTime();
 		long day = this.mc.world.getWorldTime() / 24000L;
@@ -49,6 +50,15 @@ public class HudElementClockVanilla extends HudElement {
 		return get12HourTimeForString(currentHour, currentMin);
 	}
 
+	/**
+	 * Formats the parameter time into the 24 hour format and returns it as a
+	 * String
+	 * 
+	 * @param currentHour
+	 *            the hour
+	 * @param currentMin
+	 *            the minute
+	 */
 	public static String get24HourTimeForString(long currentHour, long currentMin) {
 		StringBuilder sb = new StringBuilder();
 		if (currentHour == 24)
@@ -59,6 +69,15 @@ public class HudElementClockVanilla extends HudElement {
 		return sb.toString() + ":" + getMinuteForString(currentMin);
 	}
 
+	/**
+	 * Formats the parameter time into the 12 hour format and returns it as a
+	 * string
+	 * 
+	 * @param currentHour
+	 *            the hour
+	 * @param currentMin
+	 *            the minute
+	 */
 	public static String get12HourTimeForString(long currentHour, long currentMin) {
 		StringBuilder sb = new StringBuilder();
 		String period = "am";
@@ -79,6 +98,12 @@ public class HudElementClockVanilla extends HudElement {
 		return sb.toString() + ":" + getMinuteForString(currentMin) + " " + period;
 	}
 
+	/**
+	 * Transforms the minute into a two digit String
+	 * 
+	 * @param currentMin
+	 *            the minute
+	 */
 	public static String getMinuteForString(long currentMin) {
 		StringBuilder sb = new StringBuilder();
 		if (currentMin < 10)

@@ -14,7 +14,7 @@ public class HudElementHealthMountTexture extends HudElementTexture {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
+		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override

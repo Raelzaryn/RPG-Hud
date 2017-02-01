@@ -93,25 +93,39 @@ public class HudElementHotbarVanilla extends HudElement {
 		}
 	}
 
-	protected void renderHotbarItem(int p_184044_1_, int p_184044_2_, float p_184044_3_, EntityPlayer player, ItemStack stack) {
-		if (!stack.isEmpty()) {
-			float f = stack.getAnimationsToGo() - p_184044_3_;
+	/**
+	 * Renders an item on the screen
+	 * 
+	 * @param xPos
+	 *            the x position on the screen
+	 * @param yPos
+	 *            the y position on the screen
+	 * @param partialTicks
+	 *            the partial ticks (used for animation)
+	 * @param player
+	 *            the player who should get the item rendered
+	 * @param item
+	 *            the item (via ItemStack)
+	 */
+	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
+		if (!item.isEmpty()) {
+			float f = item.getAnimationsToGo() - partialTicks;
 
 			if (f > 0.0F) {
 				GlStateManager.pushMatrix();
 				float f1 = 1.0F + f / 5.0F;
-				GlStateManager.translate(p_184044_1_ + 8, p_184044_2_ + 12, 0.0F);
+				GlStateManager.translate(xPos + 8, yPos + 12, 0.0F);
 				GlStateManager.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-				GlStateManager.translate((-(p_184044_1_ + 8)), (-(p_184044_2_ + 12)), 0.0F);
+				GlStateManager.translate((-(xPos + 8)), (-(yPos + 12)), 0.0F);
 			}
 
-			this.mc.getRenderItem().renderItemAndEffectIntoGUI(player, stack, p_184044_1_, p_184044_2_);
+			this.mc.getRenderItem().renderItemAndEffectIntoGUI(player, item, xPos, yPos);
 
 			if (f > 0.0F) {
 				GlStateManager.popMatrix();
 			}
 
-			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, stack, p_184044_1_, p_184044_2_);
+			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, xPos, yPos);
 		}
 	}
 

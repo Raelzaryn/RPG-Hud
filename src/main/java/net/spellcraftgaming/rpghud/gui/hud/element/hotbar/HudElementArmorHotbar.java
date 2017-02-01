@@ -13,6 +13,11 @@ public class HudElementArmorHotbar extends HudElement {
 	}
 
 	@Override
+	public boolean checkConditions() {
+		return this.mc.playerController.shouldDrawHUD();
+	}
+	
+	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();

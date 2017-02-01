@@ -8,7 +8,7 @@ import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 public class ClientTickHandler {
 
 	/**
-	 * Event to change the ingameHud.
+	 * Event to change the ingameGui.
 	 * 
 	 * @param event
 	 */

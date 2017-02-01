@@ -14,7 +14,7 @@ public class HudElementExperienceDefault extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD();
+		return this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override

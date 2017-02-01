@@ -14,6 +14,11 @@ public class HudElementFoodTexture extends HudElementTexture {
 	}
 
 	@Override
+	public boolean checkConditions() {
+		return this.mc.playerController.shouldDrawHUD();
+	}
+	
+	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		int stamina = this.mc.player.getFoodStats().getFoodLevel();

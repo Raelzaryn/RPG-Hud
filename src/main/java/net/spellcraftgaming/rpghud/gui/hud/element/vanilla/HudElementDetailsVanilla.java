@@ -58,7 +58,13 @@ public class HudElementDetailsVanilla extends HudElement {
 		}
 	}
 
-	private void drawArmorDetails(Gui gui) {
+	/**
+	 * Draws the armor details
+	 * 
+	 * @param gui
+	 *            the GUI to draw one
+	 */
+	protected void drawArmorDetails(Gui gui) {
 		this.mc.mcProfiler.startSection("armor_details");
 		if (this.settings.reduce_size)
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
@@ -78,7 +84,15 @@ public class HudElementDetailsVanilla extends HudElement {
 		this.mc.mcProfiler.endSection();
 	}
 
-	private void drawItemDetails(Gui gui, EnumHand hand) {
+	/**
+	 * Draws the held item details
+	 * 
+	 * @param gui
+	 *            the GUI to draw on
+	 * @param hand
+	 *            the hand whose item should be detailed
+	 */
+	protected void drawItemDetails(Gui gui, EnumHand hand) {
 		ItemStack item = this.mc.player.getHeldItem(hand);
 		if (item != null) {
 			if (this.settings.show_itemdurability && item.isItemStackDamageable()) {
@@ -137,7 +151,13 @@ public class HudElementDetailsVanilla extends HudElement {
 		}
 	}
 
-	private void drawArrowCount(Gui gui) {
+	/**
+	 * Draws the amount of arrows the player has in his inventory on the screen
+	 * 
+	 * @param gui
+	 *            the GUI to draw on
+	 */
+	protected void drawArrowCount(Gui gui) {
 		ItemStack item = this.mc.player.getHeldItemMainhand();
 		if (this.settings.show_arrowcount && item != null && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
 			int x = Minecraft.getMinecraft().player.inventory.getSizeInventory();
@@ -187,7 +207,17 @@ public class HudElementDetailsVanilla extends HudElement {
 		this.itemMainHandLastArrow = item.copy();
 	}
 
-	private static ItemStack findAmmo(EntityPlayer player) {
+	/**
+	 * checks if the player has arrows in his inventory and picks the one the
+	 * bow would fire
+	 * 
+	 * @param player
+	 *            the player to search for arrow
+	 * 
+	 * @return returns the ItemStack of the arrow. If none can be found returns
+	 *         ItemStack.EMPTY
+	 */
+	protected static ItemStack findAmmo(EntityPlayer player) {
 		if (isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
 			return player.getHeldItem(EnumHand.OFF_HAND);
 		} else if (isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
@@ -205,6 +235,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		}
 	}
 
+	/** Checks if an ItemStack is an arrow or not */
 	protected static boolean isArrow(ItemStack stack) {
 		return stack.getItem() instanceof ItemArrow;
 	}

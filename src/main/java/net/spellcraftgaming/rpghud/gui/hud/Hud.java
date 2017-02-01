@@ -30,7 +30,10 @@ public abstract class Hud {
 		this.setElements();
 	}
 
-	/** Function to register all elements to this HUD */
+	/**
+	 * Function to register all elements to this HUD.<br>
+	 * Has to be run in order for this HUD to function properly
+	 */
 	public void setElements() {
 		this.elements.put(HOTBAR, setElementHotbar());
 		this.elements.put(CROSSHAIR, setElementCrosshair());
@@ -50,10 +53,12 @@ public abstract class Hud {
 
 	}
 
+	/** get the key (String) of this HUD */
 	public String getHudKey() {
 		return this.hudKey;
 	}
 
+	/** get the name of this HUD */
 	public String getHudName() {
 		return this.hudName;
 	}
@@ -124,6 +129,13 @@ public abstract class Hud {
 		this.elements.get(type).drawElement(gui, zLevel, partialTicks);
 	}
 
+	/**
+	 * Checks whether the element of the specified type should be rendered
+	 * 
+	 * @param type
+	 *            The HudElementType to get checked
+	 * @return true if it should be rendered, false if not
+	 */
 	public boolean checkElementConditions(HudElementType type) {
 		return this.elements.get(type).checkConditions();
 	}

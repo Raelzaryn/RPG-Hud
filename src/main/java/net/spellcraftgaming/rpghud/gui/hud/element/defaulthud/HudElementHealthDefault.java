@@ -16,7 +16,7 @@ public class HudElementHealthDefault extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.showDebugInfo && this.mc.playerController.shouldDrawHUD();
+		return this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
@@ -40,40 +40,40 @@ public class HudElementHealthDefault extends HudElementBarred {
 		int[] color = new int[4];
 		switch (this.settings.color_health) {
 		case 0:
-			color[0] = this.colorRed[0];
-			color[1] = this.colorRed[1];
-			color[2] = this.colorRed[0] + 0x4400;
-			color[3] = this.colorRed[1] + 0x4400;
+			color[0] = HudElementBarred.COLOR_RED[0];
+			color[1] = HudElementBarred.COLOR_RED[1];
+			color[2] = HudElementBarred.COLOR_RED[0] + 0x4400;
+			color[3] = HudElementBarred.COLOR_RED[1] + 0x4400;
 			break;
 		case 1:
-			color[0] = this.colorBlue[0];
-			color[1] = this.colorBlue[1];
-			color[2] = this.colorBlue[0] + 0x4400;
-			color[3] = this.colorBlue[1] + 0x4400;
+			color[0] = HudElementBarred.COLOR_BLUE[0];
+			color[1] = HudElementBarred.COLOR_BLUE[1];
+			color[2] = HudElementBarred.COLOR_BLUE[0] + 0x4400;
+			color[3] = HudElementBarred.COLOR_BLUE[1] + 0x4400;
 			break;
 		case 2:
-			color[0] = this.colorGreen[0];
-			color[1] = this.colorGreen[1];
-			color[2] = this.colorGreen[0] + 0x440000;
-			color[3] = this.colorGreen[1] + 0x440000;
+			color[0] = HudElementBarred.COLOR_GREEN[0];
+			color[1] = HudElementBarred.COLOR_GREEN[1];
+			color[2] = HudElementBarred.COLOR_GREEN[0] + 0x440000;
+			color[3] = HudElementBarred.COLOR_GREEN[1] + 0x440000;
 			break;
 		case 3:
-			color[0] = this.colorYellow[0];
-			color[1] = this.colorYellow[1];
-			color[2] = (this.colorYellow[0] + 0x1100);
-			color[3] = (this.colorYellow[1] + 0x2200);
+			color[0] = HudElementBarred.COLOR_YELLOW[0];
+			color[1] = HudElementBarred.COLOR_YELLOW[1];
+			color[2] = (HudElementBarred.COLOR_YELLOW[0] + 0x1100);
+			color[3] = (HudElementBarred.COLOR_YELLOW[1] + 0x2200);
 			break;
 		case 4:
-			color[0] = this.colorWhite[0];
-			color[1] = this.colorWhite[1];
-			color[2] = this.colorWhite[0] - 0x222222;
-			color[3] = this.colorWhite[1] - 0x222222;
+			color[0] = HudElementBarred.COLOR_WHITE[0];
+			color[1] = HudElementBarred.COLOR_WHITE[1];
+			color[2] = HudElementBarred.COLOR_WHITE[0] - 0x222222;
+			color[3] = HudElementBarred.COLOR_WHITE[1] - 0x222222;
 			break;
 		case 5:
-			color[0] = this.colorGrey[0];
-			color[1] = this.colorGrey[1];
-			color[2] = this.colorGrey[0] - 0x222222;
-			color[3] = this.colorGrey[1] - 0x222222;
+			color[0] = HudElementBarred.COLOR_GREY[0];
+			color[1] = HudElementBarred.COLOR_GREY[1];
+			color[2] = HudElementBarred.COLOR_GREY[0] - 0x222222;
+			color[3] = HudElementBarred.COLOR_GREY[1] - 0x222222;
 		}
 		return color;
 	}
