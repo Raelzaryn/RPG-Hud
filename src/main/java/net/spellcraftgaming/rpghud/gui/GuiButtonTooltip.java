@@ -107,7 +107,6 @@ public class GuiButtonTooltip extends GuiButton {
 	 * @return the button
 	 */
 	public GuiButtonTooltip setTooltip(String tooltip) {
-		System.out.println(tooltip);
 		this.tooltip = tooltip.split("/n");
 		return this;
 	}
@@ -125,10 +124,19 @@ public class GuiButtonTooltip extends GuiButton {
 		return this;
 	}
 
+	/**
+	 * Returns the EnumOptionsMod of this button
+	 * 
+	 * @return the EnumOptionsMod of this button
+	 */
 	public EnumOptionsMod returnOptions() {
 		return this.enumOptions;
 	}
 
+	/**
+	 * Returns the EnumOptionsDebugMod of this button
+	 * @return the EnumOptionsDebugMod of this button
+	 */
 	public EnumOptionsDebugMod returnOptionsDebug() {
 		return this.enumOptionsDebug;
 	}

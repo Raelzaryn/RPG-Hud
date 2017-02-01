@@ -32,18 +32,41 @@ import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
 import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class GuiSettingsModSub extends GuiScreenTooltip {
+
+	/** The group of settings to be displayed in the "general" category */
 	private static final EnumOptionsMod[] optionsGeneral = { BUTTON_TOOLTIP_ENABLED };
+
+	/** The group of settings to be displayed in the "HUD" category */
 	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE };
+
+	/** The group of settings to be displayed in the "colors" category */
 	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_STAMINA, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
+
+	/** The group of settings to be displayed in the "details" category */
 	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, SHOW_HUNGERPREVIEW };
 
+	/** The ModSettings instance */
 	private ModSettings settings;
+
+	/** The GuiScreen which lead to this GUI */
 	private GuiScreen parent;
+
+	/** The current subgui type (category of this GUI */
 	private int subgui;
+
+	/** Constant to for the "general" category */
 	public static final int GENERAL = 0;
+
+	/** Constant to for the hud category */
 	public static final int HUD = 1;
+
+	/** Constant to for the colors category */
 	public static final int COLORS = 2;
+
+	/** Constant to for the details category */
 	public static final int DETAILS = 3;
+
+	/** Constant to for the debug category */
 	public static final int MAIN_DEBUG = 4;
 
 	public GuiSettingsModSub(GuiScreen parent, int subgui) {
@@ -61,14 +84,15 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 			int i = 0;
 			int j = debugTypes.length;
 			for (int k = 0; k < j; k++) {
-				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(200 + k, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), 150, 20, debugTypes[k].getDisplayName()).setTooltip();
+				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(200 + k, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), 150, 20, debugTypes[k].getDisplayName()).setTooltip(I18n.format("tooltip.debug_option", new Object[0]));
 				this.buttonList.add(guismallbutton);
 				i++;
 			}
 		}
-		this.buttonList.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip("tooltip.done"));
+		this.buttonList.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])).setTooltip(I18n.format("tooltip.done", new Object[0])));
 	}
 
+	/** Function to initialize the settings GUI */
 	private void initSettingsGui() {
 		EnumOptionsMod[] options;
 		options = this.getOptions();
@@ -86,18 +110,14 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			if ((button.id < 100) && ((button instanceof GuiButtonTooltip))) {
-				this.settings.setOptionValue(((GuiButtonTooltip) button).returnOptions(), 1);
+				this.settings.setOptionValue(((GuiButtonTooltip) button).returnOptions());
 				button.displayString = this.settings.getKeyBinding(EnumOptionsMod.getEnumOptions(button.id));
 			} else if (button.id >= 200 && button.id < 250) {
 				HudElementType[] types = EnumOptionsDebugMod.getDebugTypes();
 				this.mc.displayGuiScreen(new GuiSettingsModDebug(this.parent, types[button.id - 200]));
 			} else if (button.id == 250) {
-				if (this.subgui >= GENERAL && this.subgui <= MAIN_DEBUG) {
-					this.mc.displayGuiScreen(new GuiSettingsMod(this.parent));
-					this.settings.saveOptions();
-				} else if (this.subgui > MAIN_DEBUG) {
-					// TODO
-				}
+				this.mc.displayGuiScreen(new GuiSettingsMod(this.parent));
+				this.settings.saveOptions();
 			}
 		}
 	}
@@ -105,10 +125,29 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("RPG-Hud Settings", new Object[0]), this.width / 2, 12, 16777215);
+		String title = "";
+		switch (this.subgui) {
+		case GENERAL:
+			title = I18n.format("gui.rpg.general", new Object[0]);
+			break;
+		case HUD:
+			title = I18n.format("gui.rpg.hud", new Object[0]);
+			break;
+		case COLORS:
+			title = I18n.format("gui.rpg.color", new Object[0]);
+			break;
+		case DETAILS:
+			title = I18n.format("gui.rpg.detail", new Object[0]);
+			break;
+		case MAIN_DEBUG:
+			title = I18n.format("gui.rpg.debug", new Object[0]);
+			break;
+		}
+		this.drawCenteredString(this.fontRendererObj, title, this.width / 2, 12, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
+	/** Function to get which category's settings should be displayed */
 	public EnumOptionsMod[] getOptions() {
 		switch (this.subgui) {
 		case GENERAL:

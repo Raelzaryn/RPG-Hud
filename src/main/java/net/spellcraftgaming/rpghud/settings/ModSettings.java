@@ -15,11 +15,16 @@ import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class ModSettings {
 
+	/** Instance of Minecraft */
 	protected Minecraft mc;
+
+	/** The file the settings are read from and wrote into */
 	private File optionsFile;
 
-	private static final String[] COLOR = { "Red", "Blue", "Green", "Yellow", "White", "Grey" };
-	private static final String[] TIME_FORMAT = { "24 Hours", "12 Hours" };
+	/** The translated value of the color settings */
+	private static final String[] COLOR = { "color.red", "color.blue", "color.green", "color.yellow", "color.white", "color.grey" };
+	/** The translated value of the time format setting */
+	private static final String[] TIME_FORMAT = { "time.24", "time.12" };
 
 	public boolean button_tooltip_enabled = true;
 	public boolean show_armor = true;
@@ -36,6 +41,7 @@ public class ModSettings {
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
 
+	/** The active HUD's type */
 	public String hud_type = "vanilla";
 
 	public int color_health = 0;
@@ -51,7 +57,13 @@ public class ModSettings {
 		this.loadOptions();
 	}
 
-	public void setOptionValue(EnumOptionsMod options, int value) {
+	/**
+	 * Increments the setting with the specified EnumOptionsDebugMod
+	 * 
+	 * @param option
+	 *            the EnumOptionsDebugMod to increment
+	 */
+	public void setOptionValue(EnumOptionsMod options) {
 		if (options == EnumOptionsMod.BUTTON_TOOLTIP_ENABLED) {
 			this.button_tooltip_enabled = (!this.button_tooltip_enabled);
 		}
@@ -98,42 +110,42 @@ public class ModSettings {
 			if (this.color_health >= 5) {
 				this.color_health = 0;
 			} else {
-				this.color_health += value;
+				this.color_health++;
 			}
 		}
 		if (options == EnumOptionsMod.COLOR_STAMINA) {
 			if (this.color_stamina >= 5) {
 				this.color_stamina = 0;
 			} else {
-				this.color_stamina += value;
+				this.color_stamina++;
 			}
 		}
 		if (options == EnumOptionsMod.COLOR_AIR) {
 			if (this.color_air >= 5) {
 				this.color_air = 0;
 			} else {
-				this.color_air += value;
+				this.color_air++;
 			}
 		}
 		if (options == EnumOptionsMod.COLOR_EXPERIENCE) {
 			if (this.color_experience >= 5) {
 				this.color_experience = 0;
 			} else {
-				this.color_experience += value;
+				this.color_experience++;
 			}
 		}
 		if (options == EnumOptionsMod.COLOR_JUMPBAR) {
 			if (this.color_jumpbar >= 5) {
 				this.color_jumpbar = 0;
 			} else {
-				this.color_jumpbar += value;
+				this.color_jumpbar++;
 			}
 		}
 		if (options == EnumOptionsMod.CLOCK_TIME_FORMAT) {
 			if (this.clock_time_format >= 1) {
 				this.clock_time_format = 0;
 			} else {
-				this.clock_time_format += value;
+				this.clock_time_format++;
 			}
 		}
 		if (options == EnumOptionsMod.HUD_TYPE) {
@@ -142,6 +154,7 @@ public class ModSettings {
 		saveOptions();
 	}
 
+	/** Increments the active HUD's type */
 	private void incrementHudType() {
 		Set<String> huds = ModRPGHud.instance.huds.keySet();
 		String[] keys = huds.toArray(new String[huds.size()]);
@@ -158,6 +171,7 @@ public class ModSettings {
 
 	}
 
+	/** Returns the ordinal value of this setting */
 	public boolean getOptionOrdinalValue(EnumOptionsMod options) {
 		switch (ModSettings.SwitchOptions.optionIds[options.ordinal()]) {
 		case 0:
@@ -256,6 +270,7 @@ public class ModSettings {
 		}
 	}
 
+	/** Loads the settings from the file */
 	public void loadOptions() {
 		System.out.println(this.hud_type);
 		try {
@@ -338,9 +353,15 @@ public class ModSettings {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(this.hud_type);
 	}
 
+	/**
+	 * Returns the String of the Button for the specified setting
+	 * 
+	 * @param option
+	 *            the option whose button text will be returned
+	 * @return the String
+	 */
 	public String getKeyBinding(EnumOptionsMod par1EnumOptions) {
 		String s = I18n.format(par1EnumOptions.getName(), new Object[0]) + ": ";
 		if (par1EnumOptions.isBoolean()) {
@@ -367,18 +388,34 @@ public class ModSettings {
 		}
 	}
 
+	/**
+	 * Returns the localized name of the specified HUD
+	 * 
+	 * @param hudtype
+	 *            the key of the HUD whose name should be returned
+	 */
 	private static String getHudName(String hudtype) {
 		Hud hud = ModRPGHud.instance.huds.get(hudtype);
 		return hud.getHudName();
 	}
 
-	private static String getTranslation(String[] par0ArrayOfStr, int par1) {
-		if ((par1 < 0) || (par1 >= par0ArrayOfStr.length)) {
-			par1 = 0;
+	/**
+	 * Returns the localized value of a setting
+	 * 
+	 * @param strings
+	 *            the String array to pick the translation from
+	 * @param value
+	 *            the setting's value
+	 * @return the translated value
+	 */
+	private static String getTranslation(String[] strings, int value) {
+		if ((value < 0) || (value >= strings.length)) {
+			value = 0;
 		}
-		return I18n.format(par0ArrayOfStr[par1], new Object[0]);
+		return I18n.format(strings[value], new Object[0]);
 	}
 
+	/** Saves the settings to the file */
 	public void saveOptions() {
 		if (!FMLClientHandler.instance().isLoading()) {
 			try {

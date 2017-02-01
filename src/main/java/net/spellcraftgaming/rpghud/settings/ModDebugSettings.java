@@ -12,7 +12,10 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ModDebugSettings {
 
+	/** Instance of Minecraft*/
 	protected Minecraft mc;
+	
+	/** The file the settings are read from and wrote into*/
 	private File settingFile;
 
 	public boolean forceRenderCrosshair = false;
@@ -71,135 +74,139 @@ public class ModDebugSettings {
 		loadOptions();
 	}
 
-	public void setOptionValue(EnumOptionsDebugMod options) {
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_CROSSHAIR) {
+	/** Toggles the setting with the specified EnumOptionsDebugMod
+	 * 
+	 * @param option the EnumOptionsDebugMod to toggle
+	 */
+	public void setOptionValue(EnumOptionsDebugMod option) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_CROSSHAIR) {
 			this.forceRenderCrosshair = !this.forceRenderCrosshair;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_CROSSHAIR) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_CROSSHAIR) {
 			this.renderVanillaCrosshair = !this.renderVanillaCrosshair;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_CROSSHAIR) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_CROSSHAIR) {
 			this.preventEventCrosshair = !this.preventEventCrosshair;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_CROSSHAIR) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_CROSSHAIR) {
 			this.preventElementRenderCrosshair = !this.preventElementRenderCrosshair;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_ARMOR) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_ARMOR) {
 			this.forceRenderArmor = !this.forceRenderArmor;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_ARMOR) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_ARMOR) {
 			this.renderVanillaArmor = !this.renderVanillaArmor;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_ARMOR) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_ARMOR) {
 			this.preventEventArmor = !this.preventEventArmor;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_ARMOR) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_ARMOR) {
 			this.preventElementRenderArmor = !this.preventElementRenderArmor;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_HOTBAR) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_HOTBAR) {
 			this.forceRenderHotbar = !this.forceRenderHotbar;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_HOTBAR) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_HOTBAR) {
 			this.renderVanillaHotbar = !this.renderVanillaHotbar;
-			System.out.println(options + ":" + this.renderVanillaHotbar);
+			System.out.println(option + ":" + this.renderVanillaHotbar);
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_HOTBAR) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_HOTBAR) {
 			this.preventEventHotbar = !this.preventEventHotbar;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HOTBAR) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HOTBAR) {
 			this.preventElementRenderHotbar = !this.preventElementRenderHotbar;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_AIR) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_AIR) {
 			this.forceRenderAir = !this.forceRenderAir;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_AIR) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_AIR) {
 			this.renderVanillaAir = !this.renderVanillaAir;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_AIR) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_AIR) {
 			this.preventEventAir = !this.preventEventAir;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_AIR) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_AIR) {
 			this.preventElementRenderAir = !this.preventElementRenderAir;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_HEALTH) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_HEALTH) {
 			this.forceRenderHealth = !this.forceRenderHealth;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_HEALTH) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_HEALTH) {
 			this.renderVanillaHealth = !this.renderVanillaHealth;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_HEALTH) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_HEALTH) {
 			this.preventEventHealth = !this.preventEventHealth;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH) {
 			this.preventElementRenderHealth = !this.preventElementRenderHealth;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_FOOD) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_FOOD) {
 			this.forceRenderFood = !this.forceRenderFood;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_FOOD) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_FOOD) {
 			this.renderVanillaFood = !this.renderVanillaFood;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_FOOD) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_FOOD) {
 			this.preventEventFood = !this.preventEventFood;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_FOOD) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_FOOD) {
 			this.preventElementRenderFood = !this.preventElementRenderFood;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_EXPERIENCE) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_EXPERIENCE) {
 			this.forceRenderExp = !this.forceRenderExp;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_EXPERIENCE) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_EXPERIENCE) {
 			this.renderVanillaExp = !this.renderVanillaExp;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_EXPERIENCE) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_EXPERIENCE) {
 			this.preventEventExp = !this.preventEventExp;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_EXPERIENCE) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_EXPERIENCE) {
 			this.preventElementRenderExp = !this.preventElementRenderExp;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_LEVEL) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_LEVEL) {
 			this.forceRenderExpLv = !this.forceRenderExpLv;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_LEVEL) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_LEVEL) {
 			this.renderVanillaExpLv = !this.renderVanillaExpLv;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_LEVEL) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_LEVEL) {
 			this.preventEventExpLv = !this.preventEventExpLv;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_LEVEL) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_LEVEL) {
 			this.preventElementRenderExpLv = !this.preventElementRenderExpLv;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_HEALTH_MOUNT) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_HEALTH_MOUNT) {
 			this.forceRenderHealthMount = !this.forceRenderHealthMount;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_HEALTH_MOUNT) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_HEALTH_MOUNT) {
 			this.renderVanillaHealthMount = !this.renderVanillaHealthMount;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_HEALTH_MOUNT) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_HEALTH_MOUNT) {
 			this.preventEventHealthMount = !this.preventEventHealthMount;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH_MOUNT) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_HEALTH_MOUNT) {
 			this.preventElementRenderHealthMount = !this.preventElementRenderHealthMount;
 		}
 
-		if (options == EnumOptionsDebugMod.FORCE_RENDER_JUMP_BAR) {
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_JUMP_BAR) {
 			this.forceRenderJumpBar = !this.forceRenderJumpBar;
 		}
-		if (options == EnumOptionsDebugMod.RENDER_VANILLA_JUMP_BAR) {
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_JUMP_BAR) {
 			this.renderVanillaJumpBar = !this.renderVanillaJumpBar;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_EVENT_JUMP_BAR) {
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_JUMP_BAR) {
 			this.preventEventJumpBar = !this.preventEventJumpBar;
 		}
-		if (options == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR) {
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR) {
 			this.preventElementRenderJumpBar = !this.preventElementRenderJumpBar;
 		}
 
@@ -373,6 +380,7 @@ public class ModDebugSettings {
 		}
 	}
 
+	/**Returns the ordinal value of this setting*/
 	public boolean getOptionOrdinalValue(EnumOptionsDebugMod options) {
 		switch (ModDebugSettings.SwitchOptions.optionIds[options.ordinal()]) {
 		case 0:
@@ -470,6 +478,7 @@ public class ModDebugSettings {
 		}
 	}
 
+	/** Loads the settings from the file */
 	public void loadOptions() {
 		try {
 			if (!this.settingFile.exists()) {
@@ -619,12 +628,18 @@ public class ModDebugSettings {
 		}
 	}
 
-	public String getKeyBinding(EnumOptionsDebugMod par1EnumOptions) {
-		String s = I18n.format(par1EnumOptions.getEnumString(), new Object[0]) + ": ";
-		boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
+	/** Returns the String of the Button for the specified setting
+	 * 
+	 * @param option the option whose button text will be returned
+	 * @return the String
+	 */
+	public String getKeyBinding(EnumOptionsDebugMod option) {
+		String s = option.getEnumString() + ": ";
+		boolean flag = this.getOptionOrdinalValue(option);
 		return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 	}
 
+	/** Saves the settings to the file*/
 	public void saveOptions() {
 		if (!FMLClientHandler.instance().isLoading()) {
 			try {

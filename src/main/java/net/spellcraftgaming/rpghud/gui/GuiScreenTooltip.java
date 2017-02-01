@@ -5,13 +5,14 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class GuiScreenTooltip extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		drawTooltip();
+		if(ModRPGHud.instance.settings.button_tooltip_enabled) drawTooltip();
 	}
 
 	/**
