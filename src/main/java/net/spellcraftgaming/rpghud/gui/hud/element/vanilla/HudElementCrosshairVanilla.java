@@ -34,8 +34,8 @@ public class HudElementCrosshairVanilla extends HudElement {
 
 				BlockPos blockpos = raytraceresult.getBlockPos();
 
-				net.minecraft.block.state.IBlockState state = this.mc.world.getBlockState(blockpos);
-				if (!state.getBlock().hasTileEntity(state) || !(this.mc.world.getTileEntity(blockpos) instanceof IInventory)) {
+				net.minecraft.block.state.IBlockState state = this.mc.theWorld.getBlockState(blockpos);
+				if (!state.getBlock().hasTileEntity(state) || !(this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory)) {
 					return;
 				}
 			}
@@ -43,7 +43,7 @@ public class HudElementCrosshairVanilla extends HudElement {
 			int l = res.getScaledWidth();
 			int i1 = res.getScaledHeight();
 
-			if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !this.mc.player.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
+			if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !this.mc.thePlayer.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(l / 2, i1 / 2, zLevel);
 				Entity entity = this.mc.getRenderViewEntity();
@@ -58,7 +58,7 @@ public class HudElementCrosshairVanilla extends HudElement {
 				gui.drawTexturedModalRect(l / 2 - 7, i1 / 2 - 7, 0, 0, 16, 16);
 
 				if (this.mc.gameSettings.attackIndicator == 1) {
-					float f = this.mc.player.getCooledAttackStrength(0.0F);
+					float f = this.mc.thePlayer.getCooledAttackStrength(0.0F);
 
 					if (f < 1.0F) {
 						int i = i1 / 2 - 7 + 16;

@@ -24,8 +24,8 @@ public class HudElementFoodModern extends HudElementBarred{
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int[] staminaColor = getColor(this.settings.color_stamina);
-		int stamina = this.mc.player.getFoodStats().getFoodLevel();
-		ItemStack currentItem = this.mc.player.getHeldItemMainhand();
+		int stamina = this.mc.thePlayer.getFoodStats().getFoodLevel();
+		ItemStack currentItem = this.mc.thePlayer.getHeldItemMainhand();
 		
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
@@ -40,8 +40,8 @@ public class HudElementFoodModern extends HudElementBarred{
 		}
 		int posX = (this.settings.render_player_face ? 24 : 2) + (this.settings.show_numbers_health ? xOffset - 1: 0);
 		
-		if (currentItem != null && currentItem.getItem() instanceof ItemFood && this.mc.player.getFoodStats().needFood() && this.settings.show_hunger_preview) {
-			float value = ((ItemFood) this.mc.player.getHeldItemMainhand().getItem()).getHealAmount(this.mc.player.getHeldItemMainhand());
+		if (currentItem != null && currentItem.getItem() instanceof ItemFood && this.mc.thePlayer.getFoodStats().needFood() && this.settings.show_hunger_preview) {
+			float value = ((ItemFood) this.mc.thePlayer.getHeldItemMainhand().getItem()).getHealAmount(this.mc.thePlayer.getHeldItemMainhand());
 			int bonusHunger = (int) (value + stamina);
 			if (bonusHunger > 20)
 				bonusHunger = 20;
@@ -49,7 +49,7 @@ public class HudElementFoodModern extends HudElementBarred{
 		}
 		drawTetragon(posX, posX, 13, 13, 70, 58, 8, 8, 0xA0000000);
 		drawTetragon(posX + 2, posX + 2, 13, 13, 64, 54, 6, 6, 0x20FFFFFF);
-		if (this.mc.player.isPotionActive(MobEffects.HUNGER)) {
+		if (this.mc.thePlayer.isPotionActive(MobEffects.HUNGER)) {
 			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, staminaColor[1]);
 		} else {
 			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, staminaColor[0]);

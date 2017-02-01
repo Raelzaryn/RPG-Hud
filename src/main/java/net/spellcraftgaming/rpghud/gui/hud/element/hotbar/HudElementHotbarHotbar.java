@@ -50,14 +50,14 @@ public class HudElementHotbarHotbar extends HudElement {
 			for (int l = 0; l < 9; ++l) {
 				int i1 = 50 + l * 20 + 2;
 				int j1 = res.getScaledHeight() - 16 - 19 - 9;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory.get(l));
+				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory[l]);
 			}
 
 			int l1 = res.getScaledHeight() - 47 + 3;
 			this.renderHotbarItem(49 + 184, l1, partialTicks, entityplayer, itemstack);
 
 			if (this.mc.gameSettings.attackIndicator == 2) {
-				float f1 = this.mc.player.getCooledAttackStrength(0.0F);
+				float f1 = this.mc.thePlayer.getCooledAttackStrength(0.0F);
 
 				if (f1 < 1.0F) {
 					int i2 = res.getScaledHeight() - 20;
@@ -96,8 +96,8 @@ public class HudElementHotbarHotbar extends HudElement {
 	 *            the item (via ItemStack)
 	 */
 	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
-		if (!item.isEmpty()) {
-			float f = item.getAnimationsToGo() - partialTicks;
+		if (item != null) {
+			float f = item.animationsToGo - partialTicks;
 
 			if (f > 0.0F) {
 				GlStateManager.pushMatrix();

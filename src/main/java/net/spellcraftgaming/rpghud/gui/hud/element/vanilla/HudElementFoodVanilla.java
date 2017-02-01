@@ -19,7 +19,7 @@ public class HudElementFoodVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() == null;
+		return this.mc.thePlayer.getRidingEntity() == null;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class HudElementFoodVanilla extends HudElement {
 		boolean unused = false;// Unused flag in vanilla, seems to be part of a
 								// 'fade out' mechanic
 
-		FoodStats stats = this.mc.player.getFoodStats();
+		FoodStats stats = this.mc.thePlayer.getFoodStats();
 		int level = stats.getFoodLevel();
 
 		for (int i = 0; i < 10; ++i) {
@@ -45,7 +45,7 @@ public class HudElementFoodVanilla extends HudElement {
 			int icon = 16;
 			byte background = 0;
 
-			if (this.mc.player.isPotionActive(MobEffects.HUNGER)) {
+			if (this.mc.thePlayer.isPotionActive(MobEffects.HUNGER)) {
 				icon += 36;
 				background = 13;
 			}

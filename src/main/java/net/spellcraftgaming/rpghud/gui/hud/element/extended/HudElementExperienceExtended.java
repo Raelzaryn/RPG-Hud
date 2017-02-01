@@ -19,10 +19,10 @@ public class HudElementExperienceExtended extends HudElementBarred {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int[] experienceColor = getColor(this.settings.color_experience);
-		int exp = (int) (this.mc.player.xpBarCap() * this.mc.player.experience);
-		double full = 100D / this.mc.player.xpBarCap();
+		int exp = (int) (this.mc.thePlayer.xpBarCap() * this.mc.thePlayer.experience);
+		double full = 100D / this.mc.thePlayer.xpBarCap();
 		drawCustomBar(49, 35, 88, 8, exp * full, 0, 0, experienceColor[0], experienceColor[1]);
-		String stringExp = exp + "/" + this.mc.player.xpBarCap();
+		String stringExp = exp + "/" + this.mc.thePlayer.xpBarCap();
 		if (this.settings.show_numbers_experience) {
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
 			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, 180, 74, -1);

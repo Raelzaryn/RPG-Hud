@@ -14,7 +14,7 @@ public class HudElementExperienceVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.player.isRidingHorse();
+		return !this.mc.thePlayer.isRidingHorse();
 	}
 
 	@Override
@@ -25,12 +25,12 @@ public class HudElementExperienceVanilla extends HudElement {
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
-			int cap = this.mc.player.xpBarCap();
+			int cap = this.mc.thePlayer.xpBarCap();
 			int left = width / 2 - 91;
 
 			if (cap > 0) {
 				short barWidth = 182;
-				int filled = (int) (this.mc.player.experience * (barWidth + 1));
+				int filled = (int) (this.mc.thePlayer.experience * (barWidth + 1));
 				int top = height - 32 + 3;
 				gui.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
 

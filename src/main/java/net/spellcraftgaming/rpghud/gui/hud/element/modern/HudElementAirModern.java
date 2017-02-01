@@ -16,7 +16,7 @@ public class HudElementAirModern extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.isInsideOfMaterial(Material.WATER) && this.mc.playerController.shouldDrawHUD();
+		return this.mc.thePlayer.isInsideOfMaterial(Material.WATER) && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class HudElementAirModern extends HudElementBarred {
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		int[] airColor = this.getColor(this.settings.color_air);
-		int airAmount = this.mc.player.getAir();
+		int airAmount = this.mc.thePlayer.getAir();
 		GlStateManager.disableLighting();
 		drawRect(width / 2 - 72, height - 78, 144, 2, 0xA0000000);
 		drawRect(width / 2 - 72, height - 70, 144, 2, 0xA0000000);

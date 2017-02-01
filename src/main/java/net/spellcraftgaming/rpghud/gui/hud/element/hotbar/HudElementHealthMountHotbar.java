@@ -14,7 +14,7 @@ public class HudElementHealthMountHotbar extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return this.mc.thePlayer.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class HudElementHealthMountHotbar extends HudElementBarred {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int[] colorHealth = getColor(this.settings.color_health);
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		drawCustomBar(49, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, 0, 0, colorHealth[0], colorHealth[1]);

@@ -20,7 +20,7 @@ public class HudElementLevelModern extends HudElement{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		String level = String.valueOf(this.mc.player.experienceLevel);
+		String level = String.valueOf(this.mc.thePlayer.experienceLevel);
 		int width = 18;
 		if(this.mc.fontRendererObj.getStringWidth(level) > (width + 2)) width = this.mc.fontRendererObj.getStringWidth(level) + 2;
 		GlStateManager.enableAlpha();

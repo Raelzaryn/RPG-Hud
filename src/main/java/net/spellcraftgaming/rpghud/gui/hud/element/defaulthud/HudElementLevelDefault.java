@@ -19,7 +19,7 @@ public class HudElementLevelDefault extends HudElement {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GlStateManager.disableBlend();
-		String level = String.valueOf(this.mc.player.experienceLevel);
+		String level = String.valueOf(this.mc.thePlayer.experienceLevel);
 		this.mc.fontRendererObj.drawStringWithShadow(level, 38 - this.mc.fontRendererObj.getStringWidth(level) / 2, 38, 0x80FF20);
 		GlStateManager.enableBlend();
 	}

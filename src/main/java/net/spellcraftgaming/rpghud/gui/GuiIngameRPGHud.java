@@ -116,7 +116,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		GlStateManager.enableBlend();
 
 		if (Minecraft.isFancyGraphicsEnabled()) {
-			renderVignette(this.mc.player.getBrightness(partialTicks), this.res);
+			renderVignette(this.mc.thePlayer.getBrightness(partialTicks), this.res);
 		} else {
 			GlStateManager.enableDepth();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
@@ -124,7 +124,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 		renderHelmet(this.res, partialTicks);
 
-		if (!this.mc.player.isPotionActive(MobEffects.NAUSEA)) {
+		if (!this.mc.thePlayer.isPotionActive(MobEffects.NAUSEA)) {
 			renderPortal(this.res, partialTicks);
 		}
 
@@ -166,9 +166,9 @@ public class GuiIngameRPGHud extends GuiIngame {
 		renderSubtitles();
 		renderTitle(width, height, partialTicks);
 
-		Scoreboard scoreboard = this.mc.world.getScoreboard();
+		Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
 		ScoreObjective objective = null;
-		ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(this.mc.player.getName());
+		ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(this.mc.thePlayer.getName());
 		if (scoreplayerteam != null) {
 			int slot = scoreplayerteam.getChatFormat().getColorIndex();
 			if (slot >= 0)
@@ -238,13 +238,13 @@ public class GuiIngameRPGHud extends GuiIngame {
 		if (pre(HELMET))
 			return;
 
-		ItemStack itemstack = this.mc.player.inventory.armorItemInSlot(3);
+		ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
 
 		if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() != null) {
 			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN)) {
 				renderPumpkinOverlay(res);
 			} else {
-				itemstack.getItem().renderHelmetOverlay(itemstack, this.mc.player, res, partialTicks);
+				itemstack.getItem().renderHelmetOverlay(itemstack, this.mc.thePlayer, res, partialTicks);
 			}
 		}
 
@@ -256,7 +256,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		if (pre(PORTAL))
 			return;
 
-		float f1 = this.mc.player.prevTimeInPortal + (this.mc.player.timeInPortal - this.mc.player.prevTimeInPortal) * partialTicks;
+		float f1 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
 
 		if (f1 > 0.0F) {
 			renderPortal(f1, res);
@@ -267,11 +267,11 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 	/** Function that renders the sleep fade screen overlay */
 	private void renderSleepFade(int width, int height) {
-		if (this.mc.player.getSleepTimer() > 0) {
+		if (this.mc.thePlayer.getSleepTimer() > 0) {
 			this.mc.mcProfiler.startSection("sleep");
 			GlStateManager.disableDepth();
 			GlStateManager.disableAlpha();
-			int sleepTime = this.mc.player.getSleepTimer();
+			int sleepTime = this.mc.thePlayer.getSleepTimer();
 			float opacity = sleepTime / 100.0F;
 
 			if (opacity > 1.0F) {
@@ -326,7 +326,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 			}
 
 			this.mc.mcProfiler.endSection();
-		} else if (this.mc.player.isSpectator()) {
+		} else if (this.mc.thePlayer.isSpectator()) {
 			this.spectatorGui.renderSelectedItem(res);
 		}
 	}
@@ -344,7 +344,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		ArrayList<String> listR = new ArrayList<String>();
 
 		if (this.mc.isDemo()) {
-			long time = this.mc.world.getTotalWorldTime();
+			long time = this.mc.theWorld.getTotalWorldTime();
 			if (time >= 120500L) {
 				listR.add(I18n.format("demo.demoExpired"));
 			} else {
@@ -407,7 +407,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 			if (this.titlesTimer <= this.titleFadeOut)
 				opacity = (int) (age * 255.0F / this.titleFadeOut);
 
-			opacity = MathHelper.clamp(opacity, 0, 255);
+			opacity = MathHelper.clamp_int(opacity, 0, 255);
 
 			if (opacity > 8) {
 				GlStateManager.pushMatrix();
@@ -433,14 +433,14 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 	/** Renders the player list via it's class */
 	private void renderPlayerList(int width) {
-		ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-		NetHandlerPlayClient handler = this.mc.player.connection;
+		ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
+		NetHandlerPlayClient handler = this.mc.thePlayer.connection;
 
 		if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null)) {
 			this.overlayPlayerList.updatePlayerList(true);
 			if (pre(PLAYER_LIST))
 				return;
-			this.overlayPlayerList.renderPlayerlist(width, this.mc.world.getScoreboard(), scoreobjective);
+			this.overlayPlayerList.renderPlayerlist(width, this.mc.theWorld.getScoreboard(), scoreobjective);
 			post(PLAYER_LIST);
 		} else {
 			this.overlayPlayerList.updatePlayerList(false);
@@ -497,18 +497,18 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Returns the overlayMessageTime variable */
-	public int getOverlayMessageTime() {
-		return this.overlayMessageTime;
+	public boolean getRecordIsPlaying() {
+		return this.recordIsPlaying;
 	}
 
 	/** Returns the animateOverlayMessageColor variable */
-	public boolean getAnimateOverlayMessageColor() {
-		return this.animateOverlayMessageColor;
+	public int getRecordPlayingUpFor() {
+		return this.recordPlayingUpFor;
 	}
 
-	/** Return the overlayMessage variable */
-	public String getOverlayMessage() {
-		return this.overlayMessage;
+	/** Return the currently playing record */
+	public String getRecordPlaying() {
+		return this.recordPlaying;
 	}
 
 	/** Returns the chat instance as a GuiNewChat object */

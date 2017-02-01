@@ -22,10 +22,10 @@ public class HudElementHealthTexture extends HudElementTexture {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		int health = MathHelper.ceiling_float_int(this.mc.thePlayer.getHealth());
+		IAttributeInstance attrMaxHealth = this.mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		int maxHealth = (int) attrMaxHealth.getAttributeValue();
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (this.mc.thePlayer.isPotionActive(MobEffects.POISON)) {
 			gui.drawTexturedModalRect(49, 9, 34, 222, (int) (110.0D * ((double) health / (double) maxHealth)), 12);
 		} else {
 			gui.drawTexturedModalRect(49, 9, 0, 100, (int) (110.0D * ((double) health / (double) maxHealth)), 12);

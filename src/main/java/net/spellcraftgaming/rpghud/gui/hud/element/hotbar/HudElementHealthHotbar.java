@@ -18,7 +18,7 @@ public class HudElementHealthHotbar extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD() && !(this.mc.player.getRidingEntity() instanceof EntityLivingBase);
+		return this.mc.playerController.shouldDrawHUD() && !(this.mc.thePlayer.getRidingEntity() instanceof EntityLivingBase);
 	}
 
 	@Override
@@ -26,10 +26,10 @@ public class HudElementHealthHotbar extends HudElementBarred {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int[] healthColor = getColor(this.settings.color_health);
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		int health = MathHelper.ceiling_float_int(this.mc.thePlayer.getHealth());
+		IAttributeInstance attrMaxHealth = this.mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		int maxHealth = (int) attrMaxHealth.getAttributeValue();
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (this.mc.thePlayer.isPotionActive(MobEffects.POISON)) {
 			drawCustomBar(49, height - 56, 200, 10, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[2], healthColor[3]);
 		} else {
 			drawCustomBar(49, height - 56, 200, 10, (double) health / (double) maxHealth * 100D, 0, 0, healthColor[0], healthColor[1]);
