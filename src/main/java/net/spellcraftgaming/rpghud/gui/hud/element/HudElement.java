@@ -208,5 +208,6 @@ public abstract class HudElement {
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
 		GlStateManager.enableDepth();
+		GlStateManager.color(1f, 1f, 1f);
 	}
 }
