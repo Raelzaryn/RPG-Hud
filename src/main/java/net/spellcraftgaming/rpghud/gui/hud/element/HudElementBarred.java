@@ -313,6 +313,7 @@ public abstract class HudElementBarred extends HudElement {
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
+		GlStateManager.color(1f, 1f, 1f);
 	}
 
 }
