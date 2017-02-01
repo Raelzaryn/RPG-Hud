@@ -20,7 +20,6 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiOverlayDebug;
 import net.minecraft.client.gui.ScaledResolution;
@@ -40,6 +39,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,7 +48,7 @@ import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod.EnumOptionsType;
 
-public class GuiIngameRPGHud extends GuiIngame {
+public class GuiIngameRPGHud extends GuiIngameForge {
 
 	/** Constant for the color white */
 	private static final int WHITE = 0xFFFFFF;
@@ -125,7 +125,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 		renderHelmet(this.res, partialTicks);
 
 		if (!this.mc.thePlayer.isPotionActive(MobEffects.NAUSEA)) {
-			renderPortal(this.res, partialTicks);
+			renderPortalMod(this.res, partialTicks);
 		}
 
 		this.drawElement(HudElementType.WIDGET, partialTicks);
@@ -138,7 +138,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 
 		this.drawElement(HudElementType.CROSSHAIR, partialTicks);
 
-		renderBossHealth();
+		renderBossHealthMod();
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.mc.playerController.shouldDrawHUD() && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
@@ -151,20 +151,20 @@ public class GuiIngameRPGHud extends GuiIngame {
 			this.drawElement(HudElementType.DETAILS, partialTicks);
 		}
 
-		renderSleepFade(width, height);
+		renderSleepFadeMod(width, height);
 
 		this.drawElement(HudElementType.EXPERIENCE, partialTicks);
 		this.drawElement(HudElementType.LEVEL, partialTicks);
 
 		this.drawElement(HudElementType.JUMP_BAR, partialTicks);
 
-		renderToolHighlight(this.res);
+		renderToolHighlightMod(this.res);
 		renderHUDText(width);
-		renderFPSGraph();
-		renderPotionIcons(this.res);
+		renderFPSGraphMod();
+		renderPotionIconsMod(this.res);
 		this.drawElement(HudElementType.RECORD_OVERLAY, partialTicks);
 		renderSubtitles();
-		renderTitle(width, height, partialTicks);
+		renderTitleMod(width, height, partialTicks);
 
 		Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
 		ScoreObjective objective = null;
@@ -204,7 +204,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Function that calls the renderPotionIcons function of GuiIngame */
-	private void renderPotionIcons(ScaledResolution resolution) {
+	private void renderPotionIconsMod(ScaledResolution resolution) {
 		if (pre(POTION_ICONS))
 			return;
 		super.renderPotionEffects(resolution);
@@ -220,7 +220,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Function that renders the boss health via overlayBoss */
-	private void renderBossHealth() {
+	private void renderBossHealthMod() {
 		if (pre(BOSSHEALTH))
 			return;
 		bind(Gui.ICONS);
@@ -252,7 +252,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Function that renders the portal screen overlay */
-	private void renderPortal(ScaledResolution res, float partialTicks) {
+	private void renderPortalMod(ScaledResolution res, float partialTicks) {
 		if (pre(PORTAL))
 			return;
 
@@ -266,7 +266,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Function that renders the sleep fade screen overlay */
-	private void renderSleepFade(int width, int height) {
+	private void renderSleepFadeMod(int width, int height) {
 		if (this.mc.thePlayer.getSleepTimer() > 0) {
 			this.mc.mcProfiler.startSection("sleep");
 			GlStateManager.disableDepth();
@@ -289,7 +289,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	/**
 	 * Function that renders the tool highlight on the screen upn equipping it
 	 */
-	private void renderToolHighlight(ScaledResolution res) {
+	private void renderToolHighlightMod(ScaledResolution res) {
 		if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator()) {
 			this.mc.mcProfiler.startSection("toolHighlight");
 
@@ -386,7 +386,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Renders the FPS graph of the debug overlay */
-	private void renderFPSGraph() {
+	private void renderFPSGraphMod() {
 		if (this.mc.gameSettings.showDebugInfo && this.mc.gameSettings.showLagometer && !pre(FPS_GRAPH)) {
 			this.debugOverlay.renderLagometer();
 			post(FPS_GRAPH);
@@ -394,7 +394,7 @@ public class GuiIngameRPGHud extends GuiIngame {
 	}
 
 	/** Renders the title and subtitle */
-	private void renderTitle(int width, int height, float partialTicks) {
+	private void renderTitleMod(int width, int height, float partialTicks) {
 		if (this.titlesTimer > 0) {
 			this.mc.mcProfiler.startSection("titleAndSubtitle");
 			float age = this.titlesTimer - partialTicks;
