@@ -36,6 +36,9 @@ public class ModRPGHud {
 	// TODO 3.x: Add compass element
 	// TODO 3.x: Simple debug settings configuration
 	// TODO 3.x: Distance checker
+	// TODO 3.x: Compass
+	// TODO 3.x: FPS
+	// TODO 3.x: Entity inspect
 
 	/** The mod ID of this mod */
 	public static final String MOD_ID = "rpghud";
