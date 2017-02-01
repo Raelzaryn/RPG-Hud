@@ -1,0 +1,15 @@
+{
+  "homepage": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
+  "promos": {
+    "1.11-latest"     : "3.1",
+    "1.11-recomended" : "3.1",
+    "1.10.2-latest"     : "3.1",
+    "1.10.2-recomended" : "3.1"
+  },
+  "1.11" : {
+    "3.1" : "Initial release of the mod remake"
+  },
+  "1.10.2" : {
+    "3.1" : "Initial release of the mod remake"
+  }
+}
