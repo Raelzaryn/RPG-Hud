@@ -141,7 +141,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 		renderBossHealthMod();
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		if (this.mc.playerController.shouldDrawHUD() && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+		if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
 			this.drawElement(HudElementType.HEALTH, partialTicks);
 			this.drawElement(HudElementType.ARMOR, partialTicks);
 			this.drawElement(HudElementType.FOOD, partialTicks);
@@ -149,6 +149,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 			this.drawElement(HudElementType.AIR, partialTicks);
 			this.drawElement(HudElementType.CLOCK, partialTicks);
 			this.drawElement(HudElementType.DETAILS, partialTicks);
+			this.drawElement(HudElementType.COMPASS, partialTicks);
 		}
 
 		renderSleepFadeMod(width, height);
@@ -158,6 +159,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
 		this.drawElement(HudElementType.JUMP_BAR, partialTicks);
 
+		
 		renderToolHighlightMod(this.res);
 		renderHUDText(width);
 		renderFPSGraphMod();

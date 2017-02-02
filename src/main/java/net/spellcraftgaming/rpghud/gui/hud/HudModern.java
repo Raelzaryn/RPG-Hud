@@ -5,6 +5,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementAirModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementArmorModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementClockModern;
+import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementCompassModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementDetailsModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementExperienceModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementFoodModern;
@@ -92,5 +93,10 @@ public class HudModern extends HudDefault {
 	@Override
 	public HudElement setElementWidget() {
 		return new HudElementWidgetModern();
+	}
+	
+	@Override
+	protected HudElement setElementCompass() {
+		return new HudElementCompassModern();
 	}
 }

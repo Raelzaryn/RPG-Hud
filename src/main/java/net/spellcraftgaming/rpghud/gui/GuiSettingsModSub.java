@@ -8,7 +8,10 @@ import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_HEALTH;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_JUMPBAR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_STAMINA;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_CLOCK;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_COMPASS;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_COMPASS_COLOR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_IMMERSIVE_COMPASS;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_TIMECOLOR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.HUD_TYPE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.REDUCE_SIZE;
@@ -43,7 +46,7 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_STAMINA, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
 
 	/** The group of settings to be displayed in the "details" category */
-	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, SHOW_HUNGERPREVIEW };
+	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, SHOW_HUNGERPREVIEW };
 
 	/** The ModSettings instance */
 	private ModSettings settings;
