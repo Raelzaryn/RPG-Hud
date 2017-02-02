@@ -27,16 +27,24 @@ public class ModSettings {
 	private static final String[] TIME_FORMAT = { "time.24", "time.12" };
 
 	public boolean button_tooltip_enabled = true;
+	
 	public boolean show_armor = true;
 	public boolean show_arrowcount = true;
 	public boolean show_itemdurability = true;
 	public boolean show_blockcount = true;
+	
 	public boolean show_numbers_health = true;
 	public boolean show_numbers_stamina = true;
 	public boolean show_numbers_experience = true;
+	
 	public boolean enable_clock = true;
 	public boolean enable_clock_color = true;
 	public boolean enable_immersive_clock = false;
+	
+	public boolean enable_compass = true;
+	public boolean enable_compass_color = true;
+	public boolean enable_immersive_compass = false;
+	
 	public boolean render_player_face = true;
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
@@ -96,6 +104,15 @@ public class ModSettings {
 		}
 		if (options == EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK) {
 			this.enable_immersive_clock = (!this.enable_immersive_clock);
+		}
+		if (options == EnumOptionsMod.ENABLE_COMPASS) {
+			this.enable_compass = (!this.enable_compass);
+		}
+		if (options == EnumOptionsMod.ENABLE_COMPASS_COLOR) {
+			this.enable_compass_color = (!this.enable_compass_color);
+		}
+		if (options == EnumOptionsMod.ENABLE_IMMERSIVE_COMPASS) {
+			this.enable_immersive_compass = (!this.enable_immersive_compass);
 		}
 		if (options == EnumOptionsMod.RENDER_PLAYER_FACE) {
 			this.render_player_face = (!this.render_player_face);
@@ -202,6 +219,12 @@ public class ModSettings {
 			return this.show_blockcount;
 		case 13:
 			return this.reduce_size;
+		case 14:
+			return this.enable_compass;
+		case 15:
+			return this.enable_compass_color;
+		case 16:
+			return this.enable_immersive_compass;
 		default:
 			return false;
 		}
@@ -267,12 +290,23 @@ public class ModSettings {
 				optionIds[EnumOptionsMod.REDUCE_SIZE.ordinal()] = 13;
 			} catch (NoSuchFieldError e) {
 			}
+			try {
+				optionIds[EnumOptionsMod.ENABLE_COMPASS.ordinal()] = 14;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsMod.ENABLE_COMPASS_COLOR.ordinal()] = 15;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsMod.ENABLE_IMMERSIVE_COMPASS.ordinal()] = 16;
+			} catch (NoSuchFieldError e) {
+			}
 		}
 	}
 
 	/** Loads the settings from the file */
 	public void loadOptions() {
-		System.out.println(this.hud_type);
 		try {
 			if (!this.optionsFile.exists()) {
 				return;
@@ -326,6 +360,15 @@ public class ModSettings {
 					}
 					if (string[0].equals("enable_immersive_clock")) {
 						this.enable_immersive_clock = string[1].equals("true");
+					}
+					if (string[0].equals("enable_compass")) {
+						this.enable_compass = string[1].equals("true");
+					}
+					if (string[0].equals("enable_compass_color")) {
+						this.enable_compass_color = string[1].equals("true");
+					}
+					if (string[0].equals("enable_immersive_compass")) {
+						this.enable_immersive_compass = string[1].equals("true");
 					}
 					if (string[0].equals("render_player_face")) {
 						this.render_player_face = string[1].equals("true");
@@ -438,6 +481,9 @@ public class ModSettings {
 				exception.println("enable_clock:" + this.enable_clock);
 				exception.println("enable_clock_color:" + this.enable_clock_color);
 				exception.println("enable_immersive_clock:" + this.enable_immersive_clock);
+				exception.println("enable_compass:" + this.enable_compass);
+				exception.println("enable_compass_color:" + this.enable_compass_color);
+				exception.println("enable_immersive_compass:" + this.enable_immersive_compass);
 				exception.println("render_player_face:" + this.render_player_face);
 				exception.println("show_hunger_preview:" + this.show_hunger_preview);
 				exception.println("reduce_size:" + this.reduce_size);

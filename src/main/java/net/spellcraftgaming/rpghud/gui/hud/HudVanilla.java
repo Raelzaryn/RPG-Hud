@@ -85,4 +85,9 @@ public class HudVanilla extends Hud {
 	protected HudElement setElementChat() {
 		return new HudElementChatVanilla();
 	}
+
+	@Override
+	protected HudElement setElementCompass() {
+		return new HudElementCompassVanilla();
+	}
 }
