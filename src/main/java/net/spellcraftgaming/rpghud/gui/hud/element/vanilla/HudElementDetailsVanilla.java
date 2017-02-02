@@ -241,7 +241,10 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	/** Checks if an ItemStack is an arrow or not */
 	protected static boolean isArrow(ItemStack stack) {
-		return stack.getItem() instanceof ItemArrow;
+		if(stack != null && !stack.isEmpty()) {
+			return stack.getItem() instanceof ItemArrow;
+		}
+		return false;
 	}
 
 }
