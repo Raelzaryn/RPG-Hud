@@ -24,7 +24,6 @@ public class HudElementAirModern extends HudElementBarred {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
-		int[] airColor = this.getColor(this.settings.color_air);
 		int airAmount = this.mc.thePlayer.getAir();
 		GlStateManager.disableLighting();
 		drawRect(width / 2 - 72, height - 78, 144, 2, 0xA0000000);
@@ -32,6 +31,6 @@ public class HudElementAirModern extends HudElementBarred {
 		drawRect(width / 2 - 72, height - 76, 2, 6, 0xA0000000);
 		drawRect(width / 2 + 70, height - 76, 2, 6, 0xA0000000);
 		drawRect(width / 2 - 70, height - 76, 140, 6, 0x20FFFFFF);
-		drawRect(width / 2 - 70, height - 76, (int) (140 * (airAmount / 300.0D)), 6, airColor[0]);
+		drawRect(width / 2 - 70, height - 76, (int) (140 * (airAmount / 300.0D)), 6, this.settings.color_air);
 	}
 }

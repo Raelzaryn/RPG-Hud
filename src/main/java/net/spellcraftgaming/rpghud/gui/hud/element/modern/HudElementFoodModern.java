@@ -23,9 +23,7 @@ public class HudElementFoodModern extends HudElementBarred{
 	
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int[] staminaColor = getColor(this.settings.color_stamina);
 		int stamina = this.mc.thePlayer.getFoodStats().getFoodLevel();
-		ItemStack currentItem = this.mc.thePlayer.getHeldItemMainhand();
 		
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
@@ -40,57 +38,26 @@ public class HudElementFoodModern extends HudElementBarred{
 		}
 		int posX = (this.settings.render_player_face ? 24 : 2) + (this.settings.show_numbers_health ? xOffset - 1: 0);
 		
-		if (currentItem != null && currentItem.getItem() instanceof ItemFood && this.mc.thePlayer.getFoodStats().needFood() && this.settings.show_hunger_preview) {
-			float value = ((ItemFood) this.mc.thePlayer.getHeldItemMainhand().getItem()).getHealAmount(this.mc.thePlayer.getHeldItemMainhand());
+		drawTetragon(posX, posX, 13, 13, 70, 58, 8, 8, 0xA0000000);
+		drawTetragon(posX + 2, posX + 2, 13, 13, 64, 54, 6, 6, 0x20FFFFFF);
+		
+		ItemStack itemMain = this.mc.thePlayer.getHeldItemMainhand();
+		ItemStack itemSec = this.mc.thePlayer.getHeldItemOffhand();
+		if ((itemMain != null && itemMain.getItem() instanceof ItemFood) || (itemSec != null && itemSec.getItem() instanceof ItemFood) && this.mc.thePlayer.getFoodStats().needFood() && this.settings.show_hunger_preview) {
+			float value;
+			if(itemMain.getItem() instanceof ItemFood) 
+				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
+			else value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
 			int bonusHunger = (int) (value + stamina);
 			if (bonusHunger > 20)
 				bonusHunger = 20;
-			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)bonusHunger / (double) 20)), (int) (63 * ((double)bonusHunger / (double) 20)) - 10, 6, 6, staminaColor[2]);
+			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)bonusHunger / (double) 20)), (int) (63 * ((double)bonusHunger / (double) 20)) - 10, 6, 6, offsetColor(this.settings.color_stamina, OFFSET_PREVIEW));
 		}
-		drawTetragon(posX, posX, 13, 13, 70, 58, 8, 8, 0xA0000000);
-		drawTetragon(posX + 2, posX + 2, 13, 13, 64, 54, 6, 6, 0x20FFFFFF);
 		if (this.mc.thePlayer.isPotionActive(MobEffects.HUNGER)) {
-			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, staminaColor[1]);
+			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, this.settings.color_hunger);
 		} else {
-			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, staminaColor[0]);
+			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, this.settings.color_stamina);
 		}
-	}
-
-	@Override
-	public int[] getColor(int setting) {
-		int[] color = new int[3];
-		switch (this.settings.color_stamina) {
-		case 0:
-			color[0] = HudElementBarred.COLOR_RED[0];
-			color[1] = HudElementBarred.COLOR_RED[0] + 0x4400;
-			color[2] = HudElementBarred.COLOR_RED[0] + 0x330000;
-			break;
-		case 1:
-			color[0] = HudElementBarred.COLOR_BLUE[0];
-			color[1] = HudElementBarred.COLOR_BLUE[0] + 0x4400;
-			color[2] = HudElementBarred.COLOR_BLUE[0] + 0x1D3D;
-			break;
-		case 2:
-			color[0] = HudElementBarred.COLOR_GREEN[0];
-			color[1] = HudElementBarred.COLOR_GREEN[0] + 0x440000;
-			color[2] = HudElementBarred.COLOR_GREEN[0] + 0x663333;
-			break;
-		case 3:
-			color[0] = HudElementBarred.COLOR_YELLOW[0];
-			color[1] = HudElementBarred.COLOR_YELLOW[0] + 0x1100;
-			color[2] = HudElementBarred.COLOR_YELLOW[0] - 0x333300;
-			break;
-		case 4:
-			color[0] = HudElementBarred.COLOR_WHITE[0];
-			color[1] = HudElementBarred.COLOR_WHITE[0] - 0x222222;
-			color[2] = HudElementBarred.COLOR_WHITE[0] - 0x333333;
-			break;
-		case 5:
-			color[0] = HudElementBarred.COLOR_GREY[0];
-			color[1] = HudElementBarred.COLOR_GREY[0] - 0x222222;
-			color[2] = HudElementBarred.COLOR_GREY[0] + 0x222222;
-		}
-		return color;
 	}
 
 }

@@ -21,11 +21,10 @@ public class HudElementHealthMountHotbar extends HudElementBarred {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
-		int[] colorHealth = getColor(this.settings.color_health);
 		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
-		drawCustomBar(49, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, 0, 0, colorHealth[0], colorHealth[1]);
+		drawCustomBar(49, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
 		String stringHealth = health + "/" + healthMax;
 
 		if (this.settings.show_numbers_health)

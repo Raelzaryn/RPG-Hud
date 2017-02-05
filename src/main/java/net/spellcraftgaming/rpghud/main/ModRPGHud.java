@@ -26,23 +26,12 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class ModRPGHud {
 
-	// TODO 3.x: Make elements moveable onscreen
-	// TODO 3.x: Make color set able by #HexCode
-	// TODO 3.x: Add Enemy detail element
-	// TODO 3.x: Add compass element
-	// TODO 3.x: Simple debug settings configuration
-	// TODO 3.x: Distance checker
-	// TODO 3.x: Compass
-	// TODO 3.x: FPS
-	// TODO 3.x: Entity inspect
-	// TODO 3.x: Block inspect
-
 	/** The mod ID of this mod */
 	public static final String MOD_ID = "rpghud";
 	/** The mod name of this mod */
 	public static final String NAME = "RPG-Hud";
 	/** The mod version of this mod */
-	public static final String VERSION = "3.2";
+	public static final String VERSION = "3.3";
 	/** Path to GuiFactory class of this mod */
 	public static final String GUI_FACTORY = "net.spellcraftgaming.rpghud.gui.GuiFactoryRPGHud";
 
