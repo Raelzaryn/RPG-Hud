@@ -31,12 +31,12 @@ public class HudElementFoodHotbar extends HudElementBarred {
 			if (bonusHunger > 20)
 				bonusHunger = 20;
 			int colorPreview = offsetColor(this.settings.color_stamina, OFFSET_PREVIEW);
-			drawCustomBar(49, height - 26, 200, 10, bonusHunger / 20.0D * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
+			drawCustomBar(49, height - 26, 180, 10, bonusHunger / 20.0D * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 		}
 		if (this.mc.thePlayer.isPotionActive(Potion.hunger)) {
-			drawCustomBar(49, height - 26, 200, 10, stamina / 20.0D * 100.0D, -1, -1, this.settings.color_hunger, offsetColorPercent(this.settings.color_hunger, OFFSET_PERCENT));
+			drawCustomBar(49, height - 26, 180, 10, stamina / 20.0D * 100.0D, -1, -1, this.settings.color_hunger, offsetColorPercent(this.settings.color_hunger, OFFSET_PERCENT));
 		} else {
-			drawCustomBar(49, height - 26, 200, 10, stamina / 20.0D * 100.0D, -1, -1, this.settings.color_stamina, offsetColorPercent(this.settings.color_stamina, OFFSET_PERCENT));
+			drawCustomBar(49, height - 26, 180, 10, stamina / 20.0D * 100.0D, -1, -1, this.settings.color_stamina, offsetColorPercent(this.settings.color_stamina, OFFSET_PERCENT));
 		}
 		String staminaString = stamina + "/" + "20";
 		if (this.settings.show_numbers_stamina)
