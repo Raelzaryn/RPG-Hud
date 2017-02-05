@@ -11,7 +11,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.spellcraftgaming.rpghud.event.ClientTickHandler;
+import net.spellcraftgaming.rpghud.event.ItemPickupHandler;
 import net.spellcraftgaming.rpghud.event.PlayerContainerHandler;
+import net.spellcraftgaming.rpghud.event.PlayerTickHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
@@ -25,6 +27,14 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 @Mod(modid = ModRPGHud.MOD_ID, version = ModRPGHud.VERSION, name = ModRPGHud.NAME, clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY, guiFactory = ModRPGHud.GUI_FACTORY, updateJSON = ModRPGHud.UPDATE_JSON)
 
 public class ModRPGHud {
+
+	// TODO 3.x: Make elements moveable onscreen
+	// TODO 3.x: Add Enemy detail element
+	// TODO 3.x: Simple debug settings configuration
+	// TODO 3.x: Distance checker
+	// TODO 3.x: FPS
+	// TODO 3.x: Entity inspect
+	// TODO 3.x: Block inspect
 
 	/** The mod ID of this mod */
 	public static final String MOD_ID = "rpghud";
@@ -56,6 +66,7 @@ public class ModRPGHud {
 	/** If the HudElementDetails should be rendered again */
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
+	public ItemPickupHandler pickupHandler;
 	/**
 	 * The function to be run before the initialization
 	 * 
@@ -84,6 +95,9 @@ public class ModRPGHud {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
+		MinecraftForge.EVENT_BUS.register(new PlayerTickHandler());
+		this.pickupHandler = new ItemPickupHandler();
+		MinecraftForge.EVENT_BUS.register(this.pickupHandler);
 		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
 	}
 

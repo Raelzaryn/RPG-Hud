@@ -10,6 +10,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementHealthMountH
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementHotbarHotbar;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementLevelHotbar;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementWidgetHotbar;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementPickupVanilla;
 
 public class HudHotbarWidget extends HudDefault {
 
@@ -57,4 +58,8 @@ public class HudHotbarWidget extends HudDefault {
 		return new HudElementChatHotbar();
 	}
 
+	@Override
+	protected HudElement setElementPickup() {
+		return new HudElementPickupVanilla();
+	}
 }

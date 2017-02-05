@@ -90,4 +90,9 @@ public class HudVanilla extends Hud {
 	protected HudElement setElementCompass() {
 		return new HudElementCompassVanilla();
 	}
+	
+	@Override
+	protected HudElement setElementPickup() {
+		return new HudElementPickupVanilla();
+	}
 }

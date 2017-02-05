@@ -9,6 +9,7 @@ import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
@@ -44,6 +45,8 @@ public class ModSettings {
 	public boolean enable_compass_color = true;
 	public boolean enable_immersive_compass = false;
 	
+	public boolean enable_pickup = true;
+	
 	public boolean render_player_face = true;
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
@@ -61,6 +64,8 @@ public class ModSettings {
 	
 	public int clock_time_format = 0;
 
+	public float pickup_duration = 5F;
+	
 	public ModSettings(File file) {
 		this.mc = Minecraft.getMinecraft();
 		this.optionsFile = new File(file, "RPGHud_settings.txt");
@@ -135,6 +140,9 @@ public class ModSettings {
 		if (options == EnumOptionsMod.HUD_TYPE) {
 			this.incrementHudType();
 		}
+		if (options == EnumOptionsMod.ENABLE_PICKUP) {
+			this.enable_pickup = (!this.enable_pickup);
+		}
 		saveOptions();
 	}
 
@@ -152,9 +160,28 @@ public class ModSettings {
 				return;
 			}
 		}
-
 	}
 
+	public void setOptionFloatValue(EnumOptionsMod options, float value){
+		switch(options){
+		case PICK_DURATION:
+			this.pickup_duration = value;
+			break;
+		default:
+			break;
+		}
+	}
+	
+    public float getOptionFloatValue(EnumOptionsMod settingOption)
+    {
+    	switch(settingOption) {
+    	case PICK_DURATION:
+    		return this.pickup_duration;
+    	default:
+    		return 0F;
+    	}
+    }
+    
 	/** Returns the ordinal value of this setting */
 	public boolean getOptionOrdinalValue(EnumOptionsMod options) {
 		switch (ModSettings.SwitchOptions.optionIds[options.ordinal()]) {
@@ -192,6 +219,8 @@ public class ModSettings {
 			return this.enable_compass_color;
 		case 16:
 			return this.enable_immersive_compass;
+		case 17:
+			return this.enable_pickup;
 		default:
 			return false;
 		}
@@ -269,6 +298,10 @@ public class ModSettings {
 				optionIds[EnumOptionsMod.ENABLE_IMMERSIVE_COMPASS.ordinal()] = 16;
 			} catch (NoSuchFieldError e) {
 			}
+			try {
+				optionIds[EnumOptionsMod.ENABLE_PICKUP.ordinal()] = 17;
+			} catch (NoSuchFieldError e) {
+			}
 		}
 	}
 
@@ -295,30 +328,30 @@ public class ModSettings {
 					}
 					if (string[0].equals("color_stamina")) {
 						if(string[1].startsWith("#")) {
-							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+							this.color_stamina = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
-							this.color_health = getColor(this.color_health);
+							this.color_stamina = getColor(this.color_stamina);
 						}
 					}
 					if (string[0].equals("color_air")) {
 						if(string[1].startsWith("#")) {
-							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+							this.color_air = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
-							this.color_health = getColor(this.color_health);
+							this.color_air = getColor(this.color_air);
 						}
 					}
 					if (string[0].equals("color_experience")) {
 						if(string[1].startsWith("#")) {
-							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+							this.color_experience = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
-							this.color_health = getColor(this.color_health);
+							this.color_experience = getColor(this.color_experience);
 						}
 					}
 					if (string[0].equals("color_jumpbar")) {
 						if(string[1].startsWith("#")) {
-							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+							this.color_jumpbar = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
-							this.color_health = getColor(this.color_health);
+							this.color_jumpbar = getColor(this.color_jumpbar);
 						}
 					}
 					if (string[0].equals("color_poison")) {
@@ -326,13 +359,6 @@ public class ModSettings {
 					}
 					if (string[0].equals("color_hunger")) {
 						this.color_hunger = Integer.parseInt(string[1].replace("#", ""), 16);
-					}
-					if (string[0].equals("color_jumpbar")) {
-						if(string[1].startsWith("#")) {
-							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
-						} else {
-							this.color_health = getColor(this.color_health);
-						}
 					}
 					if (string[0].equals("clock_time_format")) {
 						this.clock_time_format = Integer.parseInt(string[1]);
@@ -388,6 +414,12 @@ public class ModSettings {
 					if (string[0].equals("reduce_size")) {
 						this.reduce_size = string[1].equals("true");
 					}
+					if (string[0].equals("enable_pickup")) {
+						this.enable_pickup = string[1].equals("true");
+					}
+					if (string[0].equals("pickup_duration")) {
+						this.pickup_duration = Float.parseFloat(string[1]);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -410,7 +442,9 @@ public class ModSettings {
 		if (par1EnumOptions.isBoolean()) {
 			boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
-		}
+		} else if (par1EnumOptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT) {
+            return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? MathHelper.ceiling_float_int(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
+        }
 		switch (par1EnumOptions) {
 		case HUD_TYPE:
 			return s + getHudName(this.hud_type);
@@ -493,6 +527,8 @@ public class ModSettings {
 				exception.println("render_player_face:" + this.render_player_face);
 				exception.println("show_hunger_preview:" + this.show_hunger_preview);
 				exception.println("reduce_size:" + this.reduce_size);
+				exception.println("enable_pickup:" + this.enable_pickup);
+				exception.println("pickup_duration:" + this.pickup_duration);
 				exception.close();
 			} catch (Exception var2) {
 				var2.printStackTrace();

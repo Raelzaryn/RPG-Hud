@@ -8,6 +8,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthExte
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthMountExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementPickupVanilla;
 
 public class HudExtendedWidget extends HudDefault {
 
@@ -43,5 +44,10 @@ public class HudExtendedWidget extends HudDefault {
 	@Override
 	public HudElement setElementWidget() {
 		return new HudElementWidgetExtended();
+	}
+	
+	@Override
+	protected HudElement setElementPickup() {
+		return new HudElementPickupVanilla();
 	}
 }
