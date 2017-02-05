@@ -26,7 +26,7 @@ public class HudElementArmorVanilla extends HudElement {
 		int left = width / 2 - 91;
 		int top = height - GuiIngameRPGHud.left_height;
 
-		int level = ForgeHooks.getTotalArmorValue(this.mc.player);
+		int level = ForgeHooks.getTotalArmorValue(this.mc.thePlayer);
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
 				gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);

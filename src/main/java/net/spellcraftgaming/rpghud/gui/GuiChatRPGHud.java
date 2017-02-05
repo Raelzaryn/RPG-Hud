@@ -18,9 +18,9 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 
 public class GuiChatRPGHud extends GuiNewChat {
 
@@ -56,7 +56,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * prints the ChatComponent to Chat.
 	 */
-	public void printChatMessage(ITextComponent chatComponent) {
+	public void printChatMessage(IChatComponent chatComponent) {
 		this.printChatMessageWithOptionalDeletion(chatComponent, 0);
 	}
 
@@ -64,21 +64,21 @@ public class GuiChatRPGHud extends GuiNewChat {
 	 * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing
 	 * Chat Line of that ID from the GUI
 	 */
-	public void printChatMessageWithOptionalDeletion(ITextComponent chatComponent, int chatLineId) {
+	public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
 		this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
 		LOGGER.info("[CHAT] {}", new Object[] { NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText())) });
 	}
 
-	private void setChatLine(ITextComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly) {
+	private void setChatLine(IChatComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly) {
 		if (chatLineId != 0) {
 			this.deleteChatLine(chatLineId);
 		}
 
-		int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
-		List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
+		int i = MathHelper.floor_float(this.getChatWidth() / this.getChatScale());
+		List<IChatComponent> list = GuiUtilRenderComponents.func_178908_a(chatComponent, i, this.mc.fontRendererObj, false, false);
 		boolean flag = this.getChatOpen();
 
-		for (ITextComponent itextcomponent : list) {
+		for (IChatComponent itextcomponent : list) {
 			if (flag && this.scrollPos > 0) {
 				this.isScrolled = true;
 				this.scroll(1);
@@ -153,7 +153,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	 * Gets the chat component under the mouse
 	 */
 	@Nullable
-	public ITextComponent getChatComponent(int mouseX, int mouseY) {
+	public IChatComponent getChatComponent(int mouseX, int mouseY) {
 		if (!this.getChatOpen()) {
 			return null;
 		}
@@ -162,22 +162,22 @@ public class GuiChatRPGHud extends GuiNewChat {
 		float f = this.getChatScale();
 		int j = mouseX / i - 2;
 		int k = mouseY / i - 40;
-		j = MathHelper.floor(j / f);
-		k = MathHelper.floor(k / f);
+		j = MathHelper.floor_float(j / f);
+		k = MathHelper.floor_float(k / f);
 
 		if (j >= 0 && k >= 0) {
 			int l = Math.min(this.getLineCount(), this.getDrawnChatLines().size());
 
-			if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
+			if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
 				int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
 
 				if (i1 >= 0 && i1 < this.getDrawnChatLines().size()) {
 					ChatLine chatline = this.getDrawnChatLines().get(i1);
 					int j1 = 0;
 
-					for (ITextComponent itextcomponent : chatline.getChatComponent()) {
-						if (itextcomponent instanceof TextComponentString) {
-							j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString) itextcomponent).getText(), false));
+					for (IChatComponent itextcomponent : chatline.getChatComponent()) {
+						if (itextcomponent instanceof ChatComponentText) {
+							j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.func_178909_a(((ChatComponentText) itextcomponent).getChatComponentText_TextValue(), false));
 
 							if (j1 > j) {
 								return itextcomponent;
@@ -242,11 +242,11 @@ public class GuiChatRPGHud extends GuiNewChat {
 	}
 
 	public static int calculateChatboxWidth(float scale) {
-		return MathHelper.floor(scale * 280.0F + 40.0F);
+		return MathHelper.floor_float(scale * 280.0F + 40.0F);
 	}
 
 	public static int calculateChatboxHeight(float scale) {
-		return MathHelper.floor(scale * 160.0F + 20.0F);
+		return MathHelper.floor_float(scale * 160.0F + 20.0F);
 	}
 
 	public int getLineCount() {

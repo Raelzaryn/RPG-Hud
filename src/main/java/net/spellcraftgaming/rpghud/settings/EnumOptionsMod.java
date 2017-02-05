@@ -1,9 +1,12 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.BOOLEAN;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.FLOAT;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.INTEGER;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.STRING;
 
-import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.*;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.MathHelper;
 
 public enum EnumOptionsMod {
 
@@ -115,18 +118,18 @@ public enum EnumOptionsMod {
 	
     public float normalizeValue(float value)
     {
-        return MathHelper.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+        return MathHelper.clamp_float((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
     }
 
     public float denormalizeValue(float value)
     {
-        return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
+        return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp_float(value, 0.0F, 1.0F));
     }
 
     public float snapToStepClamp(float value)
     {
         value = this.snapToStep(value);
-        return MathHelper.clamp(value, this.valueMin, this.valueMax);
+        return MathHelper.clamp_float(value, this.valueMin, this.valueMax);
     }
 
     private float snapToStep(float value)

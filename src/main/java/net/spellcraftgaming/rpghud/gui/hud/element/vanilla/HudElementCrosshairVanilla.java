@@ -1,18 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementCrosshairVanilla extends HudElement {
+public class HudElementCrosshairVanilla extends HudElementTexture {
 
 	public HudElementCrosshairVanilla() {
 		super(HudElementType.CROSSHAIR, -1, -1, 16, 16, false);
@@ -21,54 +20,51 @@ public class HudElementCrosshairVanilla extends HudElement {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
+		int width = res.getScaledWidth();
+		int height = res.getScaledHeight();
 
-		GameSettings gamesettings = this.mc.gameSettings;
-
-		if (gamesettings.thirdPersonView == 0) {
-			if (this.mc.playerController.isSpectator() && this.mc.pointedEntity == null) {
-				RayTraceResult raytraceresult = this.mc.objectMouseOver;
-
-				if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
-					return;
-				}
-
-				BlockPos blockpos = raytraceresult.getBlockPos();
-
-				net.minecraft.block.state.IBlockState state = this.mc.world.getBlockState(blockpos);
-				if (!state.getBlock().hasTileEntity(state) || !(this.mc.world.getTileEntity(blockpos) instanceof IInventory)) {
-					return;
-				}
-			}
-
-			int l = res.getScaledWidth();
-			int i1 = res.getScaledHeight();
-
-			if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !this.mc.player.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(l / 2, i1 / 2, zLevel);
-				Entity entity = this.mc.getRenderViewEntity();
-				GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
-				GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks, 0.0F, 1.0F, 0.0F);
-				GlStateManager.scale(-1.0F, -1.0F, -1.0F);
-				OpenGlHelper.renderDirections(10);
-				GlStateManager.popMatrix();
-			} else {
-				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-				GlStateManager.enableAlpha();
-				gui.drawTexturedModalRect(l / 2 - 7, i1 / 2 - 7, 0, 0, 16, 16);
-
-				if (this.mc.gameSettings.attackIndicator == 1) {
-					float f = this.mc.player.getCooledAttackStrength(0.0F);
-
-					if (f < 1.0F) {
-						int i = i1 / 2 - 7 + 16;
-						int j = l / 2 - 7;
-						int k = (int) (f * 17.0F);
-						gui.drawTexturedModalRect(j, i, 36, 94, 16, 4);
-						gui.drawTexturedModalRect(j, i, 52, 94, k, 4);
-					}
-				}
-			}
-		}
+        if (this.showCrosshair())
+        {
+            bind(Gui.icons);
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, 1, 0);
+            GlStateManager.enableAlpha();
+            gui.drawTexturedModalRect(width / 2 - 7, height / 2 - 7, 0, 0, 16, 16);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+            GlStateManager.disableBlend();
+        }
 	}
+	
+    protected boolean showCrosshair()
+    {
+        if (this.mc.gameSettings.showDebugInfo && !this.mc.thePlayer.hasReducedDebug() && !this.mc.gameSettings.reducedDebugInfo)
+        {
+            return false;
+        }
+        else if (this.mc.playerController.isSpectator())
+        {
+            if (this.mc.pointedEntity != null)
+            {
+                return true;
+            }
+            else
+            {
+                if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+                {
+                    BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
+
+                    if (this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

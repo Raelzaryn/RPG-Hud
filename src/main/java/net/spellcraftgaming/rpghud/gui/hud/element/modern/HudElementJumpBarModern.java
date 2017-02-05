@@ -14,7 +14,7 @@ public class HudElementJumpBarModern extends HudElementBarred{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
+		return this.mc.thePlayer.ridingEntity instanceof EntityLivingBase;
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class HudElementJumpBarModern extends HudElementBarred{
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int width = res.getScaledWidth();
-		float jumpPower = this.mc.player.getHorseJumpPower();
+		float jumpPower = this.mc.thePlayer.getHorseJumpPower();
 		int value = (int) (jumpPower * 100.0F);
 		drawRect(width / 2 - 72, height - 78, 144, 2, 0xA0000000);
 		drawRect(width / 2 - 72, height - 70, 144, 2, 0xA0000000);

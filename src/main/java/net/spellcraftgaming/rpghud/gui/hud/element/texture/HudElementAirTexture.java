@@ -14,7 +14,7 @@ public class HudElementAirTexture extends HudElementTexture {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.isInsideOfMaterial(Material.WATER);
+		return this.mc.thePlayer.isInsideOfMaterial(Material.water);
 	}
 
 	@Override
@@ -23,10 +23,10 @@ public class HudElementAirTexture extends HudElementTexture {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int adjustedWidth = res.getScaledWidth() / 2;
-		int airAmount = this.mc.player.getAir();
+		int airAmount = this.mc.thePlayer.getAir();
 		gui.drawTexturedModalRect(adjustedWidth - 70, height - 80, 0, 160, 141, 10);
 		gui.drawTexturedModalRect(adjustedWidth - 70, height - 80, 0, 140, (int) (141.0D * (airAmount / 300.0D)), 10);
-		bind(Gui.ICONS);
+		bind(Gui.icons);
 	}
 
 }

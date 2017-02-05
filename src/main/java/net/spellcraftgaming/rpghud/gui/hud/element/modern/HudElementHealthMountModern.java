@@ -16,12 +16,12 @@ public class HudElementHealthMountModern extends HudElementBarred{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return this.mc.thePlayer.ridingEntity instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.ridingEntity;
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();

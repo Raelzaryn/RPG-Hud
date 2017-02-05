@@ -17,14 +17,14 @@ public class HudElementHealthMountVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
+		return this.mc.thePlayer.ridingEntity instanceof EntityLivingBase;
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-		Entity tmp = player.getRidingEntity();
+		Entity tmp = player.ridingEntity;
 		if (!(tmp instanceof EntityLivingBase))
 			return;
 

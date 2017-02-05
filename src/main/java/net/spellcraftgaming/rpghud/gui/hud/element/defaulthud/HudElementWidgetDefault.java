@@ -22,16 +22,16 @@ public class HudElementWidgetDefault extends HudElementTexture {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		gui.drawTexturedModalRect(0, 0, 0, 0, 162, 50);
-		if (this.mc.player.getRidingEntity() instanceof EntityLivingBase) {
+		if (this.mc.thePlayer.ridingEntity instanceof EntityLivingBase) {
 			gui.drawTexturedModalRect(51, 39, 163, 0, 92, 20);
 		}
 
-		bind(getPlayerSkin(this.mc.player));
+		bind(getPlayerSkin(this.mc.thePlayer));
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 		gui.drawTexturedModalRect(34, 34, 32, 32, 32, 32);
 		gui.drawTexturedModalRect(34, 34, 160, 32, 32, 32);
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
-		bind(Gui.ICONS);
+		bind(Gui.icons);
 	}
 
 }

@@ -16,7 +16,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.isRidingHorse();
+		return this.mc.thePlayer.isRidingHorse();
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 		GlStateManager.disableBlend();
 
 		this.mc.mcProfiler.startSection("jumpBar");
-		float charge = this.mc.player.getHorseJumpPower();
+		float charge = this.mc.thePlayer.getHorseJumpPower();
 		final int barWidth = 182;
 		int x = (res.getScaledWidth() / 2) - (barWidth / 2);
 		int filled = (int) (charge * (barWidth + 1));

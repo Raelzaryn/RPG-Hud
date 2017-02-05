@@ -116,9 +116,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
 	
 	@Override
 	public void initGui() {
-		this.buttonList.add(new GuiSliderColor(1, GuiSliderColor.EnumColor.RED, this.width /2 - 75, 40, this.colorR, 0F, 255F, 1F));
-		this.buttonList.add(new GuiSliderColor(2, GuiSliderColor.EnumColor.GREEN, this.width /2 - 75, 65, this.colorG, 0F, 255F, 1F));
-		this.buttonList.add(new GuiSliderColor(3, GuiSliderColor.EnumColor.BLUE, this.width /2 - 75, 90, this.colorB, 0F, 255F, 1F));
+		this.buttonList.add(new GuiSliderMod(1, GuiSliderMod.EnumColor.RED, this.width /2 - 75, 40, this.colorR, 0F, 255F, 1F));
+		this.buttonList.add(new GuiSliderMod(2, GuiSliderMod.EnumColor.GREEN, this.width /2 - 75, 65, this.colorG, 0F, 255F, 1F));
+		this.buttonList.add(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width /2 - 75, 90, this.colorB, 0F, 255F, 1F));
 		
         this.colorCodeField = new GuiTextField(5, this.fontRendererObj, this.width / 2 - 74, 115, 147, 20);
         this.colorCodeField.setText(ModSettings.intToHexString(this.color));
@@ -181,14 +181,14 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
 	public void setColorTo(int color) {
 		this.color = color;
 		this.colorR = (this.color >> 16 & 255);
-		((GuiSliderColor)this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
-		((GuiSliderColor)this.buttonList.get(0)).value = this.colorR;
+		((GuiSliderMod)this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
+		((GuiSliderMod)this.buttonList.get(0)).value = this.colorR;
 		this.colorG = (this.color >> 8 & 255);
-		((GuiSliderColor)this.buttonList.get(1)).sliderValue = (float) this.colorG / 255;
-		((GuiSliderColor)this.buttonList.get(1)).value = this.colorG;
+		((GuiSliderMod)this.buttonList.get(1)).sliderValue = (float) this.colorG / 255;
+		((GuiSliderMod)this.buttonList.get(1)).value = this.colorG;
 		this.colorB = (this.color & 255);
-		((GuiSliderColor)this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
-		((GuiSliderColor)this.buttonList.get(2)).value = this.colorB;
+		((GuiSliderMod)this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
+		((GuiSliderMod)this.buttonList.get(2)).value = this.colorB;
 		this.colorCodeField.setText(ModSettings.intToHexString(this.color));
 	}
 	
@@ -201,23 +201,23 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
             		if(this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
             			this.color = Integer.valueOf(this.colorCodeField.getText().replace("#", ""), 16).intValue();
             			this.colorR = (this.color >> 16 & 255);
-            			((GuiSliderColor)this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
-            			((GuiSliderColor)this.buttonList.get(0)).value = this.colorR;
+            			((GuiSliderMod)this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
+            			((GuiSliderMod)this.buttonList.get(0)).value = this.colorR;
             			this.colorG = (this.color >> 8 & 255);
-            			((GuiSliderColor)this.buttonList.get(1)).sliderValue = (float) this.colorG / 255;
-            			((GuiSliderColor)this.buttonList.get(1)).value = this.colorG;
+            			((GuiSliderMod)this.buttonList.get(1)).sliderValue = (float) this.colorG / 255;
+            			((GuiSliderMod)this.buttonList.get(1)).value = this.colorG;
             			this.colorB = (this.color & 255);
-            			((GuiSliderColor)this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
-            			((GuiSliderColor)this.buttonList.get(2)).value = this.colorB;
+            			((GuiSliderMod)this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
+            			((GuiSliderMod)this.buttonList.get(2)).value = this.colorB;
             		}
             	}
             }
             this.colorCodeField.setText(this.colorCodeField.getText().toUpperCase());
 		} else {
 			this.colorCodeField.setText(ModSettings.intToHexString(this.color));
-			this.colorR = ((GuiSliderColor)this.buttonList.get(0)).getValue();
-			this.colorG = ((GuiSliderColor)this.buttonList.get(1)).getValue();
-			this.colorB = ((GuiSliderColor)this.buttonList.get(2)).getValue();
+			this.colorR = ((GuiSliderMod)this.buttonList.get(0)).getValue();
+			this.colorG = ((GuiSliderMod)this.buttonList.get(1)).getValue();
+			this.colorB = ((GuiSliderMod)this.buttonList.get(2)).getValue();
 			int color = (this.colorR << 16) + (this.colorG << 8) + (this.colorB);
 			if(color > 0xFFFFFF) color = 0xFFFFFF;
 			if(color < 0) color = 0;
