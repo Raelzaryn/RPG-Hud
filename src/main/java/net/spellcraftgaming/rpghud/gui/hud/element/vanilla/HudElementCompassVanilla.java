@@ -17,7 +17,7 @@ public class HudElementCompassVanilla extends HudElementTexture{
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.enable_compass && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_compass ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.COMPASS)) : true);
+		return this.settings.enable_compass && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_compass ? this.mc.thePlayer.inventory.hasItemStack(new ItemStack(Items.COMPASS)) : true);
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class HudElementCompassVanilla extends HudElementTexture{
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth() / 2;
 		
-		int rotation = Math.round(((this.mc.player.rotationYaw % 360) / 360) * 200);
+		int rotation = Math.round(((this.mc.thePlayer.rotationYaw % 360) / 360) * 200);
 		if(rotation < 0) rotation = 200 + rotation;
 		
 		bind(INTERFACE);
@@ -70,7 +70,7 @@ public class HudElementCompassVanilla extends HudElementTexture{
 		}
 		
 		if(this.settings.reduce_size) GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		BlockPos pos = this.mc.player.getPosition();
+		BlockPos pos = this.mc.thePlayer.getPosition();
 		gui.drawString(this.mc.fontRendererObj, String.valueOf(pos.getX()), (width - 50) * (this.settings.reduce_size ? 2 : 1), 11 * (this.settings.reduce_size ? 2 : 1), -1);
 		gui.drawCenteredString(this.mc.fontRendererObj, String.valueOf(pos.getY()), width * (this.settings.reduce_size ? 2 : 1), 11 * (this.settings.reduce_size ? 2 : 1), -1);
 		gui.drawString(this.mc.fontRendererObj, String.valueOf(pos.getZ()), (width + 50) * (this.settings.reduce_size ? 2 : 1) - this.mc.fontRendererObj.getStringWidth(String.valueOf(pos.getZ())), 11 * (this.settings.reduce_size ? 2 : 1), -1);

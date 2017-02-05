@@ -38,7 +38,7 @@ public class HudElementHotbarDefault extends HudElement {
 			gui.drawTexturedModalRect(i - 91, res.getScaledHeight() - 22 - 9, 0, 0, 182, 22);
 			gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 22 - 1 - 9, 0, 22, 24, 22);
 
-			if (!itemstack.isEmpty()) {
+			if (itemstack != null) {
 				if (enumhandside == EnumHandSide.LEFT) {
 					gui.drawTexturedModalRect(i - 91 - 29, res.getScaledHeight() - 23 - 9, 24, 22, 29, 24);
 				} else {
@@ -55,10 +55,10 @@ public class HudElementHotbarDefault extends HudElement {
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = res.getScaledHeight() - 16 - 3 - 9;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory.get(l));
+				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory[l]);
 			}
 
-			if (!itemstack.isEmpty()) {
+			if (itemstack != null) {
 				int l1 = res.getScaledHeight() - 16 - 3 - 9;
 
 				if (enumhandside == EnumHandSide.LEFT) {
@@ -69,7 +69,7 @@ public class HudElementHotbarDefault extends HudElement {
 			}
 
 			if (this.mc.gameSettings.attackIndicator == 2) {
-				float f1 = this.mc.player.getCooledAttackStrength(0.0F);
+				float f1 = this.mc.thePlayer.getCooledAttackStrength(0.0F);
 
 				if (f1 < 1.0F) {
 					int i2 = res.getScaledHeight() - 20;
@@ -108,8 +108,8 @@ public class HudElementHotbarDefault extends HudElement {
 	 *            the item (via ItemStack)
 	 */
 	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
-		if (!item.isEmpty()) {
-			float f = item.getAnimationsToGo() - partialTicks;
+		if (item != null) {
+			float f = item.animationsToGo - partialTicks;
 
 			if (f > 0.0F) {
 				GlStateManager.pushMatrix();

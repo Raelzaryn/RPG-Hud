@@ -38,7 +38,7 @@ public class GuiSliderSetting extends GuiButtonTooltip{
 	            if (this.dragging)
 	            {
 	                this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-	                this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
+	                this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
 	                float f = this.enumOptions.denormalizeValue(this.sliderValue);
 	                ModRPGHud.instance.settings.setOptionFloatValue(this.enumOptions, f);
 	                this.sliderValue = this.enumOptions.normalizeValue(f);
@@ -61,7 +61,7 @@ public class GuiSliderSetting extends GuiButtonTooltip{
 	        if (super.mousePressed(mc, mouseX, mouseY))
 	        {
 	            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-	            this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
+	            this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
 	            ModRPGHud.instance.settings.setOptionFloatValue(this.enumOptions, this.enumOptions.denormalizeValue(this.sliderValue));
 	            this.displayString = ModRPGHud.instance.settings.getKeyBinding(this.enumOptions);
 	            this.dragging = true;

@@ -14,12 +14,12 @@ public class HudElementHealthMountExtended extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return this.mc.thePlayer.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		drawCustomBar(53, 54, 88, 8, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));

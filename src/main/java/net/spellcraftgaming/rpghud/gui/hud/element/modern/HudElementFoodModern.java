@@ -23,7 +23,7 @@ public class HudElementFoodModern extends HudElementBarred{
 	
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int stamina = this.mc.player.getFoodStats().getFoodLevel();
+		int stamina = this.mc.thePlayer.getFoodStats().getFoodLevel();
 		
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
@@ -41,9 +41,9 @@ public class HudElementFoodModern extends HudElementBarred{
 		drawTetragon(posX, posX, 13, 13, 70, 58, 8, 8, 0xA0000000);
 		drawTetragon(posX + 2, posX + 2, 13, 13, 64, 54, 6, 6, 0x20FFFFFF);
 		
-		ItemStack itemMain = this.mc.player.getHeldItemMainhand();
-		ItemStack itemSec = this.mc.player.getHeldItemOffhand();
-		if ((itemMain != null && itemMain.getItem() instanceof ItemFood) || (itemSec != null && itemSec.getItem() instanceof ItemFood) && this.mc.player.getFoodStats().needFood() && this.settings.show_hunger_preview) {
+		ItemStack itemMain = this.mc.thePlayer.getHeldItemMainhand();
+		ItemStack itemSec = this.mc.thePlayer.getHeldItemOffhand();
+		if ((itemMain != null && itemMain.getItem() instanceof ItemFood) || (itemSec != null && itemSec.getItem() instanceof ItemFood) && this.mc.thePlayer.getFoodStats().needFood() && this.settings.show_hunger_preview) {
 			float value;
 			if(itemMain.getItem() instanceof ItemFood) 
 				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
@@ -53,7 +53,7 @@ public class HudElementFoodModern extends HudElementBarred{
 				bonusHunger = 20;
 			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)bonusHunger / (double) 20)), (int) (63 * ((double)bonusHunger / (double) 20)) - 10, 6, 6, offsetColor(this.settings.color_stamina, OFFSET_PREVIEW));
 		}
-		if (this.mc.player.isPotionActive(MobEffects.HUNGER)) {
+		if (this.mc.thePlayer.isPotionActive(MobEffects.HUNGER)) {
 			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, this.settings.color_hunger);
 		} else {
 			drawTetragon(posX + 2, posX + 2, 13, 13, (int) (64 * ((double)stamina / (double) 20)), (int) (64 * ((double)stamina / (double) 20)) - 10, 6, 6, this.settings.color_stamina);

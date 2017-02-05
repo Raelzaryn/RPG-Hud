@@ -22,12 +22,12 @@ public class HudElementExperienceModern extends HudElementBarred{
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
-		int exp = (int) (this.mc.player.xpBarCap() * this.mc.player.experience);
-		double full = ((double) (width - 2)) / this.mc.player.xpBarCap();
+		int exp = (int) (this.mc.thePlayer.xpBarCap() * this.mc.thePlayer.experience);
+		double full = ((double) (width - 2)) / this.mc.thePlayer.xpBarCap();
 		
 		drawRect(0, height - 7, width, 7, 0xA0000000);
 		drawRect(1, height - 6, (int) (exp * full), 4, this.settings.color_experience);
-		String stringExp = exp + "/" + this.mc.player.xpBarCap();
+		String stringExp = exp + "/" + this.mc.thePlayer.xpBarCap();
 		
 		if(this.settings.show_numbers_experience) {
 			int width2 = this.mc.fontRendererObj.getStringWidth(stringExp) / 2;

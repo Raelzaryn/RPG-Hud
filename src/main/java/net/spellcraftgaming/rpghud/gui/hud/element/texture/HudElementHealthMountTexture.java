@@ -14,13 +14,13 @@ public class HudElementHealthMountTexture extends HudElementTexture {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return this.mc.thePlayer.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		gui.drawTexturedModalRect(53, 54, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);

@@ -74,7 +74,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 			this.deleteChatLine(chatLineId);
 		}
 
-		int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
+		int i = MathHelper.floor_float(this.getChatWidth() / this.getChatScale());
 		List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
 		boolean flag = this.getChatOpen();
 
@@ -162,13 +162,13 @@ public class GuiChatRPGHud extends GuiNewChat {
 		float f = this.getChatScale();
 		int j = mouseX / i - 2;
 		int k = mouseY / i - 40;
-		j = MathHelper.floor(j / f);
-		k = MathHelper.floor(k / f);
+		j = MathHelper.floor_float(j / f);
+		k = MathHelper.floor_float(k / f);
 
 		if (j >= 0 && k >= 0) {
 			int l = Math.min(this.getLineCount(), this.getDrawnChatLines().size());
 
-			if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
+			if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
 				int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
 
 				if (i1 >= 0 && i1 < this.getDrawnChatLines().size()) {
@@ -242,11 +242,11 @@ public class GuiChatRPGHud extends GuiNewChat {
 	}
 
 	public static int calculateChatboxWidth(float scale) {
-		return MathHelper.floor(scale * 280.0F + 40.0F);
+		return MathHelper.floor_float(scale * 280.0F + 40.0F);
 	}
 
 	public static int calculateChatboxHeight(float scale) {
-		return MathHelper.floor(scale * 160.0F + 20.0F);
+		return MathHelper.floor_float(scale * 160.0F + 20.0F);
 	}
 
 	public int getLineCount() {

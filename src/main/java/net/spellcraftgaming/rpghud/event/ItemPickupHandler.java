@@ -16,7 +16,7 @@ public class ItemPickupHandler {
 	
 	@SubscribeEvent
 	public void onPickupItem(EntityItemPickupEvent event) {
-		if(event.getEntityPlayer().equals(Minecraft.getMinecraft().player)){
+		if(event.getEntityPlayer().equals(Minecraft.getMinecraft().thePlayer)){
 			ItemStack item = event.getItem().getEntityItem();
 			addPickup(item);
 			ModRPGHud.renderDetailsAgain[0] = true;
@@ -29,7 +29,7 @@ public class ItemPickupHandler {
 		boolean added = false;
 		for(int i = 0; i < this.pickups.size(); i++){
 			if(ItemStack.areItemsEqual(item, this.pickups.get(i).getItem())){
-				this.pickups.get(i).addItems(item.getCount());
+				this.pickups.get(i).addItems(item.stackSize);
 				added = true;
 			}
 		}

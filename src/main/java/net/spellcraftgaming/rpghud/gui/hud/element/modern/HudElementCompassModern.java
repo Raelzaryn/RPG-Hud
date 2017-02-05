@@ -17,7 +17,7 @@ public class HudElementCompassModern extends HudElement{
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.enable_compass && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_compass ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.COMPASS)) : true);
+		return this.settings.enable_compass && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_compass ? this.mc.thePlayer.inventory.hasItemStack(new ItemStack(Items.COMPASS)) : true);
 		}
 	
 	@Override
@@ -25,7 +25,7 @@ public class HudElementCompassModern extends HudElement{
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth() / 2;
 		
-		int rotation = Math.round(((this.mc.player.rotationYaw % 360) / 360) * 200);
+		int rotation = Math.round(((this.mc.thePlayer.rotationYaw % 360) / 360) * 200);
 		if(rotation < 0) rotation = 200 + rotation;
 		drawRect(width - 50, 4, 100, 6, 0xAA000000);
 		
@@ -66,7 +66,7 @@ public class HudElementCompassModern extends HudElement{
 			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - 25 +  rotation, 1, -1);
 		}
 		
-		BlockPos pos = this.mc.player.getPosition();
+		BlockPos pos = this.mc.thePlayer.getPosition();
 		drawRect(width - 50, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos.getX())) / 2 + 4, 6, 0xA0000000);
 		drawRect((int)(width - ((float) this.mc.fontRendererObj.getStringWidth(String.valueOf(pos.getY())) / 4) - 2), 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos.getY())) / 2 + 4, 6, 0xA0000000);
 		drawRect((width + 48) - (this.mc.fontRendererObj.getStringWidth(String.valueOf(pos.getZ()))/2) - 2, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos.getZ())) / 2 + 4, 6, 0xA0000000);

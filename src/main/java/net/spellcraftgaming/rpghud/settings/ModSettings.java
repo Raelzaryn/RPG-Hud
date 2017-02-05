@@ -443,7 +443,7 @@ public class ModSettings {
 			boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 		} else if (par1EnumOptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT) {
-            return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? MathHelper.ceil(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
+            return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? MathHelper.ceiling_float_int(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
         }
 		switch (par1EnumOptions) {
 		case HUD_TYPE:

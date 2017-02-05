@@ -24,7 +24,7 @@ public class HudElementWidgetModern extends HudElementTexture{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
-		bind(getPlayerSkin(this.mc.player));
+		bind(getPlayerSkin(this.mc.thePlayer));
 		GlStateManager.disableDepth();
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 		gui.drawTexturedModalRect(8, 8, 32, 32, 32, 32);

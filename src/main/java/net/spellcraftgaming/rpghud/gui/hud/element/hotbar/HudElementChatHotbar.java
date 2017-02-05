@@ -40,7 +40,7 @@ public class HudElementChatHotbar extends HudElement {
 			}
 
 			float f1 = guiIngame.getChat().getChatScale();
-			int k = MathHelper.ceil(guiIngame.getChat().getChatWidth() / f1);
+			int k = MathHelper.ceiling_float_int(guiIngame.getChat().getChatWidth() / f1);
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(2.0F, 8.0F, 0.0F);
 			GlStateManager.scale(f1, f1, 1.0F);
@@ -56,7 +56,7 @@ public class HudElementChatHotbar extends HudElement {
 						double d0 = j1 / 200.0D;
 						d0 = 1.0D - d0;
 						d0 = d0 * 10.0D;
-						d0 = MathHelper.clamp(d0, 0.0D, 1.0D);
+						d0 = MathHelper.clamp_double(d0, 0.0D, 1.0D);
 						d0 = d0 * d0;
 						int l1 = (int) (255.0D * d0);
 

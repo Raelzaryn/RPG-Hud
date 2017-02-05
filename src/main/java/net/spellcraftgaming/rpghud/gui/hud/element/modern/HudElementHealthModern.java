@@ -24,8 +24,8 @@ public class HudElementHealthModern extends HudElementBarred{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		int health = MathHelper.ceiling_float_int(this.mc.thePlayer.getHealth());
+		IAttributeInstance attrMaxHealth = this.mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		int healthMax = (int) attrMaxHealth.getAttributeValue();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
@@ -43,7 +43,7 @@ public class HudElementHealthModern extends HudElementBarred{
 		drawTetragon(posX, posX, 3, 3, 97, 83, 10, 10, 0xA0000000);
 		drawTetragon(posX + 2, posX + 2, 5, 5, 89, 79, 6, 6, 0x20FFFFFF);
 		
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (this.mc.thePlayer.isPotionActive(MobEffects.POISON)) {
 			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, this.settings.color_poison);
 		} else {
 			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, this.settings.color_health);
