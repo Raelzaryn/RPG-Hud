@@ -51,6 +51,7 @@ public abstract class Hud {
 		this.elements.put(RECORD_OVERLAY, setElementRecordOverlay());
 		this.elements.put(CHAT, setElementChat());
 		this.elements.put(COMPASS, setElementCompass());
+		this.elements.put(PICKUP, setElementPickup());
 
 	}
 
@@ -114,8 +115,11 @@ public abstract class Hud {
 	/** Function which returns a new element which is the chat element */
 	protected abstract HudElement setElementChat();
 	
-	/** Function which returns a new element which is the chat element */
+	/** Function which returns a new element which is the compass element */
 	protected abstract HudElement setElementCompass();
+	
+	/** Function which returns a new element which is the item pickup element */
+	protected abstract HudElement setElementPickup();
 
 	/**
 	 * Draws the an element of the HudElementType type on the screen

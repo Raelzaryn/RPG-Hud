@@ -19,7 +19,8 @@ public enum HudElementType {
 	WIDGET(I18n.format("name.widget", new Object[0])),
 	RECORD_OVERLAY(I18n.format("name.record_overlay", new Object[0])),
 	CHAT(I18n.format("name.chat", new Object[0])), 
-	COMPASS(I18n.format("name.compass", new Object[0]));
+	COMPASS(I18n.format("name.compass", new Object[0])),
+	PICKUP(I18n.format("name.pickup", new Object[0]));
 	
 	private String displayName;
 

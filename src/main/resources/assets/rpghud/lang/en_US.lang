@@ -48,6 +48,8 @@ name.reduce_size=Reduce Detail Size
 name.enable_compass=Enable Compass
 name.immersive_compass=Immersive Compass
 name.compass_color=Compass Color
+name.enable_pickup=Enable Pickup
+name.pickup_duration=Pickup Duration
 
 color.red=Red
 color.blue=Blue
@@ -73,6 +75,7 @@ gui.rpg.detail=Detail Settings
 gui.rpg.debug=Debug Settings
 gui.rpg.result=Result
 gui.rpg.editor=Editor
+gui.rpg.sec=Sec.
 
 
 tooltip.general=Access the general settings/nof the RPG-HUD
@@ -81,7 +84,7 @@ tooltip.color=Access the general color/nsettings
 tooltip.detail=Access the advanced HUD/nsettings
 tooltip.debug=§c[Only access if you know/n§cwhat you are doing!]/nAccess the debug settings/n(For advanced configuration)
 tooltip.done=Save and go back
-tooltip.done=Go back without saving
+tooltip.cancel=Go back without saving
 tooltip.debug_option=Access debug settings of/nthis element
 
 tooltip.color_air=Set the color of the/nbreath bar
@@ -110,6 +113,8 @@ tooltip.button_tooltip=Show button tolltips
 tooltip.enable_compass=Enable/disable the/ncompass widget
 tooltip.enable_immersive_compass=Display the compass widget/nonly when a compass is inside the/nplayer's inventory
 tooltip.compass_color=Enable/Disable the red color/nfor the "N" symbol
+tooltip.enable_pickup=Enable/disable the/nitem pickup widget
+tooltip.pickup_duration=Set the duration of the/nitem pickup widget
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element

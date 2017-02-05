@@ -11,6 +11,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHealthMo
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementJumpBarDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementLevelDefault;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementPickupDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementWidgetDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementRecordOverlayVanilla;
 
@@ -73,5 +74,10 @@ public class HudDefault extends HudVanilla {
 	@Override
 	public HudElement setElementRecordOverlay() {
 		return new HudElementRecordOverlayVanilla();
+	}
+	
+	@Override
+	protected HudElement setElementPickup() {
+		return new HudElementPickupDefault();
 	}
 }

@@ -8,6 +8,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementFoodTexture
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthMountTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementJumpBarTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementPickupVanilla;
 
 public class HudFullTexture extends HudExtendedWidget {
 
@@ -45,4 +46,8 @@ public class HudFullTexture extends HudExtendedWidget {
 		return new HudElementFoodTexture();
 	}
 
+	@Override
+	protected HudElement setElementPickup() {
+		return new HudElementPickupVanilla();
+	}
 }

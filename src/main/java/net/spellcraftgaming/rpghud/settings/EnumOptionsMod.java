@@ -32,7 +32,9 @@ public enum EnumOptionsMod {
 	REDUCE_SIZE(BOOLEAN, "name.reduce_size", I18n.format("tooltip.reduce_size", new Object[0])),
 	ENABLE_COMPASS(BOOLEAN, "name.enable_compass", I18n.format("tooltip.enable_compass", new Object[0])),
 	ENABLE_IMMERSIVE_COMPASS(BOOLEAN, "name.immersive_compass", I18n.format("tooltip.immersive_compass", new Object[0])),
-	ENABLE_COMPASS_COLOR(BOOLEAN, "name.compass_color", I18n.format("tooltip.compass_color", new Object[0]));
+	ENABLE_COMPASS_COLOR(BOOLEAN, "name.compass_color", I18n.format("tooltip.compass_color", new Object[0])),
+	ENABLE_PICKUP(BOOLEAN, "name.enable_pickup", I18n.format("tooltip.enable_pickup", new Object[0])),
+	PICK_DURATION(FLOAT, "name.pickup_duration", I18n.format("tooltip.pickup_duration", new Object[0]), 1F, 10F, 1F);
 
 	public enum EnumOptionType {
 		INTEGER, BOOLEAN, STRING, FLOAT;

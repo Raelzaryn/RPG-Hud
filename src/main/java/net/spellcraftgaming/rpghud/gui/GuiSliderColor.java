@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -74,7 +73,6 @@ public class GuiSliderColor extends GuiButtonTooltip
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible)
         {
-            FontRenderer fontrenderer = mc.fontRendererObj;
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableBlend();
@@ -98,17 +96,17 @@ public class GuiSliderColor extends GuiButtonTooltip
             {
                 j = 16777120;
             }
-
-            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            this.displayString = this.getDisplayString();
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, this.height / 2);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, this.height / 2);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            this.drawCenteredString(mc.fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            
+       
         }
-        
-        mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.displayString = this.getDisplayString();
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, this.height / 2);
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, this.height / 2);
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
     }
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent

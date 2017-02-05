@@ -5,17 +5,19 @@ import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.CLOCK_TIME_FOR
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_AIR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_EXPERIENCE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_HEALTH;
-import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_JUMPBAR;
-import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_STAMINA;
-import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_POISON;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_HUNGER;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_JUMPBAR;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_POISON;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_STAMINA;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_CLOCK;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_COMPASS;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_COMPASS_COLOR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_IMMERSIVE_COMPASS;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_PICKUP;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_TIMECOLOR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.HUD_TYPE;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.PICK_DURATION;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.REDUCE_SIZE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.RENDER_PLAYER_FACE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.SHOW_ARMOR;
@@ -49,7 +51,7 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_POISON, COLOR_STAMINA, COLOR_HUNGER, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
 
 	/** The group of settings to be displayed in the "details" category */
-	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, SHOW_HUNGERPREVIEW };
+	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, SHOW_HUNGERPREVIEW, ENABLE_PICKUP, PICK_DURATION};
 
 	/** The ModSettings instance */
 	private ModSettings settings;
@@ -106,8 +108,15 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 		int j = options.length;
 		for (int k = 0; k < j; k++) {
 			EnumOptionsMod enumoptions = options[k];
-			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions)).setTooltip();
-			this.buttonList.add(guismallbutton);
+			if(enumoptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT){
+				GuiSliderSetting guiSlider = new GuiSliderSetting(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions);
+				guiSlider.setTooltip();
+				this.buttonList.add(guiSlider);
+			} else {
+				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions)).setTooltip();
+				this.buttonList.add(guismallbutton);
+			}
+
 			i++;
 		}
 	}
