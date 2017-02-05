@@ -22,9 +22,13 @@ public class HudElementFoodTexture extends HudElementTexture {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		int stamina = this.mc.thePlayer.getFoodStats().getFoodLevel();
-		ItemStack currentItem = this.mc.thePlayer.getHeldItemMainhand();
-		if (currentItem != null && currentItem.getItem() instanceof ItemFood && this.mc.thePlayer.getFoodStats().needFood() && this.settings.show_hunger_preview) {
-			float value = ((ItemFood) this.mc.thePlayer.getHeldItemMainhand().getItem()).getHealAmount(this.mc.thePlayer.getHeldItemMainhand());
+		ItemStack itemMain = this.mc.thePlayer.getHeldItemMainhand();
+		ItemStack itemSec = this.mc.thePlayer.getHeldItemOffhand();
+		if ((itemMain != null && itemMain.getItem() instanceof ItemFood) || (itemSec != null && itemSec.getItem() instanceof ItemFood) && this.mc.thePlayer.getFoodStats().needFood() && this.settings.show_hunger_preview) {
+			float value;
+			if(itemMain.getItem() instanceof ItemFood) 
+				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
+			else value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
 			int bonusHunger = (int) (value + stamina);
 			if (bonusHunger > 20)
 				bonusHunger = 20;
