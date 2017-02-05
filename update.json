@@ -1,18 +1,20 @@
 {
   "homepage": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
   "promos": {
-    "1.11-latest"     : "3.2",
-    "1.11-recomended" : "3.2",
-    "1.10.2-latest"     : "3.2",
-    "1.10.2-recomended" : "3.2"
+    "1.11-latest"     : "3.3",
+    "1.11-recomended" : "3.3",
+    "1.10.2-latest"     : "3.3",
+    "1.10.2-recomended" : "3.3"
   },
   "1.11" : {
-  	"3.2" : "Added compass element\nfixed array crash on using modern HUD and getting poisoned\nfixed hud load error bug\nfixed arrow count bug",
+  	"3.3" : "Added color editor\nfixed hunger preview not working with offhand\nfixed display bug for modern HUD's hunger preview'",
+    "3.2" : "Added compass element\nfixed array crash on using modern HUD and getting poisoned\nfixed hud load error bug\nfixed arrow count bug",
     "3.1.1" : "Fixed severe casting bug and color bug",
     "3.1" : "Initial release of the mod remake"
   },
   "1.10.2" : {
-  	"3.2" : "Added compass element\nfixed array crash on using modern HUD and getting poisoned\nfixed hud load error bug\nfixed arrow count bug",
+  	"3.3" : "Added color editor\nfixed hunger preview not working with offhand\nfixed display bug for modern HUD's hunger preview'",
+    "3.2" : "Added compass element\nfixed array crash on using modern HUD and getting poisoned\nfixed hud load error bug\nfixed arrow count bug",
     "3.1.1" : "Fixed severe casting bug and color bug",
     "3.1" : "Initial release of the mod remake"
   }

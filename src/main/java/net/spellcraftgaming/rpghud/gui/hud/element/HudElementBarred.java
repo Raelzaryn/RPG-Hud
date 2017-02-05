@@ -8,29 +8,49 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 public abstract class HudElementBarred extends HudElement {
 
 	/** The values of the color red */
-	public static final int[] COLOR_RED = { 0xFFC10000, 0xFF8B0000 };
+	public static final int COLOR_RED = 0xC10000;
+	
+	/** The values of the color red */
+	public static final int COLOR_PINK = 0xFF69B4;
+	
+	/** The values of the color red */
+	public static final int COLOR_BROWN = 0x8b4513;
+	
+	/** The values of the color white */
+	public static final int COLOR_WHITE = 0xF2F2F2;
+	
+	/** The values of the color white */
+	public static final int COLOR_ORANGE = 0xFF8400;
+	
+	/** The values of the color green */
+	public static final int COLOR_GREEN = 0x3BC200;
+	
+	/** The values of the color red */
+	public static final int COLOR_PURPLE = 0xA400F0;
 
 	/** The values of the color blue */
-	public static final int[] COLOR_BLUE = { 0xFF005BC2, 0xFF00428C };
-
-	/** The values of the color yellow */
-	public static final int[] COLOR_YELLOW = { 0xFFEEEE00, 0xFFDADA00 };
-
-	/** The values of the color green */
-	public static final int[] COLOR_GREEN = { 0xFF3BC200, 0xFF2B8C00 };
-
-	/** The values of the color white */
-	public static final int[] COLOR_WHITE = { 0xFFF2F2F2, 0xFFE6E6E6 };
-
+	public static final int COLOR_BLUE = 0x005BC2;
+	
+	/** The values of the color blue */
+	public static final int COLOR_AQUA = 0x00FFFF;
+	
+	/** The value of the color black */
+	public static final int COLOR_BLACK = 0x121212;
+	
 	/** The values of the color grey */
-	public static final int[] COLOR_GREY = { 0xFFBFBFBF, 0xFF808080 };
+	public static final int COLOR_GREY = 0x8A8A8A;
+	
+	/** The values of the color yellow */
+	public static final int COLOR_YELLOW = 0xEEEE00;
 
 	/** The values of the default color */
-	public static final int[] COLOR_DEFAULT = { 0xFF4C4C4C, 0xFF3D3D3D };
+	public static final int[] COLOR_DEFAULT = { 0x4C4C4C, 0x3D3D3D };
 
-	/** The value of the color black */
-	public static final int COLOR_BLACK = 0xFF000000;
 
+	
+	public static final int OFFSET_PERCENT = 25;
+	
+	public static final int OFFSET_PREVIEW = 0x5A5A5A;
 	/**
 	 * Constructor
 	 * 
@@ -51,42 +71,6 @@ public abstract class HudElementBarred extends HudElement {
 		super(type, posX, posY, width, height, moveable);
 	}
 
-	/**
-	 * Returns the color for the parameter
-	 * 
-	 * @param setting
-	 *            should the value of a ModSettings color setting
-	 * @return the color
-	 */
-	public int[] getColor(int setting) {
-		int[] color = new int[2];
-		switch (setting) {
-		case 0:
-			color[0] = HudElementBarred.COLOR_RED[0];
-			color[1] = HudElementBarred.COLOR_RED[1];
-			break;
-		case 1:
-			color[0] = HudElementBarred.COLOR_BLUE[0];
-			color[1] = HudElementBarred.COLOR_BLUE[1];
-			break;
-		case 2:
-			color[0] = HudElementBarred.COLOR_GREEN[0];
-			color[1] = HudElementBarred.COLOR_GREEN[1];
-			break;
-		case 3:
-			color[0] = HudElementBarred.COLOR_YELLOW[0];
-			color[1] = HudElementBarred.COLOR_YELLOW[1];
-			break;
-		case 4:
-			color[0] = HudElementBarred.COLOR_WHITE[0];
-			color[1] = HudElementBarred.COLOR_WHITE[1];
-			break;
-		case 5:
-			color[0] = HudElementBarred.COLOR_GREY[0];
-			color[1] = HudElementBarred.COLOR_GREY[1];
-		}
-		return color;
-	}
 
 	/**
 	 * Draw an outline on the screen
@@ -126,8 +110,8 @@ public abstract class HudElementBarred extends HudElement {
 	 * @param colorBarDark
 	 *            the color for the bar (dark
 	 */
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
-		drawCustomBar(x, y, width, height, value, HudElementBarred.COLOR_DEFAULT[0], HudElementBarred.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, HudElementBarred.COLOR_BLACK);
+	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
+		drawCustomBar(x, y, width, height, value, HudElementBarred.COLOR_DEFAULT[0], HudElementBarred.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
 	}
 
 	/**
@@ -152,8 +136,8 @@ public abstract class HudElementBarred extends HudElement {
 	 * @param colorBarDark
 	 *            the color for the bar (dark
 	 */
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, HudElementBarred.COLOR_BLACK);
+	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
 	}
 
 	/**
@@ -180,8 +164,8 @@ public abstract class HudElementBarred extends HudElement {
 	 * @param outlined
 	 *            whether this bar has an outline or not
 	 */
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, HudElementBarred.COLOR_BLACK);
+	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
 	}
 
 	/**
@@ -208,7 +192,7 @@ public abstract class HudElementBarred extends HudElement {
 	 * @param colorOutline
 	 *            the color of the outline
 	 */
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
 		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
 	}
 
@@ -238,7 +222,7 @@ public abstract class HudElementBarred extends HudElement {
 	 * @param colorOutline
 	 *            the color of the outline
 	 */
-	protected void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
 		if (value < 0.0D) {
 			value = 0.0D;
 		}
@@ -294,7 +278,10 @@ public abstract class HudElementBarred extends HudElement {
 	 *            color of the tetragon (hexa format 0xAARRGGBB)
 	 */
 	public void drawTetragon(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
-		float f3 = (color >> 24 & 255) / 255.0F;
+		if(color == -1) return;
+		float f3;
+		if(color <= 0xFFFFFF && color >= 0) f3 = 1.0F;
+		else f3 = (color >> 24 & 255) / 255.0F;
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
@@ -304,16 +291,62 @@ public abstract class HudElementBarred extends HudElement {
 		GlStateManager.disableTexture2D();
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.color(f, f1, f2, f3);
+		GlStateManager.disableDepth();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
 		vertexbuffer.pos(posX1, (double) posY1 + height1, 0.0D).endVertex();
 		vertexbuffer.pos((double) posX2 + width2, (double) posY2 + height2, 0.0D).endVertex();
 		vertexbuffer.pos((double) posX1 + width1, posY2, 0.0D).endVertex();
 		vertexbuffer.pos(posX2, posY1, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
+		GlStateManager.enableDepth();
 		GlStateManager.color(1f, 1f, 1f);
 	}
 
+	public static int offsetColorPercent(int color, int offsetPercent) {
+		int colorOffset;
+		
+		int colorPart = (color >> 16 & 255);
+		colorPart -= colorPart / (100 / offsetPercent);
+		if(colorPart > 0xFF) colorPart = 0xFF;
+		else if (colorPart < 0) colorPart = 0;
+		
+		colorOffset = colorPart << 16;
+		colorPart = (color >> 8 & 255);
+		colorPart -= colorPart / (100 / offsetPercent);
+		if(colorPart > 0xFF) colorPart = 0xFF;
+		else if (colorPart < 0) colorPart = 0;
+		
+		colorOffset += colorPart << 8;
+		colorPart = (color & 255);
+		colorPart -= colorPart / (100 / offsetPercent);
+		if(colorPart > 0xFF) colorPart = 0xFF;
+		else if (colorPart < 0) colorPart = 0;
+		colorOffset += colorPart;
+		return colorOffset;
+	}
+	
+	public static int offsetColor(int color, int offset) {
+		int colorOffset;
+		
+		int colorPart = (color >> 16 & 255);
+		colorPart += (offset >> 16 & 255);
+		if(colorPart > 0xFF) colorPart = 0xFF;
+		else if (colorPart < 0) colorPart = 0;
+		
+		colorOffset = colorPart << 16;
+		colorPart = (color >> 8 & 255);
+		colorPart += (offset >> 8 & 255);
+		if(colorPart > 0xFF) colorPart = 0xFF;
+		else if (colorPart < 0) colorPart = 0;
+		
+		colorOffset += colorPart << 8;
+		colorPart = (color & 255);
+		colorPart += (offset & 255);
+		if(colorPart > 0xFF) colorPart = 0xFF;
+		else if (colorPart < 0) colorPart = 0;
+		colorOffset += colorPart;
+		return colorOffset;
+	}
 }

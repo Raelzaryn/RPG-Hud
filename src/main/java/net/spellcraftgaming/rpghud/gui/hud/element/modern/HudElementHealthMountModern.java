@@ -21,7 +21,6 @@ public class HudElementHealthMountModern extends HudElementBarred{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int[] colorHealth = getColor(this.settings.color_health);
 		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
@@ -38,7 +37,7 @@ public class HudElementHealthMountModern extends HudElementBarred{
 		}
 		
 		drawTetragon(posX, posX, 21, 21, 58, 54, 3, 3, 0xA0000000);
-		drawTetragon(posX + 2, posX + 2, 21, 21, (int)(((double)health / (double)healthMax) * 53), (int)(((double)health / (double)healthMax) * 53 - 2), 1, 1, colorHealth[0]);
+		drawTetragon(posX + 2, posX + 2, 21, 21, (int)(((double)health / (double)healthMax) * 53), (int)(((double)health / (double)healthMax) * 53 - 2), 1, 1, this.settings.color_health);
 		
 	}
 

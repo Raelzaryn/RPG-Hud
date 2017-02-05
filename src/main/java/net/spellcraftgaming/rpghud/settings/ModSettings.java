@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class ModSettings {
@@ -21,8 +22,6 @@ public class ModSettings {
 	/** The file the settings are read from and wrote into */
 	private File optionsFile;
 
-	/** The translated value of the color settings */
-	private static final String[] COLOR = { "color.red", "color.blue", "color.green", "color.yellow", "color.white", "color.grey" };
 	/** The translated value of the time format setting */
 	private static final String[] TIME_FORMAT = { "time.24", "time.12" };
 
@@ -52,11 +51,14 @@ public class ModSettings {
 	/** The active HUD's type */
 	public String hud_type = "vanilla";
 
-	public int color_health = 0;
-	public int color_stamina = 2;
-	public int color_air = 1;
-	public int color_experience = 3;
-	public int color_jumpbar = 5;
+	public int color_health = 0xC10000;
+	public int color_stamina = 0x3BC200;
+	public int color_air = 0x005BC2;
+	public int color_experience = 0xEEEE00;
+	public int color_jumpbar = 0xBFBFBF;
+	public int color_poison = 0x800080;
+	public int color_hunger = 0x9ba067;
+	
 	public int clock_time_format = 0;
 
 	public ModSettings(File file) {
@@ -123,41 +125,6 @@ public class ModSettings {
 		if (options == EnumOptionsMod.REDUCE_SIZE) {
 			this.reduce_size = (!this.reduce_size);
 		}
-		if (options == EnumOptionsMod.COLOR_HEALTH) {
-			if (this.color_health >= 5) {
-				this.color_health = 0;
-			} else {
-				this.color_health++;
-			}
-		}
-		if (options == EnumOptionsMod.COLOR_STAMINA) {
-			if (this.color_stamina >= 5) {
-				this.color_stamina = 0;
-			} else {
-				this.color_stamina++;
-			}
-		}
-		if (options == EnumOptionsMod.COLOR_AIR) {
-			if (this.color_air >= 5) {
-				this.color_air = 0;
-			} else {
-				this.color_air++;
-			}
-		}
-		if (options == EnumOptionsMod.COLOR_EXPERIENCE) {
-			if (this.color_experience >= 5) {
-				this.color_experience = 0;
-			} else {
-				this.color_experience++;
-			}
-		}
-		if (options == EnumOptionsMod.COLOR_JUMPBAR) {
-			if (this.color_jumpbar >= 5) {
-				this.color_jumpbar = 0;
-			} else {
-				this.color_jumpbar++;
-			}
-		}
 		if (options == EnumOptionsMod.CLOCK_TIME_FORMAT) {
 			if (this.clock_time_format >= 1) {
 				this.clock_time_format = 0;
@@ -188,6 +155,14 @@ public class ModSettings {
 
 	}
 
+    public float getOptionFloatValue(EnumOptionsMod settingOption)
+    {
+    	switch(settingOption) {
+    	default:
+    		return 0F;
+    	}
+    }
+    
 	/** Returns the ordinal value of this setting */
 	public boolean getOptionOrdinalValue(EnumOptionsMod options) {
 		switch (ModSettings.SwitchOptions.optionIds[options.ordinal()]) {
@@ -320,19 +295,52 @@ public class ModSettings {
 						this.button_tooltip_enabled = string[1].equals("true");
 					}
 					if (string[0].equals("color_health")) {
-						this.color_health = Integer.parseInt(string[1]);
+						if(string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
 					}
 					if (string[0].equals("color_stamina")) {
-						this.color_stamina = Integer.parseInt(string[1]);
+						if(string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
 					}
 					if (string[0].equals("color_air")) {
-						this.color_air = Integer.parseInt(string[1]);
+						if(string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
 					}
 					if (string[0].equals("color_experience")) {
-						this.color_experience = Integer.parseInt(string[1]);
+						if(string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
 					}
 					if (string[0].equals("color_jumpbar")) {
-						this.color_jumpbar = Integer.parseInt(string[1]);
+						if(string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
+					}
+					if (string[0].equals("color_poison")) {
+						this.color_poison = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
+					if (string[0].equals("color_hunger")) {
+						this.color_hunger = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
+					if (string[0].equals("color_jumpbar")) {
+						if(string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
 					}
 					if (string[0].equals("clock_time_format")) {
 						this.clock_time_format = Integer.parseInt(string[1]);
@@ -415,15 +423,19 @@ public class ModSettings {
 		case HUD_TYPE:
 			return s + getHudName(this.hud_type);
 		case COLOR_JUMPBAR:
-			return s + getTranslation(COLOR, this.color_jumpbar);
+			return s + intToHexString(this.color_jumpbar);
 		case COLOR_EXPERIENCE:
-			return s + getTranslation(COLOR, this.color_experience);
+			return s + intToHexString(this.color_experience);
 		case COLOR_STAMINA:
-			return s + getTranslation(COLOR, this.color_stamina);
+			return s + intToHexString(this.color_stamina);
+		case COLOR_POISON:
+			return s + intToHexString(this.color_poison);
+		case COLOR_HUNGER:
+			return s + intToHexString(this.color_hunger);
 		case COLOR_HEALTH:
-			return s + getTranslation(COLOR, this.color_health);
+			return s + intToHexString(this.color_health);
 		case COLOR_AIR:
-			return s + getTranslation(COLOR, this.color_air);
+			return s + intToHexString(this.color_air);
 		case CLOCK_TIME_FORMAT:
 			return s + getTranslation(ModSettings.TIME_FORMAT, this.clock_time_format);
 		default:
@@ -464,11 +476,13 @@ public class ModSettings {
 			try {
 				PrintWriter exception = new PrintWriter(new FileWriter(this.optionsFile));
 				exception.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
-				exception.println("color_health:" + this.color_health);
-				exception.println("color_air:" + this.color_air);
-				exception.println("color_stamina:" + this.color_stamina);
-				exception.println("color_experience:" + this.color_experience);
-				exception.println("color_jumpbar:" + this.color_jumpbar);
+				exception.println("color_health:" + "#" + Integer.toHexString(this.color_health));
+				exception.println("color_air:" + "#" + Integer.toHexString(this.color_air));
+				exception.println("color_stamina:" + "#" + Integer.toHexString(this.color_stamina));
+				exception.println("color_experience:" + "#" + Integer.toHexString(this.color_experience));
+				exception.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
+				exception.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
+				exception.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
 				exception.println("clock_time_format:" + this.clock_time_format);
 				exception.println("hud_type:" + this.hud_type);
 				exception.println("show_armor:" + this.show_armor);
@@ -492,5 +506,51 @@ public class ModSettings {
 				var2.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * Returns the color for the parameter
+	 * 
+	 * @param setting
+	 *            should the value of a ModSettings color setting
+	 * @return the color
+	 */
+	@Deprecated
+	public static int getColor(int setting) {
+		switch (setting) {
+		case 0:
+			return HudElementBarred.COLOR_RED;
+		case 1:
+			return HudElementBarred.COLOR_BLUE;
+		case 2:
+			return HudElementBarred.COLOR_GREEN;
+		case 3:
+			return HudElementBarred.COLOR_YELLOW;
+		case 4:
+			return HudElementBarred.COLOR_WHITE;
+		case 5:
+			return HudElementBarred.COLOR_GREY;
+		}
+		return 0xFFFFFF;
+	}
+	
+	public static String intToHexString(int hex) {
+		String s = Integer.toHexString(hex).toUpperCase();
+		if(hex <= 0xFFFFF) {
+			s = "0" + s;
+			if(hex <= 0xFFFF) {
+				s = "0" + s;
+				if(hex <= 0xFFF) {
+					s = "0" + s;
+					if(hex <= 0xFF) {
+						s = "0" + s;
+						if(hex <= 0xF) {
+							s = "0" + s;
+						}
+					}
+				}
+			}
+		}
+		return "#" + s;
 	}
 }

@@ -22,11 +22,10 @@ public class HudElementExperienceDefault extends HudElementBarred {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
-		int[] experienceColor = getColor(this.settings.color_experience);
 		int exp = (int) (this.mc.player.xpBarCap() * this.mc.player.experience);
 		double full = 100D / this.mc.player.xpBarCap();
 		GlStateManager.disableLighting();
-		drawCustomBar(0, height - 10, width, 10, exp * full, experienceColor[0], experienceColor[1]);
+		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.color_experience, offsetColorPercent(this.settings.color_experience, 25));
 		String stringExp = exp + "/" + this.mc.player.xpBarCap();
 		int var7 = width / 2;
 		if (this.settings.show_numbers_experience)

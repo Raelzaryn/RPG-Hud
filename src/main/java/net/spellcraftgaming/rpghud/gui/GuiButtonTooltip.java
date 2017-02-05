@@ -10,10 +10,10 @@ import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
 public class GuiButtonTooltip extends GuiButton {
 
 	/** Variable to contain the (possible) setting of this button */
-	private final EnumOptionsMod enumOptions;
+	protected final EnumOptionsMod enumOptions;
 
 	/** Variable to contain the (possible) debug setting of this button */
-	private final EnumOptionsDebugMod enumOptionsDebug;
+	protected final EnumOptionsDebugMod enumOptionsDebug;
 
 	/** Array that contains the tooltip of this button */
 	private String[] tooltip;

@@ -24,10 +24,9 @@ public class HudElementAirDefault extends HudElementBarred {
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		int adjustedWidth = width / 2 - 91;
-		int[] airColor = this.getColor(this.settings.color_air);
 		int airAmount = this.mc.player.getAir();
 		GlStateManager.disableLighting();
-		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, airColor[0], airColor[1]);
+		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, this.settings.color_air, offsetColorPercent(this.settings.color_air, OFFSET_PERCENT));
 	}
 
 }

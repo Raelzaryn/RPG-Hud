@@ -19,13 +19,12 @@ public class HudElementJumpBarDefault extends HudElementBarred {
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int[] jumpColor = getColor(this.settings.color_jumpbar);
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int center = res.getScaledWidth() / 2;
 		float jumpPower = this.mc.player.getHorseJumpPower();
 		int value = (int) (jumpPower * 100.0F);
-		drawCustomBar(center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, jumpColor[0], jumpColor[1]);
+		drawCustomBar(center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.color_jumpbar, offsetColorPercent(this.settings.color_jumpbar, OFFSET_PERCENT));
 	}
 
 }

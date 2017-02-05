@@ -24,7 +24,6 @@ public class HudElementHealthModern extends HudElementBarred{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int[] healthColor = getColor(this.settings.color_health);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		int healthMax = (int) attrMaxHealth.getAttributeValue();
@@ -45,41 +44,10 @@ public class HudElementHealthModern extends HudElementBarred{
 		drawTetragon(posX + 2, posX + 2, 5, 5, 89, 79, 6, 6, 0x20FFFFFF);
 		
 		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
-			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, healthColor[1]);
+			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, this.settings.color_poison);
 		} else {
-			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, healthColor[0]);
+			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, this.settings.color_health);
 		}
-	}
-
-	@Override
-	public int[] getColor(int setting) {
-		int[] color = new int[2];
-		switch (this.settings.color_health) {
-		case 0:
-			color[0] = HudElementBarred.COLOR_RED[0];
-			color[1] = HudElementBarred.COLOR_RED[0] + 0x4400;
-			break;
-		case 1:
-			color[0] = HudElementBarred.COLOR_BLUE[0];
-			color[1] = HudElementBarred.COLOR_BLUE[0] + 0x4400;
-			break;
-		case 2:
-			color[0] = HudElementBarred.COLOR_GREEN[0];
-			color[1] = HudElementBarred.COLOR_GREEN[0] + 0x440000;
-			break;
-		case 3:
-			color[0] = HudElementBarred.COLOR_YELLOW[0];
-			color[1] = (HudElementBarred.COLOR_YELLOW[0] + 0x1100);
-			break;
-		case 4:
-			color[0] = HudElementBarred.COLOR_WHITE[0];
-			color[1] = HudElementBarred.COLOR_WHITE[0] - 0x222222;
-			break;
-		case 5:
-			color[0] = HudElementBarred.COLOR_GREY[0];
-			color[1] = HudElementBarred.COLOR_GREY[0] - 0x222222;
-		}
-		return color;
 	}
 
 }

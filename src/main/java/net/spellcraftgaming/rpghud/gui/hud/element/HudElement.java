@@ -188,7 +188,10 @@ public abstract class HudElement {
 	 *            the color of the rectangle
 	 */
 	public static void drawRect(int posX, int posY, int width, int height, int color) {
-		float f3 = (color >> 24 & 255) / 255.0F;
+		if (color == -1) return;
+		float f3;
+		if(color <= 0xFFFFFF && color >= 0) f3 = 1.0F;
+		else f3 = (color >> 24 & 255) / 255.0F;
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;

@@ -1,6 +1,8 @@
 package net.spellcraftgaming.rpghud.settings;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.math.MathHelper;
+
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.*;
 
 public enum EnumOptionsMod {
@@ -23,6 +25,8 @@ public enum EnumOptionsMod {
 	COLOR_AIR(INTEGER, "name.color_air", I18n.format("tooltip.color_air", new Object[0])), 
 	COLOR_EXPERIENCE(INTEGER, "name.color_exp", I18n.format("tooltip.color_exp", new Object[0])), 
 	COLOR_JUMPBAR(INTEGER, "name.color_jumpbar", I18n.format("tooltip.color_jumpbar", new Object[0])), 
+	COLOR_POISON(INTEGER, "name.color_poison", I18n.format("tooltip.color_poison", new Object[0])), 
+	COLOR_HUNGER(INTEGER, "name.color_hunger", I18n.format("tooltip.color_hunger", new Object[0])), 
 	SHOW_HUNGERPREVIEW(BOOLEAN, "name.show_hungerpreview", I18n.format("tooltip.show_hungerpreview", new Object[0])), 
 	CLOCK_TIME_FORMAT(INTEGER, "name.time_format", I18n.format("tooltip.clock_time_format", new Object[0])), 
 	REDUCE_SIZE(BOOLEAN, "name.reduce_size", I18n.format("tooltip.reduce_size", new Object[0])),
@@ -31,7 +35,7 @@ public enum EnumOptionsMod {
 	ENABLE_COMPASS_COLOR(BOOLEAN, "name.compass_color", I18n.format("tooltip.compass_color", new Object[0]));
 
 	public enum EnumOptionType {
-		INTEGER, BOOLEAN, STRING;
+		INTEGER, BOOLEAN, STRING, FLOAT;
 	}
 
 	/** The name of the setting */
@@ -41,6 +45,10 @@ public enum EnumOptionsMod {
 	/** The type of the setting */
 	private final EnumOptionType type;
 
+    private final float valueStep;
+    private final float valueMin;
+    private final float valueMax;
+    
 	public static EnumOptionsMod getEnumOptions(int par0) {
 		EnumOptionsMod[] aenumoptions = values();
 		int j = aenumoptions.length;
@@ -64,6 +72,18 @@ public enum EnumOptionsMod {
 		this.type = type;
 		this.enumName = name;
 		this.tooltip = tooltip;
+		this.valueMin = 0F;
+		this.valueMax = 0F;
+		this.valueStep = 0F;
+	}
+	
+	private EnumOptionsMod(EnumOptionType type, String name, String tooltip, float valMin, float valMax, float valStep) {
+		this.type = type;
+		this.enumName = name;
+		this.tooltip = tooltip;
+		this.valueMin = valMin;
+		this.valueMax = valMax;
+		this.valueStep = valStep;
 	}
 
 	/** Returns the ordinal of this setting */
@@ -90,4 +110,30 @@ public enum EnumOptionsMod {
 	public boolean isBoolean() {
 		return this.type == BOOLEAN ? true : false;
 	}
+	
+    public float normalizeValue(float value)
+    {
+        return MathHelper.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+    }
+
+    public float denormalizeValue(float value)
+    {
+        return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
+    }
+
+    public float snapToStepClamp(float value)
+    {
+        value = this.snapToStep(value);
+        return MathHelper.clamp(value, this.valueMin, this.valueMax);
+    }
+
+    private float snapToStep(float value)
+    {
+        if (this.valueStep > 0.0F)
+        {
+            value = this.valueStep * Math.round(value / this.valueStep);
+        }
+
+        return value;
+    }
 }
