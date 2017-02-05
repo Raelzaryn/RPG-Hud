@@ -15,6 +15,7 @@ name.details=Item details
 name.widget=Widget
 name.record_overlay=Record Overlay
 name.chat=Chat
+name.compass=Compass
 
 name.force_render=Force Rendering
 name.render_vanilla=Render vanilla element
@@ -42,6 +43,9 @@ name.color_jumpbar=Jump bar color
 name.show_hungerpreview=Show hunger preview
 name.time_format=Clock time format
 name.reduce_size=Reduce detail size
+name.enable_compass=Enable compass
+name.immersive_compass=Immersive compass
+name.compass_color=Compass color
 
 color.red=Red
 color.blue=Blue
@@ -89,6 +93,9 @@ tooltip.clock_time_format=Set the time format to either/n24 hours or 12 hours (A
 tooltip.enable_timecolor=Set the color of the clock/nwidget to change with the/ntime of day
 tooltip.show_hungerpreview=Show a preview of the/nstamina/hunger bar when/na food item is selected/nfrom the hotbar
 tooltip.button_tooltip=Show button tolltips
+tooltip.enable_compass=Enable/disable the/ncompass widget
+tooltip.enable_immersive_compass=Display the compass widget/nonly when a compass is inside the/nplayer's inventory
+tooltip.compass_color=Enable/Disable the red color/nfor the "N" symbol
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element
