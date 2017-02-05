@@ -26,9 +26,9 @@ public enum EnumOptionsMod {
 	SHOW_HUNGERPREVIEW(BOOLEAN, "name.show_hungerpreview", I18n.format("tooltip.show_hungerpreview", new Object[0])), 
 	CLOCK_TIME_FORMAT(INTEGER, "name.time_format", I18n.format("tooltip.clock_time_format", new Object[0])), 
 	REDUCE_SIZE(BOOLEAN, "name.reduce_size", I18n.format("tooltip.reduce_size", new Object[0])),
-	ENABLE_COMPASS(BOOLEAN, "name.enable_compass", I18n.format("name.enable_compass", new Object[0])),
-	ENABLE_IMMERSIVE_COMPASS(BOOLEAN, "name.immersive_compass", I18n.format("name.immersive_compass", new Object[0])),
-	ENABLE_COMPASS_COLOR(BOOLEAN, "name.compass_color", I18n.format("name.compass_color", new Object[0]));
+	ENABLE_COMPASS(BOOLEAN, "name.enable_compass", I18n.format("tooltip.enable_compass", new Object[0])),
+	ENABLE_IMMERSIVE_COMPASS(BOOLEAN, "name.immersive_compass", I18n.format("tooltip.immersive_compass", new Object[0])),
+	ENABLE_COMPASS_COLOR(BOOLEAN, "name.compass_color", I18n.format("tooltip.compass_color", new Object[0]));
 
 	public enum EnumOptionType {
 		INTEGER, BOOLEAN, STRING;
