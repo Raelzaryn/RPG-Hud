@@ -35,11 +35,11 @@ public class HudElementHotbarHotbar extends HudElement {
 			int i = res.getScaledWidth() / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
+			int posX = this.settings.render_player_face ? 49: 25;
+			gui.drawTexturedModalRect(posX, res.getScaledHeight() - 47, 0, 0, 182, 22);
+			gui.drawTexturedModalRect(posX + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1, 0, 22, 24, 22);
 
-			gui.drawTexturedModalRect(49, res.getScaledHeight() - 47, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(48 + 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1, 0, 22, 24, 22);
-
-			gui.drawTexturedModalRect(49 + 181, res.getScaledHeight() - 47, 60, 23, 22, 22);
+			gui.drawTexturedModalRect(posX + 181, res.getScaledHeight() - 47, 60, 23, 22, 22);
 
 			zLevel = f;
 			GlStateManager.enableRescaleNormal();
@@ -48,13 +48,13 @@ public class HudElementHotbarHotbar extends HudElement {
 			RenderHelper.enableGUIStandardItemLighting();
 
 			for (int l = 0; l < 9; ++l) {
-				int i1 = 50 + l * 20 + 2;
+				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = res.getScaledHeight() - 16 - 19 - 9;
 				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory.get(l));
 			}
 
 			int l1 = res.getScaledHeight() - 47 + 3;
-			this.renderHotbarItem(49 + 184, l1, partialTicks, entityplayer, itemstack);
+			this.renderHotbarItem(posX + 184, l1, partialTicks, entityplayer, itemstack);
 
 			if (this.mc.gameSettings.attackIndicator == 2) {
 				float f1 = this.mc.player.getCooledAttackStrength(0.0F);
@@ -96,7 +96,7 @@ public class HudElementHotbarHotbar extends HudElement {
 	 *            the item (via ItemStack)
 	 */
 	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
-		if (!item.isEmpty()) {
+		if (item != null) {
 			float f = item.getAnimationsToGo() - partialTicks;
 
 			if (f > 0.0F) {

@@ -21,17 +21,22 @@ public class HudElementWidgetDefault extends HudElementTexture {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
-		gui.drawTexturedModalRect(0, 0, 0, 0, 162, 50);
+		gui.drawTexturedModalRect(this.settings.render_player_face ? 50 : 25, this.settings.render_player_face ? 8 : 0, 0, 0, 114, 35);
 		if (this.mc.player.getRidingEntity() instanceof EntityLivingBase) {
-			gui.drawTexturedModalRect(51, 39, 163, 0, 92, 20);
+			gui.drawTexturedModalRect(this.settings.render_player_face ? 51 : 31, this.settings.render_player_face ? 39 : 30, 164, 0, 92, 20);
 		}
 
-		bind(getPlayerSkin(this.mc.player));
-		GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.drawTexturedModalRect(34, 34, 32, 32, 32, 32);
-		gui.drawTexturedModalRect(34, 34, 160, 32, 32, 32);
-		GL11.glScaled(2.0D, 2.0D, 2.0D);
-		bind(Gui.ICONS);
+		if(this.settings.render_player_face) {
+			gui.drawTexturedModalRect(0, 0, 114, 0, 50, 50);
+			bind(getPlayerSkin(this.mc.player));
+			GL11.glScaled(0.5D, 0.5D, 0.5D);
+			gui.drawTexturedModalRect(34, 34, 32, 32, 32, 32);
+			gui.drawTexturedModalRect(34, 34, 160, 32, 32, 32);
+			GL11.glScaled(2.0D, 2.0D, 2.0D);
+			bind(Gui.ICONS);
+		} else {
+			gui.drawTexturedModalRect(0, this.settings.render_player_face ? 11 : 3, 114, 50, 25, 29);
+		}
 	}
 
 }

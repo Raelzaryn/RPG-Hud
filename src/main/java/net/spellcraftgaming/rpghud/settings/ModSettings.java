@@ -50,6 +50,8 @@ public class ModSettings {
 	public boolean render_player_face = true;
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
+	public boolean limit_jumpbar = true;
+	public boolean invert_compass = false;
 
 	/** The active HUD's type */
 	public String hud_type = "vanilla";
@@ -143,6 +145,12 @@ public class ModSettings {
 		if (options == EnumOptionsMod.ENABLE_PICKUP) {
 			this.enable_pickup = (!this.enable_pickup);
 		}
+		if (options == EnumOptionsMod.LIMIT_JUMPBAR) {
+			this.limit_jumpbar = (!this.limit_jumpbar);
+		}
+		if (options == EnumOptionsMod.INVERT_COMPASS) {
+			this.invert_compass = (!this.invert_compass);
+		}
 		saveOptions();
 	}
 
@@ -221,6 +229,10 @@ public class ModSettings {
 			return this.enable_immersive_compass;
 		case 17:
 			return this.enable_pickup;
+		case 18:
+			return this.limit_jumpbar;
+		case 19:
+			return this.invert_compass;
 		default:
 			return false;
 		}
@@ -300,6 +312,14 @@ public class ModSettings {
 			}
 			try {
 				optionIds[EnumOptionsMod.ENABLE_PICKUP.ordinal()] = 17;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsMod.LIMIT_JUMPBAR.ordinal()] = 18;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsMod.INVERT_COMPASS.ordinal()] = 19;
 			} catch (NoSuchFieldError e) {
 			}
 		}
@@ -420,6 +440,12 @@ public class ModSettings {
 					if (string[0].equals("pickup_duration")) {
 						this.pickup_duration = Float.parseFloat(string[1]);
 					}
+					if (string[0].equals("limit_jumpbar")) {
+						this.limit_jumpbar = string[1].equals("true");
+					}
+					if (string[0].equals("invert_compass")) {
+						this.invert_compass = string[1].equals("true");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -500,36 +526,38 @@ public class ModSettings {
 	public void saveOptions() {
 		if (!FMLClientHandler.instance().isLoading()) {
 			try {
-				PrintWriter exception = new PrintWriter(new FileWriter(this.optionsFile));
-				exception.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
-				exception.println("color_health:" + "#" + Integer.toHexString(this.color_health));
-				exception.println("color_air:" + "#" + Integer.toHexString(this.color_air));
-				exception.println("color_stamina:" + "#" + Integer.toHexString(this.color_stamina));
-				exception.println("color_experience:" + "#" + Integer.toHexString(this.color_experience));
-				exception.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
-				exception.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
-				exception.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
-				exception.println("clock_time_format:" + this.clock_time_format);
-				exception.println("hud_type:" + this.hud_type);
-				exception.println("show_armor:" + this.show_armor);
-				exception.println("show_blockcount:" + this.show_blockcount);
-				exception.println("show_arrowcount:" + this.show_arrowcount);
-				exception.println("show_itemdurability:" + this.show_itemdurability);
-				exception.println("show_numbers_health:" + this.show_numbers_health);
-				exception.println("show_numbers_stamina:" + this.show_numbers_stamina);
-				exception.println("show_numbers_experience:" + this.show_numbers_experience);
-				exception.println("enable_clock:" + this.enable_clock);
-				exception.println("enable_clock_color:" + this.enable_clock_color);
-				exception.println("enable_immersive_clock:" + this.enable_immersive_clock);
-				exception.println("enable_compass:" + this.enable_compass);
-				exception.println("enable_compass_color:" + this.enable_compass_color);
-				exception.println("enable_immersive_compass:" + this.enable_immersive_compass);
-				exception.println("render_player_face:" + this.render_player_face);
-				exception.println("show_hunger_preview:" + this.show_hunger_preview);
-				exception.println("reduce_size:" + this.reduce_size);
-				exception.println("enable_pickup:" + this.enable_pickup);
-				exception.println("pickup_duration:" + this.pickup_duration);
-				exception.close();
+				PrintWriter writer = new PrintWriter(new FileWriter(this.optionsFile));
+				writer.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
+				writer.println("color_health:" + "#" + Integer.toHexString(this.color_health));
+				writer.println("color_air:" + "#" + Integer.toHexString(this.color_air));
+				writer.println("color_stamina:" + "#" + Integer.toHexString(this.color_stamina));
+				writer.println("color_experience:" + "#" + Integer.toHexString(this.color_experience));
+				writer.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
+				writer.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
+				writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
+				writer.println("clock_time_format:" + this.clock_time_format);
+				writer.println("hud_type:" + this.hud_type);
+				writer.println("show_armor:" + this.show_armor);
+				writer.println("show_blockcount:" + this.show_blockcount);
+				writer.println("show_arrowcount:" + this.show_arrowcount);
+				writer.println("show_itemdurability:" + this.show_itemdurability);
+				writer.println("show_numbers_health:" + this.show_numbers_health);
+				writer.println("show_numbers_stamina:" + this.show_numbers_stamina);
+				writer.println("show_numbers_experience:" + this.show_numbers_experience);
+				writer.println("enable_clock:" + this.enable_clock);
+				writer.println("enable_clock_color:" + this.enable_clock_color);
+				writer.println("enable_immersive_clock:" + this.enable_immersive_clock);
+				writer.println("enable_compass:" + this.enable_compass);
+				writer.println("enable_compass_color:" + this.enable_compass_color);
+				writer.println("enable_immersive_compass:" + this.enable_immersive_compass);
+				writer.println("render_player_face:" + this.render_player_face);
+				writer.println("show_hunger_preview:" + this.show_hunger_preview);
+				writer.println("reduce_size:" + this.reduce_size);
+				writer.println("enable_pickup:" + this.enable_pickup);
+				writer.println("pickup_duration:" + this.pickup_duration);
+				writer.println("limit_jumpbar:" + this.limit_jumpbar);
+				writer.println("invert_compass:" + this.invert_compass);
+				writer.close();
 			} catch (Exception var2) {
 				var2.printStackTrace();
 			}

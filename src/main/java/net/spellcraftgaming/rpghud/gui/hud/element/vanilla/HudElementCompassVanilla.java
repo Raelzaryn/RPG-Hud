@@ -24,49 +24,48 @@ public class HudElementCompassVanilla extends HudElementTexture{
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth() / 2;
-		
+		int swapSides = this.settings.invert_compass ? -1 : 1;
 		int rotation = Math.round(((this.mc.player.rotationYaw % 360) / 360) * 200);
 		if(rotation < 0) rotation = 200 + rotation;
 		
 		bind(INTERFACE);
 		gui.drawTexturedModalRect(width - 56, 0, 34, 234, 112, 9);
-		
 		if(rotation > 0 && rotation <= 100) {
-			gui.drawCenteredString(this.mc.fontRendererObj, "W", width - 50 + rotation, 1, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, "W", width + (50 * swapSides) - (rotation * swapSides), 1, -1);
 		}
 		
 		if(rotation > 25 && rotation <= 125) {
-			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - 75 + rotation, -2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (75 * swapSides) - (rotation * swapSides), -2, -1);
 		}
 		
 		if(rotation > 50 && rotation <= 150) {
-			gui.drawCenteredString(this.mc.fontRendererObj, "N", width - 100 + rotation, 1, this.settings.enable_compass_color ? 0xE60909 : -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, "N", width + (100 * swapSides) - (rotation * swapSides), 1, this.settings.enable_compass_color ? 0xE60909 : -1);
 		}
 		
 		if(rotation > 75 && rotation <= 175) {
-			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - 125 + rotation, -2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (125 * swapSides) - (rotation * swapSides), -2, -1);
 		}
 		
 		if(rotation > 100 && rotation <= 200) {
-			gui.drawCenteredString(this.mc.fontRendererObj, "E", width - 150 + rotation, 1, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, "E", width + (150 * swapSides) - (rotation * swapSides), 1, -1);
 		}
 		
 		if(rotation >= 125) {
-			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - 175 + rotation, -2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (175 * swapSides) - (rotation * swapSides), -2, -1);
 		} else if(rotation <= 25) {
-			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + 25 + rotation, -2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - (25 * swapSides) - (rotation * swapSides), -2, -1);
 		}
 		
 		if(rotation >= 150) {
-			gui.drawCenteredString(this.mc.fontRendererObj, "S", width - 200 + rotation, 1, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, "S", width + (200 * swapSides) - (rotation * swapSides), 1, -1);
 		} else if(rotation <= 50) {
-			gui.drawCenteredString(this.mc.fontRendererObj, "S", width + rotation, 1, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, "S", width - (rotation * swapSides), 1, -1);
 		}
 		
 		if(rotation >= 175) {
-			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - 225 + rotation, -2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (225 * swapSides) - (rotation * swapSides), -2, -1);
 		} else if(rotation <= 75) {
-			gui.drawCenteredString(this.mc.fontRendererObj, ".", width - 25 +  rotation, -2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (25 * swapSides) -  (rotation * swapSides), -2, -1);
 		}
 		
 		if(this.settings.reduce_size) GlStateManager.scale(0.5D, 0.5D, 0.5D);

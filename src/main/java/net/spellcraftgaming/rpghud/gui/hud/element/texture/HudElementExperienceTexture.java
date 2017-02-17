@@ -19,14 +19,18 @@ public class HudElementExperienceTexture extends HudElementTexture {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
+		GlStateManager.color(1f, 1f, 1f);
 		int exp = (int) (this.mc.player.xpBarCap() * this.mc.player.experience);
-		gui.drawTexturedModalRect(49, 35, 0, 132, (int) (88.0D * (exp / (double) this.mc.player.xpBarCap())), 8);
+		int posX = this.settings.render_player_face ? 49 : 25;
+		int posY = this.settings.render_player_face ? 35 : 31;
+		gui.drawTexturedModalRect(posX, posY, 0, 132, (int) (88.0D * (exp / (double) this.mc.player.xpBarCap())), 8);
 		String stringExp = exp + "/" + this.mc.player.xpBarCap();
 		if (this.settings.show_numbers_experience) {
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, 180, 74, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, posX * 2 + 82, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 		}
+		GlStateManager.color(1f, 1f, 1f);
 		bind(Gui.ICONS);
 	}
 

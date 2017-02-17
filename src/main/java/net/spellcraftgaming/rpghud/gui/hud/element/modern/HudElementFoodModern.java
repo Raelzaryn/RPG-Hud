@@ -30,13 +30,13 @@ public class HudElementFoodModern extends HudElementBarred{
 		int width = this.mc.fontRendererObj.getStringWidth("20/20") / 2 + 4;
 		
 		String staminaString = stamina + "/" + "20";
-		if(this.settings.show_numbers_stamina){
+		if(this.settings.show_numbers_health && this.settings.show_numbers_stamina){
 			drawRect(this.settings.render_player_face ? 23 : 2, 12, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, 66, 28, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, this.settings.render_player_face ? (xOffset * 2) + 28: 24, 28, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
-		int posX = (this.settings.render_player_face ? 24 : 2) + (this.settings.show_numbers_health ? xOffset - 1: 0);
+		int posX = (this.settings.render_player_face ? 24 : 2) + ((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? xOffset + 1: 0);
 		
 		drawTetragon(posX, posX, 13, 13, 70, 58, 8, 8, 0xA0000000);
 		drawTetragon(posX + 2, posX + 2, 13, 13, 64, 54, 6, 6, 0x20FFFFFF);

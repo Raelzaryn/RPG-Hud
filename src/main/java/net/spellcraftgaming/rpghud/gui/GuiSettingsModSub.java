@@ -17,6 +17,8 @@ import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_IMMERSI
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_PICKUP;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.ENABLE_TIMECOLOR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.HUD_TYPE;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.INVERT_COMPASS;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.LIMIT_JUMPBAR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.PICK_DURATION;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.REDUCE_SIZE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.RENDER_PLAYER_FACE;
@@ -45,13 +47,13 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsGeneral = { BUTTON_TOOLTIP_ENABLED };
 
 	/** The group of settings to be displayed in the "HUD" category */
-	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE };
+	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE, LIMIT_JUMPBAR};
 
 	/** The group of settings to be displayed in the "colors" category */
 	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_POISON, COLOR_STAMINA, COLOR_HUNGER, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
 
 	/** The group of settings to be displayed in the "details" category */
-	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, SHOW_HUNGERPREVIEW, ENABLE_PICKUP, PICK_DURATION};
+	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, SHOW_HUNGERPREVIEW, ENABLE_PICKUP, PICK_DURATION, INVERT_COMPASS};
 
 	/** The ModSettings instance */
 	private ModSettings settings;
@@ -92,7 +94,7 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 			int i = 0;
 			int j = debugTypes.length;
 			for (int k = 0; k < j; k++) {
-				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(200 + k, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), 150, 20, debugTypes[k].getDisplayName()).setTooltip(I18n.format("tooltip.debug_option", new Object[0]));
+				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(200 + k, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 22 * (i >> 1), 150, 20, debugTypes[k].getDisplayName()).setTooltip(I18n.format("tooltip.debug_option", new Object[0]));
 				this.buttonList.add(guismallbutton);
 				i++;
 			}
@@ -109,11 +111,11 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 		for (int k = 0; k < j; k++) {
 			EnumOptionsMod enumoptions = options[k];
 			if(enumoptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT){
-				GuiSliderSetting guiSlider = new GuiSliderSetting(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions);
+				GuiSliderSetting guiSlider = new GuiSliderSetting(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 22 * (i >> 1), enumoptions);
 				guiSlider.setTooltip();
 				this.buttonList.add(guiSlider);
 			} else {
-				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions)).setTooltip();
+				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 22 * (i >> 1), enumoptions, this.settings.getKeyBinding(enumoptions)).setTooltip();
 				this.buttonList.add(guismallbutton);
 			}
 

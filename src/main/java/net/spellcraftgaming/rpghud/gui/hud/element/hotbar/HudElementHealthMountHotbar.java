@@ -24,11 +24,12 @@ public class HudElementHealthMountHotbar extends HudElementBarred {
 		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
-		drawCustomBar(49, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
+		int posX = this.settings.render_player_face ? 49 : 25;
+		drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
 		String stringHealth = health + "/" + healthMax;
 
 		if (this.settings.show_numbers_health)
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 100, height - 55, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 100, height - 55, -1);
 	}
 
 }

@@ -14,7 +14,7 @@ public class HudElementJumpBarModern extends HudElementBarred{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
+		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && (this.settings.limit_jumpbar ? this.mc.player.getHorseJumpPower() > 0F: true);
 	}
 
 	@Override

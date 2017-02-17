@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class HudElementWidgetModern extends HudElementTexture{
 
@@ -15,7 +16,7 @@ public class HudElementWidgetModern extends HudElementTexture{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return this.mc.playerController.shouldDrawHUD() && ModRPGHud.instance.settings.render_player_face;
 	}
 
 	@Override

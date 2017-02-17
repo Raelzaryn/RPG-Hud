@@ -36,7 +36,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		this.offset = 0;
+		this.offset = (this.settings.render_player_face ? 0 : 16) +((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? 0: 8);
 		int width = calculateWidth();
 		if (gui instanceof GuiIngameRPGHud) {
 			if (this.settings.show_armor) {
@@ -54,15 +54,16 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	private int calculateWidth() {
 		int width = 0;
 		for (int i = this.mc.player.inventory.armorInventory.size() - 1; i >= 0; i--) {
-			if (this.mc.player.inventory.armorItemInSlot(i) != null && this.mc.player.inventory.armorItemInSlot(i).getItem() instanceof ItemArmor) {
+			if (this.mc.player.inventory.armorItemInSlot(i) != ItemStack.EMPTY && this.mc.player.inventory.armorItemInSlot(i).getItem() instanceof ItemArmor) {
 				this.mc.player.inventory.armorItemInSlot(i).getMaxDamage();
 				ItemStack item = this.mc.player.inventory.armorItemInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				width = this.mc.fontRendererObj.getStringWidth(s);
+				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+				if(widthNew > width) width = widthNew;
 			}
 		}
 		ItemStack item = this.mc.player.getHeldItemMainhand();
-		if (item != null) {
+		if (item != ItemStack.EMPTY) {
 			if (this.settings.show_itemdurability && item.isItemStackDamageable()) {
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				width = this.mc.fontRendererObj.getStringWidth(s);
@@ -75,7 +76,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 					for (int y = 0; y < x; y++) {
 						item = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
-						if (item != null && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(this.mc.player.getHeldItemMainhand().getItem())) {
+						if (item != ItemStack.EMPTY && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(this.mc.player.getHeldItemMainhand().getItem())) {
 							z += item.getCount();
 						}
 					}
@@ -92,7 +93,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			}
 		}
 		item = this.mc.player.getHeldItemOffhand();
-		if (item != null) {
+		if (item != ItemStack.EMPTY) {
 			if (this.settings.show_itemdurability && item.isItemStackDamageable()) {
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
@@ -106,7 +107,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 					ModRPGHud.renderDetailsAgain[1] = false;
 					for (int y = 0; y < x; y++) {
 						item = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
-						if (item != null && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(this.mc.player.getHeldItemOffhand().getItem())) {
+						if (item != ItemStack.EMPTY && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(this.mc.player.getHeldItemOffhand().getItem())) {
 							z += item.getCount();
 						}
 					}
@@ -122,7 +123,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			}
 		}
 		item = this.mc.player.getHeldItemMainhand();
-		if (this.settings.show_arrowcount && item != null && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
+		if (this.settings.show_arrowcount && item != ItemStack.EMPTY && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
 			int x = Minecraft.getMinecraft().player.inventory.getSizeInventory();
 			int z = 0;
 
@@ -130,7 +131,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.player);
-				if(!item.isEmpty()) {
+				if(item != ItemStack.EMPTY) {
 					this.itemArrow = item.copy();
 					PotionType type1 = null;
 					if (item.getItem() instanceof ItemTippedArrow)
@@ -149,9 +150,8 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 						}
 					}
 					this.count3 = z;
-				} else {
-					this.count3 = 0;
 				}
+				this.count3 = 0;
 			} else {
 				z = this.count3;
 			}
@@ -160,7 +160,11 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (widthNew > width)
 				width = widthNew;
 		}
-		this.itemMainHandLastArrow = item.copy();
+		if(item == ItemStack.EMPTY) {
+			this.itemMainHandLastArrow = ItemStack.EMPTY;
+		} else {
+			this.itemMainHandLastArrow = item.copy();
+		}
 
 		return width;
 	}
@@ -175,7 +179,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 */
 	protected void drawArmorDetails(Gui gui, int width) {
 		for (int i = this.mc.player.inventory.armorInventory.size() - 1; i >= 0; i--) {
-			if (this.mc.player.inventory.armorItemInSlot(i) != null && this.mc.player.inventory.armorItemInSlot(i).getItem() instanceof ItemArmor) {
+			if (this.mc.player.inventory.armorItemInSlot(i) != ItemStack.EMPTY && this.mc.player.inventory.armorItemInSlot(i).getItem() instanceof ItemArmor) {
 				this.mc.player.inventory.armorItemInSlot(i).getMaxDamage();
 				drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				GlStateManager.scale(0.5D, 0.5D, 0.5D);
@@ -202,7 +206,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 */
 	protected void drawItemDetails(Gui gui, EnumHand hand, int width) {
 		ItemStack item = this.mc.player.getHeldItem(hand);
-		if (item != null) {
+		if (item != ItemStack.EMPTY) {
 			if (this.settings.show_itemdurability && item.isItemStackDamageable()) {
 				drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
@@ -228,7 +232,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 					}
 					for (int y = 0; y < x; y++) {
 						item = Minecraft.getMinecraft().player.inventory.getStackInSlot(y);
-						if (item != null && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(this.mc.player.getHeldItem(hand).getItem())) {
+						if (item != ItemStack.EMPTY && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(this.mc.player.getHeldItem(hand).getItem())) {
 							z += item.getCount();
 						}
 					}
@@ -267,7 +271,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 */
 	protected void drawArrowCount(Gui gui, int width) {
 		ItemStack item = this.mc.player.getHeldItemMainhand();
-		if (this.settings.show_arrowcount && item != null && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
+		if (this.settings.show_arrowcount && item != ItemStack.EMPTY && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
 			int x = Minecraft.getMinecraft().player.inventory.getSizeInventory();
 			int z = 0;
 
@@ -275,7 +279,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.player);
-				if(!item.isEmpty()) {
+				if(item != ItemStack.EMPTY) {
 					this.itemArrow = item.copy();
 					PotionType type1 = null;
 					if (item.getItem() instanceof ItemTippedArrow)
@@ -304,16 +308,20 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			String s = "x " + z;
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
 			RenderHelper.enableGUIStandardItemLighting();
-			if (ItemStack.areItemStacksEqual(this.itemArrow, ItemStack.EMPTY))
+			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
-			this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
+			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 			this.offset += 20;
 
 		}
-		this.itemMainHandLastArrow = item.copy();
+		if(item == ItemStack.EMPTY) {
+			this.itemMainHandLastArrow = ItemStack.EMPTY;
+		} else {
+			this.itemMainHandLastArrow = item.copy();
+		}
 	}
 
 }

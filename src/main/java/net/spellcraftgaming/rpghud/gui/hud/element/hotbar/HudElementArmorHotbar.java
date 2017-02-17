@@ -21,7 +21,7 @@ public class HudElementArmorHotbar extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
-		int left = 46;
+		int left = this.settings.render_player_face ? 46 : 22;
 		int top = height - 64;
 
 		int level = ForgeHooks.getTotalArmorValue(this.mc.player);
