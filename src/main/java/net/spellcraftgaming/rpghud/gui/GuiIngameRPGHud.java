@@ -201,6 +201,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	 * 
 	 * @return the scaled resolution of Minecraft
 	 */
+	@Override
 	public ScaledResolution getResolution() {
 		return this.res;
 	}
@@ -494,6 +495,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	}
 
 	/** Returns the updateCounter Variable */
+	@Override
 	public int getUpdateCounter() {
 		return this.updateCounter;
 	}

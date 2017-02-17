@@ -29,10 +29,11 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected int count1;
 	protected int count2;
 	protected int count3;
-	protected ItemStack itemMainHandLast = new ItemStack(Blocks.AIR);
-	protected ItemStack itemOffhandLast = new ItemStack(Blocks.AIR);
-	protected ItemStack itemMainHandLastArrow = new ItemStack(Blocks.AIR);
-	protected ItemStack itemArrow = new ItemStack(Blocks.AIR);
+	protected static final ItemStack nullStack = new ItemStack(Blocks.AIR);
+	protected ItemStack itemMainHandLast = nullStack;
+	protected ItemStack itemOffhandLast = nullStack;
+	protected ItemStack itemMainHandLastArrow = nullStack;
+	protected ItemStack itemArrow = nullStack;
 
 	public HudElementDetailsVanilla() {
 		super(HudElementType.DETAILS, 0, 0, 0, 0, true);
@@ -167,7 +168,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.thePlayer);
-				if(item != null) {
+				if(item != nullStack) {
 					this.itemArrow = item.copy();
 					PotionType type1 = null;
 					if (item.getItem() instanceof ItemTippedArrow)
@@ -197,8 +198,10 @@ public class HudElementDetailsVanilla extends HudElement {
 			if (this.settings.reduce_size)
 				GL11.glScaled(0.5D, 0.5D, 0.5D);
 			RenderHelper.enableGUIStandardItemLighting();
-			if (this.itemArrow == null)
+			if (this.itemArrow == nullStack){
 				this.itemArrow = new ItemStack(Items.ARROW);
+			}
+			
 			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
@@ -239,7 +242,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				}
 			}
 
-			return null;
+			return nullStack;
 		}
 	}
 
