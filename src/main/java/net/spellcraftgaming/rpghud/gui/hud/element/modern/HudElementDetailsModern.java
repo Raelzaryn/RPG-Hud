@@ -36,7 +36,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		this.offset = 0;
+		this.offset = (this.settings.render_player_face ? 0 : 16) +((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? 0: 8);
 		int width = calculateWidth();
 		if (gui instanceof GuiIngameRPGHud) {
 			if (this.settings.show_armor) {
@@ -58,7 +58,8 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.mc.thePlayer.inventory.armorItemInSlot(i).getMaxDamage();
 				ItemStack item = this.mc.thePlayer.inventory.armorItemInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				width = this.mc.fontRendererObj.getStringWidth(s);
+				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+				if(widthNew > width) width = widthNew;
 			}
 		}
 		ItemStack item = this.mc.thePlayer.getHeldItemMainhand();
@@ -159,8 +160,8 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (widthNew > width)
 				width = widthNew;
 		}
-		if(item == null) {
-			this.itemMainHandLastArrow = null;
+		if(item == nullStack || item == null) {
+			this.itemMainHandLastArrow = nullStack;
 		} else {
 			this.itemMainHandLastArrow = item.copy();
 		}
@@ -309,15 +310,15 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			RenderHelper.enableGUIStandardItemLighting();
 			if (this.itemArrow == nullStack)
 				this.itemArrow = new ItemStack(Items.ARROW);
-			this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
+			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 			this.offset += 20;
 
 		}
-		if(item == null) {
-			this.itemMainHandLastArrow = null;
+		if(item == nullStack || item == null) {
+			this.itemMainHandLastArrow = nullStack;
 		} else {
 			this.itemMainHandLastArrow = item.copy();
 		}

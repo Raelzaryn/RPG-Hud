@@ -1,16 +1,14 @@
-package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
+package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -19,11 +17,10 @@ import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHand;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-public class HudElementDetailsVanilla extends HudElement {
+public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 
 	protected int offset = 0;
 	protected int count1;
@@ -35,8 +32,8 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected ItemStack itemMainHandLastArrow = nullStack;
 	protected ItemStack itemArrow = nullStack;
 
-	public HudElementDetailsVanilla() {
-		super(HudElementType.DETAILS, 0, 0, 0, 0, true);
+	public HudElementDetailsExtended() {
+		super();
 	}
 
 	@Override
@@ -65,6 +62,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw one
 	 */
+	@Override
 	protected void drawArmorDetails(Gui gui) {
 		this.mc.mcProfiler.startSection("armor_details");
 		if (this.settings.reduce_size)
@@ -74,9 +72,9 @@ public class HudElementDetailsVanilla extends HudElement {
 				this.mc.thePlayer.inventory.armorItemInSlot(i).getMaxDamage();
 				ItemStack item = this.mc.thePlayer.inventory.armorItemInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
@@ -93,6 +91,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param hand
 	 *            the hand whose item should be detailed
 	 */
+	@Override
 	protected void drawItemDetails(Gui gui, EnumHand hand) {
 		ItemStack item = this.mc.thePlayer.getHeldItem(hand);
 		if (item != null) {
@@ -101,9 +100,9 @@ public class HudElementDetailsVanilla extends HudElement {
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				RenderHelper.enableGUIStandardItemLighting();
-				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 				RenderHelper.disableStandardItemLighting();
 				this.offset += 16;
 				if (this.settings.reduce_size)
@@ -141,10 +140,9 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (this.settings.reduce_size)
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
-				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
-				RenderHelper.disableStandardItemLighting();
+				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 				if (this.settings.reduce_size)
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 				this.offset += 16;
@@ -158,6 +156,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw on
 	 */
+	@Override
 	protected void drawArrowCount(Gui gui) {
 		ItemStack item = this.mc.thePlayer.getHeldItemMainhand();
 		if (this.settings.show_arrowcount && item != null && this.mc.thePlayer.getHeldItemMainhand().getItem() instanceof ItemBow) {
@@ -202,10 +201,9 @@ public class HudElementDetailsVanilla extends HudElement {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 			
-			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
-			RenderHelper.disableStandardItemLighting();
+			this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 			GL11.glDisable(GL11.GL_LIGHTING);
-			gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
+			gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 			if (this.settings.reduce_size)
 				GL11.glScaled(2.0D, 2.0D, 2.0D);
 			this.offset += 16;
@@ -216,42 +214,6 @@ public class HudElementDetailsVanilla extends HudElement {
 		} else {
 			this.itemMainHandLastArrow = item.copy();
 		}
-	}
-
-	/**
-	 * checks if the player has arrows in his inventory and picks the one the
-	 * bow would fire
-	 * 
-	 * @param player
-	 *            the player to search for arrow
-	 * 
-	 * @return returns the ItemStack of the arrow. If none can be found returns
-	 *         ItemStack.EMPTY
-	 */
-	protected static ItemStack findAmmo(EntityPlayer player) {
-		if (isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
-			return player.getHeldItem(EnumHand.OFF_HAND);
-		} else if (isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
-			return player.getHeldItem(EnumHand.MAIN_HAND);
-		} else {
-			for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-				ItemStack itemstack = player.inventory.getStackInSlot(i);
-
-				if (isArrow(itemstack)) {
-					return itemstack;
-				}
-			}
-
-			return nullStack;
-		}
-	}
-
-	/** Checks if an ItemStack is an arrow or not */
-	protected static boolean isArrow(ItemStack stack) {
-		if(stack != null) {
-			return stack.getItem() instanceof ItemArrow;
-		}
-		return false;
 	}
 
 }
