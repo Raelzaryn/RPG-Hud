@@ -36,7 +36,7 @@ public class HudElementPickupVanilla extends HudElementTexture{
 			if(pickup.getTimer() <= 60) {
 				GlStateManager.color(1f, 1f, 1f, pickup.getTimer() / 30F);
 			}
-			gui.drawTexturedModalRect(width - 76, height - 32 - i * 32, 162, 20, 76, 32);
+			gui.drawTexturedModalRect(width - 76, height - 32 - i * 32, 146, 222, 76, 32);
 			RenderHelper.enableGUIStandardItemLighting();
 			this.mc.getRenderItem().renderItemIntoGUI(item, width - 76 + 8,  height - 32 - i * 32 + 8);
 			gui.drawString(this.mc.fontRendererObj, "x " + count, width - 76 + 32,  height - 32 - i * 32 + 12, - 1);
