@@ -195,6 +195,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	 * 
 	 * @return the scaled resolution of Minecraft
 	 */
+	@Override
 	public ScaledResolution getResolution() {
 		return this.res;
 	}
@@ -203,7 +204,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	private void renderBossHealthMod() {
         bind(Gui.icons);
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        mc.mcProfiler.startSection("bossHealth");
+        this.mc.mcProfiler.startSection("bossHealth");
         GlStateManager.enableBlend();
         if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
         {
@@ -228,7 +229,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
             this.mc.getTextureManager().bindTexture(icons);
         }
         GlStateManager.disableBlend();
-        mc.mcProfiler.endSection();
+        this.mc.mcProfiler.endSection();
 	}
 
 	/** Function that renders the helmet screen overlay */
@@ -384,20 +385,21 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	}
 
 	/** Renders the title and subtitle */
-    protected void renderTitle(int width, int height, float partialTicks)
+    @Override
+	protected void renderTitle(int width, int height, float partialTicks)
     {
-        if (field_175195_w > 0)
+        if (this.field_175195_w > 0)
         {
-            mc.mcProfiler.startSection("titleAndSubtitle");
+            this.mc.mcProfiler.startSection("titleAndSubtitle");
             float age = (float)this.field_175195_w - partialTicks;
             int opacity = 255;
 
-            if (field_175195_w > field_175193_B + field_175192_A)
+            if (this.field_175195_w > this.field_175193_B + this.field_175192_A)
             {
-                float f3 = (float)(field_175199_z + field_175192_A + field_175193_B) - age;
-                opacity = (int)(f3 * 255.0F / (float)field_175199_z);
+                float f3 = (float)(this.field_175199_z + this.field_175192_A + this.field_175193_B) - age;
+                opacity = (int)(f3 * 255.0F / (float)this.field_175199_z);
             }
-            if (field_175195_w <= field_175193_B) opacity = (int)(age * 255.0F / (float)this.field_175193_B);
+            if (this.field_175195_w <= this.field_175193_B) opacity = (int)(age * 255.0F / (float)this.field_175193_B);
 
             opacity = MathHelper.clamp_int(opacity, 0, 255);
 
@@ -485,6 +487,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	}
 
 	/** Returns the updateCounter Variable */
+	@Override
 	public int getUpdateCounter() {
 		return this.updateCounter;
 	}

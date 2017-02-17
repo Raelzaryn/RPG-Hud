@@ -16,7 +16,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return ((GuiIngameRPGHud)mc.ingameGUI).getRecordPlayingUpFor() > 0;
+		return ((GuiIngameRPGHud)this.mc.ingameGUI).getRecordPlayingUpFor() > 0;
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
                 l = MathHelper.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
             }
 
-            mc.fontRendererObj.drawString(guiIngame.getRecordPlaying(), -mc.fontRendererObj.getStringWidth(guiIngame.getRecordPlaying()) / 2, -4, l + (l1 << 24 & -16777216));
+            this.mc.fontRendererObj.drawString(guiIngame.getRecordPlaying(), -this.mc.fontRendererObj.getStringWidth(guiIngame.getRecordPlaying()) / 2, -4, l + (l1 << 24 & -16777216));
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }

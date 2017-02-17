@@ -26,6 +26,7 @@ public class HudElementHealthVanilla extends HudElement {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
 	}
 
+	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
