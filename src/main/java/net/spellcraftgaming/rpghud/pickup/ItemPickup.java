@@ -13,7 +13,7 @@ public class ItemPickup {
 	
 	public ItemPickup(ItemStack item) {
 		this.item = item;
-		this.timer = this.TIMER_TOTAL;
+		this.timer = this.TIMER_TOTAL * MathHelper.ceil(ModRPGHud.instance.settings.pickup_duration);
 	}
 	
 	public boolean onUpdate(){

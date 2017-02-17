@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.pickup.ItemPickup;
 
@@ -14,14 +15,23 @@ public class ItemPickupHandler {
 
 	private List<ItemPickup> pickups = new ArrayList<ItemPickup>();
 	
+	private static ItemStack storedItem;
+	
 	@SubscribeEvent
-	public void onPickupItem(EntityItemPickupEvent event) {
-		if(event.getEntityPlayer().equals(Minecraft.getMinecraft().player)){
-			ItemStack item = event.getItem().getEntityItem();
-			addPickup(item);
+	public void onPickupItem(ItemPickupEvent event) {
+		if(!event.isCanceled() && event.player.equals(Minecraft.getMinecraft().player) && storedItem != null && ItemStack.areItemsEqual(event.pickedUp.getEntityItem(), storedItem)){
+			addPickup(storedItem.copy());
+			storedItem = null;
 			ModRPGHud.renderDetailsAgain[0] = true;
 			ModRPGHud.renderDetailsAgain[1] = true;
 			ModRPGHud.renderDetailsAgain[2] = true;
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityPickupItem(EntityItemPickupEvent event){
+		if(event.getEntityPlayer().equals(Minecraft.getMinecraft().player)){
+			storedItem = event.getItem().getEntityItem().copy();
 		}
 	}
 	
@@ -34,7 +44,7 @@ public class ItemPickupHandler {
 			}
 		}
 		if(!added){
-			this.pickups.add(new ItemPickup(item));
+			this.pickups.add(new ItemPickup(item.copy()));
 		}
 	}
 	

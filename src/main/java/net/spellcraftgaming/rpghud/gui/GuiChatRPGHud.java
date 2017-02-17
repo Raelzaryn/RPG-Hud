@@ -44,6 +44,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Clears the chat.
 	 */
+	@Override
 	public void clearChatMessages(boolean p_146231_1_) {
 		this.getDrawnChatLines().clear();
 		this.chatLines.clear();
@@ -56,6 +57,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * prints the ChatComponent to Chat.
 	 */
+	@Override
 	public void printChatMessage(ITextComponent chatComponent) {
 		this.printChatMessageWithOptionalDeletion(chatComponent, 0);
 	}
@@ -64,6 +66,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	 * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing
 	 * Chat Line of that ID from the GUI
 	 */
+	@Override
 	public void printChatMessageWithOptionalDeletion(ITextComponent chatComponent, int chatLineId) {
 		this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
 		LOGGER.info("[CHAT] {}", new Object[] { NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText())) });
@@ -100,6 +103,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		}
 	}
 
+	@Override
 	public void refreshChat() {
 		this.getDrawnChatLines().clear();
 		this.resetScroll();
@@ -110,6 +114,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		}
 	}
 
+	@Override
 	public List<String> getSentMessages() {
 		return this.sentMessages;
 	}
@@ -118,6 +123,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	 * Adds this string to the list of sent messages, for recall using the
 	 * up/down arrow keys
 	 */
+	@Override
 	public void addToSentMessages(String message) {
 		if (this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(message)) {
 			this.sentMessages.add(message);
@@ -127,6 +133,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Resets the chat scroll (executed when the GUI is closed, among others)
 	 */
+	@Override
 	public void resetScroll() {
 		this.scrollPos = 0;
 		this.isScrolled = false;
@@ -135,6 +142,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Scrolls the chat by the given number of lines.
 	 */
+	@Override
 	public void scroll(int amount) {
 		this.scrollPos += amount;
 		int i = this.getDrawnChatLines().size();
@@ -152,6 +160,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Gets the chat component under the mouse
 	 */
+	@Override
 	@Nullable
 	public ITextComponent getChatComponent(int mouseX, int mouseY) {
 		if (!this.getChatOpen()) {
@@ -196,6 +205,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Returns true if the chat GUI is open
 	 */
+	@Override
 	public boolean getChatOpen() {
 		return this.mc.currentScreen instanceof GuiChat;
 	}
@@ -203,6 +213,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * finds and deletes a Chat line by ID
 	 */
+	@Override
 	public void deleteChatLine(int id) {
 		Iterator<ChatLine> iterator = this.getDrawnChatLines().iterator();
 
@@ -226,10 +237,12 @@ public class GuiChatRPGHud extends GuiNewChat {
 		}
 	}
 
+	@Override
 	public int getChatWidth() {
 		return calculateChatboxWidth(this.mc.gameSettings.chatWidth);
 	}
 
+	@Override
 	public int getChatHeight() {
 		return calculateChatboxHeight(this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
 	}
@@ -237,6 +250,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Returns the chatscale from mc.gameSettings.chatScale
 	 */
+	@Override
 	public float getChatScale() {
 		return this.mc.gameSettings.chatScale;
 	}
@@ -249,6 +263,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		return MathHelper.floor(scale * 160.0F + 20.0F);
 	}
 
+	@Override
 	public int getLineCount() {
 		return this.getChatHeight() / 9;
 	}

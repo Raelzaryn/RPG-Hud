@@ -231,7 +231,8 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
      * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
      * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
      */
-    protected void keyTyped(char typedChar, int keyCode) throws IOException
+    @Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
         if (this.colorCodeField.isFocused())
         {
@@ -243,7 +244,8 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
     /**
      * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
      */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+    @Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
