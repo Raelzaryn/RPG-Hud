@@ -26,7 +26,7 @@ public class HudElementHealthMountModern extends HudElementBarred{
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		String stringHealth = health + "/" + healthMax;
-		int posX = (this.settings.render_player_face ? 24 : 2) + (this.settings.show_numbers_health ? xOffset - 1: 0);
+		int posX = (this.settings.render_player_face ? 26 : 4) + (this.settings.show_numbers_health ? xOffset - 1: -2);
 		
 		if (this.settings.show_numbers_health) {
 			int width2 = this.mc.fontRendererObj.getStringWidth(stringHealth) / 2;

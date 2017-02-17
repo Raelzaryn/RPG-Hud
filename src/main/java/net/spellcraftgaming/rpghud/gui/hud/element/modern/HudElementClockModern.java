@@ -25,14 +25,23 @@ public class HudElementClockModern extends HudElementClockVanilla{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+		int yOffset = (this.settings.render_player_face ? 0 : 8) + ((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? 0 : 4);
 		int clockColor = 0xFFFFFF;
 		if (this.settings.enable_clock_color) {
 			clockColor = getClockColor();
 		}
-		drawRect(2, 23,20, 6, 0xA0000000);
+		if(this.settings.clock_time_format == 0){
+			drawRect(2, 23 + yOffset, 20, 6, 0xA0000000);
+		} else {
+			drawRect(2, 23 + yOffset, 23, 6, 0xA0000000);
+		}
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 		
-		gui.drawCenteredString(this.mc.fontRendererObj, getTime(), 24, 48, clockColor);
+		if(this.settings.clock_time_format == 0){
+			gui.drawCenteredString(this.mc.fontRendererObj, getTime(), 24, 48 + 2* yOffset, clockColor);
+		} else {
+			gui.drawCenteredString(this.mc.fontRendererObj, getTime(), 28, 48 + 2* yOffset, clockColor);
+		}
 		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		

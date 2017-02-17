@@ -23,7 +23,7 @@ public class HudElementLevelHotbar extends HudElement {
 		int height = res.getScaledHeight();
 		GlStateManager.disableBlend();
 		String level = String.valueOf(this.mc.thePlayer.experienceLevel);
-		this.mc.fontRendererObj.drawStringWithShadow(level, 25 - this.mc.fontRendererObj.getStringWidth(level) / 2, height - 22, 0x80FF20);
+		this.mc.fontRendererObj.drawStringWithShadow(level, (this.settings.render_player_face ? 25 : 13)- this.mc.fontRendererObj.getStringWidth(level) / 2, height - (this.settings.render_player_face ? 22 : 40), 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

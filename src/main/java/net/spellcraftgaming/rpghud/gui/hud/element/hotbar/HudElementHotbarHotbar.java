@@ -29,25 +29,29 @@ public class HudElementHotbarHotbar extends HudElement {
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+			ItemStack itemstack = entityplayer.getHeldItem();
 			float f = zLevel;
 			zLevel = -90.0F;
+			int posX = this.settings.render_player_face ? 49: 25;
+			gui.drawTexturedModalRect(posX, res.getScaledHeight() - 47, 0, 0, 182, 22);
+			gui.drawTexturedModalRect(posX + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1, 0, 22, 24, 22);
 
-			gui.drawTexturedModalRect(49, res.getScaledHeight() - 47, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(48 + 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1, 0, 22, 24, 22);
-
-			gui.drawTexturedModalRect(49 + 181, res.getScaledHeight() - 47, 60, 23, 22, 22);
+			gui.drawTexturedModalRect(posX + 181, res.getScaledHeight() - 47, 60, 23, 22, 22);
 
 			zLevel = f;
 			GlStateManager.enableRescaleNormal();
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-	        RenderHelper.enableGUIStandardItemLighting();
+			RenderHelper.enableGUIStandardItemLighting();
 
 			for (int l = 0; l < 9; ++l) {
-				int i1 = 50 + l * 20 + 2;
+				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = res.getScaledHeight() - 16 - 19 - 9;
 				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory[l]);
 			}
+
+			int l1 = res.getScaledHeight() - 47 + 3;
+			this.renderHotbarItem(posX + 184, l1, partialTicks, entityplayer, itemstack);
 
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.disableRescaleNormal();

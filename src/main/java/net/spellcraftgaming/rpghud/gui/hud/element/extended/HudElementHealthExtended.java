@@ -24,13 +24,15 @@ public class HudElementHealthExtended extends HudElementBarred {
 		int health = MathHelper.ceiling_float_int(this.mc.thePlayer.getHealth());
 		IAttributeInstance attrMaxHealth = this.mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.maxHealth);
 		int maxHealth = (int) attrMaxHealth.getAttributeValue();
+		int posX = this.settings.render_player_face ? 49 : 25;
+		int posY = this.settings.render_player_face ? 9 : 5;
 		if (this.mc.thePlayer.isPotionActive(Potion.poison)) {
-			drawCustomBar(49, 9, 110, 12, (double) health / (double) maxHealth * 100D, -1, -1, this.settings.color_poison, offsetColorPercent(this.settings.color_poison, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) maxHealth * 100D, -1, -1, this.settings.color_poison, offsetColorPercent(this.settings.color_poison, OFFSET_PERCENT));
 		} else {
-			drawCustomBar(49, 9, 110, 12, (double) health / (double) maxHealth * 100D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) maxHealth * 100D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
 		}
 		String stringHealth = health + "/" + maxHealth;
 		if (this.settings.show_numbers_health)
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, 49 + 55, 11, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1);
 	}
 }
