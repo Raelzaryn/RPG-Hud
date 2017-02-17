@@ -130,7 +130,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.thePlayer);
-				if(item != null) {
+				if(item != nullStack) {
 					this.itemArrow = item.copy();
 					PotionType type1 = null;
 					if (item.getItem() instanceof ItemTippedArrow)
@@ -278,7 +278,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.thePlayer);
-				if(item != null) {
+				if(item != nullStack) {
 					this.itemArrow = item.copy();
 					PotionType type1 = null;
 					if (item.getItem() instanceof ItemTippedArrow)
@@ -307,7 +307,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			String s = "x " + z;
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
 			RenderHelper.enableGUIStandardItemLighting();
-			if (this.itemArrow == null)
+			if (this.itemArrow == nullStack)
 				this.itemArrow = new ItemStack(Items.ARROW);
 			this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
