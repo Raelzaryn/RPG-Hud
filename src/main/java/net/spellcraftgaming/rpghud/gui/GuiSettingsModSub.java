@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui;
 
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.BUTTON_TOOLTIP_ENABLED;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.CLOCK_TIME_FORMAT;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_ABSORPTION;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_AIR;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_EXPERIENCE;
 import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.COLOR_HEALTH;
@@ -50,7 +51,7 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE, LIMIT_JUMPBAR};
 
 	/** The group of settings to be displayed in the "colors" category */
-	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_POISON, COLOR_STAMINA, COLOR_HUNGER, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
+	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_ABSORPTION, COLOR_POISON, COLOR_STAMINA, COLOR_HUNGER, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
 
 	/** The group of settings to be displayed in the "details" category */
 	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, SHOW_HUNGERPREVIEW, ENABLE_PICKUP, PICK_DURATION, INVERT_COMPASS};
@@ -140,6 +141,8 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 				this.mc.displayGuiScreen(new GuiSettingsModColor(this.parent, this.subgui, EnumColor.POISON));
 			} else if (button.id == EnumOptionsMod.COLOR_HUNGER.ordinal()) {
 				this.mc.displayGuiScreen(new GuiSettingsModColor(this.parent, this.subgui, EnumColor.HUNGER));
+			} else if (button.id == EnumOptionsMod.COLOR_ABSORPTION.ordinal()) {
+				this.mc.displayGuiScreen(new GuiSettingsModColor(this.parent, this.subgui, EnumColor.ABSORPTION));
 			} else if ((button.id < 100) && ((button instanceof GuiButtonTooltip))) {
 				this.settings.setOptionValue(((GuiButtonTooltip) button).returnOptions());
 				button.displayString = this.settings.getKeyBinding(EnumOptionsMod.getEnumOptions(button.id));

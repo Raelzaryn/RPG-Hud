@@ -30,6 +30,7 @@ public enum EnumOptionsMod {
 	COLOR_JUMPBAR(INTEGER, "name.color_jumpbar", I18n.format("tooltip.color_jumpbar", new Object[0])), 
 	COLOR_POISON(INTEGER, "name.color_poison", I18n.format("tooltip.color_poison", new Object[0])), 
 	COLOR_HUNGER(INTEGER, "name.color_hunger", I18n.format("tooltip.color_hunger", new Object[0])), 
+	COLOR_ABSORPTION(INTEGER, "name.color_absorption", I18n.format("tooltip.color_absorption", new Object[0])), 
 	SHOW_HUNGERPREVIEW(BOOLEAN, "name.show_hungerpreview", I18n.format("tooltip.show_hungerpreview", new Object[0])), 
 	CLOCK_TIME_FORMAT(INTEGER, "name.time_format", I18n.format("tooltip.clock_time_format", new Object[0])), 
 	REDUCE_SIZE(BOOLEAN, "name.reduce_size", I18n.format("tooltip.reduce_size", new Object[0])),

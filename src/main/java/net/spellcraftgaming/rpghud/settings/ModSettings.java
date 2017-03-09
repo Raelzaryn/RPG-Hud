@@ -63,6 +63,7 @@ public class ModSettings {
 	public int color_jumpbar = 0xBFBFBF;
 	public int color_poison = 0x800080;
 	public int color_hunger = 0x9ba067;
+	public int color_absorption = 0xFF8400;
 	
 	public int clock_time_format = 0;
 
@@ -380,6 +381,9 @@ public class ModSettings {
 					if (string[0].equals("color_hunger")) {
 						this.color_hunger = Integer.parseInt(string[1].replace("#", ""), 16);
 					}
+					if (string[0].equals("color_absorption")) {
+						this.color_absorption = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
 					if (string[0].equals("clock_time_format")) {
 						this.clock_time_format = Integer.parseInt(string[1]);
 					}
@@ -484,6 +488,8 @@ public class ModSettings {
 			return s + intToHexString(this.color_poison);
 		case COLOR_HUNGER:
 			return s + intToHexString(this.color_hunger);
+		case COLOR_ABSORPTION:
+			return s + intToHexString(this.color_absorption);
 		case COLOR_HEALTH:
 			return s + intToHexString(this.color_health);
 		case COLOR_AIR:
@@ -535,6 +541,7 @@ public class ModSettings {
 				writer.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
 				writer.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
 				writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
+				writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_absorption));
 				writer.println("clock_time_format:" + this.clock_time_format);
 				writer.println("hud_type:" + this.hud_type);
 				writer.println("show_armor:" + this.show_armor);

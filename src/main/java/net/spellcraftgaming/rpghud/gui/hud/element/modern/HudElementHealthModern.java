@@ -29,9 +29,11 @@ public class HudElementHealthModern extends HudElementBarred{
 		int healthMax = (int) attrMaxHealth.getAttributeValue();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
+		int absorption = MathHelper.floor_float(this.mc.thePlayer.getAbsorptionAmount());
 		int width = this.mc.fontRendererObj.getStringWidth(healthMax + "/" + healthMax) / 2 + 4;
 		((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
-		String stringHealth = health + "/" + healthMax;
+		String stringHealth = (health + absorption) + "/" + healthMax;
+		
 		if (this.settings.show_numbers_health && this.settings.show_numbers_stamina) {
 			drawRect(this.settings.render_player_face ? 23 : 2, 4, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
@@ -43,10 +45,11 @@ public class HudElementHealthModern extends HudElementBarred{
 		drawTetragon(posX, posX, 3, 3, 97, 83, 10, 10, 0xA0000000);
 		drawTetragon(posX + 2, posX + 2, 5, 5, 89, 79, 6, 6, 0x20FFFFFF);
 		
+		if(absorption > 1) drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)(health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double)(health + absorption)/ (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_absorption);
 		if (this.mc.thePlayer.isPotionActive(Potion.poison)) {
-			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, this.settings.color_poison);
+			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_poison);
 		} else {
-			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) healthMax)), (int) (89 * ((double)health / (double) healthMax)) - 10, 6, 6, this.settings.color_health);
+			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_health);
 		}
 	}
 
