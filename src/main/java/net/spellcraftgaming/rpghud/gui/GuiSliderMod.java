@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 
 @SideOnly(Side.CLIENT)
-public class GuiSliderColor extends GuiButtonTooltip
+public class GuiSliderMod extends GuiButtonTooltip
 {
 	public enum EnumColor{
 		RED, GREEN, BLUE;
@@ -22,7 +22,7 @@ public class GuiSliderColor extends GuiButtonTooltip
 	private final float valueStep;
 	public int value;
 	
-    public GuiSliderColor(int buttonId, EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep)
+    public GuiSliderMod(int buttonId, EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep)
     {
         super(buttonId, x, y, 150, 12, "");
         this.color = color;

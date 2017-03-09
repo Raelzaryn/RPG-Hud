@@ -23,15 +23,20 @@ public class HudElementHealthDefault extends HudElementBarred {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		int maxHealth = (int) attrMaxHealth.getAttributeValue();
+		int absorption = MathHelper.floor(this.mc.player.getAbsorptionAmount());
+		int healthMax = (int) attrMaxHealth.getAttributeValue();
 		int posX = this.settings.render_player_face ? 49 : 24;
 		int posY = this.settings.render_player_face ? 13 : 5;
+		
+		if(absorption > 1) drawCustomBar(posX, posY, 110, 12, (double) (health + absorption)/ (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_absorption, offsetColorPercent(this.settings.color_absorption, OFFSET_PERCENT));
+		
 		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
-			drawCustomBar(posX, posY, 110, 12, (double) health / (double) maxHealth * 100D, -1, -1, this.settings.color_poison, offsetColorPercent(this.settings.color_poison, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_poison, offsetColorPercent(this.settings.color_poison, OFFSET_PERCENT));
 		} else {
-			drawCustomBar(posX, posY, 110, 12, (double) health / (double) maxHealth * 100D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
 		}
-		String stringHealth = health + "/" + maxHealth;
+		
+		String stringHealth = (health + absorption) + "/" + healthMax;
 		if (this.settings.show_numbers_health)
 			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1);
 	}
