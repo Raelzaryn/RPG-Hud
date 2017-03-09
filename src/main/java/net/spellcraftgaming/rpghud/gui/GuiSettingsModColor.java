@@ -13,7 +13,7 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 public class GuiSettingsModColor extends GuiScreenTooltip{
 
 	public enum EnumColor{
-		EXPERIENCE, BREATH, HEALTH, JUMPBAR, STAMINA, POISON, HUNGER;
+		EXPERIENCE, BREATH, HEALTH, JUMPBAR, STAMINA, POISON, HUNGER, ABSORPTION;
 	}
 	
 	private GuiTextField colorCodeField;
@@ -50,6 +50,8 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
 			return I18n.format("name.color_poison", new Object[0]);
 		case HUNGER:
 			return I18n.format("name.color_hunger", new Object[0]);
+		case ABSORPTION:
+			return I18n.format("name.color_absorption", new Object[0]);
 		default:
 			return "";
 		}
@@ -79,6 +81,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
 			break;
 		case HUNGER:
 			color = ModRPGHud.instance.settings.color_hunger;
+			break;
+		case ABSORPTION:
+			color = ModRPGHud.instance.settings.color_absorption;
 			break;
 		}
 		
@@ -110,6 +115,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip{
 			break;
 		case HUNGER:
 			ModRPGHud.instance.settings.color_hunger = this.color;
+			break;
+		case ABSORPTION:
+			ModRPGHud.instance.settings.color_absorption = this.color;
 			break;
 		}
 	}
