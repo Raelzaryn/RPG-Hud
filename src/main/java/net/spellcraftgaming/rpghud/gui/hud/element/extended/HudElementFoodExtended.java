@@ -34,12 +34,12 @@ public class HudElementFoodExtended extends HudElementBarred {
 			if (bonusHunger > foodMax)
 				bonusHunger = foodMax;
 			int colorPreview = offsetColor(this.settings.color_stamina, OFFSET_PREVIEW);
-			drawCustomBar(posX, posY, 110, 12, bonusHunger / foodMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, bonusHunger / (double)foodMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 		}
 		if (GameData.isPlayerHungered()) {
-			drawCustomBar(posX, posY, 110, 12, stamina / foodMax * 100.0D, -1, -1, this.settings.color_hunger, offsetColorPercent(this.settings.color_hunger, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, stamina / (double)foodMax * 100.0D, -1, -1, this.settings.color_hunger, offsetColorPercent(this.settings.color_hunger, OFFSET_PERCENT));
 		} else {
-			drawCustomBar(posX, posY, 110, 12, stamina / foodMax * 100.0D, -1, -1, this.settings.color_stamina, offsetColorPercent(this.settings.color_stamina, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, stamina / (double)foodMax * 100.0D, -1, -1, this.settings.color_stamina, offsetColorPercent(this.settings.color_stamina, OFFSET_PERCENT));
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.show_numbers_stamina)

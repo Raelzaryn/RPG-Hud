@@ -21,6 +21,7 @@ public class HudElementFoodDefault extends HudElementBarred {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int stamina = GameData.getPlayerFood();
+		int foodMax = GameData.getPlayerMaxFood();
 		int posX = this.settings.render_player_face ? 49 : 24;
 		int posY = this.settings.render_player_face ? 26 : 18;
 		ItemStack itemMain = GameData.getMainhand();
@@ -31,17 +32,17 @@ public class HudElementFoodDefault extends HudElementBarred {
 				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
 			else value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
 			int bonusHunger = (int) (value + stamina);
-			if (bonusHunger > 20)
-				bonusHunger = 20;
+			if (bonusHunger > foodMax)
+				bonusHunger = foodMax;
 			int colorPreview = offsetColor(this.settings.color_stamina, OFFSET_PREVIEW);
-			drawCustomBar(posX, posY, 110, 12, bonusHunger / 20.0D * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, bonusHunger / (double)foodMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 		}
 		if (GameData.isPlayerHungered()) {
-			drawCustomBar(posX, posY, 110, 12, stamina / 20.0D * 100.0D, -1, -1, this.settings.color_hunger, offsetColorPercent(this.settings.color_hunger, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, stamina / (double)foodMax * 100.0D, -1, -1, this.settings.color_hunger, offsetColorPercent(this.settings.color_hunger, OFFSET_PERCENT));
 		} else {
-			drawCustomBar(posX, posY, 110, 12, stamina / 20.0D * 100.0D, -1, -1, this.settings.color_stamina, offsetColorPercent(this.settings.color_stamina, OFFSET_PERCENT));
+			drawCustomBar(posX, posY, 110, 12, stamina / (double)foodMax * 100.0D, -1, -1, this.settings.color_stamina, offsetColorPercent(this.settings.color_stamina, OFFSET_PERCENT));
 		}
-		String staminaString = stamina + "/" + "20";
+		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.show_numbers_stamina)
 			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, posX + 55, posY + 2, -1);
 	}

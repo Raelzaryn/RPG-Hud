@@ -1,6 +1,7 @@
-package net.spellcraftgaming.rpghud.gui.hud;
+package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import net.minecraft.client.Minecraft;
+import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementClockExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementDetailsExtended;

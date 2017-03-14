@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
+import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
