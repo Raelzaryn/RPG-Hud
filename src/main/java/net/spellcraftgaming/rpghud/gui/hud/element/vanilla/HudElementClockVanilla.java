@@ -3,8 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -16,7 +15,7 @@ public class HudElementClockVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return super.checkConditions() && this.settings.enable_clock && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_clock ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
+		return super.checkConditions() && this.settings.enable_clock && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_clock ? GameData.hasPlayerClock() : true);
 	}
 
 	@Override
@@ -35,8 +34,8 @@ public class HudElementClockVanilla extends HudElement {
 
 	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
-		long time = this.mc.world.getWorldTime();
-		long day = this.mc.world.getWorldTime() / 24000L;
+		long time = GameData.getWorldTime();
+		long day = GameData.getWorldTime() / 24000L;
 		long currentTime = time - (24000L * day);
 		long currentHour = (currentTime / 1000L) + 6L;
 		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
@@ -113,8 +112,8 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	public int getClockColor() {
-		long time = this.mc.world.getWorldTime();
-		long day = this.mc.world.getWorldTime() / 24000L;
+		long time = GameData.getWorldTime();
+		long day = GameData.getWorldTime() / 24000L;
 		long currentTime = time - (24000L * day);
 		if (currentTime < 1000)
 			return 0xFFAF00;

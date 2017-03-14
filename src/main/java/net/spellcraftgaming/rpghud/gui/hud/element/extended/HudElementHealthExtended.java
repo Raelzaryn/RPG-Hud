@@ -1,10 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.init.MobEffects;
-import net.minecraft.util.math.MathHelper;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -16,21 +13,20 @@ public class HudElementHealthExtended extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		int absorption = MathHelper.floor(this.mc.player.getAbsorptionAmount());
-		int healthMax = (int) attrMaxHealth.getAttributeValue();
+		int health = GameData.getPlayerHealth();
+		int absorption = GameData.getPlayerAbsorption();
+		int healthMax = GameData.getPlayerMaxHealth();
 		int posX = this.settings.render_player_face ? 49 : 25;
 		int posY = this.settings.render_player_face ? 9 : 5;
 		
 		if(absorption > 1) drawCustomBar(posX, posY, 110, 12, (double) (health + absorption)/ (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_absorption, offsetColorPercent(this.settings.color_absorption, OFFSET_PERCENT));
 		
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (GameData.isPlayerPoisoned()) {
 			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_poison, offsetColorPercent(this.settings.color_poison, OFFSET_PERCENT));
 		} else {
 			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));

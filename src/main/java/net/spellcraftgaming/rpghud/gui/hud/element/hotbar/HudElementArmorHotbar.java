@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraftforge.common.ForgeHooks;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -14,7 +14,7 @@ public class HudElementArmorHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return GameData.shouldDrawHUD();
 	}
 	
 	@Override
@@ -24,7 +24,7 @@ public class HudElementArmorHotbar extends HudElement {
 		int left = this.settings.render_player_face ? 46 : 22;
 		int top = height - 64;
 
-		int level = ForgeHooks.getTotalArmorValue(this.mc.player);
+		int level = GameData.getPlayerArmor();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
 				gui.drawTexturedModalRect(left + 62, top - 2, 34, 9, 9, 9);

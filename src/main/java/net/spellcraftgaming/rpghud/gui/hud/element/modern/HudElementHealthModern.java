@@ -3,10 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.init.MobEffects;
-import net.minecraft.util.math.MathHelper;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -24,12 +21,11 @@ public class HudElementHealthModern extends HudElementBarred{
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		IAttributeInstance attrMaxHealth = this.mc.player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		int healthMax = (int) attrMaxHealth.getAttributeValue();
-		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
+		int health = GameData.getPlayerHealth();
+		int healthMax = GameData.getPlayerMaxHealth();
+		int absorption = GameData.getPlayerAbsorption();
 		
-		int absorption = MathHelper.floor(this.mc.player.getAbsorptionAmount());
+		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		int width = this.mc.fontRendererObj.getStringWidth(healthMax + "/" + healthMax) / 2 + 4;
 		((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 		String stringHealth = (health + absorption) + "/" + healthMax;
@@ -46,7 +42,7 @@ public class HudElementHealthModern extends HudElementBarred{
 		drawTetragon(posX + 2, posX + 2, 5, 5, 89, 79, 6, 6, 0x20FFFFFF);
 		
 		if(absorption > 1) drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)(health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double)(health + absorption)/ (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_absorption);
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (GameData.isPlayerPoisoned()) {
 			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_poison);
 		} else {
 			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_health);

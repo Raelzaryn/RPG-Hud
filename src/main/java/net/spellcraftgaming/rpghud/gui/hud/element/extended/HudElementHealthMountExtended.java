@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -14,12 +15,12 @@ public class HudElementHealthMountExtended extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return GameData.isRidingLivingMount() && GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = this.settings.render_player_face ? 53 : 25;

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -16,7 +17,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.isRidingHorse();
+		return GameData.isRidingLivingMount();
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 		GlStateManager.disableBlend();
 
 		this.mc.mcProfiler.startSection("jumpBar");
-		float charge = this.mc.player.getHorseJumpPower();
+		float charge = GameData.getHorseJumpPower();
 		final int barWidth = 182;
 		int x = (res.getScaledWidth() / 2) - (barWidth / 2);
 		int filled = (int) (charge * (barWidth + 1));

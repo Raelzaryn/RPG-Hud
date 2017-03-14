@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -16,7 +17,7 @@ public class HudElementWidgetModern extends HudElementTexture{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD() && ModRPGHud.instance.settings.render_player_face;
+		return GameData.shouldDrawHUD() && ModRPGHud.instance.settings.render_player_face;
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class HudElementWidgetModern extends HudElementTexture{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
-		bind(getPlayerSkin(this.mc.player));
+		bind(getPlayerSkin(GameData.getPlayer()));
 		GlStateManager.disableDepth();
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 		gui.drawTexturedModalRect(8, 8, 32, 32, 32, 32);

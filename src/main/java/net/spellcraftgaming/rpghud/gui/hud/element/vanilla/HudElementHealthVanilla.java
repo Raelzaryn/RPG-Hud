@@ -5,11 +5,8 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.util.math.MathHelper;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -34,7 +31,7 @@ public class HudElementHealthVanilla extends HudElement {
 		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
 		int updateCounter = theGui.getUpdateCounter();
 		EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-		int health = MathHelper.ceil(player.getHealth());
+		int health = GameData.ceil(player.getHealth());
 		boolean highlight = this.healthUpdateCounter > updateCounter && (this.healthUpdateCounter - updateCounter) / 3L % 2L == 1L;
 
 		if (health < this.playerHealth && player.hurtResistantTime > 0) {
@@ -54,11 +51,10 @@ public class HudElementHealthVanilla extends HudElement {
 		this.playerHealth = health;
 		int healthLast = this.lastPlayerHealth;
 
-		IAttributeInstance attrMaxHealth = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		float healthMax = (float) attrMaxHealth.getAttributeValue();
-		float absorb = MathHelper.ceil(player.getAbsorptionAmount());
+		float healthMax = GameData.getPlayerMaxHealth();
+		float absorb = GameData.ceil(player.getAbsorptionAmount());
 
-		int healthRows = MathHelper.ceil((healthMax + absorb) / 2.0F / 10.0F);
+		int healthRows = GameData.ceil((healthMax + absorb) / 2.0F / 10.0F);
 		int rowHeight = Math.max(10 - (healthRows - 2), 3);
 
 		this.rand.setSeed(updateCounter * 312871);
@@ -70,22 +66,22 @@ public class HudElementHealthVanilla extends HudElement {
 			GuiIngameRPGHud.left_height += 10 - rowHeight;
 
 		int regen = -1;
-		if (player.isPotionActive(MobEffects.REGENERATION)) {
+		if (GameData.isPlayerRegenerating()) {
 			regen = updateCounter % 25;
 		}
 
-		final int TOP = 9 * (this.mc.world.getWorldInfo().isHardcoreModeEnabled() ? 5 : 0);
+		final int TOP = 9 * (GameData.getWorld().getWorldInfo().isHardcoreModeEnabled() ? 5 : 0);
 		final int BACKGROUND = (highlight ? 25 : 16);
 		int MARGIN = 16;
-		if (player.isPotionActive(MobEffects.POISON))
+		if (GameData.isPlayerPoisoned())
 			MARGIN += 36;
-		else if (player.isPotionActive(MobEffects.WITHER))
+		else if (GameData.isPlayerWithering())
 			MARGIN += 72;
 		float absorbRemaining = absorb;
 
-		for (int i = MathHelper.ceil((healthMax + absorb) / 2.0F) - 1; i >= 0; --i) {
+		for (int i = GameData.ceil((healthMax + absorb) / 2.0F) - 1; i >= 0; --i) {
 			// int b0 = (highlight ? 1 : 0);
-			int row = MathHelper.ceil((i + 1) / 10.0F) - 1;
+			int row = GameData.ceil((i + 1) / 10.0F) - 1;
 			int x = left + i % 10 * 8;
 			int y = top - row * rowHeight;
 

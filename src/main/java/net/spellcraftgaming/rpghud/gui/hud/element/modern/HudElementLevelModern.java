@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -15,12 +16,12 @@ public class HudElementLevelModern extends HudElement{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		String level = String.valueOf(this.mc.player.experienceLevel);
+		String level = String.valueOf(GameData.getPlayerXPLevel());
 		int width = 18;
 		if(this.mc.fontRendererObj.getStringWidth(level) > (width + 2)) width = this.mc.fontRendererObj.getStringWidth(level) + 2;
 		GlStateManager.enableAlpha();

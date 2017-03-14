@@ -3,12 +3,9 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -25,40 +22,27 @@ public class HudElementCrosshairVanilla extends HudElement {
 		GameSettings gamesettings = this.mc.gameSettings;
 
 		if (gamesettings.thirdPersonView == 0) {
-			if (this.mc.playerController.isSpectator() && this.mc.pointedEntity == null) {
-				RayTraceResult raytraceresult = this.mc.objectMouseOver;
-
-				if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
-					return;
-				}
-
-				BlockPos blockpos = raytraceresult.getBlockPos();
-
-				net.minecraft.block.state.IBlockState state = this.mc.world.getBlockState(blockpos);
-				if (!state.getBlock().hasTileEntity(state) || !(this.mc.world.getTileEntity(blockpos) instanceof IInventory)) {
-					return;
-				}
-			}
+			if(GameData.spectatorStuff()) return;
 
 			int l = res.getScaledWidth();
 			int i1 = res.getScaledHeight();
 
-			if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !this.mc.player.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
+			if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !GameData.getPlayer().hasReducedDebug() && !gamesettings.reducedDebugInfo) {
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(l / 2, i1 / 2, zLevel);
 				Entity entity = this.mc.getRenderViewEntity();
 				GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
 				GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks, 0.0F, 1.0F, 0.0F);
 				GlStateManager.scale(-1.0F, -1.0F, -1.0F);
-				OpenGlHelper.renderDirections(10);
+				GameData.doRenderDirections();
 				GlStateManager.popMatrix();
 			} else {
-				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GameData.tryBlendFuncSeparate();
 				GlStateManager.enableAlpha();
 				gui.drawTexturedModalRect(l / 2 - 7, i1 / 2 - 7, 0, 0, 16, 16);
 
-				if (this.mc.gameSettings.attackIndicator == 1) {
-					float f = this.mc.player.getCooledAttackStrength(0.0F);
+				if (GameData.getAttackIndicatorSetting() == 1) {
+					float f = GameData.getCooledAttackStrength();
 
 					if (f < 1.0F) {
 						int i = i1 / 2 - 7 + 16;

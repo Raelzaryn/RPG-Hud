@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraftforge.common.ForgeHooks;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -15,7 +15,7 @@ public class HudElementArmorVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return GameData.shouldDrawHUD();
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class HudElementArmorVanilla extends HudElement {
 		int left = width / 2 - 91;
 		int top = height - GuiIngameRPGHud.left_height;
 
-		int level = ForgeHooks.getTotalArmorValue(this.mc.player);
+		int level = GameData.getPlayerArmor();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
 				gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);
