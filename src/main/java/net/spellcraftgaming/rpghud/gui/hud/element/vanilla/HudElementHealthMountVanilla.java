@@ -4,7 +4,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -17,14 +17,13 @@ public class HudElementHealthMountVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.ridingEntity instanceof EntityLivingBase;
+		return GameData.isRidingLivingMount();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
-		EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-		Entity tmp = player.ridingEntity;
+		Entity tmp = GameData.getMount();
 		if (!(tmp instanceof EntityLivingBase))
 			return;
 

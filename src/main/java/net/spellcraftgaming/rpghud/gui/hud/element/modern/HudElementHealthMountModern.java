@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.EntityLivingBase;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -16,12 +17,12 @@ public class HudElementHealthMountModern extends HudElementBarred{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.ridingEntity instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return GameData.isRidingLivingMount() && GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.ridingEntity;
+		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();

@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -34,6 +35,8 @@ public class HudElementHotbarModern extends HudElement {
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+			ItemStack itemstack = GameData.getOffhand();
+			int enumhandside = GameData.getOffhandSide();
 			int width = res.getScaledWidth();
 			int height = res.getScaledHeight();
 			int i = width / 2;
@@ -48,17 +51,59 @@ public class HudElementHotbarModern extends HudElement {
 			}
 			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.currentItem*20), height - 22 - 3, 18, 18, 0x40FFFFFF);
 			GlStateManager.enableAlpha();
+			if (itemstack != GameData.nullStack()) {
+				if (enumhandside == 0) {
+					drawRect(width / 2 - 91 - 24, height - 22 - 5, 22, 2, 0xA0000000);
+					drawRect(width / 2 - 91 - 24, height - 22 - 3, 2, 18, 0xA0000000);
+					drawRect(width / 2 - 91 - 4, height - 22 - 3, 2, 18, 0xA0000000);
+					drawRect(width / 2 - 91 + 2 - 24, height - 22 - 3, 18, 18, 0x60000000);
+				} else {
+					drawRect(width / 2 - 91 - 24 + 209, height - 22 - 5, 22, 2, 0xA0000000);
+					drawRect(width / 2 - 91 - 24 + 209, height - 22 - 3, 2, 3 + 18, 0xA0000000);
+					drawRect(width / 2 - 91 - 4 + 209, height - 22 - 3, 2, 18, 0xA0000000);
+					drawRect(width / 2 - 91 + 2 - 24 + 209, height - 22 - 3, 18, 18, 0x60000000);
+				}
+			}
 
 			zLevel = f;
 			GlStateManager.enableRescaleNormal();
 			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-	        RenderHelper.enableGUIStandardItemLighting();
+			GameData.tryBlendFuncSeparate();
+			RenderHelper.enableGUIStandardItemLighting();
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = res.getScaledHeight() - 16 - 3 - 9 + 4;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, entityplayer.inventory.mainInventory[l]);
+				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, GameData.getMainInventoryItemOfSlot(l));
+			}
+
+			if (itemstack != GameData.nullStack()) {
+				int l1 = res.getScaledHeight() - 16 - 3 - 9;
+
+				if (enumhandside == 0) {
+					this.renderHotbarItem(i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
+				} else {
+					this.renderHotbarItem(i + 91 + 10- 4, l1 + 4, partialTicks, entityplayer, itemstack);
+				}
+			}
+
+			if (GameData.getAttackIndicatorSetting() == 2) {
+				float f1 = GameData.getCooledAttackStrength();
+
+				if (f1 < 1.0F) {
+					int i2 = res.getScaledHeight() - 20;
+					int j2 = i + 91 + 6;
+
+					if (enumhandside == 1) {
+						j2 = i - 91 - 22;
+					}
+
+					GameData.bindIcons();
+					int k1 = (int) (f1 * 19.0F);
+					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+					gui.drawTexturedModalRect(j2, i2 - 9, 0, 94, 18, 18);
+					gui.drawTexturedModalRect(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+				}
 			}
 
 			RenderHelper.disableStandardItemLighting();
@@ -82,8 +127,8 @@ public class HudElementHotbarModern extends HudElement {
 	 *            the item (via ItemStack)
 	 */
 	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
-		if (item != null) {
-			float f = item.animationsToGo - partialTicks;
+		if (item != GameData.nullStack()) {
+			float f = GameData.getItemAnimationsToGo(item) - partialTicks;
 
 			if (f > 0.0F) {
 				GlStateManager.pushMatrix();
@@ -93,7 +138,7 @@ public class HudElementHotbarModern extends HudElement {
 				GlStateManager.translate((-(xPos + 8)), (-(yPos + 12)), 0.0F);
 			}
 
-			this.mc.getRenderItem().renderItemAndEffectIntoGUI(item, xPos, yPos);
+			GameData.renderItemIntoGUI(player, item, xPos, yPos);
 
 			if (f > 0.0F) {
 				GlStateManager.popMatrix();

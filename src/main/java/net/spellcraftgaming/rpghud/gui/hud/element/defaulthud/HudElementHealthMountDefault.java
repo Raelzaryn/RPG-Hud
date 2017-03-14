@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -14,14 +15,14 @@ public class HudElementHealthMountDefault extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.ridingEntity instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return GameData.isRidingLivingMount() && GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.ridingEntity;
-		int health = (int) Math.ceil(mount.getHealth());
-		int healthMax = (int) mount.getMaxHealth();
+		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
+		int health = GameData.ceil(mount.getHealth());
+		int healthMax = GameData.ceil(mount.getMaxHealth());
 		int posX = this.settings.render_player_face ? 53 : 33;
 		int posY = this.settings.render_player_face ? 49 : 40;
 		drawCustomBar(posX, posY, 88, 8, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));

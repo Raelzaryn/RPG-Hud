@@ -5,8 +5,7 @@ import java.util.Random;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.FoodStats;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -19,13 +18,13 @@ public class HudElementFoodVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.ridingEntity == null;
+		return !GameData.isRidingLivingMount();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
-		EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
+		EntityPlayer player = GameData.getPlayer();
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
@@ -35,8 +34,7 @@ public class HudElementFoodVanilla extends HudElement {
 		boolean unused = false;// Unused flag in vanilla, seems to be part of a
 								// 'fade out' mechanic
 
-		FoodStats stats = this.mc.thePlayer.getFoodStats();
-		int level = stats.getFoodLevel();
+		int level = GameData.getPlayerFood();
 
 		for (int i = 0; i < 10; ++i) {
 			int idx = i * 2 + 1;
@@ -45,7 +43,7 @@ public class HudElementFoodVanilla extends HudElement {
 			int icon = 16;
 			byte background = 0;
 
-			if (this.mc.thePlayer.isPotionActive(Potion.hunger)) {
+			if (GameData.isPlayerHungered()) {
 				icon += 36;
 				background = 13;
 			}

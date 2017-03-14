@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -13,13 +14,13 @@ public class HudElementLevelDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GlStateManager.disableBlend();
-		String level = String.valueOf(this.mc.thePlayer.experienceLevel);
+		String level = String.valueOf(GameData.getPlayerXPLevel());
 		this.mc.fontRendererObj.drawStringWithShadow(level, (this.settings.render_player_face ? 38 : 12) - this.mc.fontRendererObj.getStringWidth(level) / 2, (this.settings.render_player_face ? 38 : 14), 0x80FF20);
 		GlStateManager.enableBlend();
 	}

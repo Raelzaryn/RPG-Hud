@@ -1,9 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -16,7 +16,7 @@ public class HudElementAirModern extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.isInsideOfMaterial(Material.water) && this.mc.playerController.shouldDrawHUD();
+		return GameData.isPlayerUnderwater() && GameData.shouldDrawHUD();
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class HudElementAirModern extends HudElementBarred {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
-		int airAmount = this.mc.thePlayer.getAir();
+		int airAmount = GameData.getPlayerAir();
 		GlStateManager.disableLighting();
 		drawRect(width / 2 - 72, height - 78, 144, 2, 0xA0000000);
 		drawRect(width / 2 - 72, height - 70, 144, 2, 0xA0000000);
