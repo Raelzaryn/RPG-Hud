@@ -26,7 +26,7 @@ public class HudElementCompassModern extends HudElement{
 		
 		int rotation = Math.round(((GameData.getRotationYaw() % 360) / 360) * 200);
 		if(rotation < 0) rotation = 200 + rotation;
-		drawRect(width - 50, 4, 100, 6, 0xAA000000);
+		drawRect(width - 50, 2, 100, 6, 0xAA000000);
 		
 		gui.drawTexturedModalRect(width - 56, 0, 34, 234, 112, 9);
 		if(rotation > 0 && rotation <= 100) {

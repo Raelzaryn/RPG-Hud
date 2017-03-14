@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.pickup;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class ItemPickup {
@@ -13,7 +13,7 @@ public class ItemPickup {
 	
 	public ItemPickup(ItemStack item) {
 		this.item = item;
-		this.timer = this.TIMER_TOTAL * MathHelper.ceiling_float_int(ModRPGHud.instance.settings.pickup_duration);
+		this.timer = this.TIMER_TOTAL * GameData.ceil(ModRPGHud.instance.settings.pickup_duration);
 	}
 	
 	public boolean onUpdate(){
@@ -25,8 +25,8 @@ public class ItemPickup {
 	}
 	
 	public void addItems(int count){
-		this.item.stackSize = this.item.stackSize + count;
-		this.timer = this.TIMER_TOTAL * MathHelper.ceiling_float_int(ModRPGHud.instance.settings.pickup_duration);
+		this.item = GameData.setItemStackSize(this.item, GameData.getItemStackSize(this.item) + count);
+		this.timer = this.TIMER_TOTAL * GameData.ceil(ModRPGHud.instance.settings.pickup_duration);
 	}
 	
 	public ItemStack getItem(){
@@ -34,7 +34,7 @@ public class ItemPickup {
 	}
 	
 	public int getCount(){
-		return this.item.stackSize;
+		return GameData.getItemStackSize(this.item);
 	}
 	
 	public int getTimer() {

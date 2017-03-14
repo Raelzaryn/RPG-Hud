@@ -30,6 +30,8 @@ public class HudElementHealthHotbar extends HudElementBarred {
 		
 		if (GameData.isPlayerPoisoned()) {
 			drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_poison, offsetColorPercent(this.settings.color_poison, OFFSET_PERCENT));
+		} else if (GameData.isPlayerWithering()){
+			drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_wither, offsetColorPercent(this.settings.color_wither, OFFSET_PERCENT));
 		} else {
 			drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
 		}

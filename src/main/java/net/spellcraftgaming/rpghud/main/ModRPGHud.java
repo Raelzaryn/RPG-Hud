@@ -10,7 +10,8 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.spellcraftgaming.rpghud.event.ClientTickHandler;
+import net.spellcraftgaming.lib.event.ClientTickHandler;
+import net.spellcraftgaming.lib.event.PlayerContainerHandler;
 import net.spellcraftgaming.rpghud.event.ItemPickupHandler;
 import net.spellcraftgaming.rpghud.event.PlayerTickHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
@@ -97,6 +98,7 @@ public class ModRPGHud {
 		MinecraftForge.EVENT_BUS.register(new PlayerTickHandler());
 		this.pickupHandler = new ItemPickupHandler();
 		MinecraftForge.EVENT_BUS.register(this.pickupHandler);
+		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
 	}
 
 	/**
