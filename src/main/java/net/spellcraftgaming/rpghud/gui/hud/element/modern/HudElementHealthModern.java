@@ -44,6 +44,8 @@ public class HudElementHealthModern extends HudElementBarred{
 		if(absorption > 1) drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)(health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double)(health + absorption)/ (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_absorption);
 		if (GameData.isPlayerPoisoned()) {
 			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_poison);
+		} else if (GameData.isPlayerWithering()){
+			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_wither);
 		} else {
 			drawTetragon(posX + 2, posX + 2, 5, 5, (int) (89 * ((double)health / (double) (healthMax + absorption))), (int) (89 * ((double)health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.color_health);
 		}

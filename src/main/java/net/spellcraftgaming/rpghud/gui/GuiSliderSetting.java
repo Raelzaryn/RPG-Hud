@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.MathHelper;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
 
@@ -40,14 +40,14 @@ public class GuiSliderSetting extends GuiButtonTooltip{
 	            if (this.dragging)
 	            {
 	                this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-	                this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
+	                this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
 	                float f = this.enumOptions.denormalizeValue(this.sliderValue);
 	                ModRPGHud.instance.settings.setOptionFloatValue(this.enumOptions, f);
 	                this.sliderValue = this.enumOptions.normalizeValue(f);
 	                this.displayString = ModRPGHud.instance.settings.getKeyBinding(this.enumOptions);
 	            }
 
-	            mc.getTextureManager().bindTexture(buttonTextures);
+	            GameData.bindButtonTextures();
 	            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
 	            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
@@ -64,7 +64,7 @@ public class GuiSliderSetting extends GuiButtonTooltip{
 	        if (super.mousePressed(mc, mouseX, mouseY))
 	        {
 	            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-	            this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
+	            this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
 	            ModRPGHud.instance.settings.setOptionFloatValue(this.enumOptions, this.enumOptions.denormalizeValue(this.sliderValue));
 	            this.displayString = ModRPGHud.instance.settings.getKeyBinding(this.enumOptions);
 	            this.dragging = true;

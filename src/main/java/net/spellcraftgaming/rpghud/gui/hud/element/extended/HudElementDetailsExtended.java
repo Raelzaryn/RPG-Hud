@@ -10,7 +10,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
+import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 

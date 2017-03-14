@@ -1,11 +1,10 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 
 @SideOnly(Side.CLIENT)
@@ -28,7 +27,7 @@ public class GuiSliderMod extends GuiButtonTooltip
         super(buttonId, x, y, 150, 12, "");
         this.color = color;
         this.sliderValue = value / 255;
-        this.value = MathHelper.ceiling_float_int(value);
+        this.value = GameData.ceil(value);
         this.minValue = minValueIn;
         this.maxValue = maxValue;
         this.valueStep = valueStep;
@@ -67,7 +66,7 @@ public class GuiSliderMod extends GuiButtonTooltip
                 }
 
                 this.displayString = this.getDisplayString();
-                this.value = MathHelper.ceiling_float_int(MathHelper.clamp_float(this.sliderValue * 255, 0F, 255F));
+                this.value = GameData.ceil(GameData.clamp(this.sliderValue * 255, 0F, 255F));
             }
         }
     }
@@ -76,12 +75,11 @@ public class GuiSliderMod extends GuiButtonTooltip
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible)
         {
-            FontRenderer fontrenderer = mc.fontRendererObj;
-            mc.getTextureManager().bindTexture(buttonTextures);
+            GameData.bindButtonTextures();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.blendFunc(770, 771);
+            GameData.tryBlendFuncSeparate();
+            GameData.blendFunc();
             int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
             HudElementBarred.drawCustomBar(this.xPosition, this.yPosition, this.width, this.height, 100D, color, HudElementBarred.offsetColorPercent(color, HudElementBarred.OFFSET_PERCENT));
             this.mouseDragged(mc, mouseX, mouseY);
@@ -100,17 +98,17 @@ public class GuiSliderMod extends GuiButtonTooltip
             {
                 j = 16777120;
             }
-
-            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            GameData.bindButtonTextures();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            this.displayString = this.getDisplayString();
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, this.height / 2);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, this.height / 2);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            this.drawCenteredString(mc.fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            
+       
         }
-        
-        mc.getTextureManager().bindTexture(buttonTextures);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.displayString = this.getDisplayString();
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, this.height / 2);
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, this.height / 2);
-        this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
     }
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
@@ -134,7 +132,7 @@ public class GuiSliderMod extends GuiButtonTooltip
             }
 
             this.displayString = this.getDisplayString();
-            this.value = MathHelper.ceiling_float_int(MathHelper.clamp_float(this.sliderValue * 255, 0F, 255F));
+            this.value = GameData.ceil(GameData.clamp(this.sliderValue * 255, 0F, 255F));
             this.dragging = true;
             return true;
         }
@@ -156,18 +154,18 @@ public class GuiSliderMod extends GuiButtonTooltip
     
     public float normalizeValue(float value)
     {
-        return MathHelper.clamp_float((this.snapToStepClamp(value) - this.maxValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
+        return GameData.clamp((this.snapToStepClamp(value) - this.maxValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
     }
 
     public float denormalizeValue(float value)
     {
-        return this.snapToStepClamp(this.minValue + (this.maxValue - this.minValue) * MathHelper.clamp_float(value, 0.0F, 1.0F));
+        return this.snapToStepClamp(this.minValue + (this.maxValue - this.minValue) * GameData.clamp(value, 0.0F, 1.0F));
     }
 
     public float snapToStepClamp(float value)
     {
         value = this.snapToStep(value);
-        return MathHelper.clamp_float(value, this.minValue, this.maxValue);
+        return GameData.clamp(value, this.minValue, this.maxValue);
     }
 
     private float snapToStep(float value)
@@ -181,6 +179,6 @@ public class GuiSliderMod extends GuiButtonTooltip
     }
     
     public int getValue() {
-    	return MathHelper.ceiling_float_int(this.value);
+    	return GameData.ceil(this.value);
     }
 }

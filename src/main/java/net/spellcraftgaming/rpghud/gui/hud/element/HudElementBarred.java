@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.spellcraftgaming.lib.GameData;
 
 public abstract class HudElementBarred extends HudElement {
 
@@ -35,7 +34,7 @@ public abstract class HudElementBarred extends HudElement {
 	public static final int COLOR_AQUA = 0x00FFFF;
 	
 	/** The value of the color black */
-	public static final int COLOR_BLACK = 0x121212;
+	public static final int COLOR_BLACK = 0x292929;
 	
 	/** The values of the color grey */
 	public static final int COLOR_GREY = 0x8A8A8A;
@@ -285,19 +284,17 @@ public abstract class HudElementBarred extends HudElement {
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
 		GlStateManager.enableBlend();
 		GlStateManager.disableTexture2D();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.color(f, f1, f2, f3);
+		GameData.tryBlendFuncSeparate();
+		GlStateManager.color(f, f1, f2, f3);
 		GlStateManager.disableDepth();
-		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
-		vertexbuffer.pos(posX1, (double) posY1 + height1, 0.0D).endVertex();
-		vertexbuffer.pos((double) posX2 + width2, (double) posY2 + height2, 0.0D).endVertex();
-		vertexbuffer.pos((double) posX1 + width1, posY2, 0.0D).endVertex();
-		vertexbuffer.pos(posX2, posY1, 0.0D).endVertex();
-		tessellator.draw();
+		GameData.beginVertex(7, DefaultVertexFormats.POSITION);
+		GameData.addVertexPos(posX1, (double) posY1 + height1, 0.0D);
+		GameData.addVertexPos((double) posX2 + width2, (double) posY2 + height2, 0.0D);
+		GameData.addVertexPos((double) posX1 + width1, posY2, 0.0D);
+		GameData.addVertexPos(posX2, posY1, 0.0D);
+		GameData.drawVertex();
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
 		GlStateManager.enableDepth();

@@ -9,8 +9,8 @@ import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -56,14 +56,15 @@ public class ModSettings {
 	/** The active HUD's type */
 	public String hud_type = "vanilla";
 
-	public int color_health = 0xC10000;
-	public int color_stamina = 0x3BC200;
-	public int color_air = 0x005BC2;
-	public int color_experience = 0xEEEE00;
+	public int color_health = HudElementBarred.COLOR_RED;
+	public int color_stamina = HudElementBarred.COLOR_GREEN;
+	public int color_air = HudElementBarred.COLOR_BLUE;
+	public int color_experience = HudElementBarred.COLOR_YELLOW;
 	public int color_jumpbar = 0xBFBFBF;
-	public int color_poison = 0x800080;
+	public int color_poison = HudElementBarred.COLOR_PURPLE;
 	public int color_hunger = 0x9ba067;
-	public int color_absorption = 0xFF8400;
+	public int color_absorption = HudElementBarred.COLOR_ORANGE;
+	public int color_wither = HudElementBarred.COLOR_BLACK;
 	
 	public int clock_time_format = 0;
 
@@ -384,6 +385,9 @@ public class ModSettings {
 					if (string[0].equals("color_absorption")) {
 						this.color_absorption = Integer.parseInt(string[1].replace("#", ""), 16);
 					}
+					if (string[0].equals("color_wither")) {
+						this.color_wither = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
 					if (string[0].equals("clock_time_format")) {
 						this.clock_time_format = Integer.parseInt(string[1]);
 					}
@@ -473,7 +477,7 @@ public class ModSettings {
 			boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 		} else if (par1EnumOptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT) {
-            return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? MathHelper.ceiling_float_int(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
+            return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? GameData.ceil(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
         }
 		switch (par1EnumOptions) {
 		case HUD_TYPE:
@@ -490,6 +494,8 @@ public class ModSettings {
 			return s + intToHexString(this.color_hunger);
 		case COLOR_ABSORPTION:
 			return s + intToHexString(this.color_absorption);
+		case COLOR_WITHER:
+			return s + intToHexString(this.color_wither);
 		case COLOR_HEALTH:
 			return s + intToHexString(this.color_health);
 		case COLOR_AIR:
@@ -541,7 +547,8 @@ public class ModSettings {
 				writer.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
 				writer.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
 				writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
-				writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_absorption));
+				writer.println("color_absorption:" + "#" + Integer.toHexString(this.color_absorption));
+				writer.println("color_wither:" + "#" + Integer.toHexString(this.color_wither));
 				writer.println("clock_time_format:" + this.clock_time_format);
 				writer.println("hud_type:" + this.hud_type);
 				writer.println("show_armor:" + this.show_armor);

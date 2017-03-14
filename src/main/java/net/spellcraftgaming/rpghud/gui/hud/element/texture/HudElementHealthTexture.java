@@ -29,6 +29,8 @@ public class HudElementHealthTexture extends HudElementTexture {
 		if(absorption > 1) gui.drawTexturedModalRect(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
 		if (GameData.isPlayerPoisoned()) {
 			gui.drawTexturedModalRect(posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+		} else if (GameData.isPlayerWithering()){
+			gui.drawTexturedModalRect(posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		} else {
 			gui.drawTexturedModalRect(posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		}
