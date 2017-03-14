@@ -3,7 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -16,7 +16,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return ((GuiIngameRPGHud)this.mc.ingameGUI).getRecordPlayingUpFor() > 0;
+		return GameData.overlayMessageTime((GuiIngameRPGHud)this.mc.ingameGUI) > 0;
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
     	ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
-        float f2 = (float)guiIngame.getRecordPlayingUpFor() - partialTicks;
+        float f2 = GameData.overlayMessageTime(guiIngame) - partialTicks;
         int l1 = (int)(f2 * 255.0F / 20.0F);
 
         if (l1 > 255)
@@ -38,15 +38,15 @@ public class HudElementRecordOverlayVanilla extends HudElement {
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)(i / 2), (float)(j - 68), 0.0F);
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            int l = 16777215;
+            GameData.tryBlendFuncSeparate();
+            int l = GameData.overlayColor(guiIngame, f2);
 
-            if (guiIngame.getRecordIsPlaying())
+            if (GameData.isRecordPlaying(guiIngame))
             {
-                l = MathHelper.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
+                l = GameData.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
             }
 
-            this.mc.fontRendererObj.drawString(guiIngame.getRecordPlaying(), -this.mc.fontRendererObj.getStringWidth(guiIngame.getRecordPlaying()) / 2, -4, l + (l1 << 24 & -16777216));
+            this.mc.fontRendererObj.drawString(GameData.getOverlayText(guiIngame), -this.mc.fontRendererObj.getStringWidth(GameData.getOverlayText(guiIngame)) / 2, -4, l + (l1 << 24 & -16777216));
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }
