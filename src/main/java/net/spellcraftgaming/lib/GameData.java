@@ -9,9 +9,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -22,15 +26,20 @@ import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.FoodStats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.spellcraftgaming.rpghud.gui.GuiIngameRPGHud;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 
 public class GameData {
 
+	protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
+	
+	
 	//General Minecraft Data
 	private static Minecraft mc;
 	public static Minecraft getMinecraft(){
@@ -170,7 +179,7 @@ public class GameData {
 	public static ItemStack getItemInHand(int hand){
 		if(hand == 0) return getMainhand();
 		else if(hand == 1) return getOffhand();
-		else return null;
+		else return nullStack();
 	}
 	
 	public static int getOffhandSide(){
@@ -189,6 +198,11 @@ public class GameData {
 		return item.getCount();
 	}
 	
+	public static ItemStack setItemStackSize(ItemStack item, int count){
+		item.setCount(count);
+		return item;
+	}
+	
 	public static float getRotationYaw(){
 		return getPlayer().rotationYaw;
 	}
@@ -205,7 +219,7 @@ public class GameData {
 		return pos;
 	}
 	public static ItemStack nullStack(){
-		return null;
+		return ItemStack.EMPTY;
 	}
 	
 	public static World getWorld(){
@@ -258,6 +272,10 @@ public class GameData {
 	}
 	public static void bindIcons(){
 		getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
+	}
+	
+	public static void bindButtonTextures(){
+		getMinecraft().getTextureManager().bindTexture(buttonTextures);
 	}
 	
 	public static void renderItemIntoGUI(EntityPlayer player, ItemStack item, int xPos, int yPos){
@@ -318,6 +336,38 @@ public class GameData {
 	public static void tryBlendFuncSeparate(){
 		GlStateManager.tryBlendFuncSeparate(getSrcAlpha(), getOneMinusSrcAlpha(), getGlOne(), getGlZero());
 	}
+	
+	public static void blendFunc(){
+		GlStateManager.blendFunc(getSrcAlpha(), getOneMinusSrcAlpha());
+	}
+	
+	public static EntityPlayer playerOfEvent(EntityItemPickupEvent event){
+		return event.getEntityPlayer();
+	}
+	
+	public static EntityItem itemOfEvent(EntityItemPickupEvent event){
+		return event.getItem();
+	}
+	
+	public static void beginVertex(int i, VertexFormat format){
+		Tessellator tessellator = Tessellator.getInstance();
+		//WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(i, format);
+	}
+	
+	public static void addVertexPos(double x, double y, double z){
+		Tessellator tessellator = Tessellator.getInstance();
+		//WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.pos(x, y, z).endVertex();
+	}
+	
+	public static void drawVertex(){
+		Tessellator tessellator = Tessellator.getInstance();
+		tessellator.draw();
+	}
+	
 	//Math functions
 	public static int ceil(float value){
 		return MathHelper.ceil(value);
@@ -333,6 +383,10 @@ public class GameData {
 	
 	public static double clamp(double d1, double d2, double d3){
 		return MathHelper.clamp(d1, d2, d3);
+	}
+	
+	public static float clamp(float f1, float f2, float f3){
+		return MathHelper.clamp(f1, f2, f3);
 	}
 	
 	public static int hsvToRGB(float f1, float f2, float f3){

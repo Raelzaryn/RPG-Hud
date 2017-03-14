@@ -1,9 +1,12 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.BOOLEAN;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.FLOAT;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.INTEGER;
+import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.STRING;
 
-import static net.spellcraftgaming.rpghud.settings.EnumOptionsMod.EnumOptionType.*;
+import net.minecraft.client.resources.I18n;
+import net.spellcraftgaming.lib.GameData;
 
 public enum EnumOptionsMod {
 
@@ -28,6 +31,7 @@ public enum EnumOptionsMod {
 	COLOR_POISON(INTEGER, "name.color_poison", I18n.format("tooltip.color_poison", new Object[0])), 
 	COLOR_HUNGER(INTEGER, "name.color_hunger", I18n.format("tooltip.color_hunger", new Object[0])), 
 	COLOR_ABSORPTION(INTEGER, "name.color_absorption", I18n.format("tooltip.color_absorption", new Object[0])), 
+	COLOR_WITHER(INTEGER, "name.color_wither", I18n.format("tooltip.color_wither", new Object[0])), 
 	SHOW_HUNGERPREVIEW(BOOLEAN, "name.show_hungerpreview", I18n.format("tooltip.show_hungerpreview", new Object[0])), 
 	CLOCK_TIME_FORMAT(INTEGER, "name.time_format", I18n.format("tooltip.clock_time_format", new Object[0])), 
 	REDUCE_SIZE(BOOLEAN, "name.reduce_size", I18n.format("tooltip.reduce_size", new Object[0])),
@@ -118,18 +122,18 @@ public enum EnumOptionsMod {
 	
     public float normalizeValue(float value)
     {
-        return MathHelper.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+        return GameData.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
     }
 
     public float denormalizeValue(float value)
     {
-        return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
+        return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * GameData.clamp(value, 0.0F, 1.0F));
     }
 
     public float snapToStepClamp(float value)
     {
         value = this.snapToStep(value);
-        return MathHelper.clamp(value, this.valueMin, this.valueMax);
+        return GameData.clamp(value, this.valueMin, this.valueMax);
     }
 
     private float snapToStep(float value)

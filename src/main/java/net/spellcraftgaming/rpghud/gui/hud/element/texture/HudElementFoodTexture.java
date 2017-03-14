@@ -37,12 +37,12 @@ public class HudElementFoodTexture extends HudElementTexture {
 			int bonusHunger = (int) (value + stamina);
 			if (bonusHunger > foodMax)
 				bonusHunger = foodMax;
-			gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double)foodMax)), 12);
 		}
 		if (GameData.isPlayerHungered()) {
-			gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / (double)foodMax)), 12);
 		} else {
-			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double)foodMax)), 12);
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.show_numbers_stamina)
