@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -14,7 +15,7 @@ public class HudElementExperienceVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.thePlayer.isRidingHorse();
+		return !GameData.isRidingLivingMount();
 	}
 
 	@Override
@@ -25,12 +26,12 @@ public class HudElementExperienceVanilla extends HudElement {
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
-			int cap = this.mc.thePlayer.xpBarCap();
+			int cap = GameData.getPlayerXPCap();
 			int left = width / 2 - 91;
 
 			if (cap > 0) {
 				short barWidth = 182;
-				int filled = (int) (this.mc.thePlayer.experience * (barWidth + 1));
+				int filled = (int) (GameData.getPlayerXPRaw() * (barWidth + 1));
 				int top = height - 32 + 3;
 				gui.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
 

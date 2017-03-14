@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -14,14 +15,14 @@ public class HudElementHealthMountTexture extends HudElementTexture {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.getRidingEntity() instanceof EntityLivingBase && this.mc.playerController.shouldDrawHUD();
+		return GameData.isRidingLivingMount() && GameData.shouldDrawHUD();
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
-		EntityLivingBase mount = (EntityLivingBase) this.mc.thePlayer.getRidingEntity();
+		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = this.settings.render_player_face ? 53 : 25;
@@ -36,7 +37,7 @@ public class HudElementHealthMountTexture extends HudElementTexture {
 			GlStateManager.scale(2.0, 2.0, 2.0);
 		}
 		GlStateManager.color(1f, 1f, 1f);
-		bind(Gui.ICONS);
+		GameData.bindIcons();
 	}
 
 }

@@ -3,8 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 
 public class HudElementClockModern extends HudElementClockVanilla{
@@ -20,7 +19,7 @@ public class HudElementClockModern extends HudElementClockVanilla{
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.enable_clock && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_clock ? this.mc.thePlayer.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
+		return this.settings.enable_clock && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_clock ? GameData.hasPlayerClock() : true);
 	}
 
 	@Override

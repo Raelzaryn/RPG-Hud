@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.EntityLivingBase;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -14,7 +14,7 @@ public class HudElementJumpBarModern extends HudElementBarred{
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.thePlayer.getRidingEntity() instanceof EntityLivingBase && (this.settings.limit_jumpbar ? this.mc.thePlayer.getHorseJumpPower() > 0F: true);
+		return GameData.isRidingLivingMount() && (this.settings.limit_jumpbar ? GameData.getHorseJumpPower() > 0F: true);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class HudElementJumpBarModern extends HudElementBarred{
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int width = res.getScaledWidth();
-		float jumpPower = this.mc.thePlayer.getHorseJumpPower();
+		float jumpPower = GameData.getHorseJumpPower();
 		int value = (int) (jumpPower * 100.0F);
 		drawRect(width / 2 - 72, height - 78, 144, 2, 0xA0000000);
 		drawRect(width / 2 - 72, height - 70, 144, 2, 0xA0000000);
