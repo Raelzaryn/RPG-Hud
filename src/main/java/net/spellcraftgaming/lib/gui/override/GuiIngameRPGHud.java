@@ -508,7 +508,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	/** Returns the chat instance as a GuiNewChat object */
 	@Override
 	public GuiNewChat getChatGUI() {
-		return this.chat;
+		if(!forceRenderTypeVanilla(HudElementType.CHAT)) return this.chat;
+		else return this.persistantChatGUI;
 	}
 
 	/** Returns the chat instance as a GuiChatRPGHud object */
@@ -653,8 +654,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.ICONS);
 						GlStateManager.enableBlend();
-						this.rpgHud.getVanillaHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
-
+				        GlStateManager.pushMatrix();
+				        GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
+				        persistantChatGUI.drawChat(updateCounter);
+				        GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
 
@@ -667,7 +670,6 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.ICONS);
 						GlStateManager.enableBlend();
-
 						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
 
 						GlStateManager.disableBlend();
@@ -687,7 +689,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.ICONS);
 						GlStateManager.enableBlend();
-						this.rpgHud.getVanillaHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
+				        GlStateManager.pushMatrix();
+				        GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
+				        persistantChatGUI.drawChat(updateCounter);
+				        GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
 					if (!preventEventType(HudElementType.CHAT)) {

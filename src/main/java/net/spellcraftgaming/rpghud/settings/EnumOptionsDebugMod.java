@@ -55,7 +55,12 @@ public enum EnumOptionsDebugMod {
 	FORCE_RENDER_JUMP_BAR(HudElementType.JUMP_BAR, EnumOptionsType.FORCE_RENDER, I18n.format("name.force_render", new Object[0]), I18n.format("tooltip.force_render", new Object[0])),
 	RENDER_VANILLA_JUMP_BAR(HudElementType.JUMP_BAR, EnumOptionsType.RENDER_VANILLA, I18n.format("name.render_vanilla", new Object[0]), I18n.format("tooltip.render_vanilla", new Object[0])),
 	PREVENT_EVENT_JUMP_BAR(HudElementType.JUMP_BAR, EnumOptionsType.PREVENT_EVENT, I18n.format("name.prevent_event", new Object[0]), I18n.format("tooltip.prevent_event", new Object[0])),
-	PREVENT_ELEMENT_RENDER_JUMP_BAR(HudElementType.JUMP_BAR, EnumOptionsType.PREVENT_RENDER, I18n.format("name.prevent_render", new Object[0]), I18n.format("tooltip.prevent_render", new Object[0]));
+	PREVENT_ELEMENT_RENDER_JUMP_BAR(HudElementType.JUMP_BAR, EnumOptionsType.PREVENT_RENDER, I18n.format("name.prevent_render", new Object[0]), I18n.format("tooltip.prevent_render", new Object[0])),
+
+	FORCE_RENDER_CHAT(HudElementType.CHAT, EnumOptionsType.FORCE_RENDER, I18n.format("name.force_render", new Object[0]), I18n.format("tooltip.force_render", new Object[0])),
+	RENDER_VANILLA_CHAT(HudElementType.CHAT, EnumOptionsType.RENDER_VANILLA, I18n.format("name.render_vanilla", new Object[0]), I18n.format("tooltip.render_vanilla", new Object[0])),
+	PREVENT_EVENT_CHAT(HudElementType.CHAT, EnumOptionsType.PREVENT_EVENT, I18n.format("name.prevent_event", new Object[0]), I18n.format("tooltip.prevent_event", new Object[0])),
+	PREVENT_ELEMENT_RENDER_CHAT(HudElementType.CHAT, EnumOptionsType.PREVENT_RENDER, I18n.format("name.prevent_render", new Object[0]), I18n.format("tooltip.prevent_render", new Object[0]));
 
 	public enum EnumOptionsType {
 		FORCE_RENDER, RENDER_VANILLA, PREVENT_EVENT, PREVENT_RENDER;
