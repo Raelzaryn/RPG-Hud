@@ -67,6 +67,11 @@ public class ModDebugSettings {
 	public boolean renderVanillaJumpBar = false;
 	public boolean preventEventJumpBar = false;
 	public boolean preventElementRenderJumpBar = false;
+	
+	public boolean forceRenderChat = false;
+	public boolean renderVanillaChat = false;
+	public boolean preventEventChat = false;
+	public boolean preventElementRenderChat = false;
 
 	public ModDebugSettings(File file) {
 		this.mc = Minecraft.getMinecraft();
@@ -208,6 +213,19 @@ public class ModDebugSettings {
 		}
 		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR) {
 			this.preventElementRenderJumpBar = !this.preventElementRenderJumpBar;
+		}
+		
+		if (option == EnumOptionsDebugMod.FORCE_RENDER_CHAT) {
+			this.forceRenderChat = !this.forceRenderChat;
+		}
+		if (option == EnumOptionsDebugMod.RENDER_VANILLA_CHAT) {
+			this.renderVanillaChat = !this.renderVanillaChat;
+		}
+		if (option == EnumOptionsDebugMod.PREVENT_EVENT_CHAT) {
+			this.preventEventChat = !this.preventEventChat;
+		}
+		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_CHAT) {
+			this.preventElementRenderChat = !this.preventElementRenderChat;
 		}
 
 		saveOptions();
@@ -377,6 +395,22 @@ public class ModDebugSettings {
 				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR.ordinal()] = 39;
 			} catch (NoSuchFieldError e) {
 			}
+			try {
+				optionIds[EnumOptionsDebugMod.FORCE_RENDER_CHAT.ordinal()] = 40;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsDebugMod.RENDER_VANILLA_CHAT.ordinal()] = 41;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsDebugMod.PREVENT_EVENT_CHAT.ordinal()] = 42;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_CHAT.ordinal()] = 43;
+			} catch (NoSuchFieldError e) {
+			}
 		}
 	}
 
@@ -472,6 +506,15 @@ public class ModDebugSettings {
 			return this.preventEventJumpBar;
 		case 39:
 			return this.preventElementRenderJumpBar;
+			
+		case 40:
+			return this.forceRenderChat;
+		case 41:
+			return this.renderVanillaChat;
+		case 42:
+			return this.preventEventChat;
+		case 43:
+			return this.preventElementRenderChat;
 
 		default:
 			return false;
@@ -618,6 +661,19 @@ public class ModDebugSettings {
 					if (string[0].equals("preventElementRenderJumpBar")) {
 						this.preventElementRenderJumpBar = string[1].equals("true");
 					}
+					
+					if (string[0].equals("forceRenderChat")) {
+						this.forceRenderChat = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaChat")) {
+						this.renderVanillaChat = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventChat")) {
+						this.preventEventChat = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderChat")) {
+						this.preventElementRenderChat = string[1].equals("true");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -693,6 +749,11 @@ public class ModDebugSettings {
 				exception.println("renderVanillaJumpBar:" + this.renderVanillaJumpBar);
 				exception.println("preventEventJumpBar:" + this.preventEventJumpBar);
 				exception.println("preventElementRenderJumpBar:" + this.preventElementRenderJumpBar);
+				
+				exception.println("forceRenderChat:" + this.forceRenderChat);
+				exception.println("renderVanillaChat:" + this.renderVanillaChat);
+				exception.println("preventEventChat:" + this.preventEventChat);
+				exception.println("preventElementRenderChat:" + this.preventElementRenderChat);
 
 				exception.close();
 			} catch (Exception var2) {
