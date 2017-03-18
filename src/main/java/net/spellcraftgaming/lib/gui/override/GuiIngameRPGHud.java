@@ -656,7 +656,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 						GlStateManager.enableBlend();
 				        GlStateManager.pushMatrix();
 				        GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-				        persistantChatGUI.drawChat(updateCounter);
+				        this.persistantChatGUI.drawChat(this.updateCounter);
 				        GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
@@ -691,7 +691,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 						GlStateManager.enableBlend();
 				        GlStateManager.pushMatrix();
 				        GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-				        persistantChatGUI.drawChat(updateCounter);
+				        this.persistantChatGUI.drawChat(this.updateCounter);
 				        GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
