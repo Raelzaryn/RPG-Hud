@@ -1,1 +1,1 @@
-gradlew build
+cmd /k gradlew build
