@@ -26,11 +26,12 @@ public class HudElementHealthMountHotbar extends HudElementBarred {
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = this.settings.render_player_face ? 49 : 25;
-		drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
+		int offset = GameData.getHotbarWidgetWidthOffset();
+		drawCustomBar(posX, height - 56, 200 + offset, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
 		String stringHealth = health + "/" + healthMax;
 
 		if (this.settings.show_numbers_health)
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 100, height - 55, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 100 + offset, height - 55, -1);
 	}
 
 }

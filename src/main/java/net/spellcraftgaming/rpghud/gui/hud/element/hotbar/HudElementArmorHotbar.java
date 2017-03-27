@@ -23,15 +23,15 @@ public class HudElementArmorHotbar extends HudElement {
 		int height = res.getScaledHeight();
 		int left = this.settings.render_player_face ? 46 : 22;
 		int top = height - 64;
-
+		int offset = GameData.getHotbarWidgetWidthOffset() / 2;
 		int level = GameData.getPlayerArmor();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				gui.drawTexturedModalRect(left + 62, top - 2, 34, 9, 9, 9);
+				gui.drawTexturedModalRect(left + 62 + offset, top - 2, 34, 9, 9, 9);
 			} else if (i == level) {
-				gui.drawTexturedModalRect(left + 62, top - 2, 25, 9, 9, 9);
+				gui.drawTexturedModalRect(left + 62 + offset, top - 2, 25, 9, 9, 9);
 			} else if (i > level) {
-				gui.drawTexturedModalRect(left + 62, top - 2, 16, 9, 9, 9);
+				gui.drawTexturedModalRect(left + 62 + offset, top - 2, 16, 9, 9, 9);
 			}
 			left += 8;
 		}
