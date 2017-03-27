@@ -45,6 +45,10 @@ public class GameData {
 		return getMinecraft().thePlayer;
 	}
 	
+	public static int getHotbarWidgetWidthOffset(){
+		return -20;
+	}
+	
 	//Player Data
 	public static int getPlayerHealth(){
 		return ceil(getPlayer().getHealth());

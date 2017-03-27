@@ -25,7 +25,7 @@ public class HudElementWidgetHotbar extends HudElementTexture {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
-		gui.drawTexturedModalRect(this.settings.render_player_face ? 50 : 26, height - 16 - 52 + 7, 0, 170, 251, 52);
+		gui.drawTexturedModalRect(this.settings.render_player_face ? 50 : 26, height - 16 - 52 + 9, Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
 		
 		if(ModRPGHud.instance.settings.render_player_face) {
 			gui.drawTexturedModalRect(0, height - 16 - 52 + 7, 164, 20, 50, 52);
