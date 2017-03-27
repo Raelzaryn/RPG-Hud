@@ -44,6 +44,10 @@ public class GameData {
 		return mc;
 	}
 	
+	public static int getHotbarWidgetWidthOffset(){
+		return 0;
+	}
+	
 	public static boolean shouldDrawHUD(){
 		return getMinecraft().playerController.shouldDrawHUD();
 	}
@@ -142,7 +146,7 @@ public class GameData {
 	}
 	
 	public static float getCooledAttackStrength(){
-		return 1F;
+		return getPlayer().getCooledAttackStrength(0F);
 	}
 	
 	public static float getItemAnimationsToGo(ItemStack item){

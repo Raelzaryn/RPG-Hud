@@ -31,7 +31,6 @@ public class HudElementHotbarHotbar extends HudElement {
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
 			ItemStack itemstack = GameData.getOffhand();
-			int enumhandside = GameData.getOffhandSide();
 			int i = res.getScaledWidth() / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
@@ -60,12 +59,8 @@ public class HudElementHotbarHotbar extends HudElement {
 				float f1 = GameData.getCooledAttackStrength();
 
 				if (f1 < 1.0F) {
-					int i2 = res.getScaledHeight() - 20;
-					int j2 = i + 91 + 6;
-
-					if (enumhandside == 1) {
-						j2 = i - 91 - 22;
-					}
+					int i2 = res.getScaledHeight() - 36;
+					int j2 = i + 40;
 
 					GameData.bindIcons();
 					int k1 = (int) (f1 * 19.0F);
