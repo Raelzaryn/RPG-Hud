@@ -40,7 +40,6 @@ public class HudElementCrosshairVanilla extends HudElement {
 				GameData.tryBlendFuncSeparate();
 				GlStateManager.enableAlpha();
 				gui.drawTexturedModalRect(l / 2 - 7, i1 / 2 - 7, 0, 0, 16, 16);
-
 				if (GameData.getAttackIndicatorSetting() == 1) {
 					float f = GameData.getCooledAttackStrength();
 

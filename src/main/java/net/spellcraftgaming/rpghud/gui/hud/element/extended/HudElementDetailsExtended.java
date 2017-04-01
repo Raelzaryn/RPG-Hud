@@ -31,7 +31,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.showDebugInfo && !((GuiIngameRPGHud) this.mc.ingameGUI).getChat().getChatOpen();
+		return GameData.shouldDrawHUD() && !this.mc.gameSettings.showDebugInfo && !((GuiIngameRPGHud) this.mc.ingameGUI).getChat().getChatOpen();
 	}
 
 	@Override
