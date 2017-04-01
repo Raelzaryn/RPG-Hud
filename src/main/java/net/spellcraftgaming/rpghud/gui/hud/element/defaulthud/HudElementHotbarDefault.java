@@ -21,12 +21,16 @@ public class HudElementHotbarDefault extends HudElement {
 	}
 
 	@Override
+	public boolean checkConditions() {
+		return true;
+	}
+	
+	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		if (this.mc.playerController.isSpectator()) {
 			((GuiIngameRPGHud) gui).getSpectatorGui().renderTooltip(res, partialTicks);
-		}
-		if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+		} else if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
