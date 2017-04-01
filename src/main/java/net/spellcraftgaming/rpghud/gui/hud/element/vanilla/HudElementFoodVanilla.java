@@ -18,7 +18,7 @@ public class HudElementFoodVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !GameData.isRidingLivingMount();
+		return GameData.shouldDrawHUD() && !GameData.isRidingLivingMount();
 	}
 
 	@Override
