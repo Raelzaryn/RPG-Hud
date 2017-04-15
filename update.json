@@ -1,18 +1,19 @@
 {
   "homepage": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
   "promos": {
-    "1.11.2-latest"     : "3.5.1",
-    "1.11.2-recomended" : "3.5.1",
-    "1.11-latest"     : "3.5.1",
-    "1.11-recomended" : "3.5.1",
-    "1.10.2-latest"     : "3.5.1",
-    "1.10.2-recomended" : "3.5.1",
-    "1.9.4-latest"     : "3.5.1",
-    "1.9.4-recomended" : "3.5.1",
-    "1.8.9-latest"     : "3.5.1",
-    "1.8.9-recomended" : "3.5.1"
+    "1.11.2-latest"     : "3.5.2",
+    "1.11.2-recomended" : "3.5.2",
+    "1.11-latest"     : "3.5.2",
+    "1.11-recomended" : "3.5.2",
+    "1.10.2-latest"     : "3.5.2",
+    "1.10.2-recomended" : "3.5.2",
+    "1.9.4-latest"     : "3.5.2",
+    "1.9.4-recomended" : "3.5.2",
+    "1.8.9-latest"     : "3.5.2",
+    "1.8.9-recomended" : "3.5.2"
   },
     "1.11.2" : {
+	"3.5.2": "fixed spectator HUD",
     "3.5.1": "fixed missing attack indicator\nfixed hotbar widget",
   	"3.5": "added option to use vanilla chat(for other mods)\nadded support for absorption\nfixed full texture posion color\nadded health abr wither color",
   	"3.4": "changed playerface less widgets\naded compass inverting setting\nadded limited jumpbar diplsay setting\nfixed texture hud type color bug\nfixed crash on selecting a bow without arrows (again...)",
@@ -23,6 +24,7 @@
     "3.1" : "Initial release of the mod remake"
   },
   "1.11" : {
+	"3.5.2": "fixed spectator HUD",
   	"3.5.1": "fixed missing attack indicator\nfixed hotbar widget",
   	"3.5": "added option to use vanilla chat(for other mods)\nadded support for absorption\nfixed full texture posion color\nadded health abr wither color",
   	"3.4": "changed playerface less widgets\naded compass inverting setting\nadded limited jumpbar diplsay setting\nfixed texture hud type color bug\nfixed crash on selecting a bow without arrows (again...)",
@@ -33,6 +35,7 @@
     "3.1" : "Initial release of the mod remake"
   },
   "1.10.2" : {
+	"3.5.2": "fixed spectator HUD",
   	"3.5.1": "fixed missing attack indicator\nfixed hotbar widget",
   	"3.5": "added option to use vanilla chat(for other mods)\nadded support for absorption\nfixed full texture posion color\nadded health abr wither color",
   	"3.4": "changed playerface less widgets\naded compass inverting setting\nadded limited jumpbar diplsay setting\nfixed texture hud type color bug\nfixed crash on selecting a bow without arrows (again...)",
@@ -43,12 +46,15 @@
     "3.1" : "Initial release of the mod remake"
   },
   "1.9.4" : {
+	"3.5.2": "fixed spectator HUD",
+	"3.5.1": "fixed hotbar widget",
     "3.5": "added option to use vanilla chat(for other mods)\nadded support for absorption\nfixed full texture posion color\nadded health abr wither color",
   	"3.4": "changed playerface less widgets\naded compass inverting setting\nadded limited jumpbar diplsay setting\nfixed texture hud type color bug\nfixed crash on selecting a bow without arrows (again...)",
     "3.3.1": "fixes item duplication and removal if picked up with full inventory\npickup message now works correctly in singleplayer\ngame no longer crashes if a bow is selected without arrows in the inventory",
     "3.1" : "Initial release of the 1.9.4 version of RPG-HUD remake"
   },
   "1.8.9" : {
+	"3.5.2": "fixed spectator HUD",
   	"3.5.1": "fixed hotbar widget",
     "3.5": "added option to use vanilla chat(for other mods)\nadded support for absorption\nfixed full texture posion color\nadded health abr wither color",
   	"3.4": "changed playerface less widgets\naded compass inverting setting\nadded limited jumpbar diplsay setting\nfixed texture hud type color bug\nfixed crash on selecting a bow without arrows (again...)",

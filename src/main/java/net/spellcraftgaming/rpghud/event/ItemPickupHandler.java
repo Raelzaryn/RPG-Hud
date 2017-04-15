@@ -19,7 +19,7 @@ public class ItemPickupHandler {
 	
 	@SubscribeEvent
 	public void onPickupItem(ItemPickupEvent event) {
-		if(!event.isCanceled() && event.player.equals(GameData.getPlayer()) && storedItem != null && ItemStack.areItemsEqual(event.pickedUp.getEntityItem(), storedItem)){
+		if(!event.isCanceled() && event.player.equals(GameData.getPlayer()) && storedItem != GameData.nullStack()){
 			addPickup(storedItem.copy());
 			storedItem = null;
 			ModRPGHud.renderDetailsAgain[0] = true;
