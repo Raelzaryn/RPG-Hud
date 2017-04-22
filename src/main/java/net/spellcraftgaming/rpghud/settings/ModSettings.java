@@ -44,6 +44,7 @@ public class ModSettings {
 	public boolean enable_compass = true;
 	public boolean enable_compass_color = true;
 	public boolean enable_immersive_compass = false;
+	public boolean enable_compass_coordinates = true;
 	
 	public boolean enable_pickup = true;
 	
@@ -52,6 +53,8 @@ public class ModSettings {
 	public boolean reduce_size = false;
 	public boolean limit_jumpbar = true;
 	public boolean invert_compass = false;
+	
+	public boolean enable_entity_inpect = true;
 
 	/** The active HUD's type */
 	public String hud_type = "vanilla";
@@ -116,6 +119,9 @@ public class ModSettings {
 		if (options == EnumOptionsMod.ENABLE_IMMERSIVE_CLOCK) {
 			this.enable_immersive_clock = (!this.enable_immersive_clock);
 		}
+		if (options == EnumOptionsMod.ENABLE_ENTITY_INSPECT) {
+			this.enable_entity_inpect = (!this.enable_entity_inpect);
+		}
 		if (options == EnumOptionsMod.ENABLE_COMPASS) {
 			this.enable_compass = (!this.enable_compass);
 		}
@@ -124,6 +130,9 @@ public class ModSettings {
 		}
 		if (options == EnumOptionsMod.ENABLE_IMMERSIVE_COMPASS) {
 			this.enable_immersive_compass = (!this.enable_immersive_compass);
+		}
+		if (options == EnumOptionsMod.ENABLE_COMPASS_COORDINATES) {
+			this.enable_compass_coordinates = (!this.enable_compass_coordinates);
 		}
 		if (options == EnumOptionsMod.RENDER_PLAYER_FACE) {
 			this.render_player_face = (!this.render_player_face);
@@ -235,6 +244,10 @@ public class ModSettings {
 			return this.limit_jumpbar;
 		case 19:
 			return this.invert_compass;
+		case 20:
+			return this.enable_entity_inpect;
+		case 21:
+			return this.enable_compass_coordinates;
 		default:
 			return false;
 		}
@@ -322,6 +335,14 @@ public class ModSettings {
 			}
 			try {
 				optionIds[EnumOptionsMod.INVERT_COMPASS.ordinal()] = 19;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsMod.ENABLE_ENTITY_INSPECT.ordinal()] = 20;
+			} catch (NoSuchFieldError e) {
+			}
+			try {
+				optionIds[EnumOptionsMod.ENABLE_COMPASS_COORDINATES.ordinal()] = 21;
 			} catch (NoSuchFieldError e) {
 			}
 		}
@@ -454,6 +475,12 @@ public class ModSettings {
 					if (string[0].equals("invert_compass")) {
 						this.invert_compass = string[1].equals("true");
 					}
+					if (string[0].equals("enable_entity_inspect")) {
+						this.enable_entity_inpect = string[1].equals("true");
+					}
+					if (string[0].equals("enable_compass_coordinates")) {
+						this.enable_compass_coordinates = string[1].equals("true");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -571,6 +598,8 @@ public class ModSettings {
 				writer.println("pickup_duration:" + this.pickup_duration);
 				writer.println("limit_jumpbar:" + this.limit_jumpbar);
 				writer.println("invert_compass:" + this.invert_compass);
+				writer.println("enable_entity_inspect:" + this.enable_entity_inpect);
+				writer.println("enable_compass_coordinate:" + this.enable_compass_coordinates);
 				writer.close();
 			} catch (Exception var2) {
 				var2.printStackTrace();

@@ -29,7 +29,6 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 public class ModRPGHud {
 
 	// TODO 3.x: Make elements moveable onscreen
-	// TODO 3.x: Add Enemy detail element
 	// TODO 3.x: Simple debug settings configuration
 	// TODO 3.x: Distance checker
 	// TODO 3.x: FPS
@@ -41,7 +40,7 @@ public class ModRPGHud {
 	/** The mod name of this mod */
 	public static final String NAME = "RPG-Hud";
 	/** The mod version of this mod */
-	public static final String VERSION = "3.5.2";
+	public static final String VERSION = "3.6.1";
 	/** Path to GuiFactory class of this mod */
 	public static final String GUI_FACTORY = "net.spellcraftgaming.rpghud.gui.GuiFactoryRPGHud";
 

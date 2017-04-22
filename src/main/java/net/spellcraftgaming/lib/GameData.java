@@ -47,6 +47,10 @@ public class GameData {
 		return mc;
 	}
 	
+	public static World getWorldOfEntity(Entity entity){
+		return entity.world;
+	}
+	
 	public static int getHotbarWidgetWidthOffset(){
 		return 0;
 	}

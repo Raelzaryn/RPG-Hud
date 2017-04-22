@@ -20,10 +20,16 @@ import net.minecraft.util.math.Vec3d;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class HudElementEntityInspectVanilla extends HudElementBarred {
 
 	protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/damageindicator.png");
+	
+	@Override
+	public boolean checkConditions() {
+		return GameData.shouldDrawHUD() && ModRPGHud.instance.settings.enable_entity_inpect;
+	}
 	
 	public HudElementEntityInspectVanilla() {
 		super(HudElementType.ENTITY_INSPECT, 0, 0, 0, 0, true);
@@ -38,11 +44,10 @@ public class HudElementEntityInspectVanilla extends HudElementBarred {
 			this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
 			gui.drawTexturedModalRect(width - 62, 20, 0, 0, 124, 32);
 			drawCustomBar(width - 29, 32, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
-			String stringHealth = (double)focused.getHealth() + "/" + (double)focused.getMaxHealth();
+			String stringHealth = ((double)Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double)Math.round(focused.getMaxHealth() * 10)) / 10;
 			GlStateManager.scale(0.5, 0.5, 0.5);
 			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, (width - 29 + 44) *2, 34 *2, -1);
 			GlStateManager.scale(2.0, 2.0, 2.0);
-			//System.out.println(focused.getName() + " | " + focused.getHealth() + "/" + focused.getMaxHealth());
 			
 			int x = (width - 29 + 44- this.mc.fontRendererObj.getStringWidth(focused.getName()) / 2);
 			int y = 23;
@@ -67,7 +72,7 @@ public class HudElementEntityInspectVanilla extends HudElementBarred {
 		}
 		Vec3d lookVec = watcher.getLookVec();
 		Vec3d vec2 = vec.add(lookVec.normalize().scale(maxDistance));
-		RayTraceResult ray = watcher.world.rayTraceBlocks(vec, vec2);
+		RayTraceResult ray = GameData.getWorldOfEntity(watcher).rayTraceBlocks(vec, vec2);
 		
 		double distance = maxDistance;
 		if(ray != null){
@@ -77,7 +82,7 @@ public class HudElementEntityInspectVanilla extends HudElementBarred {
 		
 		double currentDistance = distance;
 		
-		List<Entity> entitiesWithinMaxDistance = watcher.world.getEntitiesWithinAABBExcludingEntity(watcher, watcher.getEntityBoundingBox().addCoord(lookVec.xCoord * maxDistance, lookVec.yCoord * maxDistance, lookVec.zCoord * maxDistance).expandXyz(1));
+		List<Entity> entitiesWithinMaxDistance = GameData.getWorldOfEntity(watcher).getEntitiesWithinAABBExcludingEntity(watcher, watcher.getEntityBoundingBox().addCoord(lookVec.xCoord * maxDistance, lookVec.yCoord * maxDistance, lookVec.zCoord * maxDistance).expandXyz(1));
 		for(Entity entity : entitiesWithinMaxDistance){
 			if(entity instanceof EntityLiving){
 				float collisionBorderSize = entity.getCollisionBorderSize();
