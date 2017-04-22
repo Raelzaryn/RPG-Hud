@@ -54,6 +54,8 @@ name.enable_pickup=Enable Pickup
 name.pickup_duration=Pickup Duration
 name.limit_jumpbar=Limit jumpbar
 name.invert_compass=Invert Compass
+name.entity_inspect=Show Entity Inspect
+name.compass_coordinates=Compass Coordinates
 
 color.red=Red
 color.blue=Blue
@@ -123,6 +125,8 @@ tooltip.enable_pickup=Enable/disable the/nitem pickup widget
 tooltip.pickup_duration=Set the duration of the/nitem pickup widget
 tooltip.limit_jumpbar=Only show the jump bar/nwhen jumping with a horse
 tooltip.invert_compass=Change the left and right/nof the compass
+tooltip.entity_inspect=Toggle the entity/ninspect element
+tooltip.compass_coordinates=Toggle the numerical coordinates/n of the compass
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element

@@ -148,6 +148,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 			this.drawElement(HudElementType.DETAILS, partialTicks);
 			this.drawElement(HudElementType.COMPASS, partialTicks);
 			this.drawElement(HudElementType.PICKUP, partialTicks);
+			this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
 		}
 
 		renderSleepFadeMod(width, height);

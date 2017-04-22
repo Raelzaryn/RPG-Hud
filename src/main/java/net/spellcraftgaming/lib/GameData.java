@@ -21,6 +21,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -35,6 +36,10 @@ public class GameData {
 	public static Minecraft getMinecraft(){
 		if(mc == null) mc = Minecraft.getMinecraft();
 		return mc;
+	}
+	
+	public static World getWorldOfEntity(Entity entity){
+		return entity.worldObj;
 	}
 	
 	public static boolean shouldDrawHUD(){
@@ -381,5 +386,9 @@ public class GameData {
 	public static int hsvToRGB(float f1, float f2, float f3){
 		//MathHelper.hsvToRGB(f1, f2, f3);
 		return 0;
+	}
+	
+	public static Vec3 scaleVec(Vec3 vec, double scale){
+		return new Vec3(vec.xCoord * scale, vec.yCoord * scale, vec.zCoord * scale);
 	}
 }
