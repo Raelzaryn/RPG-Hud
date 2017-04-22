@@ -95,4 +95,9 @@ public class HudVanilla extends Hud {
 	protected HudElement setElementPickup() {
 		return new HudElementPickupVanilla();
 	}
+	
+	@Override
+	protected HudElement setElementEntityInspect() {
+		return new HudElementEntityInspectVanilla();
+	}
 }

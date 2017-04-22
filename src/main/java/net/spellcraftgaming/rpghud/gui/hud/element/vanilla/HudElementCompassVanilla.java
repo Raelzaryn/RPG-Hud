@@ -66,12 +66,14 @@ public class HudElementCompassVanilla extends HudElementTexture{
 			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (25 * swapSides) -  (rotation * swapSides), -2, -1);
 		}
 		
-		if(this.settings.reduce_size) GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		int[] pos = GameData.getPlayerPos();
-		gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[0]), (width - 50) * (this.settings.reduce_size ? 2 : 1), 11 * (this.settings.reduce_size ? 2 : 1), -1);
-		gui.drawCenteredString(this.mc.fontRendererObj, String.valueOf(pos[1]), width * (this.settings.reduce_size ? 2 : 1), 11 * (this.settings.reduce_size ? 2 : 1), -1);
-		gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[2]), (width + 50) * (this.settings.reduce_size ? 2 : 1) - this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2])), 11 * (this.settings.reduce_size ? 2 : 1), -1);
-		if(this.settings.reduce_size) GlStateManager.scale(2D, 2D, 2D);
+		if(this.settings.enable_compass_coordinates){
+			if(this.settings.reduce_size) GlStateManager.scale(0.5D, 0.5D, 0.5D);
+			int[] pos = GameData.getPlayerPos();
+			gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[0]), (width - 50) * (this.settings.reduce_size ? 2 : 1), 11 * (this.settings.reduce_size ? 2 : 1), -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, String.valueOf(pos[1]), width * (this.settings.reduce_size ? 2 : 1), 11 * (this.settings.reduce_size ? 2 : 1), -1);
+			gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[2]), (width + 50) * (this.settings.reduce_size ? 2 : 1) - this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2])), 11 * (this.settings.reduce_size ? 2 : 1), -1);
+			if(this.settings.reduce_size) GlStateManager.scale(2D, 2D, 2D);
+		}
 	}
 
 }

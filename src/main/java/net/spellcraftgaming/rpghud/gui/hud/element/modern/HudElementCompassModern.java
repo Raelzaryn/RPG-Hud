@@ -67,16 +67,18 @@ public class HudElementCompassModern extends HudElement{
 			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (25 * swapSides) -  (rotation * swapSides), -2, -1);
 		}
 		
-		int[] pos = GameData.getPlayerPos();
-		drawRect(width - 50, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[0])) / 2 + 4, 6, 0xA0000000);
-		drawRect((int)(width - ((float) this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[1])) / 4) - 2), 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);
-		drawRect((width + 48) - (this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2]))/2) - 2, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
-		
-		GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[0]), (width - 48) * 2, 12 * 2, -1);
-		gui.drawCenteredString(this.mc.fontRendererObj, String.valueOf(pos[1]), width * 2, 12 * 2, -1);
-		gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[2]), (width + 48) * 2 - this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2])), 12 * 2, -1);
-		GlStateManager.scale(2D, 2D, 2D);
+		if(this.settings.enable_compass_coordinates) {
+			int[] pos = GameData.getPlayerPos();
+			drawRect(width - 50, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[0])) / 2 + 4, 6, 0xA0000000);
+			drawRect((int)(width - ((float) this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[1])) / 4) - 2), 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);
+			drawRect((width + 48) - (this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2]))/2) - 2, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
+			
+			GlStateManager.scale(0.5D, 0.5D, 0.5D);
+			gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[0]), (width - 48) * 2, 12 * 2, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, String.valueOf(pos[1]), width * 2, 12 * 2, -1);
+			gui.drawString(this.mc.fontRendererObj, String.valueOf(pos[2]), (width + 48) * 2 - this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[2])), 12 * 2, -1);
+			GlStateManager.scale(2D, 2D, 2D);
+		}
 	}
 
 }
