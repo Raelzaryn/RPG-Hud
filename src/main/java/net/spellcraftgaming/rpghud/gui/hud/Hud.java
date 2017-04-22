@@ -52,6 +52,7 @@ public abstract class Hud {
 		this.elements.put(CHAT, setElementChat());
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(PICKUP, setElementPickup());
+		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
 
 	}
 
@@ -120,6 +121,9 @@ public abstract class Hud {
 	
 	/** Function which returns a new element which is the item pickup element */
 	protected abstract HudElement setElementPickup();
+	
+	/** Function which returns a new element which is the item pickup element */
+	protected abstract HudElement setElementEntityInspect();
 
 	/**
 	 * Draws the an element of the HudElementType type on the screen

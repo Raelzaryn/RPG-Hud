@@ -41,7 +41,9 @@ public enum EnumOptionsMod {
 	ENABLE_PICKUP(BOOLEAN, "name.enable_pickup", I18n.format("tooltip.enable_pickup", new Object[0])),
 	PICK_DURATION(FLOAT, "name.pickup_duration", I18n.format("tooltip.pickup_duration", new Object[0]), 1F, 10F, 1F),
 	LIMIT_JUMPBAR(BOOLEAN, "name.limit_jumpbar", I18n.format("tooltip.limit_jumpbar", new Object[0])),
-	INVERT_COMPASS(BOOLEAN, "name.invert_compass", I18n.format("tooltip.invert_compass", new Object[0]));
+	INVERT_COMPASS(BOOLEAN, "name.invert_compass", I18n.format("tooltip.invert_compass", new Object[0])),
+	ENABLE_ENTITY_INSPECT(BOOLEAN, "name.entity_inspect", I18n.format("tooltip.entity_inspect", new Object[0])),
+	ENABLE_COMPASS_COORDINATES(BOOLEAN, "name.compass_coordinates", I18n.format("tooltip.compass_coordinates", new Object[0]));
 
 	public enum EnumOptionType {
 		INTEGER, BOOLEAN, STRING, FLOAT;

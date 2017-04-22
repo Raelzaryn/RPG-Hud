@@ -183,7 +183,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 				this.itemArrow = GameData.arrowStack();
 			}
 			
-			this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
+			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 			if (this.settings.reduce_size)

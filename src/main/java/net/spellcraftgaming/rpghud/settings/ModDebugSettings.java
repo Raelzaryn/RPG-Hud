@@ -15,7 +15,6 @@ public class ModDebugSettings {
 	/** Instance of Minecraft*/
 	protected Minecraft mc;
 	
-	
 	/** The file the settings are read from and wrote into*/
 	private File settingFile;
 
