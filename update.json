@@ -1,18 +1,19 @@
 {
   "homepage": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
   "promos": {
-    "1.11.2-latest"     : "3.6.1",
-    "1.11.2-recomended" : "3.6.1",
-    "1.11-latest"       : "3.6.1",
-    "1.11-recomended"   : "3.6.1",
-    "1.10.2-latest"     : "3.6.1",
-    "1.10.2-recomended" : "3.6.1",
-    "1.9.4-latest"      : "3.6.1",
-    "1.9.4-recomended"  : "3.6.1",
-    "1.8.9-latest"      : "3.6.1",
-    "1.8.9-recomended"  : "3.6.1"
+    "1.11.2-latest"     : "3.6.2",
+    "1.11.2-recomended" : "3.6.2",
+    "1.11-latest"       : "3.6.2",
+    "1.11-recomended"   : "3.6.2",
+    "1.10.2-latest"     : "3.6.2",
+    "1.10.2-recomended" : "3.6.2",
+    "1.9.4-latest"      : "3.6.2",
+    "1.9.4-recomended"  : "3.6.2",
+    "1.8.9-latest"      : "3.6.2",
+    "1.8.9-recomended"  : "3.6.2"
   },
     "1.11.2" : {
+    "3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
     "3.6.1"  : "added compass coordinates toggle",
     "3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -26,6 +27,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.11" : {
+  	"3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
  	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -39,6 +41,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.10.2" : {
+  	"3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
   	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -52,6 +55,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.9.4" : {
+  	"3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
   	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -62,6 +66,7 @@
     "3.1"    : "Initial release of the 1.9.4 version of RPG-HUD remake"
   },
   "1.8.9" : {
+  	"3.6.2"  : "fixed crash when holding food",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
   	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",

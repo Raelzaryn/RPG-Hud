@@ -18,7 +18,7 @@ public class HudElementFoodTexture extends HudElementTexture {
 	public boolean checkConditions() {
 		return GameData.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
@@ -29,20 +29,26 @@ public class HudElementFoodTexture extends HudElementTexture {
 		int posY = this.settings.render_player_face ? 22 : 18;
 		ItemStack itemMain = GameData.getMainhand();
 		ItemStack itemSec = GameData.getOffhand();
-		if ((itemMain != GameData.nullStack() && itemMain.getItem() instanceof ItemFood) || (itemSec != GameData.nullStack() && itemSec.getItem() instanceof ItemFood) && GameData.doesPlayerNeedFood() && this.settings.show_hunger_preview) {
-			float value;
-			if(itemMain.getItem() instanceof ItemFood) 
+
+		if (GameData.doesPlayerNeedFood() && this.settings.show_hunger_preview) {
+			float value = 0;
+			if (itemMain != GameData.nullStack() && itemMain.getItem() instanceof ItemFood) {
 				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
-			else value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
-			int bonusHunger = (int) (value + stamina);
-			if (bonusHunger > foodMax)
-				bonusHunger = foodMax;
-			gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double)foodMax)), 12);
+			} else if (itemSec != GameData.nullStack() && itemSec.getItem() instanceof ItemFood) {
+				value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
+			}
+			if (value > 0) {
+				int bonusHunger = (int) (value + stamina);
+				if (bonusHunger > foodMax)
+					bonusHunger = foodMax;
+				gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) foodMax)), 12);
+			}
 		}
+
 		if (GameData.isPlayerHungered()) {
-			gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / (double)foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / (double) foodMax)), 12);
 		} else {
-			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double)foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double) foodMax)), 12);
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.show_numbers_stamina)
