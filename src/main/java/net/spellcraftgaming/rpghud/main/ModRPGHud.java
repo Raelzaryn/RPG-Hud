@@ -40,7 +40,7 @@ public class ModRPGHud {
 	/** The mod name of this mod */
 	public static final String NAME = "RPG-Hud";
 	/** The mod version of this mod */
-	public static final String VERSION = "3.6.1";
+	public static final String VERSION = "3.6.2";
 	/** Path to GuiFactory class of this mod */
 	public static final String GUI_FACTORY = "net.spellcraftgaming.rpghud.gui.GuiFactoryRPGHud";
 
