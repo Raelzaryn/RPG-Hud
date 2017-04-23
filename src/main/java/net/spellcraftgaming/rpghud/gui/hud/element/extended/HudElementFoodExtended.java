@@ -4,10 +4,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementFoodExtended extends HudElementBarred {
+public class HudElementFoodExtended extends HudElement {
 
 	public HudElementFoodExtended() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);

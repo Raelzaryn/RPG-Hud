@@ -4,10 +4,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementAirTexture extends HudElementTexture {
+public class HudElementAirTexture extends HudElement {
 
 	public HudElementAirTexture() {
 		super(HudElementType.AIR, 0, 0, 0, 0, true);

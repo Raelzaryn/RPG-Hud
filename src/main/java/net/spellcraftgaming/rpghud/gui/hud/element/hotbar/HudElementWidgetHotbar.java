@@ -5,11 +5,11 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-public class HudElementWidgetHotbar extends HudElementTexture {
+public class HudElementWidgetHotbar extends HudElement {
 
 	public HudElementWidgetHotbar() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);

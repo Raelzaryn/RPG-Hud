@@ -4,10 +4,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementExperienceModern extends HudElementBarred{
+public class HudElementExperienceModern extends HudElement {
 
 	public HudElementExperienceModern() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);

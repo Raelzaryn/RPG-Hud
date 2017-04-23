@@ -2,10 +2,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthDefault extends HudElementBarred {
+public class HudElementHealthDefault extends HudElement {
 
 	public HudElementHealthDefault() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);

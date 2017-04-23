@@ -3,10 +3,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthHotbar extends HudElementBarred {
+public class HudElementHealthHotbar extends HudElement {
 
 	public HudElementHealthHotbar() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);

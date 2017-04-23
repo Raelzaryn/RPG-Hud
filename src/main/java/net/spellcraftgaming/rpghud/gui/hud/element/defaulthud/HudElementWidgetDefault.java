@@ -4,10 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementWidgetDefault extends HudElementTexture {
+public class HudElementWidgetDefault extends HudElement {
 
 	public HudElementWidgetDefault() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);

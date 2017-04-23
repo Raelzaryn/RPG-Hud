@@ -4,10 +4,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthMountExtended extends HudElementBarred {
+public class HudElementHealthMountExtended extends HudElement {
 
 	public HudElementHealthMountExtended() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);

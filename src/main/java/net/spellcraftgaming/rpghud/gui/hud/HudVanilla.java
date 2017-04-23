@@ -3,7 +3,23 @@ package net.spellcraftgaming.rpghud.gui.hud;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.*;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementAirVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementArmorVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementChatVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCrosshairVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementExperienceVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementFoodVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHealthMountVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHealthVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementJumpBarVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementLevelVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementPickupVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementRecordOverlayVanilla;
 
 public class HudVanilla extends Hud {
 

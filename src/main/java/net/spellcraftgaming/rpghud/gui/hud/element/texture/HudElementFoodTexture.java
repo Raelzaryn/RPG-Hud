@@ -5,10 +5,10 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementFoodTexture extends HudElementTexture {
+public class HudElementFoodTexture extends HudElement {
 
 	public HudElementFoodTexture() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);

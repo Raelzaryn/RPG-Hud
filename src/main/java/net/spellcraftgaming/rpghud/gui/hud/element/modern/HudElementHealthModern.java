@@ -5,10 +5,10 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthModern extends HudElementBarred{
+public class HudElementHealthModern extends HudElement {
 
 	public HudElementHealthModern() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);

@@ -138,7 +138,7 @@ public abstract class Hud {
 	 *            The partialTicks for animations
 	 */
 	public void drawElement(HudElementType type, Gui gui, float zLevel, float partialTicks) {
-		this.elements.get(type).drawElement(gui, zLevel, partialTicks);
+		this.elements.get(type).draw(gui, zLevel, partialTicks);
 	}
 
 	/**

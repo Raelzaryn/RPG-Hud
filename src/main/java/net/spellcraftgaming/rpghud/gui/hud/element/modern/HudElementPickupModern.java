@@ -6,12 +6,12 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.pickup.ItemPickup;
 
-public class HudElementPickupModern extends HudElementTexture{
+public class HudElementPickupModern extends HudElement {
 
 	public HudElementPickupModern() {
 		super(HudElementType.PICKUP, 0, 0, 0, 0, true);

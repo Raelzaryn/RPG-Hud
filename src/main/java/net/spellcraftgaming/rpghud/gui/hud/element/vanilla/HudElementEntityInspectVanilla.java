@@ -18,11 +18,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-public class HudElementEntityInspectVanilla extends HudElementBarred {
+public class HudElementEntityInspectVanilla extends HudElement {
 
 	protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/damageindicator.png");
 	

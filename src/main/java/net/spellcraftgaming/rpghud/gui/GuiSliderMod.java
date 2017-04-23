@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
 @SideOnly(Side.CLIENT)
 public class GuiSliderMod extends GuiButtonTooltip
@@ -81,7 +81,7 @@ public class GuiSliderMod extends GuiButtonTooltip
             GameData.tryBlendFuncSeparate();
             GameData.blendFunc();
             int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-            HudElementBarred.drawCustomBar(this.xPosition, this.yPosition, this.width, this.height, 100D, color, HudElementBarred.offsetColorPercent(color, HudElementBarred.OFFSET_PERCENT));
+            HudElement.drawCustomBar(this.xPosition, this.yPosition, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 14737632;
 
