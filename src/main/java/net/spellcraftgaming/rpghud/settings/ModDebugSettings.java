@@ -8,14 +8,13 @@ import java.io.PrintWriter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ModDebugSettings {
 
-	/** Instance of Minecraft*/
+	/** Instance of Minecraft */
 	protected Minecraft mc;
-	
-	/** The file the settings are read from and wrote into*/
+
+	/** The file the settings are read from and wrote into */
 	private File settingFile;
 
 	public boolean forceRenderCrosshair = false;
@@ -67,7 +66,7 @@ public class ModDebugSettings {
 	public boolean renderVanillaJumpBar = false;
 	public boolean preventEventJumpBar = false;
 	public boolean preventElementRenderJumpBar = false;
-	
+
 	public boolean forceRenderChat = false;
 	public boolean renderVanillaChat = false;
 	public boolean preventEventChat = false;
@@ -75,13 +74,21 @@ public class ModDebugSettings {
 
 	public ModDebugSettings(File file) {
 		this.mc = Minecraft.getMinecraft();
-		this.settingFile = new File(file, "RPGHud_settings_debug.txt");
-		loadOptions();
+		this.settingFile = new File(file, "settings_debug.txt");
+		if (!this.settingFile.exists() && (new File(Minecraft.getMinecraft().mcDataDir, "RPGHud_settings_debug.txt").exists())) {
+			this.convertOptionsOld();
+			(new File(Minecraft.getMinecraft().mcDataDir, "RPGHud_settings.txt")).delete();
+			this.saveOptions();
+		} else {
+			this.loadOptions();
+		}
 	}
 
-	/** Toggles the setting with the specified EnumOptionsDebugMod
+	/**
+	 * Toggles the setting with the specified EnumOptionsDebugMod
 	 * 
-	 * @param option the EnumOptionsDebugMod to toggle
+	 * @param option
+	 *            the EnumOptionsDebugMod to toggle
 	 */
 	public void setOptionValue(EnumOptionsDebugMod option) {
 		if (option == EnumOptionsDebugMod.FORCE_RENDER_CROSSHAIR) {
@@ -214,7 +221,7 @@ public class ModDebugSettings {
 		if (option == EnumOptionsDebugMod.PREVENT_ELEMENT_RENDER_JUMP_BAR) {
 			this.preventElementRenderJumpBar = !this.preventElementRenderJumpBar;
 		}
-		
+
 		if (option == EnumOptionsDebugMod.FORCE_RENDER_CHAT) {
 			this.forceRenderChat = !this.forceRenderChat;
 		}
@@ -414,7 +421,7 @@ public class ModDebugSettings {
 		}
 	}
 
-	/**Returns the ordinal value of this setting*/
+	/** Returns the ordinal value of this setting */
 	public boolean getOptionOrdinalValue(EnumOptionsDebugMod options) {
 		switch (ModDebugSettings.SwitchOptions.optionIds[options.ordinal()]) {
 		case 0:
@@ -506,7 +513,7 @@ public class ModDebugSettings {
 			return this.preventEventJumpBar;
 		case 39:
 			return this.preventElementRenderJumpBar;
-			
+
 		case 40:
 			return this.forceRenderChat;
 		case 41:
@@ -661,7 +668,7 @@ public class ModDebugSettings {
 					if (string[0].equals("preventElementRenderJumpBar")) {
 						this.preventElementRenderJumpBar = string[1].equals("true");
 					}
-					
+
 					if (string[0].equals("forceRenderChat")) {
 						this.forceRenderChat = string[1].equals("true");
 					}
@@ -684,9 +691,173 @@ public class ModDebugSettings {
 		}
 	}
 
-	/** Returns the String of the Button for the specified setting
+	public void convertOptionsOld() {
+		try {
+			if (!this.settingFile.exists()) {
+				return;
+			}
+			BufferedReader reader = new BufferedReader(new FileReader((new File(Minecraft.getMinecraft().mcDataDir, "RPGHud_settings_debug.txt"))));
+			String s = "";
+			while ((s = reader.readLine()) != null) {
+				try {
+					String[] string = s.split(":");
+					if (string[0].equals("forceRenderCrosshair")) {
+						this.forceRenderCrosshair = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaCrosshair")) {
+						this.renderVanillaCrosshair = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventCrosshair")) {
+						this.preventEventCrosshair = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderCrosshair")) {
+						this.preventElementRenderCrosshair = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderArmor")) {
+						this.forceRenderArmor = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaArmor")) {
+						this.renderVanillaArmor = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventArmor")) {
+						this.preventEventArmor = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderArmor")) {
+						this.preventElementRenderArmor = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderHotbar")) {
+						this.forceRenderHotbar = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaHotbar")) {
+						this.renderVanillaHotbar = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventHotbar")) {
+						this.preventEventHotbar = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderHotbar")) {
+						this.preventElementRenderHotbar = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderAir")) {
+						this.forceRenderAir = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaAir")) {
+						this.renderVanillaAir = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventAir")) {
+						this.preventEventAir = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderAir")) {
+						this.preventElementRenderAir = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderHealth")) {
+						this.forceRenderHealth = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaHealth")) {
+						this.renderVanillaHealth = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventHealth")) {
+						this.preventEventHealth = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderHealth")) {
+						this.preventElementRenderHealth = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderFood")) {
+						this.forceRenderFood = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaFood")) {
+						this.renderVanillaFood = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventFood")) {
+						this.preventEventFood = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderFood")) {
+						this.preventElementRenderFood = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderExp")) {
+						this.forceRenderExp = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaExp")) {
+						this.renderVanillaExp = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventExp")) {
+						this.preventEventExp = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderExp")) {
+						this.preventElementRenderExp = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderExpLv")) {
+						this.forceRenderExpLv = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaExpLv")) {
+						this.renderVanillaExpLv = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventExpLv")) {
+						this.preventEventExpLv = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderExpLv")) {
+						this.preventElementRenderExpLv = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderHealthMount")) {
+						this.forceRenderHealthMount = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaHealthMount")) {
+						this.renderVanillaHealthMount = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventHealthMount")) {
+						this.preventEventHealthMount = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderHealthMount")) {
+						this.preventElementRenderHealthMount = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderJumpBar")) {
+						this.forceRenderJumpBar = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaJumpBar")) {
+						this.renderVanillaJumpBar = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventJumpBar")) {
+						this.preventEventJumpBar = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderJumpBar")) {
+						this.preventElementRenderJumpBar = string[1].equals("true");
+					}
+
+					if (string[0].equals("forceRenderChat")) {
+						this.forceRenderChat = string[1].equals("true");
+					}
+					if (string[0].equals("renderVanillaChat")) {
+						this.renderVanillaChat = string[1].equals("true");
+					}
+					if (string[0].equals("preventEventChat")) {
+						this.preventEventChat = string[1].equals("true");
+					}
+					if (string[0].equals("preventElementRenderChat")) {
+						this.preventElementRenderChat = string[1].equals("true");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Returns the String of the Button for the specified setting
 	 * 
-	 * @param option the option whose button text will be returned
+	 * @param option
+	 *            the option whose button text will be returned
 	 * @return the String
 	 */
 	public String getKeyBinding(EnumOptionsDebugMod option) {
@@ -695,70 +866,68 @@ public class ModDebugSettings {
 		return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 	}
 
-	/** Saves the settings to the file*/
+	/** Saves the settings to the file */
 	public void saveOptions() {
-		if (!FMLClientHandler.instance().isLoading()) {
-			try {
-				PrintWriter exception = new PrintWriter(new FileWriter(this.settingFile));
-				exception.println("forceRenderCrosshair:" + this.forceRenderCrosshair);
-				exception.println("renderVanillaCrosshair:" + this.renderVanillaCrosshair);
-				exception.println("preventEventCrosshair:" + this.preventEventCrosshair);
-				exception.println("preventElementRenderCrosshair:" + this.preventElementRenderCrosshair);
+		try {
+			PrintWriter exception = new PrintWriter(new FileWriter(this.settingFile));
+			exception.println("forceRenderCrosshair:" + this.forceRenderCrosshair);
+			exception.println("renderVanillaCrosshair:" + this.renderVanillaCrosshair);
+			exception.println("preventEventCrosshair:" + this.preventEventCrosshair);
+			exception.println("preventElementRenderCrosshair:" + this.preventElementRenderCrosshair);
 
-				exception.println("forceRenderArmor:" + this.forceRenderArmor);
-				exception.println("renderVanillaArmor:" + this.renderVanillaArmor);
-				exception.println("preventEventArmor:" + this.preventEventArmor);
-				exception.println("preventElementRenderArmor:" + this.preventElementRenderArmor);
+			exception.println("forceRenderArmor:" + this.forceRenderArmor);
+			exception.println("renderVanillaArmor:" + this.renderVanillaArmor);
+			exception.println("preventEventArmor:" + this.preventEventArmor);
+			exception.println("preventElementRenderArmor:" + this.preventElementRenderArmor);
 
-				exception.println("forceRenderHotbar:" + this.forceRenderHotbar);
-				exception.println("renderVanillaHotbar:" + this.renderVanillaHotbar);
-				exception.println("preventEventHotbar:" + this.preventEventHotbar);
-				exception.println("preventElementRenderHotbar:" + this.preventElementRenderHotbar);
+			exception.println("forceRenderHotbar:" + this.forceRenderHotbar);
+			exception.println("renderVanillaHotbar:" + this.renderVanillaHotbar);
+			exception.println("preventEventHotbar:" + this.preventEventHotbar);
+			exception.println("preventElementRenderHotbar:" + this.preventElementRenderHotbar);
 
-				exception.println("forceRenderAir:" + this.forceRenderAir);
-				exception.println("renderVanillaAir:" + this.renderVanillaAir);
-				exception.println("preventEventAir:" + this.preventEventAir);
-				exception.println("preventElementRenderAir:" + this.preventElementRenderAir);
+			exception.println("forceRenderAir:" + this.forceRenderAir);
+			exception.println("renderVanillaAir:" + this.renderVanillaAir);
+			exception.println("preventEventAir:" + this.preventEventAir);
+			exception.println("preventElementRenderAir:" + this.preventElementRenderAir);
 
-				exception.println("forceRenderHealth:" + this.forceRenderHealth);
-				exception.println("renderVanillaHealth:" + this.renderVanillaHealth);
-				exception.println("preventEventHealth:" + this.preventEventHealth);
-				exception.println("preventElementRenderHealth:" + this.preventElementRenderHealth);
+			exception.println("forceRenderHealth:" + this.forceRenderHealth);
+			exception.println("renderVanillaHealth:" + this.renderVanillaHealth);
+			exception.println("preventEventHealth:" + this.preventEventHealth);
+			exception.println("preventElementRenderHealth:" + this.preventElementRenderHealth);
 
-				exception.println("forceRenderFood:" + this.forceRenderFood);
-				exception.println("renderVanillaFood:" + this.renderVanillaFood);
-				exception.println("preventEventFood:" + this.preventEventFood);
-				exception.println("preventElementRenderFood:" + this.preventElementRenderFood);
+			exception.println("forceRenderFood:" + this.forceRenderFood);
+			exception.println("renderVanillaFood:" + this.renderVanillaFood);
+			exception.println("preventEventFood:" + this.preventEventFood);
+			exception.println("preventElementRenderFood:" + this.preventElementRenderFood);
 
-				exception.println("forceRenderExp:" + this.forceRenderExp);
-				exception.println("renderVanillaExp:" + this.renderVanillaExp);
-				exception.println("preventEventExp:" + this.preventEventExp);
-				exception.println("preventElementRenderExp:" + this.preventElementRenderExp);
+			exception.println("forceRenderExp:" + this.forceRenderExp);
+			exception.println("renderVanillaExp:" + this.renderVanillaExp);
+			exception.println("preventEventExp:" + this.preventEventExp);
+			exception.println("preventElementRenderExp:" + this.preventElementRenderExp);
 
-				exception.println("forceRenderExpLv:" + this.forceRenderExpLv);
-				exception.println("renderVanillaExpLv:" + this.renderVanillaExpLv);
-				exception.println("preventEventExpLv:" + this.preventEventExpLv);
-				exception.println("preventElementRenderExpLv:" + this.preventElementRenderExpLv);
+			exception.println("forceRenderExpLv:" + this.forceRenderExpLv);
+			exception.println("renderVanillaExpLv:" + this.renderVanillaExpLv);
+			exception.println("preventEventExpLv:" + this.preventEventExpLv);
+			exception.println("preventElementRenderExpLv:" + this.preventElementRenderExpLv);
 
-				exception.println("forceRenderHealthMount:" + this.forceRenderHealthMount);
-				exception.println("renderVanillaHealthMount:" + this.renderVanillaHealthMount);
-				exception.println("preventEventHealthMount:" + this.preventEventHealthMount);
-				exception.println("preventElementRenderHealthMount:" + this.preventElementRenderHealthMount);
+			exception.println("forceRenderHealthMount:" + this.forceRenderHealthMount);
+			exception.println("renderVanillaHealthMount:" + this.renderVanillaHealthMount);
+			exception.println("preventEventHealthMount:" + this.preventEventHealthMount);
+			exception.println("preventElementRenderHealthMount:" + this.preventElementRenderHealthMount);
 
-				exception.println("forceRenderJumpBar:" + this.forceRenderJumpBar);
-				exception.println("renderVanillaJumpBar:" + this.renderVanillaJumpBar);
-				exception.println("preventEventJumpBar:" + this.preventEventJumpBar);
-				exception.println("preventElementRenderJumpBar:" + this.preventElementRenderJumpBar);
-				
-				exception.println("forceRenderChat:" + this.forceRenderChat);
-				exception.println("renderVanillaChat:" + this.renderVanillaChat);
-				exception.println("preventEventChat:" + this.preventEventChat);
-				exception.println("preventElementRenderChat:" + this.preventElementRenderChat);
+			exception.println("forceRenderJumpBar:" + this.forceRenderJumpBar);
+			exception.println("renderVanillaJumpBar:" + this.renderVanillaJumpBar);
+			exception.println("preventEventJumpBar:" + this.preventEventJumpBar);
+			exception.println("preventElementRenderJumpBar:" + this.preventElementRenderJumpBar);
 
-				exception.close();
-			} catch (Exception var2) {
-				var2.printStackTrace();
-			}
+			exception.println("forceRenderChat:" + this.forceRenderChat);
+			exception.println("renderVanillaChat:" + this.renderVanillaChat);
+			exception.println("preventEventChat:" + this.preventEventChat);
+			exception.println("preventElementRenderChat:" + this.preventElementRenderChat);
+
+			exception.close();
+		} catch (Exception var2) {
+			var2.printStackTrace();
 		}
 	}
 }
