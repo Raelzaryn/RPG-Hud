@@ -11,7 +11,7 @@ public class PlayerTickHandler {
 	 * @param event
 	 */
 	@SubscribeEvent
-	public void onWorldTick(PlayerTickEvent event){
+	public void onWorldTick(PlayerTickEvent event) {
 		ModRPGHud.instance.pickupHandler.onUpdate();
 	}
 }

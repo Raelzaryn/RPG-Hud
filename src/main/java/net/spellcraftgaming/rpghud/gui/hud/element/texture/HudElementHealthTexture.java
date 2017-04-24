@@ -3,10 +3,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthTexture extends HudElementTexture {
+public class HudElementHealthTexture extends HudElement {
 
 	public HudElementHealthTexture() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, false);
@@ -26,10 +26,11 @@ public class HudElementHealthTexture extends HudElementTexture {
 		int posX = this.settings.render_player_face ? 49 : 25;
 		int posY = this.settings.render_player_face ? 9 : 5;
 		int absorption = GameData.getPlayerAbsorption();
-		if(absorption > 1) gui.drawTexturedModalRect(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
+		if (absorption > 1)
+			gui.drawTexturedModalRect(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
 		if (GameData.isPlayerPoisoned()) {
 			gui.drawTexturedModalRect(posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
-		} else if (GameData.isPlayerWithering()){
+		} else if (GameData.isPlayerWithering()) {
 			gui.drawTexturedModalRect(posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		} else {
 			gui.drawTexturedModalRect(posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);

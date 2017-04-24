@@ -51,13 +51,13 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 	private static final EnumOptionsMod[] optionsGeneral = { BUTTON_TOOLTIP_ENABLED };
 
 	/** The group of settings to be displayed in the "HUD" category */
-	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE, LIMIT_JUMPBAR};
+	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE, LIMIT_JUMPBAR };
 
 	/** The group of settings to be displayed in the "colors" category */
 	private static final EnumOptionsMod[] optionsColors = { COLOR_HEALTH, COLOR_ABSORPTION, COLOR_POISON, COLOR_WITHER, COLOR_STAMINA, COLOR_HUNGER, COLOR_AIR, COLOR_EXPERIENCE, COLOR_JUMPBAR };
 
 	/** The group of settings to be displayed in the "details" category */
-	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, ENABLE_COMPASS_COORDINATES, SHOW_HUNGERPREVIEW, ENABLE_PICKUP, PICK_DURATION, INVERT_COMPASS, ENABLE_ENTITY_INSPECT};
+	private static final EnumOptionsMod[] optionsDetails = { SHOW_ARMOR, SHOW_ITEMDURABILITY, SHOW_ITEMCOUNT, SHOW_ARROWCOUNT, ENABLE_CLOCK, ENABLE_IMMERSIVE_CLOCK, CLOCK_TIME_FORMAT, ENABLE_TIMECOLOR, ENABLE_COMPASS, ENABLE_IMMERSIVE_COMPASS, ENABLE_COMPASS_COLOR, ENABLE_COMPASS_COORDINATES, SHOW_HUNGERPREVIEW, ENABLE_PICKUP, PICK_DURATION, INVERT_COMPASS, ENABLE_ENTITY_INSPECT };
 
 	/** The ModSettings instance */
 	private ModSettings settings;
@@ -114,7 +114,7 @@ public class GuiSettingsModSub extends GuiScreenTooltip {
 		int j = options.length;
 		for (int k = 0; k < j; k++) {
 			EnumOptionsMod enumoptions = options[k];
-			if(enumoptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT){
+			if (enumoptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT) {
 				GuiSliderSetting guiSlider = new GuiSliderSetting(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), enumoptions);
 				guiSlider.setTooltip();
 				this.buttonList.add(guiSlider);

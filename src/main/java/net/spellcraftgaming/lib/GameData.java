@@ -1,5 +1,7 @@
 package net.spellcraftgaming.lib;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.material.Material;
@@ -11,6 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
@@ -25,9 +28,11 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -395,5 +400,49 @@ public class GameData {
 	public static int hsvToRGB(float f1, float f2, float f3){
 		//MathHelper.hsvToRGB(f1, f2, f3);
 		return 0;
+	}
+	
+	public static EntityLiving getFocusedEntity(Entity watcher) {
+		EntityLiving focusedEntity = null;
+		double maxDistance = 64;
+		Vec3d vec = new Vec3d(watcher.posX, watcher.posY, watcher.posZ);
+		Vec3d posVec = watcher.getPositionVector();
+		if (watcher instanceof EntityPlayer) {
+			vec = vec.addVector(0D, watcher.getEyeHeight(), 0D);
+			posVec = posVec.addVector(0D, watcher.getEyeHeight(), 0D);
+		}
+		Vec3d lookVec = watcher.getLookVec();
+		Vec3d vec2 = vec.add(lookVec.normalize().scale(maxDistance));
+		RayTraceResult ray = GameData.getWorldOfEntity(watcher).rayTraceBlocks(vec, vec2);
+
+		double distance = maxDistance;
+		if (ray != null) {
+			distance = ray.hitVec.distanceTo(posVec);
+		}
+		Vec3d reachVector = posVec.addVector(lookVec.xCoord * maxDistance, lookVec.yCoord * maxDistance, lookVec.zCoord * maxDistance);
+
+		double currentDistance = distance;
+
+		List<Entity> entitiesWithinMaxDistance = GameData.getWorldOfEntity(watcher).getEntitiesWithinAABBExcludingEntity(watcher, watcher.getEntityBoundingBox().addCoord(lookVec.xCoord * maxDistance, lookVec.yCoord * maxDistance, lookVec.zCoord * maxDistance).expandXyz(1));
+		for (Entity entity : entitiesWithinMaxDistance) {
+			if (entity instanceof EntityLiving) {
+				float collisionBorderSize = entity.getCollisionBorderSize();
+				AxisAlignedBB hitBox = entity.getEntityBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
+				RayTraceResult intercept = hitBox.calculateIntercept(posVec, reachVector);
+				if (hitBox.isVecInside(posVec)) {
+					if (currentDistance <= 0D) {
+						currentDistance = 0;
+						focusedEntity = (EntityLiving) entity;
+					}
+				} else if (intercept != null) {
+					double distanceToEntity = posVec.distanceTo(intercept.hitVec);
+					if (distanceToEntity <= currentDistance) {
+						currentDistance = distanceToEntity;
+						focusedEntity = (EntityLiving) entity;
+					}
+				}
+			}
+		}
+		return focusedEntity;
 	}
 }

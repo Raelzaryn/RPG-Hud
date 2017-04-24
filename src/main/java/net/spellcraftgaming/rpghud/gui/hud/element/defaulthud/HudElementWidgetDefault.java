@@ -4,10 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementWidgetDefault extends HudElementTexture {
+public class HudElementWidgetDefault extends HudElement {
 
 	public HudElementWidgetDefault() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);
@@ -26,7 +26,7 @@ public class HudElementWidgetDefault extends HudElementTexture {
 			gui.drawTexturedModalRect(this.settings.render_player_face ? 51 : 31, this.settings.render_player_face ? 39 : 30, 164, 0, 92, 20);
 		}
 
-		if(this.settings.render_player_face) {
+		if (this.settings.render_player_face) {
 			gui.drawTexturedModalRect(0, 0, 114, 0, 50, 50);
 			bind(getPlayerSkin(GameData.getPlayer()));
 			GL11.glScaled(0.5D, 0.5D, 0.5D);

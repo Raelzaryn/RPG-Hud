@@ -22,7 +22,8 @@ public class HudElementCrosshairVanilla extends HudElement {
 		GameSettings gamesettings = this.mc.gameSettings;
 
 		if (gamesettings.thirdPersonView == 0) {
-			if(GameData.spectatorStuff()) return;
+			if (GameData.spectatorStuff())
+				return;
 
 			int l = res.getScaledWidth();
 			int i1 = res.getScaledHeight();

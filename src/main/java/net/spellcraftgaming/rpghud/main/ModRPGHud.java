@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.main;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -66,6 +67,7 @@ public class ModRPGHud {
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
 	public ItemPickupHandler pickupHandler;
+
 	/**
 	 * The function to be run before the initialization
 	 * 
@@ -74,8 +76,10 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		this.settings = new ModSettings(Minecraft.getMinecraft().mcDataDir);
-		this.settingsDebug = new ModDebugSettings(Minecraft.getMinecraft().mcDataDir);
+		File file = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD");
+		file.mkdirs();
+		this.settings = new ModSettings(file);
+		this.settingsDebug = new ModDebugSettings(file);
 
 		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
@@ -108,7 +112,7 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		if(!isHudKeyValid(this.settings.hud_type)) {
+		if (!isHudKeyValid(this.settings.hud_type)) {
 			this.settings.hud_type = "vanilla";
 		}
 	}

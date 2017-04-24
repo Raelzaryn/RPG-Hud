@@ -509,8 +509,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	/** Returns the chat instance as a GuiNewChat object */
 	@Override
 	public GuiNewChat getChatGUI() {
-		if(!forceRenderTypeVanilla(HudElementType.CHAT)) return this.chat;
-		else return this.persistantChatGUI;
+		if (!forceRenderTypeVanilla(HudElementType.CHAT))
+			return this.chat;
+		else
+			return this.persistantChatGUI;
 	}
 
 	/** Returns the chat instance as a GuiChatRPGHud object */
@@ -655,10 +657,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.ICONS);
 						GlStateManager.enableBlend();
-				        GlStateManager.pushMatrix();
-				        GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-				        this.persistantChatGUI.drawChat(this.updateCounter);
-				        GlStateManager.popMatrix();
+						GlStateManager.pushMatrix();
+						GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
+						this.persistantChatGUI.drawChat(this.updateCounter);
+						GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
 
@@ -690,10 +692,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.ICONS);
 						GlStateManager.enableBlend();
-				        GlStateManager.pushMatrix();
-				        GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-				        this.persistantChatGUI.drawChat(this.updateCounter);
-				        GlStateManager.popMatrix();
+						GlStateManager.pushMatrix();
+						GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
+						this.persistantChatGUI.drawChat(this.updateCounter);
+						GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
 					if (!preventEventType(HudElementType.CHAT)) {

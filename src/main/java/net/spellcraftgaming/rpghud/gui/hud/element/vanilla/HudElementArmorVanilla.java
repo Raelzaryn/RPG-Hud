@@ -17,7 +17,7 @@ public class HudElementArmorVanilla extends HudElement {
 	public boolean checkConditions() {
 		return GameData.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);

@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 public class PlayerContainerHandler {
 
 	@SubscribeEvent
-	public void removeFromBus(RenderTickEvent e){
+	public void removeFromBus(RenderTickEvent e) {
 		MinecraftForge.EVENT_BUS.unregister(this);
 	}
 }

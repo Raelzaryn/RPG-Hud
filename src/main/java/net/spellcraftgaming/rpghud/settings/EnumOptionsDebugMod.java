@@ -63,7 +63,10 @@ public enum EnumOptionsDebugMod {
 	PREVENT_ELEMENT_RENDER_CHAT(HudElementType.CHAT, EnumOptionsType.PREVENT_RENDER, I18n.format("name.prevent_render", new Object[0]), I18n.format("tooltip.prevent_render", new Object[0]));
 
 	public enum EnumOptionsType {
-		FORCE_RENDER, RENDER_VANILLA, PREVENT_EVENT, PREVENT_RENDER;
+		FORCE_RENDER,
+		RENDER_VANILLA,
+		PREVENT_EVENT,
+		PREVENT_RENDER;
 	}
 
 	/** The name of the setting */

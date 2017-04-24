@@ -5,11 +5,11 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-public class HudElementWidgetModern extends HudElementTexture{
+public class HudElementWidgetModern extends HudElement {
 
 	public HudElementWidgetModern() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);
