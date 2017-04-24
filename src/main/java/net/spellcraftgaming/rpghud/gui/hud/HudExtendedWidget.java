@@ -48,22 +48,22 @@ public class HudExtendedWidget extends HudDefault {
 	public HudElement setElementWidget() {
 		return new HudElementWidgetExtended();
 	}
-	
+
 	@Override
 	protected HudElement setElementPickup() {
 		return new HudElementPickupVanilla();
 	}
-	
+
 	@Override
 	public HudElement setElementClock() {
 		return new HudElementClockExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementDetails() {
 		return new HudElementDetailsExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementLevel() {
 		return new HudElementLevelExtended();

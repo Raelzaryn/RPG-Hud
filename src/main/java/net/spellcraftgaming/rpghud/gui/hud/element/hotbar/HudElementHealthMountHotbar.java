@@ -4,10 +4,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthMountHotbar extends HudElementBarred {
+public class HudElementHealthMountHotbar extends HudElement {
 
 	public HudElementHealthMountHotbar() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
