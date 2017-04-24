@@ -9,10 +9,9 @@ import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class ModSettings {
@@ -27,56 +26,62 @@ public class ModSettings {
 	private static final String[] TIME_FORMAT = { "time.24", "time.12" };
 
 	public boolean button_tooltip_enabled = true;
-	
+
 	public boolean show_armor = true;
 	public boolean show_arrowcount = true;
 	public boolean show_itemdurability = true;
 	public boolean show_blockcount = true;
-	
+
 	public boolean show_numbers_health = true;
 	public boolean show_numbers_stamina = true;
 	public boolean show_numbers_experience = true;
-	
+
 	public boolean enable_clock = true;
 	public boolean enable_clock_color = true;
 	public boolean enable_immersive_clock = false;
-	
+
 	public boolean enable_compass = true;
 	public boolean enable_compass_color = true;
 	public boolean enable_immersive_compass = false;
 	public boolean enable_compass_coordinates = true;
-	
+
 	public boolean enable_pickup = true;
-	
+
 	public boolean render_player_face = true;
 	public boolean show_hunger_preview = true;
 	public boolean reduce_size = false;
 	public boolean limit_jumpbar = true;
 	public boolean invert_compass = false;
-	
+
 	public boolean enable_entity_inpect = true;
 
 	/** The active HUD's type */
 	public String hud_type = "vanilla";
 
-	public int color_health = HudElementBarred.COLOR_RED;
-	public int color_stamina = HudElementBarred.COLOR_GREEN;
-	public int color_air = HudElementBarred.COLOR_BLUE;
-	public int color_experience = HudElementBarred.COLOR_YELLOW;
+	public int color_health = HudElement.COLOR_RED;
+	public int color_stamina = HudElement.COLOR_GREEN;
+	public int color_air = HudElement.COLOR_BLUE;
+	public int color_experience = HudElement.COLOR_YELLOW;
 	public int color_jumpbar = 0xBFBFBF;
-	public int color_poison = HudElementBarred.COLOR_PURPLE;
+	public int color_poison = HudElement.COLOR_PURPLE;
 	public int color_hunger = 0x9ba067;
-	public int color_absorption = HudElementBarred.COLOR_ORANGE;
-	public int color_wither = HudElementBarred.COLOR_BLACK;
-	
+	public int color_absorption = HudElement.COLOR_ORANGE;
+	public int color_wither = HudElement.COLOR_BLACK;
+
 	public int clock_time_format = 0;
 
 	public float pickup_duration = 5F;
-	
+
 	public ModSettings(File file) {
 		this.mc = Minecraft.getMinecraft();
-		this.optionsFile = new File(file, "RPGHud_settings.txt");
-		this.loadOptions();
+		this.optionsFile = new File(file, "settings.txt");
+		if (!this.optionsFile.exists() && (new File(Minecraft.getMinecraft().mcDataDir, "RPGHud_settings.txt").exists())) {
+			this.convertOptionsOld();
+			(new File(Minecraft.getMinecraft().mcDataDir, "RPGHud_settings.txt")).delete();
+			this.saveOptions();
+		} else {
+			this.loadOptions();
+		}
 	}
 
 	/**
@@ -181,8 +186,8 @@ public class ModSettings {
 		}
 	}
 
-	public void setOptionFloatValue(EnumOptionsMod options, float value){
-		switch(options){
+	public void setOptionFloatValue(EnumOptionsMod options, float value) {
+		switch (options) {
 		case PICK_DURATION:
 			this.pickup_duration = value;
 			break;
@@ -190,17 +195,16 @@ public class ModSettings {
 			break;
 		}
 	}
-	
-    public float getOptionFloatValue(EnumOptionsMod settingOption)
-    {
-    	switch(settingOption) {
-    	case PICK_DURATION:
-    		return this.pickup_duration;
-    	default:
-    		return 0F;
-    	}
-    }
-    
+
+	public float getOptionFloatValue(EnumOptionsMod settingOption) {
+		switch (settingOption) {
+		case PICK_DURATION:
+			return this.pickup_duration;
+		default:
+			return 0F;
+		}
+	}
+
 	/** Returns the ordinal value of this setting */
 	public boolean getOptionOrdinalValue(EnumOptionsMod options) {
 		switch (ModSettings.SwitchOptions.optionIds[options.ordinal()]) {
@@ -363,35 +367,35 @@ public class ModSettings {
 						this.button_tooltip_enabled = string[1].equals("true");
 					}
 					if (string[0].equals("color_health")) {
-						if(string[1].startsWith("#")) {
+						if (string[1].startsWith("#")) {
 							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
 							this.color_health = getColor(this.color_health);
 						}
 					}
 					if (string[0].equals("color_stamina")) {
-						if(string[1].startsWith("#")) {
+						if (string[1].startsWith("#")) {
 							this.color_stamina = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
 							this.color_stamina = getColor(this.color_stamina);
 						}
 					}
 					if (string[0].equals("color_air")) {
-						if(string[1].startsWith("#")) {
+						if (string[1].startsWith("#")) {
 							this.color_air = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
 							this.color_air = getColor(this.color_air);
 						}
 					}
 					if (string[0].equals("color_experience")) {
-						if(string[1].startsWith("#")) {
+						if (string[1].startsWith("#")) {
 							this.color_experience = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
 							this.color_experience = getColor(this.color_experience);
 						}
 					}
 					if (string[0].equals("color_jumpbar")) {
-						if(string[1].startsWith("#")) {
+						if (string[1].startsWith("#")) {
 							this.color_jumpbar = Integer.parseInt(string[1].replace("#", ""), 16);
 						} else {
 							this.color_jumpbar = getColor(this.color_jumpbar);
@@ -504,8 +508,8 @@ public class ModSettings {
 			boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
 		} else if (par1EnumOptions.getType() == EnumOptionsMod.EnumOptionType.FLOAT) {
-            return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? GameData.ceil(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
-        }
+			return s + (par1EnumOptions == EnumOptionsMod.PICK_DURATION ? GameData.ceil(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(par1EnumOptions.snapToStepClamp(getOptionFloatValue(par1EnumOptions))));
+		}
 		switch (par1EnumOptions) {
 		case HUD_TYPE:
 			return s + getHudName(this.hud_type);
@@ -563,50 +567,48 @@ public class ModSettings {
 
 	/** Saves the settings to the file */
 	public void saveOptions() {
-		if (!FMLClientHandler.instance().isLoading()) {
-			try {
-				PrintWriter writer = new PrintWriter(new FileWriter(this.optionsFile));
-				writer.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
-				writer.println("color_health:" + "#" + Integer.toHexString(this.color_health));
-				writer.println("color_air:" + "#" + Integer.toHexString(this.color_air));
-				writer.println("color_stamina:" + "#" + Integer.toHexString(this.color_stamina));
-				writer.println("color_experience:" + "#" + Integer.toHexString(this.color_experience));
-				writer.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
-				writer.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
-				writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
-				writer.println("color_absorption:" + "#" + Integer.toHexString(this.color_absorption));
-				writer.println("color_wither:" + "#" + Integer.toHexString(this.color_wither));
-				writer.println("clock_time_format:" + this.clock_time_format);
-				writer.println("hud_type:" + this.hud_type);
-				writer.println("show_armor:" + this.show_armor);
-				writer.println("show_blockcount:" + this.show_blockcount);
-				writer.println("show_arrowcount:" + this.show_arrowcount);
-				writer.println("show_itemdurability:" + this.show_itemdurability);
-				writer.println("show_numbers_health:" + this.show_numbers_health);
-				writer.println("show_numbers_stamina:" + this.show_numbers_stamina);
-				writer.println("show_numbers_experience:" + this.show_numbers_experience);
-				writer.println("enable_clock:" + this.enable_clock);
-				writer.println("enable_clock_color:" + this.enable_clock_color);
-				writer.println("enable_immersive_clock:" + this.enable_immersive_clock);
-				writer.println("enable_compass:" + this.enable_compass);
-				writer.println("enable_compass_color:" + this.enable_compass_color);
-				writer.println("enable_immersive_compass:" + this.enable_immersive_compass);
-				writer.println("render_player_face:" + this.render_player_face);
-				writer.println("show_hunger_preview:" + this.show_hunger_preview);
-				writer.println("reduce_size:" + this.reduce_size);
-				writer.println("enable_pickup:" + this.enable_pickup);
-				writer.println("pickup_duration:" + this.pickup_duration);
-				writer.println("limit_jumpbar:" + this.limit_jumpbar);
-				writer.println("invert_compass:" + this.invert_compass);
-				writer.println("enable_entity_inspect:" + this.enable_entity_inpect);
-				writer.println("enable_compass_coordinate:" + this.enable_compass_coordinates);
-				writer.close();
-			} catch (Exception var2) {
-				var2.printStackTrace();
-			}
+		try {
+			PrintWriter writer = new PrintWriter(new FileWriter(this.optionsFile));
+			writer.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
+			writer.println("color_health:" + "#" + Integer.toHexString(this.color_health));
+			writer.println("color_air:" + "#" + Integer.toHexString(this.color_air));
+			writer.println("color_stamina:" + "#" + Integer.toHexString(this.color_stamina));
+			writer.println("color_experience:" + "#" + Integer.toHexString(this.color_experience));
+			writer.println("color_jumpbar:" + "#" + Integer.toHexString(this.color_jumpbar));
+			writer.println("color_poison:" + "#" + Integer.toHexString(this.color_poison));
+			writer.println("color_hunger:" + "#" + Integer.toHexString(this.color_hunger));
+			writer.println("color_absorption:" + "#" + Integer.toHexString(this.color_absorption));
+			writer.println("color_wither:" + "#" + Integer.toHexString(this.color_wither));
+			writer.println("clock_time_format:" + this.clock_time_format);
+			writer.println("hud_type:" + this.hud_type);
+			writer.println("show_armor:" + this.show_armor);
+			writer.println("show_blockcount:" + this.show_blockcount);
+			writer.println("show_arrowcount:" + this.show_arrowcount);
+			writer.println("show_itemdurability:" + this.show_itemdurability);
+			writer.println("show_numbers_health:" + this.show_numbers_health);
+			writer.println("show_numbers_stamina:" + this.show_numbers_stamina);
+			writer.println("show_numbers_experience:" + this.show_numbers_experience);
+			writer.println("enable_clock:" + this.enable_clock);
+			writer.println("enable_clock_color:" + this.enable_clock_color);
+			writer.println("enable_immersive_clock:" + this.enable_immersive_clock);
+			writer.println("enable_compass:" + this.enable_compass);
+			writer.println("enable_compass_color:" + this.enable_compass_color);
+			writer.println("enable_immersive_compass:" + this.enable_immersive_compass);
+			writer.println("render_player_face:" + this.render_player_face);
+			writer.println("show_hunger_preview:" + this.show_hunger_preview);
+			writer.println("reduce_size:" + this.reduce_size);
+			writer.println("enable_pickup:" + this.enable_pickup);
+			writer.println("pickup_duration:" + this.pickup_duration);
+			writer.println("limit_jumpbar:" + this.limit_jumpbar);
+			writer.println("invert_compass:" + this.invert_compass);
+			writer.println("enable_entity_inspect:" + this.enable_entity_inpect);
+			writer.println("enable_compass_coordinate:" + this.enable_compass_coordinates);
+			writer.close();
+		} catch (Exception var2) {
+			var2.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Returns the color for the parameter
 	 * 
@@ -618,32 +620,32 @@ public class ModSettings {
 	public static int getColor(int setting) {
 		switch (setting) {
 		case 0:
-			return HudElementBarred.COLOR_RED;
+			return HudElement.COLOR_RED;
 		case 1:
-			return HudElementBarred.COLOR_BLUE;
+			return HudElement.COLOR_BLUE;
 		case 2:
-			return HudElementBarred.COLOR_GREEN;
+			return HudElement.COLOR_GREEN;
 		case 3:
-			return HudElementBarred.COLOR_YELLOW;
+			return HudElement.COLOR_YELLOW;
 		case 4:
-			return HudElementBarred.COLOR_WHITE;
+			return HudElement.COLOR_WHITE;
 		case 5:
-			return HudElementBarred.COLOR_GREY;
+			return HudElement.COLOR_GREY;
 		}
 		return 0xFFFFFF;
 	}
-	
+
 	public static String intToHexString(int hex) {
 		String s = Integer.toHexString(hex).toUpperCase();
-		if(hex <= 0xFFFFF) {
+		if (hex <= 0xFFFFF) {
 			s = "0" + s;
-			if(hex <= 0xFFFF) {
+			if (hex <= 0xFFFF) {
 				s = "0" + s;
-				if(hex <= 0xFFF) {
+				if (hex <= 0xFFF) {
 					s = "0" + s;
-					if(hex <= 0xFF) {
+					if (hex <= 0xFF) {
 						s = "0" + s;
-						if(hex <= 0xF) {
+						if (hex <= 0xF) {
 							s = "0" + s;
 						}
 					}
@@ -651,5 +653,146 @@ public class ModSettings {
 			}
 		}
 		return "#" + s;
+	}
+
+	/** Loads the settings from the file */
+	public void convertOptionsOld() {
+		try {
+
+			BufferedReader reader = new BufferedReader(new FileReader((new File(Minecraft.getMinecraft().mcDataDir, "RPGHud_settings.txt"))));
+			String s = "";
+			while ((s = reader.readLine()) != null) {
+				try {
+					String[] string = s.split(":");
+					if (string[0].equals("button_tooltip_enabled")) {
+						this.button_tooltip_enabled = string[1].equals("true");
+					}
+					if (string[0].equals("color_health")) {
+						if (string[1].startsWith("#")) {
+							this.color_health = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_health = getColor(this.color_health);
+						}
+					}
+					if (string[0].equals("color_stamina")) {
+						if (string[1].startsWith("#")) {
+							this.color_stamina = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_stamina = getColor(this.color_stamina);
+						}
+					}
+					if (string[0].equals("color_air")) {
+						if (string[1].startsWith("#")) {
+							this.color_air = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_air = getColor(this.color_air);
+						}
+					}
+					if (string[0].equals("color_experience")) {
+						if (string[1].startsWith("#")) {
+							this.color_experience = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_experience = getColor(this.color_experience);
+						}
+					}
+					if (string[0].equals("color_jumpbar")) {
+						if (string[1].startsWith("#")) {
+							this.color_jumpbar = Integer.parseInt(string[1].replace("#", ""), 16);
+						} else {
+							this.color_jumpbar = getColor(this.color_jumpbar);
+						}
+					}
+					if (string[0].equals("color_poison")) {
+						this.color_poison = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
+					if (string[0].equals("color_hunger")) {
+						this.color_hunger = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
+					if (string[0].equals("color_absorption")) {
+						this.color_absorption = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
+					if (string[0].equals("color_wither")) {
+						this.color_wither = Integer.parseInt(string[1].replace("#", ""), 16);
+					}
+					if (string[0].equals("clock_time_format")) {
+						this.clock_time_format = Integer.parseInt(string[1]);
+					}
+					if (string[0].equals("hud_type")) {
+						this.hud_type = string[1];
+					}
+					if (string[0].equals("show_armor")) {
+						this.show_armor = string[1].equals("true");
+					}
+					if (string[0].equals("show_blockcount")) {
+						this.show_blockcount = string[1].equals("true");
+					}
+					if (string[0].equals("show_arrowcount")) {
+						this.show_arrowcount = string[1].equals("true");
+					}
+					if (string[0].equals("show_itemdurability")) {
+						this.show_itemdurability = string[1].equals("true");
+					}
+					if (string[0].equals("enable_clock")) {
+						this.enable_clock = string[1].equals("true");
+					}
+					if (string[0].equals("enable_clock_color")) {
+						this.enable_clock_color = string[1].equals("true");
+					}
+					if (string[0].equals("enable_immersive_clock")) {
+						this.enable_immersive_clock = string[1].equals("true");
+					}
+					if (string[0].equals("enable_compass")) {
+						this.enable_compass = string[1].equals("true");
+					}
+					if (string[0].equals("enable_compass_color")) {
+						this.enable_compass_color = string[1].equals("true");
+					}
+					if (string[0].equals("enable_immersive_compass")) {
+						this.enable_immersive_compass = string[1].equals("true");
+					}
+					if (string[0].equals("render_player_face")) {
+						this.render_player_face = string[1].equals("true");
+					}
+					if (string[0].equals("show_numbers_health")) {
+						this.show_numbers_health = string[1].equals("true");
+					}
+					if (string[0].equals("show_numbers_stamina")) {
+						this.show_numbers_stamina = string[1].equals("true");
+					}
+					if (string[0].equals("show_numbers_experience")) {
+						this.show_numbers_experience = string[1].equals("true");
+					}
+					if (string[0].equals("show_hunger_preview")) {
+						this.show_hunger_preview = string[1].equals("true");
+					}
+					if (string[0].equals("reduce_size")) {
+						this.reduce_size = string[1].equals("true");
+					}
+					if (string[0].equals("enable_pickup")) {
+						this.enable_pickup = string[1].equals("true");
+					}
+					if (string[0].equals("pickup_duration")) {
+						this.pickup_duration = Float.parseFloat(string[1]);
+					}
+					if (string[0].equals("limit_jumpbar")) {
+						this.limit_jumpbar = string[1].equals("true");
+					}
+					if (string[0].equals("invert_compass")) {
+						this.invert_compass = string[1].equals("true");
+					}
+					if (string[0].equals("enable_entity_inspect")) {
+						this.enable_entity_inpect = string[1].equals("true");
+					}
+					if (string[0].equals("enable_compass_coordinates")) {
+						this.enable_compass_coordinates = string[1].equals("true");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

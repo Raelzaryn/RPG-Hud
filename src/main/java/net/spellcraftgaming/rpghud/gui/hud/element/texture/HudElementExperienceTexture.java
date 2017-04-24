@@ -3,10 +3,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementExperienceTexture extends HudElementTexture {
+public class HudElementExperienceTexture extends HudElement {
 
 	public HudElementExperienceTexture() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);

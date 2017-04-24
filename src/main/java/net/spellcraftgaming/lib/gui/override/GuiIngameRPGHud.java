@@ -203,34 +203,32 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
 	/** Function that renders the boss health via overlayBoss */
 	private void renderBossHealthMod() {
-        bind(Gui.icons);
-        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        this.mc.mcProfiler.startSection("bossHealth");
-        GlStateManager.enableBlend();
-        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
-        {
-            --BossStatus.statusBarTime;
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-            int i = scaledresolution.getScaledWidth();
-            int j = 182;
-            int k = i / 2 - j / 2;
-            int l = (int)(BossStatus.healthScale * (float)(j + 1));
-            int i1 = 12;
-            this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
-            this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
+		bind(Gui.icons);
+		GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+		this.mc.mcProfiler.startSection("bossHealth");
+		GlStateManager.enableBlend();
+		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
+			--BossStatus.statusBarTime;
+			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+			int i = scaledresolution.getScaledWidth();
+			int j = 182;
+			int k = i / 2 - j / 2;
+			int l = (int) (BossStatus.healthScale * (float) (j + 1));
+			int i1 = 12;
+			this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
+			this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
 
-            if (l > 0)
-            {
-                this.drawTexturedModalRect(k, i1, 0, 79, l, 5);
-            }
+			if (l > 0) {
+				this.drawTexturedModalRect(k, i1, 0, 79, l, 5);
+			}
 
-            String s = BossStatus.bossName;
-            this.getFontRenderer().drawStringWithShadow(s, (float)(i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float)(i1 - 10), 16777215);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(icons);
-        }
-        GlStateManager.disableBlend();
-        this.mc.mcProfiler.endSection();
+			String s = BossStatus.bossName;
+			this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.mc.getTextureManager().bindTexture(icons);
+		}
+		GlStateManager.disableBlend();
+		this.mc.mcProfiler.endSection();
 	}
 
 	/** Function that renders the helmet screen overlay */
@@ -386,46 +384,43 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	}
 
 	/** Renders the title and subtitle */
-    @Override
-	protected void renderTitle(int width, int height, float partialTicks)
-    {
-        if (this.field_175195_w > 0)
-        {
-            this.mc.mcProfiler.startSection("titleAndSubtitle");
-            float age = (float)this.field_175195_w - partialTicks;
-            int opacity = 255;
+	@Override
+	protected void renderTitle(int width, int height, float partialTicks) {
+		if (this.field_175195_w > 0) {
+			this.mc.mcProfiler.startSection("titleAndSubtitle");
+			float age = (float) this.field_175195_w - partialTicks;
+			int opacity = 255;
 
-            if (this.field_175195_w > this.field_175193_B + this.field_175192_A)
-            {
-                float f3 = (float)(this.field_175199_z + this.field_175192_A + this.field_175193_B) - age;
-                opacity = (int)(f3 * 255.0F / (float)this.field_175199_z);
-            }
-            if (this.field_175195_w <= this.field_175193_B) opacity = (int)(age * 255.0F / (float)this.field_175193_B);
+			if (this.field_175195_w > this.field_175193_B + this.field_175192_A) {
+				float f3 = (float) (this.field_175199_z + this.field_175192_A + this.field_175193_B) - age;
+				opacity = (int) (f3 * 255.0F / (float) this.field_175199_z);
+			}
+			if (this.field_175195_w <= this.field_175193_B)
+				opacity = (int) (age * 255.0F / (float) this.field_175193_B);
 
-            opacity = MathHelper.clamp_int(opacity, 0, 255);
+			opacity = MathHelper.clamp_int(opacity, 0, 255);
 
-            if (opacity > 8)
-            {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate((float)(width / 2), (float)(height / 2), 0.0F);
-                GlStateManager.enableBlend();
-                GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-                GlStateManager.pushMatrix();
-                GlStateManager.scale(4.0F, 4.0F, 4.0F);
-                int l = opacity << 24 & -16777216;
-                this.getFontRenderer().drawString(this.field_175201_x, (float)(-this.getFontRenderer().getStringWidth(this.field_175201_x) / 2), -10.0F, 16777215 | l, true);
-                GlStateManager.popMatrix();
-                GlStateManager.pushMatrix();
-                GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                this.getFontRenderer().drawString(this.field_175200_y, (float)(-this.getFontRenderer().getStringWidth(this.field_175200_y) / 2), 5.0F, 16777215 | l, true);
-                GlStateManager.popMatrix();
-                GlStateManager.disableBlend();
-                GlStateManager.popMatrix();
-            }
+			if (opacity > 8) {
+				GlStateManager.pushMatrix();
+				GlStateManager.translate((float) (width / 2), (float) (height / 2), 0.0F);
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+				GlStateManager.pushMatrix();
+				GlStateManager.scale(4.0F, 4.0F, 4.0F);
+				int l = opacity << 24 & -16777216;
+				this.getFontRenderer().drawString(this.field_175201_x, (float) (-this.getFontRenderer().getStringWidth(this.field_175201_x) / 2), -10.0F, 16777215 | l, true);
+				GlStateManager.popMatrix();
+				GlStateManager.pushMatrix();
+				GlStateManager.scale(2.0F, 2.0F, 2.0F);
+				this.getFontRenderer().drawString(this.field_175200_y, (float) (-this.getFontRenderer().getStringWidth(this.field_175200_y) / 2), 5.0F, 16777215 | l, true);
+				GlStateManager.popMatrix();
+				GlStateManager.disableBlend();
+				GlStateManager.popMatrix();
+			}
 
-            this.mc.mcProfiler.endSection();
-        }
-    }
+			this.mc.mcProfiler.endSection();
+		}
+	}
 
 	/** Renders the player list via it's class */
 	private void renderPlayerList(int width) {
@@ -511,8 +506,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	/** Returns the chat instance as a GuiNewChat object */
 	@Override
 	public GuiNewChat getChatGUI() {
-		if(!forceRenderTypeVanilla(HudElementType.CHAT)) return this.chat;
-		else return this.persistantChatGUI;
+		if (!forceRenderTypeVanilla(HudElementType.CHAT))
+			return this.chat;
+		else
+			return this.persistantChatGUI;
 	}
 
 	/** Returns the chat instance as a GuiChatRPGHud object */
@@ -657,10 +654,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.icons);
 						GlStateManager.enableBlend();
-				        GlStateManager.pushMatrix();
-				        GlStateManager.translate((float) event.posX, (float) event.posY, 0.0F);
-				        this.persistantChatGUI.drawChat(this.updateCounter);
-				        GlStateManager.popMatrix();
+						GlStateManager.pushMatrix();
+						GlStateManager.translate((float) event.posX, (float) event.posY, 0.0F);
+						this.persistantChatGUI.drawChat(this.updateCounter);
+						GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
 
@@ -692,10 +689,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
 						bind(Gui.icons);
 						GlStateManager.enableBlend();
-				        GlStateManager.pushMatrix();
-				        GlStateManager.translate((float) event.posX, (float) event.posY, 0.0F);
-				        this.persistantChatGUI.drawChat(this.updateCounter);
-				        GlStateManager.popMatrix();
+						GlStateManager.pushMatrix();
+						GlStateManager.translate((float) event.posX, (float) event.posY, 0.0F);
+						this.persistantChatGUI.drawChat(this.updateCounter);
+						GlStateManager.popMatrix();
 						GlStateManager.disableBlend();
 					}
 					if (!preventEventType(HudElementType.CHAT)) {

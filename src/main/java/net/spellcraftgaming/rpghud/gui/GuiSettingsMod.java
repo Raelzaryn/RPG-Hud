@@ -9,13 +9,13 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 
 public class GuiSettingsMod extends GuiScreenTooltip {
 
-	/** The ModSettings instance*/
+	/** The ModSettings instance */
 	private ModSettings settings;
-	
-	/** The ModDebugSettings instance*/
+
+	/** The ModDebugSettings instance */
 	private ModDebugSettings debug;
-	
-	/** The GuiScreen which lead to this GUI*/
+
+	/** The GuiScreen which lead to this GUI */
 	private GuiScreen parent;
 
 	public GuiSettingsMod(GuiScreen parent) {

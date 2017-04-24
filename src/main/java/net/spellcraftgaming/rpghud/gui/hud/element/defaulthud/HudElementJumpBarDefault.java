@@ -3,10 +3,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementBarred;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementJumpBarDefault extends HudElementBarred {
+public class HudElementJumpBarDefault extends HudElement {
 
 	public HudElementJumpBarDefault() {
 		super(HudElementType.JUMP_BAR, 0, 0, 0, 0, true);
@@ -14,7 +14,7 @@ public class HudElementJumpBarDefault extends HudElementBarred {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.isRidingLivingMount() && (this.settings.limit_jumpbar ? GameData.getHorseJumpPower() > 0F: true);
+		return GameData.isRidingLivingMount() && (this.settings.limit_jumpbar ? GameData.getHorseJumpPower() > 0F : true);
 	}
 
 	@Override

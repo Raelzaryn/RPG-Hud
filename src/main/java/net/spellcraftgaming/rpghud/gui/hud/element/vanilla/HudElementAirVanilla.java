@@ -18,6 +18,7 @@ public class HudElementAirVanilla extends HudElement {
 	public boolean checkConditions() {
 		return GameData.isPlayerUnderwater() && GameData.shouldDrawHUD();
 	}
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);

@@ -4,10 +4,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementHealthMountTexture extends HudElementTexture {
+public class HudElementHealthMountTexture extends HudElement {
 
 	public HudElementHealthMountTexture() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
@@ -27,7 +27,7 @@ public class HudElementHealthMountTexture extends HudElementTexture {
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = this.settings.render_player_face ? 53 : 25;
 		int posY = this.settings.render_player_face ? 54 : 49;
-		
+
 		gui.drawTexturedModalRect(posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
 
 		String stringHealth = health + "/" + healthMax;

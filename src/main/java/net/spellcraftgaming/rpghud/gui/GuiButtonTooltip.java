@@ -135,6 +135,7 @@ public class GuiButtonTooltip extends GuiButton {
 
 	/**
 	 * Returns the EnumOptionsDebugMod of this button
+	 * 
 	 * @return the EnumOptionsDebugMod of this button
 	 */
 	public EnumOptionsDebugMod returnOptionsDebug() {

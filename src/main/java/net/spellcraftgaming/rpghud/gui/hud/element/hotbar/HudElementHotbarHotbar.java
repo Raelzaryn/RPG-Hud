@@ -33,7 +33,7 @@ public class HudElementHotbarHotbar extends HudElement {
 			int i = res.getScaledWidth() / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
-			int posX = this.settings.render_player_face ? 49: 25;
+			int posX = this.settings.render_player_face ? 49 : 25;
 			gui.drawTexturedModalRect(posX, res.getScaledHeight() - 47, 0, 0, 182, 22);
 			gui.drawTexturedModalRect(posX + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1, 0, 22, 24, 22);
 
