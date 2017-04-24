@@ -30,7 +30,7 @@ public class HudElementHealthMountDefault extends HudElement {
 
 		if (this.settings.show_numbers_health) {
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth,  posX * 2 + 88, posY * 2 + 4, -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 		}
 	}

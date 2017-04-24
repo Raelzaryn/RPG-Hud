@@ -9,7 +9,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-public class HudElementWidgetModern extends HudElement{
+public class HudElementWidgetModern extends HudElement {
 
 	public HudElementWidgetModern() {
 		super(HudElementType.WIDGET, 0, 0, 0, 0, true);

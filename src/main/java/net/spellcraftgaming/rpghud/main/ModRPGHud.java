@@ -67,6 +67,7 @@ public class ModRPGHud {
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
 	public ItemPickupHandler pickupHandler;
+
 	/**
 	 * The function to be run before the initialization
 	 * 
@@ -111,7 +112,7 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		if(!isHudKeyValid(this.settings.hud_type)) {
+		if (!isHudKeyValid(this.settings.hud_type)) {
 			this.settings.hud_type = "vanilla";
 		}
 	}

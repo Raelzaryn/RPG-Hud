@@ -15,7 +15,7 @@ public class HudElementJumpBarTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.isRidingLivingMount() && (this.settings.limit_jumpbar ? GameData.getHorseJumpPower() > 0F: true);
+		return GameData.isRidingLivingMount() && (this.settings.limit_jumpbar ? GameData.getHorseJumpPower() > 0F : true);
 	}
 
 	@Override

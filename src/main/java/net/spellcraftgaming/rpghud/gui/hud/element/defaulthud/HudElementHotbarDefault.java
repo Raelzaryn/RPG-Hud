@@ -24,7 +24,7 @@ public class HudElementHotbarDefault extends HudElement {
 	public boolean checkConditions() {
 		return true;
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);

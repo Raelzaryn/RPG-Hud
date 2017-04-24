@@ -7,12 +7,11 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-public class HudElementAirModern extends HudElement  {
+public class HudElementAirModern extends HudElement {
 
 	public HudElementAirModern() {
 		super(HudElementType.AIR, 0, 0, 0, 0, true);
 	}
-
 
 	@Override
 	public boolean checkConditions() {

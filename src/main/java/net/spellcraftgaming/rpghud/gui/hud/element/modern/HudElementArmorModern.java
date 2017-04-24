@@ -17,7 +17,7 @@ public class HudElementArmorModern extends HudElement {
 	public boolean checkConditions() {
 		return GameData.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -27,7 +27,7 @@ public class HudElementArmorModern extends HudElement {
 		int top = height - GuiIngameRPGHud.left_height + 2;
 
 		int level = GameData.getPlayerArmor();
-		if(level > 0){
+		if (level > 0) {
 			int width2 = 1 + 9 + 2 + this.mc.fontRendererObj.getStringWidth(String.valueOf(level)) + 2;
 			drawRect(left, top, width2, 10, 0xA0000000);
 			this.mc.fontRendererObj.drawString(String.valueOf(level), left + 12, top + 2, -1);

@@ -19,15 +19,15 @@ public class HudElementWidgetHotbar extends HudElement {
 	public boolean checkConditions() {
 		return GameData.shouldDrawHUD();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		gui.drawTexturedModalRect(this.settings.render_player_face ? 50 : 26, height - 16 - 52 + 9, Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
-		
-		if(ModRPGHud.instance.settings.render_player_face) {
+
+		if (ModRPGHud.instance.settings.render_player_face) {
 			gui.drawTexturedModalRect(0, height - 16 - 52 + 7, 164, 20, 50, 52);
 			bind(getPlayerSkin(GameData.getPlayer()));
 			GL11.glScaled(0.5D, 0.5D, 0.5D);

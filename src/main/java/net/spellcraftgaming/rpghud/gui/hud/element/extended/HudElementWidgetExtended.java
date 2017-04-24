@@ -27,7 +27,7 @@ public class HudElementWidgetExtended extends HudElement {
 			gui.drawTexturedModalRect(this.settings.render_player_face ? 51 : 23, this.settings.render_player_face ? 44 : 39, 164, 0, 92, 20);
 		}
 
-		if(ModRPGHud.instance.settings.render_player_face) {
+		if (ModRPGHud.instance.settings.render_player_face) {
 			gui.drawTexturedModalRect(0, 0, 114, 0, 50, 50);
 			bind(getPlayerSkin(GameData.getPlayer()));
 			GL11.glScaled(0.5D, 0.5D, 0.5D);

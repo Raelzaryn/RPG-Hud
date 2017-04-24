@@ -115,13 +115,13 @@ public abstract class Hud {
 
 	/** Function which returns a new element which is the chat element */
 	protected abstract HudElement setElementChat();
-	
+
 	/** Function which returns a new element which is the compass element */
 	protected abstract HudElement setElementCompass();
-	
+
 	/** Function which returns a new element which is the item pickup element */
 	protected abstract HudElement setElementPickup();
-	
+
 	/** Function which returns a new element which is the item pickup element */
 	protected abstract HudElement setElementEntityInspect();
 

@@ -17,7 +17,7 @@ public class HudElementAirDefault extends HudElement {
 	public boolean checkConditions() {
 		return GameData.shouldDrawHUD() && GameData.isPlayerUnderwater();
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);

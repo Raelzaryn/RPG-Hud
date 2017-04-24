@@ -31,7 +31,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		this.offset = (this.settings.render_player_face ? 0 : 16) +((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? 0: 8);
+		this.offset = (this.settings.render_player_face ? 0 : 16) + ((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? 0 : 8);
 		int width = calculateWidth();
 		if (gui instanceof GuiIngameRPGHud) {
 			if (this.settings.show_armor) {
@@ -53,7 +53,8 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
-				if(widthNew > width) width = widthNew;
+				if (widthNew > width)
+					width = widthNew;
 			}
 		}
 		ItemStack item = GameData.getMainhand();
@@ -125,7 +126,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(GameData.getPlayer());
-				if(item != GameData.nullStack()) {
+				if (item != GameData.nullStack()) {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
 						ItemStack item3 = GameData.getItemInSlot(y);
@@ -144,7 +145,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (widthNew > width)
 				width = widthNew;
 		}
-		if(item == GameData.nullStack() || item == null) {
+		if (item == GameData.nullStack() || item == null) {
 			this.itemMainHandLastArrow = GameData.nullStack();
 		} else {
 			this.itemMainHandLastArrow = item.copy();
@@ -207,7 +208,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			} else if (this.settings.show_blockcount && item.getItem() instanceof ItemBlock) {
 				int x = GameData.getInventorySize();
 				int z = 0;
-				if ((hand == 0? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemStacksEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemStacksEqual(this.itemMainHandLast, item)) {
+				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemStacksEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemStacksEqual(this.itemMainHandLast, item)) {
 					if (hand == 0) {
 						this.itemMainHandLast = item.copy();
 						ModRPGHud.renderDetailsAgain[0] = false;
@@ -265,7 +266,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(GameData.getPlayer());
-				if(item != GameData.nullStack()) {
+				if (item != GameData.nullStack()) {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
 						ItemStack item3 = GameData.getItemInSlot(y);
@@ -294,7 +295,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			this.offset += 20;
 
 		}
-		if(item == GameData.nullStack() || item == null) {
+		if (item == GameData.nullStack() || item == null) {
 			this.itemMainHandLastArrow = GameData.nullStack();
 		} else {
 			this.itemMainHandLastArrow = item.copy();

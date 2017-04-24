@@ -96,17 +96,17 @@ public class HudModern extends HudDefault {
 	public HudElement setElementWidget() {
 		return new HudElementWidgetModern();
 	}
-	
+
 	@Override
 	protected HudElement setElementCompass() {
 		return new HudElementCompassModern();
 	}
-	
+
 	@Override
 	protected HudElement setElementPickup() {
 		return new HudElementPickupModern();
 	}
-	
+
 	@Override
 	protected HudElement setElementEntityInspect() {
 		return new HudElementEntityInspectModern();

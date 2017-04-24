@@ -24,7 +24,7 @@ public class HudElementHotbarModern extends HudElement {
 	public boolean checkConditions() {
 		return true;
 	}
-	
+
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -42,13 +42,13 @@ public class HudElementHotbarModern extends HudElement {
 			float f = zLevel;
 			zLevel = -90.0F;
 			drawRect(width / 2 - 91, height - 22 - 5, 182, 2, 0xA0000000);
-			for(int x = 0; x < 10; x++){
-				drawRect(width / 2 - 91 + (x*20), height - 22 - 3, 2, 18, 0xA0000000);
-				if(x < 9) {
-					drawRect(width / 2 - 91 + 2 + (x*20), height - 22 - 3, 18, 18, 0x60000000);
+			for (int x = 0; x < 10; x++) {
+				drawRect(width / 2 - 91 + (x * 20), height - 22 - 3, 2, 18, 0xA0000000);
+				if (x < 9) {
+					drawRect(width / 2 - 91 + 2 + (x * 20), height - 22 - 3, 18, 18, 0x60000000);
 				}
 			}
-			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.currentItem*20), height - 22 - 3, 18, 18, 0x40FFFFFF);
+			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.currentItem * 20), height - 22 - 3, 18, 18, 0x40FFFFFF);
 			GlStateManager.enableAlpha();
 			if (itemstack != GameData.nullStack()) {
 				if (enumhandside == 0) {
@@ -82,7 +82,7 @@ public class HudElementHotbarModern extends HudElement {
 				if (enumhandside == 0) {
 					this.renderHotbarItem(i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
 				} else {
-					this.renderHotbarItem(i + 91 + 10- 4, l1 + 4, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
 				}
 			}
 

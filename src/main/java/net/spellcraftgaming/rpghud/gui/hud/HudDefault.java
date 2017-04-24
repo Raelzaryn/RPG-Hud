@@ -75,7 +75,7 @@ public class HudDefault extends HudVanilla {
 	public HudElement setElementRecordOverlay() {
 		return new HudElementRecordOverlayVanilla();
 	}
-	
+
 	@Override
 	protected HudElement setElementPickup() {
 		return new HudElementPickupDefault();

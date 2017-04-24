@@ -92,6 +92,7 @@ public abstract class HudElement {
 
 	protected double scale;
 	protected double scaleInverted;
+
 	/**
 	 * Constructor
 	 * 
@@ -127,15 +128,15 @@ public abstract class HudElement {
 	/**
 	 * Function called to draw this element on the screen
 	 */
-	public void draw(Gui gui, float zLevel, float partialTicks){
-		
+	public void draw(Gui gui, float zLevel, float partialTicks) {
+
 		GlStateManager.scale(this.scale, this.scale, this.scale);
-		
+
 		this.drawElement(gui, zLevel, partialTicks);
-		
+
 		GlStateManager.scale(this.scaleInverted, this.scaleInverted, this.scaleInverted);
 	}
-	
+
 	public abstract void drawElement(Gui gui, float zLevel, float partialTicks);
 
 	/**
