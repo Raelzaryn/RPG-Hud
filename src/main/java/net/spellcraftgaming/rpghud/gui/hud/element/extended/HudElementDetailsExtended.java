@@ -65,6 +65,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
+				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
 				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 				this.offset += 16;
@@ -93,6 +94,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				RenderHelper.enableGUIStandardItemLighting();
 				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
+				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
 				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 				RenderHelper.disableStandardItemLighting();
@@ -133,6 +135,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
 				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
+				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
 				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 				if (this.settings.reduce_size)
@@ -184,6 +187,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 			}
 			
 			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
+			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 144 : 72) + this.offset);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 152 : 76) + this.offset, -1);
 			if (this.settings.reduce_size)
