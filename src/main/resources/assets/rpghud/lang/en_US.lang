@@ -56,6 +56,7 @@ name.limit_jumpbar=Limit jumpbar
 name.invert_compass=Invert Compass
 name.entity_inspect=Show Entity Inspect
 name.compass_coordinates=Compass Coordinates
+name.update_string=Show Update String
 
 color.red=Red
 color.blue=Blue
@@ -117,7 +118,7 @@ tooltip.enable_immersive_clock=Only show the clock widget/nwhen a clock is insid
 tooltip.clock_time_format=Set the time format to either/n24 hours or 12 hours (AM/PM)
 tooltip.enable_timecolor=Set the color of the clock/nwidget to change with the/ntime of day
 tooltip.show_hungerpreview=Show a preview of the/nstamina/hunger bar when/na food item is selected/nfrom the hotbar
-tooltip.button_tooltip=Show button tolltips
+tooltip.button_tooltip=Show button tooltips
 tooltip.enable_compass=Enable/disable the/ncompass widget
 tooltip.enable_immersive_compass=Display the compass widget/nonly when a compass is inside the/nplayer's inventory
 tooltip.compass_color=Enable/Disable the red color/nfor the "N" symbol
@@ -127,6 +128,7 @@ tooltip.limit_jumpbar=Only show the jump bar/nwhen jumping with a horse
 tooltip.invert_compass=Change the left and right/nof the compass
 tooltip.entity_inspect=Toggle the entity/ninspect element
 tooltip.compass_coordinates=Toggle the numerical coordinates/n of the compass
+tooltip.update_string=Show the notification in/nthe MainMenu when a new/nversion is available
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element
