@@ -26,7 +26,8 @@ public class ModSettings {
 	private static final String[] TIME_FORMAT = { "time.24", "time.12" };
 
 	public boolean button_tooltip_enabled = true;
-
+	public boolean show_update_string = true;
+	
 	public boolean show_armor = true;
 	public boolean show_arrowcount = true;
 	public boolean show_itemdurability = true;
@@ -93,6 +94,9 @@ public class ModSettings {
 	public void setOptionValue(EnumOptionsMod options) {
 		if (options == EnumOptionsMod.BUTTON_TOOLTIP_ENABLED) {
 			this.button_tooltip_enabled = (!this.button_tooltip_enabled);
+		}
+		if (options == EnumOptionsMod.SHOW_UPDATE_STRING) {
+			this.show_update_string = (!this.show_update_string);
 		}
 		if (options == EnumOptionsMod.SHOW_ARMOR) {
 			this.show_armor = (!this.show_armor);
@@ -252,6 +256,8 @@ public class ModSettings {
 			return this.enable_entity_inpect;
 		case 21:
 			return this.enable_compass_coordinates;
+		case 22:
+			return this.show_update_string;
 		default:
 			return false;
 		}
@@ -349,6 +355,10 @@ public class ModSettings {
 				optionIds[EnumOptionsMod.ENABLE_COMPASS_COORDINATES.ordinal()] = 21;
 			} catch (NoSuchFieldError e) {
 			}
+			try {
+				optionIds[EnumOptionsMod.SHOW_UPDATE_STRING.ordinal()] = 22;
+			} catch (NoSuchFieldError e) {
+			}
 		}
 	}
 
@@ -365,6 +375,9 @@ public class ModSettings {
 					String[] string = s.split(":");
 					if (string[0].equals("button_tooltip_enabled")) {
 						this.button_tooltip_enabled = string[1].equals("true");
+					}
+					if (string[0].equals("show_update_string")) {
+						this.show_update_string = string[1].equals("true");
 					}
 					if (string[0].equals("color_health")) {
 						if (string[1].startsWith("#")) {
@@ -570,6 +583,7 @@ public class ModSettings {
 		try {
 			PrintWriter writer = new PrintWriter(new FileWriter(this.optionsFile));
 			writer.println("button_tooltip_enabled:" + this.button_tooltip_enabled);
+			writer.println("show_update_string:" + this.show_update_string);
 			writer.println("color_health:" + "#" + Integer.toHexString(this.color_health));
 			writer.println("color_air:" + "#" + Integer.toHexString(this.color_air));
 			writer.println("color_stamina:" + "#" + Integer.toHexString(this.color_stamina));
