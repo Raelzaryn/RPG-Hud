@@ -11,6 +11,7 @@ import net.spellcraftgaming.lib.GameData;
 public enum EnumOptionsMod {
 
 	BUTTON_TOOLTIP_ENABLED(BOOLEAN, "name.button_tooltip", I18n.format("tooltip.button_tooltip", new Object[0])),
+	SHOW_UPDATE_STRING(BOOLEAN, "name.update_string", I18n.format("tooltip.update_string", new Object[0])),
 	SHOW_ARMOR(BOOLEAN, "name.show_armor", I18n.format("tooltip.show_armor", new Object[0])),
 	SHOW_ITEMDURABILITY(BOOLEAN, "name.item_durability", I18n.format("tooltip.item_durability", new Object[0])),
 	SHOW_ITEMCOUNT(BOOLEAN, "name.item_count", I18n.format("tooltip.item_count", new Object[0])),

@@ -48,7 +48,7 @@ import net.spellcraftgaming.rpghud.settings.ModSettings;
 public class GuiSettingsModSub extends GuiScreenTooltip {
 
 	/** The group of settings to be displayed in the "general" category */
-	private static final EnumOptionsMod[] optionsGeneral = { BUTTON_TOOLTIP_ENABLED };
+	private static final EnumOptionsMod[] optionsGeneral = { BUTTON_TOOLTIP_ENABLED, EnumOptionsMod.SHOW_UPDATE_STRING };
 
 	/** The group of settings to be displayed in the "HUD" category */
 	private static final EnumOptionsMod[] optionsHUD = { HUD_TYPE, RENDER_PLAYER_FACE, REDUCE_SIZE, SHOW_NUMBERS_HEALTH, SHOW_NUMBERS_STAMINA, SHOW_NUMBERS_EXPERIENCE, LIMIT_JUMPBAR };

@@ -5,7 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ForgeVersion.CheckResult;
+import net.minecraftforge.common.ForgeVersion.Status;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -15,6 +19,7 @@ import net.spellcraftgaming.lib.event.ClientTickHandler;
 import net.spellcraftgaming.lib.event.PlayerContainerHandler;
 import net.spellcraftgaming.rpghud.event.ItemPickupHandler;
 import net.spellcraftgaming.rpghud.event.PlayerTickHandler;
+import net.spellcraftgaming.rpghud.event.RenderEventHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
@@ -68,6 +73,7 @@ public class ModRPGHud {
 
 	public ItemPickupHandler pickupHandler;
 
+	public static boolean outdated;
 	/**
 	 * The function to be run before the initialization
 	 * 
@@ -102,6 +108,7 @@ public class ModRPGHud {
 		this.pickupHandler = new ItemPickupHandler();
 		MinecraftForge.EVENT_BUS.register(this.pickupHandler);
 		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
+		MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
 	}
 
 	/**
@@ -115,6 +122,9 @@ public class ModRPGHud {
 		if (!isHudKeyValid(this.settings.hud_type)) {
 			this.settings.hud_type = "vanilla";
 		}
+		
+		CheckResult vercheck = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(ModRPGHud.MOD_ID));
+		if(vercheck.status == Status.OUTDATED) outdated = true;
 	}
 
 	/**
