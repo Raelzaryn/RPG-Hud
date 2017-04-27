@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementEntityInspectVanilla extends HudElement {
 
@@ -21,7 +21,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.shouldDrawHUD() && ModRPGHud.instance.settings.enable_entity_inpect;
+		return GameData.shouldDrawHUD() && this.settings.getBoolValue(Settings.enable_entity_inspect);
 	}
 
 	public HudElementEntityInspectVanilla() {
@@ -36,7 +36,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 			int width = res.getScaledWidth() / 2;
 			this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
 			gui.drawTexturedModalRect(width - 62, 20, 0, 0, 124, 32);
-			drawCustomBar(width - 29, 32, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
+			drawCustomBar(width - 29, 32, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 			GlStateManager.scale(0.5, 0.5, 0.5);
 			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, (width - 29 + 44) * 2, 34 * 2, -1);

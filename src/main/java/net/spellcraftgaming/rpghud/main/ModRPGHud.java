@@ -1,14 +1,13 @@
 package net.spellcraftgaming.rpghud.main;
 
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -27,8 +26,7 @@ import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
-import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
-import net.spellcraftgaming.rpghud.settings.ModSettings;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Mod(modid = ModRPGHud.MOD_ID, version = ModRPGHud.VERSION, name = ModRPGHud.NAME, clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY, guiFactory = ModRPGHud.GUI_FACTORY, updateJSON = ModRPGHud.UPDATE_JSON)
 
@@ -59,12 +57,8 @@ public class ModRPGHud {
 	@Mod.Instance
 	public static ModRPGHud instance;
 
-	/** The instance of the debug settings of this mod */
-	public ModDebugSettings settingsDebug;
-
-	/** The instance of the settings of this mod */
-	public ModSettings settings;
-
+	public Settings settings;
+	
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
 
@@ -82,17 +76,13 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		File file = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD");
-		file.mkdirs();
-		this.settings = new ModSettings(file);
-		this.settingsDebug = new ModDebugSettings(file);
-
 		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getMinecraft(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(Minecraft.getMinecraft(), "texture", "Full Texture"));
 		this.registerHud(new HudHotbarWidget(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudModern(Minecraft.getMinecraft(), "modern", "Modern Style"));
+		this.settings = new Settings();
 	}
 
 	/**
@@ -119,8 +109,8 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		if (!isHudKeyValid(this.settings.hud_type)) {
-			this.settings.hud_type = "vanilla";
+		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
+			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
 		
 		CheckResult vercheck = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(ModRPGHud.MOD_ID));
@@ -139,7 +129,7 @@ public class ModRPGHud {
 
 	/** Returns the active HUD */
 	public Hud getActiveHud() {
-		return this.huds.get(this.settings.hud_type);
+		return this.huds.get(Settings.hud_type);
 	}
 
 	/** Returns the vanilla HUD */

@@ -8,6 +8,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementWidgetModern extends HudElement {
 
@@ -17,7 +18,7 @@ public class HudElementWidgetModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.shouldDrawHUD() && ModRPGHud.instance.settings.render_player_face;
+		return GameData.shouldDrawHUD() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
 	}
 
 	@Override

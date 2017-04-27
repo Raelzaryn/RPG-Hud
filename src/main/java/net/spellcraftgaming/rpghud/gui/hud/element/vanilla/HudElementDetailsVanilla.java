@@ -15,6 +15,7 @@ import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementDetailsVanilla extends HudElement {
 
@@ -40,12 +41,12 @@ public class HudElementDetailsVanilla extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		this.offset = 0;
 		if (gui instanceof GuiIngameRPGHud) {
-			if (this.settings.show_armor) {
+			if (this.settings.getBoolValue(Settings.show_armor)) {
 				drawArmorDetails(gui);
 			}
 			drawItemDetails(gui, 0);
 			drawItemDetails(gui, 1);
-			if (this.settings.show_arrowcount) {
+			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
 				drawArrowCount(gui);
 			}
 		}
@@ -59,20 +60,20 @@ public class HudElementDetailsVanilla extends HudElement {
 	 */
 	protected void drawArmorDetails(Gui gui) {
 		this.mc.mcProfiler.startSection("armor_details");
-		if (this.settings.reduce_size)
+		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
 		for (int i = GameData.getPlayerArmorInventoryLength() - 1; i >= 0; i--) {
 			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem() instanceof ItemArmor) {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
-				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
-		if (this.settings.reduce_size)
+		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		this.mc.mcProfiler.endSection();
 	}
@@ -88,20 +89,20 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected void drawItemDetails(Gui gui, int hand) {
 		ItemStack item = GameData.getItemInHand(hand);
 		if (item != GameData.nullStack()) {
-			if (this.settings.show_itemdurability && item.isItemStackDamageable()) {
-				if (this.settings.reduce_size)
+			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isItemStackDamageable()) {
+				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				RenderHelper.enableGUIStandardItemLighting();
-				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
-				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
 				RenderHelper.disableStandardItemLighting();
 				this.offset += 16;
-				if (this.settings.reduce_size)
+				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
-			} else if (this.settings.show_blockcount && item.getItem() instanceof ItemBlock) {
+			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
 				int x = GameData.getInventorySize();
 				int z = 0;
 				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemStacksEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemStacksEqual(this.itemMainHandLast, item)) {
@@ -131,15 +132,15 @@ public class HudElementDetailsVanilla extends HudElement {
 
 				item = GameData.getItemInHand(hand);
 				String s = "x " + z;
-				if (this.settings.reduce_size)
+				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
-				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
-				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
-				if (this.settings.reduce_size)
+				gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
+				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 				this.offset += 16;
 			}
@@ -154,7 +155,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 */
 	protected void drawArrowCount(Gui gui) {
 		ItemStack item = GameData.getMainhand();
-		if (this.settings.show_arrowcount && item != GameData.nullStack() && GameData.getMainhand().getItem() instanceof ItemBow) {
+		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != GameData.nullStack() && GameData.getMainhand().getItem() instanceof ItemBow) {
 			int x = GameData.getInventorySize();
 			int z = 0;
 
@@ -179,19 +180,19 @@ public class HudElementDetailsVanilla extends HudElement {
 			}
 
 			String s = "x " + z;
-			if (this.settings.reduce_size)
+			if (this.settings.getBoolValue(Settings.reduce_size))
 				GL11.glScaled(0.5D, 0.5D, 0.5D);
 			RenderHelper.enableGUIStandardItemLighting();
 			if (this.itemArrow == GameData.nullStack()) {
 				this.itemArrow = GameData.arrowStack();
 			}
 
-			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
-			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, this.itemArrow, this.settings.reduce_size ? 4 : 2, (this.settings.reduce_size ? 124 : 62) + this.offset);
+			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
-			gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.reduce_size ? 132 : 66) + this.offset, -1);
-			if (this.settings.reduce_size)
+			gui.drawString(this.mc.fontRendererObj, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
+			if (this.settings.getBoolValue(Settings.reduce_size))
 				GL11.glScaled(2.0D, 2.0D, 2.0D);
 			this.offset += 16;
 

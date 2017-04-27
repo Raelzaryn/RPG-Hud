@@ -4,18 +4,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
+import net.spellcraftgaming.rpghud.settings.SettingFloat;
 
 public class GuiSliderSetting extends GuiButtonTooltip {
 
 	private float sliderValue;
 	public boolean dragging;
 
-	public GuiSliderSetting(int buttonId, int x, int y, EnumOptionsMod optionIn) {
+	public GuiSliderSetting(int buttonId, int x, int y, String optionIn) {
 		super(buttonId, x, y, optionIn, "");
 		this.sliderValue = 1.0F;
-		this.sliderValue = optionIn.normalizeValue(ModRPGHud.instance.settings.getOptionFloatValue(optionIn));
-		this.displayString = ModRPGHud.instance.settings.getKeyBinding(optionIn);
+		this.sliderValue = SettingFloat.normalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(optionIn), ModRPGHud.instance.settings.getFloatValue(optionIn));
+		this.displayString = ModRPGHud.instance.settings.getButtonString(optionIn);
 	}
 
 	/**
@@ -37,10 +37,10 @@ public class GuiSliderSetting extends GuiButtonTooltip {
 			if (this.dragging) {
 				this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
 				this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
-				float f = this.enumOptions.denormalizeValue(this.sliderValue);
-				ModRPGHud.instance.settings.setOptionFloatValue(this.enumOptions, f);
-				this.sliderValue = this.enumOptions.normalizeValue(f);
-				this.displayString = ModRPGHud.instance.settings.getKeyBinding(this.enumOptions);
+				float f = SettingFloat.denormalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue);
+				ModRPGHud.instance.settings.setSetting(this.enumOptions, f);
+				this.sliderValue = SettingFloat.normalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), f);
+				this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
 			}
 
 			GameData.bindButtonTextures();
@@ -59,8 +59,8 @@ public class GuiSliderSetting extends GuiButtonTooltip {
 		if (super.mousePressed(mc, mouseX, mouseY)) {
 			this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
 			this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
-			ModRPGHud.instance.settings.setOptionFloatValue(this.enumOptions, this.enumOptions.denormalizeValue(this.sliderValue));
-			this.displayString = ModRPGHud.instance.settings.getKeyBinding(this.enumOptions);
+			ModRPGHud.instance.settings.setSetting(this.enumOptions, SettingFloat.denormalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue));
+			this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
 			this.dragging = true;
 			return true;
 		}

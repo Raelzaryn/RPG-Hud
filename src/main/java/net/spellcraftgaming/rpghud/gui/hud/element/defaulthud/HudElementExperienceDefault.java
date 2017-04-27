@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementExperienceDefault extends HudElement {
 
@@ -27,10 +28,10 @@ public class HudElementExperienceDefault extends HudElement {
 		int expCap = GameData.getPlayerXPCap();
 		double full = 100D / expCap;
 		GlStateManager.disableLighting();
-		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.color_experience, offsetColorPercent(this.settings.color_experience, 25));
+		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 		String stringExp = exp + "/" + expCap;
 		int var7 = width / 2;
-		if (this.settings.show_numbers_experience)
+		if (this.settings.getBoolValue(Settings.show_numbers_experience))
 			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, var7, height - 9, -1);
 	}
 

@@ -8,6 +8,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementWidgetHotbar extends HudElement {
 
@@ -25,9 +26,9 @@ public class HudElementWidgetHotbar extends HudElement {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
-		gui.drawTexturedModalRect(this.settings.render_player_face ? 50 : 26, height - 16 - 52 + 9, Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
+		gui.drawTexturedModalRect(this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26, height - 16 - 52 + 9, Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
 
-		if (ModRPGHud.instance.settings.render_player_face) {
+		if (ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
 			gui.drawTexturedModalRect(0, height - 16 - 52 + 7, 164, 20, 50, 52);
 			bind(getPlayerSkin(GameData.getPlayer()));
 			GL11.glScaled(0.5D, 0.5D, 0.5D);

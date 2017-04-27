@@ -45,8 +45,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
-import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod.EnumOptionsType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiIngameRPGHud extends GuiIngameForge {
 
@@ -736,9 +735,9 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	 * regardless of the forge event and if it is activated
 	 */
 	private boolean forceRenderType(HudElementType type) {
-		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.FORCE_RENDER);
-		if (option != null) {
-			return this.rpgHud.settingsDebug.getOptionOrdinalValue(option);
+		String id = Settings.force_render + "_" + type.name().toLowerCase();
+		if (this.rpgHud.settings.doesSettingExist(id)) {
+			return this.rpgHud.settings.getBoolValue(id);
 		}
 		return false;
 	}
@@ -748,9 +747,9 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	 * if it is activated
 	 */
 	private boolean preventElementRenderType(HudElementType type) {
-		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.PREVENT_RENDER);
-		if (option != null) {
-			return this.rpgHud.settingsDebug.getOptionOrdinalValue(option);
+		String id = Settings.prevent_element_render + "_" + type.name().toLowerCase();
+		if (this.rpgHud.settings.doesSettingExist(id)) {
+			return this.rpgHud.settings.getBoolValue(id);
 		}
 		return false;
 	}
@@ -760,9 +759,9 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	 * element to be rendered and if it is activated
 	 */
 	private boolean forceRenderTypeVanilla(HudElementType type) {
-		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.RENDER_VANILLA);
-		if (option != null) {
-			return this.rpgHud.settingsDebug.getOptionOrdinalValue(option);
+		String id = Settings.force_render + "_" + type.name().toLowerCase();
+		if (this.rpgHud.settings.doesSettingExist(id)) {
+			return this.rpgHud.settings.getBoolValue(id);
 		}
 		return false;
 	}
@@ -772,9 +771,9 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	 * if it is activated
 	 */
 	private boolean preventEventType(HudElementType type) {
-		EnumOptionsDebugMod option = EnumOptionsDebugMod.getEnumOptionOfWith(type, EnumOptionsType.PREVENT_EVENT);
-		if (option != null) {
-			return this.rpgHud.settingsDebug.getOptionOrdinalValue(option);
+		String id = Settings.prevent_event + "_" + type.name().toLowerCase();
+		if (this.rpgHud.settings.doesSettingExist(id)) {
+			return this.rpgHud.settings.getBoolValue(id);
 		}
 		return false;
 	}
