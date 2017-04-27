@@ -1,15 +1,10 @@
 package net.spellcraftgaming.rpghud.main;
 
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ForgeVersion.CheckResult;
-import net.minecraftforge.common.ForgeVersion.Status;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -18,8 +13,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.spellcraftgaming.lib.event.ClientTickHandler;
 import net.spellcraftgaming.lib.event.PlayerContainerHandler;
 import net.spellcraftgaming.rpghud.event.ItemPickupHandler;
+import net.spellcraftgaming.rpghud.event.NotificationHandler;
 import net.spellcraftgaming.rpghud.event.PlayerTickHandler;
-import net.spellcraftgaming.rpghud.event.RenderEventHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
@@ -27,8 +22,7 @@ import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
-import net.spellcraftgaming.rpghud.settings.ModDebugSettings;
-import net.spellcraftgaming.rpghud.settings.ModSettings;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Mod(modid = ModRPGHud.MOD_ID, version = ModRPGHud.VERSION, name = ModRPGHud.NAME, clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY, guiFactory = ModRPGHud.GUI_FACTORY, updateJSON = ModRPGHud.UPDATE_JSON)
 
@@ -38,7 +32,6 @@ public class ModRPGHud {
 	// TODO 3.x: Simple debug settings configuration
 	// TODO 3.x: Distance checker
 	// TODO 3.x: FPS
-	// TODO 3.x: Entity inspect
 	// TODO 3.x: Block inspect
 
 	/** The mod ID of this mod */
@@ -46,7 +39,7 @@ public class ModRPGHud {
 	/** The mod name of this mod */
 	public static final String NAME = "RPG-Hud";
 	/** The mod version of this mod */
-	public static final String VERSION = "3.6.2";
+	public static final String VERSION = "3.6.3";
 	/** Path to GuiFactory class of this mod */
 	public static final String GUI_FACTORY = "net.spellcraftgaming.rpghud.gui.GuiFactoryRPGHud";
 
@@ -59,11 +52,7 @@ public class ModRPGHud {
 	@Mod.Instance
 	public static ModRPGHud instance;
 
-	/** The instance of the debug settings of this mod */
-	public ModDebugSettings settingsDebug;
-
-	/** The instance of the settings of this mod */
-	public ModSettings settings;
+	public Settings settings;
 
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
@@ -73,7 +62,6 @@ public class ModRPGHud {
 
 	public ItemPickupHandler pickupHandler;
 
-	public static boolean outdated;
 	/**
 	 * The function to be run before the initialization
 	 * 
@@ -82,11 +70,7 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		File file = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD");
-		file.mkdirs();
-		this.settings = new ModSettings(file);
-		this.settingsDebug = new ModDebugSettings(file);
-
+		this.settings = new Settings();
 		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getMinecraft(), "extended", "Extended Widget"));
@@ -108,7 +92,7 @@ public class ModRPGHud {
 		this.pickupHandler = new ItemPickupHandler();
 		MinecraftForge.EVENT_BUS.register(this.pickupHandler);
 		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
-		MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
+		MinecraftForge.EVENT_BUS.register(new NotificationHandler());
 	}
 
 	/**
@@ -119,19 +103,16 @@ public class ModRPGHud {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		if (!isHudKeyValid(this.settings.hud_type)) {
-			this.settings.hud_type = "vanilla";
+		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
+			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
-		
-		CheckResult vercheck = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(ModRPGHud.MOD_ID));
-		if(vercheck.status == Status.OUTDATED) outdated = true;
 	}
 
 	/**
 	 * Register a new HUD
 	 * 
 	 * @param hud
-	 *            he hud to be registered
+	 *            the hud to be registered
 	 */
 	public void registerHud(Hud hud) {
 		this.huds.put(hud.getHudKey(), hud);
@@ -139,7 +120,7 @@ public class ModRPGHud {
 
 	/** Returns the active HUD */
 	public Hud getActiveHud() {
-		return this.huds.get(this.settings.hud_type);
+		return this.huds.get(this.settings.getStringValue(Settings.hud_type));
 	}
 
 	/** Returns the vanilla HUD */

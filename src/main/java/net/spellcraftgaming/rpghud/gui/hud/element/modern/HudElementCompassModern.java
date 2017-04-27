@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementCompassModern extends HudElement {
 
@@ -15,14 +16,14 @@ public class HudElementCompassModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.enable_compass && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_compass ? GameData.hasPlayerCompass() : true);
+		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.gameSettings.showDebugInfo && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? GameData.hasPlayerCompass() : true);
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth() / 2;
-		int swapSides = this.settings.invert_compass ? -1 : 1;
+		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
 
 		int rotation = Math.round(((GameData.getRotationYaw() % 360) / 360) * 200);
 		if (rotation < 0)
@@ -39,7 +40,7 @@ public class HudElementCompassModern extends HudElement {
 		}
 
 		if (rotation > 50 && rotation <= 150) {
-			gui.drawCenteredString(this.mc.fontRendererObj, "N", width + (100 * swapSides) - (rotation * swapSides), 1, this.settings.enable_compass_color ? 0xE60909 : -1);
+			gui.drawCenteredString(this.mc.fontRendererObj, "N", width + (100 * swapSides) - (rotation * swapSides), 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
 		}
 
 		if (rotation > 75 && rotation <= 175) {
@@ -68,7 +69,7 @@ public class HudElementCompassModern extends HudElement {
 			gui.drawCenteredString(this.mc.fontRendererObj, ".", width + (25 * swapSides) - (rotation * swapSides), -2, -1);
 		}
 
-		if (this.settings.enable_compass_coordinates) {
+		if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
 			int[] pos = GameData.getPlayerPos();
 			drawRect(width - 50, 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[0])) / 2 + 4, 6, 0xA0000000);
 			drawRect((int) (width - ((float) this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[1])) / 4) - 2), 11, this.mc.fontRendererObj.getStringWidth(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);

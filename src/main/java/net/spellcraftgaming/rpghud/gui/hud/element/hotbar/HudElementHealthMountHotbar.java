@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthMountHotbar extends HudElement {
 
@@ -25,12 +26,12 @@ public class HudElementHealthMountHotbar extends HudElement {
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
-		int posX = this.settings.render_player_face ? 49 : 25;
+		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
 		int offset = GameData.getHotbarWidgetWidthOffset();
-		drawCustomBar(posX, height - 56, 200 + offset, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.color_health, offsetColorPercent(this.settings.color_health, OFFSET_PERCENT));
+		drawCustomBar(posX, height - 56, 200 + offset, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		String stringHealth = health + "/" + healthMax;
 
-		if (this.settings.show_numbers_health)
+		if (this.settings.getBoolValue(Settings.show_numbers_health))
 			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 100 + offset, height - 55, -1);
 	}
 

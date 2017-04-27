@@ -5,6 +5,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementJumpBarDefault extends HudElement {
 
@@ -14,7 +15,7 @@ public class HudElementJumpBarDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.isRidingLivingMount() && (this.settings.limit_jumpbar ? GameData.getHorseJumpPower() > 0F : true);
+		return GameData.isRidingLivingMount() && (this.settings.getBoolValue(Settings.limit_jump_bar) ? GameData.getHorseJumpPower() > 0F : true);
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class HudElementJumpBarDefault extends HudElement {
 		int center = res.getScaledWidth() / 2;
 		float jumpPower = GameData.getHorseJumpPower();
 		int value = (int) (jumpPower * 100.0F);
-		drawCustomBar(center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.color_jumpbar, offsetColorPercent(this.settings.color_jumpbar, OFFSET_PERCENT));
+		drawCustomBar(center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.getIntValue(Settings.color_jump_bar), offsetColorPercent(this.settings.getIntValue(Settings.color_jump_bar), OFFSET_PERCENT));
 	}
 
 }

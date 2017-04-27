@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import net.spellcraftgaming.rpghud.settings.ModSettings;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public abstract class HudElement {
 
@@ -88,7 +88,7 @@ public abstract class HudElement {
 	protected ModRPGHud rpgHud;
 
 	/** The Mod settings */
-	protected ModSettings settings;
+	protected Settings settings;
 
 	protected double scale;
 	protected double scaleInverted;

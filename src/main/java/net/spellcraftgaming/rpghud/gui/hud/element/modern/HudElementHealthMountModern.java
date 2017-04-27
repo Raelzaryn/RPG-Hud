@@ -8,6 +8,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthMountModern extends HudElement {
 
@@ -27,9 +28,9 @@ public class HudElementHealthMountModern extends HudElement {
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		String stringHealth = health + "/" + healthMax;
-		int posX = (this.settings.render_player_face ? 26 : 4) + (this.settings.show_numbers_health ? xOffset - 1 : -2);
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset - 1 : -2);
 
-		if (this.settings.show_numbers_health) {
+		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			int width2 = this.mc.fontRendererObj.getStringWidth(stringHealth) / 2;
 			drawRect(posX, 24, width2 + 4, 5, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
@@ -38,7 +39,7 @@ public class HudElementHealthMountModern extends HudElement {
 		}
 
 		drawTetragon(posX, posX, 21, 21, 58, 54, 3, 3, 0xA0000000);
-		drawTetragon(posX + 2, posX + 2, 21, 21, (int) (((double) health / (double) healthMax) * 53), (int) (((double) health / (double) healthMax) * 53 - 2), 1, 1, this.settings.color_health);
+		drawTetragon(posX + 2, posX + 2, 21, 21, (int) (((double) health / (double) healthMax) * 53), (int) (((double) health / (double) healthMax) * 53 - 2), 1, 1, this.settings.getIntValue(Settings.color_health));
 
 	}
 

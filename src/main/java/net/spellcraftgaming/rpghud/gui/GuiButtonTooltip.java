@@ -3,21 +3,16 @@ package net.spellcraftgaming.rpghud.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.spellcraftgaming.rpghud.settings.EnumOptionsDebugMod;
-import net.spellcraftgaming.rpghud.settings.EnumOptionsMod;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonTooltip extends GuiButton {
 
 	/** Variable to contain the (possible) setting of this button */
-	protected final EnumOptionsMod enumOptions;
-
-	/** Variable to contain the (possible) debug setting of this button */
-	protected final EnumOptionsDebugMod enumOptionsDebug;
+	public final String enumOptions;
 
 	/** Array that contains the tooltip of this button */
 	private String[] tooltip;
-
 	/**
 	 * Initiates a new button
 	 * 
@@ -33,7 +28,6 @@ public class GuiButtonTooltip extends GuiButton {
 	public GuiButtonTooltip(int buttonId, int x, int y, String buttonText) {
 		super(buttonId, x, y, buttonText);
 		this.enumOptions = null;
-		this.enumOptionsDebug = null;
 	}
 
 	/**
@@ -55,7 +49,6 @@ public class GuiButtonTooltip extends GuiButton {
 	public GuiButtonTooltip(int buttonId, int x, int y, int width, int height, String buttonText) {
 		super(buttonId, x, y, width, height, buttonText);
 		this.enumOptions = null;
-		this.enumOptionsDebug = null;
 	}
 
 	/**
@@ -72,30 +65,9 @@ public class GuiButtonTooltip extends GuiButton {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int buttonId, int x, int y, EnumOptionsMod setting, String buttonText) {
+	public GuiButtonTooltip(int buttonId, int x, int y, String setting, String buttonText) {
 		super(buttonId, x, y, 150, 20, buttonText);
 		this.enumOptions = setting;
-		this.enumOptionsDebug = null;
-	}
-
-	/**
-	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
-	 * @param x
-	 *            The x position on the screen
-	 * @param y
-	 *            The y position on the screen
-	 * @param setting
-	 *            The possible debug setting of this button
-	 * @param buttonText
-	 *            The display Text of this button
-	 */
-	public GuiButtonTooltip(int buttonId, int x, int y, EnumOptionsDebugMod setting, String buttonText) {
-		super(buttonId, x, y, 150, 20, buttonText);
-		this.enumOptions = null;
-		this.enumOptionsDebug = setting;
 	}
 
 	/**
@@ -118,9 +90,7 @@ public class GuiButtonTooltip extends GuiButton {
 	 */
 	public GuiButtonTooltip setTooltip() {
 		if (this.enumOptions != null)
-			return setTooltip(this.enumOptions.getTooltip());
-		if (this.enumOptionsDebug != null)
-			return setTooltip(this.enumOptionsDebug.getTooltip());
+			return setTooltip(ModRPGHud.instance.settings.getSetting(this.enumOptions).getTooltip());
 		return this;
 	}
 
@@ -129,17 +99,8 @@ public class GuiButtonTooltip extends GuiButton {
 	 * 
 	 * @return the EnumOptionsMod of this button
 	 */
-	public EnumOptionsMod returnOptions() {
+	public String returnOptions() {
 		return this.enumOptions;
-	}
-
-	/**
-	 * Returns the EnumOptionsDebugMod of this button
-	 * 
-	 * @return the EnumOptionsDebugMod of this button
-	 */
-	public EnumOptionsDebugMod returnOptionsDebug() {
-		return this.enumOptionsDebug;
 	}
 
 	/**

@@ -10,6 +10,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.pickup.ItemPickup;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementPickupModern extends HudElement {
 
@@ -19,7 +20,7 @@ public class HudElementPickupModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD() && ModRPGHud.instance.settings.enable_pickup && !ModRPGHud.instance.pickupHandler.getPickups().isEmpty();
+		return this.mc.playerController.shouldDrawHUD() && ModRPGHud.instance.settings.getBoolValue(Settings.enable_pickup) && !ModRPGHud.instance.pickupHandler.getPickups().isEmpty();
 	}
 
 	@Override

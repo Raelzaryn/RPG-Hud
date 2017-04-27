@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementClockVanilla extends HudElement {
 
@@ -15,20 +16,23 @@ public class HudElementClockVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return super.checkConditions() && this.settings.enable_clock && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_clock ? GameData.hasPlayerClock() : true);
+		return super.checkConditions() 
+				&& this.settings.getBoolValue(Settings.enable_clock) 
+				&& !this.mc.gameSettings.showDebugInfo 
+				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? GameData.hasPlayerClock() : true);
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int clockColor = 0xFFFFFF;
-		if (this.settings.enable_clock_color) {
+		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
-		if (this.settings.reduce_size)
+		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.drawString(this.mc.fontRendererObj, getTime(), this.settings.reduce_size ? 8 : 4, this.settings.reduce_size ? 104 : 52, clockColor);
+		gui.drawString(this.mc.fontRendererObj, getTime(), this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4, this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52, clockColor);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		if (this.settings.reduce_size)
+		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 	}
 
@@ -43,7 +47,7 @@ public class HudElementClockVanilla extends HudElement {
 		int currentMin = (int) currentTimeMin;
 		if (currentHour > 24)
 			currentHour -= 24L;
-		if (this.settings.clock_time_format == 0) {
+		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
 			return get24HourTimeForString(currentHour, currentMin);
 		}
 		return get12HourTimeForString(currentHour, currentMin);
