@@ -171,7 +171,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
-				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scale(2.0D, 2.0D, 2.0D);
@@ -199,7 +199,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				RenderHelper.enableGUIStandardItemLighting();
 				GlStateManager.scale(0.5, 0.5, 0.5);
 				this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
-				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scale(2.0, 2.0, 2.0);
@@ -240,7 +240,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				GlStateManager.scale(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
 				this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
-				this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scale(2.0D, 2.0D, 2.0D);
@@ -289,7 +289,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.itemArrow == GameData.nullStack())
 				this.itemArrow = GameData.arrowStack();
 			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
-			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, this.itemArrow, 6, 62 + this.offset);
+			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);

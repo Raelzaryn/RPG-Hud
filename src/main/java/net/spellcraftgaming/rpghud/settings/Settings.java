@@ -12,8 +12,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import scala.actors.threadpool.Arrays;
 
 public class Settings {
 
@@ -22,13 +20,15 @@ public class Settings {
 
 	public static final String hud_type = "hud_type";
 	public static final String enable_button_tooltip = "enable_button_tooltip";
-	public static final String show_update_string = "show_update_string";
+	public static final String show_update_notification = "show_update_notification";
+	public static final String show_convert_notification = "show_convert_notification";
 
 	public static final String reduce_size = "reduce_size";
 	public static final String show_armor = "show_armor";
 	public static final String show_arrow_count = "show_arrow_count";
 	public static final String show_item_durability = "show_item_durability";
 	public static final String show_block_count = "show_block_count";
+	public static final String show_durability_bar = "show_durability_bar";
 
 	public static final String show_numbers_health = "show_numbers_health";
 	public static final String color_health = "color_health";
@@ -81,15 +81,17 @@ public class Settings {
 	}
 
 	public void init() {
-		addSetting(hud_type, new SettingStringVariant(hud_type, 0, new ArrayList<String>(ModRPGHud.instance.huds.keySet())));
+		addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
 		addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
-		addSetting(show_update_string, new SettingBoolean(show_update_string, true));
+		addSetting(show_update_notification, new SettingBoolean(show_update_notification, true));
+		addSetting(show_convert_notification, new SettingBoolean(show_convert_notification, true));
 
 		addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
 		addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));
 		addSetting(show_arrow_count, new SettingBoolean(show_arrow_count, HudElementType.DETAILS, true));
 		addSetting(show_item_durability, new SettingBoolean(show_item_durability, HudElementType.DETAILS, true));
 		addSetting(show_block_count, new SettingBoolean(show_block_count, HudElementType.DETAILS, true));
+		addSetting(show_durability_bar, new SettingBoolean(show_durability_bar, HudElementType.DETAILS, true));
 
 		addSetting(show_numbers_health, new SettingBoolean(show_numbers_health, HudElementType.HEALTH, true));
 		addSetting(color_health, new SettingColor(color_health, HudElementType.HEALTH, HudElement.COLOR_RED));
@@ -108,7 +110,7 @@ public class Settings {
 		addSetting(enable_clock, new SettingBoolean(enable_clock, HudElementType.CLOCK, true));
 		addSetting(enable_clock_color, new SettingBoolean(enable_clock_color, HudElementType.CLOCK, true));
 		addSetting(enable_immersive_clock, new SettingBoolean(enable_immersive_clock, HudElementType.CLOCK, false));
-		addSetting(clock_time_format, new SettingString(clock_time_format, HudElementType.CLOCK, 0, new ArrayList<String>(Arrays.asList(new String[] { "time.24", "time.12" }))));
+		addSetting(clock_time_format, new SettingString(clock_time_format, HudElementType.CLOCK, 0, new String[] { "time.24", "time.12" }));
 
 		addSetting(enable_compass, new SettingBoolean(enable_compass, HudElementType.COMPASS, true));
 		addSetting(enable_compass_color, new SettingBoolean(enable_compass_color, HudElementType.COMPASS, true));
@@ -206,7 +208,7 @@ public class Settings {
 			this.config.get(category, id, (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
 		else if (setting instanceof SettingFloat)
 			this.config.get(category, id, (Float) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Float) setting.getValue());
-		else if (setting instanceof SettingString || setting instanceof SettingStringVariant)
+		else if (setting instanceof SettingString || setting instanceof SettingHudType)
 			this.config.get(category, id, (String) setting.getDefaultValue(), setting.getFormatedTooltip()).set((String) setting.getValue());
 		this.config.save();
 	}
@@ -223,7 +225,7 @@ public class Settings {
 			setting.setValue(this.config.get(category, id, (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).getBoolean());
 		else if (setting instanceof SettingFloat)
 			setting.setValue(this.config.get(category, id, (Float) setting.getDefaultValue(), setting.getFormatedTooltip()).getDouble());
-		else if (setting instanceof SettingString || setting instanceof SettingStringVariant)
+		else if (setting instanceof SettingString || setting instanceof SettingHudType)
 			setting.setValue(this.config.get(category, id, (String) setting.getDefaultValue(), setting.getFormatedTooltip()).getString());
 		this.settings.put(id, setting);
 	}
@@ -237,7 +239,7 @@ public class Settings {
 		String s = I18n.format(setting.getName(), new Object[0]) + ": ";
 		if(setting instanceof SettingBoolean){
 			return s + (setting.getBoolValue() ? I18n.format("options.on", new Object[0]) : I18n.format("options.off", new Object[0]));
-		} else if (setting instanceof SettingString || setting instanceof SettingStringVariant) {
+		} else if (setting instanceof SettingString || setting instanceof SettingHudType) {
 			return s + I18n.format(setting.getStringValue(), new Object[0]);
 		} else if (setting instanceof SettingColor) {
 			return s + intToHexString(setting.getIntValue());

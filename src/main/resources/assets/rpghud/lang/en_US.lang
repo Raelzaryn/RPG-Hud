@@ -58,7 +58,9 @@ name.limit_jump_bar=Limit jumpbar
 name.invert_compass=Invert Compass
 name.enable_entity_inspect=Show Entity Inspect
 name.enable_compass_coordinates=Compass Coordinates
-name.show_update_string=Show Update String
+name.show_update_notification=Update Notification
+name.show_convert_notification=Settings Notification
+name.show_durability_bar=Show Durability Bar
 
 color.red=Red
 color.blue=Blue
@@ -125,7 +127,9 @@ tooltip.limit_jump_bar=Only show the jump bar/nwhen jumping with a horse
 tooltip.invert_compass=Change the left and right/nof the compass
 tooltip.enable_entity_inspect=Toggle the entity/ninspect element
 tooltip.enable_compass_coordinates=Toggle the numerical coordinates/n of the compass
-tooltip.show_update_string=Show the notification in/nthe MainMenu when a new/nversion is available
+tooltip.show_update_notification=Show the notification in/nthe Main Menu when a new/nversion is available
+tooltip.show_convert_notification=Show the notification in/nthe Main Menu when a old/nsettings files are found
+tooltip.show_durability_bar=Show the durability bar of/nitems at the details element
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element

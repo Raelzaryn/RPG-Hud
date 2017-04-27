@@ -13,7 +13,7 @@
     "1.8.9-recomended"  : "3.6.2"
   },
     "1.11.2" : {
-    "3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
+    "3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
     "3.6.1"  : "added compass coordinates toggle",
     "3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -27,7 +27,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.11" : {
-  	"3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
+  	"3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
  	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -41,7 +41,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.10.2" : {
-  	"3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
+  	"3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
   	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
@@ -55,7 +55,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.9.4" : {
-  	"3.6.2"  : "fixed crash when holding food in offhand and no item in mainhand",
+  	"3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
   	"3.6"    : "added entity inspect element\nfixed arrow detail crash",
 	"3.5.2"  : "fixed spectator HUD",
