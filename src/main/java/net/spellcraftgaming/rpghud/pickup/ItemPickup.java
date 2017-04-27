@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.pickup;
 import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class ItemPickup {
 
@@ -13,7 +14,7 @@ public class ItemPickup {
 
 	public ItemPickup(ItemStack item) {
 		this.item = item;
-		this.timer = this.TIMER_TOTAL * GameData.ceil(ModRPGHud.instance.settings.pickup_duration);
+		this.timer = this.TIMER_TOTAL * GameData.ceil(ModRPGHud.instance.settings.getFloatValue(Settings.pickup_duration));
 	}
 
 	public boolean onUpdate() {
@@ -26,7 +27,7 @@ public class ItemPickup {
 
 	public void addItems(int count) {
 		this.item = GameData.setItemStackSize(this.item, GameData.getItemStackSize(this.item) + count);
-		this.timer = this.TIMER_TOTAL * GameData.ceil(ModRPGHud.instance.settings.pickup_duration);
+		this.timer = this.TIMER_TOTAL * GameData.ceil(ModRPGHud.instance.settings.getFloatValue(Settings.pickup_duration));
 	}
 
 	public ItemStack getItem() {

@@ -8,97 +8,32 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import net.spellcraftgaming.rpghud.settings.ModSettings;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
-	public enum EnumColor {
-		EXPERIENCE,
-		BREATH,
-		HEALTH,
-		JUMPBAR,
-		STAMINA,
-		POISON,
-		HUNGER,
-		ABSORPTION,
-		WITHER;
-	}
-
 	private GuiTextField colorCodeField;
 	private GuiScreen parent;
-	private int parentSubtype;
-	private EnumColor colorType;
+	private String colorType;
 	private int colorR;
 	private int colorG;
 	private int colorB;
 	private int color;
 	private String title = "";
 
-	public GuiSettingsModColor(GuiScreen parent, int parentSubtype, EnumColor color) {
+	public GuiSettingsModColor(GuiScreen parent, String color) {
 		this.parent = parent;
-		this.parentSubtype = parentSubtype;
 		this.colorType = color;
 		setColors();
 		this.title = setTitle() + " " + I18n.format("gui.rpg.editor", new Object[0]);
 	}
 
 	private String setTitle() {
-		switch (this.colorType) {
-		case EXPERIENCE:
-			return I18n.format("name.color_exp", new Object[0]);
-		case BREATH:
-			return I18n.format("name.color_air", new Object[0]);
-		case HEALTH:
-			return I18n.format("name.color_health", new Object[0]);
-		case JUMPBAR:
-			return I18n.format("name.color_jumpbar", new Object[0]);
-		case STAMINA:
-			return I18n.format("name.color_stamina", new Object[0]);
-		case POISON:
-			return I18n.format("name.color_poison", new Object[0]);
-		case HUNGER:
-			return I18n.format("name.color_hunger", new Object[0]);
-		case ABSORPTION:
-			return I18n.format("name.color_absorption", new Object[0]);
-		case WITHER:
-			return I18n.format("name.color_wither", new Object[0]);
-		default:
-			return "";
-		}
+		return I18n.format("name." + this.color, new Object[0]);
 	}
 
 	private void setColors() {
-		int color = 0;
-
-		switch (this.colorType) {
-		case EXPERIENCE:
-			color = ModRPGHud.instance.settings.color_experience;
-			break;
-		case BREATH:
-			color = ModRPGHud.instance.settings.color_air;
-			break;
-		case HEALTH:
-			color = ModRPGHud.instance.settings.color_health;
-			break;
-		case JUMPBAR:
-			color = ModRPGHud.instance.settings.color_jumpbar;
-			break;
-		case STAMINA:
-			color = ModRPGHud.instance.settings.color_stamina;
-			break;
-		case POISON:
-			color = ModRPGHud.instance.settings.color_poison;
-			break;
-		case HUNGER:
-			color = ModRPGHud.instance.settings.color_hunger;
-			break;
-		case ABSORPTION:
-			color = ModRPGHud.instance.settings.color_absorption;
-			break;
-		case WITHER:
-			color = ModRPGHud.instance.settings.color_wither;
-			break;
-		}
+		int color = ModRPGHud.instance.settings.getIntValue(this.colorType);
 
 		this.color = color;
 		this.colorR = (color >> 16 & 255);
@@ -107,35 +42,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	}
 
 	private void setSettingColor() {
-		switch (this.colorType) {
-		case EXPERIENCE:
-			ModRPGHud.instance.settings.color_experience = this.color;
-			break;
-		case BREATH:
-			ModRPGHud.instance.settings.color_air = this.color;
-			break;
-		case HEALTH:
-			ModRPGHud.instance.settings.color_health = this.color;
-			break;
-		case STAMINA:
-			ModRPGHud.instance.settings.color_stamina = this.color;
-			break;
-		case JUMPBAR:
-			ModRPGHud.instance.settings.color_jumpbar = this.color;
-			break;
-		case POISON:
-			ModRPGHud.instance.settings.color_poison = this.color;
-			break;
-		case HUNGER:
-			ModRPGHud.instance.settings.color_hunger = this.color;
-			break;
-		case ABSORPTION:
-			ModRPGHud.instance.settings.color_absorption = this.color;
-			break;
-		case WITHER:
-			ModRPGHud.instance.settings.color_wither = this.color;
-			break;
-		}
+		ModRPGHud.instance.settings.setSetting(this.colorType, this.color);
 	}
 
 	@Override
@@ -145,7 +52,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.buttonList.add(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F));
 
 		this.colorCodeField = new GuiTextField(5, this.fontRendererObj, this.width / 2 - 74, 115, 147, 20);
-		this.colorCodeField.setText(ModSettings.intToHexString(this.color));
+		this.colorCodeField.setText(Settings.intToHexString(this.color));
 
 		this.buttonList.add(new GuiButtonTooltip(10, this.width / 4 * 3 - 20, 30 + 10, 60, 20, I18n.format("color.red", new Object[0])));
 		this.buttonList.add(new GuiButtonTooltip(11, this.width / 4 * 3 - 20, 50 + 10, 60, 20, I18n.format("color.pink", new Object[0])));
@@ -194,10 +101,10 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_YELLOW);
 			} else if (button.id == 250) {
 				setSettingColor();
-				this.mc.displayGuiScreen(new GuiSettingsModSub(this.parent, this.parentSubtype));
-				ModRPGHud.instance.settings.saveOptions();
+				this.mc.displayGuiScreen(this.parent);
+				ModRPGHud.instance.settings.saveSetting(this.colorType);
 			} else if (button.id == 251) {
-				this.mc.displayGuiScreen(new GuiSettingsModSub(this.parent, this.parentSubtype));
+				this.mc.displayGuiScreen(this.parent);
 			}
 		}
 	}
@@ -213,7 +120,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.colorB = (this.color & 255);
 		((GuiSliderMod) this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
 		((GuiSliderMod) this.buttonList.get(2)).value = this.colorB;
-		this.colorCodeField.setText(ModSettings.intToHexString(this.color));
+		this.colorCodeField.setText(Settings.intToHexString(this.color));
 	}
 
 	@Override
@@ -238,7 +145,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			}
 			this.colorCodeField.setText(this.colorCodeField.getText().toUpperCase());
 		} else {
-			this.colorCodeField.setText(ModSettings.intToHexString(this.color));
+			this.colorCodeField.setText(Settings.intToHexString(this.color));
 			this.colorR = ((GuiSliderMod) this.buttonList.get(0)).getValue();
 			this.colorG = ((GuiSliderMod) this.buttonList.get(1)).getValue();
 			this.colorB = ((GuiSliderMod) this.buttonList.get(2)).getValue();
@@ -285,7 +192,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.drawCenteredString(this.fontRendererObj, I18n.format("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
 		this.drawCenteredString(this.fontRendererObj, I18n.format("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
 		this.colorCodeField.drawTextBox();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("gui.rpg.result", new Object[0]) + ": " + ModSettings.intToHexString(this.color), this.width / 2, 141, -1);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}

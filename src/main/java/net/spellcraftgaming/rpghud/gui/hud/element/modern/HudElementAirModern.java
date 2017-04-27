@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementAirModern extends HudElement {
 
@@ -30,6 +31,6 @@ public class HudElementAirModern extends HudElement {
 		drawRect(width / 2 - 72, height - 76, 2, 6, 0xA0000000);
 		drawRect(width / 2 + 70, height - 76, 2, 6, 0xA0000000);
 		drawRect(width / 2 - 70, height - 76, 140, 6, 0x20FFFFFF);
-		drawRect(width / 2 - 70, height - 76, (int) (140 * (airAmount / 300.0D)), 6, this.settings.color_air);
+		drawRect(width / 2 - 70, height - 76, (int) (140 * (airAmount / 300.0D)), 6, this.settings.getIntValue(Settings.color_air));
 	}
 }
