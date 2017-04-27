@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthTexture extends HudElement {
 
@@ -23,8 +24,8 @@ public class HudElementHealthTexture extends HudElement {
 		GlStateManager.color(1f, 1f, 1f);
 		int health = GameData.getPlayerHealth();
 		int healthMax = GameData.getPlayerMaxHealth();
-		int posX = this.settings.render_player_face ? 49 : 25;
-		int posY = this.settings.render_player_face ? 9 : 5;
+		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
+		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5;
 		int absorption = GameData.getPlayerAbsorption();
 		if (absorption > 1)
 			gui.drawTexturedModalRect(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
@@ -37,7 +38,7 @@ public class HudElementHealthTexture extends HudElement {
 		}
 
 		String stringHealth = (health + absorption) + "/" + healthMax;
-		if (this.settings.show_numbers_health)
+		if (this.settings.getBoolValue(Settings.show_numbers_health))
 			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);
 		GameData.bindIcons();

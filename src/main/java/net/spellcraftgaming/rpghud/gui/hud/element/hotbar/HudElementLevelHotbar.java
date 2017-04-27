@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementLevelHotbar extends HudElement {
 
@@ -24,7 +25,7 @@ public class HudElementLevelHotbar extends HudElement {
 		int height = res.getScaledHeight();
 		GlStateManager.disableBlend();
 		String level = String.valueOf(GameData.getPlayerXPLevel());
-		this.mc.fontRendererObj.drawStringWithShadow(level, (this.settings.render_player_face ? 25 : 13) - this.mc.fontRendererObj.getStringWidth(level) / 2, height - (this.settings.render_player_face ? 22 : 40), 0x80FF20);
+		this.mc.fontRendererObj.drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) - this.mc.fontRendererObj.getStringWidth(level) / 2, height - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40), 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementFoodTexture extends HudElement {
 
@@ -25,12 +26,12 @@ public class HudElementFoodTexture extends HudElement {
 		GlStateManager.color(1f, 1f, 1f);
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
-		int posX = this.settings.render_player_face ? 49 : 25;
-		int posY = this.settings.render_player_face ? 22 : 18;
+		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
+		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 22 : 18;
 		ItemStack itemMain = GameData.getMainhand();
 		ItemStack itemSec = GameData.getOffhand();
 
-		if (GameData.doesPlayerNeedFood() && this.settings.show_hunger_preview) {
+		if (GameData.doesPlayerNeedFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
 			if (itemMain != GameData.nullStack() && itemMain.getItem() instanceof ItemFood) {
 				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
@@ -51,7 +52,7 @@ public class HudElementFoodTexture extends HudElement {
 			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double) foodMax)), 12);
 		}
 		String staminaString = stamina + "/" + foodMax;
-		if (this.settings.show_numbers_stamina)
+		if (this.settings.getBoolValue(Settings.show_numbers_food))
 			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);
 		GameData.bindIcons();

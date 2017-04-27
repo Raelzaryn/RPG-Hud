@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementAirDefault extends HudElement {
 
@@ -26,7 +27,7 @@ public class HudElementAirDefault extends HudElement {
 		int adjustedWidth = width / 2 - 91;
 		int airAmount = GameData.getPlayerAir();
 		GlStateManager.disableLighting();
-		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, this.settings.color_air, offsetColorPercent(this.settings.color_air, OFFSET_PERCENT));
+		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, this.settings.getIntValue(Settings.color_air), offsetColorPercent(this.settings.getIntValue(Settings.color_air), OFFSET_PERCENT));
 	}
 
 }

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementClockModern extends HudElementClockVanilla {
 
@@ -19,24 +20,24 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.enable_clock && !this.mc.gameSettings.showDebugInfo && (this.settings.enable_immersive_clock ? GameData.hasPlayerClock() : true);
+		return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.gameSettings.showDebugInfo && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? GameData.hasPlayerClock() : true);
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		int yOffset = (this.settings.render_player_face ? 0 : 8) + ((this.settings.show_numbers_health && this.settings.show_numbers_stamina) ? 0 : 4);
+		int yOffset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 8) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 4);
 		int clockColor = 0xFFFFFF;
-		if (this.settings.enable_clock_color) {
+		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
-		if (this.settings.clock_time_format == 0) {
+		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
 			drawRect(2, 23 + yOffset, 20, 6, 0xA0000000);
 		} else {
 			drawRect(2, 23 + yOffset, 23, 6, 0xA0000000);
 		}
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 
-		if (this.settings.clock_time_format == 0) {
+		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
 			gui.drawCenteredString(this.mc.fontRendererObj, getTime(), 24, 48 + 2 * yOffset, clockColor);
 		} else {
 			gui.drawCenteredString(this.mc.fontRendererObj, getTime(), 28, 48 + 2 * yOffset, clockColor);

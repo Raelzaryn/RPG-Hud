@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLiving;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
@@ -22,7 +23,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
 			drawTetragon(width - 30, width - 30, 32, 32, 90, 76, 10, 10, 0xA0000000);
 			drawTetragon(width - 30, width - 30, 33, 33, 84, 74, 6, 6, 0x20FFFFFF);
 
-			drawTetragon(width - 30, width - 30, 33, 33, (int) (84 * ((double) focused.getHealth() / (double) focused.getMaxHealth())), (int) (84 * ((double) focused.getHealth() / (double) focused.getMaxHealth())) - 10, 6, 6, this.settings.color_health);
+			drawTetragon(width - 30, width - 30, 33, 33, (int) (84 * ((double) focused.getHealth() / (double) focused.getMaxHealth())), (int) (84 * ((double) focused.getHealth() / (double) focused.getMaxHealth())) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));
 
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 
