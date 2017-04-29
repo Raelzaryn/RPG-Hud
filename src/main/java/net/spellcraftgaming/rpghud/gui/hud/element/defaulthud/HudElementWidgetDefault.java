@@ -20,7 +20,7 @@ public class HudElementWidgetDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		bind(INTERFACE);
 		gui.drawTexturedModalRect(this.settings.getBoolValue(Settings.render_player_face) ? 50 : 25, this.settings.getBoolValue(Settings.render_player_face) ? 8 : 0, 0, 0, 114, 35);
 		if (GameData.isRidingLivingMount()) {

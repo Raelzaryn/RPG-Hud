@@ -19,10 +19,11 @@ public class HudElementHotbarHotbar extends HudElement {
 
 	public HudElementHotbarHotbar() {
 		super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		if (this.mc.playerController.isSpectator()) {
 			((GuiIngameRPGHud) gui).getSpectatorGui().renderTooltip(res, partialTicks);

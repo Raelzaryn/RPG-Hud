@@ -22,7 +22,7 @@ public class HudElementChatHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		GuiIngameRPGHud guiIngame = (GuiIngameRPGHud) gui;
 		int i = guiIngame.getChat().getLineCount();
 		int j = guiIngame.getChat().getDrawnChatLines().size();

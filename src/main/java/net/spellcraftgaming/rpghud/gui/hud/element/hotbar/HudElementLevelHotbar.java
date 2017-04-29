@@ -12,6 +12,7 @@ public class HudElementLevelHotbar extends HudElement {
 
 	public HudElementLevelHotbar() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class HudElementLevelHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		GlStateManager.disableBlend();

@@ -15,6 +15,7 @@ public class HudElementFoodModern extends HudElement {
 
 	public HudElementFoodModern() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -23,7 +24,7 @@ public class HudElementFoodModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		int stamina = GameData.getPlayerFood();
 		int staminaMax = GameData.getPlayerMaxFood();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();

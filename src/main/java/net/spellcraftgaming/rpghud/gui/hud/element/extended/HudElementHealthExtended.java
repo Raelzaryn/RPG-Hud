@@ -10,6 +10,7 @@ public class HudElementHealthExtended extends HudElement {
 
 	public HudElementHealthExtended() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -18,7 +19,7 @@ public class HudElementHealthExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		int health = GameData.getPlayerHealth();
 		int absorption = GameData.getPlayerAbsorption();
 		int healthMax = GameData.getPlayerMaxHealth();

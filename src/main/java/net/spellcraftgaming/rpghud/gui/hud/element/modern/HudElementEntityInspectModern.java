@@ -11,7 +11,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		EntityLiving focused = GameData.getFocusedEntity(GameData.getPlayer());
 		if (focused != null) {
 			ScaledResolution res = new ScaledResolution(this.mc);

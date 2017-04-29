@@ -21,7 +21,7 @@ public class HudElementHealthMountVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		Entity tmp = GameData.getMount();
 		if (!(tmp instanceof EntityLivingBase))

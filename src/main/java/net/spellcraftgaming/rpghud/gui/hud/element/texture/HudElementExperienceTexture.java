@@ -11,6 +11,7 @@ public class HudElementExperienceTexture extends HudElement {
 
 	public HudElementExperienceTexture() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -19,7 +20,7 @@ public class HudElementExperienceTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		int exp = GameData.getPlayerXP();

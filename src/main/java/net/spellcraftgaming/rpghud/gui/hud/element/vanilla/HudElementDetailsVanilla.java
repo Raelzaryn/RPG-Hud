@@ -38,7 +38,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		this.offset = 0;
 		if (gui instanceof GuiIngameRPGHud) {
 			if (this.settings.getBoolValue(Settings.show_armor)) {

@@ -11,6 +11,7 @@ public class HudElementExperienceExtended extends HudElement {
 
 	public HudElementExperienceExtended() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -19,7 +20,7 @@ public class HudElementExperienceExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		int exp = GameData.getPlayerXPCap();
 		double full = 100D / GameData.getPlayerXPCap();
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;

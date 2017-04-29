@@ -16,7 +16,7 @@ public class HudElementCrosshairVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 
 		GameSettings gamesettings = this.mc.gameSettings;

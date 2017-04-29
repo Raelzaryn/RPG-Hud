@@ -12,6 +12,7 @@ public class HudElementHealthMountTexture extends HudElement {
 
 	public HudElementHealthMountTexture() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class HudElementHealthMountTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();

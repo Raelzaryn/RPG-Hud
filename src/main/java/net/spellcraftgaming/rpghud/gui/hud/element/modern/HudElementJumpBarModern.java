@@ -19,7 +19,7 @@ public class HudElementJumpBarModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int width = res.getScaledWidth();

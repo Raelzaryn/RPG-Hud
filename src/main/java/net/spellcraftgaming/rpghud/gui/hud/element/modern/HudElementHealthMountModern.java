@@ -14,6 +14,7 @@ public class HudElementHealthMountModern extends HudElement {
 
 	public HudElementHealthMountModern() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -22,7 +23,7 @@ public class HudElementHealthMountModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();

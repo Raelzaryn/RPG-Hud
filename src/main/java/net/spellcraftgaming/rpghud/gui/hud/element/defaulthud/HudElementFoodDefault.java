@@ -12,6 +12,7 @@ public class HudElementFoodDefault extends HudElement {
 
 	public HudElementFoodDefault() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class HudElementFoodDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 24;

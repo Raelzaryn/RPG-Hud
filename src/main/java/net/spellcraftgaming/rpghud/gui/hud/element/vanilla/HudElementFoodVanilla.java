@@ -22,7 +22,7 @@ public class HudElementFoodVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
 		EntityPlayer player = GameData.getPlayer();
 		ScaledResolution res = new ScaledResolution(this.mc);

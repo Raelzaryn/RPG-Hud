@@ -13,6 +13,7 @@ public class HudElementLevelModern extends HudElement {
 
 	public HudElementLevelModern() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -21,7 +22,7 @@ public class HudElementLevelModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		String level = String.valueOf(GameData.getPlayerXPLevel());
 		int width = 18;
 		if (this.mc.fontRendererObj.getStringWidth(level) > (width + 2))

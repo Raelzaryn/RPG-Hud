@@ -12,6 +12,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 
 	public HudElementHealthMountHotbar() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();

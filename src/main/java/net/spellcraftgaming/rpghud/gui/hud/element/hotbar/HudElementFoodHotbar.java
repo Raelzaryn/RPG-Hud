@@ -13,6 +13,7 @@ public class HudElementFoodHotbar extends HudElement {
 
 	public HudElementFoodHotbar() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -21,7 +22,7 @@ public class HudElementFoodHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
 		ScaledResolution res = new ScaledResolution(this.mc);

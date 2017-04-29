@@ -89,9 +89,8 @@ public abstract class HudElement {
 
 	/** The Mod settings */
 	protected Settings settings;
-
-	protected double scale;
-	protected double scaleInverted;
+	
+	protected HudElementType parent;
 
 	/**
 	 * Constructor
@@ -121,23 +120,28 @@ public abstract class HudElement {
 		this.mc = Minecraft.getMinecraft();
 		this.rpgHud = ModRPGHud.instance;
 		this.settings = this.rpgHud.settings;
-		this.scale = 1D;
-		this.scaleInverted = 1D / this.scale;
+		this.parent = this.type;
 	}
 
 	/**
 	 * Function called to draw this element on the screen
 	 */
 	public void draw(Gui gui, float zLevel, float partialTicks) {
+		
+		double scale = 1D;
+		if(this.settings.doesSettingExist(Settings.scale + "_" + this.parent.name().toLowerCase())) {
+			scale = this.settings.getDoubleValue(Settings.scale + "_" + this.parent.name().toLowerCase());
+		}
+		double scaleInverted = 1 / scale;
+		
+		GlStateManager.scale(scale, scale, scale);
 
-		GlStateManager.scale(this.scale, this.scale, this.scale);
+		this.drawElement(gui, zLevel, partialTicks, scaleInverted);
 
-		this.drawElement(gui, zLevel, partialTicks);
-
-		GlStateManager.scale(this.scaleInverted, this.scaleInverted, this.scaleInverted);
+		GlStateManager.scale(scaleInverted, scaleInverted, scaleInverted);
 	}
 
-	public abstract void drawElement(Gui gui, float zLevel, float partialTicks);
+	public abstract void drawElement(Gui gui, float zLevel, float partialTicks, double scale);
 
 	/**
 	 * Returns the x coordinate of this element

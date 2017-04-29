@@ -27,6 +27,11 @@ public abstract class Setting {
 		return null;
 	}
 	
+	public Double getDoubleValue(){
+		if(getValue() instanceof Double) return (Double) getValue();
+		return null;
+	}
+	
 	public Boolean getBoolValue(){
 		if(getValue() instanceof Boolean) return (Boolean) getValue();
 		return null;

@@ -71,6 +71,11 @@ public class Settings {
 	public static final String render_vanilla = "render_vanilla";
 	public static final String prevent_event = "prevent_event";
 	public static final String prevent_element_render = "prevent_element_render";
+	
+	public static final String use_position = "use_position";
+	public static final String x_pos = "x_pos";
+	public static final String y_pos = "y_pos";
+	public static final String scale = "scale";
 
 	public Settings() {
 		this.config = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD", "settings.cfg"));
@@ -130,6 +135,20 @@ public class Settings {
 
 		addSetting(color_air, new SettingColor(color_air, HudElementType.AIR, HudElement.COLOR_BLUE));
 
+		addPositionSettings(HudElementType.AIR);
+		addPositionSettings(HudElementType.ARMOR);
+		addPositionSettings(HudElementType.CHAT);
+		addPositionSettings(HudElementType.CLOCK);
+		addPositionSettings(HudElementType.COMPASS);
+		addPositionSettings(HudElementType.DETAILS);
+		addPositionSettings(HudElementType.ENTITY_INSPECT);
+		addPositionSettings(HudElementType.EXPERIENCE);
+		addPositionSettings(HudElementType.HOTBAR);
+		addPositionSettings(HudElementType.JUMP_BAR);
+		addPositionSettings(HudElementType.LEVEL);
+		addPositionSettings(HudElementType.PICKUP);
+		addPositionSettings(HudElementType.WIDGET);
+		
 		addDebugSettings(HudElementType.CROSSHAIR);
 		addDebugSettings(HudElementType.ARMOR);
 		addDebugSettings(HudElementType.HOTBAR);
@@ -141,6 +160,7 @@ public class Settings {
 		addDebugSettings(HudElementType.HEALTH_MOUNT);
 		addDebugSettings(HudElementType.JUMP_BAR);
 		addDebugSettings(HudElementType.CHAT);
+		
 	}
 
 	public void addDebugSettings(HudElementType type) {
@@ -148,6 +168,13 @@ public class Settings {
 		addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBoolean(render_vanilla, type, false));
 		addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_event, type, false));
 		addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_element_render, type, false));
+	}
+	
+	public void addPositionSettings(HudElementType type) {
+		addSetting(use_position + "_" + type.name().toLowerCase(), new SettingBoolean(use_position, type, false));
+		addSetting(x_pos + "_" + type.name().toLowerCase(), new SettingInteger(x_pos, type, 0, 0, 1000));
+		addSetting(y_pos + "_" + type.name().toLowerCase(), new SettingInteger(y_pos, type, 0, 0, 1000));
+		addSetting(scale + "_" + type.name().toLowerCase(), new SettingDouble(scale, type, 1D, 0.25D, 4D, 0.25D));
 	}
 
 	public Setting getSetting(String id) {
@@ -160,6 +187,10 @@ public class Settings {
 
 	public Integer getIntValue(String i) {
 		return this.settings.get(i).getIntValue();
+	}
+	
+	public Double getDoubleValue(String i) {
+		return this.settings.get(i).getDoubleValue();
 	}
 
 	public Boolean getBoolValue(String i) {
@@ -210,6 +241,8 @@ public class Settings {
 			this.config.get(category, id, (Float) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Float) setting.getValue());
 		else if (setting instanceof SettingString || setting instanceof SettingHudType)
 			this.config.get(category, id, (String) setting.getDefaultValue(), setting.getFormatedTooltip()).set((String) setting.getValue());
+		else if (setting instanceof SettingDouble)
+			this.config.get(category, id, (Double) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Double) setting.getValue());
 		this.config.save();
 	}
 
@@ -227,6 +260,8 @@ public class Settings {
 			setting.setValue(this.config.get(category, id, (Float) setting.getDefaultValue(), setting.getFormatedTooltip()).getDouble());
 		else if (setting instanceof SettingString || setting instanceof SettingHudType)
 			setting.setValue(this.config.get(category, id, (String) setting.getDefaultValue(), setting.getFormatedTooltip()).getString());
+		else if (setting instanceof SettingDouble)
+			setting.setValue(this.config.get(category, id, (Double) setting.getDefaultValue(), setting.getFormatedTooltip()).getString());
 		this.settings.put(id, setting);
 	}
 	
@@ -248,6 +283,8 @@ public class Settings {
 		} else if (setting instanceof SettingFloat) {
 			SettingFloat sf = (SettingFloat) setting;
 			return s + (id == pickup_duration ? GameData.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
+		} else if (setting instanceof SettingDouble) {
+			return s + setting.getDoubleValue();
 		} else {
 			return s + "error";
 		}

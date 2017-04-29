@@ -6,12 +6,12 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingFloat;
 
-public class GuiSliderSetting extends GuiButtonTooltip {
+public class GuiSliderSettingFloat extends GuiButtonTooltip {
 
 	private float sliderValue;
 	public boolean dragging;
 
-	public GuiSliderSetting(int buttonId, int x, int y, String optionIn) {
+	public GuiSliderSettingFloat(int buttonId, int x, int y, String optionIn) {
 		super(buttonId, x, y, optionIn, "");
 		this.sliderValue = 1.0F;
 		this.sliderValue = SettingFloat.normalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(optionIn), ModRPGHud.instance.settings.getFloatValue(optionIn));

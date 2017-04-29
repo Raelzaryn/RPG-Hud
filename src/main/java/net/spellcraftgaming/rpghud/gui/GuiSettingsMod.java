@@ -7,7 +7,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Setting;
 import net.spellcraftgaming.rpghud.settings.SettingColor;
+import net.spellcraftgaming.rpghud.settings.SettingDouble;
+import net.spellcraftgaming.rpghud.settings.SettingFloat;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiSettingsMod extends GuiScreenTooltip {
@@ -53,8 +56,17 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		} else {
 			List<String> settings = this.settings.getSettingsOf(this.subSetting);
 			for(int i = 0; i < settings.size(); i++){
-				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i), this.settings.getButtonString(settings.get(i))).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
-				this.buttonList.add(guismallbutton);
+				Setting setting = this.settings.getSetting(settings.get(i));
+				if(setting instanceof SettingDouble){
+					GuiSliderSettingDouble guismallbutton = (GuiSliderSettingDouble) new GuiSliderSettingDouble(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i)).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
+					this.buttonList.add(guismallbutton);
+				} else if(setting instanceof SettingFloat){
+					GuiSliderSettingFloat guismallbutton = (GuiSliderSettingFloat) new GuiSliderSettingFloat(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i)).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
+					this.buttonList.add(guismallbutton);
+				} else {
+					GuiButtonTooltip guismallbutton = new GuiButtonTooltip(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i), this.settings.getButtonString(settings.get(i))).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
+					this.buttonList.add(guismallbutton);
+				}
 			}
 		}
 

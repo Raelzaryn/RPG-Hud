@@ -20,7 +20,7 @@ public class HudElementCompassModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth() / 2;
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;

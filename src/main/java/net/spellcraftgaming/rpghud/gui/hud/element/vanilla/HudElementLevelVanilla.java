@@ -19,7 +19,7 @@ public class HudElementLevelVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		GlStateManager.disableBlend();
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();

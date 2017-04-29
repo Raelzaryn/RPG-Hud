@@ -11,6 +11,7 @@ public class HudElementArmorHotbar extends HudElement {
 
 	public HudElementArmorHotbar() {
 		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -19,7 +20,7 @@ public class HudElementArmorHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int left = this.settings.getBoolValue(Settings.render_player_face) ? 46 : 22;

@@ -11,6 +11,7 @@ public class HudElementHealthHotbar extends HudElement {
 
 	public HudElementHealthHotbar() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
+		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -19,7 +20,7 @@ public class HudElementHealthHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		int health = GameData.getPlayerHealth();

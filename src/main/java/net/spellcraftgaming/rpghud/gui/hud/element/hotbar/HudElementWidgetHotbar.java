@@ -22,7 +22,7 @@ public class HudElementWidgetHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();

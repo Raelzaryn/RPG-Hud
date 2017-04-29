@@ -26,7 +26,7 @@ public class HudElementHotbarDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		if (this.mc.playerController.isSpectator()) {
 			((GuiIngameRPGHud) gui).getSpectatorGui().renderTooltip(res, partialTicks);

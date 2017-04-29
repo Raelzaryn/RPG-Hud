@@ -21,7 +21,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
