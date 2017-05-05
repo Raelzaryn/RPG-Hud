@@ -29,11 +29,11 @@ public class HudElementArmorVanilla extends HudElement {
 		int level = GameData.getPlayerArmor();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);
+				drawTexturedModalRect(gui, left, top, 34, 9, 9, 9, scale);
 			} else if (i == level) {
-				gui.drawTexturedModalRect(left, top, 25, 9, 9, 9);
+				drawTexturedModalRect(gui, left, top, 25, 9, 9, 9, scale);
 			} else if (i > level) {
-				gui.drawTexturedModalRect(left, top, 16, 9, 9, 9);
+				drawTexturedModalRect(gui, left, top, 16, 9, 9, 9, scale);
 			}
 			left += 8;
 		}

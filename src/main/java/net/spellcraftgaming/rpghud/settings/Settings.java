@@ -171,9 +171,9 @@ public class Settings {
 	}
 	
 	public void addPositionSettings(HudElementType type) {
-		addSetting(use_position + "_" + type.name().toLowerCase(), new SettingBoolean(use_position, type, false));
-		addSetting(x_pos + "_" + type.name().toLowerCase(), new SettingInteger(x_pos, type, 0, 0, 1000));
-		addSetting(y_pos + "_" + type.name().toLowerCase(), new SettingInteger(y_pos, type, 0, 0, 1000));
+		//addSetting(use_position + "_" + type.name().toLowerCase(), new SettingBoolean(use_position, type, false));
+		//addSetting(x_pos + "_" + type.name().toLowerCase(), new SettingInteger(x_pos, type, 0, 0, 1000));
+		//addSetting(y_pos + "_" + type.name().toLowerCase(), new SettingInteger(y_pos, type, 0, 0, 1000));
 		addSetting(scale + "_" + type.name().toLowerCase(), new SettingDouble(scale, type, 1D, 0.25D, 4D, 0.25D));
 	}
 

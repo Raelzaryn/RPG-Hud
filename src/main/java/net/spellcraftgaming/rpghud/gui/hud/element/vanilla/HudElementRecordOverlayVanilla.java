@@ -43,7 +43,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
 				l = GameData.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
 			}
 
-			this.mc.fontRendererObj.drawString(GameData.getOverlayText(guiIngame), -this.mc.fontRendererObj.getStringWidth(GameData.getOverlayText(guiIngame)) / 2, -4, l + (l1 << 24 & -16777216));
+			drawString(this.mc.fontRendererObj, GameData.getOverlayText(guiIngame), -this.mc.fontRendererObj.getStringWidth(GameData.getOverlayText(guiIngame)) / 2, -4, l + (l1 << 24 & -16777216), scale);
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 		}

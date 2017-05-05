@@ -25,7 +25,7 @@ public class HudElementJumpBarDefault extends HudElement {
 		int center = res.getScaledWidth() / 2;
 		float jumpPower = GameData.getHorseJumpPower();
 		int value = (int) (jumpPower * 100.0F);
-		drawCustomBar(center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.getIntValue(Settings.color_jump_bar), offsetColorPercent(this.settings.getIntValue(Settings.color_jump_bar), OFFSET_PERCENT));
+		drawCustomBar(center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.getIntValue(Settings.color_jump_bar), offsetColorPercent(this.settings.getIntValue(Settings.color_jump_bar), OFFSET_PERCENT), scale);
 	}
 
 }

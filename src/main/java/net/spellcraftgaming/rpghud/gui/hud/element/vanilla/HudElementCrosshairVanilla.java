@@ -40,7 +40,7 @@ public class HudElementCrosshairVanilla extends HudElement {
 			} else {
 				GameData.tryBlendFuncSeparate();
 				GlStateManager.enableAlpha();
-				gui.drawTexturedModalRect(l / 2 - 7, i1 / 2 - 7, 0, 0, 16, 16);
+				drawTexturedModalRect(gui, l / 2 - 7, i1 / 2 - 7, 0, 0, 16, 16, scale);
 				if (GameData.getAttackIndicatorSetting() == 1) {
 					float f = GameData.getCooledAttackStrength();
 
@@ -48,8 +48,8 @@ public class HudElementCrosshairVanilla extends HudElement {
 						int i = i1 / 2 - 7 + 16;
 						int j = l / 2 - 7;
 						int k = (int) (f * 17.0F);
-						gui.drawTexturedModalRect(j, i, 36, 94, 16, 4);
-						gui.drawTexturedModalRect(j, i, 52, 94, k, 4);
+						drawTexturedModalRect(gui, j, i, 36, 94, 16, 4, scale);
+						drawTexturedModalRect(gui, j, i, 52, 94, k, 4, scale);
 					}
 				}
 			}

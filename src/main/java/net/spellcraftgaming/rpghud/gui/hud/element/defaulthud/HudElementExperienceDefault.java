@@ -28,11 +28,11 @@ public class HudElementExperienceDefault extends HudElement {
 		int expCap = GameData.getPlayerXPCap();
 		double full = 100D / expCap;
 		GlStateManager.disableLighting();
-		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
+		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25), scale);
 		String stringExp = exp + "/" + expCap;
 		int var7 = width / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, var7, height - 9, -1);
+			drawCenteredString(gui, this.mc.fontRendererObj, stringExp, var7, height - 9, -1, scale);
 	}
 
 }

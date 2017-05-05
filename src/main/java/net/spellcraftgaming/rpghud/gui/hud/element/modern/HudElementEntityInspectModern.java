@@ -35,7 +35,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
 			int y = 23;
 			this.mc.fontRendererObj.drawString(focused.getName(), x, y, -1);
 
-			drawEntityOnScreen(width - 60 + 14, 22 + 25, focused);
+			drawEntityOnScreen(width - 60 + 14, 22 + 25, focused, scale);
 		}
 	}
 

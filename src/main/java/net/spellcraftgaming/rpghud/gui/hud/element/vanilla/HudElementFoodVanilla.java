@@ -55,12 +55,12 @@ public class HudElementFoodVanilla extends HudElement {
 				y = top + ((new Random()).nextInt(3) - 1);
 			}
 
-			gui.drawTexturedModalRect(x, y, 16 + background * 9, 27, 9, 9);
+			drawTexturedModalRect(gui, x, y, 16 + background * 9, 27, 9, 9, scale);
 
 			if (idx < level)
-				gui.drawTexturedModalRect(x, y, icon + 36, 27, 9, 9);
+				drawTexturedModalRect(gui, x, y, icon + 36, 27, 9, 9, scale);
 			else if (idx == level)
-				gui.drawTexturedModalRect(x, y, icon + 45, 27, 9, 9);
+				drawTexturedModalRect(gui, x, y, icon + 45, 27, 9, 9, scale);
 		}
 	}
 

@@ -34,14 +34,14 @@ public class HudElementHotbarVanilla extends HudElement {
 			int i = res.getScaledWidth() / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
-			gui.drawTexturedModalRect(i - 91, res.getScaledHeight() - 22, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+			drawTexturedModalRect(gui, i - 91, res.getScaledHeight() - 22, 0, 0, 182, 22, scale);
+			drawTexturedModalRect(gui, i - 91 - 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 22 - 1, 0, 22, 24, 22, scale);
 
 			if (itemstack != null) {
 				if (enumhandside == 0) {
-					gui.drawTexturedModalRect(i - 91 - 29, res.getScaledHeight() - 23, 24, 22, 29, 24);
+					drawTexturedModalRect(gui,i - 91 - 29, res.getScaledHeight() - 23, 24, 22, 29, 24, scale);
 				} else {
-					gui.drawTexturedModalRect(i + 91, res.getScaledHeight() - 23, 53, 22, 29, 24);
+					drawTexturedModalRect(gui,i + 91, res.getScaledHeight() - 23, 53, 22, 29, 24, scale);
 				}
 			}
 
@@ -54,16 +54,16 @@ public class HudElementHotbarVanilla extends HudElement {
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = res.getScaledHeight() - 16 - 3;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, GameData.getMainInventoryItemOfSlot(l));
+				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, GameData.getMainInventoryItemOfSlot(l), scale);
 			}
 
 			if (itemstack != null) {
 				int l1 = res.getScaledHeight() - 16 - 3;
 
 				if (enumhandside == 0) {
-					this.renderHotbarItem(i - 91 - 26, l1, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(i - 91 - 26, l1, partialTicks, entityplayer, itemstack, scale);
 				} else {
-					this.renderHotbarItem(i + 91 + 10, l1, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(i + 91 + 10, l1, partialTicks, entityplayer, itemstack, scale);
 				}
 			}
 
@@ -81,8 +81,8 @@ public class HudElementHotbarVanilla extends HudElement {
 					GameData.bindIcons();
 					int k1 = (int) (f1 * 19.0F);
 					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.drawTexturedModalRect(j2, i2, 0, 94, 18, 18);
-					gui.drawTexturedModalRect(j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
+					drawTexturedModalRect(gui, j2, i2, 0, 94, 18, 18, scale);
+					drawTexturedModalRect(gui, j2, i2 + 18 - k1, 18, 112 - k1, 18, k1, scale);
 				}
 			}
 
@@ -106,7 +106,7 @@ public class HudElementHotbarVanilla extends HudElement {
 	 * @param item
 	 *            the item (via ItemStack)
 	 */
-	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
+	protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item, double scale) {
 		if (item != null) {
 			float f = GameData.getItemAnimationsToGo(item) - partialTicks;
 
@@ -124,7 +124,7 @@ public class HudElementHotbarVanilla extends HudElement {
 				GlStateManager.popMatrix();
 			}
 
-			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, xPos, yPos);
+			renderItemOverlays(this.mc.fontRendererObj, item, xPos, yPos, scale);
 		}
 	}
 

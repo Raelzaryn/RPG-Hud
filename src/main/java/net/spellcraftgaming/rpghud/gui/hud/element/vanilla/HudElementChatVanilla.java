@@ -62,10 +62,10 @@ public class HudElementChatVanilla extends HudElement {
 						++l;
 						if (l1 > 3) {
 							int j2 = -i1 * 9;
-							Gui.drawRect(guiIngame.getChat().getXOffset() - 2, guiIngame.getChat().getYOffset() + j2 - 9, guiIngame.getChat().getXOffset() + k + 4, guiIngame.getChat().getYOffset() + j2, l1 / 2 << 24);
+							drawRect(guiIngame.getChat().getXOffset() - 2, guiIngame.getChat().getYOffset() + j2 - 9, guiIngame.getChat().getXOffset() + k + 4, guiIngame.getChat().getYOffset() + j2, l1 / 2 << 24, scale);
 							String s = chatline.getChatComponent().getFormattedText();
 							GlStateManager.enableBlend();
-							this.mc.fontRendererObj.drawStringWithShadow(s, guiIngame.getChat().getXOffset(), guiIngame.getChat().getYOffset() + j2 - 8, 16777215 + (l1 << 24));
+							drawStringWithShadow(s, guiIngame.getChat().getXOffset(), guiIngame.getChat().getYOffset() + j2 - 8, 16777215 + (l1 << 24), scale);
 							GlStateManager.disableAlpha();
 							GlStateManager.disableBlend();
 						}
@@ -84,8 +84,8 @@ public class HudElementChatVanilla extends HudElement {
 				if (l2 != i3) {
 					int k3 = j3 > 0 ? 170 : 96;
 					int l3 = guiIngame.getChat().isScrolled() ? 13382451 : 3355562;
-					Gui.drawRect(0, -j3, 2, -j3 - k1, l3 + (k3 << 24));
-					Gui.drawRect(2, -j3, 1, -j3 - k1, 13421772 + (k3 << 24));
+					drawRect(0, -j3, 2, -j3 - k1, l3 + (k3 << 24), scale);
+					drawRect(2, -j3, 1, -j3 - k1, 13421772 + (k3 << 24), scale);
 				}
 			}
 

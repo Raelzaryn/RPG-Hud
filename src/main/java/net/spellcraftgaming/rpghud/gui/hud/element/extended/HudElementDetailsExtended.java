@@ -40,12 +40,12 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 		this.offset = 0;
 		if (gui instanceof GuiIngameRPGHud) {
 			if (this.settings.getBoolValue(Settings.show_armor)) {
-				drawArmorDetails(gui);
+				drawArmorDetails(gui, scale);
 			}
-			drawItemDetails(gui, 0);
-			drawItemDetails(gui, 1);
+			drawItemDetails(gui, 0, scale);
+			drawItemDetails(gui, 1, scale);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
-				drawArrowCount(gui);
+				drawArrowCount(gui, scale);
 			}
 		}
 	}
@@ -57,7 +57,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 	 *            the GUI to draw one
 	 */
 	@Override
-	protected void drawArmorDetails(Gui gui) {
+	protected void drawArmorDetails(Gui gui, double scale) {
 		this.mc.mcProfiler.startSection("armor_details");
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
@@ -86,7 +86,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 	 *            the hand whose item should be detailed
 	 */
 	@Override
-	protected void drawItemDetails(Gui gui, int hand) {
+	protected void drawItemDetails(Gui gui, int hand, double scale) {
 		ItemStack item = GameData.getItemInHand(hand);
 		if (item != null) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isItemStackDamageable()) {
@@ -153,7 +153,7 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 	 *            the GUI to draw on
 	 */
 	@Override
-	protected void drawArrowCount(Gui gui) {
+	protected void drawArrowCount(Gui gui, double scale) {
 		ItemStack item = GameData.getMainhand();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != GameData.nullStack() && item.getItem() instanceof ItemBow) {
 			int x = GameData.getInventorySize();

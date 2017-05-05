@@ -39,18 +39,20 @@ public class HudElementEntityInspectVanilla extends HudElement {
 			drawCustomBar(width - 27, 34, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, (width - 28 + 44) * 2, 36 * 2, -1);
+			drawCenteredString(gui, this.mc.fontRendererObj, stringHealth, (width - 28 + 44) * 2, 36 * 2, -1, scale);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 
 			int x = (width - 28 + 44 - this.mc.fontRendererObj.getStringWidth(focused.getName()) / 2);
 			int y = 25;
-			this.mc.fontRendererObj.drawString(focused.getName(), x, y, 0x585858);
+			drawString(this.mc.fontRendererObj, focused.getName(), x, y, 0x585858, scale);
 
-			drawEntityOnScreen(width - 60 + 14, 22 + 27, focused);
+			drawEntityOnScreen(width - 60 + 14, 22 + 27, focused, scale);
 		}
 	}
 
-	public static void drawEntityOnScreen(int posX, int posY, EntityLivingBase ent) {
+	public static void drawEntityOnScreen(int posX, int posY, EntityLivingBase ent, double scaleE) {
+		posX = (int)(posX *scaleE);
+		posY = (int)(posY *scaleE);
 		GlStateManager.enableColorMaterial();
 		GlStateManager.pushMatrix();
 		int scale = (int) (17 / ent.height);

@@ -33,7 +33,7 @@ public class HudElementAirVanilla extends HudElement {
 		int partial = GameData.ceil(air * 10.0D / 300.0D) - full;
 
 		for (int i = 0; i < full + partial; ++i) {
-			gui.drawTexturedModalRect(left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9);
+			drawTexturedModalRect(gui, left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9, scale);
 		}
 		GuiIngameRPGHud.right_height += 10;
 	}

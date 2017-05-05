@@ -27,12 +27,12 @@ public class HudElementHealthMountDefault extends HudElement {
 		int healthMax = GameData.ceil(mount.getMaxHealth());
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 53 : 33;
 		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 40;
-		drawCustomBar(posX, posY, 88, 8, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
+		drawCustomBar(posX, posY, 88, 8, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT), scale);
 		String stringHealth = health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			drawCenteredString(gui, this.mc.fontRendererObj, stringHealth, posX * 2 + 88, posY * 2 + 4, -1, scale);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 		}
 	}

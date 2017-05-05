@@ -28,11 +28,11 @@ public class HudElementLevelVanilla extends HudElement {
 		String text = String.valueOf(GameData.getPlayerXPLevel());
 		int x = (width - this.mc.fontRendererObj.getStringWidth(text)) / 2;
 		int y = height - 31 - 4;
-		this.mc.fontRendererObj.drawString(text, x + 1, y, 0);
-		this.mc.fontRendererObj.drawString(text, x - 1, y, 0);
-		this.mc.fontRendererObj.drawString(text, x, y + 1, 0);
-		this.mc.fontRendererObj.drawString(text, x, y - 1, 0);
-		this.mc.fontRendererObj.drawString(text, x, y, color);
+		drawString(this.mc.fontRendererObj, text, x + 1, y, 0, scale);
+		drawString(this.mc.fontRendererObj, text, x - 1, y, 0, scale);
+		drawString(this.mc.fontRendererObj, text, x, y + 1, 0, scale);
+		drawString(this.mc.fontRendererObj, text, x, y - 1, 0, scale);
+		drawString(this.mc.fontRendererObj, text, x, y, color, scale);
 		GlStateManager.enableBlend();
 	}
 

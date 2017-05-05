@@ -52,12 +52,12 @@ public class HudElementHealthMountVanilla extends HudElement {
 
 			for (int i = 0; i < rowCount; ++i) {
 				int x = left_align - i * 8 - 9;
-				gui.drawTexturedModalRect(x, top, BACKGROUND, 9, 9, 9);
+				drawTexturedModalRect(gui, x, top, BACKGROUND, 9, 9, 9, scale);
 
 				if (i * 2 + 1 + heart < health)
-					gui.drawTexturedModalRect(x, top, FULL, 9, 9, 9);
+					drawTexturedModalRect(gui, x, top, FULL, 9, 9, 9, scale);
 				else if (i * 2 + 1 + heart == health)
-					gui.drawTexturedModalRect(x, top, HALF, 9, 9, 9);
+					drawTexturedModalRect(gui, x, top, HALF, 9, 9, 9, scale);
 			}
 
 			GuiIngameRPGHud.right_height += 10;

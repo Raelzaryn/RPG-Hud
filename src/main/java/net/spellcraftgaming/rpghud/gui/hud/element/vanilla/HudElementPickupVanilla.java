@@ -38,10 +38,10 @@ public class HudElementPickupVanilla extends HudElement {
 			if (pickup.getTimer() <= 60) {
 				GlStateManager.color(1f, 1f, 1f, pickup.getTimer() / 30F);
 			}
-			gui.drawTexturedModalRect(width - 76, height - 32 - i * 32, 146, 222, 76, 32);
+			drawTexturedModalRect(gui, width - 76, height - 32 - i * 32, 146, 222, 76, 32, scale);
 			RenderHelper.enableGUIStandardItemLighting();
-			this.mc.getRenderItem().renderItemIntoGUI(item, width - 76 + 8, height - 32 - i * 32 + 8);
-			gui.drawString(this.mc.fontRendererObj, "x " + count, width - 76 + 32, height - 32 - i * 32 + 12, -1);
+			renderItemIntoGUI(item, width - 76 + 8, height - 32 - i * 32 + 8, scale);
+			drawString(this.mc.fontRendererObj, "x " + count, width - 76 + 32, height - 32 - i * 32 + 12, -1, scale);
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.color(1f, 1f, 1f, 1f);
 		}

@@ -33,10 +33,10 @@ public class HudElementExperienceVanilla extends HudElement {
 				short barWidth = 182;
 				int filled = (int) (GameData.getPlayerXPRaw() * (barWidth + 1));
 				int top = height - 32 + 3;
-				gui.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
+				drawTexturedModalRect(gui, left, top, 0, 64, barWidth, 5, scale);
 
 				if (filled > 0) {
-					gui.drawTexturedModalRect(left, top, 0, 69, filled, 5);
+					drawTexturedModalRect(gui, left, top, 0, 69, filled, 5, scale);
 				}
 			}
 		}

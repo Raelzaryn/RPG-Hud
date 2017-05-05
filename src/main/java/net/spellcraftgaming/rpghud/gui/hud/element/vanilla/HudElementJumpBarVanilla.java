@@ -34,10 +34,10 @@ public class HudElementJumpBarVanilla extends HudElement {
 		int filled = (int) (charge * (barWidth + 1));
 		int top = res.getScaledHeight() - 32 + 3;
 
-		gui.drawTexturedModalRect(x, top, 0, 84, barWidth, 5);
+		drawTexturedModalRect(gui, x, top, 0, 84, barWidth, 5, scale);
 
 		if (filled > 0) {
-			gui.drawTexturedModalRect(x, top, 0, 89, filled, 5);
+			drawTexturedModalRect(gui, x, top, 0, 89, filled, 5, scale);
 		}
 
 		GlStateManager.enableBlend();
