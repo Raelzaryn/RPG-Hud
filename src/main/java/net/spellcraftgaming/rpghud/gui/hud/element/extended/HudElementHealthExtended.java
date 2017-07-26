@@ -10,7 +10,6 @@ public class HudElementHealthExtended extends HudElement {
 
 	public HudElementHealthExtended() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -19,7 +18,7 @@ public class HudElementHealthExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int health = GameData.getPlayerHealth();
 		int absorption = GameData.getPlayerAbsorption();
 		int healthMax = GameData.getPlayerMaxHealth();
@@ -38,6 +37,6 @@ public class HudElementHealthExtended extends HudElement {
 		}
 		String stringHealth = (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
 	}
 }

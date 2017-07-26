@@ -12,7 +12,6 @@ public class HudElementLevelHotbar extends HudElement {
 
 	public HudElementLevelHotbar() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -21,12 +20,12 @@ public class HudElementLevelHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
 		GlStateManager.disableBlend();
 		String level = String.valueOf(GameData.getPlayerXPLevel());
-		this.mc.fontRendererObj.drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) - this.mc.fontRendererObj.getStringWidth(level) / 2, height - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40), 0x80FF20);
+		GameData.getFontRenderer().drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) - GameData.getFontRenderer().getStringWidth(level) / 2, height - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40), 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

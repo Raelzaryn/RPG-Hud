@@ -19,7 +19,7 @@ public class HudElementAirTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		ScaledResolution res = new ScaledResolution(this.mc);

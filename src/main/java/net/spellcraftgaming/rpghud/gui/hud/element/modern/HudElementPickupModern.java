@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -24,7 +25,7 @@ public class HudElementPickupModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
@@ -38,7 +39,7 @@ public class HudElementPickupModern extends HudElement {
 			// 20, 76, 32);
 			RenderHelper.enableGUIStandardItemLighting();
 			this.mc.getRenderItem().renderItemIntoGUI(item, width - 68 + 8, height - 28 - 20 * i + 2);
-			gui.drawString(this.mc.fontRendererObj, "x " + count, width - 68 + 32, height - 28 - 20 * i + 6, -1);
+			gui.drawString(GameData.getFontRenderer(), "x " + count, width - 68 + 32, height - 28 - 20 * i + 6, -1);
 			RenderHelper.disableStandardItemLighting();
 		}
 	}

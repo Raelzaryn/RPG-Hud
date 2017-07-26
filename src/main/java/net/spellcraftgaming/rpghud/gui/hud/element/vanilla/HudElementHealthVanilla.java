@@ -29,7 +29,7 @@ public class HudElementHealthVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
@@ -99,24 +99,24 @@ public class HudElementHealthVanilla extends HudElement {
 
 			if (highlight) {
 				if (i * 2 + 1 < healthLast)
-					drawTexturedModalRect(gui, x, y, MARGIN + 54, TOP, 9, 9, scale); // 6
+					gui.drawTexturedModalRect(x, y, MARGIN + 54, TOP, 9, 9); // 6
 				else if (i * 2 + 1 == healthLast)
-					drawTexturedModalRect(gui, x, y, MARGIN + 63, TOP, 9, 9, scale); // 7
+					gui.drawTexturedModalRect(x, y, MARGIN + 63, TOP, 9, 9); // 7
 			}
 
 			if (absorbRemaining > 0.0F) {
 				if (absorbRemaining == absorb && absorb % 2.0F == 1.0F) {
-					drawTexturedModalRect(gui, x, y, MARGIN + 153, TOP, 9, 9, scale); // 17
+					gui.drawTexturedModalRect(x, y, MARGIN + 153, TOP, 9, 9); // 17
 					absorbRemaining -= 1.0F;
 				} else {
-					drawTexturedModalRect(gui, x, y, MARGIN + 144, TOP, 9, 9, scale); // 16
+					gui.drawTexturedModalRect(x, y, MARGIN + 144, TOP, 9, 9); // 16
 					absorbRemaining -= 2.0F;
 				}
 			} else {
 				if (i * 2 + 1 < health)
-					drawTexturedModalRect(gui, x, y, MARGIN + 36, TOP, 9, 9, scale); // 4
+					gui.drawTexturedModalRect(x, y, MARGIN + 36, TOP, 9, 9); // 4
 				else if (i * 2 + 1 == health)
-					drawTexturedModalRect(gui, x, y, MARGIN + 45, TOP, 9, 9, scale); // 5
+					gui.drawTexturedModalRect(x, y, MARGIN + 45, TOP, 9, 9); // 5
 			}
 		}
 	}

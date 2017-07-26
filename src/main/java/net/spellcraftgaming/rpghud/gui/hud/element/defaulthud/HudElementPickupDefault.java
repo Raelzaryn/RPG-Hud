@@ -7,6 +7,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -25,7 +26,7 @@ public class HudElementPickupDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
@@ -38,10 +39,10 @@ public class HudElementPickupDefault extends HudElement {
 			if (pickup.getTimer() <= 60) {
 				GlStateManager.color(1f, 1f, 1f, pickup.getTimer() / 30F);
 			}
-			drawTexturedModalRect(gui, width - 76, height - 42 - i * 32, 146, 222, 76, 32, scale);
+			gui.drawTexturedModalRect(width - 76, height - 42 - i * 32, 146, 222, 76, 32);
 			RenderHelper.enableGUIStandardItemLighting();
-			renderItemIntoGUI(item, width - 76 + 8, height - 42 - i * 32 + 8, scale);
-			drawString(this.mc.fontRendererObj, "x " + count, width - 76 + 32, height - 42 - i * 32 + 12, -1, scale);
+			this.mc.getRenderItem().renderItemIntoGUI(item, width - 76 + 8, height - 42 - i * 32 + 8);
+			gui.drawString(GameData.getFontRenderer(), "x " + count, width - 76 + 32, height - 42 - i * 32 + 12, -1);
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.color(1f, 1f, 1f, 1f);
 		}

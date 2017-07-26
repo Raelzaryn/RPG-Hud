@@ -2,11 +2,9 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -92,7 +90,8 @@ public abstract class HudElement {
 	/** The Mod settings */
 	protected Settings settings;
 
-	protected HudElementType parent;
+	protected double scale;
+	protected double scaleInverted;
 
 	/**
 	 * Constructor
@@ -122,7 +121,8 @@ public abstract class HudElement {
 		this.mc = Minecraft.getMinecraft();
 		this.rpgHud = ModRPGHud.instance;
 		this.settings = this.rpgHud.settings;
-		this.parent = this.type;
+		this.scale = 1D;
+		this.scaleInverted = 1D / this.scale;
 	}
 
 	/**
@@ -130,20 +130,14 @@ public abstract class HudElement {
 	 */
 	public void draw(Gui gui, float zLevel, float partialTicks) {
 
-		double scale = 1D;
-		if (this.settings.doesSettingExist(Settings.scale + "_" + this.parent.name().toLowerCase())) {
-			scale = this.settings.getDoubleValue(Settings.scale + "_" + this.parent.name().toLowerCase());
-		}
-		double scaleInverted = 1 / scale;
+		GlStateManager.scale(this.scale, this.scale, this.scale);
 
-		GlStateManager.scale(scale, scale, scale);
+		this.drawElement(gui, zLevel, partialTicks);
 
-		this.drawElement(gui, zLevel, partialTicks, scaleInverted);
-
-		GlStateManager.scale(scaleInverted, scaleInverted, scaleInverted);
+		GlStateManager.scale(this.scaleInverted, this.scaleInverted, this.scaleInverted);
 	}
 
-	public abstract void drawElement(Gui gui, float zLevel, float partialTicks, double scale);
+	public abstract void drawElement(Gui gui, float zLevel, float partialTicks);
 
 	/**
 	 * Returns the x coordinate of this element
@@ -282,10 +276,6 @@ public abstract class HudElement {
 		GlStateManager.color(1f, 1f, 1f);
 	}
 
-	public static void drawRect(int posX, int posY, int width, int height, int color, double scale) {
-		drawRect((int) (posX * scale), (int) (posY * scale), width, height, color);
-	}
-
 	/**
 	 * Draw an outline on the screen
 	 * 
@@ -325,11 +315,7 @@ public abstract class HudElement {
 	 *            the color for the bar (dark
 	 */
 	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
-		drawCustomBar(x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000, 1D);
-	}
-
-	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark, double scale) {
-		drawCustomBar(x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000, scale);
+		drawCustomBar(x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
 	}
 
 	/**
@@ -355,11 +341,7 @@ public abstract class HudElement {
 	 *            the color for the bar (dark
 	 */
 	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000, 1D);
-	}
-
-	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, double scale) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000, scale);
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
 	}
 
 	/**
@@ -387,11 +369,7 @@ public abstract class HudElement {
 	 *            whether this bar has an outline or not
 	 */
 	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000, 1D);
-	}
-
-	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, double scale) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000, scale);
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
 	}
 
 	/**
@@ -419,7 +397,7 @@ public abstract class HudElement {
 	 *            the color of the outline
 	 */
 	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
-		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline, 1D);
+		drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
 	}
 
 	/**
@@ -448,13 +426,11 @@ public abstract class HudElement {
 	 * @param colorOutline
 	 *            the color of the outline
 	 */
-	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline, double scale) {
+	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
 		if (value < 0.0D) {
 			value = 0.0D;
 		}
 
-		x = (int) (x * scale);
-		y = (int) (y * scale);
 		int offset = 0;
 		if (outlined)
 			offset = 1;
@@ -610,29 +586,5 @@ public abstract class HudElement {
 	 */
 	protected static ResourceLocation getPlayerSkin(AbstractClientPlayer player) {
 		return player.getLocationSkin();
-	}
-
-	public void drawTexturedModalRect(Gui gui, int x, int y, int textureX, int textureY, int width, int height, double scale) {
-		gui.drawTexturedModalRect((int) (x * scale), (int) (y * scale), textureX, textureY, width, height);
-	}
-
-	public void drawCenteredString(Gui gui, FontRenderer fontRendererIn, String text, int x, int y, int color, double scale) {
-		gui.drawCenteredString(fontRendererIn, text, (int) (x * scale), (int) (y * scale), color);
-	}
-
-	public int drawStringWithShadow(String text, float x, float y, int color, double scale) {
-		return this.mc.fontRendererObj.drawStringWithShadow(text, (int) (x * scale), (int) (y * scale), color);
-	}
-
-	public void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color, double scale) {
-		fontRendererIn.drawStringWithShadow(text, (float) (x * scale), (float) (y * scale), color);
-	}
-
-	public void renderItemIntoGUI(ItemStack stack, int x, int y, double scale) {
-		this.mc.getRenderItem().renderItemIntoGUI(stack, (int) (x * scale), (int) (y * scale));
-	}
-
-	public void renderItemOverlays(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, double scale) {
-		this.mc.getRenderItem().renderItemOverlays(fr, stack, (int) (xPosition * scale), (int) (yPosition * scale));
 	}
 }

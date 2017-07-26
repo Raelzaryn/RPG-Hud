@@ -21,7 +21,7 @@ public class HudElementChatVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GuiIngameRPGHud guiIngame = (GuiIngameRPGHud) gui;
 		int i = guiIngame.getChat().getLineCount();
 		int j = guiIngame.getChat().getDrawnChatLines().size();
@@ -62,10 +62,10 @@ public class HudElementChatVanilla extends HudElement {
 						++l;
 						if (l1 > 3) {
 							int j2 = -i1 * 9;
-							drawRect(guiIngame.getChat().getXOffset() - 2, guiIngame.getChat().getYOffset() + j2 - 9, guiIngame.getChat().getXOffset() + k + 4, guiIngame.getChat().getYOffset() + j2, l1 / 2 << 24, scale);
+							Gui.drawRect(guiIngame.getChat().getXOffset() - 2, guiIngame.getChat().getYOffset() + j2 - 9, guiIngame.getChat().getXOffset() + k + 4, guiIngame.getChat().getYOffset() + j2, l1 / 2 << 24);
 							String s = chatline.getChatComponent().getFormattedText();
 							GlStateManager.enableBlend();
-							drawStringWithShadow(s, guiIngame.getChat().getXOffset(), guiIngame.getChat().getYOffset() + j2 - 8, 16777215 + (l1 << 24), scale);
+							GameData.getFontRenderer().drawStringWithShadow(s, guiIngame.getChat().getXOffset(), guiIngame.getChat().getYOffset() + j2 - 8, 16777215 + (l1 << 24));
 							GlStateManager.disableAlpha();
 							GlStateManager.disableBlend();
 						}
@@ -74,7 +74,7 @@ public class HudElementChatVanilla extends HudElement {
 			}
 
 			if (flag) {
-				int k2 = this.mc.fontRendererObj.FONT_HEIGHT;
+				int k2 = GameData.getFontRenderer().FONT_HEIGHT;
 				GlStateManager.translate(-3.0F, 0.0F, 0.0F);
 				int l2 = j * k2 + j;
 				int i3 = l * k2 + l;
@@ -84,8 +84,8 @@ public class HudElementChatVanilla extends HudElement {
 				if (l2 != i3) {
 					int k3 = j3 > 0 ? 170 : 96;
 					int l3 = guiIngame.getChat().isScrolled() ? 13382451 : 3355562;
-					drawRect(0, -j3, 2, -j3 - k1, l3 + (k3 << 24), scale);
-					drawRect(2, -j3, 1, -j3 - k1, 13421772 + (k3 << 24), scale);
+					Gui.drawRect(0, -j3, 2, -j3 - k1, l3 + (k3 << 24));
+					Gui.drawRect(2, -j3, 1, -j3 - k1, 13421772 + (k3 << 24));
 				}
 			}
 

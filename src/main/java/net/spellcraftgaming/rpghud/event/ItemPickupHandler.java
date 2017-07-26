@@ -31,7 +31,7 @@ public class ItemPickupHandler {
 	@SubscribeEvent
 	public void onEntityPickupItem(EntityItemPickupEvent event) {
 		if (GameData.playerOfEvent(event).equals(GameData.getPlayer())) {
-			storedItem = GameData.itemOfEvent(event).getEntityItem().copy();
+			storedItem = GameData.itemOfEvent(event).getItem().copy();
 		}
 	}
 

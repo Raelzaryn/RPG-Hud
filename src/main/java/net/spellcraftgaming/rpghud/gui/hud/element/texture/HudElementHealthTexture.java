@@ -11,7 +11,6 @@ public class HudElementHealthTexture extends HudElement {
 
 	public HudElementHealthTexture() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, false);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +19,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		int health = GameData.getPlayerHealth();
@@ -40,7 +39,7 @@ public class HudElementHealthTexture extends HudElement {
 
 		String stringHealth = (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);
 		GameData.bindIcons();
 	}

@@ -11,7 +11,6 @@ public class HudElementExperienceTexture extends HudElement {
 
 	public HudElementExperienceTexture() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +19,7 @@ public class HudElementExperienceTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		int exp = GameData.getPlayerXP();
@@ -30,7 +29,7 @@ public class HudElementExperienceTexture extends HudElement {
 		String stringExp = exp + "/" + GameData.getPlayerXPCap();
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, posX * 2 + 82, posY * 2 + 4, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, posX * 2 + 82, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 		}
 		GlStateManager.color(1f, 1f, 1f);

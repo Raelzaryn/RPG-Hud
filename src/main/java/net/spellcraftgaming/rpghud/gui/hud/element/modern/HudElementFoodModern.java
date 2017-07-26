@@ -15,7 +15,6 @@ public class HudElementFoodModern extends HudElement {
 
 	public HudElementFoodModern() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -24,18 +23,18 @@ public class HudElementFoodModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int stamina = GameData.getPlayerFood();
 		int staminaMax = GameData.getPlayerMaxFood();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 
-		int width = this.mc.fontRendererObj.getStringWidth(staminaMax + "/" + staminaMax) / 2 + 4;
+		int width = GameData.getFontRenderer().getStringWidth(staminaMax + "/" + staminaMax) / 2 + 4;
 
 		String staminaString = stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2, 12, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, this.settings.getBoolValue(Settings.render_player_face) ? (xOffset * 2) + 28 : 24, 28, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, this.settings.getBoolValue(Settings.render_player_face) ? (xOffset * 2) + 28 : 24, 28, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset + 1 : 0);

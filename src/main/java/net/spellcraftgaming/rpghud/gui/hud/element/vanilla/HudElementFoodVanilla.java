@@ -22,7 +22,7 @@ public class HudElementFoodVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
 		EntityPlayer player = GameData.getPlayer();
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -55,12 +55,12 @@ public class HudElementFoodVanilla extends HudElement {
 				y = top + ((new Random()).nextInt(3) - 1);
 			}
 
-			drawTexturedModalRect(gui, x, y, 16 + background * 9, 27, 9, 9, scale);
+			gui.drawTexturedModalRect(x, y, 16 + background * 9, 27, 9, 9);
 
 			if (idx < level)
-				drawTexturedModalRect(gui, x, y, icon + 36, 27, 9, 9, scale);
+				gui.drawTexturedModalRect(x, y, icon + 36, 27, 9, 9);
 			else if (idx == level)
-				drawTexturedModalRect(gui, x, y, icon + 45, 27, 9, 9, scale);
+				gui.drawTexturedModalRect(x, y, icon + 45, 27, 9, 9);
 		}
 	}
 

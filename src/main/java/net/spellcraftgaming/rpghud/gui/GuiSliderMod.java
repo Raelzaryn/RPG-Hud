@@ -50,7 +50,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
 		if (this.visible) {
 			if (this.dragging) {
-				this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
+				this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
 
 				if (this.sliderValue < 0.0F) {
 					this.sliderValue = 0.0F;
@@ -67,7 +67,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			GameData.bindButtonTextures();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -75,7 +75,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 			GameData.tryBlendFuncSeparate();
 			GameData.blendFunc();
 			int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(this.xPosition, this.yPosition, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			this.mouseDragged(mc, mouseX, mouseY);
 			int j = 14737632;
 
@@ -89,11 +89,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
 			GameData.bindButtonTextures();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.displayString = this.getDisplayString();
-			this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, this.height / 2);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (this.width - 8)), this.yPosition + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, this.height / 2);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (this.width - 8)) + 4, this.yPosition + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-			this.drawCenteredString(mc.fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+			this.drawCenteredString(GameData.getFontRenderer(), this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, j);
 
 		}
 	}
@@ -105,7 +105,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	@Override
 	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
 		if (super.mousePressed(mc, mouseX, mouseY)) {
-			this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
+			this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
 
 			if (this.sliderValue < 0.0F) {
 				this.sliderValue = 0.0F;

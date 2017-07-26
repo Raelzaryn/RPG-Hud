@@ -21,6 +21,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.spellcraftgaming.lib.GameData;
 
 public class GuiChatRPGHud extends GuiNewChat {
 
@@ -44,7 +45,6 @@ public class GuiChatRPGHud extends GuiNewChat {
 	/**
 	 * Clears the chat.
 	 */
-	@Override
 	public void clearChatMessages(boolean p_146231_1_) {
 		this.getDrawnChatLines().clear();
 		this.chatLines.clear();
@@ -78,7 +78,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		}
 
 		int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
-		List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
+		List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, GameData.getFontRenderer(), false, false);
 		boolean flag = this.getChatOpen();
 
 		for (ITextComponent itextcomponent : list) {
@@ -177,8 +177,8 @@ public class GuiChatRPGHud extends GuiNewChat {
 		if (j >= 0 && k >= 0) {
 			int l = Math.min(this.getLineCount(), this.getDrawnChatLines().size());
 
-			if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
-				int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
+			if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < GameData.getFontRenderer().FONT_HEIGHT * l + l) {
+				int i1 = k / GameData.getFontRenderer().FONT_HEIGHT + this.scrollPos;
 
 				if (i1 >= 0 && i1 < this.getDrawnChatLines().size()) {
 					ChatLine chatline = this.getDrawnChatLines().get(i1);
@@ -186,7 +186,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 
 					for (ITextComponent itextcomponent : chatline.getChatComponent()) {
 						if (itextcomponent instanceof TextComponentString) {
-							j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString) itextcomponent).getText(), false));
+							j1 += GameData.getFontRenderer().getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString) itextcomponent).getText(), false));
 
 							if (j1 > j) {
 								return itextcomponent;

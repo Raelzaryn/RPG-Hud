@@ -20,7 +20,7 @@ public class HudElementJumpBarTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();

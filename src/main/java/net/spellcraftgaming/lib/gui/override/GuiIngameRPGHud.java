@@ -43,6 +43,7 @@ import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -110,12 +111,12 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 		if (pre(ALL))
 			return;
 
-		this.fontrenderer = this.mc.fontRendererObj;
+		this.fontrenderer = GameData.getFontRenderer();
 		this.mc.entityRenderer.setupOverlayRendering();
 		GlStateManager.enableBlend();
 
 		if (Minecraft.isFancyGraphicsEnabled()) {
-			renderVignette(this.mc.player.getBrightness(partialTicks), this.res);
+			renderVignette(this.mc.player.getBrightness(), this.res);
 		} else {
 			GlStateManager.enableDepth();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
@@ -172,7 +173,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 		ScoreObjective objective = null;
 		ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(this.mc.player.getName());
 		if (scoreplayerteam != null) {
-			int slot = scoreplayerteam.getChatFormat().getColorIndex();
+			int slot = scoreplayerteam.getColor().getColorIndex();
 			if (slot >= 0)
 				objective = scoreboard.getObjectiveInDisplaySlot(3 + slot);
 		}

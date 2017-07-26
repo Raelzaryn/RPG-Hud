@@ -12,7 +12,6 @@ public class HudElementHealthMountExtended extends HudElement {
 
 	public HudElementHealthMountExtended() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -21,7 +20,7 @@ public class HudElementHealthMountExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
@@ -32,7 +31,7 @@ public class HudElementHealthMountExtended extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX * 2 + 82, posY * 2 + 4, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX * 2 + 82, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 		}
 	}

@@ -12,7 +12,6 @@ public class HudElementFoodExtended extends HudElement {
 
 	public HudElementFoodExtended() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -21,7 +20,7 @@ public class HudElementFoodExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
@@ -52,7 +51,7 @@ public class HudElementFoodExtended extends HudElement {
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 55, posY + 2, -1);
 	}
 
 }

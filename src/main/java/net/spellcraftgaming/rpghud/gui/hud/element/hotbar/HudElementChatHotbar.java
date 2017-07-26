@@ -22,7 +22,7 @@ public class HudElementChatHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GuiIngameRPGHud guiIngame = (GuiIngameRPGHud) gui;
 		int i = guiIngame.getChat().getLineCount();
 		int j = guiIngame.getChat().getDrawnChatLines().size();
@@ -71,7 +71,7 @@ public class HudElementChatHotbar extends HudElement {
 							Gui.drawRect(guiIngame.getChat().getXOffset() - 2, yOffset + j2 - 9, guiIngame.getChat().getXOffset() + k + 4, yOffset + j2, l1 / 2 << 24);
 							String s = chatline.getChatComponent().getFormattedText();
 							GlStateManager.enableBlend();
-							this.mc.fontRendererObj.drawStringWithShadow(s, guiIngame.getChat().getXOffset(), yOffset + j2 - 8, 16777215 + (l1 << 24));
+							GameData.getFontRenderer().drawStringWithShadow(s, guiIngame.getChat().getXOffset(), yOffset + j2 - 8, 16777215 + (l1 << 24));
 							GlStateManager.disableAlpha();
 							GlStateManager.disableBlend();
 						}
@@ -80,7 +80,7 @@ public class HudElementChatHotbar extends HudElement {
 			}
 
 			if (flag) {
-				int k2 = this.mc.fontRendererObj.FONT_HEIGHT;
+				int k2 = GameData.getFontRenderer().FONT_HEIGHT;
 				GlStateManager.translate(-3.0F, 0.0F, 0.0F);
 				int l2 = j * k2 + j;
 				int i3 = l * k2 + l;

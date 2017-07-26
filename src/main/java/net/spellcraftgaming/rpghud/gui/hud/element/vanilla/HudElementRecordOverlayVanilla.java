@@ -20,7 +20,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GuiIngameRPGHud guiIngame = (GuiIngameRPGHud) gui;
 		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
 		int i = scaledresolution.getScaledWidth();
@@ -43,7 +43,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
 				l = GameData.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
 			}
 
-			drawString(this.mc.fontRendererObj, GameData.getOverlayText(guiIngame), -this.mc.fontRendererObj.getStringWidth(GameData.getOverlayText(guiIngame)) / 2, -4, l + (l1 << 24 & -16777216), scale);
+			GameData.getFontRenderer().drawString(GameData.getOverlayText(guiIngame), -GameData.getFontRenderer().getStringWidth(GameData.getOverlayText(guiIngame)) / 2, -4, l + (l1 << 24 & -16777216));
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 		}

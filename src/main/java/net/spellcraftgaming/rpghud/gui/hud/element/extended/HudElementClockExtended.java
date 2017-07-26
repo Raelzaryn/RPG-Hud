@@ -19,14 +19,14 @@ public class HudElementClockExtended extends HudElementClockVanilla {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int clockColor = 0xFFFFFF;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.drawString(this.mc.fontRendererObj, getTime(), this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4, this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62, clockColor);
+		gui.drawString(GameData.getFontRenderer(), getTime(), this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4, this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62, clockColor);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
