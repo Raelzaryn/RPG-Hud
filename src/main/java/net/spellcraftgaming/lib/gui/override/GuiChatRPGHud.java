@@ -22,6 +22,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.spellcraftgaming.lib.GameData;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class GuiChatRPGHud extends GuiNewChat {
 
@@ -170,7 +171,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 		int i = scaledresolution.getScaleFactor();
 		float f = this.getChatScale();
 		int j = mouseX / i - 2;
-		int k = mouseY / i - 40;
+		int k = mouseY / i - 40 + ModRPGHud.instance.getActiveHud().chatOffset;
 		j = MathHelper.floor(j / f);
 		k = MathHelper.floor(k / f);
 

@@ -92,5 +92,6 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		this.drawDefaultBackground();
 		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
+
 	}
 }

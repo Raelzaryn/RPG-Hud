@@ -4,7 +4,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -50,7 +49,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	private int calculateWidth() {
 		int width = 0;
 		for (int i = GameData.getPlayerArmorInventoryLength() - 1; i >= 0; i--) {
-			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem() instanceof ItemArmor) {
+			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem().isDamageable()) {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				int widthNew = GameData.getFontRenderer().getStringWidth(s);
@@ -165,7 +164,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 */
 	protected void drawArmorDetails(Gui gui, int width) {
 		for (int i = GameData.getPlayerArmorInventoryLength() - 1; i >= 0; i--) {
-			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem() instanceof ItemArmor) {
+			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem().isDamageable()) {
 				drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				GlStateManager.scale(0.5D, 0.5D, 0.5D);
 				ItemStack item = GameData.getArmorInSlot(i);

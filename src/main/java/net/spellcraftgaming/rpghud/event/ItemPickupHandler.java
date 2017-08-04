@@ -31,7 +31,7 @@ public class ItemPickupHandler {
 	@SubscribeEvent
 	public void onEntityPickupItem(EntityItemPickupEvent event) {
 		if (GameData.playerOfEvent(event).equals(GameData.getPlayer())) {
-			storedItem = GameData.itemOfEvent(event).getItem().copy();
+			storedItem = GameData.itemStackOfEvent(event).copy();
 		}
 	}
 
@@ -49,9 +49,11 @@ public class ItemPickupHandler {
 	}
 
 	public void onUpdate() {
-		for (int i = 0; i < this.pickups.size(); i++) {
-			if (this.pickups.get(i).onUpdate())
-				this.pickups.remove(i);
+		if(this.pickups.size() > 0){
+			for (int i = 0; i < this.pickups.size(); i++) {
+				if (this.pickups.get(i).onUpdate())
+					this.pickups.remove(i);
+			}
 		}
 	}
 

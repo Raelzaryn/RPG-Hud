@@ -14,7 +14,7 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 	public GuiSliderSettingDouble(int buttonId, int x, int y, String optionIn) {
 		super(buttonId, x, y, optionIn, "");
 		this.sliderValue = 1.0F;
-		this.sliderValue = SettingDouble.normalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(optionIn), (double) ModRPGHud.instance.settings.getValue(optionIn));
+		this.sliderValue = SettingDouble.normalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(optionIn), (double) ModRPGHud.instance.settings.getDoubleValue(optionIn));
 		this.displayString = ModRPGHud.instance.settings.getButtonString(optionIn);
 	}
 

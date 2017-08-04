@@ -6,7 +6,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -63,7 +62,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
 		for (int i = GameData.getPlayerArmorInventoryLength() - 1; i >= 0; i--) {
-			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem() instanceof ItemArmor) {
+			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem().isDamageable()) {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				this.mc.getRenderItem().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);

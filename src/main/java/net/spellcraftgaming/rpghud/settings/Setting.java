@@ -37,6 +37,11 @@ public abstract class Setting {
 		return null;
 	}
 	
+	public Double getDoubleValue(){
+		if(getValue() instanceof Double) return (Double) getValue();
+		return null;
+	}
+	
 	public String getStringValue(){
 		if(getValue() instanceof String) return (String) getValue();
 		return null;

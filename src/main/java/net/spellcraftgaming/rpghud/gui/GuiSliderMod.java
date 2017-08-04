@@ -67,7 +67,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (this.visible) {
 			GameData.bindButtonTextures();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

@@ -1,18 +1,25 @@
 {
   "homepage": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
   "promos": {
-    "1.11.2-latest"     : "3.6.3",
-    "1.11.2-recomended" : "3.6.3",
-    "1.11-latest"       : "3.6.3",
-    "1.11-recomended"   : "3.6.3",
-    "1.10.2-latest"     : "3.6.3",
-    "1.10.2-recomended" : "3.6.3",
-    "1.9.4-latest"      : "3.6.3",
-    "1.9.4-recomended"  : "3.6.3",
-    "1.8.9-latest"      : "3.6.3",
-    "1.8.9-recomended"  : "3.6.3"
+    "1.12-latest"     : "3.6.4",
+    "1.12-recomended" : "3.6.4",
+    "1.11.2-latest"     : "3.6.4",
+    "1.11.2-recomended" : "3.6.4",
+    "1.11-latest"       : "3.6.4",
+    "1.11-recomended"   : "3.6.4",
+    "1.10.2-latest"     : "3.6.4",
+    "1.10.2-recomended" : "3.6.4",
+    "1.9.4-latest"      : "3.6.4",
+    "1.9.4-recomended"  : "3.6.4",
+    "1.8.9-latest"      : "3.6.4",
+    "1.8.9-recomended"  : "3.6.4"
+  },
+    "1.12" : {
+    "3.6.4"  : "fixed entityinspect bug\nfixed missplaced chat link bug\nfixed elytra durability display\nfixed settings tooltips",
+    "3.6.3"  : "initial 1.12 port"
   },
     "1.11.2" : {
+    "3.6.4"  : "fixed entityinspect bug\nfixed missplaced chat link bug\nfixed elytra durability display\nfixed settings tooltips",
     "3.6.3"  : "new settings system\nadded notification system\nadded durability bar to details",
     "3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
     "3.6.1"  : "added compass coordinates toggle",
@@ -28,6 +35,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.11" : {
+  	"3.6.4"  : "fixed entityinspect bug\nfixed missplaced chat link bug\nfixed elytra durability display\nfixed settings tooltips",
   	"3.6.3"  : "new settings system\nadded notification system\nadded durability bar to details",
     "3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
@@ -43,6 +51,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.10.2" : {
+  	"3.6.4"  : "fixed entityinspect bug\nfixed missplaced chat link bug\nfixed elytra durability display\nfixed settings tooltips",
   	"3.6.3"  : "new settings system\nadded notification system\nadded durability bar to details",
     "3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
@@ -58,6 +67,7 @@
     "3.1"    : "Initial release of the mod remake"
   },
   "1.9.4" : {
+  	"3.6.4"  : "fixed entityinspect bug\nfixed missplaced chat link bug\nfixed elytra durability display\nfixed settings tooltips",
   	"3.6.3"  : "new settings system\nadded notification system\nadded durability bar to details",
     "3.6.2"  : "fixed crash when holding food in offhand and\nno item in mainhand",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",
@@ -70,6 +80,7 @@
     "3.1"    : "Initial release of the 1.9.4 version of RPG-HUD remake"
   },
   "1.8.9" : {
+  	"3.6.4"  : "fixed entityinspect bug\nfixed missplaced chat link bug\nfixed elytra durability display\nfixed settings tooltips",
   	"3.6.3"  : "new settings system\nadded notification system\nadded durability bar to details",
     "3.6.2"  : "fixed crash when holding food",
   	"3.6.1"  : "added compass coordinates toggle\nfixed entity inspect",

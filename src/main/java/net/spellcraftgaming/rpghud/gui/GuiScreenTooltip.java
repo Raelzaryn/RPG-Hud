@@ -14,8 +14,9 @@ public class GuiScreenTooltip extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip))
+		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)){
 			drawTooltip();
+		}
 	}
 
 	/**
@@ -39,10 +40,13 @@ public class GuiScreenTooltip extends GuiScreen {
 			GuiButton b = this.buttonList.get(x);
 			if (b instanceof GuiButtonTooltip)
 				button = (GuiButtonTooltip) b;
-
-			shouldRenderTooltip = mouseX >= button.x && mouseY >= button.y && mouseX < button.x + button.width && mouseY < button.y + button.height;
-			if (shouldRenderTooltip)
-				x = this.buttonList.size();
+			
+			if(button != null){
+				if(button.isMouseOver()) {
+					shouldRenderTooltip = true;
+					break;
+				}
+			}
 		}
 		if (shouldRenderTooltip) {
 			int posX = mouseX + 5;

@@ -29,8 +29,8 @@ public class HudElementChatHotbar extends HudElement {
 		float f = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 		int yOffset = guiIngame.getChat().getYOffset();
 		ScaledResolution res = new ScaledResolution(this.mc);
-		if (guiIngame.getChat().getYOffset() > res.getScaledHeight() - 68) {
-			yOffset = res.getScaledHeight() - 68;
+		if (guiIngame.getChat().getYOffset() > res.getScaledHeight() - 70) {
+			yOffset = res.getScaledHeight() - 70;
 		}
 		if (j > 0) {
 			boolean flag = false;
