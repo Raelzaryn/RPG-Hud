@@ -54,7 +54,7 @@ public class HudElementFoodHotbar extends HudElement {
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, posX + 100 + (offset / 2), height - 25, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 100 + (offset / 2), height - 25, -1);
 	}
 
 }

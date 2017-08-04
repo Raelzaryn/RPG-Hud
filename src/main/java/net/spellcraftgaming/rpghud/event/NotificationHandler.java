@@ -13,6 +13,7 @@ import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.notification.Notification;
 import net.spellcraftgaming.rpghud.notification.NotificationOldSettings;
@@ -29,7 +30,7 @@ public class NotificationHandler {
 	public static boolean shouldFireMouse = true;
 	@SubscribeEvent
 	public void onGuiScreenTick(GuiScreenEvent event){
-		if(event.getGui() instanceof GuiMainMenu){
+		if(GameData.getGuiOfEvent(event) instanceof GuiMainMenu){
 			CheckResult vercheck = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(ModRPGHud.MOD_ID));
 			boolean outdated = vercheck.status == Status.OUTDATED ? true : vercheck.status == Status.BETA_OUTDATED ? true : false;
 			if(ModRPGHud.instance.settings.getBoolValue(Settings.show_update_notification) && updateCheck && this.notification == null && outdated){
@@ -41,7 +42,7 @@ public class NotificationHandler {
 				this.notification = new NotificationOldSettings(ModRPGHud.instance.settings);
 			}
 			if(this.notification != null){
-				this.notification.drawOnScreen(event.getGui());
+				this.notification.drawOnScreen(GameData.getGuiOfEvent(event));
 			}
 		}
 	}
@@ -61,7 +62,7 @@ public class NotificationHandler {
 	
 	@SubscribeEvent
 	public void onActionPerformed(ActionPerformedEvent event){
-		if(event.getGui() instanceof GuiMainMenu && (this.notification != null || !shouldFireMouse)){
+		if(GameData.getGuiOfEvent(event) instanceof GuiMainMenu && (this.notification != null || !shouldFireMouse)){
 			event.setCanceled(true);
 		}
 	}

@@ -32,7 +32,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 		String stringHealth = health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 100 + offset, height - 55, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 100 + offset, height - 55, -1);
 	}
 
 }

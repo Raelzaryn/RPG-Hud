@@ -5,6 +5,7 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -13,8 +14,9 @@ public class GuiScreenTooltip extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip))
+		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)){
 			drawTooltip();
+		}
 	}
 
 	/**
@@ -38,10 +40,13 @@ public class GuiScreenTooltip extends GuiScreen {
 			GuiButton b = this.buttonList.get(x);
 			if (b instanceof GuiButtonTooltip)
 				button = (GuiButtonTooltip) b;
-
-			shouldRenderTooltip = mouseX >= button.xPosition && mouseY >= button.yPosition && mouseX < button.xPosition + button.width && mouseY < button.yPosition + button.height;
-			if (shouldRenderTooltip)
-				x = this.buttonList.size();
+			
+			if(button != null){
+				if(button.isMouseOver()) {
+					shouldRenderTooltip = true;
+					break;
+				}
+			}
 		}
 		if (shouldRenderTooltip) {
 			int posX = mouseX + 5;
@@ -52,9 +57,9 @@ public class GuiScreenTooltip extends GuiScreen {
 			if (!(tooltip == null)) {
 				int counter = 0;
 				for (int id = 0; id < tooltip.length; id++) {
-					int width = mc.fontRendererObj.getStringWidth(tooltip[id]);
+					int width = GameData.getFontRenderer().getStringWidth(tooltip[id]);
 					if (totalWidth < width)
-						totalWidth = mc.fontRendererObj.getStringWidth(tooltip[id]);
+						totalWidth = GameData.getFontRenderer().getStringWidth(tooltip[id]);
 					counter++;
 				}
 				posX -= totalWidth / 2;
@@ -73,9 +78,9 @@ public class GuiScreenTooltip extends GuiScreen {
 				for (int id = 0; id < tooltip.length; id++) {
 					if (!tooltip[id].isEmpty()) {
 						if (reverseY)
-							gui.drawString(mc.fontRendererObj, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+							gui.drawString(GameData.getFontRenderer(), tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
 						else
-							gui.drawString(mc.fontRendererObj, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+							gui.drawString(GameData.getFontRenderer(), tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
 					}
 				}
 			}

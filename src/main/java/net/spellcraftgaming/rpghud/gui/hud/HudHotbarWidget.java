@@ -16,6 +16,7 @@ public class HudHotbarWidget extends HudDefault {
 
 	public HudHotbarWidget(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
+		this.chatOffset = -22;
 	}
 
 	@Override

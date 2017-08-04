@@ -157,6 +157,10 @@ public class Settings {
 	public Object getValue(String i) {
 		return this.settings.get(i).getValue();
 	}
+	
+	public double getDoubleValue(String i) {
+		return this.settings.get(i).getDoubleValue();
+	}
 
 	public Integer getIntValue(String i) {
 		return this.settings.get(i).getIntValue();

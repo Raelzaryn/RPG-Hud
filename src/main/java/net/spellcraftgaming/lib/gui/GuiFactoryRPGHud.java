@@ -1,10 +1,11 @@
-package net.spellcraftgaming.rpghud.gui;
+package net.spellcraftgaming.lib.gui;
 
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
+import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 
 public class GuiFactoryRPGHud implements IModGuiFactory {
 

@@ -4,7 +4,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -50,10 +49,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	private int calculateWidth() {
 		int width = 0;
 		for (int i = GameData.getPlayerArmorInventoryLength() - 1; i >= 0; i--) {
-			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem() instanceof ItemArmor) {
+			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem().isDamageable()) {
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+				int widthNew = GameData.getFontRenderer().getStringWidth(s);
 				if (widthNew > width)
 					width = widthNew;
 			}
@@ -62,7 +61,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		if (item != GameData.nullStack()) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isItemStackDamageable()) {
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				width = this.mc.fontRendererObj.getStringWidth(s);
+				width = GameData.getFontRenderer().getStringWidth(s);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
 				int x = GameData.getInventorySize();
 				int z = 0;
@@ -83,7 +82,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 				item = GameData.getMainhand();
 				String s = "x " + z;
-				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+				int widthNew = GameData.getFontRenderer().getStringWidth(s);
 				if (widthNew > width)
 					width = widthNew;
 			}
@@ -92,7 +91,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		if (item != GameData.nullStack()) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isItemStackDamageable()) {
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+				int widthNew = GameData.getFontRenderer().getStringWidth(s);
 				if (widthNew > width)
 					width = widthNew;
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
@@ -113,7 +112,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				}
 				item = GameData.getOffhand();
 				String s = "x " + z;
-				int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+				int widthNew = GameData.getFontRenderer().getStringWidth(s);
 				if (widthNew > width)
 					width = widthNew;
 			}
@@ -142,7 +141,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				z = this.count3;
 			}
 			String s = "x " + z;
-			int widthNew = this.mc.fontRendererObj.getStringWidth(s);
+			int widthNew = GameData.getFontRenderer().getStringWidth(s);
 			if (widthNew > width)
 				width = widthNew;
 		}
@@ -165,15 +164,15 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 */
 	protected void drawArmorDetails(Gui gui, int width) {
 		for (int i = GameData.getPlayerArmorInventoryLength() - 1; i >= 0; i--) {
-			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem() instanceof ItemArmor) {
+			if (GameData.getArmorInSlot(i) != GameData.nullStack() && GameData.getArmorInSlot(i).getItem().isDamageable()) {
 				drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				GlStateManager.scale(0.5D, 0.5D, 0.5D);
 				ItemStack item = GameData.getArmorInSlot(i);
 				String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
 				this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(GameData.getFontRenderer(), item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
+				gui.drawCenteredString(GameData.getFontRenderer(), s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scale(2.0D, 2.0D, 2.0D);
 				this.offset += 20;
 			}
@@ -199,9 +198,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				RenderHelper.enableGUIStandardItemLighting();
 				GlStateManager.scale(0.5, 0.5, 0.5);
 				this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(GameData.getFontRenderer(), item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
+				gui.drawCenteredString(GameData.getFontRenderer(), s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scale(2.0, 2.0, 2.0);
 				RenderHelper.disableStandardItemLighting();
 				this.offset += 20;
@@ -240,9 +239,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				GlStateManager.scale(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
 				this.mc.getRenderItem().renderItemIntoGUI(item, 6, 62 + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, 6, 62 + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(GameData.getFontRenderer(), item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
+				gui.drawCenteredString(GameData.getFontRenderer(), s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scale(2.0D, 2.0D, 2.0D);
 				this.offset += 20;
 			}
@@ -289,9 +288,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.itemArrow == GameData.nullStack())
 				this.itemArrow = GameData.arrowStack();
 			this.mc.getRenderItem().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
-			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, this.itemArrow, 6, 62 + this.offset);
+			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getRenderItem().renderItemOverlays(GameData.getFontRenderer(), this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
-			gui.drawCenteredString(this.mc.fontRendererObj, s, 32 + width / 2, 66 + this.offset, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), s, 32 + width / 2, 66 + this.offset, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 			this.offset += 20;
 

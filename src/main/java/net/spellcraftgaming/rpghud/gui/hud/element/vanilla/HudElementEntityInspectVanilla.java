@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -17,7 +18,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementEntityInspectVanilla extends HudElement {
 
-	protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/damageindicator.png");
+	protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/entityinspect.png");
 
 	@Override
 	public boolean checkConditions() {
@@ -35,29 +36,40 @@ public class HudElementEntityInspectVanilla extends HudElement {
 			ScaledResolution res = new ScaledResolution(this.mc);
 			int width = res.getScaledWidth() / 2;
 			this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-			gui.drawTexturedModalRect(width - 62, 20, 0, 0, 124, 32);
-			drawCustomBar(width - 29, 32, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
+			gui.drawTexturedModalRect(width - 62, 20, 0, 0, 128, 36);
+			drawCustomBar(width - 25, 34, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, (width - 29 + 44) * 2, 34 * 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, (width - 27 + 44) * 2, 36 * 2, -1);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 
-			int x = (width - 29 + 44 - this.mc.fontRendererObj.getStringWidth(focused.getName()) / 2);
-			int y = 23;
-			this.mc.fontRendererObj.drawString(focused.getName(), x + 1, y, 0);
-			this.mc.fontRendererObj.drawString(focused.getName(), x - 1, y, 0);
-			this.mc.fontRendererObj.drawString(focused.getName(), x, y + 1, 0);
-			this.mc.fontRendererObj.drawString(focused.getName(), x, y - 1, 0);
-			this.mc.fontRendererObj.drawString(focused.getName(), x, y, -1);
+			int x = (width - 29 + 44 - GameData.getFontRenderer().getStringWidth(focused.getName()) / 2);
+			int y = 25;
+			GameData.getFontRenderer().drawString(focused.getName(), x + 1, y, 0);
+			GameData.getFontRenderer().drawString(focused.getName(), x - 1, y, 0);
+			GameData.getFontRenderer().drawString(focused.getName(), x, y + 1, 0);
+			GameData.getFontRenderer().drawString(focused.getName(), x, y - 1, 0);
+			GameData.getFontRenderer().drawString(focused.getName(), x, y, -1);
 
-			drawEntityOnScreen(width - 60 + 14, 22 + 25, focused);
+			drawEntityOnScreen(width - 60 + 16, 22 + 27, focused);
 		}
 	}
 
 	public static void drawEntityOnScreen(int posX, int posY, EntityLivingBase ent) {
 		GlStateManager.enableColorMaterial();
 		GlStateManager.pushMatrix();
-		int scale = (int) (18 / ent.height);
+		int scale = 1;
+		int s = (int) (22 / ent.height);
+		int s2 = (int) (22 / ent.width);
+		if(s < s2) scale = s;
+		else scale = s2;
+		
+		int offset = 0;
+		if(ent instanceof EntitySquid) {
+			scale = 11;
+			offset = -13;
+		}
+		posY += offset;
 		GlStateManager.translate((float) posX, (float) posY, 50.0F);
 		GlStateManager.scale((float) (-scale), (float) scale, (float) scale);
 		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);

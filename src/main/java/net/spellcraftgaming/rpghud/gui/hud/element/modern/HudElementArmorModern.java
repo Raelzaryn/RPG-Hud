@@ -28,9 +28,9 @@ public class HudElementArmorModern extends HudElement {
 
 		int level = GameData.getPlayerArmor();
 		if (level > 0) {
-			int width2 = 1 + 9 + 2 + this.mc.fontRendererObj.getStringWidth(String.valueOf(level)) + 2;
+			int width2 = 1 + 9 + 2 + GameData.getFontRenderer().getStringWidth(String.valueOf(level)) + 2;
 			drawRect(left, top, width2, 10, 0xA0000000);
-			this.mc.fontRendererObj.drawString(String.valueOf(level), left + 12, top + 2, -1);
+			GameData.getFontRenderer().drawString(String.valueOf(level), left + 12, top + 2, -1);
 			GameData.bindIcons();
 			gui.drawTexturedModalRect(left + 1, top + 1, 34, 9, 9, 9);
 		}

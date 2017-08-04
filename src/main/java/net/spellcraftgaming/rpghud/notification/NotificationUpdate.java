@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.fml.common.Loader;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -22,7 +23,7 @@ public class NotificationUpdate extends Notification {
 		super.draw(screen);
 		try{
 			CheckResult verCheck = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(ModRPGHud.MOD_ID));
-			FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
+			FontRenderer font = GameData.getFontRenderer();
 			screen.drawCenteredString(font, "New update available", screen.width / 2, screen.height / 2 - 68, 0xFFD700);
 			screen.drawString(font, "RPG-HUD has found an outdated version!", screen.width / 2 - 115, screen.height / 2 - 70 + 20, -1);
 			screen.drawString(font, "You are currently running version: " + ModRPGHud.VERSION, screen.width / 2 - 115, screen.height / 2 - 70 + 30, -1);

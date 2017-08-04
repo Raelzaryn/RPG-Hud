@@ -129,7 +129,7 @@ public class HudElementHotbarDefault extends HudElement {
 				GlStateManager.popMatrix();
 			}
 
-			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, xPos, yPos);
+			this.mc.getRenderItem().renderItemOverlays(GameData.getFontRenderer(), item, xPos, yPos);
 		}
 	}
 

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -51,7 +52,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.buttonList.add(new GuiSliderMod(2, GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F));
 		this.buttonList.add(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F));
 
-		this.colorCodeField = new GuiTextField(5, this.fontRendererObj, this.width / 2 - 74, 115, 147, 20);
+		this.colorCodeField = new GuiTextField(5, GameData.getFontRenderer(), this.width / 2 - 74, 115, 147, 20);
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 
 		this.buttonList.add(new GuiButtonTooltip(10, this.width / 4 * 3 - 20, 30 + 10, 60, 20, I18n.format("color.red", new Object[0])));
@@ -187,12 +188,12 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 12, -1);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
+		this.drawCenteredString(GameData.getFontRenderer(), this.title, this.width / 2, 12, -1);
+		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
+		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
+		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
 		this.colorCodeField.drawTextBox();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
