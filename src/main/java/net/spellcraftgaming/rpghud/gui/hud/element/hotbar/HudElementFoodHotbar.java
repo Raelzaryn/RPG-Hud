@@ -13,7 +13,6 @@ public class HudElementFoodHotbar extends HudElement {
 
 	public HudElementFoodHotbar() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -22,7 +21,7 @@ public class HudElementFoodHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -55,7 +54,7 @@ public class HudElementFoodHotbar extends HudElement {
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, posX + 100 + (offset / 2), height - 25, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 100 + (offset / 2), height - 25, -1);
 	}
 
 }

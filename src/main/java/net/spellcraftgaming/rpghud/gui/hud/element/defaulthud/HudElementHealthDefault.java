@@ -10,7 +10,6 @@ public class HudElementHealthDefault extends HudElement {
 
 	public HudElementHealthDefault() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -19,7 +18,7 @@ public class HudElementHealthDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int health = GameData.getPlayerHealth();
 		int absorption = GameData.getPlayerAbsorption();
 		int healthMax = GameData.getPlayerMaxHealth();
@@ -27,18 +26,18 @@ public class HudElementHealthDefault extends HudElement {
 		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 13 : 5;
 
 		if (absorption > 1)
-			drawCustomBar(posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT), scale);
+			drawCustomBar(posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
 
 		if (GameData.isPlayerPoisoned()) {
-			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT), scale);
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
 		} else if (GameData.isPlayerWithering()) {
-			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT), scale);
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
 		} else {
-			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT), scale);
+			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		}
 
 		String stringHealth = (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			drawCenteredString(gui, this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1, scale);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
 	}
 }

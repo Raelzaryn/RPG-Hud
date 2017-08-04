@@ -8,7 +8,10 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -17,7 +20,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -35,6 +37,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
@@ -52,6 +55,10 @@ public class GameData {
 		return mc;
 	}
 
+	public static FontRenderer getFontRenderer(){
+		return getMinecraft().fontRendererObj;
+	}
+	
 	public static World getWorldOfEntity(Entity entity) {
 		return entity.world;
 	}
@@ -367,8 +374,8 @@ public class GameData {
 		return event.getEntityPlayer();
 	}
 
-	public static EntityItem itemOfEvent(EntityItemPickupEvent event) {
-		return event.getItem();
+	public static ItemStack itemStackOfEvent(EntityItemPickupEvent event) {
+		return event.getItem().getEntityItem();
 	}
 
 	public static void beginVertex(int i, VertexFormat format) {
@@ -458,5 +465,17 @@ public class GameData {
 			}
 		}
 		return focusedEntity;
+	}
+	
+	public static int getButtonX(GuiButton b){
+		return b.xPosition;
+	}
+	
+	public static int getButtonY(GuiButton b){
+		return b.xPosition;
+	}
+	
+	public static GuiScreen getGuiOfEvent(GuiScreenEvent event){
+		return event.getGui();
 	}
 }

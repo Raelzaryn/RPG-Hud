@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.spellcraftgaming.lib.GameData;
 
 public class NotificationButton {
 
@@ -35,7 +36,7 @@ public class NotificationButton {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(NOTIFICATION);
 		screen.drawTexturedModalRect(this.x, this.y, 0, 150, 100, 24);
-		screen.drawCenteredString(Minecraft.getMinecraft().fontRendererObj, this.text, this.x + 50, this.y + 8, color);
+		screen.drawCenteredString(GameData.getFontRenderer(), this.text, this.x + 50, this.y + 8, color);
 	}
 	
 	

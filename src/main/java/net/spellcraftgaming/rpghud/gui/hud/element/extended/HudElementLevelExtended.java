@@ -11,7 +11,6 @@ public class HudElementLevelExtended extends HudElement {
 
 	public HudElementLevelExtended() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,10 +19,10 @@ public class HudElementLevelExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GlStateManager.disableBlend();
 		String level = String.valueOf(GameData.getPlayerXPLevel());
-		this.mc.fontRendererObj.drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 13) - this.mc.fontRendererObj.getStringWidth(level) / 2, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 18), 0x80FF20);
+		GameData.getFontRenderer().drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 13) - GameData.getFontRenderer().getStringWidth(level) / 2, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 18), 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

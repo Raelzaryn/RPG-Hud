@@ -20,7 +20,7 @@ public class HudElementExperienceDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
@@ -28,11 +28,11 @@ public class HudElementExperienceDefault extends HudElement {
 		int expCap = GameData.getPlayerXPCap();
 		double full = 100D / expCap;
 		GlStateManager.disableLighting();
-		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25), scale);
+		drawCustomBar(0, height - 10, width, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 		String stringExp = exp + "/" + expCap;
 		int var7 = width / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			drawCenteredString(gui, this.mc.fontRendererObj, stringExp, var7, height - 9, -1, scale);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, var7, height - 9, -1);
 	}
 
 }

@@ -12,7 +12,6 @@ public class HudElementFoodDefault extends HudElement {
 
 	public HudElementFoodDefault() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -21,7 +20,7 @@ public class HudElementFoodDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 24;
@@ -41,18 +40,18 @@ public class HudElementFoodDefault extends HudElement {
 				if (bonusHunger > foodMax)
 					bonusHunger = foodMax;
 				int colorPreview = offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW);
-				drawCustomBar(posX, posY, 110, 12, bonusHunger / (double) foodMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT), scale);
+				drawCustomBar(posX, posY, 110, 12, bonusHunger / (double) foodMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 			}
 		}
 
 		if (GameData.isPlayerHungered()) {
-			drawCustomBar(posX, posY, 110, 12, stamina / (double) foodMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT), scale);
+			drawCustomBar(posX, posY, 110, 12, stamina / (double) foodMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
 		} else {
-			drawCustomBar(posX, posY, 110, 12, stamina / (double) foodMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT), scale);
+			drawCustomBar(posX, posY, 110, 12, stamina / (double) foodMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			drawCenteredString(gui, this.mc.fontRendererObj, staminaString, posX + 55, posY + 2, -1, scale);
+			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 55, posY + 2, -1);
 	}
 
 }

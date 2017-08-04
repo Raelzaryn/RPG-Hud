@@ -19,11 +19,10 @@ public class HudElementHotbarHotbar extends HudElement {
 
 	public HudElementHotbarHotbar() {
 		super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		if (this.mc.playerController.isSpectator()) {
 			((GuiIngameRPGHud) gui).getSpectatorGui().renderTooltip(res, partialTicks);
@@ -109,7 +108,7 @@ public class HudElementHotbarHotbar extends HudElement {
 				GlStateManager.popMatrix();
 			}
 
-			this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, item, xPos, yPos);
+			this.mc.getRenderItem().renderItemOverlays(GameData.getFontRenderer(), item, xPos, yPos);
 		}
 	}
 

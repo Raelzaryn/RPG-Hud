@@ -21,7 +21,7 @@ public class HudElementHealthMountVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		Entity tmp = GameData.getMount();
 		if (!(tmp instanceof EntityLivingBase))
@@ -52,12 +52,12 @@ public class HudElementHealthMountVanilla extends HudElement {
 
 			for (int i = 0; i < rowCount; ++i) {
 				int x = left_align - i * 8 - 9;
-				drawTexturedModalRect(gui, x, top, BACKGROUND, 9, 9, 9, scale);
+				gui.drawTexturedModalRect(x, top, BACKGROUND, 9, 9, 9);
 
 				if (i * 2 + 1 + heart < health)
-					drawTexturedModalRect(gui, x, top, FULL, 9, 9, 9, scale);
+					gui.drawTexturedModalRect(x, top, FULL, 9, 9, 9);
 				else if (i * 2 + 1 + heart == health)
-					drawTexturedModalRect(gui, x, top, HALF, 9, 9, 9, scale);
+					gui.drawTexturedModalRect(x, top, HALF, 9, 9, 9);
 			}
 
 			GuiIngameRPGHud.right_height += 10;

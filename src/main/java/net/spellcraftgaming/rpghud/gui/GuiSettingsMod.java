@@ -5,12 +5,10 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import net.spellcraftgaming.rpghud.settings.Setting;
 import net.spellcraftgaming.rpghud.settings.SettingColor;
-import net.spellcraftgaming.rpghud.settings.SettingDouble;
-import net.spellcraftgaming.rpghud.settings.SettingFloat;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiSettingsMod extends GuiScreenTooltip {
@@ -56,17 +54,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		} else {
 			List<String> settings = this.settings.getSettingsOf(this.subSetting);
 			for(int i = 0; i < settings.size(); i++){
-				Setting setting = this.settings.getSetting(settings.get(i));
-				if(setting instanceof SettingDouble){
-					GuiSliderSettingDouble guismallbutton = (GuiSliderSettingDouble) new GuiSliderSettingDouble(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i)).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
-					this.buttonList.add(guismallbutton);
-				} else if(setting instanceof SettingFloat){
-					GuiSliderSettingFloat guismallbutton = (GuiSliderSettingFloat) new GuiSliderSettingFloat(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i)).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
-					this.buttonList.add(guismallbutton);
-				} else {
-					GuiButtonTooltip guismallbutton = new GuiButtonTooltip(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i), this.settings.getButtonString(settings.get(i))).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
-					this.buttonList.add(guismallbutton);
-				}
+				GuiButtonTooltip guismallbutton = new GuiButtonTooltip(i, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settings.get(i), this.settings.getButtonString(settings.get(i))).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
+				this.buttonList.add(guismallbutton);
 			}
 		}
 
@@ -101,7 +90,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
+
 	}
 }

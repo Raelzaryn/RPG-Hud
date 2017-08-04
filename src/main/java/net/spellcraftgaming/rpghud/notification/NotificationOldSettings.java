@@ -7,6 +7,7 @@ import java.io.FileReader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class NotificationOldSettings extends Notification {
@@ -23,7 +24,7 @@ public class NotificationOldSettings extends Notification {
 	@Override
 	public void draw(GuiScreen screen) {
 		super.draw(screen);
-		FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer font = GameData.getFontRenderer();
 		screen.drawCenteredString(font, "Old Settings", screen.width / 2, screen.height / 2 - 68, 0xFFD700);
 
 		screen.drawString(font, "RPG-HUD has found the old settings files.", screen.width / 2 - 115, screen.height / 2 - 70 + 20, -1);

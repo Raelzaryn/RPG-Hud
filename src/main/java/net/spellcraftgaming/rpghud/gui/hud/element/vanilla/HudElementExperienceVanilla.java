@@ -19,7 +19,7 @@ public class HudElementExperienceVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableBlend();
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -33,10 +33,10 @@ public class HudElementExperienceVanilla extends HudElement {
 				short barWidth = 182;
 				int filled = (int) (GameData.getPlayerXPRaw() * (barWidth + 1));
 				int top = height - 32 + 3;
-				drawTexturedModalRect(gui, left, top, 0, 64, barWidth, 5, scale);
+				gui.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
 
 				if (filled > 0) {
-					drawTexturedModalRect(gui, left, top, 0, 69, filled, 5, scale);
+					gui.drawTexturedModalRect(left, top, 0, 69, filled, 5);
 				}
 			}
 		}

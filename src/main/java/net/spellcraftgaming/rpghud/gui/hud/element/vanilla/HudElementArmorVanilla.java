@@ -19,7 +19,7 @@ public class HudElementArmorVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
@@ -29,11 +29,11 @@ public class HudElementArmorVanilla extends HudElement {
 		int level = GameData.getPlayerArmor();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				drawTexturedModalRect(gui, left, top, 34, 9, 9, 9, scale);
+				gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);
 			} else if (i == level) {
-				drawTexturedModalRect(gui, left, top, 25, 9, 9, 9, scale);
+				gui.drawTexturedModalRect(left, top, 25, 9, 9, 9);
 			} else if (i > level) {
-				drawTexturedModalRect(gui, left, top, 16, 9, 9, 9, scale);
+				gui.drawTexturedModalRect(left, top, 16, 9, 9, 9);
 			}
 			left += 8;
 		}

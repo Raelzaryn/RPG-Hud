@@ -51,12 +51,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
 	/** Constant for the color white */
 	private static final int WHITE = 0xFFFFFF;
-
-	/** left height of this gui screen */
-	public static int left_height = 39;
-	/** right height of this gui screen */
-	public static int right_height = 39;
-
+	
 	/** The scaled resolution of minecraft */
 	private ScaledResolution res = null;
 
@@ -729,7 +724,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 			}
 		}
 	}
-
+	
 	/**
 	 * Checks if the HudElementType has a setting to force it to be rendered
 	 * regardless of the forge event and if it is activated
@@ -809,5 +804,9 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 		default:
 			return null;
 		}
+	}
+	
+	public void addChatYOffset(int offset){
+		this.chat.setYOffset(this.chat.yOffset + offset);
 	}
 }

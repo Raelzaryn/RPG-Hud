@@ -14,7 +14,7 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 	public GuiSliderSettingDouble(int buttonId, int x, int y, String optionIn) {
 		super(buttonId, x, y, optionIn, "");
 		this.sliderValue = 1.0F;
-		this.sliderValue = SettingDouble.normalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(optionIn), ModRPGHud.instance.settings.getDoubleValue(optionIn));
+		this.sliderValue = SettingDouble.normalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(optionIn), (double) ModRPGHud.instance.settings.getDoubleValue(optionIn));
 		this.displayString = ModRPGHud.instance.settings.getButtonString(optionIn);
 	}
 
@@ -35,7 +35,7 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
 		if (this.visible) {
 			if (this.dragging) {
-				this.sliderValue = (double) (mouseX - (this.xPosition + 4)) / (double) (this.width - 8);
+				this.sliderValue = (double) (mouseX - (this.x + 4)) / (double) (this.width - 8);
 				this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
 				double f = SettingDouble.denormalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue);
 				ModRPGHud.instance.settings.setSetting(this.enumOptions, f);
@@ -45,8 +45,8 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 
 			GameData.bindButtonTextures();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 	@Override
 	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
 		if (super.mousePressed(mc, mouseX, mouseY)) {
-			this.sliderValue = (double) (mouseX - (this.xPosition + 4)) / (double) (this.width - 8);
+			this.sliderValue = (double) (mouseX - (this.x + 4)) / (double) (this.width - 8);
 			this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
 			ModRPGHud.instance.settings.setSetting(this.enumOptions, SettingDouble.denormalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue));
 			this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);

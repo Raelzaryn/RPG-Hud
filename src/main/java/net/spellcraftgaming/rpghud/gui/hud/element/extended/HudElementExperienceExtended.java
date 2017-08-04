@@ -11,7 +11,6 @@ public class HudElementExperienceExtended extends HudElement {
 
 	public HudElementExperienceExtended() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
-		this.parent = HudElementType.WIDGET;
 	}
 
 	@Override
@@ -20,7 +19,7 @@ public class HudElementExperienceExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int exp = GameData.getPlayerXPCap();
 		double full = 100D / GameData.getPlayerXPCap();
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
@@ -29,7 +28,7 @@ public class HudElementExperienceExtended extends HudElement {
 		String stringExp = exp + "/" + GameData.getPlayerXPCap();
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, posX * 2 + 82, posY * 2 + 4, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, posX * 2 + 82, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 		}
 	}

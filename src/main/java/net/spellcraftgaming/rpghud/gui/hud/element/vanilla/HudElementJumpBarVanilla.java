@@ -21,7 +21,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, double scale) {
+	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -34,10 +34,10 @@ public class HudElementJumpBarVanilla extends HudElement {
 		int filled = (int) (charge * (barWidth + 1));
 		int top = res.getScaledHeight() - 32 + 3;
 
-		drawTexturedModalRect(gui, x, top, 0, 84, barWidth, 5, scale);
+		gui.drawTexturedModalRect(x, top, 0, 84, barWidth, 5);
 
 		if (filled > 0) {
-			drawTexturedModalRect(gui, x, top, 0, 89, filled, 5, scale);
+			gui.drawTexturedModalRect(x, top, 0, 89, filled, 5);
 		}
 
 		GlStateManager.enableBlend();
