@@ -73,7 +73,7 @@ public class Settings {
 	public static final String prevent_element_render = "prevent_element_render";
 
 	public Settings() {
-		this.config = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD", "settings.cfg"));
+		this.config = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/config/RPG-HUD", "settings.cfg"));
 		this.config.load();
 		init();
 		this.config.save();
