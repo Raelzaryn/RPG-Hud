@@ -7,7 +7,10 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -16,7 +19,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -28,6 +30,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
@@ -45,6 +48,10 @@ public class GameData {
 		return mc;
 	}
 
+	public static FontRenderer getFontRenderer(){
+		return getMinecraft().fontRendererObj;
+	}
+	
 	public static World getWorldOfEntity(Entity entity) {
 		return entity.worldObj;
 	}
@@ -326,8 +333,8 @@ public class GameData {
 		return event.entityPlayer;
 	}
 
-	public static EntityItem itemOfEvent(EntityItemPickupEvent event) {
-		return event.item;
+	public static ItemStack itemStackOfEvent(EntityItemPickupEvent event) {
+		return event.item.getEntityItem();
 	}
 
 	public static void beginVertex(int i, VertexFormat format) {
@@ -403,6 +410,10 @@ public class GameData {
 		return MathHelper.clamp_float(f1, f2, f3);
 	}
 
+	public static int clamp(int f1, int f2, int f3) {
+		return MathHelper.clamp_int(f1, f2, f3);
+	}
+	
 	public static int hsvToRGB(float f1, float f2, float f3) {
 		// MathHelper.hsvToRGB(f1, f2, f3);
 		return 0;
@@ -454,5 +465,17 @@ public class GameData {
 			}
 		}
 		return focusedEntity;
+	}
+	
+	public static int getButtonX(GuiButton b){
+		return b.xPosition;
+	}
+	
+	public static int getButtonY(GuiButton b){
+		return b.xPosition;
+	}
+	
+	public static GuiScreen getGuiOfEvent(GuiScreenEvent event){
+		return event.gui;
 	}
 }

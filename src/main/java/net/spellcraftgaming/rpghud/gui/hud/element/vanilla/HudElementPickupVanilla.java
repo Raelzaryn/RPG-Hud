@@ -7,6 +7,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -41,7 +42,7 @@ public class HudElementPickupVanilla extends HudElement {
 			gui.drawTexturedModalRect(width - 76, height - 32 - i * 32, 146, 222, 76, 32);
 			RenderHelper.enableGUIStandardItemLighting();
 			this.mc.getRenderItem().renderItemIntoGUI(item, width - 76 + 8, height - 32 - i * 32 + 8);
-			gui.drawString(this.mc.fontRendererObj, "x " + count, width - 76 + 32, height - 32 - i * 32 + 12, -1);
+			gui.drawString(GameData.getFontRenderer(), "x " + count, width - 76 + 32, height - 32 - i * 32 + 12, -1);
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.color(1f, 1f, 1f, 1f);
 		}

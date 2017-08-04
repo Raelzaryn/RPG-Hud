@@ -24,8 +24,8 @@ public class HudElementLevelModern extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		String level = String.valueOf(GameData.getPlayerXPLevel());
 		int width = 18;
-		if (this.mc.fontRendererObj.getStringWidth(level) > (width + 2))
-			width = this.mc.fontRendererObj.getStringWidth(level) + 2;
+		if (GameData.getFontRenderer().getStringWidth(level) > (width + 2))
+			width = GameData.getFontRenderer().getStringWidth(level) + 2;
 		GlStateManager.enableAlpha();
 		GlStateManager.disableBlend();
 		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2;
@@ -38,9 +38,9 @@ public class HudElementLevelModern extends HudElement {
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24" || !this.settings.getBoolValue(Settings.render_player_face)) {
-			gui.drawCenteredString(this.mc.fontRendererObj, level, (posX * 2) + 18, posY * 2 + 3, 0x80FF20);
+			gui.drawCenteredString(GameData.getFontRenderer(), level, (posX * 2) + 18, posY * 2 + 3, 0x80FF20);
 		} else {
-			gui.drawCenteredString(this.mc.fontRendererObj, level, 70, posY * 2 + 3, 0x80FF20);
+			gui.drawCenteredString(GameData.getFontRenderer(), level, 70, posY * 2 + 3, 0x80FF20);
 		}
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
 		GlStateManager.enableBlend();

@@ -23,6 +23,7 @@ public abstract class Hud {
 	/** Minecraft instance */
 	protected Minecraft mc;
 
+	public int chatOffset = 0;
 	public Hud(Minecraft mc, String hudKey, String hudName) {
 		this.mc = mc;
 		this.hudKey = hudKey;

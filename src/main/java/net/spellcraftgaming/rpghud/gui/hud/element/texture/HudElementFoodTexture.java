@@ -53,7 +53,7 @@ public class HudElementFoodTexture extends HudElement {
 		}
 		String staminaString = stamina + "/" + foodMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			gui.drawCenteredString(this.mc.fontRendererObj, staminaString, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);
 		GameData.bindIcons();
 	}

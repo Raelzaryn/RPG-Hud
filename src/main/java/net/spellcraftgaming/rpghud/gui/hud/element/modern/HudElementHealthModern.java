@@ -27,14 +27,14 @@ public class HudElementHealthModern extends HudElement {
 		int absorption = GameData.getPlayerAbsorption();
 
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		int width = this.mc.fontRendererObj.getStringWidth(healthMax + "/" + healthMax) / 2 + 4;
+		int width = GameData.getFontRenderer().getStringWidth(healthMax + "/" + healthMax) / 2 + 4;
 		((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 		String stringHealth = (health + absorption) + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2, 4, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, this.settings.getBoolValue(Settings.render_player_face) ? (xOffset * 2) + 28 : 24, 12, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, this.settings.getBoolValue(Settings.render_player_face) ? (xOffset * 2) + 28 : 24, 12, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 
