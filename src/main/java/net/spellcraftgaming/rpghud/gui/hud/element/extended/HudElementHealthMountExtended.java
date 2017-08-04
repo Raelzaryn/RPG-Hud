@@ -31,7 +31,7 @@ public class HudElementHealthMountExtended extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX * 2 + 82, posY * 2 + 4, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX * 2 + 82, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 		}
 	}

@@ -52,11 +52,6 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	/** Constant for the color white */
 	private static final int WHITE = 0xFFFFFF;
 
-	/** left height of this gui screen */
-	public static int left_height = 39;
-	/** right height of this gui screen */
-	public static int right_height = 39;
-
 	/** The scaled resolution of minecraft */
 	private ScaledResolution res = null;
 

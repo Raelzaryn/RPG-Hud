@@ -1,16 +1,20 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.spellcraftgaming.lib.GameData;
+import net.spellcraftgaming.lib.gui.GuiButtonLib;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @SideOnly(Side.CLIENT)
-public class GuiButtonTooltip extends GuiButton {
+public class GuiButtonTooltip extends GuiButtonLib {
 
 	/** Variable to contain the (possible) setting of this button */
 	public final String enumOptions;
 
+	public int x = GameData.getButtonX(this);
+	public int y = GameData.getButtonX(this);
+	
 	/** Array that contains the tooltip of this button */
 	private String[] tooltip;
 	/**

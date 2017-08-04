@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingColor;
@@ -89,7 +90,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
+
 	}
 }

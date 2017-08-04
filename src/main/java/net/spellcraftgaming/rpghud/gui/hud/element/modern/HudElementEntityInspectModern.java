@@ -28,12 +28,12 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, (width - 29 + 44) * 2, 34 * 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, (width - 29 + 44) * 2, 34 * 2, -1);
 			GlStateManager.scale(2.0, 2.0, 2.0);
 
-			int x = (width - 29 + 44 - this.mc.fontRendererObj.getStringWidth(focused.getName()) / 2);
+			int x = (width - 29 + 44 - GameData.getFontRenderer().getStringWidth(focused.getName()) / 2);
 			int y = 23;
-			this.mc.fontRendererObj.drawString(focused.getName(), x, y, -1);
+			GameData.getFontRenderer().drawString(focused.getName(), x, y, -1);
 
 			drawEntityOnScreen(width - 60 + 14, 22 + 25, focused);
 		}

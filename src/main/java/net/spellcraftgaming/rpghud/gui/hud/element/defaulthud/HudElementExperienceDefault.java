@@ -32,7 +32,7 @@ public class HudElementExperienceDefault extends HudElement {
 		String stringExp = exp + "/" + expCap;
 		int var7 = width / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gui.drawCenteredString(this.mc.fontRendererObj, stringExp, var7, height - 9, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, var7, height - 9, -1);
 	}
 
 }

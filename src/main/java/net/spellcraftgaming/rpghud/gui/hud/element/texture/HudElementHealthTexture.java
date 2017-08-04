@@ -39,7 +39,7 @@ public class HudElementHealthTexture extends HudElement {
 
 		String stringHealth = (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(this.mc.fontRendererObj, stringHealth, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);
 		GameData.bindIcons();
 	}
