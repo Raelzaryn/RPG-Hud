@@ -224,7 +224,7 @@ public class Settings {
 		if (setting instanceof SettingInteger)
 			this.config.get(category, id, (Integer) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Integer) setting.getValue());
 		else if (setting instanceof SettingColor)
-			this.config.get(category, id, Integer.toHexString((Integer) setting.getDefaultValue()), setting.getFormatedTooltip()).set(Integer.toHexString((Integer) setting.getDefaultValue()));
+			this.config.get(category, id, Integer.toHexString((Integer) setting.getDefaultValue()), setting.getFormatedTooltip()).set(Integer.toHexString((Integer) setting.getValue()));
 		else if (setting instanceof SettingBoolean)
 			this.config.get(category, id, (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
 		else if (setting instanceof SettingFloat)
