@@ -15,6 +15,7 @@ public class HudElementFoodModern extends HudElement {
 
 	public HudElementFoodModern() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

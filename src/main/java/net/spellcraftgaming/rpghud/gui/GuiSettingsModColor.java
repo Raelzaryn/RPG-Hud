@@ -30,7 +30,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	}
 
 	private String setTitle() {
-		return I18n.format("name." + this.color, new Object[0]);
+		return I18n.format("name." + this.colorType, new Object[0]);
 	}
 
 	private void setColors() {

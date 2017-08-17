@@ -13,6 +13,7 @@ public class HudElementHealthModern extends HudElement {
 
 	public HudElementHealthModern() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ public class HudElementLevelHotbar extends HudElement {
 
 	public HudElementLevelHotbar() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

@@ -13,6 +13,7 @@ public class HudElementLevelModern extends HudElement {
 
 	public HudElementLevelModern() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class GuiScreenTooltip extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		super.drawScreen(mouseX, mouseY, partialTicks);
+        super.drawScreen(mouseX, mouseY, partialTicks);
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)){
 			drawTooltip();
 		}

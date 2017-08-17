@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -12,11 +13,14 @@ import net.minecraftforge.common.config.Configuration;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class Settings {
 
 	private Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
 	private Configuration config;
+	
+	private Configuration[] hudConfig;
 
 	public static final String hud_type = "hud_type";
 	public static final String enable_button_tooltip = "enable_button_tooltip";
@@ -80,6 +84,19 @@ public class Settings {
 
 	}
 
+	public void initHudConfig() {
+		hudConfig = new Configuration[ModRPGHud.instance.huds.size()];
+		Set<String> huds = ModRPGHud.instance.huds.keySet();
+		String[] keys = huds.toArray(new String[huds.size()]);
+		int size = keys.length;
+		for(int n = 0; n < size; n++){
+			hudConfig[n] = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD\\hud", keys[n] + ".cfg"));
+			Setting setting = new SettingBoolean("test", true);
+			hudConfig[n].get("test", "test", (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
+			hudConfig[n].save();
+		}
+	}
+	
 	public void init() {
 		addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
 		addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));

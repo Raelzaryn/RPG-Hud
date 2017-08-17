@@ -16,9 +16,9 @@ public class GuiButtonLib extends GuiButton{
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partial) {
 		super.drawButton(mc, mouseX, mouseY, partial);
+		this.drawButton(mc, mouseX, mouseY);
 	}
 	
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
-		this.drawButton(mc, mouseX, mouseY, 0f);
 	}
 }

@@ -93,6 +93,7 @@ public abstract class HudElement {
 	protected double scale;
 	protected double scaleInverted;
 
+	public HudElementType parent;
 	/**
 	 * Constructor
 	 * 
@@ -123,6 +124,7 @@ public abstract class HudElement {
 		this.settings = this.rpgHud.settings;
 		this.scale = 1D;
 		this.scaleInverted = 1D / this.scale;
+		this.parent = type;
 	}
 
 	/**

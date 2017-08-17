@@ -11,6 +11,7 @@ public class HudElementLevelDefault extends HudElement {
 
 	public HudElementLevelDefault() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override
