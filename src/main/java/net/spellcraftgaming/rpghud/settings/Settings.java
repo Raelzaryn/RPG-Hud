@@ -76,8 +76,12 @@ public class Settings {
 	public static final String prevent_event = "prevent_event";
 	public static final String prevent_element_render = "prevent_element_render";
 
+	private File rpgHudDir() {
+		return(new File(Minecraft.getMinecraft().mcDataDir.getPath(),"config" + File.separator + "RPG-HUD"));
+	}
+
 	public Settings() {
-		this.config = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/config/RPG-HUD", "settings.cfg"));
+		this.config = new Configuration(new File(rpgHudDir(), "settings.cfg"));
 		this.config.load();
 		init();
 		this.config.save();
@@ -90,7 +94,7 @@ public class Settings {
 		String[] keys = huds.toArray(new String[huds.size()]);
 		int size = keys.length;
 		for(int n = 0; n < size; n++){
-			hudConfig[n] = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "\\config\\RPG-HUD\\hud", keys[n] + ".cfg"));
+			hudConfig[n] = new Configuration(new File(rpgHudDir() + File.separator + "hud", keys[n] + ".cfg"));
 			Setting setting = new SettingBoolean("test", true);
 			hudConfig[n].get("test", "test", (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
 			hudConfig[n].save();
