@@ -11,6 +11,7 @@ public class HudElementExperienceExtended extends HudElement {
 
 	public HudElementExperienceExtended() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

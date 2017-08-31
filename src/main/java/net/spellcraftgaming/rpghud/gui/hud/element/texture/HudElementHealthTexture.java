@@ -11,6 +11,7 @@ public class HudElementHealthTexture extends HudElement {
 
 	public HudElementHealthTexture() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, false);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

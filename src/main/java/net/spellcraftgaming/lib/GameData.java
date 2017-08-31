@@ -88,15 +88,15 @@ public class GameData {
 	}
 
 	public static boolean isPlayerPoisoned() {
-		return getPlayer().isPotionActive(MobEffects.POISON);
+		return getPlayer().isPotionActive(MobEffects.poison);
 	}
 
 	public static boolean isPlayerRegenerating() {
-		return getPlayer().isPotionActive(MobEffects.REGENERATION);
+		return getPlayer().isPotionActive(MobEffects.regeneration);
 	}
 
 	public static boolean isPlayerWithering() {
-		return getPlayer().isPotionActive(MobEffects.WITHER);
+		return getPlayer().isPotionActive(MobEffects.wither);
 	}
 
 	public static int getPlayerAir() {
@@ -104,7 +104,7 @@ public class GameData {
 	}
 
 	public static boolean isPlayerUnderwater() {
-		return getPlayer().isInsideOfMaterial(Material.WATER);
+		return getPlayer().isInsideOfMaterial(Material.water);
 	}
 
 	public static int getPlayerArmor() {
@@ -140,7 +140,7 @@ public class GameData {
 	}
 
 	public static boolean isPlayerHungered() {
-		return getPlayer().isPotionActive(MobEffects.HUNGER);
+		return getPlayer().isPotionActive(MobEffects.hunger);
 	}
 
 	public static ItemStack getMainhand() {
@@ -166,6 +166,10 @@ public class GameData {
 	public static float getCooledAttackStrength() {
 		return getPlayer().getCooledAttackStrength(0F);
 	}
+	
+	public static float getCooldownPeriod(){
+		return getPlayer().getCooldownPeriod();
+	}
 
 	public static float getItemAnimationsToGo(ItemStack item) {
 		return item.animationsToGo;
@@ -180,11 +184,11 @@ public class GameData {
 	}
 
 	public static boolean hasPlayerClock() {
-		return getPlayer().inventory.hasItemStack(new ItemStack(Items.CLOCK));
+		return getPlayer().inventory.hasItemStack(new ItemStack(Items.clock));
 	}
 
 	public static boolean hasPlayerCompass() {
-		return getPlayer().inventory.hasItemStack(new ItemStack(Items.COMPASS));
+		return getPlayer().inventory.hasItemStack(new ItemStack(Items.compass));
 	}
 
 	public static int getPlayerArmorInventoryLength() {
@@ -295,11 +299,11 @@ public class GameData {
 	}
 
 	public static ItemStack arrowStack() {
-		return new ItemStack(Items.ARROW);
+		return new ItemStack(Items.arrow);
 	}
 
 	public static void bindIcons() {
-		getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
+		getMinecraft().getTextureManager().bindTexture(Gui.icons);
 	}
 
 	public static void bindButtonTextures() {
@@ -351,6 +355,16 @@ public class GameData {
 		return GL11.GL_ONE_MINUS_SRC_ALPHA;
 		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
 	}
+	
+	public static int getOneMinusDstColor() {
+		return GL11.GL_ONE_MINUS_DST_COLOR;
+		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
+	}
+	
+	public static int getOneMinusSrcColor() {
+		return GL11.GL_ONE_MINUS_SRC_COLOR;
+		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
+	}
 
 	public static int getGlOne() {
 		return GL11.GL_ONE;
@@ -364,6 +378,10 @@ public class GameData {
 
 	public static void tryBlendFuncSeparate() {
 		GlStateManager.tryBlendFuncSeparate(getSrcAlpha(), getOneMinusSrcAlpha(), getGlOne(), getGlZero());
+	}
+	
+	public static void tryBlendFuncCrosshair() {
+		GlStateManager.tryBlendFuncSeparate(getOneMinusDstColor(), getOneMinusSrcColor(), getGlOne(), getGlZero());
 	}
 
 	public static void blendFunc() {

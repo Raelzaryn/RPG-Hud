@@ -117,7 +117,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
 		renderHelmet(this.res, partialTicks);
 
-		if (!this.mc.thePlayer.isPotionActive(MobEffects.NAUSEA)) {
+		if (!this.mc.thePlayer.isPotionActive(MobEffects.confusion)) {
 			renderPortalMod(this.res, partialTicks);
 		}
 
@@ -219,7 +219,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	private void renderBossHealthMod() {
 		if (pre(BOSSHEALTH))
 			return;
-		bind(Gui.ICONS);
+		bind(Gui.icons);
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		this.mc.mcProfiler.startSection("bossHealth");
 		GlStateManager.enableBlend();
@@ -237,7 +237,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 		ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
 
 		if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() != null) {
-			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN)) {
+			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)) {
 				renderPumpkinOverlay(res);
 			} else {
 				itemstack.getItem().renderHelmetOverlay(itemstack, this.mc.thePlayer, res, partialTicks);
@@ -422,7 +422,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 	/** Renders the player list via it's class */
 	private void renderPlayerList(int width) {
 		ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
-		NetHandlerPlayClient handler = this.mc.thePlayer.connection;
+		NetHandlerPlayClient handler = this.mc.thePlayer.sendQueue;
 
 		if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null)) {
 			this.overlayPlayerList.updatePlayerList(true);
@@ -537,7 +537,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the vanilla HUD
@@ -558,7 +558,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the active HUD
@@ -590,7 +590,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the vanilla HUD
@@ -615,7 +615,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the active HUD
@@ -649,7 +649,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 			if (forceRenderType(HudElementType.CHAT)) {
 				if (forceRenderTypeVanilla(HudElementType.CHAT)) {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 						GlStateManager.pushMatrix();
 						GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
@@ -665,7 +665,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 					}
 				} else {
 					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
 
@@ -684,7 +684,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 							return;
 					}
 					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 						GlStateManager.pushMatrix();
 						GlStateManager.translate((float) event.getPosX(), (float) event.getPosY(), 0.0F);
@@ -701,7 +701,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 							return;
 					}
 					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
+						bind(Gui.icons);
 						GlStateManager.enableBlend();
 						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
 

@@ -12,6 +12,7 @@ public class HudElementFoodDefault extends HudElement {
 
 	public HudElementFoodDefault() {
 		super(HudElementType.FOOD, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

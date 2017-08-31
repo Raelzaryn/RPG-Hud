@@ -185,7 +185,7 @@ public class GuiChatRPGHud extends GuiNewChat {
 
 					for (ITextComponent itextcomponent : chatline.getChatComponent()) {
 						if (itextcomponent instanceof TextComponentString) {
-							j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString) itextcomponent).getText(), false));
+							j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.func_178909_a(((TextComponentString) itextcomponent).getChatComponentText_TextValue(), false));
 
 							if (j1 > j) {
 								return itextcomponent;
