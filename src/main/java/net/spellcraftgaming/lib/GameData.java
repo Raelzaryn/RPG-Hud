@@ -12,6 +12,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -165,6 +166,10 @@ public class GameData {
 
 	public static float getCooledAttackStrength() {
 		return getPlayer().getCooledAttackStrength(0F);
+	}
+	
+	public static float getCooldownPeriod(){
+		return getPlayer().getCooldownPeriod();
 	}
 
 	public static float getItemAnimationsToGo(ItemStack item) {
@@ -338,7 +343,7 @@ public class GameData {
 	}
 
 	public static void doRenderDirections() {
-		// OpenGlHelper.renderDirections(10);
+		OpenGlHelper.renderDirections(10);
 	}
 
 	// OpenGL stuff
@@ -349,6 +354,16 @@ public class GameData {
 
 	public static int getOneMinusSrcAlpha() {
 		return GL11.GL_ONE_MINUS_SRC_ALPHA;
+		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
+	}
+	
+	public static int getOneMinusDstColor() {
+		return GL11.GL_ONE_MINUS_DST_COLOR;
+		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
+	}
+	
+	public static int getOneMinusSrcColor() {
+		return GL11.GL_ONE_MINUS_SRC_COLOR;
 		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
 	}
 
@@ -364,6 +379,10 @@ public class GameData {
 
 	public static void tryBlendFuncSeparate() {
 		GlStateManager.tryBlendFuncSeparate(getSrcAlpha(), getOneMinusSrcAlpha(), getGlOne(), getGlZero());
+	}
+	
+	public static void tryBlendFuncCrosshair() {
+		GlStateManager.tryBlendFuncSeparate(getOneMinusDstColor(), getOneMinusSrcColor(), getGlOne(), getGlZero());
 	}
 
 	public static void blendFunc() {

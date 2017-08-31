@@ -10,6 +10,7 @@ public class HudElementHealthDefault extends HudElement {
 
 	public HudElementHealthDefault() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

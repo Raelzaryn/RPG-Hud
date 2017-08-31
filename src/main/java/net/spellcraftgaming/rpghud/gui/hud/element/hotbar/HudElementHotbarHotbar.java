@@ -19,6 +19,7 @@ public class HudElementHotbarHotbar extends HudElement {
 
 	public HudElementHotbarHotbar() {
 		super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

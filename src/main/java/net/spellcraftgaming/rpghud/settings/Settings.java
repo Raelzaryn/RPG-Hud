@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -12,11 +13,14 @@ import net.minecraftforge.common.config.Configuration;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class Settings {
 
 	private Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
 	private Configuration config;
+	
+	private Configuration[] hudConfig;
 
 	public static final String hud_type = "hud_type";
 	public static final String enable_button_tooltip = "enable_button_tooltip";
@@ -72,14 +76,31 @@ public class Settings {
 	public static final String prevent_event = "prevent_event";
 	public static final String prevent_element_render = "prevent_element_render";
 
+	private File rpgHudDir() {
+		return(new File(Minecraft.getMinecraft().mcDataDir.getPath(),"config" + File.separator + "RPG-HUD"));
+	}
+
 	public Settings() {
-		this.config = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/config/RPG-HUD", "settings.cfg"));
+		this.config = new Configuration(new File(rpgHudDir(), "settings.cfg"));
 		this.config.load();
 		init();
 		this.config.save();
 
 	}
 
+	public void initHudConfig() {
+		hudConfig = new Configuration[ModRPGHud.instance.huds.size()];
+		Set<String> huds = ModRPGHud.instance.huds.keySet();
+		String[] keys = huds.toArray(new String[huds.size()]);
+		int size = keys.length;
+		for(int n = 0; n < size; n++){
+			hudConfig[n] = new Configuration(new File(rpgHudDir() + File.separator + "hud", keys[n] + ".cfg"));
+			Setting setting = new SettingBoolean("test", true);
+			hudConfig[n].get("test", "test", (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
+			hudConfig[n].save();
+		}
+	}
+	
 	public void init() {
 		addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
 		addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
@@ -207,7 +228,7 @@ public class Settings {
 		if (setting instanceof SettingInteger)
 			this.config.get(category, id, (Integer) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Integer) setting.getValue());
 		else if (setting instanceof SettingColor)
-			this.config.get(category, id, Integer.toHexString((Integer) setting.getDefaultValue()), setting.getFormatedTooltip()).set(Integer.toHexString((Integer) setting.getDefaultValue()));
+			this.config.get(category, id, Integer.toHexString((Integer) setting.getDefaultValue()), setting.getFormatedTooltip()).set(Integer.toHexString((Integer) setting.getValue()));
 		else if (setting instanceof SettingBoolean)
 			this.config.get(category, id, (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
 		else if (setting instanceof SettingFloat)

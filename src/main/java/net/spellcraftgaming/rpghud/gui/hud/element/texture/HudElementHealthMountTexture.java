@@ -12,6 +12,7 @@ public class HudElementHealthMountTexture extends HudElement {
 
 	public HudElementHealthMountTexture() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, false);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override

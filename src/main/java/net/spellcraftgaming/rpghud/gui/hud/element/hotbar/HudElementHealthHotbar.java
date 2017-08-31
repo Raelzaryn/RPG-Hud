@@ -11,6 +11,7 @@ public class HudElementHealthHotbar extends HudElement {
 
 	public HudElementHealthHotbar() {
 		super(HudElementType.HEALTH, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override
