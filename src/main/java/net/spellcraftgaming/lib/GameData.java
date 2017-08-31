@@ -168,6 +168,10 @@ public class GameData {
 		return getPlayer().getCooledAttackStrength(0F);
 	}
 
+	public static float getCooldownPeriod(){
+		return getPlayer().getCooldownPeriod();
+	}
+	
 	public static float getItemAnimationsToGo(ItemStack item) {
 		return item.getAnimationsToGo();
 	}
@@ -351,6 +355,16 @@ public class GameData {
 		return GL11.GL_ONE_MINUS_SRC_ALPHA;
 		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
 	}
+	
+	public static int getOneMinusDstColor() {
+		return GL11.GL_ONE_MINUS_DST_COLOR;
+		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
+	}
+	
+	public static int getOneMinusSrcColor() {
+		return GL11.GL_ONE_MINUS_SRC_COLOR;
+		// return GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
+	}
 
 	public static int getGlOne() {
 		return GL11.GL_ONE;
@@ -364,6 +378,10 @@ public class GameData {
 
 	public static void tryBlendFuncSeparate() {
 		GlStateManager.tryBlendFuncSeparate(getSrcAlpha(), getOneMinusSrcAlpha(), getGlOne(), getGlZero());
+	}
+	
+	public static void tryBlendFuncCrosshair() {
+		GlStateManager.tryBlendFuncSeparate(getOneMinusDstColor(), getOneMinusSrcColor(), getGlOne(), getGlZero());
 	}
 
 	public static void blendFunc() {
