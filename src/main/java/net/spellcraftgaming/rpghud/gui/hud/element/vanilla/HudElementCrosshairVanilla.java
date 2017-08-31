@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,7 +37,7 @@ public class HudElementCrosshairVanilla extends HudElement {
                 GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks, 0.0F, 1.0F, 0.0F);
                 GlStateManager.scale(-1.0F, -1.0F, -1.0F);
-                OpenGlHelper.renderDirections(10);
+                GameData.doRenderDirections();
                 GlStateManager.popMatrix();
 			} else {
 				GameData.tryBlendFuncCrosshair();
@@ -52,7 +51,7 @@ public class HudElementCrosshairVanilla extends HudElement {
 					
                     if (this.mc.pointedEntity != null && this.mc.pointedEntity instanceof EntityLivingBase && f >= 1.0F)
                     {
-                        flag = this.mc.player.getCooldownPeriod() > 5.0F;
+                        flag = GameData.getCooldownPeriod() > 5.0F;
                         flag = flag & ((EntityLivingBase)this.mc.pointedEntity).isEntityAlive();
                     }
                     

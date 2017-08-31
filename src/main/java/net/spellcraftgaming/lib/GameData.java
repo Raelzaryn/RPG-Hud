@@ -168,6 +168,10 @@ public class GameData {
 		return getPlayer().getCooledAttackStrength(0F);
 	}
 
+	public static float getCooldownPeriod(){
+		return getPlayer().getCooldownPeriod();
+	}
+	
 	public static float getItemAnimationsToGo(ItemStack item) {
 		return item.getAnimationsToGo();
 	}
