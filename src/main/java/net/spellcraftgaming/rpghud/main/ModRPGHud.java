@@ -28,18 +28,12 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class ModRPGHud {
 
-	// TODO 3.x: Make elements moveable onscreen
-	// TODO 3.x: Simple debug settings configuration
-	// TODO 3.x: Distance checker
-	// TODO 3.x: FPS
-	// TODO 3.x: Block inspect
-
 	/** The mod ID of this mod */
 	public static final String MOD_ID = "rpghud";
 	/** The mod name of this mod */
 	public static final String NAME = "RPG-Hud";
 	/** The mod version of this mod */
-	public static final String VERSION = "3.6.4";
+	public static final String VERSION = "3.6.5";
 	/** Path to GuiFactory class of this mod */
 	public static final String GUI_FACTORY = "net.spellcraftgaming.lib.gui.GuiFactoryRPGHud";
 
@@ -77,6 +71,7 @@ public class ModRPGHud {
 		this.registerHud(new HudFullTexture(Minecraft.getMinecraft(), "texture", "Full Texture"));
 		this.registerHud(new HudHotbarWidget(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudModern(Minecraft.getMinecraft(), "modern", "Modern Style"));
+		this.settings.initHudConfig();
 	}
 
 	/**

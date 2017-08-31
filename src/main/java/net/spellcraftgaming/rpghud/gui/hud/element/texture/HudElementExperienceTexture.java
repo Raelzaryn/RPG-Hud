@@ -11,6 +11,7 @@ public class HudElementExperienceTexture extends HudElement {
 
 	public HudElementExperienceTexture() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);
+		parent = HudElementType.WIDGET;
 	}
 
 	@Override
