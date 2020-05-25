@@ -35,11 +35,12 @@ public class HudElementHotbarHotbar extends HudElement {
 			int i = res.getScaledWidth() / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
-			int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
-			gui.drawTexturedModalRect(posX, res.getScaledHeight() - 47, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(posX + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1, 0, 22, 24, 22);
+			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
+			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
+			gui.drawTexturedModalRect(posX, res.getScaledHeight() - 47 + posY, 0, 0, 182, 22);
+			gui.drawTexturedModalRect(posX + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 47 - 1 + posY, 0, 22, 24, 22);
 
-			gui.drawTexturedModalRect(posX + 181, res.getScaledHeight() - 47, 60, 23, 22, 22);
+			gui.drawTexturedModalRect(posX + 181, res.getScaledHeight() - 47 + posY, 60, 23, 22, 22);
 
 			zLevel = f;
 			GlStateManager.enableRescaleNormal();
@@ -49,19 +50,19 @@ public class HudElementHotbarHotbar extends HudElement {
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
-				int j1 = res.getScaledHeight() - 16 - 19 - 9;
+				int j1 = res.getScaledHeight() - 16 - 19 - 9 + posY;
 				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, GameData.getMainInventoryItemOfSlot(l));
 			}
 
-			int l1 = res.getScaledHeight() - 47 + 3;
+			int l1 = res.getScaledHeight() - 47 + 3 + posY;
 			this.renderHotbarItem(posX + 184, l1, partialTicks, entityplayer, itemstack);
 
 			if (GameData.getAttackIndicatorSetting() == 2) {
 				float f1 = GameData.getCooledAttackStrength();
 
 				if (f1 < 1.0F) {
-					int i2 = res.getScaledHeight() - 36;
-					int j2 = i + 40;
+					int i2 = res.getScaledHeight() - 36 + posY;
+					int j2 = i + 40 + this.settings.getPositionValue(Settings.hotbar_position)[0];
 
 					GameData.bindIcons();
 					int k1 = (int) (f1 * 19.0F);

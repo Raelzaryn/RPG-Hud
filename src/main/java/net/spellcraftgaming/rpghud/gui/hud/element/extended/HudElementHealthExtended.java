@@ -23,8 +23,8 @@ public class HudElementHealthExtended extends HudElement {
 		int health = GameData.getPlayerHealth();
 		int absorption = GameData.getPlayerAbsorption();
 		int healthMax = GameData.getPlayerMaxHealth();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
-		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
+		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 
 		if (absorption > 1)
 			drawCustomBar(posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
