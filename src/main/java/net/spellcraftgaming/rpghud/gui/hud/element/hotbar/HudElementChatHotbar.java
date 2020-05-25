@@ -9,6 +9,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementChatHotbar extends HudElement {
 
@@ -26,6 +27,8 @@ public class HudElementChatHotbar extends HudElement {
 		GuiIngameRPGHud guiIngame = (GuiIngameRPGHud) gui;
 		int i = guiIngame.getChat().getLineCount();
 		int j = guiIngame.getChat().getDrawnChatLines().size();
+		int posX = this.settings.getPositionValue(Settings.chat_position)[0];
+		int posY = this.settings.getPositionValue(Settings.chat_position)[1];
 		float f = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 		int yOffset = guiIngame.getChat().getYOffset();
 		ScaledResolution res = new ScaledResolution(this.mc);
@@ -68,10 +71,10 @@ public class HudElementChatHotbar extends HudElement {
 						++l;
 						if (l1 > 3) {
 							int j2 = -i1 * 9;
-							Gui.drawRect(guiIngame.getChat().getXOffset() - 2, yOffset + j2 - 9, guiIngame.getChat().getXOffset() + k + 4, yOffset + j2, l1 / 2 << 24);
+							Gui.drawRect(posX + guiIngame.getChat().getXOffset() - 2, posY + yOffset + j2 - 9, posX + guiIngame.getChat().getXOffset() + k + 4, posY + yOffset + j2, l1 / 2 << 24);
 							String s = chatline.getChatComponent().getFormattedText();
 							GlStateManager.enableBlend();
-							GameData.getFontRenderer().drawStringWithShadow(s, guiIngame.getChat().getXOffset(), yOffset + j2 - 8, 16777215 + (l1 << 24));
+							GameData.getFontRenderer().drawStringWithShadow(s, posX + guiIngame.getChat().getXOffset(), posY + yOffset + j2 - 8, 16777215 + (l1 << 24));
 							GlStateManager.disableAlpha();
 							GlStateManager.disableBlend();
 						}
@@ -90,8 +93,8 @@ public class HudElementChatHotbar extends HudElement {
 				if (l2 != i3) {
 					int k3 = j3 > 0 ? 170 : 96;
 					int l3 = guiIngame.getChat().isScrolled() ? 13382451 : 3355562;
-					Gui.drawRect(guiIngame.getChat().getXOffset(), yOffset - j3, guiIngame.getChat().getXOffset() + 2, yOffset - j3 - k1, l3 + (k3 << 24));
-					Gui.drawRect(guiIngame.getChat().getXOffset() + 2, yOffset - j3, guiIngame.getChat().getXOffset() + 1, yOffset - j3 - k1, 13421772 + (k3 << 24));
+					Gui.drawRect(posX + guiIngame.getChat().getXOffset(), posY + yOffset - j3, posX + guiIngame.getChat().getXOffset() + 2, posY + yOffset - j3 - k1, l3 + (k3 << 24));
+					Gui.drawRect(posX + guiIngame.getChat().getXOffset() + 2, posY + yOffset - j3, posX + guiIngame.getChat().getXOffset() + 1, posY + yOffset - j3 - k1, 13421772 + (k3 << 24));
 				}
 			}
 

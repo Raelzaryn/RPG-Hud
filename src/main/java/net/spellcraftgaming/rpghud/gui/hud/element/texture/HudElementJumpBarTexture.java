@@ -23,8 +23,8 @@ public class HudElementJumpBarTexture extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int height = res.getScaledHeight();
-		int adjustedWidth = res.getScaledWidth() / 2;
+		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.jump_bar_position)[1];
+		int adjustedWidth = (res.getScaledWidth() / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float var14 = GameData.getHorseJumpPower();
 		int color = (int) (var14 * 100.0F);
 		GlStateManager.color(1f, 1f, 1f);

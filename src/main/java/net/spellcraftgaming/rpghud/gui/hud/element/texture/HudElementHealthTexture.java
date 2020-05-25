@@ -25,8 +25,8 @@ public class HudElementHealthTexture extends HudElement {
 		GlStateManager.color(1f, 1f, 1f);
 		int health = GameData.getPlayerHealth();
 		int healthMax = GameData.getPlayerMaxHealth();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
-		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
+		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 		int absorption = GameData.getPlayerAbsorption();
 		if (absorption > 1)
 			gui.drawTexturedModalRect(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);

@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementLevelVanilla extends HudElement {
 
@@ -26,8 +27,8 @@ public class HudElementLevelVanilla extends HudElement {
 		int height = res.getScaledHeight();
 		int color = 8453920;
 		String text = String.valueOf(GameData.getPlayerXPLevel());
-		int x = (width - GameData.getFontRenderer().getStringWidth(text)) / 2;
-		int y = height - 31 - 4;
+		int x = ((width - GameData.getFontRenderer().getStringWidth(text)) / 2) + this.settings.getPositionValue(Settings.level_position)[0];
+		int y = height - 31 - 4 + this.settings.getPositionValue(Settings.level_position)[1];
 		GameData.getFontRenderer().drawString(text, x + 1, y, 0);
 		GameData.getFontRenderer().drawString(text, x - 1, y, 0);
 		GameData.getFontRenderer().drawString(text, x, y + 1, 0);

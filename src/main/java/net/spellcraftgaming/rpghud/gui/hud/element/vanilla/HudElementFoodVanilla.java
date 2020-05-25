@@ -9,6 +9,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementFoodVanilla extends HudElement {
 
@@ -28,8 +29,8 @@ public class HudElementFoodVanilla extends HudElement {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
-		int left = width / 2 + 91;
-		int top = height - GuiIngameRPGHud.right_height;
+		int left = width / 2 + 91 + this.settings.getPositionValue(Settings.hunger_position)[0];
+		int top = height - GuiIngameRPGHud.right_height + this.settings.getPositionValue(Settings.hunger_position)[1];
 		GuiIngameRPGHud.right_height += 10;
 		boolean unused = false;// Unused flag in vanilla, seems to be part of a
 								// 'fade out' mechanic

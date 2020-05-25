@@ -23,8 +23,8 @@ public class HudElementExperienceExtended extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int exp = GameData.getPlayerXPCap();
 		double full = 100D / GameData.getPlayerXPCap();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
-		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
+		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
 		drawCustomBar(posX, posY, 88, 8, exp * full, -1, -1, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 		String stringExp = exp + "/" + GameData.getPlayerXPCap();
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {

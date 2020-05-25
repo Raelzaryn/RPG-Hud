@@ -67,6 +67,26 @@ name.show_update_notification=Update Notification
 name.show_convert_notification=Settings Notification
 name.show_durability_bar=Show Durability Bar
 
+name.hunger_position=Position
+name.air_position=Position
+name.inspector_position=Position
+name.jump_bar_position=Position
+name.face_position=Face Pos
+name.pickup_position=Position
+name.compass_position=Position
+name.clock_position=Position
+name.experience_position=Position
+name.health_position=Position
+name.item_det_position=Item
+name.arrow_det_position=Arrow
+name.armor_det_position=Armor
+name.mount_health_position=Position
+name.hotbar_position=Position
+name.level_position=Position
+name.widget_position=HUD Pos
+name.chat_position=Position
+name.armor_position=Position
+
 color.red=Red
 color.blue=Blue
 color.green=Green
