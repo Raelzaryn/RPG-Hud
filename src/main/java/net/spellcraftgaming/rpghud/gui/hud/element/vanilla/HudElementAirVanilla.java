@@ -7,6 +7,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementAirVanilla extends HudElement {
 
@@ -25,8 +26,8 @@ public class HudElementAirVanilla extends HudElement {
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		GlStateManager.enableBlend();
-		int left = width / 2 + 91;
-		int top = height - GuiIngameRPGHud.right_height;
+		int left = width / 2 + 91 + this.settings.getPositionValue(Settings.air_position)[0];
+		int top = height - GuiIngameRPGHud.right_height + this.settings.getPositionValue(Settings.air_position)[1];
 
 		int air = GameData.getPlayerAir();
 		int full = GameData.ceil((air - 2) * 10.0D / 300.0D);

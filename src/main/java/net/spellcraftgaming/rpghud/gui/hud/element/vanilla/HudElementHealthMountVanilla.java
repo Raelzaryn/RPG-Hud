@@ -8,6 +8,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthMountVanilla extends HudElement {
 
@@ -45,13 +46,13 @@ public class HudElementHealthMountVanilla extends HudElement {
 		final int FULL = MARGIN + 36;
 
 		for (int heart = 0; hearts > 0; heart += 20) {
-			int top = res.getScaledHeight() - GuiIngameRPGHud.right_height;
+			int top = res.getScaledHeight() - GuiIngameRPGHud.right_height + this.settings.getPositionValue(Settings.mount_health_position)[1];
 
 			int rowCount = Math.min(hearts, 10);
 			hearts -= rowCount;
 
 			for (int i = 0; i < rowCount; ++i) {
-				int x = left_align - i * 8 - 9;
+				int x = left_align - i * 8 - 9 + this.settings.getPositionValue(Settings.mount_health_position)[0];
 				gui.drawTexturedModalRect(x, top, BACKGROUND, 9, 9, 9);
 
 				if (i * 2 + 1 + heart < health)

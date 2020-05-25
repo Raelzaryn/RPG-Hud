@@ -30,7 +30,7 @@ public class HudElementClockVanilla extends HudElement {
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.drawString(GameData.getFontRenderer(), getTime(), this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4, this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52, clockColor);
+		gui.drawString(GameData.getFontRenderer(), getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(2.0D, 2.0D, 2.0D);

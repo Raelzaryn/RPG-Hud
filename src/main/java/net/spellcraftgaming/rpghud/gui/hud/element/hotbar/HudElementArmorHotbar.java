@@ -22,8 +22,8 @@ public class HudElementArmorHotbar extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight();
-		int left = this.settings.getBoolValue(Settings.render_player_face) ? 46 : 22;
-		int top = height - 64;
+		int left = (this.settings.getBoolValue(Settings.render_player_face) ? 46 : 22) + this.settings.getPositionValue(Settings.armor_position)[0];
+		int top = height - 64 + this.settings.getPositionValue(Settings.armor_position)[1];
 		int offset = GameData.getHotbarWidgetWidthOffset() / 2;
 		int level = GameData.getPlayerArmor();
 		for (int i = 1; level > 0 && i < 20; i += 2) {

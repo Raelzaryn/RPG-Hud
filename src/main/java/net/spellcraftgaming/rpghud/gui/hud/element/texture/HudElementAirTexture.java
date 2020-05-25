@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementAirTexture extends HudElement {
 
@@ -23,8 +24,8 @@ public class HudElementAirTexture extends HudElement {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int height = res.getScaledHeight();
-		int adjustedWidth = res.getScaledWidth() / 2;
+		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.air_position)[1];
+		int adjustedWidth = (res.getScaledWidth() / 2) + this.settings.getPositionValue(Settings.air_position)[0];
 		int airAmount = GameData.getPlayerAir();
 		gui.drawTexturedModalRect(adjustedWidth - 70, height - 80, 0, 160, 141, 10);
 		gui.drawTexturedModalRect(adjustedWidth - 70, height - 80, 0, 140, (int) (141.0D * (airAmount / 300.0D)), 10);

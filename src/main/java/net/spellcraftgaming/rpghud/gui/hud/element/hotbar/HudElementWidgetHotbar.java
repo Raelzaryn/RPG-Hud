@@ -25,19 +25,22 @@ public class HudElementWidgetHotbar extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		bind(INTERFACE);
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int height = res.getScaledHeight();
-		gui.drawTexturedModalRect(this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26, height - 16 - 52 + 9, Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
+		int posX = this.settings.getPositionValue(Settings.widget_position)[0];
+		int posY = res.getScaledHeight() + this.settings.getPositionValue(Settings.widget_position)[1];
+		gui.drawTexturedModalRect(posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9, Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
 
+		int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
+		int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
-			gui.drawTexturedModalRect(0, height - 16 - 52 + 7, 164, 20, 50, 52);
+			gui.drawTexturedModalRect(posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52);
 			bind(getPlayerSkin(GameData.getPlayer()));
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawTexturedModalRect(34, height * 2 - 88, 32, 32, 32, 32);
-			gui.drawTexturedModalRect(34, height * 2 - 88, 160, 32, 32, 32);
+			gui.drawTexturedModalRect(posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 32, 32, 32, 32);
+			gui.drawTexturedModalRect(posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 160, 32, 32, 32);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 			GameData.bindIcons();
 		} else {
-			gui.drawTexturedModalRect(0, height - 12 - 52 + 7, 214, 58, 26, 42);
+			gui.drawTexturedModalRect(posX, posY - 12 - 52 + 7, 214, 58, 26, 42);
 		}
 	}
 }
