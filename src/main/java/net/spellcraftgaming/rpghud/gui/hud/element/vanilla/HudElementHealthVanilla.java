@@ -10,6 +10,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthVanilla extends HudElement {
 
@@ -64,8 +65,8 @@ public class HudElementHealthVanilla extends HudElement {
 
 		this.rand.setSeed(updateCounter * 312871);
 
-		int left = width / 2 - 91;
-		int top = height - GuiIngameRPGHud.left_height;
+		int left = width / 2 - 91 + this.settings.getPositionValue(Settings.health_position)[0];
+		int top = height - GuiIngameRPGHud.left_height + this.settings.getPositionValue(Settings.health_position)[1];
 		GuiIngameRPGHud.left_height += (healthRows * rowHeight);
 		if (rowHeight != 10)
 			GuiIngameRPGHud.left_height += 10 - rowHeight;

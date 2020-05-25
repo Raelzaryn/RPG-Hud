@@ -29,18 +29,18 @@ public class HudElementHealthMountModern extends HudElement {
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		String stringHealth = health + "/" + healthMax;
-		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset - 1 : -2);
-
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset - 1 : -2) + this.settings.getPositionValue(Settings.mount_health_position)[0];
+		int posY = this.settings.getPositionValue(Settings.mount_health_position)[1];
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			int width2 = GameData.getFontRenderer().getStringWidth(stringHealth) / 2;
-			drawRect(posX, 24, width2 + 4, 5, 0xA0000000);
+			drawRect(posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawString(GameData.getFontRenderer(), stringHealth, posX * 2 + 4, 48, -1);
+			gui.drawString(GameData.getFontRenderer(), stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 
-		drawTetragon(posX, posX, 21, 21, 58, 54, 3, 3, 0xA0000000);
-		drawTetragon(posX + 2, posX + 2, 21, 21, (int) (((double) health / (double) healthMax) * 53), (int) (((double) health / (double) healthMax) * 53 - 2), 1, 1, this.settings.getIntValue(Settings.color_health));
+		drawTetragon(posX, posX, 21 + posY, 21 + posY, 58, 54, 3, 3, 0xA0000000);
+		drawTetragon(posX + 2, posX + 2, 21 + posY, 21 + posY, (int) (((double) health / (double) healthMax) * 53), (int) (((double) health / (double) healthMax) * 53 - 2), 1, 1, this.settings.getIntValue(Settings.color_health));
 
 	}
 

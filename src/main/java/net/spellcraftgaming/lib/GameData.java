@@ -10,6 +10,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -495,5 +496,10 @@ public class GameData {
 	
 	public static GuiScreen getGuiOfEvent(GuiScreenEvent event){
 		return event.gui;
+	}
+	
+	public static GuiLabel addLine(GuiLabel label, String string) {
+		label.func_175202_a(string);
+		return label;
 	}
 }
