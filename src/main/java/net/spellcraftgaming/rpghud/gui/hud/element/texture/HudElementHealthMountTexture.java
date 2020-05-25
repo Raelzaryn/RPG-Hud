@@ -27,8 +27,8 @@ public class HudElementHealthMountTexture extends HudElement {
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 53 : 25;
-		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 54 : 49;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
+		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 54 : 49) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 
 		gui.drawTexturedModalRect(posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
 

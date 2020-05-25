@@ -41,12 +41,18 @@ public class HudElementDetailsVanilla extends HudElement {
 		this.offset = 0;
 		if (gui instanceof GuiIngameRPGHud) {
 			if (this.settings.getBoolValue(Settings.show_armor)) {
+				GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
 				drawArmorDetails(gui);
+				GL11.glTranslated(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
 			}
+			GL11.glTranslated(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
 			drawItemDetails(gui, 0);
 			drawItemDetails(gui, 1);
+			GL11.glTranslated(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
+				GL11.glTranslated(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
 				drawArrowCount(gui);
+				GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
 			}
 		}
 	}

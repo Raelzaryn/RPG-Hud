@@ -11,6 +11,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHotbarDefault extends HudElement {
 
@@ -36,17 +37,18 @@ public class HudElementHotbarDefault extends HudElement {
 			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
 			ItemStack itemstack = GameData.getOffhand();
 			int enumhandside = GameData.getOffhandSide();
-			int i = res.getScaledWidth() / 2;
+			int i = (res.getScaledWidth() / 2) + this.settings.getPositionValue(Settings.hotbar_position)[0];
+			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
 			float f = zLevel;
 			zLevel = -90.0F;
-			gui.drawTexturedModalRect(i - 91, res.getScaledHeight() - 22 - 9, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 22 - 1 - 9, 0, 22, 24, 22);
+			gui.drawTexturedModalRect(i - 91, res.getScaledHeight() - 22 - 9 + posY, 0, 0, 182, 22);
+			gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 22 - 1 - 9 + posY, 0, 22, 24, 22);
 
 			if (itemstack != GameData.nullStack()) {
 				if (enumhandside == 0) {
-					gui.drawTexturedModalRect(i - 91 - 29, res.getScaledHeight() - 23 - 9, 24, 22, 29, 24);
+					gui.drawTexturedModalRect(i - 91 - 29, res.getScaledHeight() - 23 - 9 + posY, 24, 22, 29, 24);
 				} else {
-					gui.drawTexturedModalRect(i + 91, res.getScaledHeight() - 23 - 9, 53, 22, 29, 24);
+					gui.drawTexturedModalRect(i + 91, res.getScaledHeight() - 23 - 9 + posY, 53, 22, 29, 24);
 				}
 			}
 
@@ -58,12 +60,12 @@ public class HudElementHotbarDefault extends HudElement {
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
-				int j1 = res.getScaledHeight() - 16 - 3 - 9;
+				int j1 = res.getScaledHeight() - 16 - 3 - 9 + posY;
 				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, GameData.getMainInventoryItemOfSlot(l));
 			}
 
 			if (itemstack != GameData.nullStack()) {
-				int l1 = res.getScaledHeight() - 16 - 3 - 9;
+				int l1 = res.getScaledHeight() - 16 - 3 - 9 + posY;
 
 				if (enumhandside == 0) {
 					this.renderHotbarItem(i - 91 - 26, l1, partialTicks, entityplayer, itemstack);
@@ -76,7 +78,7 @@ public class HudElementHotbarDefault extends HudElement {
 				float f1 = GameData.getCooledAttackStrength();
 
 				if (f1 < 1.0F) {
-					int i2 = res.getScaledHeight() - 20;
+					int i2 = res.getScaledHeight() - 20 + posY;
 					int j2 = i + 91 + 6;
 
 					if (enumhandside == 1) {

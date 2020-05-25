@@ -27,8 +27,8 @@ public class HudElementPickupModern extends HudElement {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int width = res.getScaledWidth();
-		int height = res.getScaledHeight();
+		int width = res.getScaledWidth() + this.settings.getPositionValue(Settings.pickup_position)[0];
+		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.pickup_position)[1];
 		List<ItemPickup> pickups = ModRPGHud.instance.pickupHandler.getPickups();
 		for (int i = 0; i < pickups.size(); i++) {
 			ItemPickup pickup = pickups.get(i);

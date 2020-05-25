@@ -25,8 +25,8 @@ public class HudElementHealthMountDefault extends HudElement {
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = GameData.ceil(mount.getHealth());
 		int healthMax = GameData.ceil(mount.getMaxHealth());
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 53 : 33;
-		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 40;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 33) + this.settings.getPositionValue(Settings.mount_health_position)[0];
+		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 40) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 		drawCustomBar(posX, posY, 88, 8, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		String stringHealth = health + "/" + healthMax;
 

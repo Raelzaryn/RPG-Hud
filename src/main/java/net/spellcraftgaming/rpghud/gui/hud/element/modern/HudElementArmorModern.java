@@ -6,6 +6,7 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementArmorModern extends HudElement {
 
@@ -23,8 +24,8 @@ public class HudElementArmorModern extends HudElement {
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
-		int left = width / 2 - 91;
-		int top = height - GuiIngameRPGHud.left_height + 2;
+		int left = width / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
+		int top = height - GuiIngameRPGHud.left_height + 2 + this.settings.getPositionValue(Settings.armor_position)[1];
 
 		int level = GameData.getPlayerArmor();
 		if (level > 0) {
