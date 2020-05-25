@@ -27,8 +27,8 @@ public class HudElementFoodTexture extends HudElement {
 		GlStateManager.color(1f, 1f, 1f);
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
-		int posY = this.settings.getBoolValue(Settings.render_player_face) ? 22 : 18;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hunger_position)[0];
+		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 18) + this.settings.getPositionValue(Settings.hunger_position)[1];
 		ItemStack itemMain = GameData.getMainhand();
 		ItemStack itemSec = GameData.getOffhand();
 

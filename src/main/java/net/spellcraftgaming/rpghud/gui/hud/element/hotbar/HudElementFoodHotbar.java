@@ -26,8 +26,8 @@ public class HudElementFoodHotbar extends HudElement {
 		int stamina = GameData.getPlayerFood();
 		int foodMax = GameData.getPlayerMaxFood();
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int height = res.getScaledHeight();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
+		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.hunger_position)[1];
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hunger_position)[0];
 		int offset = GameData.getHotbarWidgetWidthOffset();
 		ItemStack itemMain = GameData.getMainhand();
 		ItemStack itemSec = GameData.getOffhand();
