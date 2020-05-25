@@ -26,7 +26,7 @@ public class HudElementLevelHotbar extends HudElement {
 		int height = res.getScaledHeight();
 		GlStateManager.disableBlend();
 		String level = String.valueOf(GameData.getPlayerXPLevel());
-		GameData.getFontRenderer().drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) - GameData.getFontRenderer().getStringWidth(level) / 2, height - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40), 0x80FF20);
+		GameData.getFontRenderer().drawStringWithShadow(level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - GameData.getFontRenderer().getStringWidth(level) / 2, height - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

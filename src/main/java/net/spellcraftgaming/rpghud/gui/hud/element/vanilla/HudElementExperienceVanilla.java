@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementExperienceVanilla extends HudElement {
 
@@ -27,12 +28,12 @@ public class HudElementExperienceVanilla extends HudElement {
 		int height = res.getScaledHeight();
 		if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
 			int cap = GameData.getPlayerXPCap();
-			int left = width / 2 - 91;
+			int left = width / 2 - 91 + this.settings.getPositionValue(Settings.experience_position)[0];
 
 			if (cap > 0) {
 				short barWidth = 182;
 				int filled = (int) (GameData.getPlayerXPRaw() * (barWidth + 1));
-				int top = height - 32 + 3;
+				int top = height - 32 + 3 + this.settings.getPositionValue(Settings.experience_position)[1];
 				gui.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
 
 				if (filled > 0) {

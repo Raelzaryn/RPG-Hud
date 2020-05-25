@@ -23,11 +23,11 @@ public class HudElementHealthMountHotbar extends HudElement {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int height = res.getScaledHeight();
+		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.mount_health_position)[1];
 		EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int offset = GameData.getHotbarWidgetWidthOffset();
 		drawCustomBar(posX, height - 56, 200 + offset, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		String stringHealth = health + "/" + healthMax;

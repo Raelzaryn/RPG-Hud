@@ -22,9 +22,9 @@ public class HudElementHealthHotbar extends HudElement {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		ScaledResolution res = new ScaledResolution(this.mc);
-		int height = res.getScaledHeight();
+		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.health_position)[1];
 		int health = GameData.getPlayerHealth();
-		int posX = this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25;
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 		int healthMax = GameData.getPlayerMaxHealth();
 		int absorption = GameData.getPlayerAbsorption();
 		int offset = GameData.getHotbarWidgetWidthOffset();

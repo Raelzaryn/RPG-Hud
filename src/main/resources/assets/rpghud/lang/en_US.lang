@@ -24,6 +24,11 @@ name.render_vanilla=Render Vanilla Element
 name.prevent_event=Prevent Event
 name.prevent_element_render=Prevent Rendering
 
+name.scale=Element Scaling
+name.x_pos=Y Coordinate
+name.y_pos=X Coordinate
+name.use_position=Use Custom Position
+
 name.enable_button_tooltip=Button Tooltip
 name.show_armor=Show Armor
 name.show_item_durability=Show Item Durability
@@ -61,6 +66,26 @@ name.enable_compass_coordinates=Compass Coordinates
 name.show_update_notification=Update Notification
 name.show_convert_notification=Settings Notification
 name.show_durability_bar=Show Durability Bar
+
+name.hunger_position=Position
+name.air_position=Position
+name.inspector_position=Position
+name.jump_bar_position=Position
+name.face_position=Face Pos
+name.pickup_position=Position
+name.compass_position=Position
+name.clock_position=Position
+name.experience_position=Position
+name.health_position=Position
+name.item_det_position=Item
+name.arrow_det_position=Arrow
+name.armor_det_position=Armor
+name.mount_health_position=Position
+name.hotbar_position=Position
+name.level_position=Position
+name.widget_position=HUD Pos
+name.chat_position=Position
+name.armor_position=Position
 
 color.red=Red
 color.blue=Blue
@@ -104,7 +129,7 @@ tooltip.color_wither=Set the color of the/nhealth bar when under the/ninfluence 
 tooltip.color_hunger=Set the color of the/nfood bar when under the/ninfluence of hunger
 tooltip.enable_clock=Enable/disable the/nclock widget
 tooltip.hud_type=Change the style of the HUD
-tooltip.reduce_size=Reduce the size of the/nitem details by 50%/n(This has no effect with/nthe modern style HUD)
+tooltip.reduce_size=Reduce the size of the/nitem details by 50%%/n(This has no effect with/nthe modern style HUD)
 tooltip.show_numbers_health=Show/Hide the numeric/nvalue of the health bar./nIf you use the modern style,/nthis will also affect the/nfood value
 tooltip.show_numbers_food=Show/Hide the numeric/nvalue of the stamina/hunger bar./nIf you use the modern style,/nthis will also affect the/nhealth value
 tooltip.show_numbers_experience=Show/Hide the numeric/nvalue of the experience bar
@@ -135,3 +160,8 @@ tooltip.force_render=Set this element to be rendered/nregardless if other mods d
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element
 tooltip.prevent_event=Prevent the render event of/nthis element./nThis might disable features of/nother mods./n /n§cActivate this if another mod renders/n§csomething you don't want/n§cand can't disable it otherwise/n§cWARNING: Might disable other things, too
 tooltip.prevent_element_render=Prevent this element from rendering./nOther mods can still render their/nelements that are hooked/nto this element./n /n§cActivate this if you want to only /n§crender the element of another mod.
+
+tooltip.scale=Set the scaling of this element/n0.5 means the scaling is 50%%/n2.0 means the scaling is 200%%
+tooltip.x_pos=Set the custom X/ncoordinate of this element/nRange: 0-1000/nThe value reflects the percent of/nthe screen from the left side/n250 would render this element at/n25%% from the left side of the screen
+tooltip.y_pos=Set the custom Y/ncoordinate of/nthis element/nRange: 0-1000/nThe value reflects the percent of/nthe screen from the top side/n250 would render this element at/n25%% from the top side of the screen
+tooltip.use_position=When activated this element uses the/ncustom X/Y Coordinates set in the/nsettings of this element/n(If the Hud-Type supports/ncustom coordinates for this element)
