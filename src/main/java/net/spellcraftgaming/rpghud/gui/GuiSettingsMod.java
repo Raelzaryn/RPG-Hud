@@ -30,7 +30,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 	private String subSetting;
 
-	private Map<String, List<GuiTextField>> textFields = new HashMap<>();
+	private Map<String, List<GuiTextField>> textFields = new HashMap<String, List<GuiTextField>>();
 	
 	public GuiSettingsMod(GuiScreen parent, String subSetting) {
 		this.parent = parent;
@@ -68,10 +68,10 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				if(this.settings.getSetting(settings.get(i)) instanceof SettingPosition)
 				{
 					String[] values = ((String) this.settings.getSetting(settings.get(i)).getValue()).split("_");
-					List<GuiTextField> fields = new ArrayList<>();
+					List<GuiTextField> fields = new ArrayList<GuiTextField>();
 
 					GuiLabel settingLabel = new GuiLabel(GameData.getFontRenderer(), id, this.width / 2 - 154 + i % 2 * 160, this.height / 6 - 11 + 20 * (i >> 1), 30, 15, Color.white.getRGB());
-					settingLabel.addLine(this.settings.getButtonString(settings.get(i)));
+					settingLabel = GameData.addLine(settingLabel, this.settings.getButtonString(settings.get(i)));
 					labelList.add(settingLabel);
 
 					GuiTextField xPos = new GuiTextField(id + 1, GameData.getFontRenderer(), this.width / 2 - 100 + i % 2 * 160, this.height / 6 - 12 + 20 * (i >> 1), 45, 15);
