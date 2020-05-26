@@ -1,1 +1,1 @@
-cmd /k gradlew setupDecompWorkspace eclipse -refresh-dependencies
+cmd /k gradlew genEclipseRuns -refresh-dependencies eclipse

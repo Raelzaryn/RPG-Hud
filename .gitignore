@@ -20,10 +20,6 @@ build
 # other
 eclipse
 run
-/CREDITS-fml.txt
-/forge-1.11-13.19.1.2199-changelog.txt
-/LICENSE-new.txt
-/MinecraftForge-Credits.txt
-/Paulscode IBXM Library License.txt
-/Paulscode SoundSystem CodecIBXM License.txt
-/README.txt
+
+# Files from Forge MDK
+forge*changelog.txt

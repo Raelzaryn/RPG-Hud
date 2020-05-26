@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
@@ -343,7 +344,7 @@ public class GameData {
 	}
 
 	public static void doRenderDirections() {
-		// OpenGlHelper.renderDirections(10);
+		OpenGlHelper.renderDirections(10);
 	}
 
 	// OpenGL stuff

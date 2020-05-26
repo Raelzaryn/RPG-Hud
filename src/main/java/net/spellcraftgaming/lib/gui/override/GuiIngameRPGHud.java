@@ -11,6 +11,7 @@ import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType
 import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.POTION_ICONS;
 import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.SUBTITLES;
 import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.TEXT;
+import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.VIGNETTE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,11 @@ import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiOverlayDebug;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -39,6 +43,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -191,6 +196,61 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
 		post(ALL);
 	}
+
+    @Override
+    protected void renderVignette(float lightLevel, ScaledResolution scaledRes)
+    {
+        if (pre(VIGNETTE))
+        {
+            GlStateManager.enableDepth();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            return;
+        }
+        lightLevel = 1.0F - lightLevel;
+        lightLevel = MathHelper.clamp(lightLevel, 0.0F, 1.0F);
+        WorldBorder worldborder = this.mc.world.getWorldBorder();
+        float f = (float)worldborder.getClosestDistance(this.mc.player);
+        double d0 = Math.min(worldborder.getResizeSpeed() * (double)worldborder.getWarningTime() * 1000.0D, Math.abs(worldborder.getTargetSize() - worldborder.getDiameter()));
+        double d1 = Math.max((double)worldborder.getWarningDistance(), d0);
+
+        if ((double)f < d1)
+        {
+            f = 1.0F - (float)((double)f / d1);
+        }
+        else
+        {
+            f = 0.0F;
+        }
+
+        this.prevVignetteBrightness = (float)((double)this.prevVignetteBrightness + (double)(lightLevel - this.prevVignetteBrightness) * 0.01D);
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+
+        if (f > 0.0F)
+        {
+            GlStateManager.color(0.0F, f, f, 1.0F);
+        }
+        else
+        {
+            GlStateManager.color(this.prevVignetteBrightness, this.prevVignetteBrightness, this.prevVignetteBrightness, 1.0F);
+        }
+
+        this.mc.getTextureManager().bindTexture(VIGNETTE_TEX_PATH);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.pos(0.0D, (double)scaledRes.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+        bufferbuilder.pos((double)scaledRes.getScaledWidth(), (double)scaledRes.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+        bufferbuilder.pos((double)scaledRes.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        post(VIGNETTE);
+    }
 
 	/**
 	 * Returns the resolution of Minecraft
