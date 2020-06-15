@@ -37,7 +37,7 @@ public class HudElementHealthDefault extends HudElement {
 			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		}
 
-		String stringHealth = (health + absorption) + "/" + healthMax;
+		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
 			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
 	}

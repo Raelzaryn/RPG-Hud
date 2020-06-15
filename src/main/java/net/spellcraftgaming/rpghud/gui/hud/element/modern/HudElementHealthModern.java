@@ -29,11 +29,12 @@ public class HudElementHealthModern extends HudElement {
 
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
-		String stringHealth = (health + absorption) + "/" + healthMax;
+		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		int width = GameData.getFontRenderer().getStringWidth(stringHealth) / 2 + 4;
-		((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
+		if(width < xOffset) width = xOffset;
+		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
-		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset + 1 : 0) + this.settings.getPositionValue(Settings.health_position)[0];
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset : 0) + this.settings.getPositionValue(Settings.health_position)[0];
 		int textPosX = this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = this.settings.getPositionValue(Settings.health_position)[1];
 
