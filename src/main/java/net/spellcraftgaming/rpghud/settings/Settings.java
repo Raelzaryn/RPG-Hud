@@ -42,20 +42,24 @@ public class Settings {
 	public static final String item_det_position = "item_det_position";
 
 	public static final String show_numbers_health = "show_numbers_health";
+	public static final String health_percentage = "health_percentage";
 	public static final String color_health = "color_health";
 	public static final String color_absorption = "color_absorption";
 	public static final String color_poison = "color_poison";
 	public static final String color_wither = "color_wither";
 	public static final String health_position = "health_position";
 	public static final String mount_health_position = "mount_health_position";
+	public static final String mount_health_percentage = "mount_health_percentage";
 
 	public static final String show_numbers_food = "show_numbers_food";
+	public static final String hunger_percentage = "hunger_percentage";
 	public static final String show_hunger_preview = "show_hunger_preview";
 	public static final String color_food = "color_food";
 	public static final String color_hunger = "color_hunger";
 	public static final String hunger_position = "hunger_position";
 
 	public static final String show_numbers_experience = "show_numbers_experience";
+	public static final String experience_percentage = "experience_percentage";
 	public static final String color_experience = "color_experience";
 	public static final String experience_position = "experience_position";
 	public static final String level_position = "level_position";
@@ -137,6 +141,7 @@ public class Settings {
 		addSetting(item_det_position, new SettingPosition(item_det_position, HudElementType.DETAILS, 0, 0));
 
 		addSetting(show_numbers_health, new SettingBoolean(show_numbers_health, HudElementType.HEALTH, true));
+		addSetting(health_percentage, new SettingBoolean(health_percentage, HudElementType.HEALTH, false));
 		addSetting(color_health, new SettingColor(color_health, HudElementType.HEALTH, HudElement.COLOR_RED));
 		addSetting(color_absorption, new SettingColor(color_absorption, HudElementType.HEALTH, HudElement.COLOR_ORANGE));
 		addSetting(color_poison, new SettingColor(color_poison, HudElementType.HEALTH, HudElement.COLOR_PURPLE));
@@ -144,15 +149,19 @@ public class Settings {
 		addSetting(health_position, new SettingPosition(health_position, HudElementType.HEALTH, 0, 0));
 
 		addSetting(show_numbers_food, new SettingBoolean(show_numbers_food, HudElementType.FOOD, true));
+		addSetting(hunger_percentage, new SettingBoolean(hunger_percentage, HudElementType.FOOD, false));
 		addSetting(show_hunger_preview, new SettingBoolean(show_hunger_preview, HudElementType.FOOD, true));
 		addSetting(color_food, new SettingColor(color_food, HudElementType.FOOD, HudElement.COLOR_GREEN));
 		addSetting(color_hunger, new SettingColor(color_hunger, HudElementType.FOOD, 0x9ba067));
 		addSetting(hunger_position, new SettingPosition(hunger_position, HudElementType.FOOD, 0, 0));
 
 		addSetting(show_numbers_experience, new SettingBoolean(show_numbers_experience, HudElementType.EXPERIENCE, true));
+		addSetting(experience_percentage, new SettingBoolean(experience_percentage, HudElementType.EXPERIENCE, false));
 		addSetting(color_experience, new SettingColor(color_experience, HudElementType.EXPERIENCE, HudElement.COLOR_YELLOW));
 		addSetting(experience_position, new SettingPosition(experience_position, HudElementType.EXPERIENCE, 0, 0));
 
+		addSetting(mount_health_percentage, new SettingBoolean(mount_health_percentage, HudElementType.HEALTH_MOUNT, false));
+				
 		addSetting(enable_clock, new SettingBoolean(enable_clock, HudElementType.CLOCK, true));
 		addSetting(enable_clock_color, new SettingBoolean(enable_clock_color, HudElementType.CLOCK, true));
 		addSetting(enable_immersive_clock, new SettingBoolean(enable_immersive_clock, HudElementType.CLOCK, false));
@@ -166,7 +175,7 @@ public class Settings {
 		addSetting(invert_compass, new SettingBoolean(invert_compass, HudElementType.COMPASS, false));
 		addSetting(compass_position, new SettingPosition(compass_position, HudElementType.COMPASS, 0, 0));
 
-		addSetting(enable_pickup, new SettingBoolean(enable_pickup, HudElementType.PICKUP, true));
+		addSetting(enable_pickup, new SettingBoolean(enable_pickup, HudElementType.PICKUP, false));
 		addSetting(pickup_duration, new SettingFloat(pickup_duration, HudElementType.PICKUP, 5F, 1F, 10F, 1F));
 		addSetting(pickup_position, new SettingPosition(pickup_position, HudElementType.PICKUP, 0, 0));
 

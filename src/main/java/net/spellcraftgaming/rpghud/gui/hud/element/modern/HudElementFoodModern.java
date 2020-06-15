@@ -28,12 +28,12 @@ public class HudElementFoodModern extends HudElement {
 		int stamina = GameData.getPlayerFood();
 		int staminaMax = GameData.getPlayerMaxFood();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-
-		int width = GameData.getFontRenderer().getStringWidth(staminaMax + "/" + staminaMax) / 2 + 4;
+		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
+		int width = GameData.getFontRenderer().getStringWidth(staminaString) / 2 + 4;
 		if(width < xOffset) width = xOffset;
-		String staminaString = stamina + "/" + staminaMax;
+		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
-		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset + 1 : 0) + this.settings.getPositionValue(Settings.hunger_position)[0];
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 24 : 2) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? xOffset : 0) + this.settings.getPositionValue(Settings.hunger_position)[0];
 		int textPosX = this.settings.getPositionValue(Settings.hunger_position)[0];
 		int posY = this.settings.getPositionValue(Settings.hunger_position)[1];
 
