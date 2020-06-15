@@ -67,6 +67,11 @@ name.show_update_notification=Update Notification
 name.show_convert_notification=Settings Notification
 name.show_durability_bar=Show Durability Bar
 
+name.health_percentage=As Percentage
+name.hunger_percentage=As Percentage
+name.mount_health_percentage=As Percentage
+name.experience_percentage=As Percentage
+
 name.hunger_position=Position
 name.air_position=Position
 name.inspector_position=Position
@@ -165,3 +170,8 @@ tooltip.scale=Set the scaling of this element/n0.5 means the scaling is 50%%/n2.
 tooltip.x_pos=Set the custom X/ncoordinate of this element/nRange: 0-1000/nThe value reflects the percent of/nthe screen from the left side/n250 would render this element at/n25%% from the left side of the screen
 tooltip.y_pos=Set the custom Y/ncoordinate of/nthis element/nRange: 0-1000/nThe value reflects the percent of/nthe screen from the top side/n250 would render this element at/n25%% from the top side of the screen
 tooltip.use_position=When activated this element uses the/ncustom X/Y Coordinates set in the/nsettings of this element/n(If the Hud-Type supports/ncustom coordinates for this element)
+
+tooltip.health_percentage=Display health value/nas a percentage
+tooltip.hunger_percentage=Display hunger Value/nas a percentage
+tooltip.mount_health_percentage=Display mount health/navalue as a percentage
+tooltip.experience_percentage=Display experience value/nas a percentage

@@ -143,6 +143,10 @@ public class GameData {
 	public static boolean isPlayerHungered() {
 		return getPlayer().isPotionActive(MobEffects.hunger);
 	}
+	
+	public static boolean isPlayerCreative() {
+		return getPlayer().isCreative();
+	}
 
 	public static ItemStack getMainhand() {
 		return getPlayer().getHeldItemMainhand();

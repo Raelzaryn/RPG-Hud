@@ -45,6 +45,7 @@ public class HudElementHotbarModern extends HudElement {
 			float f = zLevel;
 			zLevel = -90.0F;
 			drawRect(width / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
+			if(GameData.isPlayerCreative()) drawRect(width / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
 			for (int x = 0; x < 10; x++) {
 				drawRect(width / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
 				if (x < 9) {
@@ -59,11 +60,13 @@ public class HudElementHotbarModern extends HudElement {
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(width / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
+					if(GameData.isPlayerCreative()) drawRect(width / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
 				} else {
 					drawRect(width / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
-					drawRect(width / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 3 + 18, 0xA0000000);
+					drawRect(width / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(width / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(width / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
+					if(GameData.isPlayerCreative()) drawRect(width / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
 				}
 			}
 

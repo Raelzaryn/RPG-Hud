@@ -28,8 +28,10 @@ public class HudElementHealthMountModern extends HudElement {
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		String stringHealth = health + "/" + healthMax;
-		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset - 1 : -2) + this.settings.getPositionValue(Settings.mount_health_position)[0];
+		
+		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
+
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset -2 : -2) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = this.settings.getPositionValue(Settings.mount_health_position)[1];
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			int width2 = GameData.getFontRenderer().getStringWidth(stringHealth) / 2;

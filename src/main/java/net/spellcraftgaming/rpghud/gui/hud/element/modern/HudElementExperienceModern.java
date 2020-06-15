@@ -31,13 +31,14 @@ public class HudElementExperienceModern extends HudElement {
 
 		drawRect(posX, height - 7 + posY, width, 7, 0xA0000000);
 		drawRect(1 + posX, height - 6 + posY, (int) (exp * full), 4, this.settings.getIntValue(Settings.color_experience));
-		String stringExp = exp + "/" + GameData.getPlayerXPCap();
+
+		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) GameData.getPlayerXPCap() * 100) + "%" : exp + "/" + GameData.getPlayerXPCap();
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			int width2 = GameData.getFontRenderer().getStringWidth(stringExp) / 2;
 			drawRect(1 + posX, height - 15 + posY, width2 + 4, 8, 0xA0000000);
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
-			gui.drawString(GameData.getFontRenderer(), stringExp, 6 + posX*2, (height - 12) * 2 - 1 + posY * 2, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, 6 + width2 + posX * 2, (height - 12) * 2 - 1 + posY * 2, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 		}
 	}

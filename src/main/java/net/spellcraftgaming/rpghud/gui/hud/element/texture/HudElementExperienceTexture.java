@@ -26,11 +26,14 @@ public class HudElementExperienceTexture extends HudElement {
 		int exp = GameData.getPlayerXP();
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
+	
 		gui.drawTexturedModalRect(posX, posY, 0, 132, (int) (88.0D * (exp / (double) GameData.getPlayerXPCap())), 8);
-		String stringExp = exp + "/" + GameData.getPlayerXPCap();
+
+		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) GameData.getPlayerXPCap() * 100) + "%" : exp + "/" + GameData.getPlayerXPCap();
+	
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			GlStateManager.scale(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, posX * 2 + 82, posY * 2 + 4, -1);
+			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, posX * 2 + 88, posY * 2 + 4, -1);
 			GlStateManager.scale(2.0D, 2.0D, 2.0D);
 		}
 		GlStateManager.color(1f, 1f, 1f);

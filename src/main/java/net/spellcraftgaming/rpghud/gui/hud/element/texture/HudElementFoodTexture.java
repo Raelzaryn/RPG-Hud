@@ -26,7 +26,7 @@ public class HudElementFoodTexture extends HudElement {
 		bind(INTERFACE);
 		GlStateManager.color(1f, 1f, 1f);
 		int stamina = GameData.getPlayerFood();
-		int foodMax = GameData.getPlayerMaxFood();
+		int staminaMax = GameData.getPlayerMaxFood();
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hunger_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 18) + this.settings.getPositionValue(Settings.hunger_position)[1];
 		ItemStack itemMain = GameData.getMainhand();
@@ -41,18 +41,19 @@ public class HudElementFoodTexture extends HudElement {
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
-				if (bonusHunger > foodMax)
-					bonusHunger = foodMax;
-				gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) foodMax)), 12);
+				if (bonusHunger > staminaMax)
+					bonusHunger = staminaMax;
+				gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12);
 			}
 		}
 
 		if (GameData.isPlayerHungered()) {
-			gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / (double) foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12);
 		} else {
-			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double) foodMax)), 12);
+			gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12);
 		}
-		String staminaString = stamina + "/" + foodMax;
+		
+		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
 			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);
