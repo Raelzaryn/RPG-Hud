@@ -38,7 +38,7 @@ public class HudElementHealthTexture extends HudElement {
 			gui.drawTexturedModalRect(posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		}
 
-		String stringHealth = (health + absorption) + "/" + healthMax;
+		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
 			gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
 		GlStateManager.color(1f, 1f, 1f);

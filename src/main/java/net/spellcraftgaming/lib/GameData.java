@@ -146,6 +146,10 @@ public class GameData {
 		return getPlayer().isPotionActive(MobEffects.HUNGER);
 	}
 
+	public static boolean isPlayerCreative() {
+		return getPlayer().isCreative();
+	}
+	
 	public static ItemStack getMainhand() {
 		return getPlayer().getHeldItemMainhand();
 	}

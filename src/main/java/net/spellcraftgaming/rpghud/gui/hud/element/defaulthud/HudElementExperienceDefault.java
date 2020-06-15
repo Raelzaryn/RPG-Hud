@@ -31,7 +31,9 @@ public class HudElementExperienceDefault extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
 		GlStateManager.disableLighting();
 		drawCustomBar(posX, height - 10 + posY, width, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
-		String stringExp = exp + "/" + expCap;
+
+		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) GameData.getPlayerXPCap() * 100) + "%" : exp + "/" + GameData.getPlayerXPCap();
+
 		int var7 = width / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
 			gui.drawCenteredString(GameData.getFontRenderer(), stringExp, var7 + posX, height - 9 + posY, -1);
