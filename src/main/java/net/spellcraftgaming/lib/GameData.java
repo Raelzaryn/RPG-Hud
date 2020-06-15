@@ -138,6 +138,10 @@ public class GameData {
 		return getPlayer().isPotionActive(Potion.hunger);
 	}
 
+	public static boolean isPlayerCreative() {
+		return getMinecraft().playerController.isInCreativeMode();
+	}
+	
 	public static ItemStack getMainhand() {
 		return getPlayer().getHeldItem();
 	}
