@@ -24,7 +24,7 @@ public class HudElementFoodHotbar extends HudElement {
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks) {
 		int stamina = GameData.getPlayerFood();
-		int foodMax = GameData.getPlayerMaxFood();
+		int staminaMax = GameData.getPlayerMaxFood();
 		ScaledResolution res = new ScaledResolution(this.mc);
 		int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.hunger_position)[1];
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hunger_position)[0];
@@ -41,19 +41,20 @@ public class HudElementFoodHotbar extends HudElement {
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
-				if (bonusHunger > foodMax)
-					bonusHunger = foodMax;
+				if (bonusHunger > staminaMax)
+					bonusHunger = staminaMax;
 				int colorPreview = offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW);
-				drawCustomBar(posX, height - 26, 200 + offset, 10, bonusHunger / (double) foodMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
+				drawCustomBar(posX, height - 26, 200 + offset, 10, bonusHunger / (double) staminaMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 			}
 		}
 
 		if (GameData.isPlayerHungered()) {
-			drawCustomBar(posX, height - 26, 200 + offset, 10, stamina / (double) foodMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
+			drawCustomBar(posX, height - 26, 200 + offset, 10, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
 		} else {
-			drawCustomBar(posX, height - 26, 200 + offset, 10, stamina / (double) foodMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));
+			drawCustomBar(posX, height - 26, 200 + offset, 10, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));
 		}
-		String staminaString = stamina + "/" + foodMax;
+		
+		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) == true ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
 			gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 100 + (offset / 2), height - 25, -1);
 	}
