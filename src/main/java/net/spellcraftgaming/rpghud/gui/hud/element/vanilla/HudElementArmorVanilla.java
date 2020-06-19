@@ -1,11 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementArmorVanilla extends HudElement {
@@ -16,18 +15,15 @@ public class HudElementArmorVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.shouldDrawHUD();
+		return !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		ScaledResolution res = new ScaledResolution(this.mc);
-		int width = res.getScaledWidth();
-		int height = res.getScaledHeight();
-		int left = width / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
-		int top = height - GuiIngameRPGHud.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
+	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
+		int top = scaledHeight - GuiIngameRPGHud.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
 
-		int level = GameData.getPlayerArmor();
+		int level = Minecraft.getInstance().player.getTotalArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
 				gui.drawTexturedModalRect(left, top, 34, 9, 9, 9);

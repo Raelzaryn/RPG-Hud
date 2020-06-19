@@ -44,10 +44,11 @@ public class SettingInteger extends Setting {
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		if (o instanceof Integer) {
 			this.value = (Integer) o;
 		}
+		return this;
 	}
 
 	@Override

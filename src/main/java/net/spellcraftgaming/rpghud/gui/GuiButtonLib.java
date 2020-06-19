@@ -1,6 +1,5 @@
-package net.spellcraftgaming.lib.gui;
+package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 public class GuiButtonLib extends GuiButton{
@@ -14,11 +13,11 @@ public class GuiButtonLib extends GuiButton{
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partial) {
-		super.drawButton(mc, mouseX, mouseY, partial);
-		this.drawButton(mc, mouseX, mouseY);
+	public void render(int mouseX, int mouseY, float partial) {
+		super.render(mouseX, mouseY, partial);
+		this.drawButton(mouseX, mouseY);
 	}
 	
-	public void drawButton(Minecraft mc, int mouseX, int mouseY){
+	public void drawButton(int mouseX, int mouseY){
 	}
 }

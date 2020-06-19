@@ -1,21 +1,20 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.spellcraftgaming.lib.GameData;
+import net.minecraftforge.registries.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiScreenTooltip extends GuiScreen {
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
+	public void render(int mouseX, int mouseY, float partialTicks) {
+        super.render(mouseX, mouseY, partialTicks);
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)){
-			drawTooltip();
+			drawTooltip(mouseX, mouseY);
 		}
 	}
 
@@ -23,21 +22,19 @@ public class GuiScreenTooltip extends GuiScreen {
 	 * Checks if a tooltip should be rendered and if so renders it on the
 	 * screen.
 	 */
-	private void drawTooltip() {
-		Minecraft mc = Minecraft.getMinecraft();
+	private void drawTooltip(int mouseX, int mouseY) {
+		Minecraft mc = Minecraft.getInstance();
+		FontRenderer fontRenderer = mc.fontRenderer;
 		GuiScreenTooltip gui = null;
 		if (mc.currentScreen instanceof GuiScreenTooltip)
 			gui = (GuiScreenTooltip) mc.currentScreen;
 		else
 			return;
 
-		int mouseX = Mouse.getEventX() * gui.width / mc.displayWidth;
-		int mouseY = gui.height - Mouse.getEventY() * gui.height / mc.displayHeight - 1;
-
 		boolean shouldRenderTooltip = false;
 		GuiButtonTooltip button = null;
-		for (int x = 0; x < this.buttonList.size(); x++) {
-			GuiButton b = this.buttonList.get(x);
+		for (int x = 0; x < this.buttons.size(); x++) {
+			GuiButton b = this.buttons.get(x);
 			if (b instanceof GuiButtonTooltip)
 				button = (GuiButtonTooltip) b;
 			
@@ -57,9 +54,9 @@ public class GuiScreenTooltip extends GuiScreen {
 			if (!(tooltip == null)) {
 				int counter = 0;
 				for (int id = 0; id < tooltip.length; id++) {
-					int width = GameData.getFontRenderer().getStringWidth(tooltip[id]);
+					int width = fontRenderer.getStringWidth(tooltip[id]);
 					if (totalWidth < width)
-						totalWidth = GameData.getFontRenderer().getStringWidth(tooltip[id]);
+						totalWidth = fontRenderer.getStringWidth(tooltip[id]);
 					counter++;
 				}
 				posX -= totalWidth / 2;
@@ -78,9 +75,9 @@ public class GuiScreenTooltip extends GuiScreen {
 				for (int id = 0; id < tooltip.length; id++) {
 					if (!tooltip[id].isEmpty()) {
 						if (reverseY)
-							gui.drawString(GameData.getFontRenderer(), tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+							gui.drawString(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
 						else
-							gui.drawString(GameData.getFontRenderer(), tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+							gui.drawString(fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
 					}
 				}
 			}

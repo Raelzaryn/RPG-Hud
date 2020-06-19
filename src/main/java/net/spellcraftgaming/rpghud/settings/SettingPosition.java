@@ -44,7 +44,7 @@ public class SettingPosition extends Setting{
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		String[] positions = ((String) o).split("_");
 		if(positions.length > 1 && !positions[0].equals("") && !positions[1].equals("")) {
 			try {
@@ -57,6 +57,7 @@ public class SettingPosition extends Setting{
 				this.y = 0;
 			}
 		}
+		return this;
 	}
 
 	@Override

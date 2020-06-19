@@ -5,104 +5,56 @@ import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.spellcraftgaming.lib.event.ClientTickHandler;
-import net.spellcraftgaming.lib.event.PlayerContainerHandler;
-import net.spellcraftgaming.rpghud.event.ItemPickupHandler;
-import net.spellcraftgaming.rpghud.event.NotificationHandler;
-import net.spellcraftgaming.rpghud.event.PlayerTickHandler;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.spellcraftgaming.rpghud.event.ClientTickHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
-import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
+import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Mod(modid = ModRPGHud.MOD_ID, version = ModRPGHud.VERSION, name = ModRPGHud.NAME, clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY, guiFactory = ModRPGHud.GUI_FACTORY, updateJSON = ModRPGHud.UPDATE_JSON)
-
+@Mod("rpg-hud")
 public class ModRPGHud {
 
-	/** The mod ID of this mod */
-	public static final String MOD_ID = "rpghud";
-	/** The mod name of this mod */
-	public static final String NAME = "RPG-Hud";
-	/** The mod version of this mod */
-	public static final String VERSION = "3.6.8";
-	/** Path to GuiFactory class of this mod */
-	public static final String GUI_FACTORY = "net.spellcraftgaming.lib.gui.GuiFactoryRPGHud";
-
-	/** The URL to the update Json file */
-	public static final String UPDATE_JSON = "http://download.spellcraftgaming.net/rpghud/version/update.json";
-	/** If this mod is client side only */
-	public static final boolean CLIENT_SIDE_ONLY = true;
-
-	/** The instance of this mod */
-	@Mod.Instance
 	public static ModRPGHud instance;
-
+    
+	public static boolean[] renderDetailsAgain = { false, false, false };
+	
+	public ModRPGHud() {
+		instance = this;
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        
+        MinecraftForge.EVENT_BUS.register(this);
+	}
 	public Settings settings;
 
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
-
-	/** If the HudElementDetails should be rendered again */
-	public static boolean[] renderDetailsAgain = { false, false, false };
-
-	public ItemPickupHandler pickupHandler;
-
-	/**
-	 * The function to be run before the initialization
-	 * 
-	 * @param event
-	 *            FMLPreInitializationEvent
-	 */
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	
+    private void setup(final FMLCommonSetupEvent event)
+    {
 		this.settings = new Settings();
-		this.registerHud(new HudVanilla(Minecraft.getMinecraft(), "vanilla", "Vanilla"));
-		this.registerHud(new HudDefault(Minecraft.getMinecraft(), "default", "Default"));
-		this.registerHud(new HudExtendedWidget(Minecraft.getMinecraft(), "extended", "Extended Widget"));
-		this.registerHud(new HudFullTexture(Minecraft.getMinecraft(), "texture", "Full Texture"));
-		this.registerHud(new HudHotbarWidget(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
-		this.registerHud(new HudModern(Minecraft.getMinecraft(), "modern", "Modern Style"));
-		this.settings.initHudConfig();
-	}
-
-	/**
-	 * The function to be run with the initialization
-	 * 
-	 * @param event
-	 *            FMLInitializationEvent
-	 */
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
-		MinecraftForge.EVENT_BUS.register(new PlayerTickHandler());
-		this.pickupHandler = new ItemPickupHandler();
-		MinecraftForge.EVENT_BUS.register(this.pickupHandler);
-		MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
-		MinecraftForge.EVENT_BUS.register(new NotificationHandler());
-	}
-
-	/**
-	 * The function to be run after the initialization
-	 * 
-	 * @param event
-	 *            FMLPostInitializationEvent
-	 */
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
+		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
+		/*this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));
+		this.registerHud(new HudExtendedWidget(Minecraft.getInstance(), "extended", "Extended Widget"));
+		this.registerHud(new HudFullTexture(Minecraft.getInstance(), "texture", "Full Texture"));
+		this.registerHud(new HudHotbarWidget(Minecraft.getInstance(), "hotbar", "Hotbar Widget"));
+		this.registerHud(new HudModern(Minecraft.getInstance(), "modern", "Modern Style"));
+		*/
 		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
-	}
-
+    }
+    
+    private void doClientStuff(final FMLClientSetupEvent event) {
+    	ClientTickHandler.init();
+    }	
+    
 	/**
 	 * Register a new HUD
 	 * 

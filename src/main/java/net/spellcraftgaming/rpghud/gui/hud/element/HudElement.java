@@ -1,12 +1,15 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -119,7 +122,7 @@ public abstract class HudElement {
 		this.elementWidth = width;
 		this.elementHeight = height;
 		this.moveable = moveable;
-		this.mc = Minecraft.getMinecraft();
+		this.mc = Minecraft.getInstance();
 		this.rpgHud = ModRPGHud.instance;
 		this.settings = this.rpgHud.settings;
 		this.scale = 1D;
@@ -130,16 +133,16 @@ public abstract class HudElement {
 	/**
 	 * Function called to draw this element on the screen
 	 */
-	public void draw(Gui gui, float zLevel, float partialTicks) {
+	public void draw(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 
-		GlStateManager.scale(this.scale, this.scale, this.scale);
+		GlStateManager.scaled(this.scale, this.scale, this.scale);
 
-		this.drawElement(gui, zLevel, partialTicks);
+		this.drawElement(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
 
-		GlStateManager.scale(this.scaleInverted, this.scaleInverted, this.scaleInverted);
+		GlStateManager.scaled(this.scaleInverted, this.scaleInverted, this.scaleInverted);
 	}
 
-	public abstract void drawElement(Gui gui, float zLevel, float partialTicks);
+	public abstract void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
 
 	/**
 	 * Returns the x coordinate of this element
@@ -205,10 +208,10 @@ public abstract class HudElement {
 	public boolean setPos(int posX, int posY) {
 		boolean xValid = false;
 		boolean yValid = false;
-		if (posX >= 0 && posX < (this.mc.displayWidth - this.elementWidth)) {
+		if (posX >= 0 && posX < (this.mc.mainWindow.getScaledWidth() - this.elementWidth)) {
 			xValid = true;
 		}
-		if (posY >= 0 && posY < (this.mc.displayHeight - this.elementHeight)) {
+		if (posY >= 0 && posY < (this.mc.mainWindow.getScaledHeight() - this.elementHeight)) {
 			yValid = true;
 		}
 		if (xValid && yValid) {
@@ -263,19 +266,21 @@ public abstract class HudElement {
 		float f2 = (color & 255) / 255.0F;
 		GlStateManager.enableBlend();
 		GlStateManager.disableTexture2D();
-		GameData.tryBlendFuncSeparate();
-		GlStateManager.color(f, f1, f2, f3);
-		GlStateManager.disableDepth();
-		GameData.beginVertex(7, DefaultVertexFormats.POSITION);
-		GameData.addVertexPos(posX, (double) posY + height, 0.0D);
-		GameData.addVertexPos((double) posX + width, (double) posY + height, 0.0D);
-		GameData.addVertexPos((double) posX + width, posY, 0.0D);
-		GameData.addVertexPos(posX, posY, 0.0D);
-		GameData.drawVertex();
+		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+		GlStateManager.color4f(f, f1, f2, f3);
+		GlStateManager.disableDepthTest();
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
+		vertexbuffer.pos(posX, (double) posY + height, 0.0D).endVertex();
+		vertexbuffer.pos((double) posX + width, (double) posY + height, 0.0D).endVertex();
+		vertexbuffer.pos((double) posX + width, posY, 0.0D).endVertex();
+		vertexbuffer.pos(posX, posY, 0.0D).endVertex();
+		tessellator.draw();
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
-		GlStateManager.enableDepth();
-		GlStateManager.color(1f, 1f, 1f);
+		GlStateManager.enableDepthTest();
+		GlStateManager.color3f(1f, 1f, 1f);
 	}
 
 	/**
@@ -496,19 +501,21 @@ public abstract class HudElement {
 		float f2 = (color & 255) / 255.0F;
 		GlStateManager.enableBlend();
 		GlStateManager.disableTexture2D();
-		GameData.tryBlendFuncSeparate();
-		GlStateManager.color(f, f1, f2, f3);
-		GlStateManager.disableDepth();
-		GameData.beginVertex(7, DefaultVertexFormats.POSITION);
-		GameData.addVertexPos(posX1, (double) posY1 + height1, 0.0D);
-		GameData.addVertexPos((double) posX2 + width2, (double) posY2 + height2, 0.0D);
-		GameData.addVertexPos((double) posX1 + width1, posY2, 0.0D);
-		GameData.addVertexPos(posX2, posY1, 0.0D);
-		GameData.drawVertex();
+		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+		GlStateManager.color4f(f, f1, f2, f3);
+		GlStateManager.disableDepthTest();
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
+		vertexbuffer.pos(posX1, (double) posY1 + height1, 0.0D).endVertex();
+		vertexbuffer.pos((double) posX2 + width2, (double) posY2 + height2, 0.0D).endVertex();
+		vertexbuffer.pos((double) posX1 + width1, posY2, 0.0D).endVertex();
+		vertexbuffer.pos(posX2, posY1, 0.0D).endVertex();
+		tessellator.draw();
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
-		GlStateManager.enableDepth();
-		GlStateManager.color(1f, 1f, 1f);
+		GlStateManager.enableDepthTest();
+		GlStateManager.color3f(1f, 1f, 1f);
 	}
 
 	public static int offsetColorPercent(int color, int offsetPercent) {

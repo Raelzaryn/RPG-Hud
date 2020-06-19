@@ -1,8 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.spellcraftgaming.lib.GameData;
+import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingDouble;
 
@@ -32,39 +31,21 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 	 * MouseListener.mouseDragged(MouseEvent e).
 	 */
 	@Override
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+	public void onClick(double mouseX, double mouseY) {
 		if (this.visible) {
 			if (this.dragging) {
 				this.sliderValue = (double) (mouseX - (this.x + 4)) / (double) (this.width - 8);
-				this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
+				this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
 				double f = SettingDouble.denormalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue);
 				ModRPGHud.instance.settings.setSetting(this.enumOptions, f);
 				this.sliderValue = SettingDouble.normalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(this.enumOptions), f);
 				this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
 			}
 
-			GameData.bindButtonTextures();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
 			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
 		}
-	}
-
-	/**
-	 * Returns true if the mouse has been pressed on this control. Equivalent of
-	 * MouseListener.mousePressed(MouseEvent e).
-	 */
-	@Override
-	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-		if (super.mousePressed(mc, mouseX, mouseY)) {
-			this.sliderValue = (double) (mouseX - (this.x + 4)) / (double) (this.width - 8);
-			this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
-			ModRPGHud.instance.settings.setSetting(this.enumOptions, SettingDouble.denormalizeValue((SettingDouble)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue));
-			this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
-			this.dragging = true;
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -72,7 +53,7 @@ public class GuiSliderSettingDouble extends GuiButtonTooltip {
 	 * MouseListener.mouseReleased(MouseEvent e).
 	 */
 	@Override
-	public void mouseReleased(int mouseX, int mouseY) {
+    public void onRelease(double mouseX, double mouseY) {
 		this.dragging = false;
 	}
 }

@@ -2,7 +2,8 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.spellcraftgaming.lib.GameData;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.registries.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingFloat;
 
@@ -32,47 +33,30 @@ public class GuiSliderSetting extends GuiButtonTooltip {
 	 * MouseListener.mouseDragged(MouseEvent e).
 	 */
 	@Override
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+	public void onClick(double mouseX, double mouseY) {
 		if (this.visible) {
 			if (this.dragging) {
 				this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
-				this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
+				this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
 				float f = SettingFloat.denormalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue);
 				ModRPGHud.instance.settings.setSetting(this.enumOptions, f);
 				this.sliderValue = SettingFloat.normalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), f);
 				this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
 			}
 
-			GameData.bindButtonTextures();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
 			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
 		}
 	}
 
 	/**
-	 * Returns true if the mouse has been pressed on this control. Equivalent of
-	 * MouseListener.mousePressed(MouseEvent e).
-	 */
-	@Override
-	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-		if (super.mousePressed(mc, mouseX, mouseY)) {
-			this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
-			this.sliderValue = GameData.clamp(this.sliderValue, 0.0F, 1.0F);
-			ModRPGHud.instance.settings.setSetting(this.enumOptions, SettingFloat.denormalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue));
-			this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
-			this.dragging = true;
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Fired when the mouse button is released. Equivalent of
 	 * MouseListener.mouseReleased(MouseEvent e).
 	 */
-	@Override
-	public void mouseReleased(int mouseX, int mouseY) {
-		this.dragging = false;
-	}
+    @Override
+    public void onRelease(double mouseX, double mouseY)
+    {
+        this.dragging = false;
+    }
 }

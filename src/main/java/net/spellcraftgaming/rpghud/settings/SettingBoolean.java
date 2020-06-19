@@ -35,10 +35,11 @@ public class SettingBoolean extends Setting {
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		if (o instanceof Boolean) {
 			this.value = (Boolean) o;
 		}
+		return this;
 	}
 
 	@Override

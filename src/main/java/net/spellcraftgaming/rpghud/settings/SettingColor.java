@@ -38,12 +38,13 @@ public class SettingColor extends Setting{
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		if (o instanceof String) {
 			this.color = Integer.parseInt((String) o, 16);
 		} else if(o instanceof Integer) {
 			this.color = (Integer) o;
 		}
+		return this;
 	}
 
 	@Override

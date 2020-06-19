@@ -1,12 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
+import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 public class HudElementRecordOverlayVanilla extends HudElement {
 
@@ -16,37 +15,28 @@ public class HudElementRecordOverlayVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return GameData.overlayMessageTime((GuiIngameRPGHud) this.mc.ingameGUI) > 0;
+		return ((GuiIngameRPGHud) this.mc.ingameGUI).getOverlayMessageTime() > 0;
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks) {
-		GuiIngameRPGHud guiIngame = (GuiIngameRPGHud) gui;
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-		int i = scaledresolution.getScaledWidth();
-		int j = scaledresolution.getScaledHeight();
-		float f2 = GameData.overlayMessageTime(guiIngame) - partialTicks;
-		int l1 = (int) (f2 * 255.0F / 20.0F);
+	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		GuiIngameRPGHud theGui = (GuiIngameRPGHud) gui;
+		
+        float hue = (float)theGui.getOverlayMessageTime() - partialTicks;
+        int opacity = (int)(hue * 256.0F / 20.0F);
+        if (opacity > 255) opacity = 255;
 
-		if (l1 > 255) {
-			l1 = 255;
-		}
-
-		if (l1 > 8) {
-			GlStateManager.pushMatrix();
-			GlStateManager.translate((float) (i / 2), (float) (j - 68), 0.0F);
-			GlStateManager.enableBlend();
-			GameData.tryBlendFuncSeparate();
-			int l = GameData.overlayColor(guiIngame, f2);
-
-			if (GameData.isRecordPlaying(guiIngame)) {
-				l = GameData.hsvToRGB(f2 / 50.0F, 0.7F, 0.6F) & 16777215;
-			}
-
-			GameData.getFontRenderer().drawString(GameData.getOverlayText(guiIngame), -GameData.getFontRenderer().getStringWidth(GameData.getOverlayText(guiIngame)) / 2, -4, l + (l1 << 24 & -16777216));
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
-		}
+        if (opacity > 0)
+        {
+            GlStateManager.pushMatrix();
+            GlStateManager.translatef((float)(scaledWidth / 2), (float)(scaledHeight - 68), 0.0F);
+            GlStateManager.enableBlend();
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            int color = (theGui.getAnimateOverlayMessageColor() ? MathHelper.hsvToRGB(hue / 50.0F, 0.7F, 0.6F) & 0xFFFFFF : 0xFFFFFF);
+            mc.fontRenderer.drawStringWithShadow(theGui.getOverlayMessage(), -mc.fontRenderer.getStringWidth(theGui.getOverlayMessage()) / 2, -4, color | (opacity << 24));
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
 	}
 
 }

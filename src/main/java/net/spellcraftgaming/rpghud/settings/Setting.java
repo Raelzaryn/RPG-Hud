@@ -51,7 +51,7 @@ public abstract class Setting {
 
 	public abstract void resetValue();
 
-	public abstract void setValue(Object o);
+	public abstract Setting setValue(Object o);
 	
 	public String getName() {
 		return I18n.format("name." + this.ID, new Object[0]);

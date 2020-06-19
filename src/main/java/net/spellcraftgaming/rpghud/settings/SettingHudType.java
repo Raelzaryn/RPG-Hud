@@ -49,10 +49,11 @@ public class SettingHudType extends Setting {
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		if (o instanceof String) {
 			this.value = (String) o;
 		}
+		return this;
 	}
 	
 	@Override

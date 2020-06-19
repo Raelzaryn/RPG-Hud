@@ -50,9 +50,7 @@ public abstract class Hud {
 		this.elements.put(DETAILS, setElementDetails());
 		this.elements.put(WIDGET, setElementWidget());
 		this.elements.put(RECORD_OVERLAY, setElementRecordOverlay());
-		this.elements.put(CHAT, setElementChat());
 		this.elements.put(COMPASS, setElementCompass());
-		this.elements.put(PICKUP, setElementPickup());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
 
 	}
@@ -114,14 +112,8 @@ public abstract class Hud {
 	/** Function which returns a new element which is the widget element */
 	protected abstract HudElement setElementRecordOverlay();
 
-	/** Function which returns a new element which is the chat element */
-	protected abstract HudElement setElementChat();
-
 	/** Function which returns a new element which is the compass element */
 	protected abstract HudElement setElementCompass();
-
-	/** Function which returns a new element which is the item pickup element */
-	protected abstract HudElement setElementPickup();
 
 	/** Function which returns a new element which is the item pickup element */
 	protected abstract HudElement setElementEntityInspect();
@@ -138,8 +130,8 @@ public abstract class Hud {
 	 * @param partialTicks
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, Gui gui, float zLevel, float partialTicks) {
-		this.elements.get(type).draw(gui, zLevel, partialTicks);
+	public void drawElement(HudElementType type, Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		this.elements.get(type).draw(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 
 	/**

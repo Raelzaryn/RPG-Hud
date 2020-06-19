@@ -1,26 +1,28 @@
 package net.spellcraftgaming.rpghud.settings;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.common.config.Configuration;
-import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class Settings {
 
+	private final String CONFIG_VERSION = "1.0";
 	private Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
-	private Configuration config;
-	
-	private Configuration[] hudConfig;
+	private File file;
+    public static final String NEW_LINE = System.getProperty("line.separator");
 
 	public static final String hud_type = "hud_type";
 	public static final String enable_button_tooltip = "enable_button_tooltip";
@@ -100,28 +102,15 @@ public class Settings {
 	public static final String prevent_element_render = "prevent_element_render";
 
 	private File rpgHudDir() {
-		return(new File(Minecraft.getMinecraft().mcDataDir.getPath(),"config" + File.separator + "RPG-HUD"));
+		return(new File(Minecraft.getInstance().gameDir.getPath(),"config" + File.separator + "RPG-HUD"));
 	}
 
 	public Settings() {
-		this.config = new Configuration(new File(rpgHudDir(), "settings.cfg"));
-		this.config.load();
+		file = rpgHudDir();
 		init();
-		this.config.save();
+		this.load();
+		this.save();
 
-	}
-
-	public void initHudConfig() {
-		hudConfig = new Configuration[ModRPGHud.instance.huds.size()];
-		Set<String> huds = ModRPGHud.instance.huds.keySet();
-		String[] keys = huds.toArray(new String[huds.size()]);
-		int size = keys.length;
-		for(int n = 0; n < size; n++){
-			hudConfig[n] = new Configuration(new File(rpgHudDir() + File.separator + "hud", keys[n] + ".cfg"));
-			Setting setting = new SettingBoolean("test", true);
-			hudConfig[n].get("test", "test", (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
-			hudConfig[n].save();
-		}
 	}
 	
 	public void init() {
@@ -175,10 +164,6 @@ public class Settings {
 		addSetting(invert_compass, new SettingBoolean(invert_compass, HudElementType.COMPASS, false));
 		addSetting(compass_position, new SettingPosition(compass_position, HudElementType.COMPASS, 0, 0));
 
-		addSetting(enable_pickup, new SettingBoolean(enable_pickup, HudElementType.PICKUP, false));
-		addSetting(pickup_duration, new SettingFloat(pickup_duration, HudElementType.PICKUP, 5F, 1F, 10F, 1F));
-		addSetting(pickup_position, new SettingPosition(pickup_position, HudElementType.PICKUP, 0, 0));
-
 		addSetting(render_player_face, new SettingBoolean(render_player_face, HudElementType.WIDGET, true));
 		addSetting(widget_position, new SettingPosition(widget_position, HudElementType.WIDGET, 0, 0));
 		addSetting(face_position, new SettingPosition(face_position, HudElementType.WIDGET, 0, 0));
@@ -213,10 +198,10 @@ public class Settings {
 	}
 
 	public void addDebugSettings(HudElementType type) {
-		addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBoolean(force_render, type, false));
-		addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBoolean(render_vanilla, type, false));
-		addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_event, type, false));
-		addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_element_render, type, false));
+		addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBoolean(force_render + "_" + type.name().toLowerCase(), type, false));
+		addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBoolean(render_vanilla + "_" + type.name().toLowerCase(), type, false));
+		addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_event + "_" + type.name().toLowerCase(), type, false));
+		addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
 	}
 
 	public Setting getSetting(String id) {
@@ -257,55 +242,21 @@ public class Settings {
 		Setting setting = this.settings.get(i);
 		setting.resetValue();
 		this.settings.put(i, setting);
-		saveSetting(i);
 	}
 
 	public void increment(String i) {
 		Setting setting = this.settings.get(i);
 		setting.increment();
 		this.settings.put(i, setting);
-		saveSetting(i);
 	}
 
 	public void setSetting(String i, Object o) {
 		Setting setting = this.settings.get(i);
 		setting.setValue(o);
 		this.settings.put(i, setting);
-		saveSetting(i);
-	}
-
-	public void saveSetting(String id) {
-		Setting setting = this.settings.get(id);
-		String category = "0:general";
-		if (setting.associatedType != null)
-			category = "1:" + setting.associatedType.name().toLowerCase();
-		if (setting instanceof SettingInteger)
-			this.config.get(category, id, (Integer) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Integer) setting.getValue());
-		else if (setting instanceof SettingColor)
-			this.config.get(category, id, Integer.toHexString((Integer) setting.getDefaultValue()), setting.getFormatedTooltip()).set(Integer.toHexString((Integer) setting.getValue()));
-		else if (setting instanceof SettingBoolean)
-			this.config.get(category, id, (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Boolean) setting.getValue());
-		else if (setting instanceof SettingFloat)
-			this.config.get(category, id, (Float) setting.getDefaultValue(), setting.getFormatedTooltip()).set((Float) setting.getValue());
-		else if (setting instanceof SettingString || setting instanceof SettingHudType || setting instanceof SettingPosition)
-			this.config.get(category, id, (String) setting.getDefaultValue(), setting.getFormatedTooltip()).set((String) setting.getValue());
-		this.config.save();
 	}
 
 	public void addSetting(String id, Setting setting) {
-		String category = "0:general";
-		if (setting.associatedType != null)
-			category = "1:" + setting.associatedType.name().toLowerCase();
-		if (setting instanceof SettingInteger)
-			setting.setValue(this.config.get(category, id, (Integer) setting.getDefaultValue(), setting.getFormatedTooltip()).getInt());
-		else if (setting instanceof SettingColor)
-			setting.setValue(this.config.get(category, id, Integer.toHexString((Integer) setting.getDefaultValue()), setting.getFormatedTooltip()).getString());
-		else if (setting instanceof SettingBoolean)
-			setting.setValue(this.config.get(category, id, (Boolean) setting.getDefaultValue(), setting.getFormatedTooltip()).getBoolean());
-		else if (setting instanceof SettingFloat)
-			setting.setValue(this.config.get(category, id, (Float) setting.getDefaultValue(), setting.getFormatedTooltip()).getDouble());
-		else if (setting instanceof SettingString || setting instanceof SettingHudType || setting instanceof SettingPosition)
-			setting.setValue(this.config.get(category, id, (String) setting.getDefaultValue(), setting.getFormatedTooltip()).getString());
 		this.settings.put(id, setting);
 	}
 	
@@ -326,7 +277,7 @@ public class Settings {
 			return s + setting.getIntValue();
 		} else if (setting instanceof SettingFloat) {
 			SettingFloat sf = (SettingFloat) setting;
-			return s + (id == pickup_duration ? GameData.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
+			return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
 		} else if (setting instanceof SettingPosition) {
 			return s;
 		} else {
@@ -355,7 +306,7 @@ public class Settings {
 	}
 	
 	public void saveSettings(){
-		this.config.save();
+		this.save();
 	}
 	
 	public List<String> getSettingsOf(HudElementType type){
@@ -374,4 +325,119 @@ public class Settings {
 		}
 		return settings;
 	}
+	
+    public void save()
+    {
+        try
+        {
+            if (file.getParentFile() != null)
+            {
+                file.getParentFile().mkdirs();
+            }
+
+            if (!file.exists() && !file.createNewFile())
+            {
+                return;
+            }
+
+            if (file.canWrite())
+            {
+                FileOutputStream fos = new FileOutputStream(file);
+                BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+
+                buffer.write("Version=" + CONFIG_VERSION + NEW_LINE);
+
+                save(buffer);
+                
+                buffer.close();
+                fos.close();
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void load() {
+            BufferedReader buffer = null;
+            try
+            {
+                if (file.getParentFile() != null)
+                {
+                    file.getParentFile().mkdirs();
+                }
+
+                if (!file.exists())
+                {
+                    // Either a previous load attempt failed or the file is new; clear maps
+                    if (!file.createNewFile())
+                        return;
+                }
+
+                if (file.canRead())
+                {
+                    buffer = new BufferedReader(new FileReader(file));
+
+                    String line;
+
+                    while (true)
+                    {	
+                    	line = buffer.readLine();
+                    	if(line == null || line.isEmpty()) break;
+                    	if(line.contains(":") && line.contains("=")) {
+                        	String[] type = line.split(":");
+                        	String[] setting = type[1].split("=");
+                        	if(this.getSetting(setting[0]) != null) {
+                            	if(type[0].matches("B")){
+                            		this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Boolean.valueOf(setting[1])));
+                        		} else if (type[0].matches("S")) {
+                        			this.setSetting(setting[0], this.getSetting(setting[0]).setValue(setting[1]));
+                        		} else if (type[0].matches("C")) {
+                        			this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Integer.valueOf(setting[1])));
+                        		} else if (type[0].matches("S")) {
+                        			this.setSetting(setting[0], this.getSetting(setting[0]).setValue(setting[1]));
+                        		} else if (type[0].matches("I")) {
+                        			this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Integer.valueOf(setting[1])));
+                        		} else if (type[0].matches("F")) {
+                        			this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Float.valueOf(setting[1])));
+                        		} else if (type[0].matches("P")) {
+                        			this.setSetting(setting[0], setting[1]);
+                        		} else {
+                        			//TODO: Logger
+                        		}
+                        	}
+
+                    	}
+                    }
+                }
+    	} catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    private void save(BufferedWriter out) throws IOException
+    {
+        for (Setting setting : settings.values())
+        {
+        	if(setting instanceof SettingBoolean){
+        		out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else if (setting instanceof SettingString) {
+    			out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else if (setting instanceof SettingHudType) {
+    			out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else if (setting instanceof SettingColor) {
+    			out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else if (setting instanceof SettingInteger) {
+    			out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else if (setting instanceof SettingFloat) {
+    			out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else if (setting instanceof SettingPosition) {
+    			out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+    		} else {
+    			out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);
+    		}
+        }
+    }
 }

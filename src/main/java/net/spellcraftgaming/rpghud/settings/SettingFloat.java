@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import net.spellcraftgaming.lib.GameData;
+import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
 public class SettingFloat extends Setting {
@@ -48,10 +48,11 @@ public class SettingFloat extends Setting {
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		if (o instanceof Float) {
 			this.value = (Float) o;
 		}
+		return this;
 	}
 
 	@Override
@@ -60,16 +61,16 @@ public class SettingFloat extends Setting {
 	}
 	
 	public static float normalizeValue(SettingFloat setting, float value) {
-		return GameData.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
+		return MathHelper.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
 	}
 
 	public static float denormalizeValue(SettingFloat setting, float value) {
-		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * GameData.clamp(value, 0.0F, 1.0F));
+		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * MathHelper.clamp(value, 0.0F, 1.0F));
 	}
 
 	public static float snapToStepClamp(SettingFloat setting, float value) {
 		value = snapToStep(setting, value);
-		return GameData.clamp(value, setting.minValue, setting.maxValue);
+		return MathHelper.clamp(value, setting.minValue, setting.maxValue);
 	}
 
 	public static float snapToStep(SettingFloat setting, float value) {

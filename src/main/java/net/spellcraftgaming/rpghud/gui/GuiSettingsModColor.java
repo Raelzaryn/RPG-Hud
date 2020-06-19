@@ -2,11 +2,13 @@ package net.spellcraftgaming.rpghud.gui;
 
 import java.io.IOException;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.resources.I18n;
-import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -48,32 +50,54 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void initGui() {
-		this.buttonList.add(new GuiSliderMod(1, GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F));
-		this.buttonList.add(new GuiSliderMod(2, GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F));
-		this.buttonList.add(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F));
+		this.buttons.add(new GuiSliderMod(1, GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F));
+		this.buttons.add(new GuiSliderMod(2, GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F));
+		this.buttons.add(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F));
 
-		this.colorCodeField = new GuiTextField(5, GameData.getFontRenderer(), this.width / 2 - 74, 115, 147, 20);
+		this.colorCodeField = new GuiTextField(5, Minecraft.getInstance().fontRenderer, this.width / 2 - 74, 115, 147, 20);
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 
-		this.buttonList.add(new GuiButtonTooltip(10, this.width / 4 * 3 - 20, 30 + 10, 60, 20, I18n.format("color.red", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(11, this.width / 4 * 3 - 20, 50 + 10, 60, 20, I18n.format("color.pink", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(12, this.width / 4 * 3 - 20, 70 + 10, 60, 20, I18n.format("color.brown", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(13, this.width / 4 * 3 - 20, 90 + 10, 60, 20, I18n.format("color.white", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(14, this.width / 4 * 3 - 20, 110 + 10, 60, 20, I18n.format("color.orange", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(15, this.width / 4 * 3 - 20, 130 + 10, 60, 20, I18n.format("color.green", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(10, this.width / 4 * 3 - 20, 30 + 10, 60, 20, I18n.format("color.red", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(11, this.width / 4 * 3 - 20, 50 + 10, 60, 20, I18n.format("color.pink", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(12, this.width / 4 * 3 - 20, 70 + 10, 60, 20, I18n.format("color.brown", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(13, this.width / 4 * 3 - 20, 90 + 10, 60, 20, I18n.format("color.white", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(14, this.width / 4 * 3 - 20, 110 + 10, 60, 20, I18n.format("color.orange", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(15, this.width / 4 * 3 - 20, 130 + 10, 60, 20, I18n.format("color.green", new Object[0])));
 
-		this.buttonList.add(new GuiButtonTooltip(16, this.width / 4 * 3 + 60 - 20, 30 + 10, 60, 20, I18n.format("color.purple", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(17, this.width / 4 * 3 + 60 - 20, 50 + 10, 60, 20, I18n.format("color.blue", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(18, this.width / 4 * 3 + 60 - 20, 70 + 10, 60, 20, I18n.format("color.aqua", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(19, this.width / 4 * 3 + 60 - 20, 90 + 10, 60, 20, I18n.format("color.black", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(20, this.width / 4 * 3 + 60 - 20, 110 + 10, 60, 20, I18n.format("color.grey", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(21, this.width / 4 * 3 + 60 - 20, 130 + 10, 60, 20, I18n.format("color.yellow", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(16, this.width / 4 * 3 + 60 - 20, 30 + 10, 60, 20, I18n.format("color.purple", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(17, this.width / 4 * 3 + 60 - 20, 50 + 10, 60, 20, I18n.format("color.blue", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(18, this.width / 4 * 3 + 60 - 20, 70 + 10, 60, 20, I18n.format("color.aqua", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(19, this.width / 4 * 3 + 60 - 20, 90 + 10, 60, 20, I18n.format("color.black", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(20, this.width / 4 * 3 + 60 - 20, 110 + 10, 60, 20, I18n.format("color.grey", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(21, this.width / 4 * 3 + 60 - 20, 130 + 10, 60, 20, I18n.format("color.yellow", new Object[0])));
 
-		this.buttonList.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, 125, 20, I18n.format("gui.done", new Object[0])).setTooltip(I18n.format("tooltip.done", new Object[0])));
-		this.buttonList.add(new GuiButtonTooltip(251, this.width / 2 + 24, this.height / 6 + 168, 75, 20, I18n.format("gui.cancel", new Object[0])).setTooltip(I18n.format("tooltip.cancel", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, 125, 20, I18n.format("gui.done", new Object[0])).setTooltip(I18n.format("tooltip.done", new Object[0])));
+		this.buttons.add(new GuiButtonTooltip(251, this.width / 2 + 24, this.height / 6 + 168, 75, 20, I18n.format("gui.cancel", new Object[0])).setTooltip(I18n.format("tooltip.cancel", new Object[0])));
 	}
 
 	@Override
+	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
+		this.colorCodeField.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
+	      for(IGuiEventListener iguieventlistener : this.getChildren()) {
+	    	  if(iguieventlistener instanceof GuiButton) {
+	    		  GuiButton button = (GuiButton) iguieventlistener;
+	    		  this.actionPerformed(button);
+	    		  return true;
+	    	  }
+	          boolean flag = iguieventlistener.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
+	          if (flag) {
+	             this.focusOn(iguieventlistener);
+	             if (p_mouseClicked_5_ == 0) {
+	                this.setDragging(true);
+	             }
+
+	             return true;
+	          }
+	       }
+
+	       return false;
+	}
+	
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			if (button.id == 10) {
@@ -103,7 +127,6 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			} else if (button.id == 250) {
 				setSettingColor();
 				this.mc.displayGuiScreen(this.parent);
-				ModRPGHud.instance.settings.saveSetting(this.colorType);
 			} else if (button.id == 251) {
 				this.mc.displayGuiScreen(this.parent);
 			}
@@ -113,43 +136,43 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	public void setColorTo(int color) {
 		this.color = color;
 		this.colorR = (this.color >> 16 & 255);
-		((GuiSliderMod) this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
-		((GuiSliderMod) this.buttonList.get(0)).value = this.colorR;
+		((GuiSliderMod) this.buttons.get(0)).sliderValue = (float) this.colorR / 255;
+		((GuiSliderMod) this.buttons.get(0)).value = this.colorR;
 		this.colorG = (this.color >> 8 & 255);
-		((GuiSliderMod) this.buttonList.get(1)).sliderValue = (float) this.colorG / 255;
-		((GuiSliderMod) this.buttonList.get(1)).value = this.colorG;
+		((GuiSliderMod) this.buttons.get(1)).sliderValue = (float) this.colorG / 255;
+		((GuiSliderMod) this.buttons.get(1)).value = this.colorG;
 		this.colorB = (this.color & 255);
-		((GuiSliderMod) this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
-		((GuiSliderMod) this.buttonList.get(2)).value = this.colorB;
+		((GuiSliderMod) this.buttons.get(2)).sliderValue = (float) this.colorB / 255;
+		((GuiSliderMod) this.buttons.get(2)).value = this.colorB;
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 	}
 
 	@Override
-	public void updateScreen() {
-		super.updateScreen();
+	public void tick() {
+		super.tick();
 		if (this.colorCodeField.isFocused()) {
 			if (this.colorCodeField.getText().length() == 7) {
 				if (this.colorCodeField.getText().startsWith("#")) {
 					if (this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
 						this.color = Integer.valueOf(this.colorCodeField.getText().replace("#", ""), 16).intValue();
 						this.colorR = (this.color >> 16 & 255);
-						((GuiSliderMod) this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
-						((GuiSliderMod) this.buttonList.get(0)).value = this.colorR;
+						((GuiSliderMod) this.buttons.get(0)).sliderValue = (float) this.colorR / 255;
+						((GuiSliderMod) this.buttons.get(0)).value = this.colorR;
 						this.colorG = (this.color >> 8 & 255);
-						((GuiSliderMod) this.buttonList.get(1)).sliderValue = (float) this.colorG / 255;
-						((GuiSliderMod) this.buttonList.get(1)).value = this.colorG;
+						((GuiSliderMod) this.buttons.get(1)).sliderValue = (float) this.colorG / 255;
+						((GuiSliderMod) this.buttons.get(1)).value = this.colorG;
 						this.colorB = (this.color & 255);
-						((GuiSliderMod) this.buttonList.get(2)).sliderValue = (float) this.colorB / 255;
-						((GuiSliderMod) this.buttonList.get(2)).value = this.colorB;
+						((GuiSliderMod) this.buttons.get(2)).sliderValue = (float) this.colorB / 255;
+						((GuiSliderMod) this.buttons.get(2)).value = this.colorB;
 					}
 				}
 			}
 			this.colorCodeField.setText(this.colorCodeField.getText().toUpperCase());
 		} else {
 			this.colorCodeField.setText(Settings.intToHexString(this.color));
-			this.colorR = ((GuiSliderMod) this.buttonList.get(0)).getValue();
-			this.colorG = ((GuiSliderMod) this.buttonList.get(1)).getValue();
-			this.colorB = ((GuiSliderMod) this.buttonList.get(2)).getValue();
+			this.colorR = ((GuiSliderMod) this.buttons.get(0)).getValue();
+			this.colorG = ((GuiSliderMod) this.buttons.get(1)).getValue();
+			this.colorB = ((GuiSliderMod) this.buttons.get(2)).getValue();
 			int color = (this.colorR << 16) + (this.colorG << 8) + (this.colorB);
 			if (color > 0xFFFFFF)
 				color = 0xFFFFFF;
@@ -158,7 +181,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			this.color = color;
 		}
 
-		this.colorCodeField.updateCursorCounter();
+		this.colorCodeField.tick();
 	}
 
 	/**
@@ -167,34 +190,26 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	 * (character on the key), keyCode (lwjgl Keyboard key code)
 	 */
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
 		if (this.colorCodeField.isFocused()) {
-			this.colorCodeField.textboxKeyTyped(typedChar, keyCode);
-			if (keyCode == 28)
+			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+			if (p_keyPressed_1_ == 28)
 				this.colorCodeField.setFocused(false);
 		}
-	}
-
-	/**
-	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-	 */
-	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
-
-		this.colorCodeField.mouseClicked(mouseX, mouseY, mouseButton);
+		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 		this.drawDefaultBackground();
-		this.drawCenteredString(GameData.getFontRenderer(), this.title, this.width / 2, 12, -1);
-		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
-		this.colorCodeField.drawTextBox();
-		this.drawCenteredString(GameData.getFontRenderer(), I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(fontRenderer, this.title, this.width / 2, 12, -1);
+		this.drawCenteredString(fontRenderer, I18n.format("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
+		this.drawCenteredString(fontRenderer, I18n.format("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
+		this.drawCenteredString(fontRenderer, I18n.format("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
+		this.colorCodeField.drawTextField(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(fontRenderer, I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		super.render(mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
 }

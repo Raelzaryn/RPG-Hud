@@ -42,7 +42,7 @@ public class SettingString extends Setting {
 	}
 
 	@Override
-	public void setValue(Object o) {
+	public Setting setValue(Object o) {
 		if (o instanceof String) {
 			boolean set = false;
 			for(int i = 0; i < this.possibleValues.length; i++)
@@ -53,6 +53,7 @@ public class SettingString extends Setting {
 			if(!set) this.valueId = this.defaultValueId;
 
 		}
+		return this;
 	}
 	
 	@Override
