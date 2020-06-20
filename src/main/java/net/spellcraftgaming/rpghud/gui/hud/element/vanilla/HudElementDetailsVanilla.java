@@ -24,6 +24,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public class HudElementDetailsVanilla extends HudElement {
 
 	protected int offset = 0;
+	protected int typeOffset = 0;
 	protected int count1;
 	protected int count2;
 	protected int count3;
@@ -72,14 +73,14 @@ public class HudElementDetailsVanilla extends HudElement {
 		this.mc.profiler.startSection("armor_details");
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-		for (int i = mc.player.inventory.armorInventory.size() - 1; i >= 0; i--) {
-			if (mc.player.inventory.armorItemInSlot(i) != ItemStack.EMPTY && mc.player.inventory.armorItemInSlot(i).getItem().isDamageable()) {
-				ItemStack item = mc.player.inventory.armorItemInSlot(i);
+		for (int i = this.mc.player.inventory.armorInventory.size() - 1; i >= 0; i--) {
+			if (this.mc.player.inventory.armorItemInSlot(i) != ItemStack.EMPTY && this.mc.player.inventory.armorItemInSlot(i).getItem().isDamageable()) {
+				ItemStack item = this.mc.player.inventory.armorItemInSlot(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2: 62+typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
@@ -104,16 +105,16 @@ public class HudElementDetailsVanilla extends HudElement {
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				RenderHelper.enableGUIStandardItemLighting();
-				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				RenderHelper.disableStandardItemLighting();
 				this.offset += 16;
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
-				int x = mc.player.inventory.getSizeInventory();
+				int x = this.mc.player.inventory.getSizeInventory();
 				int z = 0;
 				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemStacksEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemStacksEqual(this.itemMainHandLast, item)) {
 					if (hand == 0) {
@@ -124,7 +125,7 @@ public class HudElementDetailsVanilla extends HudElement {
 						ModRPGHud.renderDetailsAgain[1] = false;
 					}
 					for (int y = 0; y < x; y++) {
-						item = mc.player.inventory.getStackInSlot(y);
+						item = this.mc.player.inventory.getStackInSlot(y);
 						if (item != ItemStack.EMPTY && Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(getItemInHand(hand).getItem())) {
 							z += item.getCount();
 						}
@@ -145,11 +146,11 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
-				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawString(mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
+				gui.drawString(this.mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 				this.offset += 16;
@@ -164,19 +165,19 @@ public class HudElementDetailsVanilla extends HudElement {
 	 *            the GUI to draw on
 	 */
 	protected void drawArrowCount(Gui gui) {
-		ItemStack item = mc.player.getHeldItemMainhand();
+		ItemStack item = this.mc.player.getHeldItemMainhand();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof ItemBow) {
-			int x = mc.player.inventory.getSizeInventory();
+			int x = this.mc.player.inventory.getSizeInventory();
 			int z = 0;
 
 			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemStacksEqual(this.itemMainHandLastArrow, item)) {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
-				item = findAmmo(mc.player);
+				item = findAmmo(this.mc.player);
 				if (item != ItemStack.EMPTY) {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
-						ItemStack item3 = mc.player.inventory.getStackInSlot(y);
+						ItemStack item3 = this.mc.player.inventory.getStackInSlot(y);
 						if (ItemStack.areItemsEqual(item, item3)) {
 							z += addArrowStackIfCorrect(item, item3);
 						}
@@ -197,11 +198,11 @@ public class HudElementDetailsVanilla extends HudElement {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 
-			this.mc.getItemRenderer().renderItemIntoGUI(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
-			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.offset);
+			this.mc.getItemRenderer().renderItemIntoGUI(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124  + typeOffset*2: 62 + typeOffset) + this.offset);
+			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
-			gui.drawString(mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 : 66) + this.offset, -1);
+			gui.drawString(this.mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				GL11.glScaled(2.0D, 2.0D, 2.0D);
 			this.offset += 16;

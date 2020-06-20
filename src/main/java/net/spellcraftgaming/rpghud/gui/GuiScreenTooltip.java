@@ -1,20 +1,28 @@
 package net.spellcraftgaming.rpghud.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.registries.GameData;
+import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiScreenTooltip extends GuiScreen {
 
+	protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
+	
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
         super.render(mouseX, mouseY, partialTicks);
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)){
 			drawTooltip(mouseX, mouseY);
+		}
+		for(GuiTextLabel label : labelList) {
+			label.render(this);
 		}
 	}
 
@@ -81,6 +89,24 @@ public class GuiScreenTooltip extends GuiScreen {
 					}
 				}
 			}
+		}
+	}
+	
+	public class GuiTextLabel{
+		int x;
+		int y;
+		String text;
+		
+		public GuiTextLabel(int x, int y, String text) {
+			this.x = x;
+			this.y = y;
+			this.text = text;
+		}
+		
+		public void render(GuiScreen gui) {
+	         GlStateManager.enableBlend();
+	         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+	         gui.drawString(Minecraft.getInstance().fontRenderer, text, x, y, 0xFFFFFFFF);
 		}
 	}
 

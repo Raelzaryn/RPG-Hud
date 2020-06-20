@@ -22,7 +22,7 @@ public class HudElementFoodVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && !(mc.player.getRidingEntity() instanceof EntityLiving) && this.mc.playerController.shouldDrawHUD();
+		return !this.mc.gameSettings.hideGUI && !(this.mc.player.getRidingEntity() instanceof EntityLiving) && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class HudElementFoodVanilla extends HudElement {
         theGui.right_height += 10;
         boolean unused = false;// Unused flag in vanilla, seems to be part of a 'fade out' mechanic
 
-        FoodStats stats = mc.player.getFoodStats();
+        FoodStats stats = this.mc.player.getFoodStats();
         int level = stats.getFoodLevel();
 
         for (int i = 0; i < 10; ++i)
@@ -46,7 +46,7 @@ public class HudElementFoodVanilla extends HudElement {
             int icon = 16;
             byte background = 0;
 
-            if (mc.player.isPotionActive(MobEffects.HUNGER))
+            if (this.mc.player.isPotionActive(MobEffects.HUNGER))
             {
                 icon += 36;
                 background = 13;

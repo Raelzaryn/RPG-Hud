@@ -18,7 +18,7 @@ public class HudElementHealthMountVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return mc.player.getRidingEntity() instanceof EntityLiving;
+		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
 	}
 
 	@Override

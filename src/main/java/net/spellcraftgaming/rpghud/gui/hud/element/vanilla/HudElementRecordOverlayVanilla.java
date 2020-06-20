@@ -33,7 +33,7 @@ public class HudElementRecordOverlayVanilla extends HudElement {
             GlStateManager.enableBlend();
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             int color = (theGui.getAnimateOverlayMessageColor() ? MathHelper.hsvToRGB(hue / 50.0F, 0.7F, 0.6F) & 0xFFFFFF : 0xFFFFFF);
-            mc.fontRenderer.drawStringWithShadow(theGui.getOverlayMessage(), -mc.fontRenderer.getStringWidth(theGui.getOverlayMessage()) / 2, -4, color | (opacity << 24));
+            this.mc.fontRenderer.drawStringWithShadow(theGui.getOverlayMessage(), -this.mc.fontRenderer.getStringWidth(theGui.getOverlayMessage()) / 2, -4, color | (opacity << 24));
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }

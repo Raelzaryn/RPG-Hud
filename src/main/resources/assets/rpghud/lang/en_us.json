@@ -91,6 +91,8 @@
     "name.widget_position": "HUD Pos",
     "name.chat_position": "Position",
     "name.armor_position": "Position",
+    
+    "name.rpghud": "RPG-Hud",
 
     "color.red": "Red",
     "color.blue": "Blue",

@@ -1,6 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLiving;
@@ -15,7 +14,7 @@ public class HudElementExperienceVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !(mc.player.getRidingEntity() instanceof EntityLiving);
+		return !(this.mc.player.getRidingEntity() instanceof EntityLiving) && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override

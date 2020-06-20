@@ -1,13 +1,10 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.resources.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -50,52 +47,44 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void initGui() {
-		this.buttons.add(new GuiSliderMod(1, GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F));
-		this.buttons.add(new GuiSliderMod(2, GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F));
-		this.buttons.add(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F));
+		this.addButton(new GuiSliderMod(1, GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F));
+		this.addButton(new GuiSliderMod(2, GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F));
+		this.addButton(new GuiSliderMod(3, GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F));
 
 		this.colorCodeField = new GuiTextField(5, Minecraft.getInstance().fontRenderer, this.width / 2 - 74, 115, 147, 20);
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 
-		this.buttons.add(new GuiButtonTooltip(10, this.width / 4 * 3 - 20, 30 + 10, 60, 20, I18n.format("color.red", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(11, this.width / 4 * 3 - 20, 50 + 10, 60, 20, I18n.format("color.pink", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(12, this.width / 4 * 3 - 20, 70 + 10, 60, 20, I18n.format("color.brown", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(13, this.width / 4 * 3 - 20, 90 + 10, 60, 20, I18n.format("color.white", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(14, this.width / 4 * 3 - 20, 110 + 10, 60, 20, I18n.format("color.orange", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(15, this.width / 4 * 3 - 20, 130 + 10, 60, 20, I18n.format("color.green", new Object[0])));
+		String[] colorString = new String[] {"color.red", "color.pink", "color.brown", "color.white", "color.orange", "color.green",
+				"color.purple", "color.blue", "color.aqua", "color.black", "color.black", "color.grey", "color.yellow"};
+		
+		for(int i = 0; i < 6; i++) {
+			this.addButton(new GuiButtonTooltip(10 +i, this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, I18n.format(colorString[i], new Object[0])) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					actionPerformed(this);
+				}
+			});
+		}
 
-		this.buttons.add(new GuiButtonTooltip(16, this.width / 4 * 3 + 60 - 20, 30 + 10, 60, 20, I18n.format("color.purple", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(17, this.width / 4 * 3 + 60 - 20, 50 + 10, 60, 20, I18n.format("color.blue", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(18, this.width / 4 * 3 + 60 - 20, 70 + 10, 60, 20, I18n.format("color.aqua", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(19, this.width / 4 * 3 + 60 - 20, 90 + 10, 60, 20, I18n.format("color.black", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(20, this.width / 4 * 3 + 60 - 20, 110 + 10, 60, 20, I18n.format("color.grey", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(21, this.width / 4 * 3 + 60 - 20, 130 + 10, 60, 20, I18n.format("color.yellow", new Object[0])));
+		for(int i = 0; i < 6; i++) {
+			this.addButton(new GuiButtonTooltip(16 +i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, I18n.format(colorString[i+6], new Object[0])) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					actionPerformed(this);
+				}
+			});
+		}
 
-		this.buttons.add(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, 125, 20, I18n.format("gui.done", new Object[0])).setTooltip(I18n.format("tooltip.done", new Object[0])));
-		this.buttons.add(new GuiButtonTooltip(251, this.width / 2 + 24, this.height / 6 + 168, 75, 20, I18n.format("gui.cancel", new Object[0])).setTooltip(I18n.format("tooltip.cancel", new Object[0])));
-	}
-
-	@Override
-	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-		this.colorCodeField.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
-	      for(IGuiEventListener iguieventlistener : this.getChildren()) {
-	    	  if(iguieventlistener instanceof GuiButton) {
-	    		  GuiButton button = (GuiButton) iguieventlistener;
-	    		  this.actionPerformed(button);
-	    		  return true;
-	    	  }
-	          boolean flag = iguieventlistener.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
-	          if (flag) {
-	             this.focusOn(iguieventlistener);
-	             if (p_mouseClicked_5_ == 0) {
-	                this.setDragging(true);
-	             }
-
-	             return true;
-	          }
-	       }
-
-	       return false;
+		this.addButton(new GuiButtonTooltip(250, this.width / 2 - 100, this.height / 6 + 168, 125, 20, I18n.format("gui.done", new Object[0])) {
+			public void onClick(double mouseX, double mouseY) {
+				setSettingColor();
+				mc.displayGuiScreen(parent);
+			};
+		}.setTooltip(I18n.format("tooltip.done", new Object[0])));
+		this.addButton(new GuiButtonTooltip(251, this.width / 2 + 24, this.height / 6 + 168, 75, 20, I18n.format("gui.cancel", new Object[0])) {
+			public void onClick(double mouseX, double mouseY) {
+				mc.displayGuiScreen(parent);};
+		}.setTooltip(I18n.format("tooltip.cancel", new Object[0])));
 	}
 	
 	protected void actionPerformed(GuiButton button) {

@@ -56,7 +56,7 @@ public class HudElementHealthVanilla extends HudElement {
             this.lastSystemTime = Util.milliTime();
         }
 
-        this.playerHealth = health;
+        playerHealth = health;
         int healthLast = this.lastPlayerHealth;
 
         IAttributeInstance attrMaxHealth = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH);

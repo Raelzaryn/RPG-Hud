@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -16,7 +16,7 @@ public class HudElementJumpBarVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return mc.player.getRidingEntity() instanceof EntityLiving;
+		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		EntityLiving focused = getFocusedEntity(mc.player);
+		EntityLiving focused = getFocusedEntity(this.mc.player);
 		if (focused != null) {
 			int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
 			int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
@@ -45,16 +45,16 @@ public class HudElementEntityInspectVanilla extends HudElement {
 			drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 			GlStateManager.scaled(0.5, 0.5, 0.5);
-			gui.drawCenteredString(mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
 			GlStateManager.scaled(2.0, 2.0, 2.0);
 
-			int x = (posX - 29 + 44 - mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
+			int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
 			int y = 25 + posY;
-			mc.fontRenderer.drawString(focused.getName().getString(), x + 1, y, 0);
-			mc.fontRenderer.drawString(focused.getName().getString(), x - 1, y, 0);
-			mc.fontRenderer.drawString(focused.getName().getString(), x, y + 1, 0);
-			mc.fontRenderer.drawString(focused.getName().getString(), x, y - 1, 0);
-			mc.fontRenderer.drawString(focused.getName().getString(), x, y, -1);
+			this.mc.fontRenderer.drawString(focused.getName().getString(), x + 1, y, 0);
+			this.mc.fontRenderer.drawString(focused.getName().getString(), x - 1, y, 0);
+			this.mc.fontRenderer.drawString(focused.getName().getString(), x, y + 1, 0);
+			this.mc.fontRenderer.drawString(focused.getName().getString(), x, y - 1, 0);
+			this.mc.fontRenderer.drawString(focused.getName().getString(), x, y, -1);
 
 			drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
 		}

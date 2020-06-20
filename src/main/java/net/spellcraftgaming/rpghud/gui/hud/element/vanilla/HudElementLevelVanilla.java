@@ -13,20 +13,20 @@ public class HudElementLevelVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD() && mc.player.experienceLevel > 0;
+		return this.mc.playerController.shouldDrawHUD() && this.mc.player.experienceLevel > 0;
 	}
 
 	@Override
 	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		GlStateManager.disableBlend();
-        String s = "" + this.mc.player.experienceLevel;
-        int i1 = (scaledWidth - mc.fontRenderer.getStringWidth(s)) / 2;
+		String level = String.valueOf(this.mc.player.experienceLevel);
+        int i1 = (scaledWidth - this.mc.fontRenderer.getStringWidth(level)) / 2;
         int j1 = scaledHeight - 31 - 4;
-        mc.fontRenderer.drawString(s, (float)(i1 + 1), (float)j1, 0);
-        mc.fontRenderer.drawString(s, (float)(i1 - 1), (float)j1, 0);
-        mc.fontRenderer.drawString(s, (float)i1, (float)(j1 + 1), 0);
-        mc.fontRenderer.drawString(s, (float)i1, (float)(j1 - 1), 0);
-        mc.fontRenderer.drawString(s, (float)i1, (float)j1, 8453920);
+        this.mc.fontRenderer.drawString(level, (float)(i1 + 1), (float)j1, 0);
+        this.mc.fontRenderer.drawString(level, (float)(i1 - 1), (float)j1, 0);
+        this.mc.fontRenderer.drawString(level, (float)i1, (float)(j1 + 1), 0);
+        this.mc.fontRenderer.drawString(level, (float)i1, (float)(j1 - 1), 0);
+        this.mc.fontRenderer.drawString(level, (float)i1, (float)j1, 8453920);
 		GlStateManager.enableBlend();
 	}
 

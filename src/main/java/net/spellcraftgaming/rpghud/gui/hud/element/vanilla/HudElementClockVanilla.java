@@ -20,7 +20,7 @@ public class HudElementClockVanilla extends HudElement {
 		return super.checkConditions() 
 				&& this.settings.getBoolValue(Settings.enable_clock) 
 				&& !this.mc.gameSettings.showDebugInfo 
-				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
+				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class HudElementClockVanilla extends HudElement {
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.drawString(mc.fontRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
+		gui.drawString(this.mc.fontRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
@@ -39,8 +39,8 @@ public class HudElementClockVanilla extends HudElement {
 
 	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
-		long time = mc.player.world.getDayTime();
-		long day = mc.player.world.getDayTime() / 24000L;
+		long time = this.mc.player.world.getDayTime();
+		long day = this.mc.player.world.getDayTime() / 24000L;
 		long currentTime = time - (24000L * day);
 		long currentHour = (currentTime / 1000L) + 6L;
 		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
@@ -117,8 +117,8 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	public int getClockColor() {
-		long time = mc.player.world.getDayTime();
-		long day = mc.player.world.getDayTime() / 24000L;
+		long time = this.mc.player.world.getDayTime();
+		long day = this.mc.player.world.getDayTime() / 24000L;
 		long currentTime = time - (24000L * day);
 		if (currentTime < 1000)
 			return 0xFFAF00;

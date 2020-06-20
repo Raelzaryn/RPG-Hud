@@ -1,6 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.tags.FluidTags;
@@ -17,7 +16,7 @@ public class HudElementAirVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return mc.player.areEyesInFluid(FluidTags.WATER) && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
+		return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir())  && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
@@ -26,7 +25,7 @@ public class HudElementAirVanilla extends HudElement {
 		int left = scaledWidth / 2 + 91 + this.settings.getPositionValue(Settings.air_position)[0];
 		int top = scaledHeight - GuiIngameRPGHud.right_height + this.settings.getPositionValue(Settings.air_position)[1];
 
-		int air =  Minecraft.getInstance().player.getAir();
+		int air =  this.mc.player.getAir();
 		int full = (int) Math.ceil((air - 2) * 10.0D / 300.0D);
 		int partial = (int) (Math.ceil(air * 10.0D / 300.0D) - full);
 
