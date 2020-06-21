@@ -294,12 +294,10 @@ public class GameData {
             type1 = PotionUtils.getPotionTypeFromNBT(item.getTagCompound());
         if(item.getItem() instanceof ItemTippedArrow) {
             PotionType type2 = PotionUtils.getPotionTypeFromNBT(arrow.getTagCompound());
-            if(type1.getEffects() == type2.getEffects()) {
+            if(type1.getEffects() == type2.getEffects())
                 return GameData.getItemStackSize(arrow);
-            }
-        } else {
+        } else
             return GameData.getItemStackSize(arrow);
-        }
 
         return GameData.getItemStackSize(arrow);
     }
@@ -324,25 +322,22 @@ public class GameData {
         if(getMinecraft().playerController.isSpectator() && getMinecraft().pointedEntity == null) {
             RayTraceResult raytraceresult = getMinecraft().objectMouseOver;
 
-            if(raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
+            if(raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK)
                 return true;
-            }
 
             BlockPos blockpos = raytraceresult.getBlockPos();
 
             net.minecraft.block.state.IBlockState state = GameData.getWorld().getBlockState(blockpos);
-            if(!state.getBlock().hasTileEntity(state) || !(GameData.getWorld().getTileEntity(blockpos) instanceof IInventory)) {
+            if(!state.getBlock().hasTileEntity(state) || !(GameData.getWorld().getTileEntity(blockpos) instanceof IInventory))
                 return true;
-            }
         }
         return false;
     }
 
     public static boolean isArrow(ItemStack item) {
-        if(item != GameData.nullStack()) {
+        if(item != GameData.nullStack())
             return ItemStack.areItemsEqual(item, arrowStack());
-            // return item.getItem() instanceof ItemArrow;
-        }
+        // return item.getItem() instanceof ItemArrow;
 
         return false;
     }
@@ -465,16 +460,15 @@ public class GameData {
         RayTraceResult ray = GameData.getWorldOfEntity(watcher).rayTraceBlocks(vec, vec2);
 
         double distance = maxDistance;
-        if(ray != null) {
+        if(ray != null)
             distance = ray.hitVec.distanceTo(posVec);
-        }
         Vec3d reachVector = posVec.addVector(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 
         double currentDistance = distance;
 
         List<Entity> entitiesWithinMaxDistance = GameData.getWorldOfEntity(watcher).getEntitiesWithinAABBExcludingEntity(watcher,
                 watcher.getEntityBoundingBox().grow(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
-        for(Entity entity : entitiesWithinMaxDistance) {
+        for(Entity entity : entitiesWithinMaxDistance)
             if(entity instanceof EntityLiving) {
                 float collisionBorderSize = entity.getCollisionBorderSize();
                 AxisAlignedBB hitBox = entity.getEntityBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
@@ -492,7 +486,6 @@ public class GameData {
                     }
                 }
             }
-        }
         return focusedEntity;
     }
 

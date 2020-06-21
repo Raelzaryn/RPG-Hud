@@ -102,26 +102,25 @@ public class GuiIngameRPGHud extends GuiIngameForge {
         right_height = 39;
         left_height = 39;
 
-        if(pre(ALL))
+        if(this.pre(ALL))
             return;
 
         this.fontrenderer = GameData.getFontRenderer();
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
 
-        if(Minecraft.isFancyGraphicsEnabled()) {
-            renderVignette(this.mc.player.getBrightness(), this.res);
-        } else {
+        if(Minecraft.isFancyGraphicsEnabled())
+            this.renderVignette(this.mc.player.getBrightness(), this.res);
+        else {
             GlStateManager.enableDepth();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                     GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         }
 
-        renderHelmet(this.res, partialTicks);
+        this.renderHelmet(this.res, partialTicks);
 
-        if(!this.mc.player.isPotionActive(MobEffects.NAUSEA)) {
-            renderPortalMod(this.res, partialTicks);
-        }
+        if(!this.mc.player.isPotionActive(MobEffects.NAUSEA))
+            this.renderPortalMod(this.res, partialTicks);
 
         this.drawElement(HudElementType.WIDGET, partialTicks);
 
@@ -133,7 +132,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
         this.drawElement(HudElementType.CROSSHAIR, partialTicks);
 
-        renderBossHealthMod();
+        this.renderBossHealthMod();
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if(this.mc.getRenderViewEntity() instanceof EntityPlayer) {
@@ -148,20 +147,20 @@ public class GuiIngameRPGHud extends GuiIngameForge {
             this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
         }
 
-        renderSleepFadeMod(width, height);
+        this.renderSleepFadeMod(width, height);
 
         this.drawElement(HudElementType.EXPERIENCE, partialTicks);
         this.drawElement(HudElementType.LEVEL, partialTicks);
 
         this.drawElement(HudElementType.JUMP_BAR, partialTicks);
 
-        renderToolHighlightMod(this.res);
-        renderHUDText(width);
-        renderFPSGraphMod();
-        renderPotionIconsMod(this.res);
+        this.renderToolHighlightMod(this.res);
+        this.renderHUDText(width);
+        this.renderFPSGraphMod();
+        this.renderPotionIconsMod(this.res);
         this.drawElement(HudElementType.RECORD_OVERLAY, partialTicks);
-        renderSubtitles();
-        renderTitleMod(width, height, partialTicks);
+        this.renderSubtitles();
+        this.renderTitleMod(width, height, partialTicks);
 
         Scoreboard scoreboard = this.mc.world.getScoreboard();
         ScoreObjective objective = null;
@@ -172,49 +171,48 @@ public class GuiIngameRPGHud extends GuiIngameForge {
                 objective = scoreboard.getObjectiveInDisplaySlot(3 + slot);
         }
         ScoreObjective scoreobjective1 = objective != null ? objective : scoreboard.getObjectiveInDisplaySlot(1);
-        if(scoreobjective1 != null) {
+        if(scoreobjective1 != null)
             this.renderScoreboard(scoreobjective1, this.res);
-        }
 
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.disableAlpha();
 
-        renderChat(width, height);
+        this.renderChat(width, height);
 
-        renderPlayerList(width);
+        this.renderPlayerList(width);
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
 
-        post(ALL);
+        this.post(ALL);
     }
 
     @Override
-    protected void renderChat(int width, int height)
-    {
-        mc.mcProfiler.startSection("chat");
+    protected void renderChat(int width, int height) {
+        this.mc.mcProfiler.startSection("chat");
 
         int offset = 0;
         if(ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget)
             offset = -22;
         RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(this.eventParent, 0, height - 48 + offset);
-        if (MinecraftForge.EVENT_BUS.post(event)) return;
+        if(MinecraftForge.EVENT_BUS.post(event))
+            return;
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(event.getPosX(), event.getPosY(), 0.0F);
-        persistantChatGUI.drawChat(updateCounter);
+        this.persistantChatGUI.drawChat(this.updateCounter);
         GlStateManager.popMatrix();
 
-        post(CHAT);
+        this.post(CHAT);
 
-        mc.mcProfiler.endSection();
+        this.mc.mcProfiler.endSection();
     }
-    
+
     @Override
     protected void renderVignette(float lightLevel, ScaledResolution scaledRes) {
-        if(pre(VIGNETTE)) {
+        if(this.pre(VIGNETTE)) {
             GlStateManager.enableDepth();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                     GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
@@ -228,11 +226,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
                 Math.abs(worldborder.getTargetSize() - worldborder.getDiameter()));
         double d1 = Math.max(worldborder.getWarningDistance(), d0);
 
-        if(f < d1) {
+        if(f < d1)
             f = 1.0F - (float) (f / d1);
-        } else {
+        else
             f = 0.0F;
-        }
 
         this.prevVignetteBrightness = (float) (this.prevVignetteBrightness + (lightLevel - this.prevVignetteBrightness) * 0.01D);
         GlStateManager.disableDepth();
@@ -240,11 +237,10 @@ public class GuiIngameRPGHud extends GuiIngameForge {
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE,
                 GlStateManager.DestFactor.ZERO);
 
-        if(f > 0.0F) {
+        if(f > 0.0F)
             GlStateManager.color(0.0F, f, f, 1.0F);
-        } else {
+        else
             GlStateManager.color(this.prevVignetteBrightness, this.prevVignetteBrightness, this.prevVignetteBrightness, 1.0F);
-        }
 
         this.mc.getTextureManager().bindTexture(VIGNETTE_TEX_PATH);
         Tessellator tessellator = Tessellator.getInstance();
@@ -260,7 +256,7 @@ public class GuiIngameRPGHud extends GuiIngameForge {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
                 GlStateManager.DestFactor.ZERO);
-        post(VIGNETTE);
+        this.post(VIGNETTE);
     }
 
     /**
@@ -275,25 +271,25 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
     /** Function that calls the renderPotionIcons function of GuiIngame */
     private void renderPotionIconsMod(ScaledResolution resolution) {
-        if(pre(POTION_ICONS))
+        if(this.pre(POTION_ICONS))
             return;
         super.renderPotionEffects(resolution);
-        post(POTION_ICONS);
+        this.post(POTION_ICONS);
     }
 
     /** Function that calls the renderSubtitles function of GuiIngame */
     private void renderSubtitles() {
-        if(pre(SUBTITLES))
+        if(this.pre(SUBTITLES))
             return;
         this.overlaySubtitle.renderSubtitles(this.res);
-        post(SUBTITLES);
+        this.post(SUBTITLES);
     }
 
     /** Function that renders the boss health via overlayBoss */
     private void renderBossHealthMod() {
-        if(pre(BOSSHEALTH))
+        if(this.pre(BOSSHEALTH))
             return;
-        bind(Gui.ICONS);
+        this.bind(Gui.ICONS);
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
                 GlStateManager.DestFactor.ZERO);
         this.mc.mcProfiler.startSection("bossHealth");
@@ -301,39 +297,36 @@ public class GuiIngameRPGHud extends GuiIngameForge {
         this.overlayBoss.renderBossHealth();
         GlStateManager.disableBlend();
         this.mc.mcProfiler.endSection();
-        post(BOSSHEALTH);
+        this.post(BOSSHEALTH);
     }
 
     /** Function that renders the helmet screen overlay */
     private void renderHelmet(ScaledResolution res, float partialTicks) {
-        if(pre(HELMET))
+        if(this.pre(HELMET))
             return;
 
         ItemStack itemstack = this.mc.player.inventory.armorItemInSlot(3);
 
-        if(this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() != null) {
-            if(itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN)) {
-                renderPumpkinOverlay(res);
-            } else {
+        if(this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() != null)
+            if(itemstack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
+                this.renderPumpkinOverlay(res);
+            else
                 itemstack.getItem().renderHelmetOverlay(itemstack, this.mc.player, res, partialTicks);
-            }
-        }
 
-        post(HELMET);
+        this.post(HELMET);
     }
 
     /** Function that renders the portal screen overlay */
     private void renderPortalMod(ScaledResolution res, float partialTicks) {
-        if(pre(PORTAL))
+        if(this.pre(PORTAL))
             return;
 
         float f1 = this.mc.player.prevTimeInPortal + (this.mc.player.timeInPortal - this.mc.player.prevTimeInPortal) * partialTicks;
 
-        if(f1 > 0.0F) {
-            renderPortal(f1, res);
-        }
+        if(f1 > 0.0F)
+            this.renderPortal(f1, res);
 
-        post(PORTAL);
+        this.post(PORTAL);
     }
 
     /** Function that renders the sleep fade screen overlay */
@@ -345,9 +338,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
             int sleepTime = this.mc.player.getSleepTimer();
             float opacity = sleepTime / 100.0F;
 
-            if(opacity > 1.0F) {
+            if(opacity > 1.0F)
                 opacity = 1.0F - (sleepTime - 100) / 10.0F;
-            }
 
             int color = (int) (220.0F * opacity) << 24 | 1052704;
             drawRect(0, 0, width, height, color);
@@ -398,9 +390,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
             }
 
             this.mc.mcProfiler.endSection();
-        } else if(this.mc.player.isSpectator()) {
+        } else if(this.mc.player.isSpectator())
             this.spectatorGui.renderSelectedItem(res);
-        }
     }
 
     /**
@@ -411,22 +402,21 @@ public class GuiIngameRPGHud extends GuiIngameForge {
     private void renderHUDText(int width) {
         this.mc.mcProfiler.startSection("forgeHudText");
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        ArrayList<String> listL = new ArrayList<String>();
-        ArrayList<String> listR = new ArrayList<String>();
+        ArrayList<String> listL = new ArrayList<>();
+        ArrayList<String> listR = new ArrayList<>();
 
         if(this.mc.isDemo()) {
             long time = this.mc.world.getTotalWorldTime();
-            if(time >= 120500L) {
+            if(time >= 120500L)
                 listR.add(I18n.format("demo.demoExpired"));
-            } else {
+            else
                 listR.add(I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int) (120500L - time))));
-            }
         }
 
-        if(this.mc.gameSettings.showDebugInfo && !pre(DEBUG)) {
+        if(this.mc.gameSettings.showDebugInfo && !this.pre(DEBUG)) {
             listL.addAll(this.debugOverlay.getLeft());
             listR.addAll(this.debugOverlay.getRight());
-            post(DEBUG);
+            this.post(DEBUG);
         }
 
         RenderGameOverlayEvent.Text event = new RenderGameOverlayEvent.Text(this.eventParent, listL, listR);
@@ -453,14 +443,14 @@ public class GuiIngameRPGHud extends GuiIngameForge {
         }
 
         this.mc.mcProfiler.endSection();
-        post(TEXT);
+        this.post(TEXT);
     }
 
     /** Renders the FPS graph of the debug overlay */
     private void renderFPSGraphMod() {
-        if(this.mc.gameSettings.showDebugInfo && this.mc.gameSettings.showLagometer && !pre(FPS_GRAPH)) {
+        if(this.mc.gameSettings.showDebugInfo && this.mc.gameSettings.showLagometer && !this.pre(FPS_GRAPH)) {
             this.debugOverlay.renderLagometer();
-            post(FPS_GRAPH);
+            this.post(FPS_GRAPH);
         }
     }
 
@@ -512,13 +502,12 @@ public class GuiIngameRPGHud extends GuiIngameForge {
         if(this.mc.gameSettings.keyBindPlayerList.isKeyDown()
                 && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null)) {
             this.overlayPlayerList.updatePlayerList(true);
-            if(pre(PLAYER_LIST))
+            if(this.pre(PLAYER_LIST))
                 return;
             this.overlayPlayerList.renderPlayerlist(width, this.mc.world.getScoreboard(), scoreobjective);
-            post(PLAYER_LIST);
-        } else {
+            this.post(PLAYER_LIST);
+        } else
             this.overlayPlayerList.updatePlayerList(false);
-        }
     }
 
     /** Checks if the event should be run and runs the pre forge event */
@@ -601,14 +590,14 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
             // Check if the debug setting "force render" for this type is
             // activated
-            if(forceRenderType(type)) {
+            if(this.forceRenderType(type)) {
                 // Check if the debug setting "force vanilla" for this type is
                 // activated
-                if(forceRenderTypeVanilla(type)) {
+                if(this.forceRenderTypeVanilla(type)) {
                     // Check if the debug setting "prevent element from
                     // rendering" for this type is activated
-                    if(!preventElementRenderType(type)) {
-                        bind(Gui.ICONS);
+                    if(!this.preventElementRenderType(type)) {
+                        this.bind(Gui.ICONS);
                         GlStateManager.enableBlend();
 
                         // Draws the element of this type of the vanilla HUD
@@ -619,17 +608,17 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
                     // Check if this type has an RenderOverlayEvent alias and if
                     // the event should be prevented
-                    if(alias != null && !preventEventType(type)) {
+                    if(alias != null && !this.preventEventType(type)) {
                         // Initiates the event
-                        if(pre(alias))
+                        if(this.pre(alias))
                             return;
-                        post(alias);
+                        this.post(alias);
                     }
                 } else {
                     // Check if the debug setting "prevent element from
                     // rendering" for this type is activated
-                    if(!preventElementRenderType(type)) {
-                        bind(Gui.ICONS);
+                    if(!this.preventElementRenderType(type)) {
+                        this.bind(Gui.ICONS);
                         GlStateManager.enableBlend();
 
                         // Draws the element of this type of the active HUD
@@ -640,67 +629,61 @@ public class GuiIngameRPGHud extends GuiIngameForge {
 
                     // Check if this type has an RenderOverlayEvent alias and if
                     // the event should be prevented
-                    if(alias != null && !preventEventType(type)) {
+                    if(alias != null && !this.preventEventType(type)) {
                         // Initiates the event
-                        if(pre(alias))
+                        if(this.pre(alias))
                             return;
-                        post(alias);
+                        this.post(alias);
                     }
                 }
+            } else // Check if the debug setting "force vanilla" for this type is
+            // activated
+            if(this.forceRenderTypeVanilla(type)) {
+                // Check if this type has an RenderOverlayEvent alias and if
+                // the event should be prevented
+                if(alias != null && !this.preventEventType(type))
+                    if(this.pre(alias))
+                        return;
+
+                // Check if the debug setting "prevent element from
+                // rendering" for this type is activated
+                if(!this.preventElementRenderType(type)) {
+                    this.bind(Gui.ICONS);
+                    GlStateManager.enableBlend();
+
+                    // Draws the element of this type of the vanilla HUD
+                    this.rpgHud.getVanillaHud().drawElement(type, this, partialTicks, partialTicks);
+
+                    GlStateManager.disableBlend();
+                }
+
+                // Check if this type has an RenderOverlayEvent alias and if
+                // the event should be prevented
+                if(alias != null && !this.preventEventType(type))
+                    this.post(alias);
             } else {
-                // Check if the debug setting "force vanilla" for this type is
-                // activated
-                if(forceRenderTypeVanilla(type)) {
-                    // Check if this type has an RenderOverlayEvent alias and if
-                    // the event should be prevented
-                    if(alias != null && !preventEventType(type)) {
-                        if(pre(alias))
-                            return;
-                    }
+                // Check if this type has an RenderOverlayEvent alias and if
+                // the event should be prevented
+                if(alias != null && !this.preventEventType(type))
+                    if(this.pre(alias))
+                        return;
 
-                    // Check if the debug setting "prevent element from
-                    // rendering" for this type is activated
-                    if(!preventElementRenderType(type)) {
-                        bind(Gui.ICONS);
-                        GlStateManager.enableBlend();
+                // Check if the debug setting "prevent element from
+                // rendering" for this type is activated
+                if(!this.preventElementRenderType(type)) {
+                    this.bind(Gui.ICONS);
+                    GlStateManager.enableBlend();
 
-                        // Draws the element of this type of the vanilla HUD
-                        this.rpgHud.getVanillaHud().drawElement(type, this, partialTicks, partialTicks);
+                    // Draws the element of this type of the active HUD
+                    this.rpgHud.getActiveHud().drawElement(type, this, partialTicks, partialTicks);
 
-                        GlStateManager.disableBlend();
-                    }
-
-                    // Check if this type has an RenderOverlayEvent alias and if
-                    // the event should be prevented
-                    if(alias != null && !preventEventType(type)) {
-                        post(alias);
-                    }
-                } else {
-                    // Check if this type has an RenderOverlayEvent alias and if
-                    // the event should be prevented
-                    if(alias != null && !preventEventType(type)) {
-                        if(pre(alias))
-                            return;
-                    }
-
-                    // Check if the debug setting "prevent element from
-                    // rendering" for this type is activated
-                    if(!preventElementRenderType(type)) {
-                        bind(Gui.ICONS);
-                        GlStateManager.enableBlend();
-
-                        // Draws the element of this type of the active HUD
-                        this.rpgHud.getActiveHud().drawElement(type, this, partialTicks, partialTicks);
-
-                        GlStateManager.disableBlend();
-                    }
-
-                    // Check if this type has an RenderOverlayEvent alias and if
-                    // the event should be prevented
-                    if(alias != null && !preventEventType(type)) {
-                        post(alias);
-                    }
+                    GlStateManager.disableBlend();
                 }
+
+                // Check if this type has an RenderOverlayEvent alias and if
+                // the event should be prevented
+                if(alias != null && !this.preventEventType(type))
+                    this.post(alias);
             }
         }
 
@@ -712,9 +695,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
      */
     private boolean forceRenderType(HudElementType type) {
         String id = Settings.force_render + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
+        if(this.rpgHud.settings.doesSettingExist(id))
             return this.rpgHud.settings.getBoolValue(id);
-        }
         return false;
     }
 
@@ -724,9 +706,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
      */
     private boolean preventElementRenderType(HudElementType type) {
         String id = Settings.prevent_element_render + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
+        if(this.rpgHud.settings.doesSettingExist(id))
             return this.rpgHud.settings.getBoolValue(id);
-        }
         return false;
     }
 
@@ -736,9 +717,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
      */
     private boolean forceRenderTypeVanilla(HudElementType type) {
         String id = Settings.force_render + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
+        if(this.rpgHud.settings.doesSettingExist(id))
             return this.rpgHud.settings.getBoolValue(id);
-        }
         return false;
     }
 
@@ -748,9 +728,8 @@ public class GuiIngameRPGHud extends GuiIngameForge {
      */
     private boolean preventEventType(HudElementType type) {
         String id = Settings.prevent_event + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
+        if(this.rpgHud.settings.doesSettingExist(id))
             return this.rpgHud.settings.getBoolValue(id);
-        }
         return false;
     }
 

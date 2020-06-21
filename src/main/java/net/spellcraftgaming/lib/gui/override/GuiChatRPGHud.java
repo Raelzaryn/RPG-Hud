@@ -46,13 +46,13 @@ public class GuiChatRPGHud extends GuiNewChat {
     /**
      * Clears the chat.
      */
+    @Override
     public void clearChatMessages(boolean p_146231_1_) {
         this.getDrawnChatLines().clear();
         this.chatLines.clear();
 
-        if(p_146231_1_) {
+        if(p_146231_1_)
             this.sentMessages.clear();
-        }
     }
 
     /**
@@ -70,13 +70,12 @@ public class GuiChatRPGHud extends GuiNewChat {
     @Override
     public void printChatMessageWithOptionalDeletion(ITextComponent chatComponent, int chatLineId) {
         this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
-        LOGGER.info("[CHAT] {}", new Object[] { NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText())) });
+        LOGGER.info("[CHAT] {}", NEWLINE_STRING_JOINER.join(NEWLINE_SPLITTER.split(chatComponent.getUnformattedText())));
     }
 
     private void setChatLine(ITextComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly) {
-        if(chatLineId != 0) {
+        if(chatLineId != 0)
             this.deleteChatLine(chatLineId);
-        }
 
         int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
         List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, GameData.getFontRenderer(), false, false);
@@ -91,16 +90,14 @@ public class GuiChatRPGHud extends GuiNewChat {
             this.getDrawnChatLines().add(0, new ChatLine(updateCounter, itextcomponent, chatLineId));
         }
 
-        while(this.getDrawnChatLines().size() > 100) {
+        while(this.getDrawnChatLines().size() > 100)
             this.getDrawnChatLines().remove(this.getDrawnChatLines().size() - 1);
-        }
 
         if(!displayOnly) {
             this.chatLines.add(0, new ChatLine(updateCounter, chatComponent, chatLineId));
 
-            while(this.chatLines.size() > 100) {
+            while(this.chatLines.size() > 100)
                 this.chatLines.remove(this.chatLines.size() - 1);
-            }
         }
     }
 
@@ -126,9 +123,8 @@ public class GuiChatRPGHud extends GuiNewChat {
      */
     @Override
     public void addToSentMessages(String message) {
-        if(this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(message)) {
+        if(this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(message))
             this.sentMessages.add(message);
-        }
     }
 
     /**
@@ -148,9 +144,8 @@ public class GuiChatRPGHud extends GuiNewChat {
         this.scrollPos += amount;
         int i = this.getDrawnChatLines().size();
 
-        if(this.scrollPos > i - this.getLineCount()) {
+        if(this.scrollPos > i - this.getLineCount())
             this.scrollPos = i - this.getLineCount();
-        }
 
         if(this.scrollPos <= 0) {
             this.scrollPos = 0;
@@ -164,9 +159,8 @@ public class GuiChatRPGHud extends GuiNewChat {
     @Override
     @Nullable
     public ITextComponent getChatComponent(int mouseX, int mouseY) {
-        if(!this.getChatOpen()) {
+        if(!this.getChatOpen())
             return null;
-        }
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaleFactor();
         float f = this.getChatScale();
@@ -185,16 +179,14 @@ public class GuiChatRPGHud extends GuiNewChat {
                     ChatLine chatline = this.getDrawnChatLines().get(i1);
                     int j1 = 0;
 
-                    for(ITextComponent itextcomponent : chatline.getChatComponent()) {
+                    for(ITextComponent itextcomponent : chatline.getChatComponent())
                         if(itextcomponent instanceof TextComponentString) {
                             j1 += GameData.getFontRenderer()
                                     .getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString) itextcomponent).getText(), false));
 
-                            if(j1 > j) {
+                            if(j1 > j)
                                 return itextcomponent;
-                            }
                         }
-                    }
                 }
 
                 return null;
@@ -222,9 +214,8 @@ public class GuiChatRPGHud extends GuiNewChat {
         while(iterator.hasNext()) {
             ChatLine chatline = iterator.next();
 
-            if(chatline.getChatLineID() == id) {
+            if(chatline.getChatLineID() == id)
                 iterator.remove();
-            }
         }
 
         iterator = this.chatLines.iterator();
