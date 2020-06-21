@@ -103,7 +103,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 if(widthNew > width)
                     width = widthNew;
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
-                int x = this.mc.player.inventory.armorInventory.size();
+                int x = this.mc.player.inventory.getSizeInventory();
                 int z = 0;
                 if(ModRPGHud.renderDetailsAgain[1] || !ItemStack.areItemStacksEqual(this.itemOffhandLast, item)
                         || !ItemStack.areItemStacksEqual(this.itemMainHandLast, item)) {
@@ -125,7 +125,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
             }
         item = this.mc.player.getHeldItemMainhand();
         if(this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
-            int x = this.mc.player.inventory.armorInventory.size();
+            int x = this.mc.player.inventory.getSizeInventory();
             int z = 0;
 
             if(ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemStacksEqual(this.itemMainHandLastArrow, item)) {
@@ -205,7 +205,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 this.offset += 20;
 
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
-                int x = this.mc.player.inventory.armorInventory.size();
+                int x = this.mc.player.inventory.getSizeInventory();
                 int z = 0;
                 if((hand == EnumHand.MAIN_HAND ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1])
                         || !ItemStack.areItemStacksEqual((hand == EnumHand.MAIN_HAND ? this.itemMainHandLast : this.itemOffhandLast), item)
@@ -253,7 +253,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
     protected void drawArrowCount(Gui gui, int width) {
         ItemStack item = this.mc.player.getHeldItemMainhand();
         if(this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && this.mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
-            int x = this.mc.player.inventory.armorInventory.size();
+            int x = this.mc.player.inventory.getSizeInventory();
             int z = 0;
 
             if(ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemStacksEqual(this.itemMainHandLastArrow, item)) {
