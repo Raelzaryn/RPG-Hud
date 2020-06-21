@@ -3,10 +3,7 @@ package net.spellcraftgaming.rpghud.gui;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.client.config.GuiUtils;
-import net.spellcraftgaming.rpghud.gui.GuiSliderMod.EnumColor;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
 public class GuiSliderMod extends GuiButtonTooltip {

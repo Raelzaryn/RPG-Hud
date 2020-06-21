@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.util.FoodStats;
+import net.minecraftforge.client.GuiIngameForge;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
@@ -31,8 +32,8 @@ public class HudElementFoodVanilla extends HudElement {
 		EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
         GlStateManager.enableBlend();
         int left = scaledWidth / 2 + 91;
-        int top = scaledHeight - theGui.right_height;
-        theGui.right_height += 10;
+        int top = scaledHeight - GuiIngameForge.right_height;
+        GuiIngameForge.right_height += 10;
         boolean unused = false;// Unused flag in vanilla, seems to be part of a 'fade out' mechanic
 
         FoodStats stats = this.mc.player.getFoodStats();

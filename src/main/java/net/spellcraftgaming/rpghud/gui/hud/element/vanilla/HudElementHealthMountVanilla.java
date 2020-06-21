@@ -3,12 +3,11 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.GuiIngameForge;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 public class HudElementHealthMountVanilla extends HudElement {
 
@@ -25,9 +24,7 @@ public class HudElementHealthMountVanilla extends HudElement {
 	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         EntityPlayer player = (EntityPlayer)mc.getRenderViewEntity();
         Entity tmp = player.getRidingEntity();
-		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
-
-        bind(Gui.ICONS);
+		bind(Gui.ICONS);
 
 
         boolean unused = false;
@@ -49,7 +46,7 @@ public class HudElementHealthMountVanilla extends HudElement {
 
         for (int heart = 0; hearts > 0; heart += 20)
         {
-            int top = scaledHeight - theGui.right_height;
+            int top = scaledHeight - GuiIngameForge.right_height;
 
             int rowCount = Math.min(hearts, 10);
             hearts -= rowCount;
@@ -65,7 +62,7 @@ public class HudElementHealthMountVanilla extends HudElement {
                     gui.drawTexturedModalRect(x, top, HALF, 9, 9, 9);
             }
 
-            theGui.right_height += 10;
+            GuiIngameForge.right_height += 10;
         }
         GlStateManager.disableBlend();
 	}

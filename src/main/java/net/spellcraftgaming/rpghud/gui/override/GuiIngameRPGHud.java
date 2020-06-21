@@ -64,15 +64,9 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiIngameRPGHud extends GuiIngameForge
 {
-    //private static final ResourceLocation VIGNETTE     = new ResourceLocation("textures/misc/vignette.png");
-    //private static final ResourceLocation WIDGITS      = new ResourceLocation("textures/gui/widgets.png");
-    //private static final ResourceLocation PUMPKIN_BLUR = new ResourceLocation("textures/misc/pumpkinblur.png");
-
-    private static final int WHITE = 0xFFFFFF;
 
     private FontRenderer fontrenderer = null;
     private RenderGameOverlayEvent eventParent;
-    //private static final String MC_VERSION = MinecraftForge.MC_VERSION;
     private GuiOverlayDebugForge debugOverlay;
 
 	/** Instance of the RPG-Hud mod */
