@@ -102,7 +102,8 @@ public class Settings {
 	public static final String prevent_element_render = "prevent_element_render";
 
 	private File rpgHudDir() {
-		return(new File(Minecraft.getInstance().gameDir.getPath(),"config" + File.separator + "RPG-HUD"));
+		Minecraft mc = Minecraft.getInstance();
+		return(new File(mc.gameDir.getPath(),"config" + File.separator + "RPG-HUD"));
 	}
 
 	public Settings() {

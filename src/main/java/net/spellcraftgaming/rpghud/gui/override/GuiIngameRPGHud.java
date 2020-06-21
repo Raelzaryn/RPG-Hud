@@ -64,10 +64,7 @@ import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiIngameRPGHud extends ForgeIngameGui
-{
-
-    private static final int WHITE = 0xFFFFFF;
-    
+{    
 	/** Instance of the RPG-Hud mod */
 	private ModRPGHud rpgHud;
 
@@ -371,7 +368,8 @@ public class GuiIngameRPGHud extends ForgeIngameGui
              GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
              GlStateManager.color4f(1.0F, 1.0F, 1.0F, timeInPortal);
              this.mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-             TextureAtlasSprite textureatlassprite = this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(Blocks.NETHER_PORTAL.getDefaultState());
+             
+             TextureAtlasSprite textureatlassprite = this.mc.getBlockRendererDispatcher().getBlockModelShapes().getModel(Blocks.NETHER_PORTAL.getDefaultState()).getParticleTexture(null);
              float f = textureatlassprite.getMinU();
              float f1 = textureatlassprite.getMinV();
              float f2 = textureatlassprite.getMaxU();

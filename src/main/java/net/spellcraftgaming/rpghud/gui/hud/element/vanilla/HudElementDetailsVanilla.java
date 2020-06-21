@@ -222,10 +222,11 @@ public class HudElementDetailsVanilla extends HudElement {
 	 *         ItemStack.EMPTY
 	 */
 	protected static ItemStack findAmmo(PlayerEntity player) {
-		if (isArrow(Minecraft.getInstance().player.getHeldItemOffhand())) {
-			return Minecraft.getInstance().player.getHeldItemOffhand();
-		} else if (isArrow(Minecraft.getInstance().player.getHeldItemMainhand())) {
-			return Minecraft.getInstance().player.getHeldItemMainhand();
+		Minecraft mc = Minecraft.getInstance();
+		if (isArrow(mc.player.getHeldItemOffhand())) {
+			return mc.player.getHeldItemOffhand();
+		} else if (isArrow(mc.player.getHeldItemMainhand())) {
+			return mc.player.getHeldItemMainhand();
 		} else {
 			for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
 				ItemStack itemstack = player.inventory.getStackInSlot(i);
@@ -240,10 +241,11 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	public static ItemStack getItemInHand(int hand) {
+		Minecraft mc = Minecraft.getInstance();
 		if (hand == 0)
-			return Minecraft.getInstance().player.getHeldItemMainhand();
+			return mc.player.getHeldItemMainhand();
 		else if (hand == 1)
-			return Minecraft.getInstance().player.getHeldItemOffhand();
+			return mc.player.getHeldItemOffhand();
 		else
 			return ItemStack.EMPTY;
 	}

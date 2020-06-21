@@ -24,8 +24,10 @@ public class ClientEventHandler {
 	
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event) {
-		if (!(Minecraft.getInstance().ingameGUI instanceof GuiIngameRPGHud))
-			Minecraft.getInstance().ingameGUI = new GuiIngameRPGHud(Minecraft.getInstance());
+		Minecraft mc = Minecraft.getInstance();
+		if (!(mc.ingameGUI instanceof GuiIngameRPGHud)) {
+			mc.ingameGUI = new GuiIngameRPGHud(Minecraft.getInstance());
+		}
 	}
 	
 	@SubscribeEvent

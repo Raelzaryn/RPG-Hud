@@ -6,9 +6,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.client.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 public class HudElementHealthMountVanilla extends HudElement {
 
@@ -25,7 +25,6 @@ public class HudElementHealthMountVanilla extends HudElement {
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		PlayerEntity player = (PlayerEntity)mc.getRenderViewEntity();
         Entity tmp = player.getRidingEntity();
-		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
 
         bind(AbstractGui.GUI_ICONS_LOCATION);
 
@@ -49,7 +48,7 @@ public class HudElementHealthMountVanilla extends HudElement {
 
         for (int heart = 0; hearts > 0; heart += 20)
         {
-            int top = scaledHeight - theGui.right_height;
+            int top = scaledHeight - ForgeIngameGui.right_height;
 
             int rowCount = Math.min(hearts, 10);
             hearts -= rowCount;
@@ -65,7 +64,7 @@ public class HudElementHealthMountVanilla extends HudElement {
                     gui.blit(x, top, HALF, 9, 9, 9);
             }
 
-            theGui.right_height += 10;
+            ForgeIngameGui.right_height += 10;
         }
         GlStateManager.disableBlend();
 	}
