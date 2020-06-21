@@ -9,32 +9,34 @@ import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 
 public class GuiFactoryRPGHud implements IModGuiFactory {
 
-	@Override
-	public void initialize(Minecraft minecraftInstance) {
-	}
+    @Override
+    public void initialize(Minecraft minecraftInstance) {
+    }
 
-	@Override
-	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-		return null;
-	}
+    @Override
+    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
+        return null;
+    }
 
-	public boolean hasConfigGui() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    public boolean hasConfigGui() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	public GuiScreen createConfigGui(GuiScreen parentScreen) {
-		// TODO Auto-generated method stub
-		return new GuiSettingsMod(parentScreen);
-	}
-	
-	@SuppressWarnings("deprecation")
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-		return null;
-	}
-	
-	public Class<? extends GuiScreen> mainConfigGuiClass() {
-		return GuiSettingsMod.class;
-	}
+    public GuiScreen createConfigGui(GuiScreen parentScreen) {
+        // TODO Auto-generated method stub
+        return new GuiSettingsMod(parentScreen);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+        return null;
+    }
+
+    @Override
+    public Class<? extends GuiScreen> mainConfigGuiClass() {
+        return GuiSettingsMod.class;
+    }
 
 }
