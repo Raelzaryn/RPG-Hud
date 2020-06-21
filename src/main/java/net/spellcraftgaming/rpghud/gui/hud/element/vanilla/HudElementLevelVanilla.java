@@ -8,27 +8,27 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
 public class HudElementLevelVanilla extends HudElement {
 
-	public HudElementLevelVanilla() {
-		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
-	}
+    public HudElementLevelVanilla() {
+        super(HudElementType.LEVEL, 0, 0, 0, 0, true);
+    }
 
-	@Override
-	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD() && this.mc.player.experienceLevel > 0;
-	}
+    @Override
+    public boolean checkConditions() {
+        return this.mc.playerController.shouldDrawHUD() && this.mc.player.experienceLevel > 0;
+    }
 
-	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		GlStateManager.disableBlend();
-		String level = String.valueOf(this.mc.player.experienceLevel);
+    @Override
+    public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        GlStateManager.disableBlend();
+        String level = String.valueOf(this.mc.player.experienceLevel);
         int i1 = (scaledWidth - this.mc.fontRenderer.getStringWidth(level)) / 2;
         int j1 = scaledHeight - 31 - 4;
-        this.mc.fontRenderer.drawString(level, (float)(i1 + 1), (float)j1, 0);
-        this.mc.fontRenderer.drawString(level, (float)(i1 - 1), (float)j1, 0);
-        this.mc.fontRenderer.drawString(level, (float)i1, (float)(j1 + 1), 0);
-        this.mc.fontRenderer.drawString(level, (float)i1, (float)(j1 - 1), 0);
-        this.mc.fontRenderer.drawString(level, (float)i1, (float)j1, 8453920);
-		GlStateManager.enableBlend();
-	}
+        this.mc.fontRenderer.drawString(level, i1 + 1, j1, 0);
+        this.mc.fontRenderer.drawString(level, i1 - 1, j1, 0);
+        this.mc.fontRenderer.drawString(level, i1, j1 + 1, 0);
+        this.mc.fontRenderer.drawString(level, i1, j1 - 1, 0);
+        this.mc.fontRenderer.drawString(level, i1, j1, 8453920);
+        GlStateManager.enableBlend();
+    }
 
 }

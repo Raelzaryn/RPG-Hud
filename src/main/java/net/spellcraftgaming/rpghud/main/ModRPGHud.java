@@ -21,63 +21,59 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Mod("rpg-hud")
 public class ModRPGHud {
 
-	public static ModRPGHud instance;
-    
-	public static boolean[] renderDetailsAgain = { false, false, false };
-	
-	
-	public Settings settings;
+    public static ModRPGHud instance;
 
-	/** Map of all registered HUDs */
-	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
-	
-	public ModRPGHud() {
-		instance = this;
+    public static boolean[] renderDetailsAgain = { false, false, false };
+
+    public Settings settings;
+
+    /** Map of all registered HUDs */
+    public Map<String, Hud> huds = new LinkedHashMap<>();
+
+    public ModRPGHud() {
+        instance = this;
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-	}
-	
-    private void setup(final FMLCommonSetupEvent event)
-    {
-		this.settings = new Settings();
-		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
-		this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));
-		this.registerHud(new HudExtendedWidget(Minecraft.getInstance(), "extended", "Extended Widget"));
-		this.registerHud(new HudFullTexture(Minecraft.getInstance(), "texture", "Full Texture"));
-		this.registerHud(new HudHotbarWidget(Minecraft.getInstance(), "hotbar", "Hotbar Widget"));
-		this.registerHud(new HudModern(Minecraft.getInstance(), "modern", "Modern Style"));
-
-		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
-			this.settings.setSetting(Settings.hud_type, "vanilla");
-		}
     }
-    
+
+    private void setup(final FMLCommonSetupEvent event) {
+        this.settings = new Settings();
+        this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
+        this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));
+        this.registerHud(new HudExtendedWidget(Minecraft.getInstance(), "extended", "Extended Widget"));
+        this.registerHud(new HudFullTexture(Minecraft.getInstance(), "texture", "Full Texture"));
+        this.registerHud(new HudHotbarWidget(Minecraft.getInstance(), "hotbar", "Hotbar Widget"));
+        this.registerHud(new HudModern(Minecraft.getInstance(), "modern", "Modern Style"));
+
+        if(!this.isHudKeyValid(this.settings.getStringValue(Settings.hud_type)))
+            this.settings.setSetting(Settings.hud_type, "vanilla");
+    }
+
     private void doClientStuff(final FMLClientSetupEvent event) {
-    	ClientEventHandler.init();
-    }	
-    
-	/**
-	 * Register a new HUD
-	 * 
-	 * @param hud
-	 *            the hud to be registered
-	 */
-	public void registerHud(Hud hud) {
-		this.huds.put(hud.getHudKey(), hud);
-	}
+        ClientEventHandler.init();
+    }
 
-	/** Returns the active HUD */
-	public Hud getActiveHud() {
-		return this.huds.get(this.settings.getStringValue(Settings.hud_type));
-	}
+    /**
+     * Register a new HUD
+     * 
+     * @param hud the hud to be registered
+     */
+    public void registerHud(Hud hud) {
+        this.huds.put(hud.getHudKey(), hud);
+    }
 
-	/** Returns the vanilla HUD */
-	public Hud getVanillaHud() {
-		return this.huds.get("vanilla");
-	}
+    /** Returns the active HUD */
+    public Hud getActiveHud() {
+        return this.huds.get(this.settings.getStringValue(Settings.hud_type));
+    }
 
-	/** Checks if a Hud with the specified key is registered */
-	public boolean isHudKeyValid(String key) {
-		return this.huds.containsKey(key);
-	}
+    /** Returns the vanilla HUD */
+    public Hud getVanillaHud() {
+        return this.huds.get("vanilla");
+    }
+
+    /** Checks if a Hud with the specified key is registered */
+    public boolean isHudKeyValid(String key) {
+        return this.huds.containsKey(key);
+    }
 }

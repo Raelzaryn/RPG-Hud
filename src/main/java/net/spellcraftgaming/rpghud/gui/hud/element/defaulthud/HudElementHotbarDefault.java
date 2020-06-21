@@ -4,9 +4,8 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanil
 
 public class HudElementHotbarDefault extends HudElementHotbarVanilla {
 
-
-	public HudElementHotbarDefault() {
-		super();
-		this.offset = -9;
-	}
+    public HudElementHotbarDefault() {
+        super();
+        this.offset = -9;
+    }
 }

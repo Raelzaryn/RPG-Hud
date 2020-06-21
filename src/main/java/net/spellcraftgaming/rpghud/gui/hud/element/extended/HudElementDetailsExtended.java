@@ -4,8 +4,8 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVani
 
 public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 
-	public HudElementDetailsExtended() {
-		super();
-		this.typeOffset = 10;
-	}
+    public HudElementDetailsExtended() {
+        super();
+        this.typeOffset = 10;
+    }
 }
