@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.tags.FluidTags;
@@ -24,7 +24,7 @@ public class HudElementAirDefault extends HudElement {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.air_position)[1];
 		int adjustedWidth = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.air_position)[0];
 		int airAmount = this.mc.player.getAir();
-		GlStateManager.disableLighting();
+		RenderSystem.disableLighting();
 		drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, this.settings.getIntValue(Settings.color_air), offsetColorPercent(this.settings.getIntValue(Settings.color_air), OFFSET_PERCENT));
 	}
 

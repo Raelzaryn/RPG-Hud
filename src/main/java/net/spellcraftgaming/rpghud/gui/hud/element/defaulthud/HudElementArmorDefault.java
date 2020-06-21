@@ -1,9 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementArmorDefault extends HudElement {
@@ -20,7 +20,7 @@ public class HudElementArmorDefault extends HudElement {
 	@Override
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
-		int top = scaledHeight - GuiIngameRPGHud.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
+		int top = scaledHeight - ForgeIngameGui.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
 
 		int level = this.mc.player.getTotalArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
@@ -33,7 +33,7 @@ public class HudElementArmorDefault extends HudElement {
 			}
 			left += 8;
 		}
-		GuiIngameRPGHud.left_height += 10;
+		ForgeIngameGui.left_height += 10;
 	}
 
 }

@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
@@ -32,9 +32,9 @@ public class HudElementHealthMountDefault extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			GlStateManager.scaled(0.5, 0.5, 0.5);
+			RenderSystem.scaled(0.5, 0.5, 0.5);
 			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
-			GlStateManager.scaled(2.0, 2.0, 2.0);
+			RenderSystem.scaled(2.0, 2.0, 2.0);
 		}
 	}
 

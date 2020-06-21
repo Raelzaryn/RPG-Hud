@@ -10,32 +10,25 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
 
-	public static void init() {
-		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-	}
-	
-	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event) {
-		if (!(Minecraft.getInstance().ingameGUI instanceof GuiIngameRPGHud))
-			Minecraft.getInstance().ingameGUI = new GuiIngameRPGHud(Minecraft.getInstance());
-	}
-	
-	@SubscribeEvent
-	public void onGuiInit(InitGuiEvent event) {
-		if(event.getGui() instanceof MainMenuScreen || event.getGui() instanceof IngameMenuScreen) {
-			Minecraft mc = Minecraft.getInstance();
-			String s = I18n.format("name.rpghud", new Object[0]);
-			event.addWidget(new Button(event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8) , 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s, button -> {
-	            mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
-			}));
-		}
-	}
+    public static void init() {
+        MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+    }
+
+    @SubscribeEvent
+    public void onGuiInit(InitGuiEvent event) {
+        if (event.getGui() instanceof MainMenuScreen || event.getGui() instanceof IngameMenuScreen) {
+            Minecraft mc = Minecraft.getInstance();
+            String s = I18n.format("name.rpghud", new Object[0]);
+            event.addWidget(new Button(event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8), 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s, button -> {
+                mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
+            }));
+        }
+    }
+
 }

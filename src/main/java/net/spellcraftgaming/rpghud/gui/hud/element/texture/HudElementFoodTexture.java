@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ public class HudElementFoodTexture extends HudElement {
 	@Override
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
-		GlStateManager.color3f(1f, 1f, 1f);
+		RenderSystem.color3f(1f, 1f, 1f);
 		FoodStats stats = this.mc.player.getFoodStats();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -58,7 +58,7 @@ public class HudElementFoodTexture extends HudElement {
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
 			gui.drawCenteredString(this.mc.fontRenderer, staminaString, posX + 55, posY + 2, -1);
-		GlStateManager.color3f(1f, 1f, 1f);
+		RenderSystem.color3f(1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 	}
 

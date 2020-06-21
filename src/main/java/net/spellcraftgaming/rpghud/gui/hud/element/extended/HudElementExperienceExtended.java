@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.math.MathHelper;
@@ -33,9 +33,9 @@ public class HudElementExperienceExtended extends HudElement {
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
 			gui.drawCenteredString(this.mc.fontRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
-			GlStateManager.scaled(2.0D, 2.0D, 2.0D);
+			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
@@ -75,11 +75,11 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect((int) (width - ((float) this.mc.fontRenderer.getStringWidth(String.valueOf(pos[1])) / 4) - 2), posY + 11, this.mc.fontRenderer.getStringWidth(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);
 			drawRect((width + 48) - (this.mc.fontRenderer.getStringWidth(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.fontRenderer.getStringWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
-			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
 			gui.drawString(this.mc.fontRenderer, String.valueOf(pos[0]), (width - 48) * 2, (posY + 12) * 2, -1);
 			gui.drawCenteredString(this.mc.fontRenderer, String.valueOf(pos[1]), width * 2, (posY + 12) * 2, -1);
 			gui.drawString(this.mc.fontRenderer, String.valueOf(pos[2]), (width + 48) * 2 - this.mc.fontRenderer.getStringWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
-			GlStateManager.scaled(2D, 2D, 2D);
+			RenderSystem.scaled(2D, 2D, 2D);
 		}
 	}
 

@@ -9,9 +9,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 public class HudElementHealthVanilla extends HudElement {
 
@@ -33,8 +33,7 @@ public class HudElementHealthVanilla extends HudElement {
 	@Override
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         PlayerEntity player = (PlayerEntity)this.mc.getRenderViewEntity();
-		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
-		int ticks = theGui.getTicks();
+		int ticks = this.mc.ingameGUI.getTicks();
         int health = MathHelper.ceil(player.getHealth());
         boolean highlight = healthUpdateCounter > (long)ticks && (healthUpdateCounter - (long)ticks) / 3L %2L == 1L;
 
@@ -69,9 +68,9 @@ public class HudElementHealthVanilla extends HudElement {
         this.rand.setSeed((long)(ticks * 312871));
 
         int left = scaledWidth / 2 - 91;
-        int top = scaledHeight - GuiIngameRPGHud.left_height;
-        GuiIngameRPGHud.left_height += (healthRows * rowHeight);
-        if (rowHeight != 10) GuiIngameRPGHud.left_height += 10 - rowHeight;
+        int top = scaledHeight - ForgeIngameGui.left_height;
+        ForgeIngameGui.left_height += (healthRows * rowHeight);
+        if (rowHeight != 10) ForgeIngameGui.left_height += 10 - rowHeight;
 
         int regen = -1;
         if (player.isPotionActive(Effects.REGENERATION))

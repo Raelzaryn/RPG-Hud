@@ -1,9 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementArmorModern extends HudElement {
@@ -20,7 +20,7 @@ public class HudElementArmorModern extends HudElement {
 	@Override
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
-		int top = scaledHeight - GuiIngameRPGHud.left_height + 2 + this.settings.getPositionValue(Settings.armor_position)[1];
+		int top = scaledHeight - ForgeIngameGui.left_height + 2 + this.settings.getPositionValue(Settings.armor_position)[1];
 
 		int level = this.mc.player.getTotalArmorValue();
 		if (level > 0) {
@@ -30,7 +30,7 @@ public class HudElementArmorModern extends HudElement {
 			this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 			gui.blit(left + 1, top + 1, 34, 9, 9, 9);
 		}
-		GuiIngameRPGHud.left_height += 10;
+		ForgeIngameGui.left_height += 10;
 	}
 
 }

@@ -4,15 +4,18 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.SpiderEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -48,9 +51,9 @@ public class HudElementEntityInspectVanilla extends HudElement {
 			gui.blit(posX - 62, 20 + posY, 0, 0, 128, 36);
 			drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
-			GlStateManager.scaled(0.5, 0.5, 0.5);
+			RenderSystem.scaled(0.5, 0.5, 0.5);
 			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
-			GlStateManager.scaled(2.0, 2.0, 2.0);
+			RenderSystem.scaled(2.0, 2.0, 2.0);
 
 			int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
 			int y = 25 + posY;
@@ -65,61 +68,64 @@ public class HudElementEntityInspectVanilla extends HudElement {
 	}
 
 	public static void drawEntityOnScreen(int posX, int posY, LivingEntity ent) {
-		GlStateManager.enableColorMaterial();
-		GlStateManager.pushMatrix();
-		int scale = 1;
-		int s = (int) (22 / ent.getHeight());
-		int s2 = (int) (22 / ent.getWidth());
-		if(s < s2) scale = s;
-		else scale = s2;
-		
-		int offset = 0;
-		if(ent instanceof SquidEntity) {
-			scale = 11;
-			offset = -13;
-		}
-		posY += offset;
-		GlStateManager.translatef((float) posX, (float) posY, 50.0F);
-		GlStateManager.scaled((float) (-scale), (float) scale, (float) scale);
-		GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		float f = ent.renderYawOffset;
-		float f1 = ent.rotationYaw;
-		float f2 = ent.rotationPitch;
-		float f3 = ent.prevRotationYawHead;
-		float f4 = ent.rotationYawHead;
-		GlStateManager.rotatef(135.0F, 0.0F, 1.0F, 0.0F);
-		RenderHelper.enableStandardItemLighting();
-		GlStateManager.rotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-
-		GlStateManager.rotatef(-((float) Math.atan((double) (0 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-		ent.renderYawOffset = (float) Math.atan((double) (100 / 40.0F)) * 20.0F;
-		ent.rotationYaw = (float) Math.atan((double) (25 / 40.0F)) * 40.0F;
-		ent.rotationPitch = -((float) Math.atan((double) (0 / 40.0F))) * 20.0F;
-		ent.rotationYawHead = ent.rotationYaw;
-		ent.prevRotationYawHead = ent.rotationYaw;
-		GlStateManager.translatef(0.0F, 0.0F, 0.0F);
-		EntityRendererManager rendermanager = Minecraft.getInstance().getRenderManager();
-		rendermanager.setPlayerViewY(180.0F);
-		rendermanager.setRenderShadow(false);
-		rendermanager.renderEntity(ent, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
-		rendermanager.setRenderShadow(true);
-		ent.renderYawOffset = f;
-		ent.rotationYaw = f1;
-		ent.rotationPitch = f2;
-		ent.prevRotationYawHead = f3;
-		ent.rotationYawHead = f4;
-		GlStateManager.popMatrix();
-		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.activeTexture(GLX.GL_TEXTURE1);
-		GlStateManager.disableTexture();
-		GlStateManager.activeTexture(GLX.GL_TEXTURE0);
+        int scale = 1;
+        int s1 = (int) (18 / ent.getHeight());
+        int s3 = (int) (18 / ent.getRenderScale());
+        int offset = 0;
+        if(s1 > s3) {
+            scale = s3;
+        } else scale = s1;
+        
+        if(ent instanceof SquidEntity) {
+            scale = 11;
+            offset = -13;
+        } else if(ent instanceof SpiderEntity) {
+            scale = 11;
+            offset = -5;
+        }
+        posY += offset;
+	    float lvt_6_1_ = (float)Math.atan((180 / 40.0F));
+	    float lvt_7_1_ = (float)Math.atan((0 / 40.0F));
+	    RenderSystem.pushMatrix();
+	    RenderSystem.translatef(posX, posY, 1050.0F);
+	    RenderSystem.scalef(1.0F, 1.0F, -1.0F);
+	    MatrixStack lvt_8_1_ = new MatrixStack();
+	    lvt_8_1_.translate(0.0D, 0.0D, 1000.0D);
+	    lvt_8_1_.scale(scale, scale, scale);
+	    Quaternion lvt_9_1_ = Vector3f.ZP.rotationDegrees(180.0F);
+	    Quaternion lvt_10_1_ = Vector3f.XP.rotationDegrees(lvt_7_1_ * 20.0F);
+	    lvt_9_1_.multiply(lvt_10_1_);
+	    lvt_8_1_.rotate(lvt_9_1_);
+	    float lvt_11_1_ = ent.renderYawOffset;
+	    float lvt_12_1_ = ent.rotationYaw;
+	    float lvt_13_1_ = ent.rotationPitch;
+	    float lvt_14_1_ = ent.prevRotationYawHead;
+	    float lvt_15_1_ = ent.rotationYawHead;
+	    ent.renderYawOffset = 180.0F + lvt_6_1_ * 20.0F;
+	    ent.rotationYaw = 180.0F + lvt_6_1_ * 40.0F;
+	    ent.rotationPitch = -lvt_7_1_ * 20.0F;
+	    ent.rotationYawHead = ent.rotationYaw - 25;
+	    ent.prevRotationYawHead = ent.rotationYaw;
+	    EntityRendererManager lvt_16_1_ = Minecraft.getInstance().getRenderManager();
+	    lvt_10_1_.conjugate();
+	    lvt_16_1_.setCameraOrientation(lvt_10_1_);
+	    lvt_16_1_.setRenderShadow(false);
+	    IRenderTypeBuffer.Impl lvt_17_1_ = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+	    lvt_16_1_.renderEntityStatic((Entity)ent, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, lvt_8_1_, (IRenderTypeBuffer)lvt_17_1_, 15728880);
+	    lvt_17_1_.finish();
+	    lvt_16_1_.setRenderShadow(true);
+	    ent.renderYawOffset = lvt_11_1_;
+	    ent.rotationYaw = lvt_12_1_;
+	    ent.rotationPitch = lvt_13_1_;
+	    ent.prevRotationYawHead = lvt_14_1_;
+	    ent.rotationYawHead = lvt_15_1_;
+	    RenderSystem.popMatrix();
 	}
 	
 	public static LivingEntity getFocusedEntity(Entity watcher) {
 		LivingEntity focusedEntity = null;
 		double maxDistance = 64;
-		Vec3d vec = new Vec3d(watcher.posX, watcher.posY, watcher.posZ);
+		Vec3d vec = new Vec3d(watcher.getPosX(), watcher.getPosY(), watcher.getPosZ());
 		Vec3d posVec = watcher.getPositionVector();
 		if (watcher instanceof PlayerEntity) {
 			vec = vec.add(0D, watcher.getEyeHeight(), 0D);

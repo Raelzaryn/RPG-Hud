@@ -102,7 +102,8 @@ public class Settings {
 	public static final String prevent_element_render = "prevent_element_render";
 
 	private File rpgHudDir() {
-		return(new File(Minecraft.getInstance().gameDir.getPath(),"config" + File.separator + "RPG-HUD"));
+		Minecraft mc = Minecraft.getInstance();
+		return(new File(mc.gameDir.getPath(),"config" + File.separator + "RPG-HUD"));
 	}
 
 	public Settings() {
@@ -181,10 +182,8 @@ public class Settings {
 		addSetting(mount_health_position, new SettingPosition(mount_health_position, HudElementType.HEALTH_MOUNT, 0, 0));
 		addSetting(hotbar_position, new SettingPosition(hotbar_position, HudElementType.HOTBAR, 0, 0));
 		addSetting(level_position, new SettingPosition(level_position, HudElementType.LEVEL, 0, 0));
-		addSetting(chat_position, new SettingPosition(chat_position, HudElementType.CHAT, 0, 0));
 		addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
 
-		addDebugSettings(HudElementType.CROSSHAIR);
 		addDebugSettings(HudElementType.ARMOR);
 		addDebugSettings(HudElementType.HOTBAR);
 		addDebugSettings(HudElementType.AIR);
@@ -194,7 +193,6 @@ public class Settings {
 		addDebugSettings(HudElementType.LEVEL);
 		addDebugSettings(HudElementType.HEALTH_MOUNT);
 		addDebugSettings(HudElementType.JUMP_BAR);
-		addDebugSettings(HudElementType.CHAT);
 	}
 
 	public void addDebugSettings(HudElementType type) {

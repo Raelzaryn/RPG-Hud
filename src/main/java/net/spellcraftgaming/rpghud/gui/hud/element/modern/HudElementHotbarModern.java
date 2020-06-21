@@ -1,6 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.RenderHelper;
@@ -11,7 +12,6 @@ import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameType;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHotbarModern extends HudElementHotbarVanilla {
@@ -25,9 +25,9 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 	@Override
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR) {
-            ((GuiIngameRPGHud)mc.ingameGUI).getSpectatorGui().renderTooltip(partialTicks);
+            mc.ingameGUI.getSpectatorGui().renderTooltip(partialTicks);
 		} else if (this.mc.getRenderViewEntity() instanceof PlayerEntity) {
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getRenderViewEntity();
 			ItemStack itemstack = this.mc.player.getHeldItemOffhand();
@@ -48,7 +48,7 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 				}
 			}
 			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.currentItem * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
-			GlStateManager.enableAlphaTest();
+			RenderSystem.enableAlphaTest();
 			if (itemstack != ItemStack.EMPTY) {
 				if (enumhandside == HandSide.LEFT) {
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
@@ -66,10 +66,10 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 			}
 
 			zLevel = f;
-			GlStateManager.enableRescaleNormal();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-	        RenderHelper.enableGUIStandardItemLighting();
+			RenderSystem.enableRescaleNormal();
+			RenderSystem.enableBlend();
+			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+	        RenderHelper.enableStandardItemLighting();
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
@@ -100,15 +100,15 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 
 					this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
-					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
 					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 
 			RenderHelper.disableStandardItemLighting();
-			GlStateManager.disableRescaleNormal();
-			GlStateManager.disableBlend();
+			RenderSystem.disableRescaleNormal();
+			RenderSystem.disableBlend();
 		}
 	}
 

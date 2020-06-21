@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
@@ -26,9 +26,9 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
 
 			String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
 
-			GlStateManager.scaled(0.5, 0.5, 0.5);
+			RenderSystem.scaled(0.5, 0.5, 0.5);
 			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, (posX - 29 + 44) * 2, (34 + posY) * 2, -1);
-			GlStateManager.scaled(2.0, 2.0, 2.0);
+			RenderSystem.scaled(2.0, 2.0, 2.0);
 
 			int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
 			int y = 23 + posY;

@@ -24,8 +24,7 @@ public class ModRPGHud {
 	public static ModRPGHud instance;
     
 	public static boolean[] renderDetailsAgain = { false, false, false };
-	
-	
+
 	public Settings settings;
 
 	/** Map of all registered HUDs */
@@ -54,6 +53,7 @@ public class ModRPGHud {
     
     private void doClientStuff(final FMLClientSetupEvent event) {
     	ClientEventHandler.init();
+    	new RenderOverlay();
     }	
     
 	/**

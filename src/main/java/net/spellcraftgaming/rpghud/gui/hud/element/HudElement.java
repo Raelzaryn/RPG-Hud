@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -136,11 +136,11 @@ public abstract class HudElement {
 	 */
 	public void draw(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 
-		GlStateManager.scaled(this.scale, this.scale, this.scale);
+		RenderSystem.scaled(this.scale, this.scale, this.scale);
 
 		this.drawElement(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
 
-		GlStateManager.scaled(this.scaleInverted, this.scaleInverted, this.scaleInverted);
+		RenderSystem.scaled(this.scaleInverted, this.scaleInverted, this.scaleInverted);
 	}
 
 	public abstract void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
@@ -209,10 +209,10 @@ public abstract class HudElement {
 	public boolean setPos(int posX, int posY) {
 		boolean xValid = false;
 		boolean yValid = false;
-		if (posX >= 0 && posX < (this.mc.mainWindow.getScaledWidth() - this.elementWidth)) {
+		if (posX >= 0 && posX < (this.mc.getMainWindow().getScaledWidth() - this.elementWidth)) {
 			xValid = true;
 		}
-		if (posY >= 0 && posY < (this.mc.mainWindow.getScaledHeight() - this.elementHeight)) {
+		if (posY >= 0 && posY < (this.mc.getMainWindow().getScaledHeight() - this.elementHeight)) {
 			yValid = true;
 		}
 		if (xValid && yValid) {
@@ -265,11 +265,11 @@ public abstract class HudElement {
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
-		GlStateManager.enableBlend();
-		GlStateManager.disableTexture();
-		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-		GlStateManager.color4f(f, f1, f2, f3);
-		GlStateManager.disableDepthTest();
+		RenderSystem.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+		RenderSystem.color4f(f, f1, f2, f3);
+		RenderSystem.disableDepthTest();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
@@ -278,10 +278,10 @@ public abstract class HudElement {
 		vertexbuffer.pos((double) posX + width, posY, 0.0D).endVertex();
 		vertexbuffer.pos(posX, posY, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.enableTexture();
-		GlStateManager.disableBlend();
-		GlStateManager.enableDepthTest();
-		GlStateManager.color3f(1f, 1f, 1f);
+		RenderSystem.enableTexture();
+		RenderSystem.disableBlend();
+		RenderSystem.enableDepthTest();
+		RenderSystem.color3f(1f, 1f, 1f);
 	}
 
 	/**
@@ -500,11 +500,11 @@ public abstract class HudElement {
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
-		GlStateManager.enableBlend();
-		GlStateManager.disableTexture();
-		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-		GlStateManager.color4f(f, f1, f2, f3);
-		GlStateManager.disableDepthTest();
+		RenderSystem.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+		RenderSystem.color4f(f, f1, f2, f3);
+		RenderSystem.disableDepthTest();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
@@ -513,10 +513,10 @@ public abstract class HudElement {
 		vertexbuffer.pos((double) posX1 + width1, posY2, 0.0D).endVertex();
 		vertexbuffer.pos(posX2, posY1, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.enableTexture();
-		GlStateManager.disableBlend();
-		GlStateManager.enableDepthTest();
-		GlStateManager.color3f(1f, 1f, 1f);
+		RenderSystem.enableTexture();
+		RenderSystem.disableBlend();
+		RenderSystem.enableDepthTest();
+		RenderSystem.color3f(1f, 1f, 1f);
 	}
 
 	public static int offsetColorPercent(int color, int offsetPercent) {

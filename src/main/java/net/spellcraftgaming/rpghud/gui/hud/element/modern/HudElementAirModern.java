@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.tags.FluidTags;
@@ -24,7 +24,7 @@ public class HudElementAirModern extends HudElement {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.air_position)[1];
 		int airAmount = this.mc.player.getAir();
 		int posX = this.settings.getPositionValue(Settings.air_position)[0];
-		GlStateManager.disableLighting();
+		RenderSystem.disableLighting();
 		drawRect(scaledWidth / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
 		drawRect(scaledWidth / 2 - 72 + posX, height - 70, 144, 2, 0xA0000000);
 		drawRect(scaledWidth / 2 - 72 + posX, height - 76, 2, 6, 0xA0000000);

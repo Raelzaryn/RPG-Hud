@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
@@ -20,8 +20,8 @@ public class HudElementExperienceVanilla extends HudElement {
 
 	@Override
 	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.disableBlend();
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.disableBlend();
 		if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
 		      this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 		      int i = this.mc.player.xpBarCap();
@@ -34,8 +34,8 @@ public class HudElementExperienceVanilla extends HudElement {
 		         }
 		      }
 		}
-		GlStateManager.enableBlend();
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 }

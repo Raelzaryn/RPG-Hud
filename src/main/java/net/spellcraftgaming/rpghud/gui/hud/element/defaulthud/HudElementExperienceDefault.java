@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.math.MathHelper;
@@ -26,7 +26,7 @@ public class HudElementExperienceDefault extends HudElement {
 		double full = 100D / expCap;
 		int posX = this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
-		GlStateManager.disableLighting();
+		RenderSystem.disableLighting();
 		drawCustomBar(posX, scaledHeight - 10 + posY, scaledWidth, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
