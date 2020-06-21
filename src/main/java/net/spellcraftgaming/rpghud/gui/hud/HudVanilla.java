@@ -5,7 +5,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementAirVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementArmorVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementChatVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCrosshairVanilla;
@@ -18,102 +17,91 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHealthVanil
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementJumpBarVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementLevelVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementPickupVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementRecordOverlayVanilla;
 
 public class HudVanilla extends Hud {
 
-	public HudVanilla(Minecraft mc, String hudKey, String hudName) {
-		super(mc, hudKey, hudName);
-	}
+    public HudVanilla(Minecraft mc, String hudKey, String hudName) {
+        super(mc, hudKey, hudName);
+    }
 
-	@Override
-	public HudElement setElementCrosshair() {
-		return new HudElementCrosshairVanilla();
-	}
+    @Override
+    public HudElement setElementCrosshair() {
+        return new HudElementCrosshairVanilla();
+    }
 
-	@Override
-	public HudElement setElementHotbar() {
-		return new HudElementHotbarVanilla();
-	}
+    @Override
+    public HudElement setElementHotbar() {
+        return new HudElementHotbarVanilla();
+    }
 
-	@Override
-	public HudElement setElementHealth() {
-		return new HudElementHealthVanilla();
-	}
+    @Override
+    public HudElement setElementHealth() {
+        return new HudElementHealthVanilla();
+    }
 
-	@Override
-	public HudElement setElementFood() {
-		return new HudElementFoodVanilla();
-	}
+    @Override
+    public HudElement setElementFood() {
+        return new HudElementFoodVanilla();
+    }
 
-	@Override
-	public HudElement setElementArmor() {
-		return new HudElementArmorVanilla();
-	}
+    @Override
+    public HudElement setElementArmor() {
+        return new HudElementArmorVanilla();
+    }
 
-	@Override
-	public HudElement setElementAir() {
-		return new HudElementAirVanilla();
-	}
+    @Override
+    public HudElement setElementAir() {
+        return new HudElementAirVanilla();
+    }
 
-	@Override
-	public HudElement setElementExperience() {
-		return new HudElementExperienceVanilla();
-	}
+    @Override
+    public HudElement setElementExperience() {
+        return new HudElementExperienceVanilla();
+    }
 
-	@Override
-	public HudElement setElementLevel() {
-		return new HudElementLevelVanilla();
-	}
+    @Override
+    public HudElement setElementLevel() {
+        return new HudElementLevelVanilla();
+    }
 
-	@Override
-	public HudElement setElementJumpBar() {
-		return new HudElementJumpBarVanilla();
-	}
+    @Override
+    public HudElement setElementJumpBar() {
+        return new HudElementJumpBarVanilla();
+    }
 
-	@Override
-	public HudElement setElementHealthMount() {
-		return new HudElementHealthMountVanilla();
-	}
+    @Override
+    public HudElement setElementHealthMount() {
+        return new HudElementHealthMountVanilla();
+    }
 
-	@Override
-	public HudElement setElementClock() {
-		return new HudElementClockVanilla();
-	}
+    @Override
+    public HudElement setElementClock() {
+        return new HudElementClockVanilla();
+    }
 
-	@Override
-	public HudElement setElementDetails() {
-		return new HudElementDetailsVanilla();
-	}
+    @Override
+    public HudElement setElementDetails() {
+        return new HudElementDetailsVanilla();
+    }
 
-	@Override
-	public HudElement setElementWidget() {
-		return new HudElementEmpty();
-	}
+    @Override
+    public HudElement setElementWidget() {
+        return new HudElementEmpty();
+    }
 
-	@Override
-	public HudElement setElementRecordOverlay() {
-		return new HudElementRecordOverlayVanilla();
-	}
+    @Override
+    public HudElement setElementRecordOverlay() {
+        return new HudElementRecordOverlayVanilla();
+    }
 
-	@Override
-	protected HudElement setElementChat() {
-		return new HudElementChatVanilla();
-	}
+    @Override
+    protected HudElement setElementCompass() {
+        return new HudElementCompassVanilla();
+    }
 
-	@Override
-	protected HudElement setElementCompass() {
-		return new HudElementCompassVanilla();
-	}
-
-	@Override
-	protected HudElement setElementPickup() {
-		return new HudElementPickupVanilla();
-	}
-
-	@Override
-	protected HudElement setElementEntityInspect() {
-		return new HudElementEntityInspectVanilla();
-	}
+    @Override
+    protected HudElement setElementEntityInspect() {
+        return new HudElementEntityInspectVanilla();
+    }
 }
