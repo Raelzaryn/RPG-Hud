@@ -7,14 +7,14 @@ import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 
 public class ClientTickHandler {
 
-	/**
-	 * Event to change the ingameGui.
-	 * 
-	 * @param event
-	 */
-	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event) {
-		if (!(Minecraft.getMinecraft().ingameGUI instanceof GuiIngameRPGHud))
-			Minecraft.getMinecraft().ingameGUI = new GuiIngameRPGHud(Minecraft.getMinecraft());
-	}
+    /**
+     * Event to change the ingameGui.
+     * 
+     * @param event
+     */
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if(!(Minecraft.getMinecraft().ingameGUI instanceof GuiIngameRPGHud))
+            Minecraft.getMinecraft().ingameGUI = new GuiIngameRPGHud(Minecraft.getMinecraft());
+    }
 }
