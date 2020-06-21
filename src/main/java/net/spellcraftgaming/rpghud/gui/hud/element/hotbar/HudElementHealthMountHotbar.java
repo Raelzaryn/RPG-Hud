@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -15,13 +15,13 @@ public class HudElementHealthMountHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
+		return this.mc.player.getRidingEntity() instanceof LivingEntity && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.mount_health_position)[1];
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];

@@ -1,7 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.tags.FluidTags;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,7 +21,7 @@ public class HudElementAirVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		GlStateManager.enableBlend();
 		int left = scaledWidth / 2 + 91 + this.settings.getPositionValue(Settings.air_position)[0];
 		int top = scaledHeight - GuiIngameRPGHud.right_height + this.settings.getPositionValue(Settings.air_position)[1];
@@ -30,7 +31,7 @@ public class HudElementAirVanilla extends HudElement {
 		int partial = (int) (Math.ceil(air * 10.0D / 300.0D) - full);
 
 		for (int i = 0; i < full + partial; ++i) {
-			gui.drawTexturedModalRect(left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9);
+			gui.blit(left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9);
 		}
 		GuiIngameRPGHud.right_height += 10;
 	}

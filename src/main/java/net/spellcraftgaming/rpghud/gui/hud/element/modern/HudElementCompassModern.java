@@ -1,9 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.Items;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -19,7 +20,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int width = (scaledWidth / 2) + this.settings.getPositionValue(Settings.compass_position)[0];
 		int posY = this.settings.getPositionValue(Settings.compass_position)[1];
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
@@ -29,7 +30,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			rotation = 200 + rotation;
 		drawRect(width - 50, posY + 2, 100, 6, 0xAA000000);
 
-		gui.drawTexturedModalRect(width - 56, 0, 34, 234, 112, 9);
+		gui.blit(width - 56, 0, 34, 234, 112, 9);
 		if (rotation > 0 && rotation <= 100) {
 			gui.drawCenteredString(this.mc.fontRenderer, "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}

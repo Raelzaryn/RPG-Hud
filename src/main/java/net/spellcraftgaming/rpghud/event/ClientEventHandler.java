@@ -1,16 +1,17 @@
 package net.spellcraftgaming.rpghud.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.screen.IngameMenuScreen;
+import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
@@ -29,14 +30,12 @@ public class ClientEventHandler {
 	
 	@SubscribeEvent
 	public void onGuiInit(InitGuiEvent event) {
-		if(event.getGui() instanceof GuiMainMenu || event.getGui() instanceof GuiIngameMenu) {
+		if(event.getGui() instanceof MainMenuScreen || event.getGui() instanceof IngameMenuScreen) {
 			Minecraft mc = Minecraft.getInstance();
 			String s = I18n.format("name.rpghud", new Object[0]);
-			event.addButton(new GuiButton(142, event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8) , 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s) {
-		         public void onClick(double mouseX, double mouseY) {
-		            mc.displayGuiScreen(new GuiSettingsMod(event.getGui()));
-		         }
-		      });
+			event.addWidget(new Button(event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8) , 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s, button -> {
+	            mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
+			}));
 		}
 	}
 }

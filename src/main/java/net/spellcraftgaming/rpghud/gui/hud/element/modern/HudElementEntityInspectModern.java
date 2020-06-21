@@ -1,16 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLiving;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		EntityLiving focused = getFocusedEntity(this.mc.player);
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		LivingEntity focused = getFocusedEntity(this.mc.player);
 		if (focused != null) {
 			int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
 			int posY = this.settings.getPositionValue(Settings.inspector_position)[1];

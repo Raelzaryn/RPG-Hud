@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.init.MobEffects;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,7 +20,7 @@ public class HudElementHealthExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
@@ -30,9 +30,9 @@ public class HudElementHealthExtended extends HudElement {
 		if (absorption > 1)
 			drawCustomBar(posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
 
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (this.mc.player.isPotionActive(Effects.POISON)) {
 			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
-		} else if (this.mc.player.isPotionActive(MobEffects.WITHER)) {
+		} else if (this.mc.player.isPotionActive(Effects.WITHER)) {
 			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
 		} else {
 			drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));

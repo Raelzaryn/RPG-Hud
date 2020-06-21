@@ -1,9 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.settings.AttackIndicatorStatus;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameType;
@@ -22,23 +24,23 @@ public class HudElementHotbarHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR) {
             ((GuiIngameRPGHud)mc.ingameGUI).getSpectatorGui().renderTooltip(partialTicks);
-		} else if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+		} else if (this.mc.getRenderViewEntity() instanceof PlayerEntity) {
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
-			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+			PlayerEntity entityplayer = (PlayerEntity) this.mc.getRenderViewEntity();
 			ItemStack itemstack = this.mc.player.getHeldItemOffhand();
 			int i = scaledWidth / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			gui.drawTexturedModalRect(posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(posX + entityplayer.inventory.currentItem * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
+			gui.blit(posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
+			gui.blit(posX + entityplayer.inventory.currentItem * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
 
-			gui.drawTexturedModalRect(posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
+			gui.blit(posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
 
 			zLevel = f;
 			GlStateManager.enableRescaleNormal();
@@ -55,18 +57,18 @@ public class HudElementHotbarHotbar extends HudElement {
 			int l1 = scaledHeight - 47 + 3 + posY;
 			this.renderHotbarItem(posX + 184, l1, partialTicks, entityplayer, itemstack);
 
-			if (this.mc.gameSettings.attackIndicator == 2) {
+			if (this.mc.gameSettings.attackIndicator == AttackIndicatorStatus.HOTBAR) {
 				float f1 = this.mc.player.getCooledAttackStrength(0.0F);
 
 				if (f1 < 1.0F) {
 					int i2 = scaledHeight - 36 + posY;
 					int j2 = i + 40 + this.settings.getPositionValue(Settings.hotbar_position)[0];
 
-					this.mc.getTextureManager().bindTexture(Gui.ICONS);
+					this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
 					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.drawTexturedModalRect(j2, i2 - 9, 0, 94, 18, 18);
-					gui.drawTexturedModalRect(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
+					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 
@@ -90,7 +92,7 @@ public class HudElementHotbarHotbar extends HudElement {
 	 * @param item
 	 *            the item (via ItemStack)
 	 */
-	protected void renderHotbarItem(int x, int y, float partialTicks, EntityPlayer player, ItemStack item) {
+	protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
 		if (!item.isEmpty()) {
 			float f = (float)item.getAnimationsToGo() - partialTicks;
 

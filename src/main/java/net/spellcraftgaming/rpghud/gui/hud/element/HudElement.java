@@ -2,11 +2,12 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -133,7 +134,7 @@ public abstract class HudElement {
 	/**
 	 * Function called to draw this element on the screen
 	 */
-	public void draw(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void draw(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 
 		GlStateManager.scaled(this.scale, this.scale, this.scale);
 
@@ -142,7 +143,7 @@ public abstract class HudElement {
 		GlStateManager.scaled(this.scaleInverted, this.scaleInverted, this.scaleInverted);
 	}
 
-	public abstract void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
+	public abstract void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
 
 	/**
 	 * Returns the x coordinate of this element
@@ -265,7 +266,7 @@ public abstract class HudElement {
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
 		GlStateManager.enableBlend();
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 		GlStateManager.color4f(f, f1, f2, f3);
 		GlStateManager.disableDepthTest();
@@ -277,7 +278,7 @@ public abstract class HudElement {
 		vertexbuffer.pos((double) posX + width, posY, 0.0D).endVertex();
 		vertexbuffer.pos(posX, posY, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 		GlStateManager.disableBlend();
 		GlStateManager.enableDepthTest();
 		GlStateManager.color3f(1f, 1f, 1f);
@@ -500,7 +501,7 @@ public abstract class HudElement {
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
 		GlStateManager.enableBlend();
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 		GlStateManager.color4f(f, f1, f2, f3);
 		GlStateManager.disableDepthTest();
@@ -512,7 +513,7 @@ public abstract class HudElement {
 		vertexbuffer.pos((double) posX1 + width1, posY2, 0.0D).endVertex();
 		vertexbuffer.pos(posX2, posY1, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 		GlStateManager.disableBlend();
 		GlStateManager.enableDepthTest();
 		GlStateManager.color3f(1f, 1f, 1f);
@@ -593,7 +594,7 @@ public abstract class HudElement {
 	 *            the player whose skin should be returned
 	 * @return the ResourceLocation
 	 */
-	protected static ResourceLocation getPlayerSkin(AbstractClientPlayer player) {
+	protected static ResourceLocation getPlayerSkin(ClientPlayerEntity player) {
 		return player.getLocationSkin();
 	}
 }

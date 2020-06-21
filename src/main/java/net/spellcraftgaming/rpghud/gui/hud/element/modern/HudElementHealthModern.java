@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.init.MobEffects;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -23,7 +23,7 @@ public class HudElementHealthModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
@@ -51,9 +51,9 @@ public class HudElementHealthModern extends HudElement {
 
 		if (absorption > 1)
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_absorption));
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
+		if (this.mc.player.isPotionActive(Effects.POISON)) {
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_poison));
-		} else if (this.mc.player.isPotionActive(MobEffects.WITHER)) {
+		} else if (this.mc.player.isPotionActive(Effects.WITHER)) {
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_wither));
 		} else {
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));

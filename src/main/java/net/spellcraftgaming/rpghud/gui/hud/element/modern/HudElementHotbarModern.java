@@ -1,11 +1,13 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.settings.AttackIndicatorStatus;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameType;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
@@ -21,17 +23,17 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR) {
             ((GuiIngameRPGHud)mc.ingameGUI).getSpectatorGui().renderTooltip(partialTicks);
-		} else if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+		} else if (this.mc.getRenderViewEntity() instanceof PlayerEntity) {
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
-			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+			PlayerEntity entityplayer = (PlayerEntity) this.mc.getRenderViewEntity();
 			ItemStack itemstack = this.mc.player.getHeldItemOffhand();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			EnumHandSide enumhandside = this.mc.player.getPrimaryHand().opposite();
+			HandSide enumhandside = this.mc.player.getPrimaryHand().opposite();
 			int width = scaledWidth;
 			int height = scaledHeight + posY;
 			int i = (width / 2) + posX;
@@ -48,7 +50,7 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.currentItem * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
 			GlStateManager.enableAlphaTest();
 			if (itemstack != ItemStack.EMPTY) {
-				if (enumhandside == EnumHandSide.LEFT) {
+				if (enumhandside == HandSide.LEFT) {
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
@@ -78,29 +80,29 @@ public class HudElementHotbarModern extends HudElementHotbarVanilla {
 			if (itemstack != ItemStack.EMPTY) {
 				int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
-				if (enumhandside == EnumHandSide.LEFT) {
+				if (enumhandside == HandSide.LEFT) {
 					this.renderHotbarItem(i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
 				} else {
 					this.renderHotbarItem(i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
 				}
 			}
 
-			if (this.mc.gameSettings.attackIndicator == 2) {
+			if (this.mc.gameSettings.attackIndicator == AttackIndicatorStatus.HOTBAR) {
 				float f1 = this.mc.player.getCooledAttackStrength(0.0F);
 
 				if (f1 < 1.0F) {
 					int i2 = scaledHeight - 17 + posY;
 					int j2 = i + 91 + 6;
 
-					if (enumhandside == EnumHandSide.RIGHT) {
+					if (enumhandside == HandSide.RIGHT) {
 						j2 = i - 91 - 22;
 					}
 
-					this.mc.getTextureManager().bindTexture(Gui.ICONS);
+					this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
 					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.drawTexturedModalRect(j2, i2 - 9, 0, 94, 18, 18);
-					gui.drawTexturedModalRect(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
+					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

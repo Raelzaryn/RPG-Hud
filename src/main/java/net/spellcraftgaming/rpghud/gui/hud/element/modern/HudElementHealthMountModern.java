@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -18,12 +18,12 @@ public class HudElementHealthMountModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
+		return this.mc.player.getRidingEntity() instanceof LivingEntity && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();

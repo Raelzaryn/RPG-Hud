@@ -1,9 +1,9 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.widget.SoundSlider;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.registries.GameData;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingFloat;
 
@@ -12,22 +12,17 @@ public class GuiSliderSetting extends GuiButtonTooltip {
 	private float sliderValue;
 	public boolean dragging;
 
-	public GuiSliderSetting(int buttonId, int x, int y, String optionIn) {
-		super(buttonId, x, y, optionIn, "");
+	public GuiSliderSetting(int x, int y, String optionIn, IPressable ip) {
+		super(x, y, optionIn, "", ip);
 		this.sliderValue = 1.0F;
 		this.sliderValue = SettingFloat.normalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(optionIn), ModRPGHud.instance.settings.getFloatValue(optionIn));
-		this.displayString = ModRPGHud.instance.settings.getButtonString(optionIn);
+		this.setMessage(ModRPGHud.instance.settings.getButtonString(optionIn));
 	}
 
-	/**
-	 * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over
-	 * this button and 2 if it IS hovering over this button.
-	 */
 	@Override
-	protected int getHoverState(boolean mouseOver) {
+	protected int getYImage(boolean p_getYImage_1_) {
 		return 0;
 	}
-
 	/**
 	 * Fired when the mouse button is dragged. Equivalent of
 	 * MouseListener.mouseDragged(MouseEvent e).
@@ -41,12 +36,12 @@ public class GuiSliderSetting extends GuiButtonTooltip {
 				float f = SettingFloat.denormalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), this.sliderValue);
 				ModRPGHud.instance.settings.setSetting(this.enumOptions, f);
 				this.sliderValue = SettingFloat.normalizeValue((SettingFloat)ModRPGHud.instance.settings.getSetting(this.enumOptions), f);
-				this.displayString = ModRPGHud.instance.settings.getButtonString(this.enumOptions);
+				this.setMessage(ModRPGHud.instance.settings.getButtonString(this.enumOptions));
 			}
 
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
-			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
+			this.blit(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
+			this.blit(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
 		}
 	}
 

@@ -2,11 +2,12 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import java.util.Random;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.FoodStats;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -22,13 +23,13 @@ public class HudElementFoodVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && !(this.mc.player.getRidingEntity() instanceof EntityLiving) && this.mc.playerController.shouldDrawHUD();
+		return !this.mc.gameSettings.hideGUI && !(this.mc.player.getRidingEntity() instanceof LivingEntity) && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
-		EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
+		PlayerEntity player = (PlayerEntity)this.mc.getRenderViewEntity();
         GlStateManager.enableBlend();
         int left = scaledWidth / 2 + 91;
         int top = scaledHeight - theGui.right_height;
@@ -46,7 +47,7 @@ public class HudElementFoodVanilla extends HudElement {
             int icon = 16;
             byte background = 0;
 
-            if (this.mc.player.isPotionActive(MobEffects.HUNGER))
+            if (this.mc.player.isPotionActive(Effects.HUNGER))
             {
                 icon += 36;
                 background = 13;
@@ -58,12 +59,12 @@ public class HudElementFoodVanilla extends HudElement {
                 y = top + (rand.nextInt(3) - 1);
             }
 
-            gui.drawTexturedModalRect(x, y, 16 + background * 9, 27, 9, 9);
+            gui.blit(x, y, 16 + background * 9, 27, 9, 9);
 
             if (idx < level)
-                gui.drawTexturedModalRect(x, y, icon + 36, 27, 9, 9);
+                gui.blit(x, y, icon + 36, 27, 9, 9);
             else if (idx == level)
-                gui.drawTexturedModalRect(x, y, icon + 45, 27, 9, 9);
+                gui.blit(x, y, icon + 45, 27, 9, 9);
         }
 	}
 

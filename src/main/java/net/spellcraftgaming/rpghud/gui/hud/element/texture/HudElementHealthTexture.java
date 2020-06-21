@@ -1,8 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.MobEffects;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -21,7 +22,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		bind(INTERFACE);
 		GlStateManager.color3f(1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
@@ -30,20 +31,20 @@ public class HudElementHealthTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 		if (absorption > 1)
-			gui.drawTexturedModalRect(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
-		if (this.mc.player.isPotionActive(MobEffects.POISON)) {
-			gui.drawTexturedModalRect(posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
-		} else if (this.mc.player.isPotionActive(MobEffects.WITHER)) {
-			gui.drawTexturedModalRect(posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			gui.blit(posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
+		if (this.mc.player.isPotionActive(Effects.POISON)) {
+			gui.blit(posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+		} else if (this.mc.player.isPotionActive(Effects.WITHER)) {
+			gui.blit(posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		} else {
-			gui.drawTexturedModalRect(posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			gui.blit(posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		}
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
 			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, posX + 55, posY + 2, -1);
 		GlStateManager.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(Gui.ICONS);
+		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 	}
 
 }

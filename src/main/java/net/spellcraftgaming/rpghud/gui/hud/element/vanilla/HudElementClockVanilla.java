@@ -2,9 +2,9 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.init.Items;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -24,7 +24,7 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int clockColor = 0xFFFFFF;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();

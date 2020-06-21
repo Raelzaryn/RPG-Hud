@@ -2,10 +2,9 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemFood;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.FoodStats;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -25,7 +24,7 @@ public class HudElementFoodModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		FoodStats stats = this.mc.player.getFoodStats();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -54,10 +53,10 @@ public class HudElementFoodModern extends HudElement {
 
 		if (stats.needFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.getItem() instanceof ItemFood) {
-				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
-			} else if (itemSec != ItemStack.EMPTY && itemSec.getItem() instanceof ItemFood) {
-				value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
+			if (itemMain != ItemStack.EMPTY && itemMain.getItem().getFood() != null) {
+				value = itemMain.getItem().getFood().getHealing();
+			} else if (itemSec != ItemStack.EMPTY && itemMain.getItem().getFood() != null) {
+				value = itemSec.getItem().getFood().getHealing();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
@@ -67,7 +66,7 @@ public class HudElementFoodModern extends HudElement {
 			}
 		}
 
-		if (this.mc.player.isPotionActive(MobEffects.HUNGER)) {
+		if (this.mc.player.isPotionActive(Effects.HUNGER)) {
 			drawTetragon(posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_hunger));
 		} else {
 			drawTetragon(posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_food));

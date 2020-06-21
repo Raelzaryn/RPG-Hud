@@ -9,7 +9,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
 	/** Variable to contain the (possible) setting of this button */
 	public final String enumOptions;
-	
+	public int id;
 	/** Array that contains the tooltip of this button */
 	private String[] tooltip;
 	/**
@@ -24,8 +24,8 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int buttonId, int x, int y, String buttonText) {
-		super(buttonId, x, y, buttonText);
+	public GuiButtonTooltip(int x, int y, String buttonText, IPressable ip) {
+		super(x, y, buttonText, ip);
 		this.enumOptions = null;
 	}
 
@@ -45,8 +45,14 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int buttonId, int x, int y, int width, int height, String buttonText) {
-		super(buttonId, x, y, width, height, buttonText);
+	public GuiButtonTooltip(int x, int y, int width, int height, String buttonText, IPressable ip) {
+		super(x, y, width, height, buttonText, ip);
+		this.enumOptions = null;
+	}
+	
+	public GuiButtonTooltip(int id, int x, int y, int width, int height, String buttonText, IPressable ip) {
+		super(x, y, width, height, buttonText, ip);
+		this.id = id;
 		this.enumOptions = null;
 	}
 
@@ -64,8 +70,8 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int buttonId, int x, int y, String setting, String buttonText) {
-		super(buttonId, x, y, 150, 20, buttonText);
+	public GuiButtonTooltip(int x, int y, String setting, String buttonText, IPressable ip) {
+		super(x, y, 150, 20, buttonText, ip);
 		this.enumOptions = setting;
 	}
 

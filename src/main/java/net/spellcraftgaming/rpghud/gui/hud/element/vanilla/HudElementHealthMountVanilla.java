@@ -1,11 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
@@ -18,24 +18,24 @@ public class HudElementHealthMountVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase;
+		return this.mc.player.getRidingEntity() instanceof LivingEntity;
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-        EntityPlayer player = (EntityPlayer)mc.getRenderViewEntity();
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		PlayerEntity player = (PlayerEntity)mc.getRenderViewEntity();
         Entity tmp = player.getRidingEntity();
 		GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
 
-        bind(Gui.ICONS);
+        bind(AbstractGui.GUI_ICONS_LOCATION);
 
 
         boolean unused = false;
         int left_align = scaledWidth / 2 + 91;
 
-        mc.profiler.endStartSection("mountHealth");
+        mc.getProfiler().endStartSection("mountHealth");
         GlStateManager.enableBlend();
-        EntityLivingBase mount = (EntityLivingBase)tmp;
+        PlayerEntity mount = (PlayerEntity)tmp;
         int health = (int)Math.ceil((double)mount.getHealth());
         float healthMax = mount.getMaxHealth();
         int hearts = (int)(healthMax + 0.5F) / 2;
@@ -57,12 +57,12 @@ public class HudElementHealthMountVanilla extends HudElement {
             for (int i = 0; i < rowCount; ++i)
             {
                 int x = left_align - i * 8 - 9;
-                gui.drawTexturedModalRect(x, top, BACKGROUND, 9, 9, 9);
+                gui.blit(x, top, BACKGROUND, 9, 9, 9);
 
                 if (i * 2 + 1 + heart < health)
-                    gui.drawTexturedModalRect(x, top, FULL, 9, 9, 9);
+                    gui.blit(x, top, FULL, 9, 9, 9);
                 else if (i * 2 + 1 + heart == health)
-                    gui.drawTexturedModalRect(x, top, HALF, 9, 9, 9);
+                    gui.blit(x, top, HALF, 9, 9, 9);
             }
 
             theGui.right_height += 10;

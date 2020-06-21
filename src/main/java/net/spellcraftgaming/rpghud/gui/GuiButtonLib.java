@@ -1,15 +1,15 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 
-public abstract class GuiButtonLib extends GuiButton{
+public abstract class GuiButtonLib extends Button{
 
-	public GuiButtonLib(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
-		super(buttonId, x, y, widthIn, heightIn, buttonText);
+	public GuiButtonLib(int x, int y, int widthIn, int heightIn, String buttonText, IPressable ip) {
+		super(x, y, widthIn, heightIn, buttonText, ip);
 	}
 	
-	public GuiButtonLib(int buttonId, int x, int y, String buttonText) {
-		super(buttonId, x, y, buttonText);
+	public GuiButtonLib(int x, int y, String buttonText, IPressable ip) {
+		super(x, y, 200, 20, buttonText, ip);
 	}
 
 	@Override

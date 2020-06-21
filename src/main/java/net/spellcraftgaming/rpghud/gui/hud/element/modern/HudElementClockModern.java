@@ -2,9 +2,9 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.init.Items;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -25,7 +25,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int yOffset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 8) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 4) + this.settings.getPositionValue(Settings.clock_position)[1];
 		int xOffset = this.settings.getPositionValue(Settings.clock_position)[0];
 		int clockColor = 0xFFFFFF;

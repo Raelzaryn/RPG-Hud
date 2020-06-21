@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -14,11 +14,11 @@ public class HudElementJumpBarDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof EntityLivingBase && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getHorseJumpPower() > 0F : true);
+		return this.mc.player.getRidingEntity() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getHorseJumpPower() > 0F : true);
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
 		int center = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float jumpPower = this.mc.player.getHorseJumpPower();

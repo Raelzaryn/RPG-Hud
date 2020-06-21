@@ -3,15 +3,21 @@ package net.spellcraftgaming.rpghud.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.ITextComponent;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class GuiScreenTooltip extends GuiScreen {
+public class GuiScreenTooltip extends Screen {
+
+	protected GuiScreenTooltip(ITextComponent titleIn) {
+		super(titleIn);
+	}
 
 	protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
 	
@@ -42,12 +48,12 @@ public class GuiScreenTooltip extends GuiScreen {
 		boolean shouldRenderTooltip = false;
 		GuiButtonTooltip button = null;
 		for (int x = 0; x < this.buttons.size(); x++) {
-			GuiButton b = this.buttons.get(x);
+			Widget b = this.buttons.get(x);
 			if (b instanceof GuiButtonTooltip)
 				button = (GuiButtonTooltip) b;
 			
 			if(button != null){
-				if(button.isMouseOver()) {
+				if(button.isHovered()) {
 					shouldRenderTooltip = true;
 					break;
 				}
@@ -77,9 +83,9 @@ public class GuiScreenTooltip extends GuiScreen {
 					reverseY = true;
 
 				if (reverseY)
-					drawRect(posX, posY - 3 - tooltip.length * 12 - 2, posX + totalWidth + 10, posY, 0xA0000000);
+					fill(posX, posY - 3 - tooltip.length * 12 - 2, posX + totalWidth + 10, posY, 0xA0000000);
 				else
-					drawRect(posX, posY, posX + totalWidth + 10, posY + 3 + tooltip.length * 12 + 2, 0xA0000000);
+					fill(posX, posY, posX + totalWidth + 10, posY + 3 + tooltip.length * 12 + 2, 0xA0000000);
 				for (int id = 0; id < tooltip.length; id++) {
 					if (!tooltip[id].isEmpty()) {
 						if (reverseY)
@@ -103,10 +109,10 @@ public class GuiScreenTooltip extends GuiScreen {
 			this.text = text;
 		}
 		
-		public void render(GuiScreen gui) {
+		public void render(Screen gui) {
 	         GlStateManager.enableBlend();
 	         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-	         gui.drawString(Minecraft.getInstance().fontRenderer, text, x, y, 0xFFFFFFFF);
+	         gui.drawString(minecraft.fontRenderer, text, x, y, 0xFFFFFFFF);
 		}
 	}
 

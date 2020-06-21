@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemFood;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.FoodStats;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -22,7 +21,7 @@ public class HudElementFoodDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		FoodStats stats = this.mc.player.getFoodStats();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -30,13 +29,12 @@ public class HudElementFoodDefault extends HudElement {
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 18) + this.settings.getPositionValue(Settings.hunger_position)[1];
 		ItemStack itemMain = this.mc.player.getHeldItemMainhand();
 		ItemStack itemSec = this.mc.player.getHeldItemOffhand();
-
 		if (stats.needFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.getItem() instanceof ItemFood) {
-				value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
-			} else if (itemSec != ItemStack.EMPTY && itemSec.getItem() instanceof ItemFood) {
-				value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
+			if (itemMain != ItemStack.EMPTY && itemMain.getItem().getFood() != null) {
+				value = itemMain.getItem().getFood().getHealing();
+			} else if (itemSec != ItemStack.EMPTY && itemMain.getItem().getFood() != null) {
+				value = itemSec.getItem().getFood().getHealing();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
@@ -47,7 +45,7 @@ public class HudElementFoodDefault extends HudElement {
 			}
 		}
 
-		if (this.mc.player.isPotionActive(MobEffects.HUNGER)) {
+		if (this.mc.player.isPotionActive(Effects.HUNGER)) {
 			drawCustomBar(posX, posY, 110, 12, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
 		} else {
 			drawCustomBar(posX, posY, 110, 12, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));

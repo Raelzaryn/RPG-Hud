@@ -1,7 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,7 +21,7 @@ public class HudElementExperienceTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
 		GlStateManager.color3f(1f, 1f, 1f);
 		int exp = MathHelper.ceil(this.mc.player.xpBarCap() * this.mc.player.experience);
@@ -28,7 +29,7 @@ public class HudElementExperienceTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
 	
-		gui.drawTexturedModalRect(posX, posY, 0, 132, (int) (88.0D * (exp / (double) expCap)), 8);
+		gui.blit(posX, posY, 0, 132, (int) (88.0D * (exp / (double) expCap)), 8);
 
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 	
@@ -38,7 +39,7 @@ public class HudElementExperienceTexture extends HudElement {
 			GlStateManager.scaled(2.0D, 2.0D, 2.0D);
 		}
 		GlStateManager.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(Gui.ICONS);
+		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 	}
 
 }

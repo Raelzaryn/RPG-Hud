@@ -19,41 +19,42 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.mojang.blaze3d.platform.GlStateManager;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiOverlayDebug;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.gui.overlay.DebugOverlayGui;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.PotionSpriteUploader;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceFluidMode;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.GameType;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
@@ -62,22 +63,19 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class GuiIngameRPGHud extends GuiIngameForge
+public class GuiIngameRPGHud extends ForgeIngameGui
 {
-    //private static final ResourceLocation VIGNETTE     = new ResourceLocation("textures/misc/vignette.png");
-    //private static final ResourceLocation WIDGITS      = new ResourceLocation("textures/gui/widgets.png");
-    //private static final ResourceLocation PUMPKIN_BLUR = new ResourceLocation("textures/misc/pumpkinblur.png");
 
     private static final int WHITE = 0xFFFFFF;
+    
+	/** Instance of the RPG-Hud mod */
+	private ModRPGHud rpgHud;
 
     private FontRenderer fontrenderer = null;
     private RenderGameOverlayEvent eventParent;
     //private static final String MC_VERSION = MinecraftForge.MC_VERSION;
     private GuiOverlayDebugForge debugOverlay;
 
-	/** Instance of the RPG-Hud mod */
-	private ModRPGHud rpgHud;
-	
     public GuiIngameRPGHud(Minecraft mc)
     {
         super(mc);
@@ -91,6 +89,9 @@ public class GuiIngameRPGHud extends GuiIngameForge
         this.scaledWidth = this.mc.mainWindow.getScaledWidth();
         this.scaledHeight = this.mc.mainWindow.getScaledHeight();
         eventParent = new RenderGameOverlayEvent(partialTicks, this.mc.mainWindow);
+        renderHealthMount = mc.player.getRidingEntity() instanceof LivingEntity;
+        renderFood = mc.player.getRidingEntity() == null;
+        renderJumpBar = mc.player.isRidingHorse();
 
         right_height = 39;
         left_height = 39;
@@ -102,7 +103,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
         GlStateManager.enableBlend();
         if (renderVignette && Minecraft.isFancyGraphicsEnabled())
         {
-            func_212303_b(mc.getRenderViewEntity());
+            renderVignette(mc.getRenderViewEntity());
         }
         else
         {
@@ -112,7 +113,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
 
         if (renderHelmet) renderHelmet(partialTicks);
 
-        if (renderPortal && !mc.player.isPotionActive(MobEffects.NAUSEA))
+        if (renderPortal && !mc.player.isPotionActive(Effects.NAUSEA))
         {
             renderPortal(partialTicks);
         }
@@ -123,14 +124,15 @@ public class GuiIngameRPGHud extends GuiIngameForge
 
         if (!this.mc.gameSettings.hideGUI) {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            zLevel = -90.0F;
+            blitOffset = -90;
             rand.setSeed((long)(ticks * 312871));
 
             this.drawElement(HudElementType.CROSSHAIR, partialTicks);
+            
             if (renderBossHealth) renderBossHealth();
 
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
+            if (this.mc.playerController.shouldDrawHUD() && this.mc.getRenderViewEntity() instanceof PlayerEntity)
             {
     			this.drawElement(HudElementType.HEALTH, partialTicks);
     			this.drawElement(HudElementType.ARMOR, partialTicks);
@@ -145,9 +147,9 @@ public class GuiIngameRPGHud extends GuiIngameForge
 
     		this.drawElement(HudElementType.EXPERIENCE, partialTicks);
     		this.drawElement(HudElementType.LEVEL, partialTicks);
-
+    		
     		this.drawElement(HudElementType.JUMP_BAR, partialTicks);
-
+    		
             if (this.mc.gameSettings.heldItemTooltips && this.mc.playerController.getCurrentGameType() != GameType.SPECTATOR) {
                 this.renderSelectedItem();
              } else if (this.mc.player.isSpectator()) {
@@ -200,27 +202,28 @@ public class GuiIngameRPGHud extends GuiIngameForge
     protected void renderPotionEffects()
     {
         if (pre(POTION_ICONS)) return;
-        Collection<PotionEffect> collection = this.mc.player.getActivePotionEffects();
+        Collection<EffectInstance> collection = this.mc.player.getActivePotionEffects();
         if (!collection.isEmpty()) {
-           this.mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
            GlStateManager.enableBlend();
            int i = 0;
            int j = 0;
+           PotionSpriteUploader potionspriteuploader = this.mc.getPotionSpriteUploader();
+           List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
+           this.mc.getTextureManager().bindTexture(ContainerScreen.INVENTORY_BACKGROUND);
 
-           for(PotionEffect potioneffect : Ordering.natural().reverse().sortedCopy(collection)) {
-              Potion potion = potioneffect.getPotion();
-              if (!potion.shouldRenderHUD(potioneffect)) continue;
+           for(EffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
+              Effect effect = effectinstance.getPotion();
+              if (!effect.shouldRenderHUD(effectinstance)) continue;
               // Rebind in case previous renderHUDEffect changed texture
-              this.mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-              if (potioneffect.isShowIcon()) {
+              this.mc.getTextureManager().bindTexture(ContainerScreen.INVENTORY_BACKGROUND);
+              if (effectinstance.isShowIcon()) {
                  int k = this.scaledWidth;
                  int l = 1;
                  if (this.mc.isDemo()) {
                     l += 15;
                  }
 
-                 int i1 = potion.getStatusIconIndex();
-                 if (potion.isBeneficial()) {
+                 if (effect.isBeneficial()) {
                     ++i;
                     k = k - 25 * i;
                  } else {
@@ -231,26 +234,31 @@ public class GuiIngameRPGHud extends GuiIngameForge
 
                  GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                  float f = 1.0F;
-                 if (potioneffect.isAmbient()) {
-                    this.drawTexturedModalRect(k, l, 165, 166, 24, 24);
+                 if (effectinstance.isAmbient()) {
+                    this.blit(k, l, 165, 166, 24, 24);
                  } else {
-                    this.drawTexturedModalRect(k, l, 141, 166, 24, 24);
-                    if (potioneffect.getDuration() <= 200) {
-                       int j1 = 10 - potioneffect.getDuration() / 20;
-                       f = MathHelper.clamp((float)potioneffect.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos((float)potioneffect.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp((float)j1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                    this.blit(k, l, 141, 166, 24, 24);
+                    if (effectinstance.getDuration() <= 200) {
+                       int i1 = 10 - effectinstance.getDuration() / 20;
+                       f = MathHelper.clamp((float)effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos((float)effectinstance.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp((float)i1 / 10.0F * 0.25F, 0.0F, 0.25F);
                     }
                  }
 
-                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, f);
-                 int l1 = i1 % 12;
-                 int k1 = i1 / 12;
-                 // FORGE - Move status icon check down from above so renderHUDEffect will still be called without a status icon
-                 if (potion.hasStatusIcon())
-                 this.drawTexturedModalRect(k + 3, l + 3, l1 * 18, 198 + k1 * 18, 18, 18);
-                 potion.renderHUDEffect(potioneffect, this, k, l, this.zLevel, f);
+                 float f_f = f;
+                 int k_f = k;
+                 int l_f = l;
+
+                 TextureAtlasSprite textureatlassprite = potionspriteuploader.getSprite(effect);
+                 list.add(() -> {
+                    GlStateManager.color4f(1.0F, 1.0F, 1.0F, f_f);
+                    blit(k_f + 3, l_f + 3, this.blitOffset, 18, 18, textureatlassprite);
+                 });
+                 effect.renderHUDEffect(effectinstance, this, k, l, this.blitOffset, f);
               }
            }
 
+           this.mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_EFFECTS_TEXTURE);
+           list.forEach(Runnable::run);
         }
         post(POTION_ICONS);
     }
@@ -262,22 +270,21 @@ public class GuiIngameRPGHud extends GuiIngameForge
         post(SUBTITLES);
     }
 
-    //@Override
     protected void renderBossHealth()
     {
         if (pre(BOSSHEALTH)) return;
-        bind(Gui.ICONS);
+        bind(AbstractGui.GUI_ICONS_LOCATION);
         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        mc.profiler.startSection("bossHealth");
+        mc.getProfiler().startSection("bossHealth");
         GlStateManager.enableBlend();
-        this.overlayBoss.renderBossHealth();
+        this.overlayBoss.render();
         GlStateManager.disableBlend();
-        mc.profiler.endSection();
+        mc.getProfiler().endSection();
         post(BOSSHEALTH);
     }
 
     @Override
-    protected void func_212303_b(Entity entity)
+    protected void renderVignette(Entity entity)
     {
         if (pre(VIGNETTE))
         {
@@ -344,13 +351,13 @@ public class GuiIngameRPGHud extends GuiIngameForge
     }
 
     @Override
-    protected void renderPortal(float partialTicks)
+    protected void renderPortal(float timeInPortal)
     {
         if (pre(PORTAL)) return;
 
-        float timeInPortal = mc.player.prevTimeInPortal + (mc.player.timeInPortal - mc.player.prevTimeInPortal) * partialTicks;
+        float time = mc.player.prevTimeInPortal + (mc.player.timeInPortal - mc.player.prevTimeInPortal) * timeInPortal;
 
-        if (timeInPortal > 0.0F)
+        if (time > 0.0F)
         {
         	if (timeInPortal < 1.0F) {
                 timeInPortal = timeInPortal * timeInPortal;
@@ -363,7 +370,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
              GlStateManager.depthMask(false);
              GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
              GlStateManager.color4f(1.0F, 1.0F, 1.0F, timeInPortal);
-             this.mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+             this.mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
              TextureAtlasSprite textureatlassprite = this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(Blocks.NETHER_PORTAL.getDefaultState());
              float f = textureatlassprite.getMinU();
              float f1 = textureatlassprite.getMinV();
@@ -396,7 +403,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
     {
         if (mc.player.getSleepTimer() > 0)
         {
-            mc.profiler.startSection("sleep");
+            mc.getProfiler().startSection("sleep");
             GlStateManager.disableDepthTest();
             GlStateManager.disableAlphaTest();
             int sleepTime = mc.player.getSleepTimer();
@@ -408,17 +415,17 @@ public class GuiIngameRPGHud extends GuiIngameForge
             }
 
             int color = (int)(220.0F * opacity) << 24 | 1052704;
-            drawRect(0, 0, width, height, color);
+            fill(0, 0, width, height, color);
             GlStateManager.enableAlphaTest();
             GlStateManager.enableDepthTest();
-            mc.profiler.endSection();
+            mc.getProfiler().endSection();
         }
     }
 
     protected void renderHUDText(int width, int height)
     {
-        mc.profiler.startSection("forgeHudText");
-        OpenGlHelper.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        mc.getProfiler().startSection("forgeHudText");
+        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         ArrayList<String> listL = new ArrayList<String>();
         ArrayList<String> listR = new ArrayList<String>();
 
@@ -450,7 +457,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
             for (String msg : listL)
             {
                 if (msg == null) continue;
-                drawRect(1, top - 1, 2 + fontrenderer.getStringWidth(msg) + 1, top + fontrenderer.FONT_HEIGHT - 1, -1873784752);
+                fill(1, top - 1, 2 + fontrenderer.getStringWidth(msg) + 1, top + fontrenderer.FONT_HEIGHT - 1, -1873784752);
                 fontrenderer.drawStringWithShadow(msg, 2, top, 14737632);
                 top += fontrenderer.FONT_HEIGHT;
             }
@@ -461,13 +468,13 @@ public class GuiIngameRPGHud extends GuiIngameForge
                 if (msg == null) continue;
                 int w = fontrenderer.getStringWidth(msg);
                 int left = width - 2 - w;
-                drawRect(left - 1, top - 1, left + w + 1, top + fontrenderer.FONT_HEIGHT - 1, -1873784752);
+                fill(left - 1, top - 1, left + w + 1, top + fontrenderer.FONT_HEIGHT - 1, -1873784752);
                 fontrenderer.drawStringWithShadow(msg, left, top, 14737632);
                 top += fontrenderer.FONT_HEIGHT;
             }
         }
 
-        mc.profiler.endSection();
+        mc.getProfiler().endSection();
         post(TEXT);
     }
 
@@ -475,7 +482,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
     {
         if (this.mc.gameSettings.showDebugInfo && this.mc.gameSettings.showLagometer && !pre(FPS_GRAPH))
         {
-            this.debugOverlay.renderLagometer();
+            this.debugOverlay.render();
             post(FPS_GRAPH);
         }
     }
@@ -484,7 +491,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
     {
         if (titlesTimer > 0)
         {
-            mc.profiler.startSection("titleAndSubtitle");
+            mc.getProfiler().startSection("titleAndSubtitle");
             float age = (float)this.titlesTimer - partialTicks;
             int opacity = 255;
 
@@ -516,14 +523,14 @@ public class GuiIngameRPGHud extends GuiIngameForge
                 GlStateManager.popMatrix();
             }
 
-            this.mc.profiler.endSection();
+            this.mc.getProfiler().endSection();
         }
     }
 
     protected void renderChat(int width, int height)
     {
-        mc.profiler.startSection("chat");
-
+        mc.getProfiler().startSection("chat");
+        
         int offset = 0;
         if(ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) offset = -22;
         RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(eventParent, 0, height - 48 + offset);
@@ -531,24 +538,24 @@ public class GuiIngameRPGHud extends GuiIngameForge
 
         GlStateManager.pushMatrix();
         GlStateManager.translatef((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-        persistantChatGUI.drawChat(ticks);
+        persistantChatGUI.render(ticks);
         GlStateManager.popMatrix();
 
         post(CHAT);
 
-        mc.profiler.endSection();
+        mc.getProfiler().endSection();
     }
 
     protected void renderPlayerList(int width, int height)
     {
         ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-        NetHandlerPlayClient handler = mc.player.connection;
+        ClientPlayNetHandler handler = mc.player.connection;
 
         if (mc.gameSettings.keyBindPlayerList.isKeyDown() && (!mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
         {
             this.overlayPlayerList.setVisible(true);
             if (pre(PLAYER_LIST)) return;
-            this.overlayPlayerList.renderPlayerlist(width, this.mc.world.getScoreboard(), scoreobjective);
+            this.overlayPlayerList.render(width, this.mc.world.getScoreboard(), scoreobjective);
             post(PLAYER_LIST);
         }
         else
@@ -571,7 +578,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
         mc.getTextureManager().bindTexture(res);
     }
 
-    private class GuiOverlayDebugForge extends GuiOverlayDebug
+    private class GuiOverlayDebugForge extends DebugOverlayGui
     {
         private Minecraft mc;
         private GuiOverlayDebugForge(Minecraft mc)
@@ -582,8 +589,8 @@ public class GuiIngameRPGHud extends GuiIngameForge
         public void update()
         {
             Entity entity = this.mc.getRenderViewEntity();
-            this.rayTraceBlock = entity.rayTrace(20.0D, 0.0F, RayTraceFluidMode.NEVER);
-            this.rayTraceFluid = entity.rayTrace(20.0D, 0.0F, RayTraceFluidMode.ALWAYS);
+            this.rayTraceBlock = entity.func_213324_a(rayTraceDistance, 0.0F, false);
+            this.rayTraceFluid = entity.func_213324_a(rayTraceDistance, 0.0F, true);
         }
         @Override protected void renderDebugInfoLeft(){}
         @Override protected void renderDebugInfoRight(){}
@@ -598,6 +605,9 @@ public class GuiIngameRPGHud extends GuiIngameForge
         private List<String> getRight(){ return this.getDebugInfoRight(); }
     }
     
+    public int getBlitOffset() {
+    	return blitOffset;
+    }
 	public String getOverlayMessage() {
 		return this.overlayMessage;
 	}
@@ -634,7 +644,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(AbstractGui.GUI_ICONS_LOCATION);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the vanilla HUD
@@ -655,7 +665,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(AbstractGui.GUI_ICONS_LOCATION);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the active HUD
@@ -687,7 +697,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(AbstractGui.GUI_ICONS_LOCATION);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the vanilla HUD
@@ -712,7 +722,7 @@ public class GuiIngameRPGHud extends GuiIngameForge
 					// Check if the debug setting "prevent element from
 					// rendering" for this type is activated
 					if (!preventElementRenderType(type)) {
-						bind(Gui.ICONS);
+						bind(AbstractGui.GUI_ICONS_LOCATION);
 						GlStateManager.enableBlend();
 
 						// Draws the element of this type of the active HUD
@@ -731,86 +741,6 @@ public class GuiIngameRPGHud extends GuiIngameForge
 		}
 
 	}
-
-	/**
-	 * Draw the Chat HudElement from the active Hud
-	 * 
-	 * @param partialTicks
-	 *            the partialTicks to be used for animations
-	 */
-	/*private void drawElementChat(float partialTicks) {
-		if (this.rpgHud.getActiveHud().checkElementConditions(HudElementType.CHAT)) {
-			RenderGameOverlayEvent.Chat event = new RenderGameOverlayEvent.Chat(this.eventParent, 0, this.res.getScaledHeight() - 48);
-			this.chat.setXOffset(event.getPosX());
-			this.chat.setYOffset(event.getPosY());
-			if (forceRenderType(HudElementType.CHAT)) {
-				if (forceRenderTypeVanilla(HudElementType.CHAT)) {
-					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
-						GlStateManager.enableBlend();
-						GlStateManager.pushMatrix();
-						GlStateManager.translatef((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-						this.persistantChatGUI.drawChat(this.ticks);
-						GlStateManager.popMatrix();
-						GlStateManager.disableBlend();
-					}
-
-					if (!preventEventType(HudElementType.CHAT)) {
-						if (MinecraftForge.EVENT_BUS.post(event))
-							return;
-						post(CHAT);
-					}
-				} else {
-					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
-						GlStateManager.enableBlend();
-						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
-
-						GlStateManager.disableBlend();
-					}
-					if (!preventEventType(HudElementType.CHAT)) {
-						if (MinecraftForge.EVENT_BUS.post(event))
-							return;
-						post(CHAT);
-					}
-				}
-			} else {
-				if (forceRenderTypeVanilla(HudElementType.CHAT)) {
-					if (!preventEventType(HudElementType.CHAT)) {
-						if (MinecraftForge.EVENT_BUS.post(event))
-							return;
-					}
-					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
-						GlStateManager.enableBlend();
-						GlStateManager.pushMatrix();
-						GlStateManager.translatef((float) event.getPosX(), (float) event.getPosY(), 0.0F);
-						this.persistantChatGUI.drawChat(this.ticks);
-						GlStateManager.popMatrix();
-						GlStateManager.disableBlend();
-					}
-					if (!preventEventType(HudElementType.CHAT)) {
-						post(CHAT);
-					}
-				} else {
-					if (!preventEventType(HudElementType.CHAT)) {
-						if (MinecraftForge.EVENT_BUS.post(event))
-							return;
-					}
-					if (!preventElementRenderType(HudElementType.CHAT)) {
-						bind(Gui.ICONS);
-						GlStateManager.enableBlend();
-						this.rpgHud.getActiveHud().drawElement(HudElementType.CHAT, this, this.zLevel, partialTicks);
-
-						GlStateManager.disableBlend();
-					}
-					if (!preventEventType(HudElementType.CHAT)) {
-						post(CHAT);
-					}
-				}
-			}
-		}
-	}*/
 
 	/**
 	 * Checks if the HudElementType has a setting to force it to be rendered
