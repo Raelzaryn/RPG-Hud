@@ -9,27 +9,27 @@ import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 
 public class GuiFactoryRPGHud implements IModGuiFactory {
 
-	@Override
-	public void initialize(Minecraft minecraftInstance) {
-	}
+    @Override
+    public void initialize(Minecraft minecraftInstance) {
+    }
 
-	/**
-	 * Links to the Settings Gui of this mod. Is called by the Forge Mod Menu.
-	 */
-	@Override
-	public Class<? extends GuiScreen> mainConfigGuiClass() {
-		return GuiSettingsMod.class;
-	}
+    /**
+     * Links to the Settings Gui of this mod. Is called by the Forge Mod Menu.
+     */
+    @Override
+    public Class<? extends GuiScreen> mainConfigGuiClass() {
+        return GuiSettingsMod.class;
+    }
 
-	@Override
-	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-		return null;
-	}
+    @Override
+    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
+        return null;
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-		return null;
-	}
+    @SuppressWarnings("deprecation")
+    @Override
+    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+        return null;
+    }
 
 }
