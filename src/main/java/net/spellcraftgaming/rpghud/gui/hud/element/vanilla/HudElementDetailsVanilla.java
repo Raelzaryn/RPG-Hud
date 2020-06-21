@@ -147,7 +147,6 @@ public class HudElementDetailsVanilla extends HudElement {
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
 				this.mc.getItemRenderer().renderItemIntoGUI(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				GL11.glDisable(GL11.GL_LIGHTING);
 				gui.drawString(this.mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
@@ -199,7 +198,6 @@ public class HudElementDetailsVanilla extends HudElement {
 			}
 
 			this.mc.getItemRenderer().renderItemIntoGUI(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124  + typeOffset*2: 62 + typeOffset) + this.offset);
-			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
 			gui.drawString(this.mc.fontRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);

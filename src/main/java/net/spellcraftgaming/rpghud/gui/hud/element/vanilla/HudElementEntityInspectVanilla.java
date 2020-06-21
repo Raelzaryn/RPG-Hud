@@ -2,6 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,6 +15,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
@@ -138,14 +141,18 @@ public class HudElementEntityInspectVanilla extends HudElement {
 			if (entity instanceof EntityLiving) {
 				float collisionBorderSize = entity.getCollisionBorderSize();
 				AxisAlignedBB hitBox = entity.getBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
-				RayTraceResult intercept = hitBox.calculateIntercept(posVec, reachVector);
+				
+				Vec3d hitVecIn = intercept(posVec, reachVector, hitBox);
+
+				
 				if (hitBox.contains(posVec)) {
 					if (currentDistance <= 0D) {
 						currentDistance = 0;
 						focusedEntity = (EntityLiving) entity;
 					}
-				} else if (intercept != null) {
-					double distanceToEntity = posVec.distanceTo(intercept.hitVec);
+				} else if (hitVecIn != null) {
+					Vec3d hitVec = new Vec3d(hitVecIn.x, hitVecIn.y, hitVecIn.z);
+					double distanceToEntity = posVec.distanceTo(hitVec);
 					if (distanceToEntity <= currentDistance) {
 						currentDistance = distanceToEntity;
 						focusedEntity = (EntityLiving) entity;
@@ -155,4 +162,55 @@ public class HudElementEntityInspectVanilla extends HudElement {
 		}
 		return focusedEntity;
 	}
+
+	public static Vec3d intercept(Vec3d vecA, Vec3d vecB, AxisAlignedBB bb) {
+		double[] adouble = new double[]{1.0D};
+		EnumFacing enumfacing = null;
+	    double d0 = vecB.x - vecA.x;
+	    double d1 = vecB.y - vecA.y;
+	    double d2 = vecB.z - vecA.z;
+	    enumfacing = func_197741_a(bb, vecA, adouble, enumfacing, d0, d1, d2);  
+	    if (enumfacing == null) {
+	       return null;
+	    } else {
+	       double d3 = adouble[0];
+	       return vecA.add(d3 * d0, d3 * d1, d3 * d2);
+	    }
+	}
+	
+	   @Nullable
+	   private static EnumFacing func_197741_a(AxisAlignedBB aabb, Vec3d p_197741_1_, double[] p_197741_2_, @Nullable EnumFacing facing, double p_197741_4_, double p_197741_6_, double p_197741_8_) {
+	      if (p_197741_4_ > 1.0E-7D) {
+	         facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.minX, aabb.minY, aabb.maxY, aabb.minZ, aabb.maxZ, EnumFacing.WEST, p_197741_1_.x, p_197741_1_.y, p_197741_1_.z);
+	      } else if (p_197741_4_ < -1.0E-7D) {
+	         facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.maxX, aabb.minY, aabb.maxY, aabb.minZ, aabb.maxZ, EnumFacing.EAST, p_197741_1_.x, p_197741_1_.y, p_197741_1_.z);
+	      }
+
+	      if (p_197741_6_ > 1.0E-7D) {
+	         facing = func_197740_a(p_197741_2_, facing, p_197741_6_, p_197741_8_, p_197741_4_, aabb.minY, aabb.minZ, aabb.maxZ, aabb.minX, aabb.maxX, EnumFacing.DOWN, p_197741_1_.y, p_197741_1_.z, p_197741_1_.x);
+	      } else if (p_197741_6_ < -1.0E-7D) {
+	         facing = func_197740_a(p_197741_2_, facing, p_197741_6_, p_197741_8_, p_197741_4_, aabb.maxY, aabb.minZ, aabb.maxZ, aabb.minX, aabb.maxX, EnumFacing.UP, p_197741_1_.y, p_197741_1_.z, p_197741_1_.x);
+	      }
+
+	      if (p_197741_8_ > 1.0E-7D) {
+	         facing = func_197740_a(p_197741_2_, facing, p_197741_8_, p_197741_4_, p_197741_6_, aabb.minZ, aabb.minX, aabb.maxX, aabb.minY, aabb.maxY, EnumFacing.NORTH, p_197741_1_.z, p_197741_1_.x, p_197741_1_.y);
+	      } else if (p_197741_8_ < -1.0E-7D) {
+	         facing = func_197740_a(p_197741_2_, facing, p_197741_8_, p_197741_4_, p_197741_6_, aabb.maxZ, aabb.minX, aabb.maxX, aabb.minY, aabb.maxY, EnumFacing.SOUTH, p_197741_1_.z, p_197741_1_.x, p_197741_1_.y);
+	      }
+
+	      return facing;
+	   }
+	   
+	   @Nullable
+	   private static EnumFacing func_197740_a(double[] p_197740_0_, @Nullable EnumFacing p_197740_1_, double p_197740_2_, double p_197740_4_, double p_197740_6_, double p_197740_8_, double p_197740_10_, double p_197740_12_, double p_197740_14_, double p_197740_16_, EnumFacing p_197740_18_, double p_197740_19_, double p_197740_21_, double p_197740_23_) {
+	      double d0 = (p_197740_8_ - p_197740_19_) / p_197740_2_;
+	      double d1 = p_197740_21_ + d0 * p_197740_4_;
+	      double d2 = p_197740_23_ + d0 * p_197740_6_;
+	      if (0.0D < d0 && d0 < p_197740_0_[0] && p_197740_10_ - 1.0E-7D < d1 && d1 < p_197740_12_ + 1.0E-7D && p_197740_14_ - 1.0E-7D < d2 && d2 < p_197740_16_ + 1.0E-7D) {
+	         p_197740_0_[0] = d0;
+	         return p_197740_18_;
+	      } else {
+	         return p_197740_1_;
+	      }
+	   }
 }

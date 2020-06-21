@@ -53,9 +53,11 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 		this.colorCodeField = new GuiTextField(5, Minecraft.getInstance().fontRenderer, this.width / 2 - 74, 115, 147, 20);
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
-
+		this.colorCodeField.setMaxStringLength(7);
+		this.children.add(colorCodeField);
+		
 		String[] colorString = new String[] {"color.red", "color.pink", "color.brown", "color.white", "color.orange", "color.green",
-				"color.purple", "color.blue", "color.aqua", "color.black", "color.black", "color.grey", "color.yellow"};
+				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
 		
 		for(int i = 0; i < 6; i++) {
 			this.addButton(new GuiButtonTooltip(10 +i, this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, I18n.format(colorString[i], new Object[0])) {

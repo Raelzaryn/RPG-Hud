@@ -248,7 +248,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 				RenderHelper.enableGUIStandardItemLighting();
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
 				gui.drawCenteredString(this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				GlStateManager.scaled(2.0D, 2.0D, 2.0D);
@@ -297,7 +296,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
 			this.mc.getItemRenderer().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
-			if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
 			gui.drawCenteredString(this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 			GlStateManager.scaled(2.0D, 2.0D, 2.0D);

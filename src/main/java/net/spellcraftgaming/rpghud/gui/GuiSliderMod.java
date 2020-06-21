@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.config.GuiUtils;
+import net.spellcraftgaming.rpghud.gui.GuiSliderMod.EnumColor;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
 public class GuiSliderMod extends GuiButtonTooltip {
 	public enum EnumColor {
@@ -33,8 +35,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	
     @Nullable
     public ISlider parent = null;
-
-    public String suffix = "";
 
     public boolean drawString = true;
     
@@ -85,9 +85,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
      */
     @Override
-    public void onRelease(double mouseX, double mouseY)
-    {
-        this.dragging = false;
+    public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
+    	this.dragging = false;
+    	return super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
     }
 
     public int getValueInt()
@@ -115,16 +115,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
     @Override
     protected void renderBg(Minecraft par1Minecraft, int par2, int par3)
     {
-        if (this.visible)
-        {
-            if (this.dragging)
-            {
-                this.sliderValue = (par2 - (this.x + 4)) / (float)(this.width - 8);
-                updateSlider();
-            }
-
-            GuiUtils.drawContinuousTexturedBox(BUTTON_TEXTURES, this.x + (int)(this.sliderValue * (float)(this.width - 8)), this.y, 0, 66, 8, this.height, 200, 20, 2, 3, 2, 2, this.zLevel);
-        }
     }
 
     /**
@@ -135,63 +125,22 @@ public class GuiSliderMod extends GuiButtonTooltip {
     public void onClick(double mouseX, double mouseY)
     {
 		this.sliderValue = Math.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
-        updateSlider();
+        updateSlider(mouseX, mouseY);
         this.dragging = true;
     }
 
-    public void updateSlider()
+    public void updateSlider(double mouseX, double mouseY)
     {
-        if (this.sliderValue < 0.0F)
-        {
-            this.sliderValue = 0.0F;
-        }
+		this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
 
-        if (this.sliderValue > 1.0F)
-        {
-            this.sliderValue = 1.0F;
-        }
+		if (this.sliderValue < 0.0F) {
+			this.sliderValue = 0.0F;
+		}
 
-        /*String val;
-
-        if (showDecimal)
-        {
-            val = Double.toString(sliderValue * (maxValue - minValue) + minValue);
-
-            if (val.substring(val.indexOf(".") + 1).length() > precision)
-            {
-                val = val.substring(0, val.indexOf(".") + precision + 1);
-
-                if (val.endsWith("."))
-                {
-                    val = val.substring(0, val.indexOf(".") + precision);
-                }
-            }
-            else
-            {
-                while (val.substring(val.indexOf(".") + 1).length() < precision)
-                {
-                    val = val + "0";
-                }
-            }
-        }
-        else
-        {
-            val = Integer.toString((int)Math.round(sliderValue * (maxValue - minValue) + minValue));
-        }*/
-
-        if(drawString)
-        {
-            displayString = getDisplayString();
-        }
-
-        if (parent != null)
-        {
-            parent.onChangeSliderValue(this);
-        }
-        
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (float)(this.width - 8)), this.y, 0, 66, 4, 20);
-        this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (float)(this.width - 8)) + 4, this.y, 196, 66, 4, 20);
+		if (this.sliderValue > 1.0F) {
+			this.sliderValue = 1.0F;
+		}
+		this.value = MathHelper.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
     }
 
     private String getDisplayString() {
@@ -203,12 +152,14 @@ public class GuiSliderMod extends GuiButtonTooltip {
     {
         if (this.visible)
         {
-            Minecraft mc = Minecraft.getInstance();
-            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            int k = this.getHoverState(this.hovered);
-            GuiUtils.drawContinuousTexturedBox(BUTTON_TEXTURES, this.x, this.y, 0, 46 + k * 20, this.width, this.height, 200, 20, 2, 3, 2, 2, this.zLevel);
-            this.renderBg(mc, mouseX, mouseY);
-            int color = 14737632;
+        	if(this.dragging) {
+        		updateSlider(mouseX, mouseY);
+        	}
+        	Minecraft mc = Minecraft.getInstance();
+        	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
+			HudElement.drawCustomBar(this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			
+            color = 14737632;
 
             if (packedFGColor != 0)
             {
@@ -222,19 +173,14 @@ public class GuiSliderMod extends GuiButtonTooltip {
             {
                 color = 16777120;
             }
-
-            String buttonText = this.displayString;
-            int strWidth = mc.fontRenderer.getStringWidth(buttonText);
-            int ellipsisWidth = mc.fontRenderer.getStringWidth("...");
-
-            if (strWidth > width - 6 && strWidth > ellipsisWidth)
-                buttonText = mc.fontRenderer.trimStringToWidth(buttonText, width - 6 - ellipsisWidth).trim() + "...";
-
+            
+            String buttonText = getDisplayString();
+            mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
+			this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
             this.drawCenteredString(mc.fontRenderer, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
-            this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
-            this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-            this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
-            this.drawTexturedModalRect(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
         }
     }
     
