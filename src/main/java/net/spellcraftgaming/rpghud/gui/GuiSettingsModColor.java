@@ -129,6 +129,16 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	public void updateScreen() {
 		super.updateScreen();
 		if (this.colorCodeField.isFocused()) {
+			if(!this.colorCodeField.getText().startsWith("#")) {
+				String s = "#" + this.colorCodeField.getText();
+				if(this.colorCodeField.getText().length() >= 7) {
+					s = "#";
+					for(int i = 0; i < 6; i++) {
+						s += this.colorCodeField.getText().charAt(i);
+					}
+				}
+				this.colorCodeField.setText(s);
+			}
 			if (this.colorCodeField.getText().length() == 7) {
 				if (this.colorCodeField.getText().startsWith("#")) {
 					if (this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
