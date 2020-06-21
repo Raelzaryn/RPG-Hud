@@ -54,6 +54,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 		this.colorCodeField = new GuiTextField(5, GameData.getFontRenderer(), this.width / 2 - 74, 115, 147, 20);
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
+		this.colorCodeField.setMaxStringLength(7);
 
 		this.buttonList.add(new GuiButtonTooltip(10, this.width / 4 * 3 - 20, 30 + 10, 60, 20, I18n.format("color.red", new Object[0])));
 		this.buttonList.add(new GuiButtonTooltip(11, this.width / 4 * 3 - 20, 50 + 10, 60, 20, I18n.format("color.pink", new Object[0])));
