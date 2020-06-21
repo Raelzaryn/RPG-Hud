@@ -17,26 +17,27 @@ import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
 
-	public static void init() {
-		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-	}
-	
-	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event) {
-		if (!(Minecraft.getInstance().ingameGUI instanceof GuiIngameRPGHud))
-			Minecraft.getInstance().ingameGUI = new GuiIngameRPGHud(Minecraft.getInstance());
-	}
-	
-	@SubscribeEvent
-	public void onGuiInit(InitGuiEvent event) {
-		if(event.getGui() instanceof GuiMainMenu || event.getGui() instanceof GuiIngameMenu) {
-			Minecraft mc = Minecraft.getInstance();
-			String s = I18n.format("name.rpghud", new Object[0]);
-			event.addButton(new GuiButton(142, event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8) , 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s) {
-		         public void onClick(double mouseX, double mouseY) {
-		            mc.displayGuiScreen(new GuiSettingsMod(event.getGui()));
-		         }
-		      });
-		}
-	}
+    public static void init() {
+        MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if(!(Minecraft.getInstance().ingameGUI instanceof GuiIngameRPGHud))
+            Minecraft.getInstance().ingameGUI = new GuiIngameRPGHud(Minecraft.getInstance());
+    }
+
+    @SubscribeEvent
+    public void onGuiInit(InitGuiEvent event) {
+        if(event.getGui() instanceof GuiMainMenu || event.getGui() instanceof GuiIngameMenu) {
+            Minecraft mc = Minecraft.getInstance();
+            String s = I18n.format("name.rpghud", new Object[0]);
+            event.addButton(new GuiButton(142, event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8), 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s) {
+                @Override
+                public void onClick(double mouseX, double mouseY) {
+                    mc.displayGuiScreen(new GuiSettingsMod(event.getGui()));
+                }
+            });
+        }
+    }
 }

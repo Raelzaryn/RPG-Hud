@@ -9,30 +9,32 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementExperienceDefault extends HudElement {
 
-	public HudElementExperienceDefault() {
-		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);
-	}
+    public HudElementExperienceDefault() {
+        super(HudElementType.EXPERIENCE, 0, 0, 0, 0, true);
+    }
 
-	@Override
-	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
-	}
+    @Override
+    public boolean checkConditions() {
+        return !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
+    }
 
-	@Override
-	public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		int exp = MathHelper.ceil(this.mc.player.xpBarCap() * this.mc.player.experience);
-		int expCap = this.mc.player.xpBarCap();
-		double full = 100D / expCap;
-		int posX = this.settings.getPositionValue(Settings.experience_position)[0];
-		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
-		GlStateManager.disableLighting();
-		drawCustomBar(posX, scaledHeight - 10 + posY, scaledWidth, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
+    @Override
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        int exp = MathHelper.ceil(this.mc.player.xpBarCap() * this.mc.player.experience);
+        int expCap = this.mc.player.xpBarCap();
+        double full = 100D / expCap;
+        int posX = this.settings.getPositionValue(Settings.experience_position)[0];
+        int posY = this.settings.getPositionValue(Settings.experience_position)[1];
+        GlStateManager.disableLighting();
+        drawCustomBar(posX, scaledHeight - 10 + posY, scaledWidth, 10, exp * full, this.settings.getIntValue(Settings.color_experience),
+                offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 
-		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
+        String stringExp = this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%"
+                : exp + "/" + expCap;
 
-		int var7 = scaledWidth / 2;
-		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gui.drawCenteredString(this.mc.fontRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
-	}
+        int var7 = scaledWidth / 2;
+        if(this.settings.getBoolValue(Settings.show_numbers_experience))
+            gui.drawCenteredString(this.mc.fontRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
+    }
 
 }
