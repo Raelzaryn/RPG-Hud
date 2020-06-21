@@ -192,7 +192,6 @@ public class Settings {
         this.addDebugSettings(HudElementType.HEALTH);
         this.addDebugSettings(HudElementType.FOOD);
         this.addDebugSettings(HudElementType.EXPERIENCE);
-        this.addDebugSettings(HudElementType.LEVEL);
         this.addDebugSettings(HudElementType.HEALTH_MOUNT);
         this.addDebugSettings(HudElementType.JUMP_BAR);
         this.addDebugSettings(HudElementType.CHAT);
