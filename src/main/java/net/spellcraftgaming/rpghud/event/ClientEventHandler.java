@@ -11,9 +11,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
@@ -38,5 +40,12 @@ public class ClientEventHandler {
                 mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
             }));
         }
+    }
+    
+    @SubscribeEvent
+    public void onPlayerCloseContainer(PlayerContainerEvent.Close event) {
+        ModRPGHud.renderDetailsAgain[0] = true;
+        ModRPGHud.renderDetailsAgain[1] = true;
+        ModRPGHud.renderDetailsAgain[2] = true;
     }
 }
