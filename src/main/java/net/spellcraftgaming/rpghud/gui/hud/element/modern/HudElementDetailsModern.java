@@ -103,7 +103,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 int widthNew = this.mc.fontRenderer.getStringWidth(s);
                 if(widthNew > width)
                     width = widthNew;
-            } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BowItem) {
+            } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
                 int x =  this.mc.player.inventory.getSizeInventory();
                 int z = 0;
                 if(ModRPGHud.renderDetailsAgain[1] || !ItemStack.areItemStacksEqual(this.itemOffhandLast, item)
