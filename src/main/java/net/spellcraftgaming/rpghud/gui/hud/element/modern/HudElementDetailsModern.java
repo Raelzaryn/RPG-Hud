@@ -72,7 +72,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
         if(item != GameData.nullStack()) {
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isItemStackDamageable()) {
                 String s = (item.getMaxDamage() - item.getItemDamage()) + "/" + item.getMaxDamage();
-                width = GameData.getFontRenderer().getStringWidth(s);
+                int widthNew = GameData.getFontRenderer().getStringWidth(s);
+                if(widthNew > width)
+                    width = widthNew;
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof ItemBlock) {
                 int x = GameData.getInventorySize();
                 int z = 0;
