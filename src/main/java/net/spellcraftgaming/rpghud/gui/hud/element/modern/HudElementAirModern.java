@@ -25,6 +25,7 @@ public class HudElementAirModern extends HudElement {
         int width = res.getScaledWidth();
         int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.air_position)[1];
         int airAmount = GameData.getPlayerAir();
+        if(airAmount < 0) airAmount = 0;
         int posX = this.settings.getPositionValue(Settings.air_position)[0];
         GlStateManager.disableLighting();
         drawRect(width / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
