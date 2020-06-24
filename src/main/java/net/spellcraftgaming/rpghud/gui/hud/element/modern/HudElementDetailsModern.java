@@ -73,7 +73,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
         if(item != ItemStack.EMPTY)
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-                width = this.mc.fontRenderer.getStringWidth(s);
+                int widthNew = this.mc.fontRenderer.getStringWidth(s);
+                if(widthNew > width)
+                    width = widthNew;
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
                 int x = this.mc.player.inventory.getSizeInventory();
                 int z = 0;
