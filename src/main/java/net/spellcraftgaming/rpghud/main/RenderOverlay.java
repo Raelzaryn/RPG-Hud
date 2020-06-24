@@ -27,52 +27,35 @@ public class RenderOverlay {
     public void onGameOverlayRender(RenderGameOverlayEvent event) {
         switch(event.getType()) {
             case AIR:
-                if(!forceRenderType(HudElementType.AIR))
-                    this.drawElement(HudElementType.AIR, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.AIR))
                     event.setCanceled(true);
                 break;
             case ARMOR:
-                if(!forceRenderType(HudElementType.ARMOR))
-                    this.drawElement(HudElementType.ARMOR, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.ARMOR))
                     event.setCanceled(true);
                 break;
             case EXPERIENCE:
-                if(!forceRenderType(HudElementType.EXPERIENCE))
-                    this.drawElement(HudElementType.EXPERIENCE, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.EXPERIENCE))
                     this.drawElement(HudElementType.LEVEL, event.getPartialTicks());
                     event.setCanceled(true);
                 break;
             case FOOD:
-                if(!forceRenderType(HudElementType.FOOD))
-                    this.drawElement(HudElementType.FOOD, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.FOOD))
                     event.setCanceled(true);
                 break;
             case HEALTH:
-                if(!forceRenderType(HudElementType.HEALTH)) {
-                    this.drawElement(HudElementType.HEALTH, event.getPartialTicks());
-                }
                 if(!forceRenderTypeVanilla(HudElementType.HEALTH))
                     event.setCanceled(true);
                 break;
             case HEALTHMOUNT:
-                if(!forceRenderType(HudElementType.HEALTH_MOUNT))
-                    this.drawElement(HudElementType.HEALTH_MOUNT, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.HEALTH_MOUNT))
                     event.setCanceled(true);
                 break;
             case HOTBAR:
-                if(!forceRenderType(HudElementType.HOTBAR))
-                    this.drawElement(HudElementType.HOTBAR, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.HOTBAR))
                     event.setCanceled(true);
                 break;
             case JUMPBAR:
-                if(!forceRenderType(HudElementType.JUMP_BAR))
-                    this.drawElement(HudElementType.JUMP_BAR, event.getPartialTicks());
                 if(!forceRenderTypeVanilla(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
@@ -139,27 +122,15 @@ public class RenderOverlay {
         this.drawElement(HudElementType.DETAILS, partialTicks);
         this.drawElement(HudElementType.COMPASS, partialTicks);
         this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
-
-        if(forceRenderType(HudElementType.HEALTH))
-            this.drawElement(HudElementType.HEALTH, partialTicks);
-        if(forceRenderType(HudElementType.ARMOR))
-            this.drawElement(HudElementType.ARMOR, partialTicks);
-        if(forceRenderType(HudElementType.FOOD))
-            this.drawElement(HudElementType.FOOD, partialTicks);
-        if(forceRenderType(HudElementType.HEALTH_MOUNT))
-            this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
-        if(forceRenderType(HudElementType.AIR))
-            this.drawElement(HudElementType.AIR, partialTicks);
-        if(forceRenderType(HudElementType.JUMP_BAR))
-            this.drawElement(HudElementType.JUMP_BAR, partialTicks);
-        if(forceRenderType(HudElementType.EXPERIENCE))
-            this.drawElement(HudElementType.EXPERIENCE, partialTicks);
-        if(forceRenderType(HudElementType.HOTBAR))
-            this.drawElement(HudElementType.HOTBAR, partialTicks);
-        
-        if(preventEventType(HudElementType.EXPERIENCE)) {
-            this.drawElement(HudElementType.LEVEL, partialTicks);
-        }
+        this.drawElement(HudElementType.HEALTH, partialTicks);
+        this.drawElement(HudElementType.ARMOR, partialTicks);
+        this.drawElement(HudElementType.FOOD, partialTicks);
+        this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
+        this.drawElement(HudElementType.AIR, partialTicks);
+        this.drawElement(HudElementType.JUMP_BAR, partialTicks);
+        this.drawElement(HudElementType.EXPERIENCE, partialTicks);
+        this.drawElement(HudElementType.HOTBAR, partialTicks);
+        this.drawElement(HudElementType.LEVEL, partialTicks);
     }
 
     /**
@@ -203,17 +174,6 @@ public class RenderOverlay {
         if(this.rpgHud.settings.doesSettingExist(id)) {
             return this.rpgHud.settings.getBoolValue(id);
         }
-        return false;
-    }
-
-    /**
-     * Checks if the HudElementType has a setting to force it to be rendered
-     * regardless of the forge event and if it is activated
-     */
-    private boolean forceRenderType(HudElementType type) {
-        String id = Settings.force_render + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id))
-            return this.rpgHud.settings.getBoolValue(id);
         return false;
     }
 
