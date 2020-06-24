@@ -423,6 +423,8 @@ public abstract class HudElement {
     public void drawTetragon(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
         if(color == -1)
             return;
+        if(width1 < 0) width1 = 0;
+        if(width2 < 0) width2 = 0;
         float f3;
         if(color <= 0xFFFFFF && color >= 0)
             f3 = 1.0F;
