@@ -27,8 +27,9 @@ public class HudElementAirVanilla extends HudElement {
         int top = scaledHeight - GuiIngameForge.right_height + this.settings.getPositionValue(Settings.air_position)[1];
 
         int air = this.mc.player.getAir();
-        int full = (int) Math.ceil((air - 2) * 10.0D / 300.0D);
-        int partial = (int) (Math.ceil(air * 10.0D / 300.0D) - full);
+        double maxAir = this.mc.player.getMaxAir();
+        int full = (int) Math.ceil((air - 2) * 10.0D / maxAir);
+        int partial = (int) (Math.ceil(air * 10.0D / maxAir) - full);
 
         for(int i = 0; i < full + partial; ++i)
             gui.drawTexturedModalRect(left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9);
