@@ -71,7 +71,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				width = this.mc.fontRenderer.getStringWidth(s);
+				int widthNew = this.mc.fontRenderer.getStringWidth(s);
+                if (widthNew > width)
+                    width = widthNew;
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x = this.mc.player.inventory.getSizeInventory();
 				int z = 0;
@@ -89,8 +91,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				} else {
 					z = this.count1;
 				}
-
-				item = this.mc.player.getHeldItemMainhand();
+				
 				String s = "x " + z;
 				int widthNew = this.mc.fontRenderer.getStringWidth(s);
 				if (widthNew > width)
@@ -104,7 +105,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				int widthNew = this.mc.fontRenderer.getStringWidth(s);
 				if (widthNew > width)
 					width = widthNew;
-			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BowItem) {
+			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x =  this.mc.player.inventory.getSizeInventory();
 				int z = 0;
 				if (ModRPGHud.renderDetailsAgain[1] || !ItemStack.areItemStacksEqual(this.itemOffhandLast, item) || !ItemStack.areItemStacksEqual(this.itemMainHandLast, item)) {
@@ -120,7 +121,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				} else {
 					z = this.count2;
 				}
-				item = this.mc.player.getHeldItemOffhand();
 				String s = "x " + z;
 				int widthNew = this.mc.fontRenderer.getStringWidth(s);
 				if (widthNew > width)
