@@ -10,11 +10,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @OnlyIn(Dist.CLIENT)
@@ -22,13 +20,6 @@ public class ClientEventHandler {
 
     public static void init() {
         MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-    }
-
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        Minecraft mc = Minecraft.getInstance();
-        if(!(mc.ingameGUI instanceof GuiIngameRPGHud))
-            mc.ingameGUI = new GuiIngameRPGHud(Minecraft.getInstance());
     }
 
     @SubscribeEvent

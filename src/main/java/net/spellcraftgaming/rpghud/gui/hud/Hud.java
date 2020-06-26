@@ -4,7 +4,6 @@ import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.AIR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ARMOR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.CLOCK;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.COMPASS;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.CROSSHAIR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.DETAILS;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ENTITY_INSPECT;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.EXPERIENCE;
@@ -14,7 +13,6 @@ import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH_
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HOTBAR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.JUMP_BAR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.LEVEL;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.RECORD_OVERLAY;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
 
 import java.util.HashMap;
@@ -53,7 +51,6 @@ public abstract class Hud {
      */
     public void setElements() {
         this.elements.put(HOTBAR, this.setElementHotbar());
-        this.elements.put(CROSSHAIR, this.setElementCrosshair());
         this.elements.put(HEALTH, this.setElementHealth());
         this.elements.put(ARMOR, this.setElementArmor());
         this.elements.put(FOOD, this.setElementFood());
@@ -65,7 +62,6 @@ public abstract class Hud {
         this.elements.put(CLOCK, this.setElementClock());
         this.elements.put(DETAILS, this.setElementDetails());
         this.elements.put(WIDGET, this.setElementWidget());
-        this.elements.put(RECORD_OVERLAY, this.setElementRecordOverlay());
         this.elements.put(COMPASS, this.setElementCompass());
         this.elements.put(ENTITY_INSPECT, this.setElementEntityInspect());
 
@@ -80,9 +76,6 @@ public abstract class Hud {
     public String getHudName() {
         return this.hudName;
     }
-
-    /** Function which returns a new element which is the crosshair element */
-    protected abstract HudElement setElementCrosshair();
 
     /** Function which returns a new element which is the hotbar element */
     protected abstract HudElement setElementHotbar();
@@ -123,9 +116,6 @@ public abstract class Hud {
 
     /** Function which returns a new element which is the widget element */
     protected abstract HudElement setElementWidget();
-
-    /** Function which returns a new element which is the widget element */
-    protected abstract HudElement setElementRecordOverlay();
 
     /** Function which returns a new element which is the compass element */
     protected abstract HudElement setElementCompass();

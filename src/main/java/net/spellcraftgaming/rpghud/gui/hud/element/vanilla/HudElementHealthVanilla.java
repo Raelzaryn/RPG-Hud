@@ -12,7 +12,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 public class HudElementHealthVanilla extends HudElement {
 
@@ -34,8 +33,7 @@ public class HudElementHealthVanilla extends HudElement {
     @Override
     public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         PlayerEntity player = (PlayerEntity) this.mc.getRenderViewEntity();
-        GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
-        int ticks = theGui.getTicks();
+        int ticks = this.mc.ingameGUI.getTicks();
         int health = MathHelper.ceil(player.getHealth());
         boolean highlight = this.healthUpdateCounter > ticks && (this.healthUpdateCounter - ticks) / 3L % 2L == 1L;
 

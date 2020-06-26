@@ -51,6 +51,7 @@ public class ModRPGHud {
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         ClientEventHandler.init();
+        new RenderOverlay();
     }
 
     /**

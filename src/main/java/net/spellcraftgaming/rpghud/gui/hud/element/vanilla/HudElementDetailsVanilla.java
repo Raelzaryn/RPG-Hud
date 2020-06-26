@@ -17,7 +17,6 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.HandSide;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -39,13 +38,12 @@ public class HudElementDetailsVanilla extends HudElement {
 
     @Override
     public boolean checkConditions() {
-        return !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && !((GuiIngameRPGHud) this.mc.ingameGUI).getChatGUI().getChatOpen();
+        return !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && !this.mc.ingameGUI.getChatGUI().getChatOpen();
     }
 
     @Override
     public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         this.offset = 0;
-        if(gui instanceof GuiIngameRPGHud) {
             if(this.settings.getBoolValue(Settings.show_armor)) {
                 GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
                 this.drawArmorDetails(gui);
@@ -62,7 +60,6 @@ public class HudElementDetailsVanilla extends HudElement {
                 GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1],
                         0);
             }
-        }
     }
 
     /**

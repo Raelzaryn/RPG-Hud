@@ -12,7 +12,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDe
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementJumpBarDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementLevelDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementWidgetDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementRecordOverlayVanilla;
 
 public class HudDefault extends HudVanilla {
 
@@ -68,10 +67,5 @@ public class HudDefault extends HudVanilla {
     @Override
     public HudElement setElementWidget() {
         return new HudElementWidgetDefault();
-    }
-
-    @Override
-    public HudElement setElementRecordOverlay() {
-        return new HudElementRecordOverlayVanilla();
     }
 }

@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHotbarVanilla extends HudElement {
@@ -28,7 +27,7 @@ public class HudElementHotbarVanilla extends HudElement {
     @Override
     public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR)
-            ((GuiIngameRPGHud) this.mc.ingameGUI).getSpectatorGui().renderTooltip(partialTicks);
+            this.mc.ingameGUI.getSpectatorGui().renderTooltip(partialTicks);
         else if(this.mc.getRenderViewEntity() instanceof PlayerEntity) {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);

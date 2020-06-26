@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -30,7 +29,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
     @Override
     public boolean checkConditions() {
-        return !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && !((GuiIngameRPGHud) this.mc.ingameGUI).getChatGUI().getChatOpen();
+        return !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && !this.mc.ingameGUI.getChatGUI().getChatOpen();
     }
 
     @Override
@@ -38,7 +37,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
         this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
         int width = this.calculateWidth();
-        if(gui instanceof GuiIngameRPGHud) {
             if(this.settings.getBoolValue(Settings.show_armor)) {
                 GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
                 this.drawArmorDetails(gui, width);
@@ -55,7 +53,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1],
                         0);
             }
-        }
     }
 
     /** Calculates the width for the element background */

@@ -12,7 +12,6 @@ import net.minecraft.util.FoodStats;
 import net.minecraftforge.client.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.gui.override.GuiIngameRPGHud;
 
 public class HudElementFoodVanilla extends HudElement {
 
@@ -29,7 +28,6 @@ public class HudElementFoodVanilla extends HudElement {
 
     @Override
     public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-        GuiIngameRPGHud theGui = ((GuiIngameRPGHud) gui);
         PlayerEntity player = (PlayerEntity) this.mc.getRenderViewEntity();
         GlStateManager.enableBlend();
         int left = scaledWidth / 2 + 91;
@@ -54,7 +52,7 @@ public class HudElementFoodVanilla extends HudElement {
             if(unused)
                 background = 1; // Probably should be a += 1 but vanilla never uses this
 
-            if(player.getFoodStats().getSaturationLevel() <= 0.0F && theGui.getTicks() % (level * 3 + 1) == 0)
+            if(player.getFoodStats().getSaturationLevel() <= 0.0F && this.mc.ingameGUI.getTicks() % (level * 3 + 1) == 0)
                 y = top + (this.rand.nextInt(3) - 1);
 
             gui.blit(x, y, 16 + background * 9, 27, 9, 9);

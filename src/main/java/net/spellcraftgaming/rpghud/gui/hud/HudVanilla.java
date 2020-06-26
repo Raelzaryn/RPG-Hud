@@ -7,7 +7,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementAirVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementArmorVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCrosshairVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementExperienceVanilla;
@@ -17,17 +16,11 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHealthVanil
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementJumpBarVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementLevelVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementRecordOverlayVanilla;
 
 public class HudVanilla extends Hud {
 
     public HudVanilla(Minecraft mc, String hudKey, String hudName) {
         super(mc, hudKey, hudName);
-    }
-
-    @Override
-    public HudElement setElementCrosshair() {
-        return new HudElementCrosshairVanilla();
     }
 
     @Override
@@ -88,11 +81,6 @@ public class HudVanilla extends Hud {
     @Override
     public HudElement setElementWidget() {
         return new HudElementEmpty();
-    }
-
-    @Override
-    public HudElement setElementRecordOverlay() {
-        return new HudElementRecordOverlayVanilla();
     }
 
     @Override
