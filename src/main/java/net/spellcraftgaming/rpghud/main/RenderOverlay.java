@@ -36,7 +36,6 @@ public class RenderOverlay {
                 break;
             case EXPERIENCE:
                 if(!forceRenderTypeVanilla(HudElementType.EXPERIENCE))
-                    this.drawElement(HudElementType.LEVEL, event.getPartialTicks());
                     event.setCanceled(true);
                 break;
             case FOOD:
