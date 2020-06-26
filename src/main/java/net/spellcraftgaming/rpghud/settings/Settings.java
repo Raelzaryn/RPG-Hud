@@ -196,10 +196,10 @@ public class Settings {
 	}
 
 	public void addDebugSettings(HudElementType type) {
-		addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(force_render + "_" + type.name().toLowerCase(), type, false));
+		//addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(force_render + "_" + type.name().toLowerCase(), type, false));
 		addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBooleanDebug(render_vanilla + "_" + type.name().toLowerCase(), type, false));
 		addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_event + "_" + type.name().toLowerCase(), type, false));
-		addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
+		//addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
 	}
 
 	public Setting getSetting(String id) {

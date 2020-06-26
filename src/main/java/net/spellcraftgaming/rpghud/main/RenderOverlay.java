@@ -116,20 +116,20 @@ public class RenderOverlay {
     }
 
     private void renderOverlay(float partialTicks) {
-        this.drawElement(HudElementType.WIDGET, partialTicks);
-        this.drawElement(HudElementType.CLOCK, partialTicks);
-        this.drawElement(HudElementType.DETAILS, partialTicks);
-        this.drawElement(HudElementType.COMPASS, partialTicks);
-        this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
-        this.drawElement(HudElementType.HEALTH, partialTicks);
-        this.drawElement(HudElementType.ARMOR, partialTicks);
-        this.drawElement(HudElementType.FOOD, partialTicks);
-        this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
-        this.drawElement(HudElementType.AIR, partialTicks);
-        this.drawElement(HudElementType.JUMP_BAR, partialTicks);
-        this.drawElement(HudElementType.EXPERIENCE, partialTicks);
-        this.drawElement(HudElementType.HOTBAR, partialTicks);
-        this.drawElement(HudElementType.LEVEL, partialTicks);
+        if(preventElementRenderType(HudElementType.WIDGET)) this.drawElement(HudElementType.WIDGET, partialTicks);
+        if(preventElementRenderType(HudElementType.CLOCK)) this.drawElement(HudElementType.CLOCK, partialTicks);
+        if(preventElementRenderType(HudElementType.DETAILS)) this.drawElement(HudElementType.DETAILS, partialTicks);
+        if(preventElementRenderType(HudElementType.COMPASS)) this.drawElement(HudElementType.COMPASS, partialTicks);
+        if(preventElementRenderType(HudElementType.ENTITY_INSPECT)) this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
+        if(preventElementRenderType(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, partialTicks);
+        if(preventElementRenderType(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, partialTicks);
+        if(preventElementRenderType(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, partialTicks);
+        if(preventElementRenderType(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
+        if(preventElementRenderType(HudElementType.AIR)) this.drawElement(HudElementType.AIR, partialTicks);
+        if(preventElementRenderType(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, partialTicks);
+        if(preventElementRenderType(HudElementType.EXPERIENCE)) this.drawElement(HudElementType.EXPERIENCE, partialTicks);
+        if(preventElementRenderType(HudElementType.HOTBAR)) this.drawElement(HudElementType.HOTBAR, partialTicks);
+        if(preventElementRenderType(HudElementType.LEVEL))  this.drawElement(HudElementType.LEVEL, partialTicks);
     }
 
     /**
