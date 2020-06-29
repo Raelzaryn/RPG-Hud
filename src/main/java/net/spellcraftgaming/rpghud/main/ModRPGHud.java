@@ -76,6 +76,10 @@ public class ModRPGHud {
 		return this.huds.get("vanilla");
 	}
 
+	public boolean isVanillaHud() {
+	    return this.settings.getStringValue(Settings.hud_type) == "vanilla";
+	}
+	
 	/** Checks if a Hud with the specified key is registered */
 	public boolean isHudKeyValid(String key) {
 		return this.huds.containsKey(key);

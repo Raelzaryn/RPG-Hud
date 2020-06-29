@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
@@ -25,37 +26,38 @@ public class RenderOverlay {
 
     @SubscribeEvent
     public void onGameOverlayRender(RenderGameOverlayEvent event) {
-        switch(event.getType()) {
+        ElementType type = event.getType();
+        switch(type) {
             case AIR:
-                if(!forceRenderTypeVanilla(HudElementType.AIR))
+                if(!shouldRenderVanilla(HudElementType.AIR))
                     event.setCanceled(true);
                 break;
             case ARMOR:
-                if(!forceRenderTypeVanilla(HudElementType.ARMOR))
+                if(!shouldRenderVanilla(HudElementType.ARMOR))
                     event.setCanceled(true);
                 break;
             case EXPERIENCE:
-                if(!forceRenderTypeVanilla(HudElementType.EXPERIENCE))
+                if(!shouldRenderVanilla(HudElementType.EXPERIENCE))
                     event.setCanceled(true);
                 break;
             case FOOD:
-                if(!forceRenderTypeVanilla(HudElementType.FOOD))
+                if(!shouldRenderVanilla(HudElementType.FOOD))
                     event.setCanceled(true);
                 break;
             case HEALTH:
-                if(!forceRenderTypeVanilla(HudElementType.HEALTH))
+                if(!shouldRenderVanilla(HudElementType.HEALTH))
                     event.setCanceled(true);
                 break;
             case HEALTHMOUNT:
-                if(!forceRenderTypeVanilla(HudElementType.HEALTH_MOUNT))
+                if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
                     event.setCanceled(true);
                 break;
             case HOTBAR:
-                if(!forceRenderTypeVanilla(HudElementType.HOTBAR))
+                if(!shouldRenderVanilla(HudElementType.HOTBAR))
                     event.setCanceled(true);
                 break;
             case JUMPBAR:
-                if(!forceRenderTypeVanilla(HudElementType.JUMP_BAR))
+                if(!shouldRenderVanilla(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
             default:
@@ -121,17 +123,21 @@ public class RenderOverlay {
         this.drawElement(HudElementType.DETAILS, partialTicks);
         this.drawElement(HudElementType.COMPASS, partialTicks);
         this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, partialTicks);
-        if(!forceRenderTypeVanilla(HudElementType.EXPERIENCE)) {
+        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
             this.drawElement(HudElementType.EXPERIENCE, partialTicks);
             this.drawElement(HudElementType.LEVEL, partialTicks);
         }
-        if(!forceRenderTypeVanilla(HudElementType.HOTBAR)) this.drawElement(HudElementType.HOTBAR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
+            this.drawElement(HudElementType.HOTBAR, partialTicks);
+            
+            
+        }
     }
 
     /**
@@ -143,7 +149,7 @@ public class RenderOverlay {
     private void drawElement(HudElementType type, float partialTicks) {
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
-            if(!forceRenderTypeVanilla(type) && !preventElementRenderType(type)) {
+            if(!preventElementRenderType(type)) {
                 bind(AbstractGui.GUI_ICONS_LOCATION);
                 RenderSystem.enableBlend();
                 this.rpgHud.getActiveHud().drawElement(type, this.mc.ingameGUI, partialTicks, partialTicks, this.mc.getMainWindow().getScaledWidth(),
@@ -166,6 +172,9 @@ public class RenderOverlay {
         return false;
     }
 
+    private boolean shouldRenderVanilla(HudElementType type) {
+        return isVanillaElement(type) || forceRenderTypeVanilla(type);
+    }
     /**
      * Checks if the HudElementType has a setting to force the vanilla hud element
      * to be rendered and if it is activated
@@ -192,4 +201,31 @@ public class RenderOverlay {
     private void bind(ResourceLocation res) {
         mc.getTextureManager().bindTexture(res);
     }
+    
+    private boolean isVanillaElement(HudElementType type) {
+        return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
+    }
+    
+    /*private static HudElementType getEventAlias(ElementType type) {
+        switch(type) {
+            case HOTBAR:
+                return HudElementType.HOTBAR;
+            case HEALTH:
+                return HudElementType.HEALTH;
+            case ARMOR:
+                return HudElementType.ARMOR;
+            case FOOD:
+                return HudElementType.FOOD;
+            case HEALTHMOUNT:
+                return HudElementType.HEALTH_MOUNT;
+            case AIR:
+                return HudElementType.AIR;
+            case JUMPBAR:
+                return HudElementType.JUMP_BAR;
+            case EXPERIENCE:
+                return HudElementType.EXPERIENCE;
+            default:
+                return null;
+        }
+    }*/
 }

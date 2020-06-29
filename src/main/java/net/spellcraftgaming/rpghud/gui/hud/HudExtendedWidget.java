@@ -10,7 +10,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthExte
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthMountExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementLevelExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
 
 public class HudExtendedWidget extends HudDefault {
 
@@ -30,7 +29,7 @@ public class HudExtendedWidget extends HudDefault {
 
 	@Override
 	public HudElement setElementHotbar() {
-		return new HudElementHotbarVanilla();
+		return null;
 	}
 
 	@Override

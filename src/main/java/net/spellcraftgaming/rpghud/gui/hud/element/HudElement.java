@@ -10,6 +10,8 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -599,4 +601,40 @@ public abstract class HudElement {
 	protected static ResourceLocation getPlayerSkin(ClientPlayerEntity player) {
 		return player.getLocationSkin();
 	}
+	
+	   /**
+     * Renders an item on the screen
+     * 
+     * @param xPos
+     *            the x position on the screen
+     * @param yPos
+     *            the y position on the screen
+     * @param partialTicks
+     *            the partial ticks (used for animation)
+     * @param player
+     *            the player who should get the item rendered
+     * @param item
+     *            the item (via ItemStack)
+     */
+    protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
+        if (!item.isEmpty()) {
+            float f = (float)item.getAnimationsToGo() - partialTicks;
+
+            if (f > 0.0F) {
+                RenderSystem.pushMatrix();
+                float f1 = 1.0F + f / 5.0F;
+                RenderSystem.translatef(x + 8, y + 12, 0.0F);
+                RenderSystem.scalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+                RenderSystem.translatef((-(x + 8)), (-(y + 12)), 0.0F);
+            }
+
+            this.mc.getItemRenderer().renderItemAndEffectIntoGUI(player, item, x, y);
+
+            if (f > 0.0F) {
+                RenderSystem.popMatrix();
+            }
+
+            this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, x, y);
+        }
+    }
 }

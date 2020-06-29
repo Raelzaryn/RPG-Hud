@@ -77,7 +77,7 @@ public class HudModern extends HudDefault {
 	}
 
 	@Override
-	public HudElement setElementHotbar() {
+	public HudElementHotbarModern setElementHotbar() {
 		return new HudElementHotbarModern();
 	}
 
