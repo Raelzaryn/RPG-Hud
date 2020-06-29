@@ -2,7 +2,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -30,11 +29,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         EntityLiving focused = GameData.getFocusedEntity(GameData.getPlayer());
         if(focused != null) {
-            ScaledResolution res = new ScaledResolution(this.mc);
-            int posX = (res.getScaledWidth() / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
+            int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
             gui.drawTexturedModalRect(posX - 62, 20 + posY, 0, 0, 128, 36);
@@ -54,6 +52,27 @@ public class HudElementEntityInspectVanilla extends HudElement {
             GameData.getFontRenderer().drawString(focused.getName(), x, y, -1);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
+            
+            if(settings.getBoolValue(Settings.show_entity_armor)) {
+                int armor = focused.getTotalArmorValue();
+                if(armor > 0) {
+                    String value = String.valueOf(armor);
+                    this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
+                    gui.drawTexturedModalRect(posX - 26, posY+44, 0, 36, 19, 8);
+                    //drawRect(posX - 30, posY + 42, 8 + (mc.fontRenderer.getStringWidth(value) / 2), 6, 0xA0000000);
+                    this.mc.getTextureManager().bindTexture(GameData.icons());
+                    GlStateManager.scale(0.5, 0.5, 0.5);
+                    gui.drawTexturedModalRect((posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    x = (posX - 18) * 2 -2;
+                    y = (posY + 45) * 2 + 1;
+                    GameData.getFontRenderer().drawString(value, x + 1, y, 0);
+                    GameData.getFontRenderer().drawString(value, x - 1, y, 0);
+                    GameData.getFontRenderer().drawString(value, x, y + 1, 0);
+                    GameData.getFontRenderer().drawString(value, x, y - 1, 0);
+                    GameData.getFontRenderer().drawString(value, x, y, -1);
+                    GlStateManager.scale(2.0, 2.0, 2.0);
+                }  
+            }
         }
     }
 

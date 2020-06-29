@@ -1,6 +1,5 @@
 package net.spellcraftgaming.lib;
 
-import java.awt.Color;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -40,9 +39,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 
 public class GameData {
 
@@ -261,26 +260,6 @@ public class GameData {
 
     public static World getWorld() {
         return getMinecraft().world;
-    }
-
-    public static float overlayMessageTime(GuiIngameRPGHud gui) {
-        // return gui.getRecordPlayingUpFor();
-        return gui.getOverlayMessageTime();
-    }
-
-    public static int overlayColor(GuiIngameRPGHud gui, float hue) {
-        // return 16777215;
-        return (gui.getAnimateOverlayMessageColor() ? Color.HSBtoRGB(hue / 50.0F, 0.7F, 0.6F) & 0xFFFFFF : 0xFFFFFF);
-    }
-
-    public static boolean isRecordPlaying(GuiIngameRPGHud gui) {
-        // return gui.getRecordIsPlaying();
-        return false;
-    }
-
-    public static String getOverlayText(GuiIngameRPGHud gui) {
-        // return gui.getRecordPlaying();
-        return gui.getOverlayMessage();
     }
 
     public static int getAttackIndicatorSetting() {
@@ -504,5 +483,21 @@ public class GameData {
     public static GuiLabel addLine(GuiLabel label, String string) {
         label.addLine(string);
         return label;
+    }
+    
+    public static ResourceLocation icons() {
+        return Gui.ICONS;
+    }    
+    public static RenderGameOverlayEvent.ElementType getType(RenderGameOverlayEvent event){
+        return event.getType();
+    }
+    
+    public static float getPartialTicks(RenderGameOverlayEvent event){
+        return event.getPartialTicks();
+    }
+    
+    public static RenderGameOverlayEvent.Chat setChatPosY(RenderGameOverlayEvent.Chat event, int offset) {
+        event.setPosY(event.getPosY() + offset);
+        return event;
     }
 }

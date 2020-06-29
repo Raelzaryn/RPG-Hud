@@ -21,7 +21,7 @@ public class HudElementClockVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int clockColor = 0xFFFFFF;
         if(this.settings.getBoolValue(Settings.enable_clock_color)) {
             clockColor = getClockColor();

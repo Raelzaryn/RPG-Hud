@@ -66,6 +66,7 @@ name.enable_compass_coordinates=Compass Coordinates
 name.show_update_notification=Update Notification
 name.show_convert_notification=Settings Notification
 name.show_durability_bar=Show Durability Bar
+name.show_entity_armor=Show Armor Value
 
 name.health_percentage=As Percentage
 name.hunger_percentage=As Percentage
@@ -160,6 +161,7 @@ tooltip.enable_compass_coordinates=Toggle the numerical coordinates/n of the com
 tooltip.show_update_notification=Show the notification in/nthe Main Menu when a new/nversion is available
 tooltip.show_convert_notification=Show the notification in/nthe Main Menu when a old/nsettings files are found
 tooltip.show_durability_bar=Show the durability bar of/nitems at the details element
+tooltip.show_entity_armor=Show the armor value of/nthe entity you are looking at/n(should it have armor)
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element
