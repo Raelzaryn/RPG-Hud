@@ -22,7 +22,7 @@ public class HudElementFoodTexture extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         bind(INTERFACE);
         GlStateManager.color(1f, 1f, 1f);
         int stamina = GameData.getPlayerFood();

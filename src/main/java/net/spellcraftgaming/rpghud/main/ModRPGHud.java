@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.spellcraftgaming.lib.event.ClientTickHandler;
 import net.spellcraftgaming.lib.event.PlayerContainerHandler;
 import net.spellcraftgaming.rpghud.event.NotificationHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
@@ -36,7 +35,7 @@ public class ModRPGHud {
     /** The mod name of this mod */
     public static final String NAME = "RPG-Hud";
     /** The mod version of this mod */
-    public static final String VERSION = "3.6.9.3";
+    public static final String VERSION = "3.7";
     /** Path to GuiFactory class of this mod */
     public static final String GUI_FACTORY = "net.spellcraftgaming.lib.gui.GuiFactoryRPGHud";
 
@@ -81,7 +80,7 @@ public class ModRPGHud {
      */
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
+        new RenderOverlay();
         MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
         MinecraftForge.EVENT_BUS.register(new NotificationHandler());
     }

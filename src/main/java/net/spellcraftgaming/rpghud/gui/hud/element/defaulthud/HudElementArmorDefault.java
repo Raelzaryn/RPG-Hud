@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraftforge.client.GuiIngameForge;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -20,12 +19,9 @@ public class HudElementArmorDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int width = res.getScaledWidth();
-        int height = res.getScaledHeight();
-        int left = width / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
-        int top = height - GuiIngameRPGHud.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
+        int top = scaledHeight - GuiIngameForge.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
 
         int level = GameData.getPlayerArmor();
         for(int i = 1; level > 0 && i < 20; i += 2) {
@@ -38,7 +34,7 @@ public class HudElementArmorDefault extends HudElement {
             }
             left += 8;
         }
-        GuiIngameRPGHud.left_height += 10;
+        GuiIngameForge.left_height += 10;
     }
 
 }
