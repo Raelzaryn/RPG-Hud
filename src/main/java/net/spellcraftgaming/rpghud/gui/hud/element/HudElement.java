@@ -10,6 +10,8 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -423,8 +425,10 @@ public abstract class HudElement {
     public void drawTetragon(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
         if(color == -1)
             return;
-        if(width1 < 0) width1 = 0;
-        if(width2 < 0) width2 = 0;
+        if(width1 < 0)
+            width1 = 0;
+        if(width2 < 0)
+            width2 = 0;
         float f3;
         if(color <= 0xFFFFFF && color >= 0)
             f3 = 1.0F;
@@ -527,5 +531,36 @@ public abstract class HudElement {
      */
     protected static ResourceLocation getPlayerSkin(ClientPlayerEntity player) {
         return player.getLocationSkin();
+    }
+
+    /**
+     * Renders an item on the screen
+     * 
+     * @param xPos         the x position on the screen
+     * @param yPos         the y position on the screen
+     * @param partialTicks the partial ticks (used for animation)
+     * @param player       the player who should get the item rendered
+     * @param item         the item (via ItemStack)
+     */
+    protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
+        if(!item.isEmpty()) {
+            float f = (float) item.getAnimationsToGo() - partialTicks;
+
+            if(f > 0.0F) {
+                GlStateManager.pushMatrix();
+                float f1 = 1.0F + f / 5.0F;
+                GlStateManager.translatef(x + 8, y + 12, 0.0F);
+                GlStateManager.scalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+                GlStateManager.translatef((-(x + 8)), (-(y + 12)), 0.0F);
+            }
+
+            this.mc.getItemRenderer().renderItemAndEffectIntoGUI(player, item, x, y);
+
+            if(f > 0.0F) {
+                GlStateManager.popMatrix();
+            }
+
+            this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, x, y);
+        }
     }
 }

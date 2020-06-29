@@ -92,6 +92,7 @@ public class Settings {
 
 	public static final String enable_entity_inspect = "enable_entity_inspect";
 	public static final String inspector_position = "inspector_position";
+	public static final String show_entity_armor = "show_entity_armor";
 
 	public static final String color_air = "color_air";
 	public static final String air_position = "air_position";
@@ -173,7 +174,8 @@ public class Settings {
 		addSetting(color_jump_bar, new SettingColor(color_jump_bar, HudElementType.JUMP_BAR, HudElement.COLOR_GREY));
 		addSetting(jump_bar_position, new SettingPosition(jump_bar_position, HudElementType.JUMP_BAR, 0, 0));
 
-		addSetting(enable_entity_inspect, new SettingBoolean(enable_entity_inspect, HudElementType.ENTITY_INSPECT, true));
+        addSetting(enable_entity_inspect, new SettingBoolean(enable_entity_inspect, HudElementType.ENTITY_INSPECT, true));
+        addSetting(show_entity_armor, new SettingBoolean(show_entity_armor, HudElementType.ENTITY_INSPECT, true));
 		addSetting(inspector_position, new SettingPosition(inspector_position, HudElementType.ENTITY_INSPECT, 0, 0));
 
 		addSetting(color_air, new SettingColor(color_air, HudElementType.AIR, HudElement.COLOR_BLUE));
@@ -199,7 +201,7 @@ public class Settings {
 		//addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(force_render + "_" + type.name().toLowerCase(), type, false));
 		addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBooleanDebug(render_vanilla + "_" + type.name().toLowerCase(), type, false));
 		addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_event + "_" + type.name().toLowerCase(), type, false));
-		//addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
+		addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
 	}
 
 	public Setting getSetting(String id) {

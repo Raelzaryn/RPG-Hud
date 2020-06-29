@@ -10,16 +10,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameType;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementHotbarVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class HudElementHotbarModern extends HudElementHotbarVanilla {
-
-    protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
+public class HudElementHotbarModern extends HudElement {
 
     public HudElementHotbarModern() {
-        super();
+        super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
     }
+    
+    protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
     @Override
     public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
