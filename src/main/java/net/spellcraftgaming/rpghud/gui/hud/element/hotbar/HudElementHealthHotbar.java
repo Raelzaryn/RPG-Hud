@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,9 +19,8 @@ public class HudElementHealthHotbar extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.health_position)[1];
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        int height = scaledHeight + this.settings.getPositionValue(Settings.health_position)[1];
         int health = GameData.getPlayerHealth();
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
         int healthMax = GameData.getPlayerMaxHealth();

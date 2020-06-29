@@ -85,6 +85,7 @@ public class Settings {
 
     public static final String enable_entity_inspect = "enable_entity_inspect";
     public static final String inspector_position = "inspector_position";
+    public static final String show_entity_armor = "show_entity_armor";
 
     public static final String color_air = "color_air";
     public static final String air_position = "air_position";
@@ -156,7 +157,7 @@ public class Settings {
         addSetting(experience_position, new SettingPosition(experience_position, HudElementType.EXPERIENCE, 0, 0));
 
         addSetting(mount_health_percentage, new SettingBoolean(mount_health_percentage, HudElementType.HEALTH_MOUNT, false));
-
+                
         addSetting(enable_clock, new SettingBoolean(enable_clock, HudElementType.CLOCK, true));
         addSetting(enable_clock_color, new SettingBoolean(enable_clock_color, HudElementType.CLOCK, true));
         addSetting(enable_immersive_clock, new SettingBoolean(enable_immersive_clock, HudElementType.CLOCK, false));
@@ -179,6 +180,7 @@ public class Settings {
         addSetting(jump_bar_position, new SettingPosition(jump_bar_position, HudElementType.JUMP_BAR, 0, 0));
 
         addSetting(enable_entity_inspect, new SettingBoolean(enable_entity_inspect, HudElementType.ENTITY_INSPECT, true));
+        addSetting(show_entity_armor, new SettingBoolean(show_entity_armor, HudElementType.ENTITY_INSPECT, true));
         addSetting(inspector_position, new SettingPosition(inspector_position, HudElementType.ENTITY_INSPECT, 0, 0));
 
         addSetting(color_air, new SettingColor(color_air, HudElementType.AIR, HudElement.COLOR_BLUE));
@@ -189,7 +191,6 @@ public class Settings {
         addSetting(level_position, new SettingPosition(level_position, HudElementType.LEVEL, 0, 0));
         addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
 
-        addDebugSettings(HudElementType.CROSSHAIR);
         addDebugSettings(HudElementType.ARMOR);
         addDebugSettings(HudElementType.HOTBAR);
         addDebugSettings(HudElementType.AIR);
@@ -202,7 +203,7 @@ public class Settings {
     }
 
     public void addDebugSettings(HudElementType type) {
-        addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBoolean(force_render, type, false));
+        //addSetting(force_render + "_" + type.name().toLowerCase(), new SettingBoolean(force_render, type, false));
         addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBoolean(render_vanilla, type, false));
         addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_event, type, false));
         addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBoolean(prevent_element_render, type, false));

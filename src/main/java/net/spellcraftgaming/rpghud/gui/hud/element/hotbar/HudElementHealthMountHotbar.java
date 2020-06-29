@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,9 +20,8 @@ public class HudElementHealthMountHotbar extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.mount_health_position)[1];
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        int height = scaledHeight + this.settings.getPositionValue(Settings.mount_health_position)[1];
         EntityLivingBase mount = (EntityLivingBase) GameData.getMount();
         int health = (int) Math.ceil(mount.getHealth());
         int healthMax = (int) mount.getMaxHealth();
