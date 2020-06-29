@@ -61,6 +61,27 @@ public class HudElementEntityInspectVanilla extends HudElement {
             this.mc.fontRenderer.drawString(focused.getName().getString(), x, y, -1);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
+            
+            if(settings.getBoolValue(Settings.show_entity_armor)) {
+                int armor = focused.getTotalArmorValue();
+                if(armor > 0) {
+                    String value = String.valueOf(armor);
+                    this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
+                    gui.drawTexturedModalRect(posX - 26, posY+44, 0, 36, 19, 8);
+                    //drawRect(posX - 30, posY + 42, 8 + (mc.fontRenderer.getStringWidth(value) / 2), 6, 0xA0000000);
+                    this.mc.getTextureManager().bindTexture(Gui.ICONS);
+                    GlStateManager.scaled(0.5, 0.5, 0.5);
+                    gui.drawTexturedModalRect((posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    x = (posX - 18) * 2 -2;
+                    y = (posY + 45) * 2 + 1;
+                    this.mc.fontRenderer.drawString(value, x + 1, y, 0);
+                    this.mc.fontRenderer.drawString(value, x - 1, y, 0);
+                    this.mc.fontRenderer.drawString(value, x, y + 1, 0);
+                    this.mc.fontRenderer.drawString(value, x, y - 1, 0);
+                    this.mc.fontRenderer.drawString(value, x, y, -1);
+                    GlStateManager.scaled(2.0, 2.0, 2.0);
+                }  
+            }
         }
     }
 
