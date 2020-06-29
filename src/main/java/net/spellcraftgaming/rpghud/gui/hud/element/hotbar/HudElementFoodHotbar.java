@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
@@ -22,11 +21,10 @@ public class HudElementFoodHotbar extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int stamina = GameData.getPlayerFood();
         int staminaMax = GameData.getPlayerMaxFood();
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.hunger_position)[1];
+        int height = scaledHeight + this.settings.getPositionValue(Settings.hunger_position)[1];
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hunger_position)[0];
         int offset = GameData.getHotbarWidgetWidthOffset();
         ItemStack itemMain = GameData.getMainhand();

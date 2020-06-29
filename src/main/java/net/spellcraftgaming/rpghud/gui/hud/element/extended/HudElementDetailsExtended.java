@@ -9,7 +9,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.spellcraftgaming.lib.GameData;
-import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -35,9 +34,9 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         this.offset = 0;
-        if(gui instanceof GuiIngameRPGHud) {
+
             if(this.settings.getBoolValue(Settings.show_armor)) {
                 GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
                 drawArmorDetails(gui);
@@ -54,7 +53,6 @@ public class HudElementDetailsExtended extends HudElementDetailsVanilla {
                 GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1],
                         0);
             }
-        }
     }
 
     /**

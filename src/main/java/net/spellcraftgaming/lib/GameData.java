@@ -32,9 +32,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.spellcraftgaming.lib.gui.override.GuiIngameRPGHud;
 
 public class GameData {
 
@@ -250,27 +250,6 @@ public class GameData {
 
     public static World getWorld() {
         return getMinecraft().theWorld;
-    }
-
-    public static float overlayMessageTime(GuiIngameRPGHud gui) {
-        return gui.getRecordPlayingUpFor();
-        // return gui.getOverlayMessageTime();
-    }
-
-    public static int overlayColor(GuiIngameRPGHud gui, float hue) {
-        return 16777215;
-        // return (gui.getAnimateOverlayMessageColor() ? Color.HSBtoRGB(hue /
-        // 50.0F, 0.7F, 0.6F) & 0xFFFFFF : 0xFFFFFF);
-    }
-
-    public static boolean isRecordPlaying(GuiIngameRPGHud gui) {
-        return gui.getRecordIsPlaying();
-        // return false;
-    }
-
-    public static String getOverlayText(GuiIngameRPGHud gui) {
-        return gui.getRecordPlaying();
-        // return gui.getOverlayMessage();
     }
 
     public static int getAttackIndicatorSetting() {
@@ -502,5 +481,22 @@ public class GameData {
     public static GuiLabel addLine(GuiLabel label, String string) {
         label.func_175202_a(string);
         return label;
+    }
+    
+    public static ResourceLocation icons() {
+        return Gui.icons;
+    }
+    
+    public static RenderGameOverlayEvent.ElementType getType(RenderGameOverlayEvent event){
+        return event.type;
+    }
+    
+    public static float getPartialTicks(RenderGameOverlayEvent event){
+        return event.partialTicks;
+    }
+    
+    public static RenderGameOverlayEvent.Chat setChatPosY(RenderGameOverlayEvent.Chat event, int offset) {
+        event.posY += offset;
+        return event;
     }
 }

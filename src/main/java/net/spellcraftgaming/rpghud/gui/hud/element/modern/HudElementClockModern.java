@@ -25,7 +25,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int yOffset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 8)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 4)
                 + this.settings.getPositionValue(Settings.clock_position)[1];
