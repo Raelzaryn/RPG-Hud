@@ -23,7 +23,7 @@ public class HudElementLevelModern extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         String level = String.valueOf(GameData.getPlayerXPLevel());
 
         int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();

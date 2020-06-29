@@ -22,7 +22,7 @@ public class HudElementWidgetModern extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int posX = this.settings.getPositionValue(Settings.face_position)[0];
         int posY = this.settings.getPositionValue(Settings.face_position)[1];
         drawRect(posX + 2, posY + 2, 20, 20, 0xA0000000);

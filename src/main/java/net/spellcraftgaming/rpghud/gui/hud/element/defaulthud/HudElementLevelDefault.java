@@ -20,7 +20,7 @@ public class HudElementLevelDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         GlStateManager.disableBlend();
         String level = String.valueOf(GameData.getPlayerXPLevel());
         GameData.getFontRenderer().drawStringWithShadow(level,

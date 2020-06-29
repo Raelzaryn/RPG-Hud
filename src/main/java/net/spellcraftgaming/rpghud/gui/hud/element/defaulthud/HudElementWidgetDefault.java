@@ -20,7 +20,7 @@ public class HudElementWidgetDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         bind(INTERFACE);
         int posX = this.settings.getPositionValue(Settings.widget_position)[0];
         int posY = this.settings.getPositionValue(Settings.widget_position)[1];

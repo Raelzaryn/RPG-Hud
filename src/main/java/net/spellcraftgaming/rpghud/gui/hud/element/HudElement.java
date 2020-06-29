@@ -125,16 +125,16 @@ public abstract class HudElement {
     /**
      * Function called to draw this element on the screen
      */
-    public void draw(Gui gui, float zLevel, float partialTicks) {
+    public void draw(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 
         GlStateManager.scale(this.scale, this.scale, this.scale);
 
-        this.drawElement(gui, zLevel, partialTicks);
+        this.drawElement(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
 
         GlStateManager.scale(this.scaleInverted, this.scaleInverted, this.scaleInverted);
     }
 
-    public abstract void drawElement(Gui gui, float zLevel, float partialTicks);
+    public abstract void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
