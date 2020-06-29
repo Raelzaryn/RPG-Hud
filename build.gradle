@@ -21,7 +21,7 @@ plugins {
 }
 */
 
-version = "3.6.9.3"
+version = "3.7"
 group = "net.spellcraftgaming.rpghud" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "[1.9.4] RPG-HUD"
 

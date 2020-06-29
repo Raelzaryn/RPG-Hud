@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -20,11 +19,10 @@ public class HudElementJumpBarTexture extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         bind(INTERFACE);
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.jump_bar_position)[1];
-        int adjustedWidth = (res.getScaledWidth() / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
+        int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
+        int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
         float var14 = GameData.getHorseJumpPower();
         int color = (int) (var14 * 100.0F);
         GlStateManager.color(1f, 1f, 1f);

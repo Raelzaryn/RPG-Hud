@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -20,14 +19,12 @@ public class HudElementAirDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int width = res.getScaledWidth();
-        int height = res.getScaledHeight() + this.settings.getPositionValue(Settings.air_position)[1];
-        int adjustedWidth = width / 2 - 91 + this.settings.getPositionValue(Settings.air_position)[0];
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        int height = scaledHeight + this.settings.getPositionValue(Settings.air_position)[1];
+        int width = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.air_position)[0];
         int airAmount = GameData.getPlayerAir();
         GlStateManager.disableLighting();
-        drawCustomBar(adjustedWidth + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, this.settings.getIntValue(Settings.color_air),
+        drawCustomBar(width + 21, height - 80, 141, 10, airAmount / 300.0D * 100.0D, this.settings.getIntValue(Settings.color_air),
                 offsetColorPercent(this.settings.getIntValue(Settings.color_air), OFFSET_PERCENT));
     }
 

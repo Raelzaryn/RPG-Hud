@@ -20,7 +20,7 @@ public class HudElementExperienceExtended extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int exp = GameData.getPlayerXPCap();
         double full = 100D / GameData.getPlayerXPCap();
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];

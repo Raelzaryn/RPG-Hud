@@ -21,7 +21,7 @@ public class HudElementHealthMountTexture extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         bind(INTERFACE);
         GlStateManager.color(1f, 1f, 1f);
         EntityLivingBase mount = (EntityLivingBase) GameData.getMount();

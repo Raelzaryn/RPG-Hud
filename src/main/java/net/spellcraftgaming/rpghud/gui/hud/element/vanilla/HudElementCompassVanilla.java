@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,9 +20,8 @@ public class HudElementCompassVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int width = res.getScaledWidth() / 2 + this.settings.getPositionValue(Settings.compass_position)[0];
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        int width = scaledWidth / 2 + this.settings.getPositionValue(Settings.compass_position)[0];
         int posY = this.settings.getPositionValue(Settings.compass_position)[1];
         int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
         int rotation = Math.round(((GameData.getRotationYaw() % 360) / 360) * 200);

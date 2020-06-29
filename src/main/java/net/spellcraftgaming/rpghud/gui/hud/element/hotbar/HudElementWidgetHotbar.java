@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -22,11 +21,10 @@ public class HudElementWidgetHotbar extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         bind(INTERFACE);
-        ScaledResolution res = new ScaledResolution(this.mc);
         int posX = this.settings.getPositionValue(Settings.widget_position)[0];
-        int posY = res.getScaledHeight() + this.settings.getPositionValue(Settings.widget_position)[1];
+        int posY = scaledHeight + this.settings.getPositionValue(Settings.widget_position)[1];
         gui.drawTexturedModalRect(posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9,
                 Math.abs(GameData.getHotbarWidgetWidthOffset()), 172, 251 + GameData.getHotbarWidgetWidthOffset(), 48);
 

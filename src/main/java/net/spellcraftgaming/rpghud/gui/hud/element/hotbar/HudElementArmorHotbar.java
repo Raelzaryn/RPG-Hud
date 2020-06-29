@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -19,11 +18,9 @@ public class HudElementArmorHotbar extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-        int height = res.getScaledHeight();
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int left = (this.settings.getBoolValue(Settings.render_player_face) ? 46 : 22) + this.settings.getPositionValue(Settings.armor_position)[0];
-        int top = height - 64 + this.settings.getPositionValue(Settings.armor_position)[1];
+        int top = scaledHeight - 64 + this.settings.getPositionValue(Settings.armor_position)[1];
         int offset = GameData.getHotbarWidgetWidthOffset() / 2;
         int level = GameData.getPlayerArmor();
         for(int i = 1; level > 0 && i < 20; i += 2) {
@@ -37,5 +34,5 @@ public class HudElementArmorHotbar extends HudElement {
             left += 8;
         }
     }
-
+    
 }

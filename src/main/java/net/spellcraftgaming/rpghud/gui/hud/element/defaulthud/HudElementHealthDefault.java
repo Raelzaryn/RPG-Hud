@@ -19,7 +19,7 @@ public class HudElementHealthDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, float zLevel, float partialTicks) {
+    public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int health = GameData.getPlayerHealth();
         int absorption = GameData.getPlayerAbsorption();
         int healthMax = GameData.getPlayerMaxHealth();
