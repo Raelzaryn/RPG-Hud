@@ -10,28 +10,62 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementAirModern extends HudElement {
 
-	public HudElementAirModern() {
-		super(HudElementType.AIR, 0, 0, 0, 0, true);
-	}
+    public HudElementAirModern() {
+        super(HudElementType.AIR, 0, 0, 0, 0, true);
+    }
 
-	@Override
-	public boolean checkConditions() {
-		return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && this.mc.playerController.shouldDrawHUD();
-	}
+    @Override
+    public boolean checkConditions() {
+        return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && this.mc.playerController.shouldDrawHUD();
+    }
 
-	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		int height = scaledHeight + this.settings.getPositionValue(Settings.air_position)[1];
-		int airAmount = this.mc.player.getAir();
-		double maxAir = this.mc.player.getMaxAir();
-		if(airAmount < 0) airAmount = 0;
-		int posX = this.settings.getPositionValue(Settings.air_position)[0];
-		RenderSystem.disableLighting();
-		drawRect(scaledWidth / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
-		drawRect(scaledWidth / 2 - 72 + posX, height - 70, 144, 2, 0xA0000000);
-		drawRect(scaledWidth / 2 - 72 + posX, height - 76, 2, 6, 0xA0000000);
-		drawRect(scaledWidth / 2 + 70 + posX, height - 76, 2, 6, 0xA0000000);
-		drawRect(scaledWidth / 2 - 70 + posX, height - 76, 140, 6, 0x20FFFFFF);
-		drawRect(scaledWidth / 2 - 70 + posX, height - 76, (int) (140 * (airAmount / maxAir)), 6, this.settings.getIntValue(Settings.color_air));
-	}
+    @Override
+    public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        double scale = getScale();
+        RenderSystem.scaled(scale, scale, scale);
+
+        int airAmount = this.mc.player.getAir();
+        double maxAir = this.mc.player.getMaxAir();
+        if(airAmount < 0)
+            airAmount = 0;
+        int x = getPosX(scaledWidth);
+        int y = getPosY(scaledHeight);
+        int x2 = getWidth(scaledWidth);
+        int y2 = getHeight(scaledHeight);
+        RenderSystem.disableLighting();
+        drawRect(x, y, x2, 2, 0xA0000000);
+        drawRect(x, y + y2 - 2, x2, 2, 0xA0000000);
+        drawRect(x, y + 2, 2, y2 - 4, 0xA0000000);
+        drawRect(x + x2 - 2, y + 2, 2, y2 - 4, 0xA0000000);
+        drawRect(x + 2, y + 2, x2 - 4, y2 - 4, 0x20FFFFFF);
+        drawRect(x + 2, y + 2, (int) ((x2 - 4) * (airAmount / maxAir)), y2 - 4, this.settings.getIntValue(Settings.color_air));
+
+        scale = getInvertedScale();
+        RenderSystem.scaled(scale, scale, scale);
+    }
+
+    @Override
+    public int getPosX(int scaledWidth) {
+        return (int) (((scaledWidth - (getWidth(scaledWidth) / getInvertedScale())) / 2 + this.settings.getPositionValue(Settings.air_position)[0])
+                * getInvertedScale());
+    }
+
+    @Override
+    public int getPosY(int scaledHeight) {
+        return (int) ((scaledHeight - 78 + this.settings.getPositionValue(Settings.air_position)[1]) * getInvertedScale());
+    }
+
+    @Override
+    public int getWidth(int scaledWidth) {
+        return 144;
+    }
+
+    public int getHeight(int scaledHeight) {
+        return 10;
+    }
+
+    @Override
+    public double getScale() {
+        return 1;
+    }
 }
