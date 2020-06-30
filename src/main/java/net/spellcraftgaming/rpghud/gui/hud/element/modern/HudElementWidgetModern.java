@@ -18,7 +18,7 @@ public class HudElementWidgetModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
+		return this.mc.playerController.shouldDrawHUD() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
 	}
 
 	@Override

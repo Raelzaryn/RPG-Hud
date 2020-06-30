@@ -30,7 +30,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && !this.mc.ingameGUI.getChatGUI().getChatOpen();
+		return !this.mc.gameSettings.showDebugInfo && !this.mc.ingameGUI.getChatGUI().getChatOpen();
 	}
 
 	@Override

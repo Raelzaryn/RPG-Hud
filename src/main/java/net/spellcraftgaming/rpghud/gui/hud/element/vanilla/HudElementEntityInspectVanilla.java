@@ -34,7 +34,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
     @Override
     public boolean checkConditions() {
-        return !this.mc.gameSettings.hideGUI && this.settings.getBoolValue(Settings.enable_entity_inspect);
+        return this.settings.getBoolValue(Settings.enable_entity_inspect);
     }
 
     public HudElementEntityInspectVanilla() {
@@ -58,11 +58,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
             int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
-            this.mc.fontRenderer.drawString(focused.getName().getString(), x + 1, y, 0);
-            this.mc.fontRenderer.drawString(focused.getName().getString(), x - 1, y, 0);
-            this.mc.fontRenderer.drawString(focused.getName().getString(), x, y + 1, 0);
-            this.mc.fontRenderer.drawString(focused.getName().getString(), x, y - 1, 0);
-            this.mc.fontRenderer.drawString(focused.getName().getString(), x, y, -1);
+            this.drawStringWithBackground(focused.getName().getString(), x, y, -1, 0);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
 
@@ -72,17 +68,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     String value = String.valueOf(armor);
                     this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
                     gui.blit(posX - 26, posY+44, 0, 36, 19, 8);
-                    //drawRect(posX - 30, posY + 42, 8 + (mc.fontRenderer.getStringWidth(value) / 2), 6, 0xA0000000);
                     this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
                     RenderSystem.scaled(0.5, 0.5, 0.5);
                     gui.blit((posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
-                    x = (posX - 18) * 2 -2;
-                    y = (posY + 45) * 2 + 1;
-                    this.mc.fontRenderer.drawString(value, x + 1, y, 0);
-                    this.mc.fontRenderer.drawString(value, x - 1, y, 0);
-                    this.mc.fontRenderer.drawString(value, x, y + 1, 0);
-                    this.mc.fontRenderer.drawString(value, x, y - 1, 0);
-                    this.mc.fontRenderer.drawString(value, x, y, -1);
+                    this.drawStringWithBackground(value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     RenderSystem.scaled(2.0, 2.0, 2.0);
                 }  
             }

@@ -13,7 +13,7 @@ public class HudElementArmorHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
+		return this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override

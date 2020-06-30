@@ -17,7 +17,7 @@ public class HudElementHealthHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD() && !(this.mc.player.getRidingEntity() instanceof LivingEntity);
+		return this.mc.playerController.shouldDrawHUD() && !(this.mc.player.getRidingEntity() instanceof LivingEntity);
 	}
 
 	@Override

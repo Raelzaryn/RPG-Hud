@@ -3,8 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -12,11 +10,6 @@ public class HudElementClockExtended extends HudElementClockVanilla {
 
 	public HudElementClockExtended() {
 		super();
-	}
-
-	@Override
-	public boolean checkConditions() {
-		return super.checkConditions() && this.settings.getBoolValue(Settings.enable_clock) && !this.mc.gameSettings.showDebugInfo && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
 	}
 
 	@Override

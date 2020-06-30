@@ -16,7 +16,7 @@ public class HudElementAirTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && !this.mc.gameSettings.hideGUI && this.mc.playerController.shouldDrawHUD();
+		return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && this.mc.playerController.shouldDrawHUD();
 	}
 
 	@Override
