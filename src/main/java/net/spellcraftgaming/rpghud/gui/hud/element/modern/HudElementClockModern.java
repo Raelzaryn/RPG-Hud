@@ -2,6 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -25,7 +27,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int yOffset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 8) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 4) + this.settings.getPositionValue(Settings.clock_position)[1];
 		int xOffset = this.settings.getPositionValue(Settings.clock_position)[0];
 		int clockColor = 0xFFFFFF;
@@ -40,9 +42,9 @@ public class HudElementClockModern extends HudElementClockVanilla {
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
-			gui.drawCenteredString(this.mc.fontRenderer, getTime(), xOffset * 2 + 24, 48 + 2 * yOffset, clockColor);
+			gui.func_238471_a_(ms, this.mc.fontRenderer, getTime(), xOffset * 2 + 24, 48 + 2 * yOffset, clockColor);
 		} else {
-			gui.drawCenteredString(this.mc.fontRenderer, getTime(), xOffset * 2 + 28, 48 + 2 * yOffset, clockColor);
+			gui.func_238471_a_(ms, this.mc.fontRenderer, getTime(), xOffset * 2 + 28, 48 + 2 * yOffset, clockColor);
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

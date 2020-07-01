@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 
 public class HudElementEmpty extends HudElement {
@@ -9,7 +11,7 @@ public class HudElementEmpty extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 	}
 
 }

@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -136,53 +137,55 @@ public abstract class HudElement {
 	/**
 	 * Function called to draw this element on the screen
 	 */
-	public void draw(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-
-		RenderSystem.scaled(this.scale, this.scale, this.scale);
-
-		this.drawElement(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
-
-		RenderSystem.scaled(this.scaleInverted, this.scaleInverted, this.scaleInverted);
+	public void draw(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	    this.drawElement(gui, ms, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 
-	public abstract void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
+	public abstract void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
 
-	/**
-	 * Returns the x coordinate of this element
-	 * 
-	 * @return x coordinate
-	 */
-	public int getPosX() {
-		return this.posX;
-	}
+    /**
+     * Returns the x coordinate of this element
+     * 
+     * @return x coordinate
+     */
+    public int getPosX(int scaledWidth) {
+        return this.posX;
+    }
 
-	/**
-	 * Returns the y coordinate of this element
-	 * 
-	 * @return y coordinate
-	 */
-	public int getPosY() {
-		return this.posY;
-	}
+    /**
+     * Returns the y coordinate of this element
+     * 
+     * @return y coordinate
+     */
+    public int getPosY(int scaledHeight) {
+        return this.posY;
+    }
 
-	/**
-	 * Returns the width of this element
-	 * 
-	 * @return width
-	 */
-	public int getWidth() {
-		return this.elementWidth;
-	}
+    /**
+     * Returns the width of this element
+     * 
+     * @return width
+     */
+    public int getWidth(int scaledWidth) {
+        return this.elementWidth;
+    }
 
-	/**
-	 * Returns the height of this element
-	 * 
-	 * @return height
-	 */
-	public int getHeight() {
-		return this.elementHeight;
-	}
+    /**
+     * Returns the height of this element
+     * 
+     * @return height
+     */
+    public int getHeight(int scaledHeight) {
+        return this.elementHeight;
+    }
 
+    public double getScale() {
+        return 1;
+    }
+    
+    public double getInvertedScale() {
+        return 1 / getScale();
+    }
 	/**
 	 * Returns whether this element can be moved or not
 	 * 
@@ -636,5 +639,13 @@ public abstract class HudElement {
 
             this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, x, y);
         }
+    }
+    
+    protected void drawStringWithBackground(MatrixStack ms, String text, int posX, int posY, int colorMain, int colorBackground) {
+        this.mc.fontRenderer.func_238421_b_(ms,text, posX + 1, posY, colorBackground);
+        this.mc.fontRenderer.func_238421_b_(ms,text, posX - 1, posY, colorBackground);
+        this.mc.fontRenderer.func_238421_b_(ms,text, posX, posY + 1, colorBackground);
+        this.mc.fontRenderer.func_238421_b_(ms,text, posX, posY - 1, colorBackground);
+        this.mc.fontRenderer.func_238421_b_(ms,text, posX, posY, colorMain);
     }
 }

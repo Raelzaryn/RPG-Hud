@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
@@ -20,7 +21,7 @@ public class HudElementExperienceDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int exp = MathHelper.ceil(this.mc.player.xpBarCap() * this.mc.player.experience);
 		int expCap = this.mc.player.xpBarCap();
 		double full = 100D / expCap;
@@ -33,7 +34,7 @@ public class HudElementExperienceDefault extends HudElement {
 
 		int var7 = scaledWidth / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gui.drawCenteredString(this.mc.fontRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
+			gui.func_238471_a_(ms,this.mc.fontRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
 	}
 
 }

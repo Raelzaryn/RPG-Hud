@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.AbstractGui;
@@ -22,7 +23,7 @@ public class HudElementWidgetModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
 		drawRect(posX + 2, posY + 2, 20, 20, 0xA0000000);
@@ -32,8 +33,8 @@ public class HudElementWidgetModern extends HudElement {
 		bind(getPlayerSkin(this.mc.player));
 		GlStateManager.disableDepthTest();
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.blit(posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
-		gui.blit(posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
+		gui.func_238474_b_(ms, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
+		gui.func_238474_b_(ms, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
 	}
 }

@@ -1,20 +1,23 @@
 package net.spellcraftgaming.rpghud.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.ITextComponent;
 
 public abstract class GuiButtonLib extends Button{
 
-	public GuiButtonLib(int x, int y, int widthIn, int heightIn, String buttonText, IPressable ip) {
+	public GuiButtonLib(int x, int y, int widthIn, int heightIn, ITextComponent buttonText, IPressable ip) {
 		super(x, y, widthIn, heightIn, buttonText, ip);
 	}
 	
-	public GuiButtonLib(int x, int y, String buttonText, IPressable ip) {
+	public GuiButtonLib(int x, int y, ITextComponent buttonText, IPressable ip) {
 		super(x, y, 200, 20, buttonText, ip);
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partial) {
-		super.render(mouseX, mouseY, partial);
+	public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partial) {
+		super.func_230430_a_(ms, mouseX, mouseY, partial);
 		this.drawButton(mouseX, mouseY);
 	}
 	

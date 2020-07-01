@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -26,8 +26,9 @@ public class ClientEventHandler {
     public void onGuiInit(InitGuiEvent event) {
         if (event.getGui() instanceof MainMenuScreen || event.getGui() instanceof IngameMenuScreen) {
             Minecraft mc = Minecraft.getInstance();
-            String s = I18n.format("name.rpghud", new Object[0]);
-            event.addWidget(new Button(event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8), 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s, button -> {
+            ITextComponent s = new TranslationTextComponent("name.rpghud");
+            System.out.println(mc.fontRenderer.getStringWidth(s.getString()));
+            event.addWidget(new Button(event.getGui().field_230708_k_- mc.fontRenderer.getStringWidth(s.getString()) - 8, 0, mc.fontRenderer.getStringWidth(s.getString()) + 8, 20, s, button -> {
                 mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
             }));
         }

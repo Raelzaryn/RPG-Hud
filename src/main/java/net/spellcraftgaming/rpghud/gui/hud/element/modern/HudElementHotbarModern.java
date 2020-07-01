@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -24,9 +25,9 @@ public class HudElementHotbarModern extends HudElement {
     protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR) {
-            mc.ingameGUI.getSpectatorGui().renderTooltip(partialTicks);
+            mc.ingameGUI.getSpectatorGui().func_238528_a_(ms,partialTicks);
 		} else if (this.mc.getRenderViewEntity() instanceof PlayerEntity) {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
@@ -99,11 +100,11 @@ public class HudElementHotbarModern extends HudElement {
 						j2 = i - 91 - 22;
 					}
 
-					this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+					this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
-					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.func_238474_b_(ms, j2, i2 - 9, 0, 94, 18, 18);
+					gui.func_238474_b_(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui;
 
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -24,7 +25,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int x, int y, String buttonText, IPressable ip) {
+	public GuiButtonTooltip(int x, int y, ITextComponent buttonText, IPressable ip) {
 		super(x, y, buttonText, ip);
 		this.enumOptions = null;
 	}
@@ -45,12 +46,12 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int x, int y, int width, int height, String buttonText, IPressable ip) {
+	public GuiButtonTooltip(int x, int y, int width, int height, ITextComponent buttonText, IPressable ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.enumOptions = null;
 	}
 	
-	public GuiButtonTooltip(int id, int x, int y, int width, int height, String buttonText, IPressable ip) {
+	public GuiButtonTooltip(int id, int x, int y, int width, int height, ITextComponent buttonText, IPressable ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.id = id;
 		this.enumOptions = null;
@@ -70,7 +71,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int x, int y, String setting, String buttonText, IPressable ip) {
+	public GuiButtonTooltip(int x, int y, String setting, ITextComponent buttonText, IPressable ip) {
 		super(x, y, 150, 20, buttonText, ip);
 		this.enumOptions = setting;
 	}

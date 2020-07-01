@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
@@ -34,22 +35,22 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
 		int width = calculateWidth();
 		if (gui instanceof ForgeIngameGui) {
 			if (this.settings.getBoolValue(Settings.show_armor)) {
 				GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
-				drawArmorDetails(gui, width);
+				drawArmorDetails(gui, ms, width);
 				GL11.glTranslated(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
 			}
 			GL11.glTranslated(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
-			drawItemDetails(gui, Hand.MAIN_HAND, width);
-			drawItemDetails(gui, Hand.OFF_HAND, width);
+			drawItemDetails(gui, ms, Hand.MAIN_HAND, width);
+			drawItemDetails(gui, ms, Hand.OFF_HAND, width);
 			GL11.glTranslated(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
 				GL11.glTranslated(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
-				drawArrowCount(gui, width);
+				drawArrowCount(gui, ms, width);
 				GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
 			}
 		}
@@ -172,7 +173,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param width
 	 *            the width of the background
 	 */
-	protected void drawArmorDetails(AbstractGui gui, int width) {
+	protected void drawArmorDetails(AbstractGui gui, MatrixStack ms, int width) {
 		for (int i = this.mc.player.inventory.armorInventory.size() - 1; i >= 0; i--) {
 			if (this.mc.player.inventory.armorItemInSlot(i) != ItemStack.EMPTY && this.mc.player.inventory.armorItemInSlot(i).getItem().isDamageable()) {
 				drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
@@ -182,7 +183,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				gui.drawCenteredString(this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				gui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 				this.offset += 20;
 			}
@@ -199,7 +200,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param width
 	 *            the width of the background
 	 */
-	protected void drawItemDetails(AbstractGui gui, Hand hand, int width) {
+	protected void drawItemDetails(AbstractGui gui, MatrixStack ms, Hand hand, int width) {
 		ItemStack item = this.mc.player.getHeldItem(hand);
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
@@ -210,7 +211,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				gui.drawCenteredString(this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				gui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				RenderSystem.scaled(2.0, 2.0, 2.0);
 				RenderHelper.disableStandardItemLighting();
 				this.offset += 20;
@@ -250,7 +251,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				RenderHelper.enableStandardItemLighting();
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				gui.drawCenteredString(this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				gui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 				this.offset += 20;
 			}
@@ -265,7 +266,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param width
 	 *            the width of the background
 	 */
-	protected void drawArrowCount(AbstractGui gui, int width) {
+	protected void drawArrowCount(AbstractGui gui, MatrixStack ms, int width) {
 		ItemStack item = this.mc.player.getHeldItemMainhand();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && this.mc.player.getHeldItemMainhand().getItem() instanceof BowItem) {
 			int x =  this.mc.player.inventory.getSizeInventory();
@@ -298,7 +299,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			this.mc.getItemRenderer().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
-			gui.drawCenteredString(this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+			gui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 			this.offset += 20;
 

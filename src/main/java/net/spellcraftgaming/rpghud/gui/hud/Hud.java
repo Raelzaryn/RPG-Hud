@@ -18,6 +18,8 @@ import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -134,8 +136,8 @@ public abstract class Hud {
 	 * @param partialTicks
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		this.elements.get(type).draw(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
+	public void drawElement(HudElementType type, AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		this.elements.get(type).draw(gui, ms, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
@@ -20,7 +22,7 @@ public class HudElementHealthExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
@@ -39,6 +41,6 @@ public class HudElementHealthExtended extends HudElement {
 		}
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, posX + 55, posY + 2, -1);
+			gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, posX + 55, posY + 2, -1);
 	}
 }

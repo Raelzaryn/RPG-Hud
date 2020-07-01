@@ -2,6 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
@@ -22,7 +24,7 @@ public class HudElementHealthMountModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
@@ -36,7 +38,7 @@ public class HudElementHealthMountModern extends HudElement {
 			int width2 = this.mc.fontRenderer.getStringWidth(stringHealth) / 2;
 			drawRect(posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawString(this.mc.fontRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+			gui.func_238476_c_(ms, this.mc.fontRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 

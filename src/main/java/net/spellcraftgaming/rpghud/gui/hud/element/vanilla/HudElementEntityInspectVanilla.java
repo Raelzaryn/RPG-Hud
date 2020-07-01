@@ -10,8 +10,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,7 +21,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -42,23 +42,23 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-            gui.blit(posX - 62, 20 + posY, 0, 0, 128, 36);
+            gui.func_238474_b_(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
             drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            gui.drawCenteredString(this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
             int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
-            this.drawStringWithBackground(focused.getName().getString(), x, y, -1, 0);
+            this.drawStringWithBackground(ms, focused.getName().getString(), x, y, -1, 0);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
 
@@ -67,11 +67,11 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 if(armor > 0) {
                     String value = String.valueOf(armor);
                     this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-                    gui.blit(posX - 26, posY+44, 0, 36, 19, 8);
-                    this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+                    gui.func_238474_b_(ms, posX - 26, posY+44, 0, 36, 19, 8);
+                    this.mc.getTextureManager().bindTexture(AbstractGui.field_230665_h_);
                     RenderSystem.scaled(0.5, 0.5, 0.5);
-                    gui.blit((posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
-                    this.drawStringWithBackground(value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
+                    gui.func_238474_b_(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     RenderSystem.scaled(2.0, 2.0, 2.0);
                 }  
             }
@@ -137,15 +137,15 @@ public class HudElementEntityInspectVanilla extends HudElement {
     public static LivingEntity getFocusedEntity(Entity watcher) {
         LivingEntity focusedEntity = null;
         double maxDistance = 64;
-        Vec3d vec = new Vec3d(watcher.getPosX(), watcher.getPosY(), watcher.getPosZ());
-        Vec3d posVec = watcher.getPositionVector();
+        Vector3d vec = new Vector3d(watcher.getPosX(), watcher.getPosY(), watcher.getPosZ());
+        Vector3d posVec = watcher.getPositionVec();
         if(watcher instanceof PlayerEntity) {
             vec = vec.add(0D, watcher.getEyeHeight(), 0D);
             posVec = posVec.add(0D, watcher.getEyeHeight(), 0D);
         }
 
-        Vec3d lookVec = watcher.getLookVec();
-        Vec3d vec2 = vec.add(lookVec.normalize().scale(maxDistance));
+        Vector3d lookVec = watcher.getLookVec();
+        Vector3d vec2 = vec.add(lookVec.normalize().scale(maxDistance));
 
         RayTraceResult ray = watcher.world
                 .rayTraceBlocks(new RayTraceContext(vec, vec2, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, watcher));
@@ -154,7 +154,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         if(ray != null) {
             distance = ray.getHitVec().distanceTo(posVec);
         }
-        Vec3d reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
+        Vector3d reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 
         double currentDistance = distance;
 
@@ -164,7 +164,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
             if(entity instanceof LivingEntity) {
                 float collisionBorderSize = entity.getCollisionBorderSize();
                 AxisAlignedBB hitBox = entity.getBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
-                Vec3d hitVecIn = intercept(posVec, reachVector, hitBox);
+                Vector3d hitVecIn = intercept(posVec, reachVector, hitBox);
 
                 if(hitBox.contains(posVec)) {
                     if(currentDistance <= 0D) {
@@ -172,7 +172,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                         focusedEntity = (LivingEntity) entity;
                     }
                 } else if(hitVecIn != null) {
-                    Vec3d hitVec = new Vec3d(hitVecIn.x, hitVecIn.y, hitVecIn.z);
+                    Vector3d hitVec = new Vector3d(hitVecIn.x, hitVecIn.y, hitVecIn.z);
                     double distanceToEntity = posVec.distanceTo(hitVec);
                     if(distanceToEntity <= currentDistance) {
                         currentDistance = distanceToEntity;
@@ -184,7 +184,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         return focusedEntity;
     }
 
-    public static Vec3d intercept(Vec3d vecA, Vec3d vecB, AxisAlignedBB bb) {
+    public static Vector3d intercept(Vector3d vecA, Vector3d vecB, AxisAlignedBB bb) {
         double[] adouble = new double[] { 1.0D };
         Direction enumfacing = null;
         double d0 = vecB.x - vecA.x;
@@ -200,7 +200,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Nullable
-    private static Direction func_197741_a(AxisAlignedBB aabb, Vec3d p_197741_1_, double[] p_197741_2_, @Nullable Direction facing, double p_197741_4_,
+    private static Direction func_197741_a(AxisAlignedBB aabb, Vector3d p_197741_1_, double[] p_197741_2_, @Nullable Direction facing, double p_197741_4_,
             double p_197741_6_, double p_197741_8_) {
         if(p_197741_4_ > 1.0E-7D) {
             facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.minX, aabb.minY, aabb.maxY, aabb.minZ, aabb.maxZ, Direction.WEST,

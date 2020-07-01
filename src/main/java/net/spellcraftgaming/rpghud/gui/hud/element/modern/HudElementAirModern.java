@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
@@ -20,7 +21,7 @@ public class HudElementAirModern extends HudElement {
     }
 
     @Override
-    public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         double scale = getScale();
         RenderSystem.scaled(scale, scale, scale);
 

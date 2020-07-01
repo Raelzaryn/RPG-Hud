@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effects;
@@ -21,7 +23,7 @@ public class HudElementHealthHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.health_position)[1];
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
@@ -41,6 +43,6 @@ public class HudElementHealthHotbar extends HudElement {
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, posX + 100, height - 55, -1);
+			gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 }

@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.AbstractGui;
@@ -22,7 +23,7 @@ public class HudElementHealthMountDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
 		int health = MathHelper.ceil(mount.getHealth());
 		int healthMax = MathHelper.ceil(mount.getMaxHealth());
@@ -33,7 +34,7 @@ public class HudElementHealthMountDefault extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			RenderSystem.scaled(0.5, 0.5, 0.5);
-			gui.drawCenteredString(this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			gui.func_238471_a_(ms,this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0, 2.0, 2.0);
 		}
 	}

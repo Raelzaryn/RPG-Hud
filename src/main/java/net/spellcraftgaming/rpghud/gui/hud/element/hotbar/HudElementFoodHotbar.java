@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
@@ -21,7 +23,7 @@ public class HudElementFoodHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		FoodStats stats = this.mc.player.getFoodStats();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -54,7 +56,7 @@ public class HudElementFoodHotbar extends HudElement {
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) == true ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			gui.drawCenteredString(this.mc.fontRenderer, staminaString, posX + 100, height - 25, -1);
+			gui.func_238471_a_(ms, this.mc.fontRenderer, staminaString, posX + 100, height - 25, -1);
 	}
 
 }
