@@ -1,6 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
@@ -8,6 +10,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVani
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 
+@OnlyIn(Dist.CLIENT)
 public class HudVanilla extends Hud {
 
 	public HudVanilla(Minecraft mc, String hudKey, String hudName) {

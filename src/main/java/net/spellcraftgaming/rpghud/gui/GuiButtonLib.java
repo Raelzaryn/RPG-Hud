@@ -1,7 +1,10 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public abstract class GuiButtonLib extends GuiButton {
 
     public GuiButtonLib(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
