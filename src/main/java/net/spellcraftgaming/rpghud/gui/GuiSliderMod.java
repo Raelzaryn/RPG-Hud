@@ -7,8 +7,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiSliderMod extends GuiButtonTooltip {
 	public enum EnumColor {
 		RED,

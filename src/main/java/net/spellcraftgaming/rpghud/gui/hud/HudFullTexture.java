@@ -1,6 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementAirTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementExperienceTexture;
@@ -9,6 +11,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthMount
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthTexture;
 import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementJumpBarTexture;
 
+@OnlyIn(Dist.CLIENT)
 public class HudFullTexture extends HudExtendedWidget {
 
 	public HudFullTexture(Minecraft mc, String hudKey, String hudName) {

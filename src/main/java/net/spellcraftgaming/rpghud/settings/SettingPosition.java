@@ -1,7 +1,10 @@
 package net.spellcraftgaming.rpghud.settings;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
+@OnlyIn(Dist.CLIENT)
 public class SettingPosition extends Setting{
 
 	public final int defaultX, defaultY;
