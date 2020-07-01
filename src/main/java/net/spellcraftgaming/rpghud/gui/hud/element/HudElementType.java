@@ -1,7 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public enum HudElementType {
 	VOID(I18n.format("name.void", new Object[0])),
 	HOTBAR(I18n.format("name.hotbar", new Object[0])),
