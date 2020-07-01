@@ -4,9 +4,12 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+@OnlyIn(Dist.CLIENT)
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
     @Override
