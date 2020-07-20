@@ -1,17 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementExperienceModern extends HudElement {
 
 	public HudElementExperienceModern() {
@@ -20,13 +20,13 @@ public class HudElementExperienceModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		int exp = MathHelper.ceil(this.mc.player.xpBarCap() * this.mc.player.experience);
-		int expCap = this.mc.player.xpBarCap();
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
+		int expCap = this.mc.player.getNextLevelExperience();
 		double full = ((double) (scaledWidth - 2)) / expCap;
 		int posX = this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
@@ -37,10 +37,10 @@ public class HudElementExperienceModern extends HudElement {
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			int width2 = this.mc.fontRenderer.getStringWidth(stringExp) / 2;
+			int width2 = this.mc.textRenderer.getWidth(stringExp) / 2;
 			drawRect(1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			gui.func_238471_a_(ms, this.mc.fontRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
+			gui.drawCenteredString(ms, this.mc.textRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 		}
 	}

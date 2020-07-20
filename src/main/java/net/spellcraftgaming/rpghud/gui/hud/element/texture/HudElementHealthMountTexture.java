@@ -2,16 +2,16 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementHealthMountTexture extends HudElement {
 
 	public HudElementHealthMountTexture() {
@@ -21,26 +21,26 @@ public class HudElementHealthMountTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof LivingEntity && this.mc.playerController.shouldDrawHUD();
+		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hudHidden;
 	}
 
 	@Override
 	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
 		RenderSystem.color3f(1f, 1f, 1f);
-		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
+		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 54 : 49) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 
-		gui.func_238474_b_(ms, posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
+		gui.drawTexture(ms, posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
 
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			RenderSystem.scaled(0.5, 0.5, 0.5);
-			gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0, 2.0, 2.0);
 		}
 		RenderSystem.color3f(1f, 1f, 1f);

@@ -1,16 +1,16 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementLevelHotbar extends HudElement {
 
 	public HudElementLevelHotbar() {
@@ -20,14 +20,14 @@ public class HudElementLevelHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		GlStateManager.disableBlend();
 		String level = String.valueOf(this.mc.player.experienceLevel);
-		this.mc.fontRenderer.func_238405_a_(ms,level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.fontRenderer.getStringWidth(level) / 2, scaledHeight - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
+		this.mc.textRenderer.draw(ms,level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.textRenderer.getWidth(level) / 2, scaledHeight - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

@@ -1,17 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.tags.FluidTags;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.tag.FluidTags;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementAirModern extends HudElement {
 
     public HudElementAirModern() {
@@ -20,11 +20,11 @@ public class HudElementAirModern extends HudElement {
 
     @Override
     public boolean checkConditions() {
-        return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && this.mc.playerController.shouldDrawHUD();
+        return (this.mc.player.isSubmergedIn(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && !this.mc.options.hudHidden;
     }
 
     @Override
-    public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         double scale = getScale();
         RenderSystem.scaled(scale, scale, scale);
 

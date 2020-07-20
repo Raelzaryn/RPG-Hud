@@ -2,18 +2,18 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementClockModern extends HudElementClockVanilla {
 
     public HudElementClockModern() {
@@ -27,15 +27,14 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public boolean checkConditions() {
-        return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.gameSettings.showDebugInfo
-                && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
+        return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.options.debugEnabled
+                && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.contains(new ItemStack(Items.CLOCK)) : true);
     }
 
     @Override
-    public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         double scale = getScale();
         RenderSystem.scaled(scale, scale, scale);
-
         int yOffset = getPosY(scaledHeight);
         int xOffset = getPosX(scaledWidth);
         int clockColor = 0xFFFFFF;
@@ -46,7 +45,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
             clockColor = getClockColor();
         }
         drawRect(xOffset, yOffset, width, height, 0xA0000000);
-        gui.func_238471_a_(ms, this.mc.fontRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
+        gui.drawCenteredString(ms, this.mc.textRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

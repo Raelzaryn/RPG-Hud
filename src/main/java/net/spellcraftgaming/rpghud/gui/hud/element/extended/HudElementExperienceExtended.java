@@ -1,17 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementExperienceExtended extends HudElement {
 
 	public HudElementExperienceExtended() {
@@ -21,13 +21,13 @@ public class HudElementExperienceExtended extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		int exp = MathHelper.ceil(this.mc.player.xpBarCap() * this.mc.player.experience);
-		int expCap = this.mc.player.xpBarCap();
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
+		int expCap = this.mc.player.getNextLevelExperience();
 		double full = 100D / expCap;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
@@ -38,7 +38,7 @@ public class HudElementExperienceExtended extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			gui.func_238471_a_(ms, this.mc.fontRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
+			gui.drawCenteredString(ms, this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 		}
 	}

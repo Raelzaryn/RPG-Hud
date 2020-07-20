@@ -1,16 +1,15 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.client.gui.AbstractGui;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementJumpBarModern extends HudElement {
 
 	public HudElementJumpBarModern() {
@@ -19,14 +18,14 @@ public class HudElementJumpBarModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return  this.mc.player.getRidingEntity() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getHorseJumpPower() > 0F : true);
+		return  this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.method_3151() > 0F : true);
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
 		int width = scaledWidth;
-		float jumpPower = this.mc.player.getHorseJumpPower();
+		float jumpPower = this.mc.player.method_3151();
 		int value = (int) (jumpPower * 100.0F);
 		int posX = this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		drawRect(width / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);

@@ -2,38 +2,37 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.SpiderEntity;
+import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RayTraceContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementEntityInspectVanilla extends HudElement {
 
-    protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/entityinspect.png");
+    protected static final Identifier DAMAGE_INDICATOR = new Identifier("rpghud:textures/entityinspect.png");
 
     @Override
     public boolean checkConditions() {
@@ -45,35 +44,35 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-            gui.func_238474_b_(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
+            gui.drawTexture(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
             drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
-            int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
+            int x = (posX - 29 + 44 - this.mc.textRenderer.getWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
             this.drawStringWithBackground(ms, focused.getName().getString(), x, y, -1, 0);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
 
             if(settings.getBoolValue(Settings.show_entity_armor)) {
-                int armor = focused.getTotalArmorValue();
+                int armor = focused.getArmor();
                 if(armor > 0) {
                     String value = String.valueOf(armor);
                     this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-                    gui.func_238474_b_(ms, posX - 26, posY+44, 0, 36, 19, 8);
-                    this.mc.getTextureManager().bindTexture(AbstractGui.field_230665_h_);
+                    gui.drawTexture(ms, posX - 26, posY+44, 0, 36, 19, 8);
+                    this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
                     RenderSystem.scaled(0.5, 0.5, 0.5);
-                    gui.func_238474_b_(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    gui.drawTexture(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
                     this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     RenderSystem.scaled(2.0, 2.0, 2.0);
                 }  
@@ -81,93 +80,95 @@ public class HudElementEntityInspectVanilla extends HudElement {
         }
     }
 
-    public static void drawEntityOnScreen(int posX, int posY, LivingEntity ent) {
+    public static void drawEntityOnScreen(int posX, int posY, LivingEntity entity) {
         int scale = 1;
-        int s1 = (int) (18 / ent.getHeight());
-        int s3 = (int) (18 / ent.getRenderScale());
+        int s1 = (int) (18 / entity.getHeight());
+        int s3 = (int) (18 / entity.getScaleFactor());
         int offset = 0;
         if(s1 > s3) {
             scale = s3;
         } else
             scale = s1;
 
-        if(ent instanceof SquidEntity) {
+        if(entity instanceof SquidEntity) {
             scale = 11;
             offset = -13;
-        } else if(ent instanceof SpiderEntity) {
+        } else if(entity instanceof SpiderEntity) {
             scale = 11;
             offset = -5;
         }
         posY += offset;
-        float lvt_6_1_ = (float) Math.atan((180 / 40.0F));
-        float lvt_7_1_ = (float) Math.atan((0 / 40.0F));
+        float f = (float) Math.atan((180 / 40.0F));
+        float g = (float) Math.atan((0 / 40.0F));
         RenderSystem.pushMatrix();
         RenderSystem.translatef(posX, posY, 1050.0F);
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
-        MatrixStack lvt_8_1_ = new MatrixStack();
-        lvt_8_1_.translate(0.0D, 0.0D, 1000.0D);
-        lvt_8_1_.scale(scale, scale, scale);
-        Quaternion lvt_9_1_ = Vector3f.ZP.rotationDegrees(180.0F);
-        Quaternion lvt_10_1_ = Vector3f.XP.rotationDegrees(lvt_7_1_ * 20.0F);
-        lvt_9_1_.multiply(lvt_10_1_);
-        lvt_8_1_.rotate(lvt_9_1_);
-        float lvt_11_1_ = ent.renderYawOffset;
-        float lvt_12_1_ = ent.rotationYaw;
-        float lvt_13_1_ = ent.rotationPitch;
-        float lvt_14_1_ = ent.prevRotationYawHead;
-        float lvt_15_1_ = ent.rotationYawHead;
-        ent.renderYawOffset = 180.0F + lvt_6_1_ * 20.0F;
-        ent.rotationYaw = 180.0F + lvt_6_1_ * 40.0F;
-        ent.rotationPitch = -lvt_7_1_ * 20.0F;
-        ent.rotationYawHead = ent.rotationYaw - 25;
-        ent.prevRotationYawHead = ent.rotationYaw;
-        EntityRendererManager lvt_16_1_ = Minecraft.getInstance().getRenderManager();
-        lvt_10_1_.conjugate();
-        lvt_16_1_.setCameraOrientation(lvt_10_1_);
-        lvt_16_1_.setRenderShadow(false);
-        IRenderTypeBuffer.Impl lvt_17_1_ = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-        lvt_16_1_.renderEntityStatic((Entity) ent, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, lvt_8_1_, (IRenderTypeBuffer) lvt_17_1_, 15728880);
-        lvt_17_1_.finish();
-        lvt_16_1_.setRenderShadow(true);
-        ent.renderYawOffset = lvt_11_1_;
-        ent.rotationYaw = lvt_12_1_;
-        ent.rotationPitch = lvt_13_1_;
-        ent.prevRotationYawHead = lvt_14_1_;
-        ent.rotationYawHead = lvt_15_1_;
+        MatrixStack matrixStack = new MatrixStack();
+        matrixStack.translate(0.0D, 0.0D, 1000.0D);
+        matrixStack.scale(scale, scale, scale);
+        Quaternion quaternion = Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
+        Quaternion quaternion2 = Vector3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
+        quaternion.hamiltonProduct(quaternion2);
+        matrixStack.multiply(quaternion);
+        float h = entity.bodyYaw;
+        float i = entity.yaw;
+        float j = entity.pitch;
+        float k = entity.prevHeadYaw;
+        float l = entity.headYaw;
+        entity.bodyYaw = 180.0F + f * 20.0F;
+        entity.yaw = 180.0F + f * 40.0F;
+        entity.pitch = -g * 20.0F;
+        entity.headYaw = entity.yaw;
+        entity.prevHeadYaw = entity.yaw;
+        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
+        quaternion2.conjugate();
+        entityRenderDispatcher.setRotation(quaternion2);
+        entityRenderDispatcher.setRenderShadows(false);
+        VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+        RenderSystem.runAsFancy(() -> {
+           entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880);
+        });
+        immediate.draw();
+        entityRenderDispatcher.setRenderShadows(true);
+        entity.bodyYaw = h;
+        entity.yaw = i;
+        entity.pitch = j;
+        entity.prevHeadYaw = k;
+        entity.headYaw = l;
         RenderSystem.popMatrix();
     }
 
     public static LivingEntity getFocusedEntity(Entity watcher) {
         LivingEntity focusedEntity = null;
         double maxDistance = 64;
-        Vector3d vec = new Vector3d(watcher.getPosX(), watcher.getPosY(), watcher.getPosZ());
-        Vector3d posVec = watcher.getPositionVec();
+        Vec3d vec = new Vec3d(watcher.getX(), watcher.getY(), watcher.getZ());
+        Vec3d posVec = watcher.getPos();
         if(watcher instanceof PlayerEntity) {
-            vec = vec.add(0D, watcher.getEyeHeight(), 0D);
-            posVec = posVec.add(0D, watcher.getEyeHeight(), 0D);
+            vec = vec.add(0D, watcher.getEyeY(), 0D);
+            posVec = posVec.add(0D, watcher.getEyeY(), 0D);
         }
 
-        Vector3d lookVec = watcher.getLookVec();
-        Vector3d vec2 = vec.add(lookVec.normalize().scale(maxDistance));
+        Vec3d lookVec = watcher.getRotationVector();
+        Vec3d vec2 = vec.add(lookVec.normalize().multiply(maxDistance));
 
-        RayTraceResult ray = watcher.world
-                .rayTraceBlocks(new RayTraceContext(vec, vec2, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, watcher));
+        BlockHitResult ray = watcher.world
+                .rayTrace(new RayTraceContext(vec, vec2, RayTraceContext.ShapeType.OUTLINE, RayTraceContext.FluidHandling.NONE, watcher));
 
         double distance = maxDistance;
         if(ray != null) {
-            distance = ray.getHitVec().distanceTo(posVec);
+            distance = ray.getPos().distanceTo(posVec);
         }
-        Vector3d reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
+        Vec3d reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 
         double currentDistance = distance;
 
-        List<Entity> entitiesWithinMaxDistance = watcher.world.getEntitiesWithinAABBExcludingEntity(watcher,
-                watcher.getBoundingBox().grow(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
+        List<Entity> entitiesWithinMaxDistance = watcher.world.getEntities(watcher,
+                watcher.getBoundingBox().stretch(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
         for(Entity entity : entitiesWithinMaxDistance) {
             if(entity instanceof LivingEntity) {
-                float collisionBorderSize = entity.getCollisionBorderSize();
-                AxisAlignedBB hitBox = entity.getBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
-                Vector3d hitVecIn = intercept(posVec, reachVector, hitBox);
+                float collisionBorderSize = entity.getTargetingMargin();
+                Box hitBox = entity.getBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
+                Vec3d hitVecIn = intercept(posVec, reachVector, hitBox);
 
                 if(hitBox.contains(posVec)) {
                     if(currentDistance <= 0D) {
@@ -175,7 +176,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                         focusedEntity = (LivingEntity) entity;
                     }
                 } else if(hitVecIn != null) {
-                    Vector3d hitVec = new Vector3d(hitVecIn.x, hitVecIn.y, hitVecIn.z);
+                    Vec3d hitVec = new Vec3d(hitVecIn.x, hitVecIn.y, hitVecIn.z);
                     double distanceToEntity = posVec.distanceTo(hitVec);
                     if(distanceToEntity <= currentDistance) {
                         currentDistance = distanceToEntity;
@@ -187,7 +188,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         return focusedEntity;
     }
 
-    public static Vector3d intercept(Vector3d vecA, Vector3d vecB, AxisAlignedBB bb) {
+    public static Vec3d intercept(Vec3d vecA, Vec3d vecB, Box bb) {
         double[] adouble = new double[] { 1.0D };
         Direction enumfacing = null;
         double d0 = vecB.x - vecA.x;
@@ -202,8 +203,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         }
     }
 
-    @Nullable
-    private static Direction func_197741_a(AxisAlignedBB aabb, Vector3d p_197741_1_, double[] p_197741_2_, @Nullable Direction facing, double p_197741_4_,
+    private static Direction func_197741_a(Box aabb, Vec3d p_197741_1_, double[] p_197741_2_, Direction facing, double p_197741_4_,
             double p_197741_6_, double p_197741_8_) {
         if(p_197741_4_ > 1.0E-7D) {
             facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.minX, aabb.minY, aabb.maxY, aabb.minZ, aabb.maxZ, Direction.WEST,
@@ -232,8 +232,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         return facing;
     }
 
-    @Nullable
-    private static Direction func_197740_a(double[] p_197740_0_, @Nullable Direction p_197740_1_, double p_197740_2_, double p_197740_4_, double p_197740_6_,
+    private static Direction func_197740_a(double[] p_197740_0_, Direction p_197740_1_, double p_197740_2_, double p_197740_4_, double p_197740_6_,
             double p_197740_8_, double p_197740_10_, double p_197740_12_, double p_197740_14_, double p_197740_16_, Direction p_197740_18_, double p_197740_19_,
             double p_197740_21_, double p_197740_23_) {
         double d0 = (p_197740_8_ - p_197740_19_) / p_197740_2_;

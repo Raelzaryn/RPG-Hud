@@ -2,19 +2,18 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.potion.Effects;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementHealthModern extends HudElement {
 
 	public HudElementHealthModern() {
@@ -24,11 +23,11 @@ public class HudElementHealthModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
@@ -36,7 +35,7 @@ public class HudElementHealthModern extends HudElement {
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
-		int width = this.mc.fontRenderer.getStringWidth(stringHealth) / 2 + 4;
+		int width = this.mc.textRenderer.getWidth(stringHealth) / 2 + 4;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
@@ -47,7 +46,7 @@ public class HudElementHealthModern extends HudElement {
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
+			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 
@@ -56,9 +55,9 @@ public class HudElementHealthModern extends HudElement {
 
 		if (absorption > 1)
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_absorption));
-		if (this.mc.player.isPotionActive(Effects.POISON)) {
+		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_poison));
-		} else if (this.mc.player.isPotionActive(Effects.WITHER)) {
+		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_wither));
 		} else {
 			drawTetragon(posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));

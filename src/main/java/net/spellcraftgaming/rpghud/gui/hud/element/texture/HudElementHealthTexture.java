@@ -1,18 +1,19 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.potion.Effects;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementHealthTexture extends HudElement {
 
 	public HudElementHealthTexture() {
@@ -22,11 +23,11 @@ public class HudElementHealthTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		bind(INTERFACE);
 		RenderSystem.color3f(1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
@@ -35,20 +36,20 @@ public class HudElementHealthTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 		if (absorption > 1)
-			gui.func_238474_b_(ms, posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
-		if (this.mc.player.isPotionActive(Effects.POISON)) {
-			gui.func_238474_b_(ms, posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
-		} else if (this.mc.player.isPotionActive(Effects.WITHER)) {
-			gui.func_238474_b_(ms, posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			gui.drawTexture(ms, posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
+		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
+			gui.drawTexture(ms, posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
+			gui.drawTexture(ms, posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		} else {
-			gui.func_238474_b_(ms, posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			gui.drawTexture(ms, posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		}
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
 		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
 	}
 
 }

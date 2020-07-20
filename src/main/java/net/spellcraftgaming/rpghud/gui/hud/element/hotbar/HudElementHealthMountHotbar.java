@@ -1,16 +1,15 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.client.gui.AbstractGui;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementHealthMountHotbar extends HudElement {
 
 	public HudElementHealthMountHotbar() {
@@ -20,13 +19,13 @@ public class HudElementHealthMountHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof LivingEntity && this.mc.playerController.shouldDrawHUD();
+		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.mount_health_position)[1];
-		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
+		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
@@ -35,7 +34,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, posX + 100, height - 55, -1);
+			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 
 }

@@ -2,18 +2,18 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementLevelModern extends HudElement {
 
 	public HudElementLevelModern() {
@@ -23,21 +23,21 @@ public class HudElementLevelModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hudHidden;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		int width = this.mc.fontRenderer.getStringWidth(level);
+		int width = this.mc.textRenderer.getWidth(level);
 		if(width < 16) width = 16;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 		
-		if (this.mc.fontRenderer.getStringWidth(level) > (width + 2))
-			width = this.mc.fontRenderer.getStringWidth(level) + 2;
+		if (this.mc.textRenderer.getWidth(level) > (width + 2))
+			width = this.mc.textRenderer.getWidth(level) + 2;
 		
 		RenderSystem.enableAlphaTest();
 		RenderSystem.disableBlend();
@@ -53,9 +53,9 @@ public class HudElementLevelModern extends HudElement {
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24" || !this.settings.getBoolValue(Settings.render_player_face)) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
+			gui.drawCenteredString(ms, this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
 		} else {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
+			gui.drawCenteredString(ms, this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
 		}
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
 		RenderSystem.enableBlend();

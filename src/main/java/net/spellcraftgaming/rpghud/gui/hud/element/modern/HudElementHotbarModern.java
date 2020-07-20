@@ -1,44 +1,43 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.settings.AttackIndicatorStatus;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.options.AttackIndicator;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.HandSide;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.GameType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.util.Arm;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.GameMode;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementHotbarModern extends HudElement {
 
 	public HudElementHotbarModern() {
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
     }
 
-    protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
+    protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-        if (this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR) {
-            mc.ingameGUI.getSpectatorGui().func_238528_a_(ms,partialTicks);
-		} else if (this.mc.getRenderViewEntity() instanceof PlayerEntity) {
+	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
+            this.mc.inGameHud.getSpectatorHud().render(ms, partialTicks);
+		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
-			PlayerEntity entityplayer = (PlayerEntity) this.mc.getRenderViewEntity();
-			ItemStack itemstack = this.mc.player.getHeldItemOffhand();
+			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
+			ItemStack itemstack = this.mc.player.getOffHandStack();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			HandSide enumhandside = this.mc.player.getPrimaryHand().opposite();
+			Arm enumhandside = this.mc.player.getMainArm().getOpposite();
 			int width = scaledWidth;
 			int height = scaledHeight + posY;
 			int i = (width / 2) + posX;
@@ -52,10 +51,10 @@ public class HudElementHotbarModern extends HudElement {
 					drawRect(width / 2 - 91 + 2 + (x * 20) + posX, height - 22 - 3, 18, 18, 0x60000000);
 				}
 			}
-			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.currentItem * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
+			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.selectedSlot * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
 			RenderSystem.enableAlphaTest();
 			if (itemstack != ItemStack.EMPTY) {
-				if (enumhandside == HandSide.LEFT) {
+				if (enumhandside == Arm.LEFT) {
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
@@ -73,45 +72,43 @@ public class HudElementHotbarModern extends HudElement {
 			zLevel = f;
 			RenderSystem.enableRescaleNormal();
 			RenderSystem.enableBlend();
-			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-	        RenderHelper.enableStandardItemLighting();
+			RenderSystem.defaultBlendFunc();
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 3 - 9 + 4 + posY;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, this.mc.player.inventory.mainInventory.get(l));
+				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, this.mc.player.inventory.main.get(l));
 			}
 
 			if (itemstack != ItemStack.EMPTY) {
 				int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
-				if (enumhandside == HandSide.LEFT) {
+				if (enumhandside == Arm.LEFT) {
 					this.renderHotbarItem(i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
 				} else {
 					this.renderHotbarItem(i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
 				}
 			}
 
-			if (this.mc.gameSettings.attackIndicator == AttackIndicatorStatus.HOTBAR) {
-				float f1 = this.mc.player.getCooledAttackStrength(0.0F);
+            if(this.mc.options.attackIndicator == AttackIndicator.HOTBAR) {
+                float f1 = this.mc.player.getAttackCooldownProgress(0.0F);
 
 				if (f1 < 1.0F) {
 					int i2 = scaledHeight - 17 + posY;
 					int j2 = i + 91 + 6;
 
-					if (enumhandside == HandSide.RIGHT) {
+					if (enumhandside == Arm.RIGHT) {
 						j2 = i - 91 - 22;
 					}
 
-					this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+					this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.func_238474_b_(ms, j2, i2 - 9, 0, 94, 18, 18);
-					gui.func_238474_b_(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.drawTexture(ms, j2, i2 - 9, 0, 94, 18, 18);
+					gui.drawTexture(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 
-			RenderHelper.disableStandardItemLighting();
 			RenderSystem.disableRescaleNormal();
 			RenderSystem.disableBlend();
 		}

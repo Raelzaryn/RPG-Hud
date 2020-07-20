@@ -12,14 +12,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Settings {
 
 	private final String CONFIG_VERSION = "1.0";
@@ -106,8 +106,8 @@ public class Settings {
 	public static final String prevent_element_render = "prevent_element_render";
 
 	private File rpgHudDir() {
-		Minecraft mc = Minecraft.getInstance();
-		return(new File(mc.gameDir.getPath(),"config" + File.separator + "RPG-HUD"));
+		MinecraftClient mc = MinecraftClient.getInstance();
+		return(new File(mc.runDirectory.getPath(),"config" + File.separator + "RPG-HUD"));
 	}
 
 	public Settings() {
@@ -269,18 +269,18 @@ public class Settings {
 	
 	public String getButtonString(String id){
 		Setting setting = this.settings.get(id);
-		String s = I18n.format(setting.getName(), new Object[0]) + ": ";
+		String s = I18n.translate(setting.getName(), new Object[0]) + ": ";
 		if(setting instanceof SettingBoolean){
-			return s + (setting.getBoolValue() ? I18n.format("options.on", new Object[0]) : I18n.format("options.off", new Object[0]));
+			return s + (setting.getBoolValue() ? I18n.translate("options.on", new Object[0]) : I18n.translate("options.off", new Object[0]));
 		} else if (setting instanceof SettingString || setting instanceof SettingHudType) {
-			return s + I18n.format(setting.getStringValue(), new Object[0]);
+			return s + I18n.translate(setting.getStringValue(), new Object[0]);
 		} else if (setting instanceof SettingColor) {
 			return s + intToHexString(setting.getIntValue());
 		} else if (setting instanceof SettingInteger) {
 			return s + setting.getIntValue();
 		} else if (setting instanceof SettingFloat) {
 			SettingFloat sf = (SettingFloat) setting;
-			return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0]) : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
+			return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.translate("gui.rpg.sec", new Object[0]) : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
 		} else if (setting instanceof SettingPosition) {
 			return s;
 		} else {

@@ -1,10 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HudElementDetailsExtended extends HudElementDetailsVanilla {
 
 	public HudElementDetailsExtended() {
