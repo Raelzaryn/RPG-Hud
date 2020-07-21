@@ -22,7 +22,7 @@ public class HudElementHealthTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hudHidden;
+		return this.mc.interactionManager.hasStatusBars();
 	}
 
 	@Override

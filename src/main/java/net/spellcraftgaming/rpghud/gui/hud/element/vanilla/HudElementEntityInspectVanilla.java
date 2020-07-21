@@ -143,8 +143,8 @@ public class HudElementEntityInspectVanilla extends HudElement {
         Vec3d vec = new Vec3d(watcher.getX(), watcher.getY(), watcher.getZ());
         Vec3d posVec = watcher.getPos();
         if(watcher instanceof PlayerEntity) {
-            vec = vec.add(0D, watcher.getEyeY(), 0D);
-            posVec = posVec.add(0D, watcher.getEyeY(), 0D);
+            vec = vec.add(0D, watcher.getStandingEyeHeight(), 0D);
+            posVec = posVec.add(0D, watcher.getStandingEyeHeight(), 0D);
         }
 
         Vec3d lookVec = watcher.getRotationVector();
@@ -168,7 +168,6 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 float collisionBorderSize = entity.getTargetingMargin();
                 Box hitBox = entity.getBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
                 Vec3d hitVecIn = intercept(posVec, reachVector, hitBox);
-
                 if(hitBox.contains(posVec)) {
                     if(currentDistance <= 0D) {
                         currentDistance = 0;

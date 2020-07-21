@@ -23,7 +23,7 @@ public class HudElementHealthModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hudHidden;
+		return this.mc.interactionManager.hasStatusBars();
 	}
 
 	@Override

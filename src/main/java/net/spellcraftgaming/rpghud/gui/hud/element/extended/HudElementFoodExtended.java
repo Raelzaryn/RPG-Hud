@@ -21,7 +21,7 @@ public class HudElementFoodExtended extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hudHidden;
+		return this.mc.interactionManager.hasStatusBars();
 	}
 
 	@Override

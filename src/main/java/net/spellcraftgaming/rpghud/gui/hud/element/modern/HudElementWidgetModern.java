@@ -22,7 +22,7 @@ public class HudElementWidgetModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hudHidden && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
+		return this.mc.interactionManager.hasStatusBars() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class HudElementHealthMountDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hudHidden;
+		return this.mc.player.getVehicle() instanceof LivingEntity && this.mc.interactionManager.hasStatusBars();
 	}
 
 	@Override

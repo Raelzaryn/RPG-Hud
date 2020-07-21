@@ -21,7 +21,7 @@ public class HudElementHealthHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hudHidden && !(this.mc.player.getVehicle() instanceof LivingEntity);
+		return this.mc.interactionManager.hasStatusBars() && !(this.mc.player.getVehicle() instanceof LivingEntity);
 	}
 
 	@Override

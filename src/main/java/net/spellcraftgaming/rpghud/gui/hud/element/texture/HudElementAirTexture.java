@@ -20,7 +20,7 @@ public class HudElementAirTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return (this.mc.player.isSubmergedIn(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && !this.mc.options.hudHidden;
+		return (this.mc.player.isSubmergedIn(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && this.mc.interactionManager.hasStatusBars();
 	}
 
 	@Override
