@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
@@ -24,7 +24,7 @@ public class HudElementHealthDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());

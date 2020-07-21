@@ -6,7 +6,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -26,7 +26,7 @@ public class HudElementWidgetModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
 		drawRect(posX + 2, posY + 2, 20, 20, 0xA0000000);

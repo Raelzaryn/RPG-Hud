@@ -7,7 +7,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.spellcraftgaming.rpghud.event.ClientEventHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
@@ -18,7 +17,9 @@ import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(EnvType.CLIENT)
+
 public class ModRPGHud implements ClientModInitializer{
+    public final String MODID = "rpg-hud";
 
 	public static ModRPGHud instance;
     
@@ -43,7 +44,6 @@ public class ModRPGHud implements ClientModInitializer{
 		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
-        ClientEventHandler.init();
         new RenderOverlay();
     }
     

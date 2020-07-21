@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -24,7 +25,7 @@ public class HudElementWidgetHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
 		int posX = this.settings.getPositionValue(Settings.widget_position)[0];
 		int posY = scaledHeight + this.settings.getPositionValue(Settings.widget_position)[1];

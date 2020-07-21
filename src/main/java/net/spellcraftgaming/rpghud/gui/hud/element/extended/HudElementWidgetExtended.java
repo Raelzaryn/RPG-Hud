@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -24,7 +25,7 @@ public class HudElementWidgetExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
 		int posY = this.settings.getPositionValue(Settings.widget_position)[1];
 		gui.drawTexture(ms,posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY + (this.settings.getBoolValue(Settings.render_player_face) ? 4 : 0), 0, 35, 114, 44);

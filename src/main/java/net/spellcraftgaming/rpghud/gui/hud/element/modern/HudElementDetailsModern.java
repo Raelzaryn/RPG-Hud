@@ -6,7 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
@@ -36,7 +36,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
     }
 
     @Override
-    public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
         int width = calculateWidth();
@@ -172,7 +172,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
      * @param gui   the GUI to draw one
      * @param width the width of the background
      */
-    protected void drawArmorDetails(AbstractParentElement gui, MatrixStack ms, int width) {
+    protected void drawArmorDetails(DrawableHelper gui, MatrixStack ms, int width) {
         for(int i = this.mc.player.inventory.armor.size() - 1; i >= 0; i--) {
             if(this.mc.player.inventory.getArmorStack(i) != ItemStack.EMPTY && this.mc.player.inventory.getArmorStack(i).getItem().isDamageable()) {
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
@@ -196,7 +196,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
      * @param hand  the hand whose item should be detailed
      * @param width the width of the background
      */
-    protected void drawItemDetails(AbstractParentElement gui, MatrixStack ms, Hand hand, int width) {
+    protected void drawItemDetails(DrawableHelper gui, MatrixStack ms, Hand hand, int width) {
         ItemStack item = this.mc.player.getStackInHand(hand);
         if(item != ItemStack.EMPTY) {
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
@@ -258,7 +258,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
      * @param gui   the GUI to draw on
      * @param width the width of the background
      */
-    protected void drawArrowCount(AbstractParentElement gui, MatrixStack ms, int width) {
+    protected void drawArrowCount(DrawableHelper gui, MatrixStack ms, int width) {
         ItemStack item = this.mc.player.getMainHandStack();
         if(this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && this.mc.player.getMainHandStack().getItem() instanceof BowItem) {
             int x = this.mc.player.inventory.size();

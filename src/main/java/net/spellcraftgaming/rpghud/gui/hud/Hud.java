@@ -21,7 +21,7 @@ import java.util.Map;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -138,7 +138,7 @@ public abstract class Hud {
 	 * @param partialTicks
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(HudElementType type, DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.elements.get(type).draw(gui, ms, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 

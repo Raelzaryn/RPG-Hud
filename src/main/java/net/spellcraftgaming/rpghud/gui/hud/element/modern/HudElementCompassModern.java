@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,12 +24,12 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		int posX = getWidth(scaledWidth);
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		int posX = getPosX(scaledWidth);
 		int posY = getPosY(scaledHeight);
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
 
-		int rotation = Math.round(((this.mc.player.bodyYaw % 360) / 360) * 200);
+		int rotation = Math.round(((this.mc.player.headYaw % 360) / 360) * 200);
 		if (rotation < 0)
 			rotation = 200 + rotation;
 		drawRect(posX - 50, posY + 2, 100, 6, 0xAA000000);
@@ -80,9 +80,9 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect((posX + 48) - (this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
+			this.mc.textRenderer.draw(ms, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
 			gui.drawCenteredString(ms, this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
-			gui.drawCenteredString(ms, this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
+			this.mc.textRenderer.draw(ms, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
 			RenderSystem.scaled(2D, 2D, 2D);
 		}
 	}

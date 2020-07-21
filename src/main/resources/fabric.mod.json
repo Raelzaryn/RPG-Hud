@@ -10,20 +10,21 @@
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/KurodaAkira/RPG-Hud"
+    "sources": "https://github.com/KurodaAkira/RPG-Hud",
+    "issues": "https://github.com/KurodaAkira/RPG-Hud/issues"
   },
 
   "license": "GPL-3.0",
   "icon": "",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
-    "main": [
-      "net.spellcraftgaming.rpghud.main"
+    "client": [
+      "net.spellcraftgaming.rpghud.main.ModRPGHud"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "rpg-hud.mixins.json"
   ],
 
   "depends": {

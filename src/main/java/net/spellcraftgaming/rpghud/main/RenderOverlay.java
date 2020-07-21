@@ -1,21 +1,14 @@
 package net.spellcraftgaming.rpghud.main;
 
-import java.lang.annotation.ElementType;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
+import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -27,11 +20,11 @@ public class RenderOverlay implements HudRenderCallback{
 
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
-        this.mc = Minecraft.getInstance();
-        MinecraftForge.EVENT_BUS.register(this);
+        this.mc = MinecraftClient.getInstance();
+        HudRenderCallback.EVENT.register(this);
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onIngameHudDraw(float partialTicks) {
         ElementType type = event.getType();
         switch(type) {
@@ -43,10 +36,6 @@ public class RenderOverlay implements HudRenderCallback{
                 if(!shouldRenderVanilla(HudElementType.ARMOR))
                     event.setCanceled(true);
                 break;
-            case EXPERIENCE:
-                if(!shouldRenderVanilla(HudElementType.EXPERIENCE))
-                    event.setCanceled(true);
-                break;
             case FOOD:
                 if(!shouldRenderVanilla(HudElementType.FOOD))
                     event.setCanceled(true);
@@ -55,74 +44,11 @@ public class RenderOverlay implements HudRenderCallback{
                 if(!shouldRenderVanilla(HudElementType.HEALTH))
                     event.setCanceled(true);
                 break;
-            case HEALTHMOUNT:
-                if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
-                    event.setCanceled(true);
-                break;
-            case HOTBAR:
-                if(!shouldRenderVanilla(HudElementType.HOTBAR))
-                    event.setCanceled(true);
-                break;
-            case JUMPBAR:
-                if(!shouldRenderVanilla(HudElementType.JUMP_BAR))
-                    event.setCanceled(true);
-                break;
             default:
                 break;
 
         }
-    }
-    
-    @SubscribeEvent
-    public void onGameOverlayRender(RenderGameOverlayEvent.Pre event) {
-        switch(event.getType()) {
-            case ALL:
-                renderOverlay(event.getMatrixStack(), event.getPartialTicks());
-                break;
-            case AIR:
-                if(preventEventType(HudElementType.AIR))
-                    event.setCanceled(true);
-                break;
-            case ARMOR:
-                if(preventEventType(HudElementType.ARMOR))
-                    event.setCanceled(true);
-                break;
-            case EXPERIENCE:
-                if(preventEventType(HudElementType.EXPERIENCE))
-                    event.setCanceled(true);
-                break;
-            case FOOD:
-                if(preventEventType(HudElementType.FOOD))
-                    event.setCanceled(true);
-                break;
-            case HEALTH:
-                if(preventEventType(HudElementType.HEALTH))
-                    event.setCanceled(true);
-                break;
-            case HEALTHMOUNT:
-                if(preventEventType(HudElementType.HEALTH_MOUNT))
-                    event.setCanceled(true);
-                break;
-            case HOTBAR:
-                if(preventEventType(HudElementType.HOTBAR))
-                    event.setCanceled(true);
-                break;
-            case JUMPBAR:
-                if(preventEventType(HudElementType.JUMP_BAR))
-                    event.setCanceled(true);
-                break;
-            default:
-                break;
-
-        }
-    }
-
-    @SubscribeEvent
-    public void onChatRender(RenderGameOverlayEvent.Chat event) {
-        if(ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-            event.setPosY(event.getPosY() - 22);
-        }
-    }
+    }*/
 
     private void renderOverlay(MatrixStack ms, float partialTicks) {
         this.drawElement(HudElementType.WIDGET, ms, partialTicks);
@@ -157,10 +83,10 @@ public class RenderOverlay implements HudRenderCallback{
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
-                bind(AbstractGui.field_230665_h_);
+                bind(DrawableHelper.GUI_ICONS_TEXTURE);
                 RenderSystem.enableBlend();
-                this.rpgHud.getActiveHud().drawElement(type, this.mc.ingameGUI, ms, partialTicks, partialTicks, this.mc.getMainWindow().getScaledWidth(),
-                        this.mc.getMainWindow().getScaledHeight());
+                this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, ms, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
+                        this.mc.getWindow().getScaledHeight());
                 RenderSystem.disableBlend();
             }
 
@@ -179,17 +105,18 @@ public class RenderOverlay implements HudRenderCallback{
         return false;
     }
 
-    private boolean shouldRenderVanilla(HudElementType type) {
+    public static boolean shouldRenderVanilla(HudElementType type) {
         return isVanillaElement(type) || forceRenderTypeVanilla(type);
     }
     /**
      * Checks if the HudElementType has a setting to force the vanilla hud element
      * to be rendered and if it is activated
      */
-    private boolean forceRenderTypeVanilla(HudElementType type) {
+    public static boolean forceRenderTypeVanilla(HudElementType type) {
+        ModRPGHud rpgHud = ModRPGHud.instance;
         String id = Settings.render_vanilla + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
-            return this.rpgHud.settings.getBoolValue(id);
+        if(rpgHud.settings.doesSettingExist(id)) {
+            return rpgHud.settings.getBoolValue(id);
         }
         return false;
     }
@@ -198,19 +125,26 @@ public class RenderOverlay implements HudRenderCallback{
      * Checks if the HudElementType has a setting to prevent the forge event and if
      * it is activated
      */
-    private boolean preventEventType(HudElementType type) {
+    public static boolean preventEventType(HudElementType type) {
+        ModRPGHud rpgHud = ModRPGHud.instance;
         String id = Settings.prevent_event + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id))
-            return this.rpgHud.settings.getBoolValue(id);
+        if(rpgHud.settings.doesSettingExist(id))
+            return rpgHud.settings.getBoolValue(id);
         return false;
     }
     
-    private void bind(ResourceLocation res) {
+    private void bind(Identifier res) {
         mc.getTextureManager().bindTexture(res);
     }
     
-    private boolean isVanillaElement(HudElementType type) {
+    public static boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
+    }
+
+    @Override
+    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
+        renderOverlay(matrixStack, tickDelta);
+        
     }
     
     /*private static HudElementType getEventAlias(ElementType type) {

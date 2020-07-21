@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,7 +26,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		bind(INTERFACE);
 		RenderSystem.color3f(1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());

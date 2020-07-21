@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -45,7 +45,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
 				GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
@@ -69,7 +69,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw one
 	 */
-	protected void drawArmorDetails(AbstractParentElement gui, MatrixStack ms) {
+	protected void drawArmorDetails(DrawableHelper gui, MatrixStack ms) {
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
 		for (int i = this.mc.player.inventory.armor.size() - 1; i >= 0; i--) {
@@ -79,7 +79,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2: 62+typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawCenteredString(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
+				this.mc.textRenderer.draw(ms, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
@@ -95,7 +95,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param hand
 	 *            the hand whose item should be detailed
 	 */
-	protected void drawItemDetails(AbstractParentElement gui, MatrixStack ms, int hand) {
+	protected void drawItemDetails(DrawableHelper gui, MatrixStack ms, int hand) {
 		ItemStack item = getItemInHand(hand);
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
@@ -143,7 +143,7 @@ public class HudElementDetailsVanilla extends HudElement {
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawCenteredString(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
+				this.mc.textRenderer.draw(ms, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 				this.offset += 16;
@@ -157,7 +157,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw on
 	 */
-	protected void drawArrowCount(AbstractParentElement gui, MatrixStack ms) {
+	protected void drawArrowCount(DrawableHelper gui, MatrixStack ms) {
 		ItemStack item = this.mc.player.getMainHandStack();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof BowItem) {
 			int x = this.mc.player.inventory.size();
@@ -192,7 +192,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 			this.mc.getItemRenderer().renderInGui(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124  + typeOffset*2: 62 + typeOffset) + this.offset);
 			GL11.glDisable(GL11.GL_LIGHTING);
-			gui.drawCenteredString(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+			this.mc.textRenderer.draw(ms, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				GL11.glScaled(2.0D, 2.0D, 2.0D);
 			this.offset += 16;

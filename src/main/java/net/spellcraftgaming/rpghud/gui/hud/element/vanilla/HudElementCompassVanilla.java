@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -26,11 +26,11 @@ public class HudElementCompassVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int width = scaledWidth / 2 + this.settings.getPositionValue(Settings.compass_position)[0];
 		int posY = this.settings.getPositionValue(Settings.compass_position)[1];
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
-		int rotation = Math.round(((this.mc.player.yaw % 360) / 360) * 200);
+		int rotation = Math.round(((this.mc.player.headYaw % 360) / 360) * 200);
 		if (rotation < 0)
 			rotation = 200 + rotation;
 

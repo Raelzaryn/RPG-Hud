@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -23,7 +23,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(AbstractParentElement gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.mount_health_position)[1];
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
