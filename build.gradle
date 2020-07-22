@@ -20,9 +20,9 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "3.7"
+version = "3.7.1"
 group = "net.spellcraftgaming.rpghud" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "[1.9] RPG-HUD"
+archivesBaseName = "[1.9][Forge] RPG-HUD"
 
 minecraft {
     version = "1.9-12.16.1.1887"

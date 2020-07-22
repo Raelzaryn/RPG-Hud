@@ -3,7 +3,7 @@
   "modid": "rpghud",
   "name": "RPG-Hud",
   "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
-  "version": "3.7",
+  "version": "3.7.1",
   "mcversion": "1.9",
   "url": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
   "updateUrl": "http://download.spellcraftgaming.net/rpghud/version/update.json",
