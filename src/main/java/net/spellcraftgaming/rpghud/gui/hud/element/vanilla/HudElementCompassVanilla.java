@@ -78,9 +78,9 @@ public class HudElementCompassVanilla extends HudElement {
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				RenderSystem.scaled(0.5D, 0.5D, 0.5D);
 			int[] pos = getPlayerPos();
-			this.mc.textRenderer.draw(ms, String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
+			gui.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			gui.drawCenteredString(ms, this.mc.textRenderer, String.valueOf(pos[1]), width * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
-			this.mc.textRenderer.draw(ms, String.valueOf(pos[2]), (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
+			gui.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[2]), (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				RenderSystem.scaled(2D, 2D, 2D);
 		}

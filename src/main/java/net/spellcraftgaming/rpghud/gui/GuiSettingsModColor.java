@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -204,6 +205,16 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				this.colorCodeField.setSelected(false);
 		}
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+	}
+	
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+	       for(Element child : this.children) {
+	            if(child instanceof GuiSliderMod) {
+	                ((GuiSliderMod) child).dragging = false;
+	            }
+	        }
+	    return super.mouseReleased(mouseX, mouseY, button);
 	}
 
 	@Override

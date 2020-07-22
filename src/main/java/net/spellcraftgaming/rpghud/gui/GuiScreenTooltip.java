@@ -28,11 +28,11 @@ public class GuiScreenTooltip extends Screen {
     @Override
     public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
         super.render(ms, mouseX, mouseY, partialTicks);
-        if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
-            drawTooltip(ms, mouseX, mouseY);
-        }
         for(GuiTextLabel label : labelList) {
             label.render(this, ms);
+        }
+        if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
+            drawTooltip(ms, mouseX, mouseY);
         }
     }
 
@@ -92,9 +92,9 @@ public class GuiScreenTooltip extends Screen {
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY)
-                            fontRenderer.draw(ms, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+                            this.drawStringWithShadow(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
                         else
-                            fontRenderer.draw(ms, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                            this.drawStringWithShadow(ms, fontRenderer,  tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
                     }
                 }
             }
