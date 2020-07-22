@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -26,10 +25,10 @@ public class HudElementHealthMountModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
-		int healthMax = (int) mount.getMaxHealth();
+		int healthMax = (int) mount.getMaximumHealth();
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
@@ -37,10 +36,10 @@ public class HudElementHealthMountModern extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset -2 : -2) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = this.settings.getPositionValue(Settings.mount_health_position)[1];
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			int width2 = this.mc.textRenderer.getWidth(stringHealth) / 2;
+			int width2 = this.mc.textRenderer.getStringWidth(stringHealth) / 2;
 			drawRect(posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+			gui.drawCenteredString(this.mc.textRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 

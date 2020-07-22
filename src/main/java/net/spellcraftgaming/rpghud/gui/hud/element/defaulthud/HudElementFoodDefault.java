@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.item.ItemStack;
@@ -25,7 +24,7 @@ public class HudElementFoodDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		HungerManager stats = this.mc.player.getHungerManager();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -56,7 +55,7 @@ public class HudElementFoodDefault extends HudElement {
 		}
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			gui.drawCenteredString(ms,this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
 	}
 
 }

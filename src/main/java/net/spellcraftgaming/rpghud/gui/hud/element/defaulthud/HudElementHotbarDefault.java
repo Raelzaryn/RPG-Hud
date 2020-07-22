@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.options.AttackIndicator;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
@@ -28,9 +27,9 @@ public class HudElementHotbarDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR)
-            this.mc.inGameHud.getSpectatorHud().render(ms, partialTicks);
+            this.mc.inGameHud.getSpectatorHud().render(partialTicks);
         else if(this.mc.getCameraEntity() instanceof PlayerEntity) {
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
@@ -40,13 +39,13 @@ public class HudElementHotbarDefault extends HudElement {
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
             float f = zLevel;
             zLevel = -90.0F;
-            gui.drawTexture(ms, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
-            gui.drawTexture(ms, i - 91 - 1 + this.mc.player.inventory.selectedSlot * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
+            gui.blit(i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
+            gui.blit(i - 91 - 1 + this.mc.player.inventory.selectedSlot * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
             if(!itemstack.isEmpty())
                 if(arm == Arm.LEFT)
-                    gui.drawTexture(ms, i - 91 - 29, scaledHeight - 23 + posY, 24, 22, 29, 24);
+                    gui.blit(i - 91 - 29, scaledHeight - 23 + posY, 24, 22, 29, 24);
                 else
-                    gui.drawTexture(ms, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
+                    gui.blit(i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
 
             zLevel = f;
             RenderSystem.enableRescaleNormal();
@@ -75,11 +74,11 @@ public class HudElementHotbarDefault extends HudElement {
                     if(arm == Arm.RIGHT)
                         j2 = i - 91 - 22;
 
-                    this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+                    this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
                     int k1 = (int) (f1 * 19.0F);
                     RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    gui.drawTexture(ms, j2, i2, 0, 94, 18, 18);
-                    gui.drawTexture(ms, j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
+                    gui.blit(j2, i2, 0, 94, 18, 18);
+                    gui.blit(j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
                 }
             }
 

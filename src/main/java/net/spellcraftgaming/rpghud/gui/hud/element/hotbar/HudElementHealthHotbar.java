@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
@@ -25,11 +24,11 @@ public class HudElementHealthHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.health_position)[1];
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
-		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
+		int healthMax = MathHelper.ceil(this.mc.player.getMaximumHealth());
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 
 		if (absorption > 1)
@@ -45,6 +44,6 @@ public class HudElementHealthHotbar extends HudElement {
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
+			gui.drawCenteredString(this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 }

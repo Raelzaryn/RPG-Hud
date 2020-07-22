@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -24,7 +23,7 @@ public class HudElementExperienceDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
 		int expCap = this.mc.player.getNextLevelExperience();
 		double full = 100D / expCap;
@@ -37,7 +36,7 @@ public class HudElementExperienceDefault extends HudElement {
 
 		int var7 = scaledWidth / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gui.drawCenteredString(ms,this.mc.textRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
+			gui.drawCenteredString(this.mc.textRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
 	}
 
 }

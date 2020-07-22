@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -64,7 +63,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			slider.onClick(0, 0);
 		}));
 
-		this.colorCodeField = new TextFieldWidget(client.textRenderer, this.width / 2 - 74, 115, 147, 20, new TranslatableText(Settings.intToHexString(this.color)));
+		this.colorCodeField = new TextFieldWidget(minecraft.textRenderer, this.width / 2 - 74, 115, 147, 20, new TranslatableText(Settings.intToHexString(this.color)).asString());
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 		this.colorCodeField.setMaxLength(7);
 		
@@ -74,23 +73,23 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
 		
 		for(int i = 0; i < 6; i++) {
-			this.addButton(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i]), button -> {
+			this.addButton(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i]).asString(), button -> {
 					actionPerformed(button);
 			}));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addButton(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i+6]), button -> {
+			this.addButton(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i+6]).asString(), button -> {
 					actionPerformed(button);
 			}));
 		}
 
-		this.addButton(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, new TranslatableText("gui.done"), button -> {
+		this.addButton(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, new TranslatableText("gui.done").asString(), button -> {
 				setSettingColor();
-				client.openScreen(parent);
+				minecraft.openScreen(parent);
 		}).setTooltip(I18n.translate("tooltip.done", new Object[0])));
-		this.addButton(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, new TranslatableText("gui.cancel"), button -> {
-		    client.openScreen(parent);
+		this.addButton(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, new TranslatableText("gui.cancel").asString(), button -> {
+		    minecraft.openScreen(parent);
 		}).setTooltip(I18n.translate("tooltip.cancel", new Object[0])));
 	}
 	
@@ -123,9 +122,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_YELLOW);
 			} else if (button.id == 250) {
 				setSettingColor();
-				this.client.openScreen(this.parent);
+				this.minecraft.openScreen(this.parent);
 			} else if (button.id == 251) {
-				this.client.openScreen(this.parent);
+				this.minecraft.openScreen(this.parent);
 			}
 		}
 	}
@@ -218,16 +217,16 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	}
 
 	@Override
-	public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
-		TextRenderer textRenderer = client.textRenderer;
-		this.renderBackground(ms);
-		this.drawCenteredString(ms, textRenderer, this.title, this.width / 2, 12, -1);
-		this.drawCenteredString(ms, textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		this.drawCenteredString(ms, textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		this.drawCenteredString(ms, textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
-		this.colorCodeField.render(ms,mouseX, mouseY, partialTicks);
-		this.drawCenteredString(ms, textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
-		super.render(ms, mouseX, mouseY, partialTicks);
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		TextRenderer textRenderer = minecraft.textRenderer;
+		this.renderBackground();
+		this.drawCenteredString(textRenderer, this.title, this.width / 2, 12, -1);
+		this.drawCenteredString(textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
+		this.drawCenteredString(textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
+		this.drawCenteredString(textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
+		this.colorCodeField.render(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		super.render(mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
 }

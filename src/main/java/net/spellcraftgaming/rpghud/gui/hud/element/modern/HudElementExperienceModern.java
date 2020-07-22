@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -24,7 +23,7 @@ public class HudElementExperienceModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
 		int expCap = this.mc.player.getNextLevelExperience();
 		double full = ((double) (scaledWidth - 2)) / expCap;
@@ -37,10 +36,10 @@ public class HudElementExperienceModern extends HudElement {
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			int width2 = this.mc.textRenderer.getWidth(stringExp) / 2;
+			int width2 = this.mc.textRenderer.getStringWidth(stringExp) / 2;
 			drawRect(1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
+			gui.drawCenteredString(this.mc.textRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 		}
 	}

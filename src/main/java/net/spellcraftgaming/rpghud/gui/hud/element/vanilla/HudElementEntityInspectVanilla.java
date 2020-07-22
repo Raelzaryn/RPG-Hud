@@ -43,23 +43,23 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-            gui.drawTexture(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
-            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D,
+            gui.blit(posX - 62, 20 + posY, 0, 0, 128, 36);
+            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaximumHealth() * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
-            String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
+            String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaximumHealth() * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            gui.drawCenteredString(this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
-            int x = (posX - 29 + 44 - this.mc.textRenderer.getWidth(focused.getName().getString()) / 2);
+            int x = (posX - 29 + 44 - this.mc.textRenderer.getStringWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
-            this.drawStringWithBackground(ms, focused.getName().getString(), x, y, -1, 0);
+            this.drawStringWithBackground(focused.getName().getString(), x, y, -1, 0);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
 
@@ -68,11 +68,11 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 if(armor > 0) {
                     String value = String.valueOf(armor);
                     this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-                    gui.drawTexture(ms, posX - 26, posY+44, 0, 36, 19, 8);
-                    this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+                    gui.blit(posX - 26, posY+44, 0, 36, 19, 8);
+                    this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
                     RenderSystem.scaled(0.5, 0.5, 0.5);
-                    gui.drawTexture(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
-                    this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
+                    gui.blit((posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    gui.drawString(mc.textRenderer, value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1);
                     RenderSystem.scaled(2.0, 2.0, 2.0);
                 }  
             }
@@ -124,9 +124,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entityRenderDispatcher.setRotation(quaternion2);
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        RenderSystem.runAsFancy(() -> {
-           entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880);
-        });
+        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880);
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
         entity.bodyYaw = h;
@@ -204,26 +202,26 @@ public class HudElementEntityInspectVanilla extends HudElement {
     private static Direction func_197741_a(Box aabb, Vec3d p_197741_1_, double[] p_197741_2_, Direction facing, double p_197741_4_,
             double p_197741_6_, double p_197741_8_) {
         if(p_197741_4_ > 1.0E-7D) {
-            facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.minX, aabb.minY, aabb.maxY, aabb.minZ, aabb.maxZ, Direction.WEST,
+            facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.x1, aabb.y1, aabb.y2, aabb.z1, aabb.z2, Direction.WEST,
                     p_197741_1_.x, p_197741_1_.y, p_197741_1_.z);
         } else if(p_197741_4_ < -1.0E-7D) {
-            facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.maxX, aabb.minY, aabb.maxY, aabb.minZ, aabb.maxZ, Direction.EAST,
+            facing = func_197740_a(p_197741_2_, facing, p_197741_4_, p_197741_6_, p_197741_8_, aabb.x2, aabb.y1, aabb.y2, aabb.z1, aabb.z2, Direction.EAST,
                     p_197741_1_.x, p_197741_1_.y, p_197741_1_.z);
         }
 
         if(p_197741_6_ > 1.0E-7D) {
-            facing = func_197740_a(p_197741_2_, facing, p_197741_6_, p_197741_8_, p_197741_4_, aabb.minY, aabb.minZ, aabb.maxZ, aabb.minX, aabb.maxX, Direction.DOWN,
+            facing = func_197740_a(p_197741_2_, facing, p_197741_6_, p_197741_8_, p_197741_4_, aabb.y1, aabb.z1, aabb.z2, aabb.x1, aabb.x2, Direction.DOWN,
                     p_197741_1_.y, p_197741_1_.z, p_197741_1_.x);
         } else if(p_197741_6_ < -1.0E-7D) {
-            facing = func_197740_a(p_197741_2_, facing, p_197741_6_, p_197741_8_, p_197741_4_, aabb.maxY, aabb.minZ, aabb.maxZ, aabb.minX, aabb.maxX, Direction.UP,
+            facing = func_197740_a(p_197741_2_, facing, p_197741_6_, p_197741_8_, p_197741_4_, aabb.y2, aabb.z1, aabb.z2, aabb.x1, aabb.x2, Direction.UP,
                     p_197741_1_.y, p_197741_1_.z, p_197741_1_.x);
         }
 
         if(p_197741_8_ > 1.0E-7D) {
-            facing = func_197740_a(p_197741_2_, facing, p_197741_8_, p_197741_4_, p_197741_6_, aabb.minZ, aabb.minX, aabb.maxX, aabb.minY, aabb.maxY,
+            facing = func_197740_a(p_197741_2_, facing, p_197741_8_, p_197741_4_, p_197741_6_, aabb.z1, aabb.x1, aabb.x2, aabb.y1, aabb.y2,
                     Direction.NORTH, p_197741_1_.z, p_197741_1_.x, p_197741_1_.y);
         } else if(p_197741_8_ < -1.0E-7D) {
-            facing = func_197740_a(p_197741_2_, facing, p_197741_8_, p_197741_4_, p_197741_6_, aabb.maxZ, aabb.minX, aabb.maxX, aabb.minY, aabb.maxY,
+            facing = func_197740_a(p_197741_2_, facing, p_197741_8_, p_197741_4_, p_197741_6_, aabb.z2, aabb.x1, aabb.x2, aabb.y1, aabb.y2,
                     Direction.SOUTH, p_197741_1_.z, p_197741_1_.x, p_197741_1_.y);
         }
 

@@ -7,7 +7,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -27,17 +26,17 @@ public class HudElementLevelModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		int width = this.mc.textRenderer.getWidth(level);
+		int width = this.mc.textRenderer.getStringWidth(level);
 		if(width < 16) width = 16;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 		
-		if (this.mc.textRenderer.getWidth(level) > (width + 2))
-			width = this.mc.textRenderer.getWidth(level) + 2;
+		if (this.mc.textRenderer.getStringWidth(level) > (width + 2))
+			width = this.mc.textRenderer.getStringWidth(level) + 2;
 		
 		RenderSystem.enableAlphaTest();
 		RenderSystem.disableBlend();
@@ -53,9 +52,9 @@ public class HudElementLevelModern extends HudElement {
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24" || !this.settings.getBoolValue(Settings.render_player_face)) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
+			gui.drawCenteredString(this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
 		} else {
-			gui.drawCenteredString(ms, this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
+			gui.drawCenteredString(this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
 		}
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
 		RenderSystem.enableBlend();

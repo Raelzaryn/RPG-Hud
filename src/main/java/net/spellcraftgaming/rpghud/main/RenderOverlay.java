@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -50,24 +49,24 @@ public class RenderOverlay implements HudRenderCallback{
         }
     }*/
 
-    private void renderOverlay(MatrixStack ms, float partialTicks) {
-        this.drawElement(HudElementType.WIDGET, ms, partialTicks);
-        this.drawElement(HudElementType.CLOCK, ms, partialTicks);
-        this.drawElement(HudElementType.DETAILS, ms, partialTicks);
-        this.drawElement(HudElementType.COMPASS, ms, partialTicks);
-        this.drawElement(HudElementType.ENTITY_INSPECT, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, ms, partialTicks);
+    private void renderOverlay(float partialTicks) {
+        this.drawElement(HudElementType.WIDGET, partialTicks);
+        this.drawElement(HudElementType.CLOCK, partialTicks);
+        this.drawElement(HudElementType.DETAILS, partialTicks);
+        this.drawElement(HudElementType.COMPASS, partialTicks);
+        this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, partialTicks);
         if(!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
-            this.drawElement(HudElementType.EXPERIENCE, ms, partialTicks);
-            this.drawElement(HudElementType.LEVEL, ms, partialTicks);
+            this.drawElement(HudElementType.EXPERIENCE, partialTicks);
+            this.drawElement(HudElementType.LEVEL, partialTicks);
         }
         if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, ms, partialTicks);
+            this.drawElement(HudElementType.HOTBAR, partialTicks);
             
             
         }
@@ -79,13 +78,13 @@ public class RenderOverlay implements HudRenderCallback{
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
-    private void drawElement(HudElementType type, MatrixStack ms, float partialTicks) {
+    private void drawElement(HudElementType type, float partialTicks) {
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
-                bind(DrawableHelper.GUI_ICONS_TEXTURE);
+                bind(DrawableHelper.GUI_ICONS_LOCATION);
                 RenderSystem.enableBlend();
-                this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, ms, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
+                this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
                         this.mc.getWindow().getScaledHeight());
                 RenderSystem.disableBlend();
             }
@@ -142,8 +141,8 @@ public class RenderOverlay implements HudRenderCallback{
     }
 
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
-        renderOverlay(matrixStack, tickDelta);
+    public void onHudRender(float tickDelta) {
+        renderOverlay(tickDelta);
         
     }
     

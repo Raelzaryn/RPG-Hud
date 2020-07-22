@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
@@ -27,15 +26,15 @@ public class HudElementHealthModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
-		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
+		int healthMax = MathHelper.ceil(this.mc.player.getMaximumHealth());
 
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
-		int width = this.mc.textRenderer.getWidth(stringHealth) / 2 + 4;
+		int width = this.mc.textRenderer.getStringWidth(stringHealth) / 2 + 4;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
@@ -46,7 +45,7 @@ public class HudElementHealthModern extends HudElement {
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
+			gui.drawCenteredString(this.mc.textRenderer, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 

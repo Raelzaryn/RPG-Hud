@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
@@ -45,20 +44,20 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
 				GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
-				drawArmorDetails(gui, ms);
+				drawArmorDetails(gui);
 				GL11.glTranslated(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
 			}
 			GL11.glTranslated(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
-			drawItemDetails(gui, ms, 0);
-			drawItemDetails(gui, ms, 1);
+			drawItemDetails(gui, 0);
+			drawItemDetails(gui, 1);
 			GL11.glTranslated(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
 				GL11.glTranslated(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
-				drawArrowCount(gui, ms);
+				drawArrowCount(gui);
 				GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
 			}
 	}
@@ -69,17 +68,17 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw one
 	 */
-	protected void drawArmorDetails(DrawableHelper gui, MatrixStack ms) {
+	protected void drawArmorDetails(DrawableHelper gui) {
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
 		for (int i = this.mc.player.inventory.armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.inventory.getArmorStack(i) != ItemStack.EMPTY && this.mc.player.inventory.getArmorStack(i).getItem().isDamageable()) {
 				ItemStack item = this.mc.player.inventory.getArmorStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset);
+				this.mc.getItemRenderer().renderGuiItem(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2: 62+typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
+				gui.drawString(this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
@@ -95,22 +94,22 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param hand
 	 *            the hand whose item should be detailed
 	 */
-	protected void drawItemDetails(DrawableHelper gui, MatrixStack ms, int hand) {
+	protected void drawItemDetails(DrawableHelper gui, int hand) {
 		ItemStack item = getItemInHand(hand);
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
+				this.mc.getItemRenderer().renderGuiItem(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+				gui.drawString(this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
-				int x = this.mc.player.inventory.size();
+				int x = this.mc.player.inventory.getInvSize();
 				int z = 0;
 				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemsEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
 					if (hand == 0) {
@@ -121,7 +120,7 @@ public class HudElementDetailsVanilla extends HudElement {
 						ModRPGHud.renderDetailsAgain[1] = false;
 					}
 					for (int y = 0; y < x; y++) {
-						item = this.mc.player.inventory.getStack(y);
+						item = this.mc.player.inventory.getInvStack(y);
 						if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item.getRawId(getItemInHand(hand).getItem())) {
 							z += item.getCount();
 						}
@@ -141,9 +140,9 @@ public class HudElementDetailsVanilla extends HudElement {
 				String s = "x " + z;
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(0.5D, 0.5D, 0.5D);
-				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
+				this.mc.getItemRenderer().renderGuiItem(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				gui.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
+				gui.drawString(this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (this.settings.getBoolValue(Settings.reduce_size))
 					GL11.glScaled(2.0D, 2.0D, 2.0D);
 				this.offset += 16;
@@ -157,10 +156,10 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw on
 	 */
-	protected void drawArrowCount(DrawableHelper gui, MatrixStack ms) {
+	protected void drawArrowCount(DrawableHelper gui) {
 		ItemStack item = this.mc.player.getMainHandStack();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof BowItem) {
-			int x = this.mc.player.inventory.size();
+			int x = this.mc.player.inventory.getInvSize();
 			int z = 0;
 
 			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemsEqual(this.itemMainHandLastArrow, item)) {
@@ -170,7 +169,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (item != ItemStack.EMPTY) {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
-						ItemStack item3 = this.mc.player.inventory.getStack(y);
+						ItemStack item3 = this.mc.player.inventory.getInvStack(y);
 						if (ItemStack.areItemsEqual(item, item3)) {
 							z += addArrowStackIfCorrect(item, item3);
 						}
@@ -190,9 +189,9 @@ public class HudElementDetailsVanilla extends HudElement {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 
-			this.mc.getItemRenderer().renderInGui(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124  + typeOffset*2: 62 + typeOffset) + this.offset);
+			this.mc.getItemRenderer().renderGuiItem(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124  + typeOffset*2: 62 + typeOffset) + this.offset);
 			GL11.glDisable(GL11.GL_LIGHTING);
-			gui.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+			gui.drawString(this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				GL11.glScaled(2.0D, 2.0D, 2.0D);
 			this.offset += 16;
@@ -222,8 +221,8 @@ public class HudElementDetailsVanilla extends HudElement {
 		} else if (isArrow(mc.player.getMainHandStack())) {
 			return mc.player.getMainHandStack();
 		} else {
-			for (int i = 0; i < player.inventory.size(); ++i) {
-				ItemStack itemstack = player.inventory.getStack(i);
+			for (int i = 0; i < player.inventory.getInvSize(); ++i) {
+				ItemStack itemstack = player.inventory.getInvStack(i);
 
 				if (isArrow(itemstack)) {
 					return itemstack;

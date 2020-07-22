@@ -24,7 +24,7 @@ public abstract class GuiTitleScreenMixin extends Screen{
     private void addModConfigButton(CallbackInfo info) {
         MinecraftClient mc = MinecraftClient.getInstance();
         Text s = new TranslatableText("name.rpghud");
-        this.addButton(new ButtonWidget(this.width- mc.textRenderer.getWidth(s.getString()) - 8, 0, mc.textRenderer.getWidth(s.getString()) + 8, 20, s, button -> {
+        this.addButton(new ButtonWidget(this.width- mc.textRenderer.getStringWidth(s.getString()) - 8, 0, mc.textRenderer.getStringWidth(s.getString()) + 8, 20, s.asString(), button -> {
             mc.openScreen(new GuiSettingsMod(this, new TranslatableText("gui.settings.rpghud")));
         }));
     }

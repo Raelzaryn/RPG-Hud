@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.options.AttackIndicator;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
@@ -26,9 +25,9 @@ public class HudElementHotbarModern extends HudElement {
     protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
-            this.mc.inGameHud.getSpectatorHud().render(ms, partialTicks);
+            this.mc.inGameHud.getSpectatorHud().render(partialTicks);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
@@ -100,11 +99,11 @@ public class HudElementHotbarModern extends HudElement {
 						j2 = i - 91 - 22;
 					}
 
-					this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+					this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.drawTexture(ms, j2, i2 - 9, 0, 94, 18, 18);
-					gui.drawTexture(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
+					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

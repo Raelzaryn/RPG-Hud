@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -45,7 +44,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 	
 	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, ButtonWidget.PressAction titleIn) {
-		super(x, y, 150, 12, new TranslatableText(""), titleIn);
+		super(x, y, 150, 12, new TranslatableText("").asString(), titleIn);
 		this.color = color;
 		this.sliderValue = value / 255;
 		this.value = (int) Math.ceil(value);
@@ -107,7 +106,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
      */
     @Override
-    protected void renderBg(MatrixStack ms, MinecraftClient par1Minecraft, int par2, int par3)
+    protected void renderBg(MinecraftClient par1Minecraft, int par2, int par3)
     {
     }
 
@@ -142,7 +141,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void render(MatrixStack ms, int mouseX, int mouseY, float partial)
+    public void render(int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -166,11 +165,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             
             String buttonText = getDisplayString();
             mc.getTextureManager().bindTexture(WIDGETS_LOCATION);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            this.drawCenteredString(ms, mc.textRenderer, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
+			this.blit(this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
+			this.blit(this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			this.blit(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
+			this.blit(this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            this.drawCenteredString(mc.textRenderer, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
         }
     }
     

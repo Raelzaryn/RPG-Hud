@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
@@ -39,7 +39,6 @@ public class RenderOverlayMixin extends DrawableHelper {
 
     @Inject(at = @At("HEAD"), method = "renderStatusBars", cancellable = true)
     private void renderStatusBars(CallbackInfo info) {
-        MatrixStack matrixStack = new MatrixStack();
         MinecraftClient client = MinecraftClient.getInstance();
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
@@ -50,7 +49,8 @@ public class RenderOverlayMixin extends DrawableHelper {
             int m = scaledWidth / 2 - 91;
             int n = scaledWidth / 2 + 91;
             int o = scaledHeight - 39;
-            float f = (float) playerEntity.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH);
+            EntityAttributeInstance entityAttributeInstance = playerEntity.getAttributeInstance(EntityAttributes.MAX_HEALTH);
+            float f = (float)entityAttributeInstance.getValue();
             int p = MathHelper.ceil(playerEntity.getAbsorptionAmount());
             int q = MathHelper.ceil((f + (float) p) / 2.0F / 10.0F);
             int r = Math.max(10 - (q - 2), 3);
@@ -68,15 +68,15 @@ public class RenderOverlayMixin extends DrawableHelper {
                     if(v > 0) {
                         aa = m + z * 8;
                         if(z * 2 + 1 < v) {
-                            this.drawTexture(matrixStack, aa, s, 34, 9, 9, 9);
+                            this.blit(aa, s, 34, 9, 9, 9);
                         }
 
                         if(z * 2 + 1 == v) {
-                            this.drawTexture(matrixStack, aa, s, 25, 9, 9, 9);
+                            this.blit(aa, s, 25, 9, 9, 9);
                         }
 
                         if(z * 2 + 1 > v) {
-                            this.drawTexture(matrixStack, aa, s, 16, 9, 9, 9);
+                            this.blit(aa, s, 16, 9, 9, 9);
                         }
                     }
                 }
@@ -138,33 +138,33 @@ public class RenderOverlayMixin extends DrawableHelper {
                         af = 5;
                     }
 
-                    this.drawTexture(matrixStack, ad, ae, 16 + ab * 9, 9 * af, 9, 9);
-                    if(bl) {
-                        if(z * 2 + 1 < j) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 54, 9 * af, 9, 9);
-                        }
+                    this.blit(ad, ae, 16 + ab * 9, 9 * af, 9, 9);
+                    if (bl) {
+                       if (z * 2 + 1 < j) {
+                          this.blit(ad, ae, aa + 54, 9 * af, 9, 9);
+                       }
 
-                        if(z * 2 + 1 == j) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 63, 9 * af, 9, 9);
-                        }
+                       if (z * 2 + 1 == j) {
+                          this.blit(ad, ae, aa + 63, 9 * af, 9, 9);
+                       }
                     }
 
-                    if(u > 0) {
-                        if(u == p && p % 2 == 1) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 153, 9 * af, 9, 9);
-                            --u;
-                        } else {
-                            this.drawTexture(matrixStack, ad, ae, aa + 144, 9 * af, 9, 9);
-                            u -= 2;
-                        }
+                    if (u > 0) {
+                       if (u == p && p % 2 == 1) {
+                          this.blit(ad, ae, aa + 153, 9 * af, 9, 9);
+                          --u;
+                       } else {
+                          this.blit(ad, ae, aa + 144, 9 * af, 9, 9);
+                          u -= 2;
+                       }
                     } else {
-                        if(z * 2 + 1 < i) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 36, 9 * af, 9, 9);
-                        }
+                       if (z * 2 + 1 < i) {
+                          this.blit(ad, ae, aa + 36, 9 * af, 9, 9);
+                       }
 
-                        if(z * 2 + 1 == i) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 45, 9 * af, 9, 9);
-                        }
+                       if (z * 2 + 1 == i) {
+                          this.blit(ad, ae, aa + 45, 9 * af, 9, 9);
+                       }
                     }
                 }
             }
@@ -193,13 +193,13 @@ public class RenderOverlayMixin extends DrawableHelper {
                         }
 
                         al = n - ah * 8 - 9;
-                        this.drawTexture(matrixStack, al, ai, 16 + ak * 9, 27, 9, 9);
-                        if(ah * 2 + 1 < k) {
-                            this.drawTexture(matrixStack, al, ai, ad + 36, 27, 9, 9);
+                        this.blit(al, ai, 16 + ak * 9, 27, 9, 9);
+                        if (ah * 2 + 1 < k) {
+                           this.blit(al, ai, ad + 36, 27, 9, 9);
                         }
 
-                        if(ah * 2 + 1 == k) {
-                            this.drawTexture(matrixStack, al, ai, ad + 45, 27, 9, 9);
+                        if (ah * 2 + 1 == k) {
+                           this.blit(al, ai, ad + 45, 27, 9, 9);
                         }
                     }
 
@@ -210,7 +210,7 @@ public class RenderOverlayMixin extends DrawableHelper {
                 client.getProfiler().swap("air");
                 ah = playerEntity.getAir();
                 ai = playerEntity.getMaxAir();
-                if(playerEntity.isSubmergedIn(FluidTags.WATER) || ah < ai) {
+                if(playerEntity.isInFluid(FluidTags.WATER) || ah < ai) {
                     ad = this.getHeartRows(aa) - 1;
                     t -= ad * 10;
                     ae = MathHelper.ceil((double) (ah - 2) * 10.0D / (double) ai);
@@ -218,9 +218,9 @@ public class RenderOverlayMixin extends DrawableHelper {
 
                     for(int ar = 0; ar < ae + al; ++ar) {
                         if(ar < ae) {
-                            this.drawTexture(matrixStack, n - ar * 8 - 9, t, 16, 18, 9, 9);
+                            this.blit(n - ar * 8 - 9, t, 16, 18, 9, 9);
                         } else {
-                            this.drawTexture(matrixStack, n - ar * 8 - 9, t, 25, 18, 9, 9);
+                           this.blit(n - ar * 8 - 9, t, 25, 18, 9, 9);
                         }
                     }
                 }
@@ -257,7 +257,7 @@ public class RenderOverlayMixin extends DrawableHelper {
 
     private int getHeartCount(LivingEntity entity) {
         if(entity != null && entity.isLiving()) {
-            float f = entity.getMaxHealth();
+            float f = entity.getMaximumHealth();
             int i = (int) (f + 0.5F) / 2;
             if(i > 30) {
                 i = 30;

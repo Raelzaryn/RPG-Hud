@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -24,10 +23,10 @@ public class HudElementHealthDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
-		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
+		int healthMax = MathHelper.ceil(this.mc.player.getMaximumHealth());
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 24) + this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 13 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 
@@ -44,6 +43,6 @@ public class HudElementHealthDefault extends HudElement {
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(ms,this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
+			gui.drawCenteredString(this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
 	}
 }

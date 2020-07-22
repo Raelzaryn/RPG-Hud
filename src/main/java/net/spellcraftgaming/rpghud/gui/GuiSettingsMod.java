@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -54,12 +53,12 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 	@Override
 	public void init() {
-		TextRenderer fontRenderer = client.textRenderer;
+		TextRenderer fontRenderer = minecraft.textRenderer;
 		if(this.subSetting.equals("")){
-			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", new TranslatableText("gui.rpg.general"), button -> {
+			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", new TranslatableText("gui.rpg.general").asString(), button -> {
 					GuiButtonTooltip b = (GuiButtonTooltip) button;
 					if(b.enumOptions != null)
-					    client.openScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
+					    this.minecraft.openScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
 			}).setTooltip(I18n.translate("tooltip.general", new Object[0]));
 			this.addButton(guismallbutton);
 			
@@ -68,10 +67,10 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			for(HudElementType type : HudElementType.values()){
 				List<String> settings = this.settings.getSettingsOf(type);
 				if(!settings.isEmpty()) {
-					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), new TranslatableText(type.getDisplayName()), button -> {
+					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), new TranslatableText(type.getDisplayName()).asString(), button -> {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
-								this.client.openScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
+								this.minecraft.openScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
 							}
 					}).setTooltip(I18n.translate("tooltip.element", new Object[0]));
 					this.addButton(guismallbutton);
@@ -89,13 +88,13 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					GuiTextLabel settingLabel = new GuiTextLabel(this.width / 2 - 152 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1), this.settings.getButtonString(settingList.get(i)));
 					labelList.add(settingLabel);
 
-					TextFieldWidget xPos = new TextFieldWidget(fontRenderer, this.width / 2 - 100 + i % 2 * 160, this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslatableText(values[0]));
+					TextFieldWidget xPos = new TextFieldWidget(fontRenderer, this.width / 2 - 100 + i % 2 * 160, this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslatableText(values[0]).asString());
 					xPos.setText(values[0]);
 					xPos.setMaxLength(6);
 					this.children.add(xPos);
 					fields.add(xPos);
 
-					TextFieldWidget yPos = new TextFieldWidget(fontRenderer, this.width / 2 - 100 + i % 2 * 160 + 48, this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslatableText(values[1]));
+					TextFieldWidget yPos = new TextFieldWidget(fontRenderer, this.width / 2 - 100 + i % 2 * 160 + 48, this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslatableText(values[1]).asString());
 					yPos.setText(values[1]);
 					yPos.setMaxLength(6);
 					this.children.add(yPos);
@@ -105,14 +104,14 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				}
 				else
 				{
-					GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settingList.get(i), new TranslatableText(this.settings.getButtonString(settingList.get(i))), button -> {
+					GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1), settingList.get(i), new TranslatableText(this.settings.getButtonString(settingList.get(i))).asString(), button -> {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
 								if(settings.getSetting(b.enumOptions) instanceof SettingColor){
-								    client.openScreen(new GuiSettingsModColor(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
+								    minecraft.openScreen(new GuiSettingsModColor(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
 								} else {
 									settings.increment(b.enumOptions);
-									button.setMessage(new TranslatableText(settings.getButtonString(b.enumOptions)));
+									button.setMessage(new TranslatableText(settings.getButtonString(b.enumOptions)).asString());
 								}
 							}
 					}).setTooltip(this.settings.getSetting(settingList.get(i)).getTooltip());
@@ -121,25 +120,25 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			}
 		}
 
-		this.addButton(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, new TranslatableText("gui.done"), button -> {
+		this.addButton(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, new TranslatableText("gui.done").asString(), button -> {
 				Settings settings = ModRPGHud.instance.settings;
 				for(String settingID : textFields.keySet()) {
 					settings.setSetting(settingID, textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
 				}
 				settings.saveSettings();
-				client.openScreen(parent);
+				minecraft.openScreen(parent);
 		}));
 	}
 
 	@Override
-	public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(ms);
-		this.drawCenteredString(ms, client.textRenderer, I18n.translate("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
+		this.drawCenteredString(minecraft.textRenderer, I18n.translate("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<TextFieldWidget> positionPairs : textFields.values()) {
 			for(TextFieldWidget t : positionPairs)
-				t.render(ms, mouseX, mouseY, partialTicks);
+				t.render(mouseX, mouseY, partialTicks);
 		}
-		super.render(ms, mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

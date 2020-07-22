@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -24,7 +23,7 @@ public class HudElementArmorModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 	    double scale = getScale();
         RenderSystem.scaled(scale, scale, scale);
 		int left = getPosX(scaledWidth);
@@ -33,11 +32,11 @@ public class HudElementArmorModern extends HudElement {
 		int level = this.mc.player.getArmor();
 		if (level > 0) {
 	        int height = getHeight(scaledHeight);
-			int width2 = 1 + 9 + 2 + this.mc.textRenderer.getWidth(String.valueOf(level)) + 2;
+			int width2 = 1 + 9 + 2 + this.mc.textRenderer.getStringWidth(String.valueOf(level)) + 2;
 			drawRect(left, top, width2, height, 0xA0000000);
-			this.mc.textRenderer.draw(ms,String.valueOf(level), left + 12, top + 2, -1);
-			this.mc.getTextureManager().bindTexture(AbstractParentElement.GUI_ICONS_TEXTURE);
-			gui.drawTexture(ms, left + 1, top + 1, 34, 9, 9, 9);
+			this.mc.textRenderer.draw(String.valueOf(level), left + 12, top + 2, -1);
+			this.mc.getTextureManager().bindTexture(AbstractParentElement.GUI_ICONS_LOCATION);
+			gui.blit(left + 1, top + 1, 34, 9, 9, 9);
 		}
 		
 		scale = getInvertedScale();

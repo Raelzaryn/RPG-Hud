@@ -12,7 +12,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -140,11 +139,11 @@ public abstract class HudElement {
 	/**
 	 * Function called to draw this element on the screen
 	 */
-	public void draw(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-	    this.drawElement(gui, ms, zLevel, partialTicks, scaledWidth, scaledHeight);
+	public void draw(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	    this.drawElement(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 
-	public abstract void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
+	public abstract void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
@@ -634,7 +633,7 @@ public abstract class HudElement {
                 RenderSystem.translatef((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
-            this.mc.getItemRenderer().renderInGuiWithOverrides(player, item, x, y);
+            this.mc.getItemRenderer().renderGuiItem(player, item, x, y);
 
             if (f > 0.0F) {
                 RenderSystem.popMatrix();
@@ -644,11 +643,11 @@ public abstract class HudElement {
         }
     }
     
-    protected void drawStringWithBackground(MatrixStack ms, String text, int posX, int posY, int colorMain, int colorBackground) {
-        this.mc.textRenderer.draw(ms,text, posX + 1, posY, colorBackground);
-        this.mc.textRenderer.draw(ms,text, posX - 1, posY, colorBackground);
-        this.mc.textRenderer.draw(ms,text, posX, posY + 1, colorBackground);
-        this.mc.textRenderer.draw(ms,text, posX, posY - 1, colorBackground);
-        this.mc.textRenderer.draw(ms,text, posX, posY, colorMain);
+    protected void drawStringWithBackground(String text, int posX, int posY, int colorMain, int colorBackground) {
+        this.mc.textRenderer.draw(text, posX + 1, posY, colorBackground);
+        this.mc.textRenderer.draw(text, posX - 1, posY, colorBackground);
+        this.mc.textRenderer.draw(text, posX, posY + 1, colorBackground);
+        this.mc.textRenderer.draw(text, posX, posY - 1, colorBackground);
+        this.mc.textRenderer.draw(text, posX, posY, colorMain);
     }
 }

@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.item.ItemStack;
@@ -28,13 +27,13 @@ public class HudElementFoodModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		HungerManager stats = this.mc.player.getHungerManager();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
-		int width = this.mc.textRenderer.getWidth(staminaString) / 2 + 4;
+		int width = this.mc.textRenderer.getStringWidth(staminaString) / 2 + 4;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
@@ -45,7 +44,7 @@ public class HudElementFoodModern extends HudElement {
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
+			gui.drawCenteredString(this.mc.textRenderer, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 

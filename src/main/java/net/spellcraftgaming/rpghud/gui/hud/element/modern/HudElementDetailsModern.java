@@ -7,7 +7,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
@@ -36,22 +35,22 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
     }
 
     @Override
-    public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)
                 + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
         int width = calculateWidth();
         if(this.settings.getBoolValue(Settings.show_armor)) {
             GL11.glTranslated(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
-            drawArmorDetails(gui, ms, width);
+            drawArmorDetails(gui, width);
             GL11.glTranslated(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
         }
         GL11.glTranslated(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
-        drawItemDetails(gui, ms, Hand.MAIN_HAND, width);
-        drawItemDetails(gui, ms, Hand.OFF_HAND, width);
+        drawItemDetails(gui, Hand.MAIN_HAND, width);
+        drawItemDetails(gui, Hand.OFF_HAND, width);
         GL11.glTranslated(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
         if(this.settings.getBoolValue(Settings.show_arrow_count)) {
             GL11.glTranslated(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
-            drawArrowCount(gui, ms, width);
+            drawArrowCount(gui, width);
             GL11.glTranslated(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
         }
     }
@@ -63,7 +62,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
             if(this.mc.player.inventory.getArmorStack(i) != ItemStack.EMPTY && this.mc.player.inventory.getArmorStack(i).getItem().isDamageable()) {
                 ItemStack item = this.mc.player.inventory.getArmorStack(i);
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-                int widthNew = this.mc.textRenderer.getWidth(s);
+                int widthNew = this.mc.textRenderer.getStringWidth(s);
                 if(widthNew > width)
                     width = widthNew;
             }
@@ -72,18 +71,18 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
         if(item != ItemStack.EMPTY) {
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-                int widthNew = this.mc.textRenderer.getWidth(s);
+                int widthNew = this.mc.textRenderer.getStringWidth(s);
                 if(widthNew > width)
                     width = widthNew;
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
-                int x = this.mc.player.inventory.size();
+                int x = this.mc.player.inventory.getInvSize();
                 int z = 0;
                 if(ModRPGHud.renderDetailsAgain[0] || !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
                     this.itemMainHandLast = item.copy();
                     ModRPGHud.renderDetailsAgain[0] = false;
 
                     for(int y = 0; y < x; y++) {
-                        item = this.mc.player.inventory.getStack(y);
+                        item = this.mc.player.inventory.getInvStack(y);
                         if(item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item.getRawId(this.mc.player.getMainHandStack().getItem())) {
                             z += item.getCount();
                         }
@@ -94,7 +93,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 }
 
                 String s = "x " + z;
-                int widthNew = this.mc.textRenderer.getWidth(s);
+                int widthNew = this.mc.textRenderer.getStringWidth(s);
                 if(widthNew > width)
                     width = widthNew;
             }
@@ -103,18 +102,18 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
         if(item != ItemStack.EMPTY) {
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-                int widthNew = this.mc.textRenderer.getWidth(s);
+                int widthNew = this.mc.textRenderer.getStringWidth(s);
                 if(widthNew > width)
                     width = widthNew;
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
-                int x = this.mc.player.inventory.size();
+                int x = this.mc.player.inventory.getInvSize();
                 int z = 0;
                 if(ModRPGHud.renderDetailsAgain[1] || !ItemStack.areItemsEqual(this.itemOffhandLast, item)
                         || !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
                     this.itemOffhandLast = item.copy();
                     ModRPGHud.renderDetailsAgain[1] = false;
                     for(int y = 0; y < x; y++) {
-                        item = this.mc.player.inventory.getStack(y);
+                        item = this.mc.player.inventory.getInvStack(y);
                         if(item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item.getRawId(this.mc.player.getOffHandStack().getItem())) {
                             z += item.getCount();
                         }
@@ -124,14 +123,14 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                     z = this.count2;
                 }
                 String s = "x " + z;
-                int widthNew = this.mc.textRenderer.getWidth(s);
+                int widthNew = this.mc.textRenderer.getStringWidth(s);
                 if(widthNew > width)
                     width = widthNew;
             }
         }
         item = this.mc.player.getMainHandStack();
         if(this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && this.mc.player.getMainHandStack().getItem() instanceof BowItem) {
-            int x = this.mc.player.inventory.size();
+            int x = this.mc.player.inventory.getInvSize();
             int z = 0;
 
             if(ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemsEqual(this.itemMainHandLastArrow, item)) {
@@ -141,7 +140,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 if(item != ItemStack.EMPTY) {
                     this.itemArrow = item.copy();
                     for(int y = 0; y < x; y++) {
-                        ItemStack item3 = this.mc.player.inventory.getStack(y);
+                        ItemStack item3 = this.mc.player.inventory.getInvStack(y);
                         if(ItemStack.areItemsEqual(item, item3)) {
                             z += addArrowStackIfCorrect(item, item3);
                         }
@@ -153,7 +152,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 z = this.count3;
             }
             String s = "x " + z;
-            int widthNew = this.mc.textRenderer.getWidth(s);
+            int widthNew = this.mc.textRenderer.getStringWidth(s);
             if(widthNew > width)
                 width = widthNew;
         }
@@ -172,17 +171,17 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
      * @param gui   the GUI to draw one
      * @param width the width of the background
      */
-    protected void drawArmorDetails(DrawableHelper gui, MatrixStack ms, int width) {
+    protected void drawArmorDetails(DrawableHelper gui, int width) {
         for(int i = this.mc.player.inventory.armor.size() - 1; i >= 0; i--) {
             if(this.mc.player.inventory.getArmorStack(i) != ItemStack.EMPTY && this.mc.player.inventory.getArmorStack(i).getItem().isDamageable()) {
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
                 RenderSystem.scaled(0.5D, 0.5D, 0.5D);
                 ItemStack item = this.mc.player.inventory.getArmorStack(i);
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-                this.mc.getItemRenderer().renderInGui(item, 6, 62 + this.offset);
+                this.mc.getItemRenderer().renderGuiItem(item, 6, 62 + this.offset);
                 if(this.settings.getBoolValue(Settings.show_durability_bar))
                     this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, 6, 62 + this.offset);
-                gui.drawCenteredString(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+                gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
                 RenderSystem.scaled(2.0D, 2.0D, 2.0D);
                 this.offset += 20;
             }
@@ -196,22 +195,22 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
      * @param hand  the hand whose item should be detailed
      * @param width the width of the background
      */
-    protected void drawItemDetails(DrawableHelper gui, MatrixStack ms, Hand hand, int width) {
+    protected void drawItemDetails(DrawableHelper gui, Hand hand, int width) {
         ItemStack item = this.mc.player.getStackInHand(hand);
         if(item != ItemStack.EMPTY) {
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
                 RenderSystem.scaled(0.5, 0.5, 0.5);
-                this.mc.getItemRenderer().renderInGui(item, 6, 62 + this.offset);
+                this.mc.getItemRenderer().renderGuiItem(item, 6, 62 + this.offset);
                 if(this.settings.getBoolValue(Settings.show_durability_bar))
                     this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, 6, 62 + this.offset);
-                gui.drawCenteredString(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+                gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
                 RenderSystem.scaled(2.0, 2.0, 2.0);
                 this.offset += 20;
 
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
-                int x = this.mc.player.inventory.size();
+                int x = this.mc.player.inventory.getInvSize();
                 int z = 0;
                 if((hand == Hand.MAIN_HAND ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1])
                         || !ItemStack.areItemsEqual((hand == Hand.MAIN_HAND ? this.itemMainHandLast : this.itemOffhandLast), item)
@@ -224,7 +223,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                         ModRPGHud.renderDetailsAgain[1] = false;
                     }
                     for(int y = 0; y < x; y++) {
-                        item = this.mc.player.inventory.getStack(y);
+                        item = this.mc.player.inventory.getInvStack(y);
                         if(item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item.getRawId(this.mc.player.getStackInHand(hand).getItem())) {
                             z += item.getCount();
                         }
@@ -244,8 +243,8 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
                 String s = "x " + z;
                 RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-                this.mc.getItemRenderer().renderInGui(item, 6, 62 + this.offset);
-                gui.drawCenteredString(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+                this.mc.getItemRenderer().renderGuiItem(item, 6, 62 + this.offset);
+                gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
                 RenderSystem.scaled(2.0D, 2.0D, 2.0D);
                 this.offset += 20;
             }
@@ -258,10 +257,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
      * @param gui   the GUI to draw on
      * @param width the width of the background
      */
-    protected void drawArrowCount(DrawableHelper gui, MatrixStack ms, int width) {
+    protected void drawArrowCount(DrawableHelper gui, int width) {
         ItemStack item = this.mc.player.getMainHandStack();
         if(this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && this.mc.player.getMainHandStack().getItem() instanceof BowItem) {
-            int x = this.mc.player.inventory.size();
+            int x = this.mc.player.inventory.getInvSize();
             int z = 0;
 
             if(ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemsEqual(this.itemMainHandLastArrow, item)) {
@@ -271,7 +270,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 if(item != ItemStack.EMPTY) {
                     this.itemArrow = item.copy();
                     for(int y = 0; y < x; y++) {
-                        ItemStack item3 = this.mc.player.inventory.getStack(y);
+                        ItemStack item3 = this.mc.player.inventory.getInvStack(y);
                         if(ItemStack.areItemsEqual(item, item3)) {
                             z += addArrowStackIfCorrect(item, item3);
                         }
@@ -288,8 +287,8 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
             RenderSystem.scaled(0.5D, 0.5D, 0.5D);
             if(this.itemArrow == ItemStack.EMPTY)
                 this.itemArrow = new ItemStack(Items.ARROW);
-            this.mc.getItemRenderer().renderInGui(this.itemArrow, 6, 62 + this.offset);
-            gui.drawCenteredString(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+            this.mc.getItemRenderer().renderGuiItem(this.itemArrow, 6, 62 + this.offset);
+            gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
             RenderSystem.scaled(2.0D, 2.0D, 2.0D);
             this.offset += 20;
 
