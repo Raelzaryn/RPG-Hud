@@ -21,9 +21,9 @@ plugins {
 }
 */
 
-version = "3.7"
+version = "3.7.1"
 group = "net.spellcraftgaming.rpghud" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "[1.8.9] RPG-HUD"
+archivesBaseName = "[1.8.9][Forge] RPG-HUD"
 
 minecraft {
     version = "1.8.9-11.15.1.1722"
