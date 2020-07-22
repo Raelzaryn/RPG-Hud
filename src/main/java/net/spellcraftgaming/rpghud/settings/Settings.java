@@ -121,8 +121,8 @@ public class Settings {
 	public void init() {
 		addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
 		addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
-		addSetting(show_update_notification, new SettingBoolean(show_update_notification, true));
-		addSetting(show_convert_notification, new SettingBoolean(show_convert_notification, true));
+		//addSetting(show_update_notification, new SettingBoolean(show_update_notification, true));
+		//addSetting(show_convert_notification, new SettingBoolean(show_convert_notification, true));
 
 		addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
 		addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));
