@@ -445,6 +445,8 @@ public abstract class HudElement {
 	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
 		if (value < 0.0D) {
 			value = 0.0D;
+		}else if (value > 100D) {
+		    value = 100D;
 		}
 
 		int offset = 0;
