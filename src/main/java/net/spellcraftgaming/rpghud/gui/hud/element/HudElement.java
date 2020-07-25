@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -216,10 +216,10 @@ public abstract class HudElement {
 	public boolean setPos(int posX, int posY) {
 		boolean xValid = false;
 		boolean yValid = false;
-		if (posX >= 0 && posX < (this.mc.getWindow().getScaledWidth() - this.elementWidth)) {
+		if (posX >= 0 && posX < (this.mc.window.getScaledWidth() - this.elementWidth)) {
 			xValid = true;
 		}
-		if (posY >= 0 && posY < (this.mc.getWindow().getScaledHeight() - this.elementHeight)) {
+		if (posY >= 0 && posY < (this.mc.window.getScaledHeight() - this.elementHeight)) {
 			yValid = true;
 		}
 		if (xValid && yValid) {
@@ -272,11 +272,11 @@ public abstract class HudElement {
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
-		RenderSystem.enableBlend();
-		RenderSystem.disableTexture();
-		RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-		RenderSystem.color4f(f, f1, f2, f3);
-		RenderSystem.disableDepthTest();
+		GlStateManager.enableBlend();
+		GlStateManager.disableTexture();
+		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+		GlStateManager.color4f(f, f1, f2, f3);
+		GlStateManager.disableDepthTest();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, VertexFormats.POSITION);
@@ -285,10 +285,10 @@ public abstract class HudElement {
 		vertexbuffer.vertex((double) posX + width, posY, 0.0D).next();
 		vertexbuffer.vertex(posX, posY, 0.0D).next();
 		tessellator.draw();
-		RenderSystem.enableTexture();
-		RenderSystem.disableBlend();
-		RenderSystem.enableDepthTest();
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.enableTexture();
+		GlStateManager.disableBlend();
+		GlStateManager.enableDepthTest();
+		GlStateManager.color3f(1f, 1f, 1f);
 	}
 
 	/**
@@ -444,6 +444,8 @@ public abstract class HudElement {
 	public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
 		if (value < 0.0D) {
 			value = 0.0D;
+		} else if (value > 100D) {
+		    value = 100D;
 		}
 
 		int offset = 0;
@@ -509,11 +511,11 @@ public abstract class HudElement {
 		float f = (color >> 16 & 255) / 255.0F;
 		float f1 = (color >> 8 & 255) / 255.0F;
 		float f2 = (color & 255) / 255.0F;
-		RenderSystem.enableBlend();
-		RenderSystem.disableTexture();
-		RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-		RenderSystem.color4f(f, f1, f2, f3);
-		RenderSystem.disableDepthTest();
+		GlStateManager.enableBlend();
+		GlStateManager.disableTexture();
+		GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+		GlStateManager.color4f(f, f1, f2, f3);
+		GlStateManager.disableDepthTest();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, VertexFormats.POSITION);
@@ -522,10 +524,10 @@ public abstract class HudElement {
 		vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).next();
 		vertexbuffer.vertex(posX2, posY1, 0.0D).next();
 		tessellator.draw();
-		RenderSystem.enableTexture();
-		RenderSystem.disableBlend();
-		RenderSystem.enableDepthTest();
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.enableTexture();
+		GlStateManager.disableBlend();
+		GlStateManager.enableDepthTest();
+		GlStateManager.color3f(1f, 1f, 1f);
 	}
 
 	public static int offsetColorPercent(int color, int offsetPercent) {
@@ -626,17 +628,17 @@ public abstract class HudElement {
             float f = (float)item.getCooldown() - partialTicks;
 
             if (f > 0.0F) {
-                RenderSystem.pushMatrix();
+                GlStateManager.pushMatrix();
                 float f1 = 1.0F + f / 5.0F;
-                RenderSystem.translatef(x + 8, y + 12, 0.0F);
-                RenderSystem.scalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-                RenderSystem.translatef((-(x + 8)), (-(y + 12)), 0.0F);
+                GlStateManager.translatef(x + 8, y + 12, 0.0F);
+                GlStateManager.scalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+                GlStateManager.translatef((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
             this.mc.getItemRenderer().renderGuiItem(player, item, x, y);
 
             if (f > 0.0F) {
-                RenderSystem.popMatrix();
+                GlStateManager.popMatrix();
             }
 
             this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, x, y);

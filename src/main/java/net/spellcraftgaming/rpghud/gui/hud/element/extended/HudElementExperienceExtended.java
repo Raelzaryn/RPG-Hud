@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -36,9 +36,9 @@ public class HudElementExperienceExtended extends HudElement {
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
+			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 			gui.drawCenteredString(this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
-			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
+			GlStateManager.scaled(2.0D, 2.0D, 2.0D);
 		}
 	}
 

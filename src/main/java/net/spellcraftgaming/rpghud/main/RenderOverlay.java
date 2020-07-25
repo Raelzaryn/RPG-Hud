@@ -1,10 +1,9 @@
 package net.spellcraftgaming.rpghud.main;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.util.Identifier;
@@ -12,7 +11,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(EnvType.CLIENT)
-public class RenderOverlay implements HudRenderCallback{
+public class RenderOverlay {
 
     private ModRPGHud rpgHud;
     private MinecraftClient mc;
@@ -20,7 +19,6 @@ public class RenderOverlay implements HudRenderCallback{
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
         this.mc = MinecraftClient.getInstance();
-        HudRenderCallback.EVENT.register(this);
     }
 
     /*@SubscribeEvent
@@ -83,10 +81,10 @@ public class RenderOverlay implements HudRenderCallback{
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
                 bind(DrawableHelper.GUI_ICONS_LOCATION);
-                RenderSystem.enableBlend();
-                this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
-                        this.mc.getWindow().getScaledHeight());
-                RenderSystem.disableBlend();
+                GlStateManager.enableBlend();
+                this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, partialTicks, partialTicks, this.mc.window.getScaledWidth(),
+                        this.mc.window.getScaledHeight());
+                GlStateManager.disableBlend();
             }
 
         }
@@ -140,7 +138,6 @@ public class RenderOverlay implements HudRenderCallback{
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
 
-    @Override
     public void onHudRender(float tickDelta) {
         renderOverlay(tickDelta);
         

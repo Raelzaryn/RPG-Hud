@@ -26,6 +26,8 @@ public class ModRPGHud implements ClientModInitializer{
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
 	public Settings settings;
+	
+	public RenderOverlay overlay;
 
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
@@ -44,7 +46,7 @@ public class ModRPGHud implements ClientModInitializer{
 		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
-        new RenderOverlay();
+        overlay = new RenderOverlay();
     }
     
 	/**

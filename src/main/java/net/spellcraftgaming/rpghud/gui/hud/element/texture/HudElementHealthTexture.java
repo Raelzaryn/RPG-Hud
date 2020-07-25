@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,7 +27,7 @@ public class HudElementHealthTexture extends HudElement {
 	@Override
 	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		bind(INTERFACE);
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.color3f(1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaximumHealth());
@@ -46,7 +46,7 @@ public class HudElementHealthTexture extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
 			gui.drawCenteredString(this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.color3f(1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 	}
 

@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -78,11 +78,11 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect((int) (posX - ((float) this.mc.textRenderer.getStringWidth(String.valueOf(pos[1])) / 4) - 2), posY + 11, this.mc.textRenderer.getStringWidth(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);
 			drawRect((posX + 48) - (this.mc.textRenderer.getStringWidth(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.textRenderer.getStringWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
-			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
+			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 			gui.drawString(this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
 			gui.drawCenteredString(this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
 			gui.drawString(this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getStringWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
-			RenderSystem.scaled(2D, 2D, 2D);
+			GlStateManager.scaled(2D, 2D, 2D);
 		}
 	}
 	

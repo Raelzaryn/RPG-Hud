@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -175,14 +175,14 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
         for(int i = this.mc.player.inventory.armor.size() - 1; i >= 0; i--) {
             if(this.mc.player.inventory.getArmorStack(i) != ItemStack.EMPTY && this.mc.player.inventory.getArmorStack(i).getItem().isDamageable()) {
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
-                RenderSystem.scaled(0.5D, 0.5D, 0.5D);
+                GlStateManager.scaled(0.5D, 0.5D, 0.5D);
                 ItemStack item = this.mc.player.inventory.getArmorStack(i);
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
                 this.mc.getItemRenderer().renderGuiItem(item, 6, 62 + this.offset);
                 if(this.settings.getBoolValue(Settings.show_durability_bar))
                     this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, 6, 62 + this.offset);
                 gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-                RenderSystem.scaled(2.0D, 2.0D, 2.0D);
+                GlStateManager.scaled(2.0D, 2.0D, 2.0D);
                 this.offset += 20;
             }
         }
@@ -201,12 +201,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
             if(this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
                 String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-                RenderSystem.scaled(0.5, 0.5, 0.5);
+                GlStateManager.scaled(0.5, 0.5, 0.5);
                 this.mc.getItemRenderer().renderGuiItem(item, 6, 62 + this.offset);
                 if(this.settings.getBoolValue(Settings.show_durability_bar))
                     this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, 6, 62 + this.offset);
                 gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-                RenderSystem.scaled(2.0, 2.0, 2.0);
+                GlStateManager.scaled(2.0, 2.0, 2.0);
                 this.offset += 20;
 
             } else if(this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
@@ -242,10 +242,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
                 item = this.mc.player.getStackInHand(hand);
                 drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
                 String s = "x " + z;
-                RenderSystem.scaled(0.5D, 0.5D, 0.5D);
+                GlStateManager.scaled(0.5D, 0.5D, 0.5D);
                 this.mc.getItemRenderer().renderGuiItem(item, 6, 62 + this.offset);
                 gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-                RenderSystem.scaled(2.0D, 2.0D, 2.0D);
+                GlStateManager.scaled(2.0D, 2.0D, 2.0D);
                 this.offset += 20;
             }
         }
@@ -284,12 +284,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
             }
             drawRect(2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
             String s = "x " + z;
-            RenderSystem.scaled(0.5D, 0.5D, 0.5D);
+            GlStateManager.scaled(0.5D, 0.5D, 0.5D);
             if(this.itemArrow == ItemStack.EMPTY)
                 this.itemArrow = new ItemStack(Items.ARROW);
             this.mc.getItemRenderer().renderGuiItem(this.itemArrow, 6, 62 + this.offset);
             gui.drawCenteredString(this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-            RenderSystem.scaled(2.0D, 2.0D, 2.0D);
+            GlStateManager.scaled(2.0D, 2.0D, 2.0D);
             this.offset += 20;
 
         }

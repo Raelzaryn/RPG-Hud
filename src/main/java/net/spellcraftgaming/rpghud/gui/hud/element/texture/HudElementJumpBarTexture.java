@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -29,10 +29,10 @@ public class HudElementJumpBarTexture extends HudElement {
 		int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float var14 = this.mc.player.method_3151();
 		int color = (int) (var14 * 100.0F);
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.color3f(1f, 1f, 1f);
 		gui.blit(adjustedWidth - 71, height - 80, 0, 160, 141, 10);
 		gui.blit(adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10);
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.color3f(1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 	}
 

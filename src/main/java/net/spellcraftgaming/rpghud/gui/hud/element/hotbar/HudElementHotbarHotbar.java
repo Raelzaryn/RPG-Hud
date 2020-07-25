@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -29,10 +29,10 @@ public class HudElementHotbarHotbar extends HudElement {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(partialTicks);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
-			ItemStack itemstack = this.mc.player.getMainHandStack();
+            ItemStack itemstack = this.mc.player.getOffHandStack();
 			int i = scaledWidth / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
@@ -44,9 +44,10 @@ public class HudElementHotbarHotbar extends HudElement {
 			gui.blit(posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
 
 			zLevel = f;
-			RenderSystem.enableRescaleNormal();
-			RenderSystem.enableBlend();
-	        RenderSystem.defaultBlendFunc();
+			GlStateManager.enableRescaleNormal();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO);
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
@@ -66,14 +67,14 @@ public class HudElementHotbarHotbar extends HudElement {
 
                     this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
-					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
 					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 
-			RenderSystem.disableRescaleNormal();
-			RenderSystem.disableBlend();
+			GlStateManager.disableRescaleNormal();
+			GlStateManager.disableBlend();
 		}
 	}
 }

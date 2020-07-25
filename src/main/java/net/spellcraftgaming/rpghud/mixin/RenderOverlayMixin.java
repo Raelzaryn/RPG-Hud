@@ -21,6 +21,7 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.main.RenderOverlay;
 
 @Mixin(InGameHud.class)
@@ -40,8 +41,8 @@ public class RenderOverlayMixin extends DrawableHelper {
     @Inject(at = @At("HEAD"), method = "renderStatusBars", cancellable = true)
     private void renderStatusBars(CallbackInfo info) {
         MinecraftClient client = MinecraftClient.getInstance();
-        int scaledWidth = client.getWindow().getScaledWidth();
-        int scaledHeight = client.getWindow().getScaledHeight();
+        int scaledWidth = client.window.getScaledWidth();
+        int scaledHeight = client.window.getScaledHeight();
         Random random = new Random();
         PlayerEntity playerEntity = !(client.getCameraEntity() instanceof PlayerEntity) ? null : (PlayerEntity) client.getCameraEntity();
         if(playerEntity != null) {
@@ -255,6 +256,11 @@ public class RenderOverlayMixin extends DrawableHelper {
             info.cancel();
     }
 
+    @Inject(at = @At("TAIL"), method = "render")
+    private void renderHUD(CallbackInfo info) {
+        ModRPGHud.instance.overlay.onHudRender(MinecraftClient.getInstance().getTickDelta());
+    }
+    
     private int getHeartCount(LivingEntity entity) {
         if(entity != null && entity.isLiving()) {
             float f = entity.getMaximumHealth();

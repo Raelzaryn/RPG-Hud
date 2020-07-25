@@ -2,16 +2,13 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
@@ -21,7 +18,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RayTraceContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -48,14 +44,19 @@ public class HudElementEntityInspectVanilla extends HudElement {
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
+            
+            float health = focused.getHealth();
+            float maxHealth = focused.getMaximumHealth();
+            if(health > maxHealth) health = maxHealth;
+            
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
             gui.blit(posX - 62, 20 + posY, 0, 0, 128, 36);
-            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaximumHealth() * 100D,
+            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
-            String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaximumHealth() * 10)) / 10;
-            RenderSystem.scaled(0.5, 0.5, 0.5);
+            String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
+            GlStateManager.scaled(0.5, 0.5, 0.5);
             gui.drawCenteredString(this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
-            RenderSystem.scaled(2.0, 2.0, 2.0);
+            GlStateManager.scaled(2.0, 2.0, 2.0);
 
             int x = (posX - 29 + 44 - this.mc.textRenderer.getStringWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
@@ -70,10 +71,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
                     gui.blit(posX - 26, posY+44, 0, 36, 19, 8);
                     this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
-                    RenderSystem.scaled(0.5, 0.5, 0.5);
+                    GlStateManager.scaled(0.5, 0.5, 0.5);
                     gui.blit((posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
                     gui.drawString(mc.textRenderer, value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1);
-                    RenderSystem.scaled(2.0, 2.0, 2.0);
+                    GlStateManager.scaled(2.0, 2.0, 2.0);
                 }  
             }
         }
@@ -99,46 +100,36 @@ public class HudElementEntityInspectVanilla extends HudElement {
         posY += offset;
         float f = (float) Math.atan((180 / 40.0F));
         float g = (float) Math.atan((0 / 40.0F));
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef(posX, posY, 1050.0F);
-        RenderSystem.scalef(1.0F, 1.0F, -1.0F);
-        MatrixStack matrixStack = new MatrixStack();
-        matrixStack.translate(0.0D, 0.0D, 1000.0D);
-        matrixStack.scale(scale, scale, scale);
-        Quaternion quaternion = Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
-        Quaternion quaternion2 = Vector3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
-        quaternion.hamiltonProduct(quaternion2);
-        matrixStack.multiply(quaternion);
-        float h = entity.bodyYaw;
+        GlStateManager.pushMatrix();
+        GlStateManager.translatef(posX, posY, 1050.0F);
+        GlStateManager.scaled((-scale), scale, scale);
+        float h = entity.field_6283;
         float i = entity.yaw;
         float j = entity.pitch;
         float k = entity.prevHeadYaw;
         float l = entity.headYaw;
-        entity.bodyYaw = 180.0F + f * 20.0F;
+        entity.field_6283 = 180.0F + f * 20.0F;
         entity.yaw = 180.0F + f * 40.0F;
         entity.pitch = -g * 20.0F;
         entity.headYaw = entity.yaw;
         entity.prevHeadYaw = entity.yaw;
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
-        quaternion2.conjugate();
-        entityRenderDispatcher.setRotation(quaternion2);
+        entityRenderDispatcher.method_3945(180.0F);
         entityRenderDispatcher.setRenderShadows(false);
-        VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880);
-        immediate.draw();
+        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
         entityRenderDispatcher.setRenderShadows(true);
-        entity.bodyYaw = h;
+        entity.field_6283 = h;
         entity.yaw = i;
         entity.pitch = j;
         entity.prevHeadYaw = k;
         entity.headYaw = l;
-        RenderSystem.popMatrix();
+        GlStateManager.popMatrix();
     }
 
     public static LivingEntity getFocusedEntity(Entity watcher) {
         LivingEntity focusedEntity = null;
         double maxDistance = 64;
-        Vec3d vec = new Vec3d(watcher.getX(), watcher.getY(), watcher.getZ());
+        Vec3d vec = new Vec3d(watcher.x, watcher.y, watcher.z);
         Vec3d posVec = watcher.getPos();
         if(watcher instanceof PlayerEntity) {
             vec = vec.add(0D, watcher.getStandingEyeHeight(), 0D);

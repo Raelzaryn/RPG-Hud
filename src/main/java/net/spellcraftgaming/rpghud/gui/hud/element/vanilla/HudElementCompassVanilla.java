@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -75,22 +75,22 @@ public class HudElementCompassVanilla extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
 			if (this.settings.getBoolValue(Settings.reduce_size))
-				RenderSystem.scaled(0.5D, 0.5D, 0.5D);
+				GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 			int[] pos = getPlayerPos();
 			gui.drawString(this.mc.textRenderer, String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			gui.drawCenteredString(this.mc.textRenderer, String.valueOf(pos[1]), width * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			gui.drawString(this.mc.textRenderer, String.valueOf(pos[2]), (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - mc.textRenderer.getStringWidth(String.valueOf(pos[2])), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
-				RenderSystem.scaled(2D, 2D, 2D);
+				GlStateManager.scaled(2D, 2D, 2D);
 		}
 	}
 
 	public static int[] getPlayerPos() {
 		MinecraftClient mc = MinecraftClient.getInstance();
 		int[] pos = new int[3];
-		pos[0] = (int) mc.player.getX();
-		pos[1] = (int) mc.player.getY();
-		pos[2] = (int) mc.player.getZ();
+		pos[0] = (int) mc.player.x;
+		pos[1] = (int) mc.player.y;
+		pos[2] = (int) mc.player.z;
 		return pos;
 	}
 }

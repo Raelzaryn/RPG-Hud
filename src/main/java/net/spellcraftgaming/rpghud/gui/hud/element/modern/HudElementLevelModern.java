@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -38,8 +38,8 @@ public class HudElementLevelModern extends HudElement {
 		if (this.mc.textRenderer.getStringWidth(level) > (width + 2))
 			width = this.mc.textRenderer.getStringWidth(level) + 2;
 		
-		RenderSystem.enableAlphaTest();
-		RenderSystem.disableBlend();
+		GlStateManager.enableAlphaTest();
+		GlStateManager.disableBlend();
 		
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2) + this.settings.getPositionValue(Settings.level_position)[0];
 		int posY = ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 22 : 26) + this.settings.getPositionValue(Settings.level_position)[1];
@@ -57,7 +57,7 @@ public class HudElementLevelModern extends HudElement {
 			gui.drawCenteredString(this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
 		}
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
-		RenderSystem.enableBlend();
+		GlStateManager.enableBlend();
 	}
 
 }

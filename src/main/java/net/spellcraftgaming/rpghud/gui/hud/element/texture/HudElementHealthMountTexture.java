@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,7 +27,7 @@ public class HudElementHealthMountTexture extends HudElement {
 	@Override
 	public void drawElement(DrawableHelper gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.color3f(1f, 1f, 1f);
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaximumHealth();
@@ -39,11 +39,11 @@ public class HudElementHealthMountTexture extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			RenderSystem.scaled(0.5, 0.5, 0.5);
+			GlStateManager.scaled(0.5, 0.5, 0.5);
 			gui.drawCenteredString(this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
-			RenderSystem.scaled(2.0, 2.0, 2.0);
+			GlStateManager.scaled(2.0, 2.0, 2.0);
 		}
-		RenderSystem.color3f(1f, 1f, 1f);
+		GlStateManager.color3f(1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(AbstractParentElement.GUI_ICONS_LOCATION);
 	}
 

@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -29,7 +29,7 @@ public class HudElementHotbarModern extends HudElement {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(partialTicks);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
 			ItemStack itemstack = this.mc.player.getOffHandStack();
@@ -50,7 +50,7 @@ public class HudElementHotbarModern extends HudElement {
 				}
 			}
 			drawRect(width / 2 - 91 + 2 + (entityplayer.inventory.selectedSlot * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
-			RenderSystem.enableAlphaTest();
+			GlStateManager.enableAlphaTest();
 			if (itemstack != ItemStack.EMPTY) {
 				if (enumhandside == Arm.LEFT) {
 					drawRect(width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
@@ -68,9 +68,10 @@ public class HudElementHotbarModern extends HudElement {
 			}
 
 			zLevel = f;
-			RenderSystem.enableRescaleNormal();
-			RenderSystem.enableBlend();
-			RenderSystem.defaultBlendFunc();
+			GlStateManager.enableRescaleNormal();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO);
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
@@ -101,14 +102,14 @@ public class HudElementHotbarModern extends HudElement {
 
 					this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
-					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					gui.blit(j2, i2 - 9, 0, 94, 18, 18);
 					gui.blit(j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 
-			RenderSystem.disableRescaleNormal();
-			RenderSystem.disableBlend();
+			GlStateManager.disableRescaleNormal();
+			GlStateManager.disableBlend();
 		}
 	}
 }
