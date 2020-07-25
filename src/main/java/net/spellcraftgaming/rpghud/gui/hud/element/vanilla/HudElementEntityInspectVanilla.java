@@ -101,8 +101,8 @@ public class HudElementEntityInspectVanilla extends HudElement {
         float f = (float) Math.atan((180 / 40.0F));
         float g = (float) Math.atan((0 / 40.0F));
         GlStateManager.pushMatrix();
-        GlStateManager.translatef(posX, posY, 1050.0F);
-        GlStateManager.scaled((-scale), scale, scale);
+        GlStateManager.translatef(posX, posY, 50.0F);
+        GlStateManager.scaled(-scale, -scale, -scale);
         float h = entity.field_6283;
         float i = entity.yaw;
         float j = entity.pitch;
@@ -113,6 +113,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.pitch = -g * 20.0F;
         entity.headYaw = entity.yaw;
         entity.prevHeadYaw = entity.yaw;
+        entity.field_6220 = 0;
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
         entityRenderDispatcher.method_3945(180.0F);
         entityRenderDispatcher.setRenderShadows(false);
