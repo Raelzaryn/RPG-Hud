@@ -25,6 +25,8 @@ public class ModRPGHud implements ClientModInitializer{
     
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
+	public static int screenOffset = 0;
+	
 	public Settings settings;
 
 	/** Map of all registered HUDs */
@@ -45,6 +47,7 @@ public class ModRPGHud implements ClientModInitializer{
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
         new RenderOverlay();
+        if (isClass("io.github.prospector.modmenu.ModMenu")) screenOffset = 12;
     }
     
 	/**
@@ -74,5 +77,14 @@ public class ModRPGHud implements ClientModInitializer{
 	/** Checks if a Hud with the specified key is registered */
 	public boolean isHudKeyValid(String key) {
 		return this.huds.containsKey(key);
+	}
+	
+	public static boolean isClass(String className) {
+	    try  {
+	        Class.forName(className);
+	        return true;
+	    }  catch (ClassNotFoundException e) {
+	        return false;
+	    }
 	}
 }
