@@ -48,11 +48,13 @@ public class HudElementEntityInspectVanilla extends HudElement {
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
+            float health = focused.getHealth();
+            float maxHealth = focused.getMaximumHealth();
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
             gui.blit(posX - 62, 20 + posY, 0, 0, 128, 36);
-            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaximumHealth() * 100D,
+            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
-            String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaximumHealth() * 10)) / 10;
+            String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
             gui.drawCenteredString(this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
