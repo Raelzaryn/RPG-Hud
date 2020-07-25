@@ -20,6 +20,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             float health = focused.getHealth();
             float maxHealth = focused.getMaximumHealth();
+            if(health > maxHealth) health = maxHealth;
             drawRect(posX - 62, 20 + posY, 32, 32, 0xA0000000);
             drawRect(posX - 60, 22 + posY, 28, 28, 0x20FFFFFF);
             drawRect(posX - 30, 20 + posY, 90, 12, 0xA0000000);

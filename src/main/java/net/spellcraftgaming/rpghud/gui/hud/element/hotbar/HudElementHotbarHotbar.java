@@ -32,7 +32,7 @@ public class HudElementHotbarHotbar extends HudElement {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
-			ItemStack itemstack = this.mc.player.getMainHandStack();
+            ItemStack itemstack = this.mc.player.getOffHandStack();
 			int i = scaledWidth / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
