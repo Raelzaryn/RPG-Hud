@@ -1,3 +1,3 @@
 This is the RPG-Hud Project by KurodaAkira.
-
-<p>This branch is the version of this mod for MC 1.16.1 for the Fabric Mod Loader
+<br>https://www.curseforge.com/minecraft/mc-mods/rpg-hud-fabric/
+<p>This branch is the MC 1.15.2 version of this Mod for the Fabric Mod Loader
