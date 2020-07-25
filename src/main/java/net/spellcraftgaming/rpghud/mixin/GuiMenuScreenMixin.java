@@ -12,6 +12,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GuiMenuScreenMixin extends Screen{
@@ -24,7 +25,7 @@ public abstract class GuiMenuScreenMixin extends Screen{
     private void addModConfigButton(CallbackInfo info) {
         MinecraftClient mc = MinecraftClient.getInstance();
         String s = new TranslatableText("name.rpghud").asString();
-        this.addButton(new ButtonWidget(this.width- mc.textRenderer.getStringWidth(s) - 8, 0, mc.textRenderer.getStringWidth(s.toString()) + 8, 20, s, button -> {
+        this.addButton(new ButtonWidget(this.width- mc.textRenderer.getStringWidth(s) - 8, ModRPGHud.screenOffset, mc.textRenderer.getStringWidth(s.toString()) + 8, 20, s, button -> {
             mc.openScreen(new GuiSettingsMod(this, new TranslatableText("gui.settings.rpghud")));
         }));
     }
