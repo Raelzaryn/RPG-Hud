@@ -62,6 +62,11 @@ public class RenderOverlay {
                 if(!shouldRenderVanilla(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
+            case POTION_ICONS:
+                if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
+                    event.setCanceled(true);
+                }
+                break;
             default:
                 break;
 
@@ -106,6 +111,10 @@ public class RenderOverlay {
                 if(preventEventType(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
+            case POTION_ICONS:
+                if(preventEventType(HudElementType.STATUS_EFFECTS))
+                    event.setCanceled(true);
+                break;
             default:
                 break;
 
@@ -135,10 +144,9 @@ public class RenderOverlay {
             this.drawElement(HudElementType.EXPERIENCE, partialTicks);
             this.drawElement(HudElementType.LEVEL, partialTicks);
         }
-        if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, partialTicks);
-            
-            
+        if(!shouldRenderVanilla(HudElementType.HOTBAR)) this.drawElement(HudElementType.HOTBAR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
+            this.drawElement(HudElementType.STATUS_EFFECTS, partialTicks);
         }
     }
 
@@ -153,10 +161,11 @@ public class RenderOverlay {
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
                 bind(Gui.ICONS);
+                GlStateManager.pushMatrix();
                 GlStateManager.enableBlend();
                 this.rpgHud.getActiveHud().drawElement(type, this.mc.ingameGUI, partialTicks, partialTicks, this.mc.mainWindow.getScaledWidth(),
                         this.mc.mainWindow.getScaledHeight());
-                GlStateManager.disableBlend();
+                GlStateManager.popMatrix();
             }
 
         }
@@ -207,27 +216,4 @@ public class RenderOverlay {
     private boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
-    
-    /*private static HudElementType getEventAlias(ElementType type) {
-        switch(type) {
-            case HOTBAR:
-                return HudElementType.HOTBAR;
-            case HEALTH:
-                return HudElementType.HEALTH;
-            case ARMOR:
-                return HudElementType.ARMOR;
-            case FOOD:
-                return HudElementType.FOOD;
-            case HEALTHMOUNT:
-                return HudElementType.HEALTH_MOUNT;
-            case AIR:
-                return HudElementType.AIR;
-            case JUMPBAR:
-                return HudElementType.JUMP_BAR;
-            case EXPERIENCE:
-                return HudElementType.EXPERIENCE;
-            default:
-                return null;
-        }
-    }*/
 }

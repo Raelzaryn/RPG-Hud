@@ -149,7 +149,7 @@ public abstract class HudElement {
      * 
      * @return x coordinate
      */
-    public int getPosX() {
+    public int getPosX(int scaledWidth) {
         return this.posX;
     }
 
@@ -158,7 +158,7 @@ public abstract class HudElement {
      * 
      * @return y coordinate
      */
-    public int getPosY() {
+    public int getPosY(int scaledHeight) {
         return this.posY;
     }
 
@@ -167,7 +167,7 @@ public abstract class HudElement {
      * 
      * @return width
      */
-    public int getWidth() {
+    public int getWidth(int scaledWidth) {
         return this.elementWidth;
     }
 
@@ -176,8 +176,16 @@ public abstract class HudElement {
      * 
      * @return height
      */
-    public int getHeight() {
+    public int getHeight(int scaledHeight) {
         return this.elementHeight;
+    }
+
+    public double getScale() {
+        return 1;
+    }
+    
+    public double getInvertedScale() {
+        return 1 / getScale();
     }
 
     /**
@@ -427,8 +435,10 @@ public abstract class HudElement {
     public void drawTetragon(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
         if(color == -1)
             return;
-        if(width1 < 0) width1 = 0;
-        if(width2 < 0) width2 = 0;
+        if(width1 < 0)
+            width1 = 0;
+        if(width2 < 0)
+            width2 = 0;
         float f3;
         if(color <= 0xFFFFFF && color >= 0)
             f3 = 1.0F;
@@ -532,7 +542,7 @@ public abstract class HudElement {
     protected static ResourceLocation getPlayerSkin(AbstractClientPlayer player) {
         return player.getLocationSkin();
     }
-    
+
     /**
      * Renders an item on the screen
      * 
@@ -544,7 +554,8 @@ public abstract class HudElement {
      */
     protected void renderHotbarItem(int x, int y, float partialTicks, EntityPlayer player, ItemStack item) {
         if(!item.isEmpty()) {
-            float f = item.getAnimationsToGo() - partialTicks;
+            float f = (float) item.getAnimationsToGo() - partialTicks;
+
             if(f > 0.0F) {
                 GlStateManager.pushMatrix();
                 float f1 = 1.0F + f / 5.0F;
@@ -554,10 +565,21 @@ public abstract class HudElement {
             }
 
             this.mc.getItemRenderer().renderItemAndEffectIntoGUI(player, item, x, y);
-            if(f > 0.0F)
+
+            if(f > 0.0F) {
                 GlStateManager.popMatrix();
+            }
 
             this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, x, y);
         }
+    }
+    
+    protected void drawStringWithBackground(String text, int posX, int posY, int colorMain, int colorBackground) {
+        this.mc.fontRenderer.drawString(text, posX + 1, posY, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX - 1, posY, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX, posY + 1, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX, posY - 1, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX, posY, colorMain);
+        GlStateManager.enableBlend();
     }
 }

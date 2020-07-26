@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.event;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,13 +23,13 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onGuiInit(InitGuiEvent event) {
-        if(event.getGui() instanceof GuiMainMenu || event.getGui() instanceof GuiMainMenu) {
+        if(event.getGui() instanceof GuiMainMenu || event.getGui() instanceof GuiIngameMenu) {
             Minecraft mc = Minecraft.getInstance();
             String s = I18n.format("name.rpghud", new Object[0]);
             event.addButton(new GuiButton(142, event.getGui().width - (mc.fontRenderer.getStringWidth(s) + 8), 0, mc.fontRenderer.getStringWidth(s) + 8, 20, s) {
                 @Override
                 public void onClick(double mouseX, double mouseY) {
-                    mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), I18n.format("gui.settings.rpghud", new Object[0])));
+                    mc.displayGuiScreen(new GuiSettingsMod(event.getGui()));
                 }
             });
         }
