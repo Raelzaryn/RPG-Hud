@@ -5,7 +5,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -25,7 +24,7 @@ public class HudElementArmorDefault extends HudElement {
 	@Override
 	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
-		int top = scaledHeight - ForgeIngameGui.left_height + this.settings.getPositionValue(Settings.armor_position)[1];
+		int top = scaledHeight - 40 + this.settings.getPositionValue(Settings.armor_position)[1];
 		int level = this.mc.player.getTotalArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
@@ -37,7 +36,6 @@ public class HudElementArmorDefault extends HudElement {
 			}
 			left += 8;
 		}
-		ForgeIngameGui.left_height += 10;
 	}
 
 }

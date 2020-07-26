@@ -18,6 +18,7 @@
     "name.compass": "Compass",
     "name.pickup": "Pickup Widget",
     "name.entity_inspect": "Entity Inspect",
+    "name.status_effects": "Status Effects",
 
     "name.force_render": "Force Rendering",
     "name.render_vanilla": "Render Vanilla Element",
@@ -67,6 +68,8 @@
     "name.show_convert_notification": "Settings Notification",
     "name.show_durability_bar": "Show Durability Bar",
     "name.show_entity_armor": "Show Armor Value",
+    "name.status_vertical" : "Render Vertically",
+    "name.status_time" : "Show timer",
 
     "name.health_percentage": "As Percentage",
     "name.hunger_percentage": "As Percentage",
@@ -92,6 +95,8 @@
     "name.widget_position": "HUD Pos",
     "name.chat_position": "Position",
     "name.armor_position": "Position",
+    
+    "name.status_scale": "Scale",
     
     "name.rpghud": "RPG-Hud",
 
@@ -164,11 +169,13 @@
     "tooltip.show_convert_notification": "Show the notification in/nthe Main Menu when a old/nsettings files are found",
     "tooltip.show_durability_bar": "Show the durability bar of/nitems at the details element",
     "tooltip.show_entity_armor": "Show the armor value of/nthe entity you are looking at/n(should it have armor)",
+    "tooltip.status_vertical": "Render the Status Effect/nicons vertically",
+    "tooltip.status_time": "Show a timer for/nthe Status Effects'/nduration",
     
-    "tooltip.force_render": "Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element",
-    "tooltip.render_vanilla": "Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element",
-    "tooltip.prevent_event": "Prevent the render event of/nthis element./nThis might disable features of/nother mods./n /n§cActivate this if another mod renders/n§csomething you don't want/n§cand can't disable it otherwise/n§cWARNING: Might disable other things, too",
-    "tooltip.prevent_element_render": "Prevent this element from rendering./nOther mods can still render their/nelements that are hooked/nto this element./n /n§cActivate this if you want to only /n§crender the element of another mod.",
+    "tooltip.force_render": "Set this element to be rendered/nregardless if other mods disable it./n /nÂ§cActivate this if another mod/nÂ§cdisables this element",
+    "tooltip.render_vanilla": "Force the vanilla version of/nthis element to be rendered instead./n /nÂ§cActivate this if you encounter a/nÂ§cproblem with this element",
+    "tooltip.prevent_event": "Prevent the render event of/nthis element./nThis might disable features of/nother mods./n /nÂ§cActivate this if another mod renders/nÂ§csomething you don't want/nÂ§cand can't disable it otherwise/nÂ§cWARNING: Might disable other things, too",
+    "tooltip.prevent_element_render": "Prevent this element from rendering./nOther mods can still render their/nelements that are hooked/nto this element./n /nÂ§cActivate this if you want to only /nÂ§crender the element of another mod.",
 
     "tooltip.scale": "Set the scaling of this element/n0.5 means the scaling is 50%%/n2.0 means the scaling is 200%%",
     "tooltip.x_pos": "Set the custom X/ncoordinate of this element/nRange: 0-1000/nThe value reflects the percent of/nthe screen from the left side/n250 would render this element at/n25%% from the left side of the screen",

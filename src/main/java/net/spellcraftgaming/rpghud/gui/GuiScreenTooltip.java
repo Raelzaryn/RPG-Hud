@@ -29,11 +29,11 @@ public class GuiScreenTooltip extends Screen {
     @Override
     public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
         super.func_230430_a_(ms, mouseX, mouseY, partialTicks);
-        if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
-            drawTooltip(ms, mouseX, mouseY);
-        }
         for(GuiTextLabel label : labelList) {
             label.render(this, ms);
+        }
+        if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
+            drawTooltip(ms, mouseX, mouseY);
         }
     }
 

@@ -645,10 +645,12 @@ public abstract class HudElement {
     }
     
     protected void drawStringWithBackground(MatrixStack ms, String text, int posX, int posY, int colorMain, int colorBackground) {
+
         this.mc.fontRenderer.func_238421_b_(ms,text, posX + 1, posY, colorBackground);
         this.mc.fontRenderer.func_238421_b_(ms,text, posX - 1, posY, colorBackground);
         this.mc.fontRenderer.func_238421_b_(ms,text, posX, posY + 1, colorBackground);
         this.mc.fontRenderer.func_238421_b_(ms,text, posX, posY - 1, colorBackground);
         this.mc.fontRenderer.func_238421_b_(ms,text, posX, posY, colorMain);
+        RenderSystem.enableBlend();
     }
 }

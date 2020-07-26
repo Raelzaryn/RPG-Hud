@@ -57,7 +57,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public int getPosX(int scaledWidth) {
-        return (int) (this.settings.getPositionValue(Settings.clock_position)[0] + ((2 + this.settings.getStringValue(Settings.clock_time_format) == "time.24" ? 0 :2)*getInvertedScale()));
+        return (int) ((2 + this.settings.getStringValue(Settings.clock_time_format) == "time.24" ? 0 :2)*getInvertedScale()) + this.settings.getPositionValue(Settings.clock_position)[0];
     }
 
     @Override

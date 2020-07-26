@@ -56,7 +56,7 @@ public class HudElementAirModern extends HudElement {
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) ((scaledHeight - 78 + this.settings.getPositionValue(Settings.air_position)[1]) * getInvertedScale());
+        return (int) ((scaledHeight - 78) * getInvertedScale() + this.settings.getPositionValue(Settings.air_position)[1]);
     }
 
     @Override

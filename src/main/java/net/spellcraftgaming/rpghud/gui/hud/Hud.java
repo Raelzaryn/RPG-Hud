@@ -68,6 +68,7 @@ public abstract class Hud {
 		this.elements.put(WIDGET, setElementWidget());
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
+		this.elements.put(HudElementType.STATUS_EFFECTS, setStatusEffects());
 
 	}
 
@@ -126,6 +127,8 @@ public abstract class Hud {
 
 	/** Function which returns a new element which is the item pickup element */
 	protected abstract HudElement setElementEntityInspect();
+	
+	protected abstract HudElement setStatusEffects();
 
 	/**
 	 * Draws the an element of the HudElementType type on the screen
