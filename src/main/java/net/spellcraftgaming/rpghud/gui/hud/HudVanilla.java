@@ -1,13 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementStatusEffectsVanilla;
 
+@SideOnly(Side.CLIENT)
 public class HudVanilla extends Hud {
 
 	public HudVanilla(Minecraft mc, String hudKey, String hudName) {
@@ -83,4 +87,9 @@ public class HudVanilla extends Hud {
 	protected HudElement setElementEntityInspect() {
 		return new HudElementEntityInspectVanilla();
 	}
+
+    @Override
+    protected HudElement setElementStatusEffects() {
+        return new HudElementStatusEffectsVanilla();
+    }
 }

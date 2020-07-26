@@ -18,6 +18,7 @@ name.chat=Chat
 name.compass=Compass
 name.pickup=Pickup Widget
 name.entity_inspect=Entity Inspect
+name.status_effects=Status Effects
 
 name.force_render=Force Rendering
 name.render_vanilla=Render Vanilla Element
@@ -67,6 +68,8 @@ name.show_update_notification=Update Notification
 name.show_convert_notification=Settings Notification
 name.show_durability_bar=Show Durability Bar
 name.show_entity_armor=Show Armor Value
+name.status_vertical=Render Vertically
+name.status_time=Show timer
 
 name.health_percentage=As Percentage
 name.hunger_percentage=As Percentage
@@ -92,6 +95,8 @@ name.level_position=Position
 name.widget_position=HUD Pos
 name.chat_position=Position
 name.armor_position=Position
+
+name.status_scale=Scale
 
 color.red=Red
 color.blue=Blue
@@ -162,6 +167,8 @@ tooltip.show_update_notification=Show the notification in/nthe Main Menu when a 
 tooltip.show_convert_notification=Show the notification in/nthe Main Menu when a old/nsettings files are found
 tooltip.show_durability_bar=Show the durability bar of/nitems at the details element
 tooltip.show_entity_armor=Show the armor value of/nthe entity you are looking at/n(should it have armor)
+tooltip.status_vertical=Render the Status Effect/nicons vertically
+tooltip.status_time=Show a timer for/nthe Status Effects'/nduration
 
 tooltip.force_render=Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element
 tooltip.render_vanilla=Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element
