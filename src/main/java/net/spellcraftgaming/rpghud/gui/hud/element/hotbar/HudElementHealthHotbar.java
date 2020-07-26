@@ -30,6 +30,7 @@ public class HudElementHealthHotbar extends HudElement {
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
+		if(health > healthMax) health = healthMax;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 
 		if (absorption > 1)

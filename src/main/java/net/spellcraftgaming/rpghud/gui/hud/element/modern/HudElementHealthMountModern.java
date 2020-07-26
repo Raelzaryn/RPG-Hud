@@ -30,6 +30,7 @@ public class HudElementHealthMountModern extends HudElement {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
+		if (health > healthMax) health = healthMax;
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
@@ -40,7 +41,7 @@ public class HudElementHealthMountModern extends HudElement {
 			int width2 = this.mc.textRenderer.getWidth(stringHealth) / 2;
 			drawRect(posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+			gui.drawStringWithShadow(ms, this.mc.textRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
 			GL11.glScaled(2.0D, 2.0D, 2.0D);
 		}
 

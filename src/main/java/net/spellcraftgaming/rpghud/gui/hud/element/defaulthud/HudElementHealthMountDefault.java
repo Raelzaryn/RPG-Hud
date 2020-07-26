@@ -30,6 +30,7 @@ public class HudElementHealthMountDefault extends HudElement {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = MathHelper.ceil(mount.getHealth());
 		int healthMax = MathHelper.ceil(mount.getMaxHealth());
+		if(health > healthMax) health = healthMax;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 33) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 40) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 		drawCustomBar(posX, posY, 88, 8, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
