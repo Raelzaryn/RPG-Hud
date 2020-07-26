@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.spellcraftgaming.lib.event.PlayerContainerHandler;
-import net.spellcraftgaming.rpghud.event.NotificationHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
@@ -35,7 +34,7 @@ public class ModRPGHud {
     /** The mod name of this mod */
     public static final String NAME = "RPG-Hud";
     /** The mod version of this mod */
-    public static final String VERSION = "3.7.1";
+    public static final String VERSION = "3.8";
     /** Path to GuiFactory class of this mod */
     public static final String GUI_FACTORY = "net.spellcraftgaming.lib.gui.GuiFactoryRPGHud";
 
@@ -70,7 +69,6 @@ public class ModRPGHud {
         this.registerHud(new HudFullTexture(Minecraft.getMinecraft(), "texture", "Full Texture"));
         this.registerHud(new HudHotbarWidget(Minecraft.getMinecraft(), "hotbar", "Hotbar Widget"));
         this.registerHud(new HudModern(Minecraft.getMinecraft(), "modern", "Modern Style"));
-        this.settings.initHudConfig();
     }
 
     /**
@@ -82,7 +80,6 @@ public class ModRPGHud {
     public void init(FMLInitializationEvent event) {
         new RenderOverlay();
         MinecraftForge.EVENT_BUS.register(new PlayerContainerHandler());
-        MinecraftForge.EVENT_BUS.register(new NotificationHandler());
     }
 
     /**
