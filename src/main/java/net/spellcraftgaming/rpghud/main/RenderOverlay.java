@@ -24,32 +24,6 @@ public class RenderOverlay implements HudRenderCallback{
         HudRenderCallback.EVENT.register(this);
     }
 
-    /*@SubscribeEvent
-    public void onIngameHudDraw(float partialTicks) {
-        ElementType type = event.getType();
-        switch(type) {
-            case AIR:
-                if(!shouldRenderVanilla(HudElementType.AIR))
-                    event.setCanceled(true);
-                break;
-            case ARMOR:
-                if(!shouldRenderVanilla(HudElementType.ARMOR))
-                    event.setCanceled(true);
-                break;
-            case FOOD:
-                if(!shouldRenderVanilla(HudElementType.FOOD))
-                    event.setCanceled(true);
-                break;
-            case HEALTH:
-                if(!shouldRenderVanilla(HudElementType.HEALTH))
-                    event.setCanceled(true);
-                break;
-            default:
-                break;
-
-        }
-    }*/
-
     private void renderOverlay(MatrixStack ms, float partialTicks) {
         this.drawElement(HudElementType.WIDGET, ms, partialTicks);
         this.drawElement(HudElementType.CLOCK, ms, partialTicks);
@@ -62,6 +36,7 @@ public class RenderOverlay implements HudRenderCallback{
         if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, ms, partialTicks);
         if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, ms, partialTicks);
         if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, ms, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) this.drawElement(HudElementType.STATUS_EFFECTS, ms, partialTicks);
         if(!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
             this.drawElement(HudElementType.EXPERIENCE, ms, partialTicks);
             this.drawElement(HudElementType.LEVEL, ms, partialTicks);
@@ -84,10 +59,11 @@ public class RenderOverlay implements HudRenderCallback{
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
                 bind(DrawableHelper.GUI_ICONS_TEXTURE);
+                RenderSystem.pushMatrix();
                 RenderSystem.enableBlend();
                 this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, ms, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
                         this.mc.getWindow().getScaledHeight());
-                RenderSystem.disableBlend();
+                RenderSystem.popMatrix();
             }
 
         }
