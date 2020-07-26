@@ -8,11 +8,14 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+@SideOnly(Side.CLIENT)
 public class RenderOverlay {
 
     private ModRPGHud rpgHud;
@@ -26,8 +29,12 @@ public class RenderOverlay {
 
     @SubscribeEvent
     public void onGameOverlayRender(RenderGameOverlayEvent event) {
-        ElementType type = GameData.getType(event);
+        ElementType type = event.getType();
         switch(type) {
+            case ALL:
+                if(event instanceof RenderGameOverlayEvent.Pre) break;
+                renderOverlay(event.getPartialTicks());
+                break;
             case AIR:
                 if(!shouldRenderVanilla(HudElementType.AIR))
                     event.setCanceled(true);
@@ -60,6 +67,11 @@ public class RenderOverlay {
                 if(!shouldRenderVanilla(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
+            case POTION_ICONS:
+                if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
+                    event.setCanceled(true);
+                }
+                break;
             default:
                 break;
 
@@ -68,10 +80,7 @@ public class RenderOverlay {
     
     @SubscribeEvent
     public void onGameOverlayRender(RenderGameOverlayEvent.Pre event) {
-        switch(GameData.getType(event)) {
-            case ALL:
-                renderOverlay(GameData.getPartialTicks(event));
-                break;
+        switch(event.getType()) {
             case AIR:
                 if(preventEventType(HudElementType.AIR))
                     event.setCanceled(true);
@@ -104,6 +113,10 @@ public class RenderOverlay {
                 if(preventEventType(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
+            case POTION_ICONS:
+                if(preventEventType(HudElementType.STATUS_EFFECTS))
+                    event.setCanceled(true);
+                break;
             default:
                 break;
 
@@ -113,7 +126,7 @@ public class RenderOverlay {
     @SubscribeEvent
     public void onChatRender(RenderGameOverlayEvent.Chat event) {
         if(ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-            GameData.setChatPosY(event, - 22);
+            event.setPosY(event.getPosY() - 22);
         }
     }
 
@@ -133,10 +146,9 @@ public class RenderOverlay {
             this.drawElement(HudElementType.EXPERIENCE, partialTicks);
             this.drawElement(HudElementType.LEVEL, partialTicks);
         }
-        if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, partialTicks);
-            
-            
+        if(!shouldRenderVanilla(HudElementType.HOTBAR)) this.drawElement(HudElementType.HOTBAR, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
+            this.drawElement(HudElementType.STATUS_EFFECTS, partialTicks);
         }
     }
 
@@ -152,10 +164,11 @@ public class RenderOverlay {
             if(!preventElementRenderType(type)) {
                 ScaledResolution res = new ScaledResolution(mc);
                 bind(GameData.icons());
+                GlStateManager.pushMatrix();
                 GlStateManager.enableBlend();
                 this.rpgHud.getActiveHud().drawElement(type, this.mc.ingameGUI, partialTicks, partialTicks, res.getScaledWidth(),
                         res.getScaledHeight());
-                GlStateManager.disableBlend();
+                GlStateManager.popMatrix();
             }
 
         }
@@ -206,27 +219,4 @@ public class RenderOverlay {
     private boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
-    
-    /*private static HudElementType getEventAlias(ElementType type) {
-        switch(type) {
-            case HOTBAR:
-                return HudElementType.HOTBAR;
-            case HEALTH:
-                return HudElementType.HEALTH;
-            case ARMOR:
-                return HudElementType.ARMOR;
-            case FOOD:
-                return HudElementType.FOOD;
-            case HEALTHMOUNT:
-                return HudElementType.HEALTH_MOUNT;
-            case AIR:
-                return HudElementType.AIR;
-            case JUMPBAR:
-                return HudElementType.JUMP_BAR;
-            case EXPERIENCE:
-                return HudElementType.EXPERIENCE;
-            default:
-                return null;
-        }
-    }*/
 }

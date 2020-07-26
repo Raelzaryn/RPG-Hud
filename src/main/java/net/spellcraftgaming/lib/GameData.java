@@ -12,6 +12,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -26,6 +27,8 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTippedArrow;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHandSide;
@@ -494,5 +497,17 @@ public class GameData {
     public static RenderGameOverlayEvent.Chat setChatPosY(RenderGameOverlayEvent.Chat event, int offset) {
         event.setPosY(event.getPosY() + offset);
         return event;
+    }
+    
+    public static void renderPotionHUDEffect(Gui gui, Potion potion, PotionEffect effect, int x, int y, float alpha) {
+        potion.renderHUDEffect(x, y, effect, mc, alpha);
+    }
+    
+    public static ResourceLocation InventoryBackground() {
+        return GuiContainer.INVENTORY_BACKGROUND;
+    }
+    
+    public boolean isEffectBeneficial(Potion potion) {
+        return potion.isBeneficial();
     }
 }
