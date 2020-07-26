@@ -255,6 +255,12 @@ public class RenderOverlayMixin extends DrawableHelper {
             info.cancel();
     }
 
+    @Inject(at = @At("HEAD"), method = "renderStatusEffectOverlay", cancellable = true)
+    private void renderStatusEffectOverlay(CallbackInfo info) {
+        if(!RenderOverlay.shouldRenderVanilla(HudElementType.STATUS_EFFECTS))
+            info.cancel();
+    }
+
     private int getHeartCount(LivingEntity entity) {
         if(entity != null && entity.isLiving()) {
             float f = entity.getMaximumHealth();
