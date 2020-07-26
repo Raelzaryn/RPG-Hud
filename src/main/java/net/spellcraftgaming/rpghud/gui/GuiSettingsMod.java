@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +14,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.spellcraftgaming.lib.GameData;
+import net.spellcraftgaming.rpghud.gui.TextFieldWidgetMod.ValueType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingColor;
+import net.spellcraftgaming.rpghud.settings.SettingDouble;
 import net.spellcraftgaming.rpghud.settings.SettingPosition;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -88,6 +90,17 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
                     textFields.put(settings.get(i), fields);
                     id += 2;
+                } else if(this.settings.getSetting(settings.get(i)) instanceof SettingDouble) {
+                    List<GuiTextField> fields = new ArrayList<GuiTextField>();
+                    GuiLabel scaleLabel = new GuiLabel(GameData.getFontRenderer(), id, this.width / 2 - 154 + i % 2 * 160, this.height / 6 - 11 + 20 * (i >> 1),
+                            30, 15, Color.white.getRGB());
+                    GuiTextField scale = new TextFieldWidgetMod(id + 1, GameData.getFontRenderer(), ValueType.DOUBLE, this.width / 2 - 100 + i % 2 * 160 + 3,
+                            this.height / 6 - 12 + 20 * (i >> 1), 90, 15);
+                    scale.setText(String.valueOf(this.settings.getDoubleValue(settings.get(i))));
+                    this.labelList.add(scaleLabel);
+                    fields.add(scale);
+                    textFields.put(settings.get(i), fields);
+                    id++;
                 } else {
                     GuiButtonTooltip guismallbutton = new GuiButtonTooltip(id, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1),
                             settings.get(i), this.settings.getButtonString(settings.get(i))).setTooltip(this.settings.getSetting(settings.get(i)).getTooltip());
@@ -112,7 +125,25 @@ public class GuiSettingsMod extends GuiScreenTooltip {
         if(button.enabled) {
             if(button.id == 100) {
                 for(String settingID : textFields.keySet()) {
-                    this.settings.setSetting(settingID, textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
+                    for(GuiTextField t : textFields.get(settingID)) {
+                        if(t instanceof TextFieldWidgetMod) {
+                            ValueType type = ((TextFieldWidgetMod) t).getValueType();
+                            switch(type) {
+                                case DOUBLE:
+                                    double value;
+                                    try {
+                                        value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                        this.settings.getSetting(settingID).setValue(value);
+                                    } catch(NumberFormatException e) {
+                                    }
+                                    break;
+                                case POSITION:
+                                    this.settings.getSetting(settingID)
+                                            .setValue(textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
+                                    break;
+                            }
+                        }
+                    }
                 }
                 this.settings.saveSettings();
                 this.mc.displayGuiScreen(this.parent);
@@ -151,8 +182,23 @@ public class GuiSettingsMod extends GuiScreenTooltip {
         super.updateScreen();
         for(String settingID : textFields.keySet()) {
             for(GuiTextField t : textFields.get(settingID)) {
-                if(t.isFocused())
-                    this.settings.getSetting(settingID).setValue(textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
+                if(t instanceof TextFieldWidgetMod) {
+                    ValueType type = ((TextFieldWidgetMod) t).getValueType();
+                    switch(type) {
+                        case DOUBLE:
+                            double value;
+                            try {
+                                value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                this.settings.getSetting(settingID).setValue(value);
+                            } catch(NumberFormatException e) {
+                            }
+                            break;
+                        case POSITION:
+                            this.settings.getSetting(settingID)
+                                    .setValue(textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
+                            break;
+                    }
+                }
                 t.updateCursorCounter();
             }
         }
