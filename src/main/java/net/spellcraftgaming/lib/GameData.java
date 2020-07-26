@@ -24,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
@@ -39,6 +40,7 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 public class GameData {
 
     protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
+    protected static final ResourceLocation status_icons = new ResourceLocation("rpghud:textures/status_icons.png");
 
     // General Minecraft Data
     private static Minecraft mc;
@@ -498,5 +500,17 @@ public class GameData {
     public static RenderGameOverlayEvent.Chat setChatPosY(RenderGameOverlayEvent.Chat event, int offset) {
         event.posY += offset;
         return event;
+    }
+    
+    public static void renderPotionHUDEffect(Gui gui, Potion potion, PotionEffect effect, int x, int y, float alpha) {
+        potion.renderInventoryEffect(x, y, effect, mc);
+    }
+    
+    public static ResourceLocation InventoryBackground() {
+        return status_icons;
+    }
+    
+    public static boolean isEffectBeneficial(Potion potion) {
+        return !potion.isBadEffect();
     }
 }

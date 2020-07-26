@@ -106,7 +106,6 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
             } else if(button.id == 250) {
                 setSettingColor();
                 this.mc.displayGuiScreen(this.parent);
-                ModRPGHud.instance.settings.saveSetting(this.colorType);
             } else if(button.id == 251) {
                 this.mc.displayGuiScreen(this.parent);
             }
@@ -196,6 +195,15 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
         this.colorCodeField.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+    
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        for(GuiButton child : this.buttonList) {
+            if(child instanceof GuiSliderMod) {
+                ((GuiSliderMod) child).dragging = false;
+            }
+        }
     }
 
     @Override

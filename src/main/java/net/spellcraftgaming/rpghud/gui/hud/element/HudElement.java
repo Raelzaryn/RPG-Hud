@@ -126,22 +126,18 @@ public abstract class HudElement {
      * Function called to draw this element on the screen
      */
     public void draw(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-
-        GlStateManager.scale(this.scale, this.scale, this.scale);
-
         this.drawElement(gui, zLevel, partialTicks, scaledWidth, scaledHeight);
-
-        GlStateManager.scale(this.scaleInverted, this.scaleInverted, this.scaleInverted);
     }
 
     public abstract void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
+
 
     /**
      * Returns the x coordinate of this element
      * 
      * @return x coordinate
      */
-    public int getPosX() {
+    public int getPosX(int scaledWidth) {
         return this.posX;
     }
 
@@ -150,7 +146,7 @@ public abstract class HudElement {
      * 
      * @return y coordinate
      */
-    public int getPosY() {
+    public int getPosY(int scaledHeight) {
         return this.posY;
     }
 
@@ -159,7 +155,7 @@ public abstract class HudElement {
      * 
      * @return width
      */
-    public int getWidth() {
+    public int getWidth(int scaledWidth) {
         return this.elementWidth;
     }
 
@@ -168,8 +164,16 @@ public abstract class HudElement {
      * 
      * @return height
      */
-    public int getHeight() {
+    public int getHeight(int scaledHeight) {
         return this.elementHeight;
+    }
+
+    public double getScale() {
+        return 1;
+    }
+    
+    public double getInvertedScale() {
+        return 1 / getScale();
     }
 
     /**
@@ -522,5 +526,14 @@ public abstract class HudElement {
      */
     protected static ResourceLocation getPlayerSkin(AbstractClientPlayer player) {
         return player.getLocationSkin();
+    }
+    
+    protected void drawStringWithBackground(String text, int posX, int posY, int colorMain, int colorBackground) {
+        GameData.getFontRenderer().drawString(text, posX + 1, posY, colorBackground);
+        GameData.getFontRenderer().drawString(text, posX - 1, posY, colorBackground);
+        GameData.getFontRenderer().drawString(text, posX, posY + 1, colorBackground);
+        GameData.getFontRenderer().drawString(text, posX, posY - 1, colorBackground);
+        GameData.getFontRenderer().drawString(text, posX, posY, colorMain);
+        GlStateManager.enableBlend();
     }
 }
