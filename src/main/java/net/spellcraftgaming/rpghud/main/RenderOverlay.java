@@ -65,7 +65,6 @@ public class RenderOverlay {
                     event.setCanceled(true);
                 break;
             case POTION_ICONS:
-                //System.out.println(ModRPGHud.instance.getActiveHud().isVanillaElement(HudElementType.STATUS_EFFECTS));
                 if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
                     event.setCanceled(true);
                 }
@@ -118,8 +117,6 @@ public class RenderOverlay {
                 if(preventEventType(HudElementType.STATUS_EFFECTS))
                     event.setCanceled(true);
                 break;
-            /*case VIGNETTE:
-                event.setCanceled(true);*/
             default:
                 break;
 

@@ -1,19 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.AIR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ARMOR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.CLOCK;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.COMPASS;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.DETAILS;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ENTITY_INSPECT;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.EXPERIENCE;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.FOOD;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH_MOUNT;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HOTBAR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.JUMP_BAR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.LEVEL;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +55,7 @@ public abstract class Hud {
 		this.elements.put(WIDGET, setElementWidget());
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
-		this.elements.put(HudElementType.STATUS_EFFECTS, setStatusEffects());
+		this.elements.put(STATUS_EFFECTS, setStatusEffects());
 
 	}
 

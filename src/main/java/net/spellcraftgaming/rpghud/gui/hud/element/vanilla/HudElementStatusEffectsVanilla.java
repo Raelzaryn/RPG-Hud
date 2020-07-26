@@ -97,7 +97,8 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     effectinstance.renderHUDEffect(gui, ms, k, l, gui.func_230927_p_(), f);
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
-                        String s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
+                        String s = "*:**";
+                        if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
                         k -= mc.fontRenderer.getStringWidth(s)/2;
                         this.drawStringWithBackground(ms, s, k +12, l +14, -1, 0);
                     }
