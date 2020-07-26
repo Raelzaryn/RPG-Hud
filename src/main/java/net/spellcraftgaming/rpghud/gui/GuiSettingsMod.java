@@ -78,12 +78,12 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                     settingLabel = GameData.addLine(settingLabel, this.settings.getButtonString(settings.get(i)));
                     labelList.add(settingLabel);
 
-                    GuiTextField xPos = new GuiTextField(id + 1, GameData.getFontRenderer(), this.width / 2 - 100 + i % 2 * 160,
+                    GuiTextField xPos = new TextFieldWidgetMod(id + 1, GameData.getFontRenderer(), ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160,
                             this.height / 6 - 12 + 20 * (i >> 1), 45, 15);
                     xPos.setText(values[0]);
                     fields.add(xPos);
 
-                    GuiTextField yPos = new GuiTextField(id + 2, GameData.getFontRenderer(), this.width / 2 - 100 + i % 2 * 160 + 50,
+                    GuiTextField yPos = new TextFieldWidgetMod(id + 2, GameData.getFontRenderer(), ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160 + 50,
                             this.height / 6 - 12 + 20 * (i >> 1), 45, 15);
                     yPos.setText(values[1]);
                     fields.add(yPos);
