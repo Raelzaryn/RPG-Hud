@@ -14,9 +14,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.spellcraftgaming.rpghud.gui.TextFieldWidgetMod.ValueType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.SettingColor;
+import net.spellcraftgaming.rpghud.settings.SettingDouble;
 import net.spellcraftgaming.rpghud.settings.SettingPosition;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -105,6 +107,17 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                     fields.add(yPos);
 
                     this.textFields.put(settingList.get(i), fields);
+                } else if(this.settings.getSetting(settingList.get(i)) instanceof SettingDouble) {
+                    List<TextFieldWidget> fields = new ArrayList<TextFieldWidget>();
+                    GuiTextLabel scaleLabel = new GuiTextLabel(this.width / 2 - 151 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1),
+                            this.settings.getButtonString(settingList.get(i)));
+                    TextFieldWidget scale = new TextFieldWidgetMod(fontRenderer, ValueType.DOUBLE, this.width / 2 - 100 + i % 2 * 160 + 3,
+                            this.height / 6 - 12 + 20 * (i >> 1), 90, 15, String.valueOf(this.settings.getDoubleValue(settingList.get(i))));
+                    scale.setText(String.valueOf(this.settings.getDoubleValue(settingList.get(i))));
+                    labelList.add(scaleLabel);
+                    this.children.add(scale);
+                    fields.add(scale);
+                    textFields.put(settingList.get(i), fields);
                 } else {
                     GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 14 + 20 * (i >> 1),
                             settingList.get(i), this.settings.getButtonString(settingList.get(i)), button -> {
@@ -125,7 +138,25 @@ public class GuiSettingsMod extends GuiScreenTooltip {
         this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, I18n.format("gui.done", new Object[0]), button -> {
             Settings settings = ModRPGHud.instance.settings;
             for(String settingID : this.textFields.keySet())
-                settings.setSetting(settingID, this.textFields.get(settingID).get(0).getText() + "_" + this.textFields.get(settingID).get(1).getText());
+                for(TextFieldWidget t : textFields.get(settingID)) {
+                    if(t instanceof TextFieldWidgetMod) {
+                        ValueType type = ((TextFieldWidgetMod) t).getValueType();
+                        switch(type) {
+                            case DOUBLE:
+                                double value;
+                                try {
+                                    value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                    this.settings.getSetting(settingID).setValue(value);
+                                } catch(NumberFormatException e) {
+                                }
+                                break;
+                            case POSITION:
+                                this.settings.getSetting(settingID)
+                                        .setValue(textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
+                                break;
+                        }
+                    }
+                }
             settings.saveSettings();
             this.minecraft.displayGuiScreen(this.parent);
         }));
@@ -146,9 +177,23 @@ public class GuiSettingsMod extends GuiScreenTooltip {
         super.tick();
         for(String settingID : this.textFields.keySet())
             for(TextFieldWidget t : this.textFields.get(settingID)) {
-                if(t.isFocused())
-                    this.settings.getSetting(settingID)
-                            .setValue(this.textFields.get(settingID).get(0).getText() + "_" + this.textFields.get(settingID).get(1).getText());
+                if(t instanceof TextFieldWidgetMod) {
+                    ValueType type = ((TextFieldWidgetMod) t).getValueType();
+                    switch(type) {
+                        case DOUBLE:
+                            double value;
+                            try {
+                                value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                this.settings.getSetting(settingID).setValue(value);
+                            } catch(NumberFormatException e) {
+                            }
+                            break;
+                        case POSITION:
+                            this.settings.getSetting(settingID)
+                                    .setValue(textFields.get(settingID).get(0).getText() + "_" + textFields.get(settingID).get(1).getText());
+                            break;
+                    }
+                }
                 t.tick();
             }
     }

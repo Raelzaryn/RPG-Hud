@@ -150,7 +150,7 @@ public abstract class HudElement {
      * 
      * @return x coordinate
      */
-    public int getPosX() {
+    public int getPosX(int scaledWidth) {
         return this.posX;
     }
 
@@ -159,7 +159,7 @@ public abstract class HudElement {
      * 
      * @return y coordinate
      */
-    public int getPosY() {
+    public int getPosY(int scaledHeight) {
         return this.posY;
     }
 
@@ -168,7 +168,7 @@ public abstract class HudElement {
      * 
      * @return width
      */
-    public int getWidth() {
+    public int getWidth(int scaledWidth) {
         return this.elementWidth;
     }
 
@@ -177,8 +177,16 @@ public abstract class HudElement {
      * 
      * @return height
      */
-    public int getHeight() {
+    public int getHeight(int scaledHeight) {
         return this.elementHeight;
+    }
+
+    public double getScale() {
+        return 1;
+    }
+    
+    public double getInvertedScale() {
+        return 1 / getScale();
     }
 
     /**
@@ -565,5 +573,14 @@ public abstract class HudElement {
 
             this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, x, y);
         }
+    }
+    
+    protected void drawStringWithBackground(String text, int posX, int posY, int colorMain, int colorBackground) {
+        this.mc.fontRenderer.drawString(text, posX + 1, posY, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX - 1, posY, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX, posY + 1, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX, posY - 1, colorBackground);
+        this.mc.fontRenderer.drawString(text, posX, posY, colorMain);
+        GlStateManager.enableBlend();
     }
 }
