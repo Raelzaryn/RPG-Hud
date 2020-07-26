@@ -96,11 +96,11 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                             this.settings.getButtonString(settings.get(i)));
                     this.labelList.add(settingLabel);
 
-                    GuiTextField xPos = new GuiTextField(id + 1, fontRenderer, this.width / 2 - 100 + i % 2 * 160, this.height / 6 - 12 + 20 * (i >> 1), 45, 15);
+                    GuiTextField xPos = new TextFieldWidgetMod(id + 1, fontRenderer, ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160, this.height / 6 - 12 + 20 * (i >> 1), 45, 15);
                     xPos.setText(values[0]);
                     fields.add(xPos);
 
-                    GuiTextField yPos = new GuiTextField(id + 2, fontRenderer, this.width / 2 - 100 + i % 2 * 160 + 48, this.height / 6 - 12 + 20 * (i >> 1), 45,
+                    GuiTextField yPos = new TextFieldWidgetMod(id + 2, fontRenderer, ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160 + 48, this.height / 6 - 12 + 20 * (i >> 1), 45,
                             15);
                     yPos.setText(values[1]);
                     fields.add(yPos);
