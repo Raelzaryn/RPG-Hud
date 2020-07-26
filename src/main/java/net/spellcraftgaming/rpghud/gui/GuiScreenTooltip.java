@@ -28,11 +28,11 @@ public class GuiScreenTooltip extends Screen {
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
         super.render(mouseX, mouseY, partialTicks);
+        for(GuiTextLabel label : labelList) {
+            label.render(this);
+        }
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)){
 			drawTooltip(mouseX, mouseY);
-		}
-		for(GuiTextLabel label : labelList) {
-			label.render(this);
 		}
 	}
 

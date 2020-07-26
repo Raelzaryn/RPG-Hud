@@ -20,7 +20,8 @@ public enum HudElementType {
 	DETAILS(I18n.format("name.details", new Object[0])),
 	WIDGET(I18n.format("name.widget", new Object[0])),
 	COMPASS(I18n.format("name.compass", new Object[0])),
-	ENTITY_INSPECT(I18n.format("name.entity_inspect", new Object[0]));
+	ENTITY_INSPECT(I18n.format("name.entity_inspect", new Object[0])),
+	STATUS_EFFECTS(I18n.format("name.status_effects", new Object[0]));
 
 	private String displayName;
 

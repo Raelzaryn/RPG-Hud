@@ -52,7 +52,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		this.minValue = minValueIn;
 		this.maxValue = maxValue;
 		this.valueStep = valueStep;
-		this.y = y;
 		
         String val;
 

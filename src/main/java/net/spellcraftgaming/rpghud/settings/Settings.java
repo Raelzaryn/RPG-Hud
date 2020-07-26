@@ -100,6 +100,11 @@ public class Settings {
     public static final String color_air = "color_air";
     public static final String air_position = "air_position";
 
+    public static final String status_time = "status_time";
+    public static final String status_vertical = "status_vertical";
+    public static final String status_position = "pickup_position";
+    public static final String status_scale = "status_scale";
+
     public static final String force_render = "force_render";
     public static final String render_vanilla = "render_vanilla";
     public static final String prevent_event = "prevent_event";
@@ -121,8 +126,10 @@ public class Settings {
     public void init() {
         addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
         addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
-        //addSetting(show_update_notification, new SettingBoolean(show_update_notification, true));
-        //addSetting(show_convert_notification, new SettingBoolean(show_convert_notification, true));
+        // addSetting(show_update_notification, new
+        // SettingBoolean(show_update_notification, true));
+        // addSetting(show_convert_notification, new
+        // SettingBoolean(show_convert_notification, true));
 
         addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
         addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));
@@ -184,6 +191,11 @@ public class Settings {
         addSetting(color_air, new SettingColor(color_air, HudElementType.AIR, HudElement.COLOR_BLUE));
         addSetting(air_position, new SettingPosition(air_position, HudElementType.AIR, 0, 0));
 
+        addSetting(status_vertical, new SettingBoolean(status_vertical, HudElementType.STATUS_EFFECTS, false));
+        addSetting(status_time, new SettingBoolean(status_time, HudElementType.STATUS_EFFECTS, true));
+        addSetting(status_position, new SettingPosition(status_position, HudElementType.STATUS_EFFECTS, 0, 0));
+        addSetting(status_scale, new SettingDouble(status_scale, HudElementType.STATUS_EFFECTS, 1, 0, 0, 0));
+
         addSetting(mount_health_position, new SettingPosition(mount_health_position, HudElementType.HEALTH_MOUNT, 0, 0));
         addSetting(hotbar_position, new SettingPosition(hotbar_position, HudElementType.HOTBAR, 0, 0));
         addSetting(level_position, new SettingPosition(level_position, HudElementType.LEVEL, 0, 0));
@@ -198,6 +210,7 @@ public class Settings {
         addDebugSettings(HudElementType.LEVEL);
         addDebugSettings(HudElementType.HEALTH_MOUNT);
         addDebugSettings(HudElementType.JUMP_BAR);
+        addDebugSettings(HudElementType.STATUS_EFFECTS);
     }
 
     public void addDebugSettings(HudElementType type) {
@@ -285,7 +298,7 @@ public class Settings {
             SettingFloat sf = (SettingFloat) setting;
             return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0])
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
-        } else if(setting instanceof SettingPosition) {
+        } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
         } else {
             return s + "error";
@@ -400,6 +413,8 @@ public class Settings {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Integer.valueOf(setting[1])));
                             } else if(type[0].matches("F")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Float.valueOf(setting[1])));
+                            } else if(type[0].matches("D")) {
+                                this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Double.valueOf(setting[1])));
                             } else if(type[0].matches("P")) {
                                 this.setSetting(setting[0], setting[1]);
                             } else {
@@ -429,6 +444,8 @@ public class Settings {
                 out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else if(setting instanceof SettingFloat) {
                 out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+            } else if(setting instanceof SettingDouble) {
+                out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else if(setting instanceof SettingPosition) {
                 out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else {

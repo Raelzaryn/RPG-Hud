@@ -9,6 +9,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanill
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementStatusEffectsVanilla;
 
 @OnlyIn(Dist.CLIENT)
 public class HudVanilla extends Hud {
@@ -86,4 +87,9 @@ public class HudVanilla extends Hud {
 	protected HudElement setElementEntityInspect() {
 		return new HudElementEntityInspectVanilla();
 	}
+
+    @Override
+    protected HudElement setElementStatusEffects() {
+        return new HudElementStatusEffectsVanilla();
+    }
 }

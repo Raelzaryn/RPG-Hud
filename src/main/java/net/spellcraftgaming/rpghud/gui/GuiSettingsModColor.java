@@ -1,6 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -204,6 +205,16 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
 
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+           for(IGuiEventListener child : this.children) {
+                if(child instanceof GuiSliderMod) {
+                    ((GuiSliderMod) child).dragging = false;
+                }
+            }
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+    
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		FontRenderer fontRenderer = minecraft.fontRenderer;
