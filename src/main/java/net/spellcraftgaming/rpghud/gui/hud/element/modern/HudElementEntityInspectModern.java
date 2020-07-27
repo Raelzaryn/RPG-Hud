@@ -24,11 +24,13 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             drawRect(posX - 30, 20 + posY, 90, 12, 0xA0000000);
             drawTetragon(posX - 30, posX - 30, 32 + posY, 32 + posY, 90, 76, 10, 10, 0xA0000000);
             drawTetragon(posX - 30, posX - 30, 33 + posY, 33 + posY, 84, 74, 6, 6, 0x20FFFFFF);
+            float health = focused.getHealth();
+            float maxHealth = focused.getMaxHealth();
+            if(health > maxHealth) health = maxHealth;
+            drawTetragon(posX - 30, posX - 30, 33 + posY, 33 + posY, (int) (84 * ((double) health / (double) maxHealth)),
+                    (int) (84 * ((double) health / (double) maxHealth)) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));
 
-            drawTetragon(posX - 30, posX - 30, 33 + posY, 33 + posY, (int) (84 * ((double) focused.getHealth() / (double) focused.getMaxHealth())),
-                    (int) (84 * ((double) focused.getHealth() / (double) focused.getMaxHealth())) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));
-
-            String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
+            String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
 
             RenderSystem.scaled(0.5, 0.5, 0.5);
             gui.drawCenteredString(this.mc.fontRenderer, stringHealth, (posX - 29 + 44) * 2, (34 + posY) * 2, -1);

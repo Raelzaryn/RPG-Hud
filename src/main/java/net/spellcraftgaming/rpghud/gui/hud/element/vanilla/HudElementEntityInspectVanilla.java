@@ -52,9 +52,12 @@ public class HudElementEntityInspectVanilla extends HudElement {
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
             gui.blit(posX - 62, 20 + posY, 0, 0, 128, 36);
-            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) focused.getHealth() / (double) focused.getMaxHealth() * 100D,
+            float health = focused.getHealth();
+            float maxHealth = focused.getMaxHealth();
+            if(health > maxHealth) health = maxHealth;
+            drawCustomBar(posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
-            String stringHealth = ((double) Math.round(focused.getHealth() * 10)) / 10 + "/" + ((double) Math.round(focused.getMaxHealth() * 10)) / 10;
+            String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
             gui.drawCenteredString(this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);

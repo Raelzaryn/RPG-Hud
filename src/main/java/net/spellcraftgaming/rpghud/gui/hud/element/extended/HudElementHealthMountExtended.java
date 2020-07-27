@@ -28,6 +28,7 @@ public class HudElementHealthMountExtended extends HudElement {
 		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
+        if(health > healthMax) health = healthMax;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 54 : 49) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 

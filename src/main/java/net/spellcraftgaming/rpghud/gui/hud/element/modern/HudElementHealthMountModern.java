@@ -29,6 +29,7 @@ public class HudElementHealthMountModern extends HudElement {
 		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
+        if(health > healthMax) health = healthMax;
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
