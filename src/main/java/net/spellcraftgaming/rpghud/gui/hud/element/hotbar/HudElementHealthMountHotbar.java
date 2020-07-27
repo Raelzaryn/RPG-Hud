@@ -27,6 +27,7 @@ public class HudElementHealthMountHotbar extends HudElement {
         EntityLivingBase mount = (EntityLivingBase) this.mc.player.getRidingEntity();
         int health = (int) Math.ceil(mount.getHealth());
         int healthMax = (int) mount.getMaxHealth();
+        if(health > healthMax) health = healthMax;
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
         drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health),
                 offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
