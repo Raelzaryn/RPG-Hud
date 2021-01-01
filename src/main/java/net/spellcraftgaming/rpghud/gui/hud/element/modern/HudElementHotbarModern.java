@@ -103,11 +103,11 @@ public class HudElementHotbarModern extends HudElement {
 						j2 = i - 91 - 22;
 					}
 
-					this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+					this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.func_238474_b_(ms, j2, i2 - 9, 0, 94, 18, 18);
-					gui.func_238474_b_(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.blit(ms, j2, i2 - 9, 0, 94, 18, 18);
+					gui.blit(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

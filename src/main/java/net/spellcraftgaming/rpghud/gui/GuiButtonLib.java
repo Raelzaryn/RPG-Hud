@@ -18,9 +18,10 @@ public abstract class GuiButtonLib extends Button{
 		super(x, y, 200, 20, buttonText, ip);
 	}
 
+	
 	@Override
-	public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partial) {
-		super.func_230430_a_(ms, mouseX, mouseY, partial);
+	public void render(MatrixStack ms, int mouseX, int mouseY, float partial) {
+		super.render(ms, mouseX, mouseY, partial);
 		this.drawButton(mouseX, mouseY);
 	}
 	

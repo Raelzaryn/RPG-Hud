@@ -162,7 +162,7 @@ public class RenderOverlay {
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
-                bind(AbstractGui.field_230665_h_);
+                bind(AbstractGui.GUI_ICONS_LOCATION);
                 RenderSystem.pushMatrix();
                 RenderSystem.enableBlend();
                 this.rpgHud.getActiveHud().drawElement(type, this.mc.ingameGUI, ms, partialTicks, partialTicks, this.mc.getMainWindow().getScaledWidth(),

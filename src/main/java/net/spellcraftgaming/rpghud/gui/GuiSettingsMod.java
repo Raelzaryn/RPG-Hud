@@ -57,31 +57,31 @@ public class GuiSettingsMod extends GuiScreenTooltip {
     }
 
     @Override
-    public void func_231160_c_() {
-        FontRenderer fontRenderer = field_230706_i_.fontRenderer;
+    public void init() {
+        FontRenderer fontRenderer = minecraft.fontRenderer;
         if(this.subSetting.equals("")) {
-            GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.field_230708_k_ / 2 - 155 + 0 % 2 * 160, this.field_230709_l_ / 6 - 14 + 20 * (0 >> 1),
+            GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1),
                     "general", new TranslationTextComponent("gui.rpg.general"), button -> {
                         GuiButtonTooltip b = (GuiButtonTooltip) button;
                         if(b.enumOptions != null)
-                            field_230706_i_.displayGuiScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslationTextComponent("gui.settings.rpghud")));
+                            minecraft.displayGuiScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslationTextComponent("gui.settings.rpghud")));
                     }).setTooltip(I18n.format("tooltip.general", new Object[0]));
-            this.func_230480_a_(guismallbutton);
+            this.addButton(guismallbutton);
 
             int count = 1;
 
             for(HudElementType type : HudElementType.values()) {
                 List<String> settings = this.settings.getSettingsOf(type);
                 if(!settings.isEmpty()) {
-                    guismallbutton = new GuiButtonTooltip(this.field_230708_k_ / 2 - 155 + count % 2 * 160, this.field_230709_l_ / 6 - 14 + 20 * (count >> 1),
+                    guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1),
                             type.name(), new TranslationTextComponent(type.getDisplayName()), button -> {
                                 GuiButtonTooltip b = (GuiButtonTooltip) button;
                                 if(b.enumOptions != null) {
-                                    this.field_230706_i_
+                                    this.minecraft
                                             .displayGuiScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslationTextComponent("gui.settings.rpghud")));
                                 }
                             }).setTooltip(I18n.format("tooltip.element", new Object[0]));
-                    this.func_230480_a_(guismallbutton);
+                    this.addButton(guismallbutton);
                     count++;
                 }
             }
@@ -92,58 +92,58 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                     String[] values = ((String) this.settings.getSetting(settingList.get(i)).getValue()).split("_");
                     List<TextFieldWidget> fields = new ArrayList<TextFieldWidget>();
 
-                    GuiTextLabel settingLabel = new GuiTextLabel(this.field_230708_k_ / 2 - 151 + i % 2 * 160, this.field_230709_l_ / 6 - 8 + 20 * (i >> 1),
+                    GuiTextLabel settingLabel = new GuiTextLabel(this.width / 2 - 151 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1),
                             this.settings.getButtonString(settingList.get(i)));
                     labelList.add(settingLabel);
 
-                    TextFieldWidget xPos = new TextFieldWidgetMod(fontRenderer, ValueType.POSITION, this.field_230708_k_ / 2 - 100 + i % 2 * 160,
-                            this.field_230709_l_ / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslationTextComponent(values[0]));
+                    TextFieldWidget xPos = new TextFieldWidgetMod(fontRenderer, ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160,
+                            this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslationTextComponent(values[0]));
                     xPos.setText(values[0]);
                     xPos.setMaxStringLength(6);
-                    this.field_230705_e_.add(xPos);
+                    this.children.add(xPos);
                     fields.add(xPos);
 
-                    TextFieldWidget yPos = new TextFieldWidgetMod(fontRenderer, ValueType.POSITION, this.field_230708_k_ / 2 - 100 + i % 2 * 160 + 48,
-                            this.field_230709_l_ / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslationTextComponent(values[1]));
+                    TextFieldWidget yPos = new TextFieldWidgetMod(fontRenderer, ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160 + 48,
+                            this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslationTextComponent(values[1]));
                     yPos.setText(values[1]);
                     yPos.setMaxStringLength(6);
-                    this.field_230705_e_.add(yPos);
+                    this.children.add(yPos);
                     fields.add(yPos);
 
                     textFields.put(settingList.get(i), fields);
                 } else if(this.settings.getSetting(settingList.get(i)) instanceof SettingDouble) {
                     List<TextFieldWidget> fields = new ArrayList<TextFieldWidget>();
-                    GuiTextLabel scaleLabel = new GuiTextLabel(this.field_230708_k_ / 2 - 151 + i % 2 * 160, this.field_230709_l_ / 6 - 8 + 20 * (i >> 1),
+                    GuiTextLabel scaleLabel = new GuiTextLabel(this.width / 2 - 151 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1),
                             this.settings.getButtonString(settingList.get(i)));
-                    TextFieldWidget scale = new TextFieldWidgetMod(fontRenderer, ValueType.DOUBLE, this.field_230708_k_ / 2 - 100 + i % 2 * 160 +3,
-                            this.field_230709_l_ / 6 - 12 + 20 * (i >> 1), 90, 15,
+                    TextFieldWidget scale = new TextFieldWidgetMod(fontRenderer, ValueType.DOUBLE, this.width / 2 - 100 + i % 2 * 160 +3,
+                            this.height / 6 - 12 + 20 * (i >> 1), 90, 15,
                             new TranslationTextComponent(String.valueOf(this.settings.getDoubleValue(settingList.get(i)))));
                     scale.setText(String.valueOf(this.settings.getDoubleValue(settingList.get(i))));
                     labelList.add(scaleLabel);
-                    this.field_230705_e_.add(scale);
+                    this.children.add(scale);
                     fields.add(scale);
                     textFields.put(settingList.get(i), fields);
                 } else {
-                    GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.field_230708_k_ / 2 - 155 + i % 2 * 160,
-                            this.field_230709_l_ / 6 - 14 + 20 * (i >> 1), settingList.get(i),
+                    GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + i % 2 * 160,
+                            this.height / 6 - 14 + 20 * (i >> 1), settingList.get(i),
                             new TranslationTextComponent(this.settings.getButtonString(settingList.get(i))), button -> {
                                 GuiButtonTooltip b = (GuiButtonTooltip) button;
                                 if(b.enumOptions != null) {
                                     if(settings.getSetting(b.enumOptions) instanceof SettingColor) {
-                                        field_230706_i_.displayGuiScreen(
+                                        minecraft.displayGuiScreen(
                                                 new GuiSettingsModColor(instance, b.enumOptions, new TranslationTextComponent("gui.settings.rpghud")));
                                     } else {
                                         settings.increment(b.enumOptions);
-                                        button.func_238482_a_(new TranslationTextComponent(settings.getButtonString(b.enumOptions)));
+                                        button.setMessage(new TranslationTextComponent(settings.getButtonString(b.enumOptions)));
                                     }
                                 }
                             }).setTooltip(this.settings.getSetting(settingList.get(i)).getTooltip());
-                    this.func_230480_a_(guismallbutton);
+                    this.addButton(guismallbutton);
                 }
             }
         }
 
-        this.func_230480_a_(new Button(this.field_230708_k_ / 2 - 100, this.field_230709_l_ / 6 + 168, 200, 20, new TranslationTextComponent("gui.done"), button -> {
+        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, new TranslationTextComponent("gui.done"), button -> {
             for(String settingID : textFields.keySet()) {
                 for(TextFieldWidget t : textFields.get(settingID)) {
                     if(t instanceof TextFieldWidgetMod) {
@@ -166,24 +166,24 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                 }
             }
             this.settings.saveSettings();
-            this.field_230706_i_.displayGuiScreen(parent);
+            this.minecraft.displayGuiScreen(parent);
         }));
     }
 
     @Override
-    public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
-        this.func_230446_a_(ms);
-        AbstractGui.func_238471_a_(ms, field_230706_i_.fontRenderer, I18n.format("gui.rpg.settings", new Object[0]), this.field_230708_k_ / 2, 12, 16777215);
+    public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(ms);
+        AbstractGui.drawCenteredString(ms, minecraft.fontRenderer, I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
         for(List<TextFieldWidget> positionPairs : textFields.values()) {
             for(TextFieldWidget t : positionPairs)
-                t.func_230430_a_(ms, mouseX, mouseY, partialTicks);
+                t.render(ms, mouseX, mouseY, partialTicks);
         }
-        super.func_230430_a_(ms, mouseX, mouseY, partialTicks);
+        super.render(ms, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public void func_231023_e_() {
-        super.func_231023_e_();
+    public void tick() {
+        super.tick();
         for(String settingID : textFields.keySet()) {
             for(TextFieldWidget t : textFields.get(settingID)) {
                 if(t instanceof TextFieldWidgetMod) {

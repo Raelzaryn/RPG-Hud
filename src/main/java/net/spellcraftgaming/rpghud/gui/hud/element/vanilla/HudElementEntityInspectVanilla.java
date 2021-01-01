@@ -51,7 +51,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-            gui.func_238474_b_(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
+            gui.blit(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
@@ -59,7 +59,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
             int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
@@ -73,10 +73,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 if(armor > 0) {
                     String value = String.valueOf(armor);
                     this.mc.getTextureManager().bindTexture(DAMAGE_INDICATOR);
-                    gui.func_238474_b_(ms, posX - 26, posY+44, 0, 36, 19, 8);
-                    this.mc.getTextureManager().bindTexture(AbstractGui.field_230665_h_);
+                    gui.blit(ms, posX - 26, posY+44, 0, 36, 19, 8);
+                    this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
                     RenderSystem.scaled(0.5, 0.5, 0.5);
-                    gui.func_238474_b_(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    gui.blit(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
                     this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     RenderSystem.scaled(2.0, 2.0, 2.0);
                 }  

@@ -77,14 +77,14 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 	
 	@Override
-	protected int func_230989_a_(boolean p_getYImage_1_) {
+	protected int getYImage(boolean p_getYImage_1_) {
 		return 0;
 	}
     
     @Override
-    public boolean func_231048_c_(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
+    public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
     	this.dragging = false;
-    	return super.func_231048_c_(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
+    	return super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
     }
 
     public int getValueInt()
@@ -110,7 +110,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
      */
     @Override
-    protected void func_230441_a_(MatrixStack ms, Minecraft par1Minecraft, int par2, int par3)
+    protected void renderBg(MatrixStack ms, Minecraft par1Minecraft, int par2, int par3)
     {
     }
 
@@ -119,7 +119,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * e).
      */
     @Override
-    public void func_230982_a_(double mouseX, double mouseY)
+    public void onClick(double mouseX, double mouseY)
     {
 		this.sliderValue = Math.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
         updateSlider(mouseX, mouseY);
@@ -128,7 +128,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 
     public void updateSlider(double mouseX, double mouseY)
     {
-		this.sliderValue = (float) (mouseX - (this.field_230690_l_ + 4)) / (float) (this.field_230688_j_ - 8);
+		this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
 
 		if (this.sliderValue < 0.0F) {
 			this.sliderValue = 0.0F;
@@ -145,16 +145,16 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partial)
+    public void render(MatrixStack ms, int mouseX, int mouseY, float partial)
     {
-        if (this.field_230694_p_)
+        if (this.visible)
         {
         	if(this.dragging) {
         		updateSlider(mouseX, mouseY);
         	}
         	Minecraft mc = Minecraft.getInstance();
         	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(this.field_230690_l_, this.field_230691_m_, this.field_230688_j_, this.field_230689_k_, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
 
@@ -162,22 +162,22 @@ public class GuiSliderMod extends GuiButtonTooltip {
             {
                 color = packedFGColor;
             }
-            else if (!this.field_230693_o_)
+            else if (!this.active)
             {
                 color = 10526880;
             }
-            else if (this.field_230692_n_)
+            else if (this.isHovered)
             {
                 color = 16777120;
             }
             
             String buttonText = getDisplayString();
-            mc.getTextureManager().bindTexture(field_230687_i_);
-			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)), this.field_230691_m_, 0, 66, 4, this.field_230689_k_ / 2);
-			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)), this.field_230691_m_ + (this.field_230689_k_ / 2), 0, 86 - (this.field_230689_k_ / 2), 4, this.field_230689_k_ / 2);
-			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)) + 4, this.field_230691_m_, 196, 66, 4, this.field_230689_k_ / 2);
-			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)) + 4, this.field_230691_m_ + (this.field_230689_k_ / 2), 196, 86 - (this.field_230689_k_ / 2), 4, this.field_230689_k_ / 2);
-            AbstractGui.func_238471_a_(ms, mc.fontRenderer, buttonText, this.field_230690_l_ + this.field_230688_j_ / 2, this.field_230691_m_ + (this.field_230689_k_ - 8) / 2, color);
+            mc.getTextureManager().bindTexture(WIDGETS_LOCATION);
+            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
+            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
+            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            AbstractGui.drawCenteredString(ms, mc.fontRenderer, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
         }
     }
     

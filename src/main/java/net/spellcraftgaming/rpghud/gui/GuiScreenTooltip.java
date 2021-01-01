@@ -28,8 +28,8 @@ public class GuiScreenTooltip extends Screen {
     protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
 
     @Override
-    public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
-        super.func_230430_a_(ms, mouseX, mouseY, partialTicks);
+    public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+        super.render(ms, mouseX, mouseY, partialTicks);
         for(GuiTextLabel label : labelList) {
             label.render(this, ms);
         }
@@ -52,13 +52,13 @@ public class GuiScreenTooltip extends Screen {
 
         boolean shouldRenderTooltip = false;
         GuiButtonTooltip button = null;
-        for(int x = 0; x < this.field_230710_m_.size(); x++) {
-            Widget b = this.field_230710_m_.get(x);
+        for(int x = 0; x < this.buttons.size(); x++) {
+            Widget b = this.buttons.get(x);
             if(b instanceof GuiButtonTooltip)
                 button = (GuiButtonTooltip) b;
 
             if(button != null) {
-                if(button.func_230449_g_()) {
+                if(button.isHovered()) {
                     shouldRenderTooltip = true;
                     break;
                 }
@@ -79,24 +79,24 @@ public class GuiScreenTooltip extends Screen {
                     counter++;
                 }
                 posX -= totalWidth / 2;
-                if((posX + totalWidth + 10) > gui.field_230708_k_)
-                    posX -= (posX + totalWidth + 10) - gui.field_230708_k_;
+                if((posX + totalWidth + 10) > gui.width)
+                    posX -= (posX + totalWidth + 10) - gui.width;
                 if(posX < 0)
                     posX = 0;
 
-                if((posY + 3 + tooltip.length * 12 + 2) > gui.field_230709_l_)
+                if((posY + 3 + tooltip.length * 12 + 2) > gui.height)
                     reverseY = true;
 
                 if(reverseY)
-                    func_238467_a_(ms, posX, posY - 3 - tooltip.length * 12 - 2, posX + totalWidth + 10, posY, 0xA0000000);
+                    fill(ms, posX, posY - 3 - tooltip.length * 12 - 2, posX + totalWidth + 10, posY, 0xA0000000);
                 else
-                    func_238467_a_(ms, posX, posY, posX + totalWidth + 10, posY + 3 + tooltip.length * 12 + 2, 0xA0000000);
+                    fill(ms, posX, posY, posX + totalWidth + 10, posY + 3 + tooltip.length * 12 + 2, 0xA0000000);
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY)
-                            AbstractGui.func_238476_c_(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+                            AbstractGui.drawString(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
                         else
-                            AbstractGui.func_238476_c_(ms, fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                            AbstractGui.drawString(ms, fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
                     }
                 }
             }
@@ -118,7 +118,7 @@ public class GuiScreenTooltip extends Screen {
             RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
                     GlStateManager.DestFactor.ZERO);
-            AbstractGui.func_238476_c_(ms, field_230706_i_.fontRenderer, text, x, y, 0xFFFFFFFF);
+            AbstractGui.drawString(ms, minecraft.fontRenderer, text, x, y, 0xFFFFFFFF);
         }
     }
 

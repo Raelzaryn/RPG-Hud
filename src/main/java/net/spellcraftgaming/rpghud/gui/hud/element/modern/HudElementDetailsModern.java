@@ -186,7 +186,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 				this.offset += 20;
 			}
@@ -214,7 +214,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderItemOverlays(this.mc.fontRenderer, item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				RenderSystem.scaled(2.0, 2.0, 2.0);
 				RenderHelper.disableStandardItemLighting();
 				this.offset += 20;
@@ -254,7 +254,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				RenderHelper.enableStandardItemLighting();
 				this.mc.getItemRenderer().renderItemIntoGUI(item, 6, 62 + this.offset);
 				RenderHelper.disableStandardItemLighting();
-				AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 				this.offset += 20;
 			}
@@ -302,7 +302,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			this.mc.getItemRenderer().renderItemIntoGUI(this.itemArrow, 6, 62 + this.offset);
 			RenderHelper.disableStandardItemLighting();
-			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+			AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 			this.offset += 20;
 

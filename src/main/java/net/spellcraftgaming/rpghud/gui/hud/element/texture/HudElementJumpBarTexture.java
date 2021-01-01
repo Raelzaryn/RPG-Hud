@@ -31,10 +31,10 @@ public class HudElementJumpBarTexture extends HudElement {
 		float var14 = this.mc.player.getHorseJumpPower();
 		int color = (int) (var14 * 100.0F);
 		RenderSystem.color3f(1f, 1f, 1f);
-		gui.func_238474_b_(ms, adjustedWidth - 71, height - 80, 0, 160, 141, 10);
-		gui.func_238474_b_(ms, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10);
+		gui.blit(ms, adjustedWidth - 71, height - 80, 0, 160, 141, 10);
+		gui.blit(ms, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10);
 		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 	}
 
 }

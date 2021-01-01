@@ -49,21 +49,21 @@ public class HudElementFoodTexture extends HudElement {
 				int bonusHunger = (int) (value + stamina);
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
-				gui.func_238474_b_(ms, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12);
+				gui.blit(ms, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12);
 			}
 		}
 
 		if (this.mc.player.isPotionActive(Effects.HUNGER)) {
-			gui.func_238474_b_(ms, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12);
+			gui.blit(ms, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12);
 		} else {
-			gui.func_238474_b_(ms, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12);
+			gui.blit(ms, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12);
 		}
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, staminaString, posX + 55, posY + 2, -1);
+			AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, staminaString, posX + 55, posY + 2, -1);
 		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 	}
 
 }

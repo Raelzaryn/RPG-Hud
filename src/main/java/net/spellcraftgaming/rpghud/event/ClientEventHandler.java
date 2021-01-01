@@ -27,7 +27,7 @@ public class ClientEventHandler {
         if (event.getGui() instanceof MainMenuScreen || event.getGui() instanceof IngameMenuScreen) {
             Minecraft mc = Minecraft.getInstance();
             ITextComponent s = new TranslationTextComponent("name.rpghud");
-            event.addWidget(new Button(event.getGui().field_230708_k_- mc.fontRenderer.getStringWidth(s.getString()) - 8, 0, mc.fontRenderer.getStringWidth(s.getString()) + 8, 20, s, button -> {
+            event.addWidget(new Button(event.getGui().width - mc.fontRenderer.getStringWidth(s.getString()) - 8, 0, mc.fontRenderer.getStringWidth(s.getString()) + 8, 20, s, button -> {
                 mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
             }));
         }

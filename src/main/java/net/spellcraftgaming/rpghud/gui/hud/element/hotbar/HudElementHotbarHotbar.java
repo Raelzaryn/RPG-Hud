@@ -41,10 +41,10 @@ public class HudElementHotbarHotbar extends HudElement {
 			zLevel = -90.0F;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			gui.func_238474_b_(ms, posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
-			gui.func_238474_b_(ms, posX + entityplayer.inventory.currentItem * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
+			gui.blit(ms, posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
+			gui.blit(ms, posX + entityplayer.inventory.currentItem * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
 
-			gui.func_238474_b_(ms, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
+			gui.blit(ms, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
 
 			zLevel = f;
 			RenderSystem.enableRescaleNormal();
@@ -68,11 +68,11 @@ public class HudElementHotbarHotbar extends HudElement {
 					int i2 = scaledHeight - 36 + posY;
 					int j2 = i + 40 + this.settings.getPositionValue(Settings.hotbar_position)[0];
 
-					this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+					this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.func_238474_b_(ms, j2, i2 - 9, 0, 94, 18, 18);
-					gui.func_238474_b_(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.blit(ms, j2, i2 - 9, 0, 94, 18, 18);
+					gui.blit(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

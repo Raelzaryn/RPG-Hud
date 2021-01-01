@@ -35,24 +35,24 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, (posX - 29 + 44) * 2, (34 + posY) * 2, -1);
+            AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, stringHealth, (posX - 29 + 44) * 2, (34 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
             int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);
             int y = 23 + posY;
-            this.mc.fontRenderer.func_238421_b_(ms,focused.getName().getString(), x, y, -1);
+            this.mc.fontRenderer.drawString(ms,focused.getName().getString(), x, y, -1);
 
             drawEntityOnScreen(posX - 60 + 14, 22 + 25 + posY, focused);
 
             if(settings.getBoolValue(Settings.show_entity_armor)) {
                 int armor = focused.getTotalArmorValue();
                 if(armor > 0) {
-                    this.mc.getTextureManager().bindTexture(AbstractGui.field_230665_h_);
+                    this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
                     String value = String.valueOf(armor);
                     drawRect(posX - 30, posY + 42, 8 + (mc.fontRenderer.getStringWidth(value) / 2), 6, 0xA0000000);
                     RenderSystem.scaled(0.5, 0.5, 0.5);
-                    gui.func_238474_b_(ms, (posX - 30) * 2, (posY + 42) * 2, 34, 9, 9, 9);
-                    this.mc.fontRenderer.func_238421_b_(ms,value, (posX - 24) * 2, (posY + 42) * 2 + 1, -1);
+                    gui.blit(ms, (posX - 30) * 2, (posY + 42) * 2, 34, 9, 9, 9);
+                    this.mc.fontRenderer.drawString(ms,value, (posX - 24) * 2, (posY + 42) * 2 + 1, -1);
                     RenderSystem.scaled(2.0, 2.0, 2.0);
                 }
             }

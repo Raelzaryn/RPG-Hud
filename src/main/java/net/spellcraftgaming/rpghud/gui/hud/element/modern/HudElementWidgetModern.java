@@ -36,8 +36,8 @@ public class HudElementWidgetModern extends HudElement {
 		bind(getPlayerSkin(this.mc.player));
 		GlStateManager.disableDepthTest();
 		GL11.glScaled(0.5D, 0.5D, 0.5D);
-		gui.func_238474_b_(ms, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
-		gui.func_238474_b_(ms, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
+		gui.blit(ms, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
+		gui.blit(ms, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
 		GL11.glScaled(2.0D, 2.0D, 2.0D);
 	}
 }

@@ -33,17 +33,17 @@ public class HudElementExperienceTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
 	
-		gui.func_238474_b_(ms, posX, posY, 0, 132, (int) (88.0D * (exp / (double) expCap)), 8);
+		gui.blit(ms, posX, posY, 0, 132, (int) (88.0D * (exp / (double) expCap)), 8);
 
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 	
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
+			AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 		}
 		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(AbstractGui.field_230664_g_);
+		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 	}
 
 }

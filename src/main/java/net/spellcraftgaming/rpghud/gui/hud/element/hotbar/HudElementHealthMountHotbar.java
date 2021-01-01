@@ -36,7 +36,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, posX + 100, height - 55, -1);
+			AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 
 }
