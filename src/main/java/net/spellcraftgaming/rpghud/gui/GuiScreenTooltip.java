@@ -8,6 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
@@ -93,9 +94,9 @@ public class GuiScreenTooltip extends Screen {
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY)
-                            gui.func_238476_c_(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+                            AbstractGui.func_238476_c_(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
                         else
-                            gui.func_238476_c_(ms, fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                            AbstractGui.func_238476_c_(ms, fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
                     }
                 }
             }
@@ -117,7 +118,7 @@ public class GuiScreenTooltip extends Screen {
             RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
                     GlStateManager.DestFactor.ZERO);
-            gui.func_238476_c_(ms, field_230706_i_.fontRenderer, text, x, y, 0xFFFFFFFF);
+            AbstractGui.func_238476_c_(ms, field_230706_i_.fontRenderer, text, x, y, 0xFFFFFFFF);
         }
     }
 

@@ -44,7 +44,7 @@ public class HudElementHealthMountModern extends HudElement {
             int width2 = this.mc.fontRenderer.getStringWidth(stringHealth) / 2;
             drawRect(posX, 24 + posY, width2 + 4, 5, 0xA0000000);
             GL11.glScaled(0.5D, 0.5D, 0.5D);
-            gui.func_238476_c_(ms, this.mc.fontRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+            AbstractGui.func_238476_c_(ms, this.mc.fontRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
             GL11.glScaled(2.0D, 2.0D, 2.0D);
         }
 

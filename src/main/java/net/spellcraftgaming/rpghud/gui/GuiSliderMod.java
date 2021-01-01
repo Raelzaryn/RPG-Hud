@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -176,7 +177,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)), this.field_230691_m_ + (this.field_230689_k_ / 2), 0, 86 - (this.field_230689_k_ / 2), 4, this.field_230689_k_ / 2);
 			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)) + 4, this.field_230691_m_, 196, 66, 4, this.field_230689_k_ / 2);
 			this.func_238474_b_(ms, this.field_230690_l_ + (int) (this.sliderValue * (this.field_230688_j_ - 8)) + 4, this.field_230691_m_ + (this.field_230689_k_ / 2), 196, 86 - (this.field_230689_k_ / 2), 4, this.field_230689_k_ / 2);
-            this.func_238471_a_(ms, mc.fontRenderer, buttonText, this.field_230690_l_ + this.field_230688_j_ / 2, this.field_230691_m_ + (this.field_230689_k_ - 8) / 2, color);
+            AbstractGui.func_238471_a_(ms, mc.fontRenderer, buttonText, this.field_230690_l_ + this.field_230688_j_ / 2, this.field_230691_m_ + (this.field_230689_k_ - 8) / 2, color);
         }
     }
     

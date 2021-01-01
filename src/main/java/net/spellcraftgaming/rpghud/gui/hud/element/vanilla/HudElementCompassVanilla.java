@@ -37,50 +37,50 @@ public class HudElementCompassVanilla extends HudElement {
 		bind(INTERFACE);
 		gui.func_238474_b_(ms, width - 56, posY, 34, 234, 112, 9);
 		if (rotation > 0 && rotation <= 100) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation > 25 && rotation <= 125) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation > 50 && rotation <= 150) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, "N", width + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, "N", width + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
 		}
 
 		if (rotation > 75 && rotation <= 175) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation > 100 && rotation <= 200) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, "E", width + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, "E", width + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation >= 125) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		} else if (rotation <= 25) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, ".", width - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, ".", width - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation >= 150) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, "S", width + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, "S", width + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		} else if (rotation <= 50) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, "S", width - (rotation * swapSides), posY + 1, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, "S", width - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation >= 175) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		} else if (rotation <= 75) {
-			gui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, ".", width + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				RenderSystem.scaled(0.5D, 0.5D, 0.5D);
 			int[] pos = getPlayerPos();
-			gui.func_238476_c_(ms, this.mc.fontRenderer, String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
-			gui.func_238471_a_(ms, this.mc.fontRenderer, String.valueOf(pos[1]), width * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
-			gui.func_238476_c_(ms, this.mc.fontRenderer, String.valueOf(pos[2]), (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - mc.fontRenderer.getStringWidth(String.valueOf(pos[2])), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
+			AbstractGui.func_238476_c_(ms, this.mc.fontRenderer, String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
+			AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, String.valueOf(pos[1]), width * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
+			AbstractGui.func_238476_c_(ms, this.mc.fontRenderer, String.valueOf(pos[2]), (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - mc.fontRenderer.getStringWidth(String.valueOf(pos[2])), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
 				RenderSystem.scaled(2D, 2D, 2D);
 		}

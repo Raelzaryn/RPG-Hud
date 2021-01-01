@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
@@ -227,12 +228,12 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
     public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
         FontRenderer fontRenderer = field_230706_i_.fontRenderer;
         this.func_230446_a_(ms);
-        this.func_238471_a_(ms, fontRenderer, this.title, this.field_230708_k_ / 2, 12, -1);
-        this.func_238471_a_(ms, fontRenderer, I18n.format("color.red", new Object[0]), this.field_230708_k_ / 2, 40 - 9, -1);
-        this.func_238471_a_(ms, fontRenderer, I18n.format("color.green", new Object[0]), this.field_230708_k_ / 2, 65 - 9, -1);
-        this.func_238471_a_(ms, fontRenderer, I18n.format("color.blue", new Object[0]), this.field_230708_k_ / 2, 90 - 9, -1);
+        AbstractGui.func_238471_a_(ms, fontRenderer, this.title, this.field_230708_k_ / 2, 12, -1);
+        AbstractGui.func_238471_a_(ms, fontRenderer, I18n.format("color.red", new Object[0]), this.field_230708_k_ / 2, 40 - 9, -1);
+        AbstractGui.func_238471_a_(ms, fontRenderer, I18n.format("color.green", new Object[0]), this.field_230708_k_ / 2, 65 - 9, -1);
+        AbstractGui.func_238471_a_(ms, fontRenderer, I18n.format("color.blue", new Object[0]), this.field_230708_k_ / 2, 90 - 9, -1);
         this.colorCodeField.func_230431_b_(ms, mouseX, mouseY, partialTicks);
-        this.func_238471_a_(ms, fontRenderer, I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.field_230708_k_ / 2,
+        AbstractGui.func_238471_a_(ms, fontRenderer, I18n.format("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.field_230708_k_ / 2,
                 141, -1);
         super.func_230430_a_(ms, mouseX, mouseY, partialTicks);
         HudElement.drawCustomBar(this.field_230708_k_ / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color,

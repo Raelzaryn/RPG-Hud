@@ -35,7 +35,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            gui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, (posX - 29 + 44) * 2, (34 + posY) * 2, -1);
+            AbstractGui.func_238471_a_(ms, this.mc.fontRenderer, stringHealth, (posX - 29 + 44) * 2, (34 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
             int x = (posX - 29 + 44 - this.mc.fontRenderer.getStringWidth(focused.getName().getString()) / 2);

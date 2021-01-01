@@ -38,7 +38,7 @@ public class HudElementHealthMountDefault extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			RenderSystem.scaled(0.5, 0.5, 0.5);
-			gui.func_238471_a_(ms,this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			AbstractGui.func_238471_a_(ms,this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0, 2.0, 2.0);
 		}
 	}

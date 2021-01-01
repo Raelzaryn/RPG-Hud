@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -172,7 +173,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
     @Override
     public void func_230430_a_(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
         this.func_230446_a_(ms);
-        this.func_238471_a_(ms, field_230706_i_.fontRenderer, I18n.format("gui.rpg.settings", new Object[0]), this.field_230708_k_ / 2, 12, 16777215);
+        AbstractGui.func_238471_a_(ms, field_230706_i_.fontRenderer, I18n.format("gui.rpg.settings", new Object[0]), this.field_230708_k_ / 2, 12, 16777215);
         for(List<TextFieldWidget> positionPairs : textFields.values()) {
             for(TextFieldWidget t : positionPairs)
                 t.func_230430_a_(ms, mouseX, mouseY, partialTicks);
