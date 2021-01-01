@@ -39,7 +39,7 @@ public class HudElementHealthMountExtended extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			RenderSystem.scaled(0.5, 0.5, 0.5);
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0, 2.0, 2.0);
 		}
 	}

@@ -39,7 +39,7 @@ public class HudElementExperienceTexture extends HudElement {
 	
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
 			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
 		}
 		RenderSystem.color3f(1f, 1f, 1f);

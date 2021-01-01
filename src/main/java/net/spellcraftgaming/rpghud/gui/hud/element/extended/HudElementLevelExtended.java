@@ -27,7 +27,7 @@ public class HudElementLevelExtended extends HudElement {
 	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		GlStateManager.disableBlend();
 		String level = String.valueOf(this.mc.player.experienceLevel);
-		gui.drawStringWithShadow(ms, this.mc.textRenderer, level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.textRenderer.getWidth(level) / 2, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 18) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
+		DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.textRenderer.getWidth(level) / 2, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 18) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
 		GlStateManager.enableBlend();
 	}
 

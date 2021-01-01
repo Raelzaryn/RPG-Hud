@@ -36,41 +36,41 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 
 		gui.drawTexture(ms, posX - 56, 0, 34, 234, 112, 9);
 		if (rotation > 0 && rotation <= 100) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, "W", posX + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, "W", posX + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation > 25 && rotation <= 125) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation > 50 && rotation <= 150) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, "N", posX + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, "N", posX + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
 		}
 
 		if (rotation > 75 && rotation <= 175) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation > 100 && rotation <= 200) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, "E", posX + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, "E", posX + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation >= 125) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		} else if (rotation <= 25) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, ".", posX - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, ".", posX - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation >= 150) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, "S", posX + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, "S", posX + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		} else if (rotation <= 50) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, "S", posX - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, "S", posX - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation >= 175) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		} else if (rotation <= 75) {
-			gui.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, ".", posX + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
@@ -80,9 +80,9 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect((posX + 48) - (this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
 			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			gui.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
-			gui.drawCenteredString(ms, this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
-			gui.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
+			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
+			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
 			RenderSystem.scaled(2D, 2D, 2D);
 		}
 	}

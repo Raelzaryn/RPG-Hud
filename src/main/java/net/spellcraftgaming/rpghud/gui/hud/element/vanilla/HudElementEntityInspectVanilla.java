@@ -23,7 +23,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RayTraceContext;
+import net.minecraft.world.RaycastContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -57,7 +57,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             RenderSystem.scaled(0.5, 0.5, 0.5);
-            gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             RenderSystem.scaled(2.0, 2.0, 2.0);
 
             int x = (posX - 29 + 44 - this.mc.textRenderer.getWidth(focused.getName().getString()) / 2);
@@ -122,7 +122,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.pitch = -g * 20.0F;
         entity.headYaw = entity.yaw;
         entity.prevHeadYaw = entity.yaw;
-        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
+        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         quaternion2.conjugate();
         entityRenderDispatcher.setRotation(quaternion2);
         entityRenderDispatcher.setRenderShadows(false);
@@ -154,7 +154,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         Vec3d vec2 = vec.add(lookVec.normalize().multiply(maxDistance));
 
         BlockHitResult ray = watcher.world
-                .rayTrace(new RayTraceContext(vec, vec2, RayTraceContext.ShapeType.OUTLINE, RayTraceContext.FluidHandling.NONE, watcher));
+                .raycast(new RaycastContext(vec, vec2, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, watcher));
 
         double distance = maxDistance;
         if(ray != null) {
@@ -164,7 +164,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         double currentDistance = distance;
 
-        List<Entity> entitiesWithinMaxDistance = watcher.world.getEntities(watcher,
+        List<Entity> entitiesWithinMaxDistance = watcher.world.getOtherEntities(watcher,
                 watcher.getBoundingBox().stretch(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
         for(Entity entity : entitiesWithinMaxDistance) {
             if(entity instanceof LivingEntity) {

@@ -654,4 +654,8 @@ public abstract class HudElement {
         this.mc.textRenderer.draw(ms,text, posX, posY, colorMain);
         RenderSystem.enableBlend();
     }
+    
+    public boolean isChatOpen() {
+        return this.mc.currentScreen instanceof net.minecraft.client.gui.screen.ChatScreen;
+    }
 }

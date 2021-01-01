@@ -46,7 +46,7 @@ public class HudElementHealthTexture extends HudElement {
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gui.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
+			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
 		RenderSystem.color3f(1f, 1f, 1f);
 		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
 	}

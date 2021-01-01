@@ -37,7 +37,7 @@ public class HudElementExperienceDefault extends HudElement {
 
 		int var7 = scaledWidth / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gui.drawCenteredString(ms,this.mc.textRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
+			DrawableHelper.drawCenteredString(ms,this.mc.textRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
 	}
 
 }
