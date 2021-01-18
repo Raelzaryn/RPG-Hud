@@ -112,7 +112,7 @@ public class Settings {
 
     private File rpgHudDir() {
         Minecraft mc = Minecraft.getInstance();
-        return (new File(mc.gameDir.getPath(), "config" + File.separator + "RPG-HUD"));
+        return (new File(mc.gameDir.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
     }
 
     public Settings() {
@@ -383,6 +383,13 @@ public class Settings {
             }
 
             if(!file.exists()) {
+                Minecraft mc = Minecraft.getInstance();
+                File oldfile = new File(mc.gameDir.getPath(), "config" + File.separator + "RPG-HUD");
+                if(oldfile.exists() && !oldfile.isDirectory()) {
+                    System.out.println("Converted old config file");
+                    oldfile.renameTo(file);
+                    load();
+                }
                 // Either a previous load attempt failed or the file is new; clear maps
                 if(!file.createNewFile())
                     return;
