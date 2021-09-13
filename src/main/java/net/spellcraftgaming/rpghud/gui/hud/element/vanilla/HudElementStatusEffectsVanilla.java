@@ -28,20 +28,20 @@ public class HudElementStatusEffectsVanilla extends HudElement {
 
     @Override
     public void drawElement(DrawableHelper gui, MatrixStack ms, float na, float partialTicks, int scaledWidth, int scaledHeight) {
-        double scale = getScale();
-        RenderSystem.scaled(scale, scale, scale);
+        float scale = getScale();
+        ms.scale(scale, scale, scale);
         Collection<StatusEffectInstance> collection = this.mc.player.getStatusEffects();
         if(!collection.isEmpty()) {
             RenderSystem.enableBlend();
             int i = 0;
             int j = 0;
             StatusEffectSpriteManager potionspriteuploader = this.mc.getStatusEffectSpriteManager();
-            this.mc.getTextureManager().bindTexture(HandledScreen.BACKGROUND_TEXTURE);
+            bind(HandledScreen.BACKGROUND_TEXTURE);
 
             for(StatusEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
                 StatusEffect effect = effectinstance.getEffectType();
                 // Rebind in case previous renderHUDEffect changed texture
-                this.mc.getTextureManager().bindTexture(HandledScreen.BACKGROUND_TEXTURE);
+                bind(HandledScreen.BACKGROUND_TEXTURE);
                 if(effectinstance.shouldShowIcon()) {
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
@@ -71,8 +71,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         }
 
                     }
-
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
@@ -88,8 +87,8 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         }
                     }
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
-                    this.mc.getTextureManager().bindTexture(textureatlassprite.getAtlas().getId());
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, f);
+                    bind(textureatlassprite.getAtlas().getId());
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
                     DrawableHelper.drawSprite(ms, k + 3, l + 3, gui.getZOffset(), 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
@@ -116,8 +115,8 @@ public class HudElementStatusEffectsVanilla extends HudElement {
     }
 
     @Override
-    public double getScale() {
-        double scale = this.settings.getDoubleValue(Settings.status_scale);
+    public float getScale() {
+        float scale = (float)this.settings.getDoubleValue(Settings.status_scale);
         //if(scale != 0)
         return scale;
         //return 1;

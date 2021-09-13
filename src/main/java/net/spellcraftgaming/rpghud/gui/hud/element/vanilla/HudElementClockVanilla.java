@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,7 +24,7 @@ public class HudElementClockVanilla extends HudElement {
 		return super.checkConditions() 
 				&& this.settings.getBoolValue(Settings.enable_clock) 
 				&& !this.mc.options.debugEnabled
-				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.contains(new ItemStack(Items.CLOCK)) : true);
+				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
 	}
 
 	@Override
@@ -34,11 +34,11 @@ public class HudElementClockVanilla extends HudElement {
 			clockColor = getClockColor();
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			GL11.glScaled(0.5D, 0.5D, 0.5D);
+			ms.scale(0.5f, 0.5f, 0.5f);
 		DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			GL11.glScaled(2.0D, 2.0D, 2.0D);
+			ms.scale(2f, 2f, 2f);
 	}
 
 	/** Returns the time of the minecraft world as a String */

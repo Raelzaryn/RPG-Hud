@@ -55,13 +55,13 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void init() {
-		this.addButton(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
+		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
 			slider.onClick(0, 0);
 		}));
-		this.addButton(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
+		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
 			slider.onClick(0, 0);
 		}));
-		this.addButton(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
+		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
 			slider.onClick(0, 0);
 		}));
 
@@ -69,29 +69,28 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 		this.colorCodeField.setMaxLength(7);
 		
-		this.children.add(colorCodeField);
-		
+		this.addDrawableChild(colorCodeField);
 		String[] colorString = new String[] {"color.red", "color.pink", "color.brown", "color.white", "color.orange", "color.green",
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
 		
 		for(int i = 0; i < 6; i++) {
-			this.addButton(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i]), button -> {
+			this.addDrawableChild(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i]), button -> {
 					actionPerformed(button);
 			}));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addButton(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i+6]), button -> {
+			this.addDrawableChild(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i+6]), button -> {
 					actionPerformed(button);
 			}));
 		}
 
-		this.addButton(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, new TranslatableText("gui.done"), button -> {
+		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, new TranslatableText("gui.done"), button -> {
 				setSettingColor();
-				client.openScreen(parent);
+				client.setScreen(parent);
 		}).setTooltip(I18n.translate("tooltip.done", new Object[0])));
-		this.addButton(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, new TranslatableText("gui.cancel"), button -> {
-		    client.openScreen(parent);
+		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, new TranslatableText("gui.cancel"), button -> {
+		    client.setScreen(parent);
 		}).setTooltip(I18n.translate("tooltip.cancel", new Object[0])));
 	}
 	
@@ -124,9 +123,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_YELLOW);
 			} else if (button.id == 250) {
 				setSettingColor();
-				this.client.openScreen(this.parent);
+				this.client.setScreen(this.parent);
 			} else if (button.id == 251) {
-				this.client.openScreen(this.parent);
+				this.client.setScreen(this.parent);
 			}
 		}
 	}
@@ -134,14 +133,14 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	public void setColorTo(int color) {
 		this.color = color;
 		this.colorR = (this.color >> 16 & 255);
-		((GuiSliderMod) this.buttons.get(0)).sliderValue = (float) this.colorR / 255;
-		((GuiSliderMod) this.buttons.get(0)).value = this.colorR;
+		((GuiSliderMod) this.children().get(0)).sliderValue = (float) this.colorR / 255;
+		((GuiSliderMod) this.children().get(0)).value = this.colorR;
 		this.colorG = (this.color >> 8 & 255);
-		((GuiSliderMod) this.buttons.get(1)).sliderValue = (float) this.colorG / 255;
-		((GuiSliderMod) this.buttons.get(1)).value = this.colorG;
+		((GuiSliderMod) this.children().get(1)).sliderValue = (float) this.colorG / 255;
+		((GuiSliderMod) this.children().get(1)).value = this.colorG;
 		this.colorB = (this.color & 255);
-		((GuiSliderMod) this.buttons.get(2)).sliderValue = (float) this.colorB / 255;
-		((GuiSliderMod) this.buttons.get(2)).value = this.colorB;
+		((GuiSliderMod) this.children().get(2)).sliderValue = (float) this.colorB / 255;
+		((GuiSliderMod) this.children().get(2)).value = this.colorB;
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 	}
 
@@ -165,23 +164,23 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 					if (this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
 						this.color = Integer.valueOf(this.colorCodeField.getText().replace("#", ""), 16).intValue();
 						this.colorR = (this.color >> 16 & 255);
-						((GuiSliderMod) this.buttons.get(0)).sliderValue = (float) this.colorR / 255;
-						((GuiSliderMod) this.buttons.get(0)).value = this.colorR;
+						((GuiSliderMod) this.children().get(0)).sliderValue = (float) this.colorR / 255;
+						((GuiSliderMod) this.children().get(0)).value = this.colorR;
 						this.colorG = (this.color >> 8 & 255);
-						((GuiSliderMod) this.buttons.get(1)).sliderValue = (float) this.colorG / 255;
-						((GuiSliderMod) this.buttons.get(1)).value = this.colorG;
+						((GuiSliderMod) this.children().get(1)).sliderValue = (float) this.colorG / 255;
+						((GuiSliderMod) this.children().get(1)).value = this.colorG;
 						this.colorB = (this.color & 255);
-						((GuiSliderMod) this.buttons.get(2)).sliderValue = (float) this.colorB / 255;
-						((GuiSliderMod) this.buttons.get(2)).value = this.colorB;
+						((GuiSliderMod) this.children().get(2)).sliderValue = (float) this.colorB / 255;
+						((GuiSliderMod) this.children().get(2)).value = this.colorB;
 					}
 				} 
 			}
 			this.colorCodeField.setText(this.colorCodeField.getText().toUpperCase());
 		} else {
 			this.colorCodeField.setText(Settings.intToHexString(this.color));
-			this.colorR = ((GuiSliderMod) this.buttons.get(0)).getValue();
-			this.colorG = ((GuiSliderMod) this.buttons.get(1)).getValue();
-			this.colorB = ((GuiSliderMod) this.buttons.get(2)).getValue();
+			this.colorR = ((GuiSliderMod) this.children().get(0)).getValue();
+			this.colorG = ((GuiSliderMod) this.children().get(1)).getValue();
+			this.colorB = ((GuiSliderMod) this.children().get(2)).getValue();
 			int color = (this.colorR << 16) + (this.colorG << 8) + (this.colorB);
 			if (color > 0xFFFFFF)
 				color = 0xFFFFFF;
@@ -203,14 +202,14 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		if (this.colorCodeField.isFocused()) {
 			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 			if (p_keyPressed_1_ == 28)
-				this.colorCodeField.setSelected(false);
+				this.colorCodeField.setTextFieldFocused(false);
 		}
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
 	
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-	       for(Element child : this.children) {
+	       for(Element child : this.children()) {
 	            if(child instanceof GuiSliderMod) {
 	                ((GuiSliderMod) child).dragging = false;
 	            }
@@ -222,13 +221,13 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
 		TextRenderer textRenderer = client.textRenderer;
 		this.renderBackground(ms);
-		DrawableHelper.drawCenteredString(ms, textRenderer, this.title, this.width / 2, 12, -1);
-		DrawableHelper.drawCenteredString(ms, textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		DrawableHelper.drawCenteredString(ms, textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		DrawableHelper.drawCenteredString(ms, textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
+		DrawableHelper.drawCenteredText(ms, textRenderer, this.title, this.width / 2, 12, -1);
+		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
+		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
+		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
 		this.colorCodeField.render(ms,mouseX, mouseY, partialTicks);
-		DrawableHelper.drawCenteredString(ms, textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
 		super.render(ms, mouseX, mouseY, partialTicks);
-		HudElement.drawCustomBar(this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
+		HudElement.drawCustomBar(ms, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
 }

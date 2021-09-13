@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
@@ -10,7 +8,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -100,8 +101,8 @@ public abstract class HudElement {
     /** The Mod settings */
     protected Settings settings;
 
-    protected double scale;
-    protected double scaleInverted;
+    protected float scale;
+    protected float scaleInverted;
 
     public HudElementType parent;
     /**
@@ -132,8 +133,8 @@ public abstract class HudElement {
         this.mc = MinecraftClient.getInstance();
         this.rpgHud = ModRPGHud.instance;
         this.settings = this.rpgHud.settings;
-        this.scale = 1D;
-        this.scaleInverted = 1D / this.scale;
+        this.scale = 1f;
+        this.scaleInverted = 1f / this.scale;
         this.parent = type;
     }
 
@@ -182,12 +183,12 @@ public abstract class HudElement {
         return this.elementHeight;
     }
 
-    public double getScale() {
-        return 1;
+    public float getScale() {
+        return 1f;
     }
     
-    public double getInvertedScale() {
-        return 1 / getScale();
+    public float getInvertedScale() {
+        return 1f / getScale();
     }
     /**
      * Returns whether this element can be moved or not
@@ -262,8 +263,8 @@ public abstract class HudElement {
      * @param color
      *            the color of the rectangle
      */
-    public static void drawRect(int posX, int posY, int width, int height, int color) {
-        if (color == -1)
+    public static void drawRect(MatrixStack ms, int posX, int posY, int width, int height, int color) {
+    	if (color == -1)
             return;
         float f3;
         if (color <= 0xFFFFFF && color >= 0)
@@ -275,21 +276,20 @@ public abstract class HudElement {
         float f2 = (color & 255) / 255.0F;
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
-        RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-        RenderSystem.color4f(f, f1, f2, f3);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);	
         RenderSystem.disableDepthTest();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder vertexbuffer = tessellator.getBuffer();
-        vertexbuffer.begin(7, VertexFormats.POSITION);
-        vertexbuffer.vertex(posX, (double) posY + height, 0.0D).next();
-        vertexbuffer.vertex((double) posX + width, (double) posY + height, 0.0D).next();
-        vertexbuffer.vertex((double) posX + width, posY, 0.0D).next();
-        vertexbuffer.vertex(posX, posY, 0.0D).next();
-        tessellator.draw();
+        BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
+        vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        vertexbuffer.vertex(ms.peek().getModel(), posX, posY + height, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getModel(), posX + width, posY + height, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getModel(), posX + width, posY, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getModel(), posX, posY, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.end();
+        BufferRenderer.draw(vertexbuffer);
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
-        RenderSystem.color3f(1f, 1f, 1f);
     }
 
     /**
@@ -305,11 +305,11 @@ public abstract class HudElement {
      *            the height of the outline
      * @param color
      */
-    protected static void drawOutline(int x, int y, int width, int height, int color) {
-        drawRect(x, y, width, 1, color);
-        drawRect(x, y, 1, height, color);
-        drawRect(x + width - 1, y, 1, height, color);
-        drawRect(x, y + height - 1, width, 1, color);
+    protected static void drawOutline(MatrixStack ms, int x, int y, int width, int height, int color) {
+        drawRect(ms, x, y, width, 1, color);
+        drawRect(ms, x, y, 1, height, color);
+        drawRect(ms, x + width - 1, y, 1, height, color);
+        drawRect(ms, x, y + height - 1, width, 1, color);
     }
 
     /**
@@ -330,8 +330,8 @@ public abstract class HudElement {
      * @param colorBarDark
      *            the color for the bar (dark
      */
-    public static void drawCustomBar(int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
-        drawCustomBar(x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
+    public static void drawCustomBar(MatrixStack ms, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
+        drawCustomBar(ms, x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
     }
 
     /**
@@ -356,8 +356,8 @@ public abstract class HudElement {
      * @param colorBarDark
      *            the color for the bar (dark
      */
-    public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
-        drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
+    public static void drawCustomBar(MatrixStack ms, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
+        drawCustomBar(ms, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
     }
 
     /**
@@ -384,8 +384,8 @@ public abstract class HudElement {
      * @param outlined
      *            whether this bar has an outline or not
      */
-    public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
-        drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
+    public static void drawCustomBar(MatrixStack ms, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
+        drawCustomBar(ms, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
     }
 
     /**
@@ -412,8 +412,8 @@ public abstract class HudElement {
      * @param colorOutline
      *            the color of the outline
      */
-    public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
-        drawCustomBar(x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
+    public static void drawCustomBar(MatrixStack ms, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+        drawCustomBar(ms, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
     }
 
     /**
@@ -442,7 +442,7 @@ public abstract class HudElement {
      * @param colorOutline
      *            the color of the outline
      */
-    public static void drawCustomBar(int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+    public static void drawCustomBar(MatrixStack ms, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
         if (value < 0.0D) {
             value = 0.0D;
         }else if (value > 100D) {
@@ -465,15 +465,15 @@ public abstract class HudElement {
         int percentFilled = (int) Math.round(value / 100.0D * filledWidth);
 
         if (outlined)
-            drawOutline(x, y, width, height, colorOutline);
+            drawOutline(ms, x, y, width, height, colorOutline);
         int halfedFilledHeight = filledHeight / 2;
 
-        drawRect(x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
-        drawRect(x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
+        drawRect(ms, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
+        drawRect(ms, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
 
         if (filledWidth - percentFilled > 0) {
-            drawRect(x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
-            drawRect(x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
+            drawRect(ms, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
+            drawRect(ms, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
         }
     }
 
@@ -514,21 +514,20 @@ public abstract class HudElement {
         float f2 = (color & 255) / 255.0F;
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
-        RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-        RenderSystem.color4f(f, f1, f2, f3);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.disableDepthTest();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder vertexbuffer = tessellator.getBuffer();
-        vertexbuffer.begin(7, VertexFormats.POSITION);
-        vertexbuffer.vertex(posX1, (double) posY1 + height1, 0.0D).next();
-        vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).next();
-        vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).next();
-        vertexbuffer.vertex(posX2, posY1, 0.0D).next();
-        tessellator.draw();
+        BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
+        vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        vertexbuffer.vertex(posX1, (double) posY1 + height1, 0.0D).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).next();
+        vertexbuffer.end();
+        BufferRenderer.draw(vertexbuffer);
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
-        RenderSystem.color3f(1f, 1f, 1f);
     }
 
     public static int offsetColorPercent(int color, int offsetPercent) {
@@ -596,7 +595,7 @@ public abstract class HudElement {
      *            The ResourceLocation of the texture that should be bind
      */
     protected void bind(Identifier res) {
-        this.mc.getTextureManager().bindTexture(res);
+        RenderSystem.setShaderTexture(0, res);
     }
 
     /**
@@ -626,20 +625,21 @@ public abstract class HudElement {
      */
     protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
         if (!item.isEmpty()) {
+        	MatrixStack matrixStack = RenderSystem.getModelViewStack();
             float f = (float)item.getCooldown() - partialTicks;
 
             if (f > 0.0F) {
-                RenderSystem.pushMatrix();
+                matrixStack.push();
                 float f1 = 1.0F + f / 5.0F;
-                RenderSystem.translatef(x + 8, y + 12, 0.0F);
-                RenderSystem.scalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-                RenderSystem.translatef((-(x + 8)), (-(y + 12)), 0.0F);
+                matrixStack.translate(x + 8, y + 12, 0.0F);
+                matrixStack.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+                matrixStack.translate((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
-            this.mc.getItemRenderer().renderInGuiWithOverrides(player, item, x, y);
+            this.mc.getItemRenderer().renderInGuiWithOverrides(item, x, y);
 
             if (f > 0.0F) {
-                RenderSystem.popMatrix();
+                matrixStack.pop();
             }
 
             this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, x, y);

@@ -20,7 +20,7 @@ public class HudElementJumpBarTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.method_3151() > 0F : true);
+		return this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getMountJumpStrength() > 0F : true);
 	}
 
 	@Override
@@ -28,13 +28,13 @@ public class HudElementJumpBarTexture extends HudElement {
 		bind(INTERFACE);
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
 		int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
-		float var14 = this.mc.player.method_3151();
+		float var14 = this.mc.player.getMountJumpStrength();
 		int color = (int) (var14 * 100.0F);
-		RenderSystem.color3f(1f, 1f, 1f);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		gui.drawTexture(ms, adjustedWidth - 71, height - 80, 0, 160, 141, 10);
 		gui.drawTexture(ms, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10);
-		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		bind(DrawableHelper.GUI_ICONS_TEXTURE);
 	}
 
 }

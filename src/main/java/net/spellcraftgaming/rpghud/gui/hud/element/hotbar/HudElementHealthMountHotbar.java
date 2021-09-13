@@ -30,12 +30,12 @@ public class HudElementHealthMountHotbar extends HudElement {
 		int healthMax = (int) mount.getMaxHealth();
 		if(health > healthMax) health = healthMax;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
-		drawCustomBar(posX, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
+		drawCustomBar(ms, posX, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
+			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 
 }

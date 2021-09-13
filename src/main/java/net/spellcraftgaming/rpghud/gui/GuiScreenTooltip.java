@@ -10,8 +10,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -51,8 +51,8 @@ public class GuiScreenTooltip extends Screen {
 
         boolean shouldRenderTooltip = false;
         GuiButtonTooltip button = null;
-        for(int x = 0; x < this.buttons.size(); x++) {
-            AbstractButtonWidget b = this.buttons.get(x);
+        for(int x = 0; x < this.children().size(); x++) {
+            Element b = this.children().get(x);
             if(b instanceof GuiButtonTooltip)
                 button = (GuiButtonTooltip) b;
 

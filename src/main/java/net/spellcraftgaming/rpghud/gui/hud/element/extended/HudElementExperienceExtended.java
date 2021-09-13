@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
@@ -32,14 +30,14 @@ public class HudElementExperienceExtended extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
 
-		drawCustomBar(posX, posY, 88, 8, exp * full, -1, -1, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
+		drawCustomBar(ms, posX, posY, 88, 8, exp * full, -1, -1, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			RenderSystem.scaled(0.5D, 0.5D, 0.5D);
-			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
-			RenderSystem.scaled(2.0D, 2.0D, 2.0D);
+			ms.scale(0.5f, 0.5f, 0.5f);
+			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
+			ms.scale(2f, 2f, 2f);
 		}
 	}
 

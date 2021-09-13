@@ -62,9 +62,9 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", new TranslatableText("gui.rpg.general"), button -> {
 					GuiButtonTooltip b = (GuiButtonTooltip) button;
 					if(b.enumOptions != null)
-					    client.openScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
+					    client.setScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
 			}).setTooltip(I18n.translate("tooltip.general", new Object[0]));
-			this.addButton(guismallbutton);
+			this.addDrawableChild(guismallbutton);
 			
 			int count = 1;
 			
@@ -74,10 +74,10 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), new TranslatableText(type.getDisplayName()), button -> {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
-								this.client.openScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
+								this.client.setScreen(new GuiSettingsMod(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
 							}
 					}).setTooltip(I18n.translate("tooltip.element", new Object[0]));
-					this.addButton(guismallbutton);
+					this.addDrawableChild(guismallbutton);
 					count++;
 				}
 			}
@@ -95,13 +95,13 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					TextFieldWidget xPos = new TextFieldWidgetMod(fontRenderer, ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160, this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslatableText(values[0]));
 					xPos.setText(values[0]);
 					xPos.setMaxLength(6);
-					this.children.add(xPos);
+					this.addDrawableChild(xPos);
 					fields.add(xPos);
 
 					TextFieldWidget yPos = new TextFieldWidgetMod(fontRenderer, ValueType.POSITION, this.width / 2 - 100 + i % 2 * 160 + 48, this.height / 6 - 12 + 20 * (i >> 1), 45, 15, new TranslatableText(values[1]));
 					yPos.setText(values[1]);
 					yPos.setMaxLength(6);
-					this.children.add(yPos);
+					this.addDrawableChild(yPos);
 					fields.add(yPos);
 
 					textFields.put(settingList.get(i), fields);
@@ -113,7 +113,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                             this.height / 6 - 12 + 20 * (i >> 1), 90, 15, new TranslatableText(String.valueOf(this.settings.getDoubleValue(settingList.get(i)))));
                     scale.setText(String.valueOf(this.settings.getDoubleValue(settingList.get(i))));
                     labelList.add(scaleLabel);
-                    this.children.add(scale);
+                    this.addDrawableChild(scale);
                     fields.add(scale);
                     textFields.put(settingList.get(i), fields);
 				} else
@@ -122,19 +122,19 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
 								if(settings.getSetting(b.enumOptions) instanceof SettingColor){
-								    client.openScreen(new GuiSettingsModColor(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
+								    client.setScreen(new GuiSettingsModColor(instance, b.enumOptions, new TranslatableText("gui.settings.rpghud")));
 								} else {
 									settings.increment(b.enumOptions);
 									button.setMessage(new TranslatableText(settings.getButtonString(b.enumOptions)));
 								}
 							}
 					}).setTooltip(this.settings.getSetting(settingList.get(i)).getTooltip());
-					this.addButton(guismallbutton);
+					this.addDrawableChild(guismallbutton);
 				}
 			}
 		}
 
-		this.addButton(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, new TranslatableText("gui.done"), button -> {
+		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, new TranslatableText("gui.done"), button -> {
 				Settings settings = ModRPGHud.instance.settings;
 				for(String settingID : textFields.keySet()) {
 				    for(TextFieldWidget t : textFields.get(settingID)) {
@@ -158,14 +158,14 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	                }
 				}
 				settings.saveSettings();
-				client.openScreen(parent);
+				client.setScreen(parent);
 		}));
 	}
 
 	@Override
 	public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(ms);
-		DrawableHelper.drawCenteredString(ms, client.textRenderer, I18n.translate("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+		DrawableHelper.drawCenteredText(ms, client.textRenderer, I18n.translate("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<TextFieldWidget> positionPairs : textFields.values()) {
 			for(TextFieldWidget t : positionPairs)
 				t.render(ms, mouseX, mouseY, partialTicks);

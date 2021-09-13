@@ -29,7 +29,7 @@ public class HudElementFoodTexture extends HudElement {
 	@Override
 	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
-		RenderSystem.color3f(1f, 1f, 1f);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		HungerManager stats = this.mc.player.getHungerManager();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -61,9 +61,9 @@ public class HudElementFoodTexture extends HudElement {
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
-		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		bind(DrawableHelper.GUI_ICONS_TEXTURE);
 	}
 
 }

@@ -59,11 +59,11 @@ public class RenderOverlay implements HudRenderCallback{
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
                 bind(DrawableHelper.GUI_ICONS_TEXTURE);
-                RenderSystem.pushMatrix();
+               	ms.push();
                 RenderSystem.enableBlend();
                 this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, ms, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
                         this.mc.getWindow().getScaledHeight());
-                RenderSystem.popMatrix();
+                ms.pop();
             }
 
         }

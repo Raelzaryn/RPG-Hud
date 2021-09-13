@@ -28,7 +28,7 @@ public class HudElementHealthTexture extends HudElement {
 	@Override
 	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		bind(INTERFACE);
-		RenderSystem.color3f(1f, 1f, 1f);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
@@ -46,9 +46,9 @@ public class HudElementHealthTexture extends HudElement {
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
-		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		bind(DrawableHelper.GUI_ICONS_TEXTURE);
 	}
 
 }

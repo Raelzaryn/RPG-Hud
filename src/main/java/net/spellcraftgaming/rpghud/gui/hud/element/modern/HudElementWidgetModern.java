@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -29,15 +27,14 @@ public class HudElementWidgetModern extends HudElement {
 	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
-		drawRect(posX + 2, posY + 2, 20, 20, 0xA0000000);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_BLEND);
+		drawRect(ms, posX + 2, posY + 2, 20, 20, 0xA0000000);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.enableBlend();
 		bind(getPlayerSkin(this.mc.player));
-		GlStateManager.disableDepthTest();
-		GL11.glScaled(0.5D, 0.5D, 0.5D);
+		RenderSystem.disableDepthTest();
+		ms.scale(0.5f, 0.5f, 0.5f);
 		gui.drawTexture(ms, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
 		gui.drawTexture(ms, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
-		GL11.glScaled(2.0D, 2.0D, 2.0D);
+		ms.scale(2f, 2f, 2f);
 	}
 }

@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
@@ -28,13 +26,13 @@ public class HudElementClockModern extends HudElementClockVanilla {
     @Override
     public boolean checkConditions() {
         return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.options.debugEnabled
-                && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.contains(new ItemStack(Items.CLOCK)) : true);
+                && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
     }
 
     @Override
     public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-        double scale = getScale();
-        RenderSystem.scaled(scale, scale, scale);
+        float scale = getScale();
+        ms.scale(scale, scale, scale);
         int yOffset = getPosY(scaledHeight);
         int xOffset = getPosX(scaledWidth);
         int clockColor = 0xFFFFFF;
@@ -44,14 +42,13 @@ public class HudElementClockModern extends HudElementClockVanilla {
         if(this.settings.getBoolValue(Settings.enable_clock_color)) {
             clockColor = getClockColor();
         }
-        drawRect(xOffset, yOffset, width, height, 0xA0000000);
-        DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
+        drawRect(ms, xOffset, yOffset, width, height, 0xA0000000);
+        DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         scale = getInvertedScale();
-        RenderSystem.scaled(scale, scale, scale);
+        ms.scale(scale, scale, scale);
     }
 
     @Override
@@ -76,7 +73,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
     }
 
     @Override
-    public double getScale() {
-        return 0.5;
+    public float getScale() {
+        return 0.5f;
     }
 }

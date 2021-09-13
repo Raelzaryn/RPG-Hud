@@ -28,7 +28,7 @@ public class HudElementHealthMountTexture extends HudElement {
 	@Override
 	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
-		RenderSystem.color3f(1f, 1f, 1f);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
@@ -41,12 +41,12 @@ public class HudElementHealthMountTexture extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			RenderSystem.scaled(0.5, 0.5, 0.5);
-			DrawableHelper.drawCenteredString(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
-			RenderSystem.scaled(2.0, 2.0, 2.0);
+			ms.scale(0.5f, 0.5f, 0.5f);
+			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			ms.scale(2f, 2f, 2f);
 		}
-		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(AbstractParentElement.GUI_ICONS_TEXTURE);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		bind(AbstractParentElement.GUI_ICONS_TEXTURE);
 	}
 
 }
