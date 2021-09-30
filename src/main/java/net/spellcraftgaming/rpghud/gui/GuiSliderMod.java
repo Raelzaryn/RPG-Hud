@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -164,7 +166,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-            mc.getTextureManager().bindTexture(WIDGETS_TEXTURE);
+            RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
 			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
 			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
 			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);

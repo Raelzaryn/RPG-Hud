@@ -31,8 +31,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 		if (rotation < 0)
 			rotation = 200 + rotation;
 		drawRect(ms, posX - 50, posY + 2, 100, 6, 0xAA000000);
-
-		gui.drawTexture(ms, posX - 56, 0, 34, 234, 112, 9);
+		
 		if (rotation > 0 && rotation <= 100) {
 			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, "W", posX + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}

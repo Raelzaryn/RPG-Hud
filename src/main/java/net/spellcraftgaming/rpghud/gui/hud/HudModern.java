@@ -33,7 +33,6 @@ public class HudModern extends HudDefault {
 	public int getPosX() {
 		return this.posX;
 	}
-
 	/** set the offset position */
 	public void setPosX(int posX) {
 		this.posX = posX;

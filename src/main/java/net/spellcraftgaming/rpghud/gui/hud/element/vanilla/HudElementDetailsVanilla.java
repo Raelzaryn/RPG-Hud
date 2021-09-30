@@ -1,9 +1,19 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.LightmapTextureManager;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -68,19 +78,20 @@ public class HudElementDetailsVanilla extends HudElement {
 	 *            the GUI to draw one
 	 */
 	protected void drawArmorDetails(DrawableHelper gui, MatrixStack ms) {
-		if (this.settings.getBoolValue(Settings.reduce_size))
+		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
+		if (reducedSize)
 			ms.scale(0.5f, 0.5f, 0.5f);
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmorStack(i).getItem().isDamageable()) {
 				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2: 62+typeOffset) + this.offset);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
+				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, reducedSize? 0.5f : 1f);
+				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
-		if (this.settings.getBoolValue(Settings.reduce_size))
+		if (reducedSize)
 			ms.scale(2f, 2f, 2f);
 	}
 
@@ -94,16 +105,17 @@ public class HudElementDetailsVanilla extends HudElement {
 	 */
 	protected void drawItemDetails(DrawableHelper gui, MatrixStack ms, int hand) {
 		ItemStack item = getItemInHand(hand);
+		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
-				if (this.settings.getBoolValue(Settings.reduce_size))
+				if (reducedSize)
 					ms.scale(0.5f, 0.5f, 0.5f);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize? 0.5f : 1f);
+				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
-				if (this.settings.getBoolValue(Settings.reduce_size))
+				if (reducedSize)
 					ms.scale(2f, 2f, 2f);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x = this.mc.player.getInventory().size();
@@ -135,11 +147,11 @@ public class HudElementDetailsVanilla extends HudElement {
 
 				item = getItemInHand(hand);
 				String s = "x " + z;
-				if (this.settings.getBoolValue(Settings.reduce_size))
+				if (reducedSize)
 					ms.scale(0.5f, 0.5f, 0.5f);
-				this.mc.getItemRenderer().renderInGui(item, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
-				if (this.settings.getBoolValue(Settings.reduce_size))
+				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
+				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
+				if (reducedSize)
 					ms.scale(2f, 2f, 2f);
 				this.offset += 16;
 			}
@@ -153,6 +165,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 *            the GUI to draw on
 	 */
 	protected void drawArrowCount(DrawableHelper gui, MatrixStack ms) {
+		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		ItemStack item = this.mc.player.getMainHandStack();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof BowItem) {
 			int x = this.mc.player.getInventory().size();
@@ -179,15 +192,15 @@ public class HudElementDetailsVanilla extends HudElement {
 			}
 
 			String s = "x " + z;
-			if (this.settings.getBoolValue(Settings.reduce_size))
+			if (reducedSize)
 				ms.scale(0.5f, 0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY) {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 
-			this.mc.getItemRenderer().renderInGui(this.itemArrow, this.settings.getBoolValue(Settings.reduce_size) ? 4 : 2, (this.settings.getBoolValue(Settings.reduce_size) ? 124  + typeOffset*2: 62 + typeOffset) + this.offset);
-			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (this.settings.getBoolValue(Settings.reduce_size) ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
-			if (this.settings.getBoolValue(Settings.reduce_size))
+			this.renderGuiItemModel(this.itemArrow, reducedSize ? 4 : 2, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset, reducedSize);
+			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+			if (reducedSize)
 				ms.scale(2f, 2f, 2f);
 			this.offset += 16;
 
@@ -267,6 +280,55 @@ public class HudElementDetailsVanilla extends HudElement {
 		}
 
 		return arrow.getCount();
+	}
+	
+	protected void renderGuiItemHalfSizeModel(ItemStack stack, int x, int y) {
+		renderGuiItemModel(stack, x, y, true);
+	}
+	
+	protected void renderGuiItemModel(ItemStack stack, int x, int y, boolean halfSize) {
+		BakedModel model = this.mc.getItemRenderer().getHeldItemModel(stack, null, null, 0);
+		RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		MatrixStack matrixStack = RenderSystem.getModelViewStack();
+		matrixStack.push();
+		if(halfSize) matrixStack.translate(x * 0.5f - 4, y * 0.5f - 4, (100.0F));
+		else matrixStack.translate(x, y, (100.0F));
+		matrixStack.translate(8.0D, 8.0D, 0.0D);
+		matrixStack.scale(1.0F, -1.0F, 1.0F);
+		if(halfSize) matrixStack.scale(0.5f, 0.5f, 0.5f);
+		matrixStack.scale(16.0F, 16.0F, 16.0F);
+		RenderSystem.applyModelViewMatrix();
+		MatrixStack matrixStack2 = new MatrixStack();
+		VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders()
+				.getEntityVertexConsumers();
+		boolean bl = !model.isSideLit();
+		if (bl)
+			DiffuseLighting.disableGuiDepthLighting();
+		this.mc.getItemRenderer().renderItem(stack, ModelTransformation.Mode.GUI, false, matrixStack2,
+				(VertexConsumerProvider) immediate, LightmapTextureManager.MAX_LIGHT_COORDINATE,
+				OverlayTexture.DEFAULT_UV, model);
+		immediate.draw();
+		RenderSystem.enableDepthTest();
+		if (bl)
+			DiffuseLighting.enableGuiDepthLighting();
+		matrixStack.pop();
+		RenderSystem.applyModelViewMatrix();
+	}
+
+	public void renderItemDurabilityBar(ItemStack stack, int x, int y, float scale) {
+		if (stack.isEmpty())
+			return;
+		if (stack.isItemBarVisible()) {
+			MatrixStack ms = new MatrixStack();
+			int i = stack.getItemBarStep();
+			int j = stack.getItemBarColor();
+			ms.scale(scale, scale, scale);
+			HudElement.drawRect(ms, x + 2, y + 13, 13, 2, 0x000000);
+			HudElement.drawRect(ms, x + 2, y + 13, i, 1, j);
+		}
 	}
 
 }

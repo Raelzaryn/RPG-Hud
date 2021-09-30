@@ -10,7 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.util.math.MatrixStack;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbar;
+import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @Mixin(ChatHud.class)
@@ -18,7 +18,7 @@ public class ChatMixin {
 
     @Inject(at = @At("HEAD"), method = "render")
     private void renderChat(CallbackInfo into) {
-        if(ModRPGHud.instance.getActiveHud() instanceof HudHotbar) {
+        if(ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
         	MatrixStack ms = RenderSystem.getModelViewStack();
         	ms.pop();
         	ms.push();

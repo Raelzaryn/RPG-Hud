@@ -307,8 +307,8 @@ public abstract class HudElement {
      */
     protected static void drawOutline(MatrixStack ms, int x, int y, int width, int height, int color) {
         drawRect(ms, x, y, width, 1, color);
-        drawRect(ms, x, y, 1, height, color);
-        drawRect(ms, x + width - 1, y, 1, height, color);
+        drawRect(ms, x, y+1, 1, height-2, color);
+        drawRect(ms, x + width - 1, y+1, 1, height-2, color);
         drawRect(ms, x, y + height - 1, width, 1, color);
     }
 
