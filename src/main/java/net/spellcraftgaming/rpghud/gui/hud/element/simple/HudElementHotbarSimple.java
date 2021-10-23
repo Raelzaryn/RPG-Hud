@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud.gui.hud.simple;
+package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -52,12 +52,14 @@ public class HudElementHotbarSimple extends HudElement{
 			if (itemstack != ItemStack.EMPTY) {
 				if (enumhandside == Arm.LEFT) {
 					drawRect(ms, width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
+					drawRect(ms, width / 2 - 91 - 24 + posX, height - 22 - 5 + 20, 22, 2, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
 					if(this.mc.player.isCreative()) drawRect(ms, width / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
 				} else {
 					drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
+					drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 22 - 5 + 20, 22, 2, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
