@@ -287,7 +287,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	protected void renderGuiItemModel(ItemStack stack, int x, int y, boolean halfSize) {
-		BakedModel model = this.mc.getItemRenderer().getHeldItemModel(stack, null, null, 0);
+		BakedModel model = this.mc.getItemRenderer().getModel(stack, null, null, 0);
 		RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
 		RenderSystem.enableBlend();
 		RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
