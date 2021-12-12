@@ -626,7 +626,7 @@ public abstract class HudElement {
     protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
         if (!item.isEmpty()) {
         	MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            float f = player.getItemCooldownManager().getCooldownProgress(item.getItem(), partialTicks) - partialTicks;
+            float f = item.getBobbingAnimationTime() - partialTicks;
 
             if (f > 0.0F) {
                 matrixStack.push();
