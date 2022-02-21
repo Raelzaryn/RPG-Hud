@@ -1,12 +1,11 @@
 package net.spellcraftgaming.rpghud.notification;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.lib.GameData;
+import org.lwjgl.input.Mouse;
 
 public class NotificationButton {
 
@@ -32,7 +31,7 @@ public class NotificationButton {
 
     public void drawButton(GuiScreen screen) {
         int color = 0xFFFFFF;
-        if(mouseOver())
+        if (mouseOver())
             color = 0xFFD700;
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(NOTIFICATION);

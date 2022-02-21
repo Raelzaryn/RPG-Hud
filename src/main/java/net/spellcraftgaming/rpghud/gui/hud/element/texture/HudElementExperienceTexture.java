@@ -33,7 +33,7 @@ public class HudElementExperienceTexture extends HudElement {
                 ? (int) Math.floor((double) exp / (double) GameData.getPlayerXPCap() * 100) + "%"
                 : exp + "/" + GameData.getPlayerXPCap();
 
-        if(this.settings.getBoolValue(Settings.show_numbers_experience)) {
+        if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
             GlStateManager.scale(0.5D, 0.5D, 0.5D);
             gui.drawCenteredString(GameData.getFontRenderer(), stringExp, posX * 2 + 88, posY * 2 + 4, -1);
             GlStateManager.scale(2.0D, 2.0D, 2.0D);

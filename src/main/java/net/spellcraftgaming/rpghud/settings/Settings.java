@@ -1,23 +1,17 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class Settings {
@@ -166,7 +160,7 @@ public class Settings {
         addSetting(enable_clock, new SettingBoolean(enable_clock, HudElementType.CLOCK, true));
         addSetting(enable_clock_color, new SettingBoolean(enable_clock_color, HudElementType.CLOCK, true));
         addSetting(enable_immersive_clock, new SettingBoolean(enable_immersive_clock, HudElementType.CLOCK, false));
-        addSetting(clock_time_format, new SettingString(clock_time_format, HudElementType.CLOCK, 0, new String[] { "time.24", "time.12" }));
+        addSetting(clock_time_format, new SettingString(clock_time_format, HudElementType.CLOCK, 0, new String[]{"time.24", "time.12"}));
         addSetting(clock_position, new SettingPosition(clock_position, HudElementType.CLOCK, 0, 0));
 
         addSetting(enable_compass, new SettingBoolean(enable_compass, HudElementType.COMPASS, true));
@@ -229,7 +223,7 @@ public class Settings {
 
     public int[] getPositionValue(String i) {
         String[] postions = this.settings.get(i).getValue().toString().split("_");
-        int[] values = { Integer.valueOf(postions[0]), Integer.valueOf(postions[1]) };
+        int[] values = {Integer.valueOf(postions[0]), Integer.valueOf(postions[1])};
         return values;
     }
 
@@ -286,19 +280,19 @@ public class Settings {
     public String getButtonString(String id) {
         Setting setting = this.settings.get(id);
         String s = I18n.format(setting.getName(), new Object[0]) + ": ";
-        if(setting instanceof SettingBoolean) {
+        if (setting instanceof SettingBoolean) {
             return s + (setting.getBoolValue() ? I18n.format("options.on", new Object[0]) : I18n.format("options.off", new Object[0]));
-        } else if(setting instanceof SettingString || setting instanceof SettingHudType) {
+        } else if (setting instanceof SettingString || setting instanceof SettingHudType) {
             return s + I18n.format(setting.getStringValue(), new Object[0]);
-        } else if(setting instanceof SettingColor) {
+        } else if (setting instanceof SettingColor) {
             return s + intToHexString(setting.getIntValue());
-        } else if(setting instanceof SettingInteger) {
+        } else if (setting instanceof SettingInteger) {
             return s + setting.getIntValue();
-        } else if(setting instanceof SettingFloat) {
+        } else if (setting instanceof SettingFloat) {
             SettingFloat sf = (SettingFloat) setting;
             return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0])
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
-        } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
+        } else if (setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
         } else {
             return s + "error";
@@ -307,15 +301,15 @@ public class Settings {
 
     public static String intToHexString(int hex) {
         String s = Integer.toHexString(hex).toUpperCase();
-        if(hex <= 0xFFFFF) {
+        if (hex <= 0xFFFFF) {
             s = "0" + s;
-            if(hex <= 0xFFFF) {
+            if (hex <= 0xFFFF) {
                 s = "0" + s;
-                if(hex <= 0xFFF) {
+                if (hex <= 0xFFF) {
                     s = "0" + s;
-                    if(hex <= 0xFF) {
+                    if (hex <= 0xFF) {
                         s = "0" + s;
-                        if(hex <= 0xF) {
+                        if (hex <= 0xF) {
                             s = "0" + s;
                         }
                     }
@@ -331,8 +325,8 @@ public class Settings {
 
     public List<String> getSettingsOf(HudElementType type) {
         List<String> settings = new ArrayList<String>();
-        for(String key : this.settings.keySet()) {
-            if(this.settings.get(key).associatedType == type)
+        for (String key : this.settings.keySet()) {
+            if (this.settings.get(key).associatedType == type)
                 settings.add(key);
         }
         return settings;
@@ -340,10 +334,10 @@ public class Settings {
 
     public List<String> getSettingsOf(String type) {
         List<String> settings = new ArrayList<String>();
-        for(String key : this.settings.keySet()) {
-            if(this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name() == type)
+        for (String key : this.settings.keySet()) {
+            if (this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name() == type)
                 settings.add(key);
-            else if(type == "general" && this.settings.get(key).associatedType == null)
+            else if (type == "general" && this.settings.get(key).associatedType == null)
                 settings.add(key);
         }
         return settings;
@@ -351,15 +345,15 @@ public class Settings {
 
     public void save() {
         try {
-            if(file.getParentFile() != null) {
+            if (file.getParentFile() != null) {
                 file.getParentFile().mkdirs();
             }
 
-            if(!file.exists() && !file.createNewFile()) {
+            if (!file.exists() && !file.createNewFile()) {
                 return;
             }
 
-            if(file.canWrite()) {
+            if (file.canWrite()) {
                 FileOutputStream fos = new FileOutputStream(file);
                 BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
 
@@ -370,7 +364,7 @@ public class Settings {
                 buffer.close();
                 fos.close();
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -378,44 +372,44 @@ public class Settings {
     public void load() {
         BufferedReader buffer = null;
         try {
-            if(file.getParentFile() != null) {
+            if (file.getParentFile() != null) {
                 file.getParentFile().mkdirs();
             }
 
-            if(!file.exists()) {
+            if (!file.exists()) {
                 // Either a previous load attempt failed or the file is new; clear maps
-                if(!file.createNewFile())
+                if (!file.createNewFile())
                     return;
             }
 
-            if(file.canRead()) {
+            if (file.canRead()) {
                 buffer = new BufferedReader(new FileReader(file));
 
                 String line;
 
-                while(true) {
+                while (true) {
                     line = buffer.readLine();
-                    if(line == null || line.isEmpty())
+                    if (line == null || line.isEmpty())
                         break;
-                    if(line.contains(":") && line.contains("=")) {
+                    if (line.contains(":") && line.contains("=")) {
                         String[] type = line.split(":");
                         String[] setting = type[1].split("=");
-                        if(this.getSetting(setting[0]) != null) {
-                            if(type[0].matches("B")) {
+                        if (this.getSetting(setting[0]) != null) {
+                            if (type[0].matches("B")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Boolean.valueOf(setting[1])));
-                            } else if(type[0].matches("S")) {
+                            } else if (type[0].matches("S")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(setting[1]));
-                            } else if(type[0].matches("C")) {
+                            } else if (type[0].matches("C")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Integer.valueOf(setting[1])));
-                            } else if(type[0].matches("H")) {
+                            } else if (type[0].matches("H")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(setting[1]));
-                            } else if(type[0].matches("I")) {
+                            } else if (type[0].matches("I")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Integer.valueOf(setting[1])));
-                            } else if(type[0].matches("F")) {
+                            } else if (type[0].matches("F")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Float.valueOf(setting[1])));
-                            } else if(type[0].matches("D")) {
+                            } else if (type[0].matches("D")) {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Double.valueOf(setting[1])));
-                            } else if(type[0].matches("P")) {
+                            } else if (type[0].matches("P")) {
                                 this.setSetting(setting[0], setting[1]);
                             } else {
                                 // TODO: Logger
@@ -425,28 +419,28 @@ public class Settings {
                     }
                 }
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void save(BufferedWriter out) throws IOException {
-        for(Setting setting : settings.values()) {
-            if(setting instanceof SettingBoolean) {
+        for (Setting setting : settings.values()) {
+            if (setting instanceof SettingBoolean) {
                 out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingString) {
+            } else if (setting instanceof SettingString) {
                 out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingHudType) {
+            } else if (setting instanceof SettingHudType) {
                 out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingColor) {
+            } else if (setting instanceof SettingColor) {
                 out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingInteger) {
+            } else if (setting instanceof SettingInteger) {
                 out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingFloat) {
+            } else if (setting instanceof SettingFloat) {
                 out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingDouble) {
+            } else if (setting instanceof SettingDouble) {
                 out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingPosition) {
+            } else if (setting instanceof SettingPosition) {
                 out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else {
                 out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);

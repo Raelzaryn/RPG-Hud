@@ -22,7 +22,7 @@ public class HudElementAirModern extends HudElement {
     public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         int height = scaledHeight + this.settings.getPositionValue(Settings.air_position)[1];
         int airAmount = GameData.getPlayerAir();
-        if(airAmount < 0) airAmount = 0;
+        if (airAmount < 0) airAmount = 0;
         int posX = this.settings.getPositionValue(Settings.air_position)[0];
         GlStateManager.disableLighting();
         drawRect(scaledWidth / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);

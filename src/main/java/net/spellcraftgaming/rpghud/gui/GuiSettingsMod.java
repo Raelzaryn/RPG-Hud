@@ -1,12 +1,5 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
@@ -22,12 +15,23 @@ import net.spellcraftgaming.rpghud.settings.SettingDouble;
 import net.spellcraftgaming.rpghud.settings.SettingPosition;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class GuiSettingsMod extends GuiScreenTooltip {
 
-    /** The ModSettings instance */
+    /**
+     * The ModSettings instance
+     */
     private Settings settings;
 
-    /** The GuiScreen which lead to this GUI */
+    /**
+     * The GuiScreen which lead to this GUI
+     */
     private GuiScreen parent;
 
     private String subSetting;
@@ -49,16 +53,16 @@ public class GuiSettingsMod extends GuiScreenTooltip {
     @Override
     public void initGui() {
 
-        if(this.subSetting.equals("")) {
+        if (this.subSetting.equals("")) {
             GuiButtonTooltip guismallbutton = new GuiButtonTooltip(0, this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general",
                     I18n.format("gui.rpg.general", new Object[0])).setTooltip(I18n.format("tooltip.general", new Object[0]));
             this.buttonList.add(guismallbutton);
 
             int count = 1;
 
-            for(HudElementType type : HudElementType.values()) {
+            for (HudElementType type : HudElementType.values()) {
                 List<String> settings = this.settings.getSettingsOf(type);
-                if(!settings.isEmpty()) {
+                if (!settings.isEmpty()) {
                     guismallbutton = new GuiButtonTooltip(count, this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(),
                             type.getDisplayName()).setTooltip(I18n.format("tooltip.element", new Object[0]));
                     this.buttonList.add(guismallbutton);
@@ -68,8 +72,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
         } else {
             List<String> settings = this.settings.getSettingsOf(this.subSetting);
             int id = 0;
-            for(int i = 0; i < settings.size(); i++) {
-                if(this.settings.getSetting(settings.get(i)) instanceof SettingPosition) {
+            for (int i = 0; i < settings.size(); i++) {
+                if (this.settings.getSetting(settings.get(i)) instanceof SettingPosition) {
                     String[] values = ((String) this.settings.getSetting(settings.get(i)).getValue()).split("_");
                     List<GuiTextField> fields = new ArrayList<GuiTextField>();
 
@@ -90,7 +94,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
                     textFields.put(settings.get(i), fields);
                     id += 2;
-                } else if(this.settings.getSetting(settings.get(i)) instanceof SettingDouble) {
+                } else if (this.settings.getSetting(settings.get(i)) instanceof SettingDouble) {
                     List<GuiTextField> fields = new ArrayList<GuiTextField>();
                     GuiLabel scaleLabel = new GuiLabel(GameData.getFontRenderer(), id, this.width / 2 - 154 + i % 2 * 160, this.height / 6 - 11 + 20 * (i >> 1),
                             30, 15, Color.white.getRGB());
@@ -122,19 +126,19 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if(button.enabled) {
-            if(button.id == 100) {
-                for(String settingID : textFields.keySet()) {
-                    for(GuiTextField t : textFields.get(settingID)) {
-                        if(t instanceof TextFieldWidgetMod) {
+        if (button.enabled) {
+            if (button.id == 100) {
+                for (String settingID : textFields.keySet()) {
+                    for (GuiTextField t : textFields.get(settingID)) {
+                        if (t instanceof TextFieldWidgetMod) {
                             ValueType type = ((TextFieldWidgetMod) t).getValueType();
-                            switch(type) {
+                            switch (type) {
                                 case DOUBLE:
                                     double value;
                                     try {
-                                        value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                        value = Double.parseDouble(textFields.get(settingID).get(0).getText());
                                         this.settings.getSetting(settingID).setValue(value);
-                                    } catch(NumberFormatException e) {
+                                    } catch (NumberFormatException e) {
                                     }
                                     break;
                                 case POSITION:
@@ -147,15 +151,15 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                 }
                 this.settings.saveSettings();
                 this.mc.displayGuiScreen(this.parent);
-            } else if(this.subSetting.equals("")) {
+            } else if (this.subSetting.equals("")) {
                 GuiButtonTooltip b = (GuiButtonTooltip) button;
-                if(b.enumOptions != null) {
+                if (b.enumOptions != null) {
                     this.mc.displayGuiScreen(new GuiSettingsMod(this, b.enumOptions));
                 }
             } else {
                 GuiButtonTooltip b = (GuiButtonTooltip) button;
-                if(b.enumOptions != null) {
-                    if(this.settings.getSetting(b.enumOptions) instanceof SettingColor) {
+                if (b.enumOptions != null) {
+                    if (this.settings.getSetting(b.enumOptions) instanceof SettingColor) {
                         this.mc.displayGuiScreen(new GuiSettingsModColor(this, b.enumOptions));
                     } else {
                         this.settings.increment(b.enumOptions);
@@ -170,8 +174,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(GameData.getFontRenderer(), I18n.format("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
-        for(List<GuiTextField> positionPairs : textFields.values()) {
-            for(GuiTextField t : positionPairs)
+        for (List<GuiTextField> positionPairs : textFields.values()) {
+            for (GuiTextField t : positionPairs)
                 t.drawTextBox();
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -180,17 +184,17 @@ public class GuiSettingsMod extends GuiScreenTooltip {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        for(String settingID : textFields.keySet()) {
-            for(GuiTextField t : textFields.get(settingID)) {
-                if(t instanceof TextFieldWidgetMod) {
+        for (String settingID : textFields.keySet()) {
+            for (GuiTextField t : textFields.get(settingID)) {
+                if (t instanceof TextFieldWidgetMod) {
                     ValueType type = ((TextFieldWidgetMod) t).getValueType();
-                    switch(type) {
+                    switch (type) {
                         case DOUBLE:
                             double value;
                             try {
-                                value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                value = Double.parseDouble(textFields.get(settingID).get(0).getText());
                                 this.settings.getSetting(settingID).setValue(value);
-                            } catch(NumberFormatException e) {
+                            } catch (NumberFormatException e) {
                             }
                             break;
                         case POSITION:
@@ -211,11 +215,11 @@ public class GuiSettingsMod extends GuiScreenTooltip {
      */
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        for(List<GuiTextField> positionPairs : textFields.values()) {
-            for(GuiTextField t : positionPairs) {
-                if(t.isFocused()) {
+        for (List<GuiTextField> positionPairs : textFields.values()) {
+            for (GuiTextField t : positionPairs) {
+                if (t.isFocused()) {
                     t.textboxKeyTyped(typedChar, keyCode);
-                    if(keyCode == 28)
+                    if (keyCode == 28)
                         t.setFocused(false);
                 }
             }
@@ -228,8 +232,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        for(List<GuiTextField> positionPairs : textFields.values()) {
-            for(GuiTextField t : positionPairs)
+        for (List<GuiTextField> positionPairs : textFields.values()) {
+            for (GuiTextField t : positionPairs)
                 t.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }

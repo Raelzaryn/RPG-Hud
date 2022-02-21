@@ -1,13 +1,12 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.lwjgl.opengl.GL11;
 
 public class HudElementWidgetHotbar extends HudElement {
 
@@ -30,7 +29,7 @@ public class HudElementWidgetHotbar extends HudElement {
 
         int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
         int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
-        if(ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
+        if (ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
             gui.drawTexturedModalRect(posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52);
             bind(getPlayerSkin(GameData.getPlayer()));
             GL11.glScaled(0.5D, 0.5D, 0.5D);

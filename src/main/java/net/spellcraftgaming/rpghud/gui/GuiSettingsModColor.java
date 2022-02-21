@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -10,6 +8,8 @@ import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.io.IOException;
 
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
@@ -78,35 +78,35 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if(button.enabled) {
-            if(button.id == 10) {
+        if (button.enabled) {
+            if (button.id == 10) {
                 setColorTo(HudElement.COLOR_RED);
-            } else if(button.id == 11) {
+            } else if (button.id == 11) {
                 setColorTo(HudElement.COLOR_PINK);
-            } else if(button.id == 12) {
+            } else if (button.id == 12) {
                 setColorTo(HudElement.COLOR_BROWN);
-            } else if(button.id == 13) {
+            } else if (button.id == 13) {
                 setColorTo(HudElement.COLOR_WHITE);
-            } else if(button.id == 14) {
+            } else if (button.id == 14) {
                 setColorTo(HudElement.COLOR_ORANGE);
-            } else if(button.id == 15) {
+            } else if (button.id == 15) {
                 setColorTo(HudElement.COLOR_GREEN);
-            } else if(button.id == 16) {
+            } else if (button.id == 16) {
                 setColorTo(HudElement.COLOR_PURPLE);
-            } else if(button.id == 17) {
+            } else if (button.id == 17) {
                 setColorTo(HudElement.COLOR_BLUE);
-            } else if(button.id == 18) {
+            } else if (button.id == 18) {
                 setColorTo(HudElement.COLOR_AQUA);
-            } else if(button.id == 19) {
+            } else if (button.id == 19) {
                 setColorTo(HudElement.COLOR_BLACK);
-            } else if(button.id == 20) {
+            } else if (button.id == 20) {
                 setColorTo(HudElement.COLOR_GREY);
-            } else if(button.id == 21) {
+            } else if (button.id == 21) {
                 setColorTo(HudElement.COLOR_YELLOW);
-            } else if(button.id == 250) {
+            } else if (button.id == 250) {
                 setSettingColor();
                 this.mc.displayGuiScreen(this.parent);
-            } else if(button.id == 251) {
+            } else if (button.id == 251) {
                 this.mc.displayGuiScreen(this.parent);
             }
         }
@@ -129,20 +129,20 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        if(this.colorCodeField.isFocused()) {
-            if(!this.colorCodeField.getText().startsWith("#")) {
+        if (this.colorCodeField.isFocused()) {
+            if (!this.colorCodeField.getText().startsWith("#")) {
                 String s = "#" + this.colorCodeField.getText();
-                if(this.colorCodeField.getText().length() >= 7) {
+                if (this.colorCodeField.getText().length() >= 7) {
                     s = "#";
-                    for(int i = 0; i < 6; i++) {
+                    for (int i = 0; i < 6; i++) {
                         s += this.colorCodeField.getText().charAt(i);
                     }
                 }
                 this.colorCodeField.setText(s);
             }
-            if(this.colorCodeField.getText().length() == 7) {
-                if(this.colorCodeField.getText().startsWith("#")) {
-                    if(this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
+            if (this.colorCodeField.getText().length() == 7) {
+                if (this.colorCodeField.getText().startsWith("#")) {
+                    if (this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
                         this.color = Integer.valueOf(this.colorCodeField.getText().replace("#", ""), 16).intValue();
                         this.colorR = (this.color >> 16 & 255);
                         ((GuiSliderMod) this.buttonList.get(0)).sliderValue = (float) this.colorR / 255;
@@ -163,9 +163,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
             this.colorG = ((GuiSliderMod) this.buttonList.get(1)).getValue();
             this.colorB = ((GuiSliderMod) this.buttonList.get(2)).getValue();
             int color = (this.colorR << 16) + (this.colorG << 8) + (this.colorB);
-            if(color > 0xFFFFFF)
+            if (color > 0xFFFFFF)
                 color = 0xFFFFFF;
-            if(color < 0)
+            if (color < 0)
                 color = 0;
             this.color = color;
         }
@@ -180,9 +180,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
      */
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if(this.colorCodeField.isFocused()) {
+        if (this.colorCodeField.isFocused()) {
             this.colorCodeField.textboxKeyTyped(typedChar, keyCode);
-            if(keyCode == 28)
+            if (keyCode == 28)
                 this.colorCodeField.setFocused(false);
         }
     }
@@ -196,11 +196,11 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
         this.colorCodeField.mouseClicked(mouseX, mouseY, mouseButton);
     }
-    
+
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        for(GuiButton child : this.buttonList) {
-            if(child instanceof GuiSliderMod) {
+        for (GuiButton child : this.buttonList) {
+            if (child instanceof GuiSliderMod) {
                 ((GuiSliderMod) child).dragging = false;
             }
         }

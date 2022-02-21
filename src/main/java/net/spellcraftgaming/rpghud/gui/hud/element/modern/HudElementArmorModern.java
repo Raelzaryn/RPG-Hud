@@ -24,7 +24,7 @@ public class HudElementArmorModern extends HudElement {
         int top = scaledHeight - GuiIngameForge.left_height + 2 + this.settings.getPositionValue(Settings.armor_position)[1];
 
         int level = GameData.getPlayerArmor();
-        if(level > 0) {
+        if (level > 0) {
             int width2 = 1 + 9 + 2 + GameData.getFontRenderer().getStringWidth(String.valueOf(level)) + 2;
             drawRect(left, top, width2, 10, 0xA0000000);
             GameData.getFontRenderer().drawString(String.valueOf(level), left + 12, top + 2, -1);

@@ -30,45 +30,45 @@ public class RenderOverlay {
     @SubscribeEvent
     public void onGameOverlayRender(RenderGameOverlayEvent event) {
         ElementType type = event.getType();
-        switch(type) {
+        switch (type) {
             case ALL:
-                if(event instanceof RenderGameOverlayEvent.Pre) break;
+                if (event instanceof RenderGameOverlayEvent.Pre) break;
                 renderOverlay(event.getPartialTicks());
                 break;
             case AIR:
-                if(!shouldRenderVanilla(HudElementType.AIR))
+                if (!shouldRenderVanilla(HudElementType.AIR))
                     event.setCanceled(true);
                 break;
             case ARMOR:
-                if(!shouldRenderVanilla(HudElementType.ARMOR))
+                if (!shouldRenderVanilla(HudElementType.ARMOR))
                     event.setCanceled(true);
                 break;
             case EXPERIENCE:
-                if(!shouldRenderVanilla(HudElementType.EXPERIENCE))
+                if (!shouldRenderVanilla(HudElementType.EXPERIENCE))
                     event.setCanceled(true);
                 break;
             case FOOD:
-                if(!shouldRenderVanilla(HudElementType.FOOD))
+                if (!shouldRenderVanilla(HudElementType.FOOD))
                     event.setCanceled(true);
                 break;
             case HEALTH:
-                if(!shouldRenderVanilla(HudElementType.HEALTH))
+                if (!shouldRenderVanilla(HudElementType.HEALTH))
                     event.setCanceled(true);
                 break;
             case HEALTHMOUNT:
-                if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
+                if (!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
                     event.setCanceled(true);
                 break;
             case HOTBAR:
-                if(!shouldRenderVanilla(HudElementType.HOTBAR))
+                if (!shouldRenderVanilla(HudElementType.HOTBAR))
                     event.setCanceled(true);
                 break;
             case JUMPBAR:
-                if(!shouldRenderVanilla(HudElementType.JUMP_BAR))
+                if (!shouldRenderVanilla(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
             case POTION_ICONS:
-                if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
+                if (!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
                     event.setCanceled(true);
                 }
                 break;
@@ -77,44 +77,44 @@ public class RenderOverlay {
 
         }
     }
-    
+
     @SubscribeEvent
     public void onGameOverlayRender(RenderGameOverlayEvent.Pre event) {
-        switch(event.getType()) {
+        switch (event.getType()) {
             case AIR:
-                if(preventEventType(HudElementType.AIR))
+                if (preventEventType(HudElementType.AIR))
                     event.setCanceled(true);
                 break;
             case ARMOR:
-                if(preventEventType(HudElementType.ARMOR))
+                if (preventEventType(HudElementType.ARMOR))
                     event.setCanceled(true);
                 break;
             case EXPERIENCE:
-                if(preventEventType(HudElementType.EXPERIENCE))
+                if (preventEventType(HudElementType.EXPERIENCE))
                     event.setCanceled(true);
                 break;
             case FOOD:
-                if(preventEventType(HudElementType.FOOD))
+                if (preventEventType(HudElementType.FOOD))
                     event.setCanceled(true);
                 break;
             case HEALTH:
-                if(preventEventType(HudElementType.HEALTH))
+                if (preventEventType(HudElementType.HEALTH))
                     event.setCanceled(true);
                 break;
             case HEALTHMOUNT:
-                if(preventEventType(HudElementType.HEALTH_MOUNT))
+                if (preventEventType(HudElementType.HEALTH_MOUNT))
                     event.setCanceled(true);
                 break;
             case HOTBAR:
-                if(preventEventType(HudElementType.HOTBAR))
+                if (preventEventType(HudElementType.HOTBAR))
                     event.setCanceled(true);
                 break;
             case JUMPBAR:
-                if(preventEventType(HudElementType.JUMP_BAR))
+                if (preventEventType(HudElementType.JUMP_BAR))
                     event.setCanceled(true);
                 break;
             case POTION_ICONS:
-                if(preventEventType(HudElementType.STATUS_EFFECTS))
+                if (preventEventType(HudElementType.STATUS_EFFECTS))
                     event.setCanceled(true);
                 break;
             default:
@@ -125,7 +125,7 @@ public class RenderOverlay {
 
     @SubscribeEvent
     public void onChatRender(RenderGameOverlayEvent.Chat event) {
-        if(ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
+        if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
             event.setPosY(event.getPosY() - 22);
         }
     }
@@ -136,32 +136,33 @@ public class RenderOverlay {
         this.drawElement(HudElementType.DETAILS, partialTicks);
         this.drawElement(HudElementType.COMPASS, partialTicks);
         this.drawElement(HudElementType.ENTITY_INSPECT, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
+        if (!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
+            this.drawElement(HudElementType.HEALTH_MOUNT, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
             this.drawElement(HudElementType.EXPERIENCE, partialTicks);
             this.drawElement(HudElementType.LEVEL, partialTicks);
         }
-        if(!shouldRenderVanilla(HudElementType.HOTBAR)) this.drawElement(HudElementType.HOTBAR, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
+        if (!shouldRenderVanilla(HudElementType.HOTBAR)) this.drawElement(HudElementType.HOTBAR, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) {
             this.drawElement(HudElementType.STATUS_EFFECTS, partialTicks);
         }
     }
 
     /**
      * Draw the specified HudElement of the HudElementType from the active Hud
-     * 
+     *
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
     private void drawElement(HudElementType type, float partialTicks) {
 
-        if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
-            if(!preventElementRenderType(type)) {
+        if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
+            if (!preventElementRenderType(type)) {
                 ScaledResolution res = new ScaledResolution(mc);
                 bind(GameData.icons());
                 GlStateManager.pushMatrix();
@@ -180,7 +181,7 @@ public class RenderOverlay {
      */
     private boolean preventElementRenderType(HudElementType type) {
         String id = Settings.prevent_element_render + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
+        if (this.rpgHud.settings.doesSettingExist(id)) {
             return this.rpgHud.settings.getBoolValue(id);
         }
         return false;
@@ -189,13 +190,14 @@ public class RenderOverlay {
     private boolean shouldRenderVanilla(HudElementType type) {
         return isVanillaElement(type) || forceRenderTypeVanilla(type);
     }
+
     /**
      * Checks if the HudElementType has a setting to force the vanilla hud element
      * to be rendered and if it is activated
      */
     private boolean forceRenderTypeVanilla(HudElementType type) {
         String id = Settings.render_vanilla + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id)) {
+        if (this.rpgHud.settings.doesSettingExist(id)) {
             return this.rpgHud.settings.getBoolValue(id);
         }
         return false;
@@ -207,15 +209,15 @@ public class RenderOverlay {
      */
     private boolean preventEventType(HudElementType type) {
         String id = Settings.prevent_event + "_" + type.name().toLowerCase();
-        if(this.rpgHud.settings.doesSettingExist(id))
+        if (this.rpgHud.settings.doesSettingExist(id))
             return this.rpgHud.settings.getBoolValue(id);
         return false;
     }
-    
+
     private void bind(ResourceLocation res) {
         mc.getTextureManager().bindTexture(res);
     }
-    
+
     private boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
