@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.spellcraftgaming.lib.GameData;
@@ -9,6 +7,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.lwjgl.opengl.GL11;
 
 public class HudElementWidgetModern extends HudElement {
 

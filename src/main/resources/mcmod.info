@@ -1,16 +1,18 @@
 [
-{
-  "modid": "rpghud",
-  "name": "RPG-Hud",
-  "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
-  "version": "3.8.1",
-  "mcversion": "1.12",
-  "url": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
-  "updateUrl": "http://download.spellcraftgaming.net/rpghud/version/update.json",
-  "authorList": ["KurodaAkira"],
-  "credits": "KurodaAkira",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+  {
+    "modid": "rpghud",
+    "name": "RPG-Hud",
+    "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
+    "version": "3.8.2",
+    "mcversion": "1.12.2",
+    "url": "https://mods.curse.com/mc-mods/minecraft/235670-RPG-Hud",
+    "updateUrl": "http://download.spellcraftgaming.net/rpghud/version/update.json",
+    "authorList": [
+      "KurodaAkira"
+    ],
+    "credits": "KurodaAkira",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
 ]

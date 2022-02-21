@@ -1,8 +1,5 @@
 package net.spellcraftgaming.rpghud.main;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -11,53 +8,68 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.spellcraftgaming.lib.event.PlayerContainerHandler;
-import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
-import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudModern;
-import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.*;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Mod(modid = ModRPGHud.MOD_ID,
-     version = ModRPGHud.VERSION,
-     name = ModRPGHud.NAME,
-     clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY,
-     guiFactory = ModRPGHud.GUI_FACTORY,
-     updateJSON = ModRPGHud.UPDATE_JSON)
+        version = ModRPGHud.VERSION,
+        name = ModRPGHud.NAME,
+        clientSideOnly = ModRPGHud.CLIENT_SIDE_ONLY,
+        guiFactory = ModRPGHud.GUI_FACTORY,
+        updateJSON = ModRPGHud.UPDATE_JSON)
 
 public class ModRPGHud {
 
-    /** The mod ID of this mod */
+    /**
+     * The mod ID of this mod
+     */
     public static final String MOD_ID = "rpghud";
-    /** The mod name of this mod */
+    /**
+     * The mod name of this mod
+     */
     public static final String NAME = "RPG-Hud";
-    /** The mod version of this mod */
+    /**
+     * The mod version of this mod
+     */
     public static final String VERSION = "3.8.1";
-    /** Path to GuiFactory class of this mod */
+    /**
+     * Path to GuiFactory class of this mod
+     */
     public static final String GUI_FACTORY = "net.spellcraftgaming.lib.gui.GuiFactoryRPGHud";
 
-    /** The URL to the update Json file */
+    /**
+     * The URL to the update Json file
+     */
     public static final String UPDATE_JSON = "http://download.spellcraftgaming.net/rpghud/version/update.json";
-    /** If this mod is client side only */
+    /**
+     * If this mod is client side only
+     */
     public static final boolean CLIENT_SIDE_ONLY = true;
 
-    /** The instance of this mod */
+    /**
+     * The instance of this mod
+     */
     @Mod.Instance
     public static ModRPGHud instance;
 
     public Settings settings;
 
-    /** Map of all registered HUDs */
+    /**
+     * Map of all registered HUDs
+     */
     public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
 
-    /** If the HudElementDetails should be rendered again */
-    public static boolean[] renderDetailsAgain = { false, false, false };
+    /**
+     * If the HudElementDetails should be rendered again
+     */
+    public static boolean[] renderDetailsAgain = {false, false, false};
 
     /**
      * The function to be run before the initialization
-     * 
+     *
      * @param event FMLPreInitializationEvent
      */
     @EventHandler
@@ -73,7 +85,7 @@ public class ModRPGHud {
 
     /**
      * The function to be run with the initialization
-     * 
+     *
      * @param event FMLInitializationEvent
      */
     @EventHandler
@@ -84,36 +96,42 @@ public class ModRPGHud {
 
     /**
      * The function to be run after the initialization
-     * 
+     *
      * @param event FMLPostInitializationEvent
      */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        if(!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
+        if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
             this.settings.setSetting(Settings.hud_type, "vanilla");
         }
     }
 
     /**
      * Register a new HUD
-     * 
+     *
      * @param hud the hud to be registered
      */
     public void registerHud(Hud hud) {
         this.huds.put(hud.getHudKey(), hud);
     }
 
-    /** Returns the active HUD */
+    /**
+     * Returns the active HUD
+     */
     public Hud getActiveHud() {
         return this.huds.get(this.settings.getStringValue(Settings.hud_type));
     }
 
-    /** Returns the vanilla HUD */
+    /**
+     * Returns the vanilla HUD
+     */
     public Hud getVanillaHud() {
         return this.huds.get("vanilla");
     }
 
-    /** Checks if a Hud with the specified key is registered */
+    /**
+     * Checks if a Hud with the specified key is registered
+     */
     public boolean isHudKeyValid(String key) {
         return this.huds.containsKey(key);
     }

@@ -1,12 +1,12 @@
 package net.spellcraftgaming.rpghud.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Notification {
 
@@ -31,14 +31,14 @@ public class Notification {
     }
 
     public void drawButtons(GuiScreen screen) {
-        for(NotificationButton button : this.buttons) {
+        for (NotificationButton button : this.buttons) {
             button.drawButton(screen);
         }
     }
 
     public void handleMouse() {
-        for(NotificationButton button : this.buttons) {
-            if(button.mouseOver())
+        for (NotificationButton button : this.buttons) {
+            if (button.mouseOver())
                 performAction(button);
         }
     }

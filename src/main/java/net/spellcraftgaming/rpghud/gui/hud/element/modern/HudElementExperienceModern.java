@@ -32,7 +32,7 @@ public class HudElementExperienceModern extends HudElement {
                 ? (int) Math.floor((double) exp / (double) GameData.getPlayerXPCap() * 100) + "%"
                 : exp + "/" + GameData.getPlayerXPCap();
 
-        if(this.settings.getBoolValue(Settings.show_numbers_experience)) {
+        if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
             int width2 = GameData.getFontRenderer().getStringWidth(stringExp) / 2;
             drawRect(1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
             GlStateManager.scale(0.5D, 0.5D, 0.5D);

@@ -32,10 +32,10 @@ public class NotificationUpdate extends Notification {
 
             String[] changes = verCheck.changes.get(verCheck.target).split("\n");
 
-            for(int i = 0; i < changes.length; i++) {
+            for (int i = 0; i < changes.length; i++) {
                 screen.drawString(font, changes[i], screen.width / 2 - 115, screen.height / 2 - 70 + 65 + (i * 10), -1);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.shouldDestroy = true;
         }
     }
@@ -43,9 +43,9 @@ public class NotificationUpdate extends Notification {
     @Override
     public void performAction(NotificationButton button) {
         super.performAction(button);
-        if(button.id == 0) {
+        if (button.id == 0) {
             this.shouldDestroy = true;
-        } else if(button.id == 1) {
+        } else if (button.id == 1) {
             this.shouldDestroy = true;
             ModRPGHud.instance.settings.setSetting(Settings.show_update_notification, false);
         }

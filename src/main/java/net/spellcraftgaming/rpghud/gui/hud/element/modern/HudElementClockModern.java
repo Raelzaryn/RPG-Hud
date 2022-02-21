@@ -1,11 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.lwjgl.opengl.GL11;
 
 public class HudElementClockModern extends HudElementClockVanilla {
 
@@ -31,17 +30,17 @@ public class HudElementClockModern extends HudElementClockVanilla {
                 + this.settings.getPositionValue(Settings.clock_position)[1];
         int xOffset = this.settings.getPositionValue(Settings.clock_position)[0];
         int clockColor = 0xFFFFFF;
-        if(this.settings.getBoolValue(Settings.enable_clock_color)) {
+        if (this.settings.getBoolValue(Settings.enable_clock_color)) {
             clockColor = getClockColor();
         }
-        if(this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
+        if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
             drawRect(xOffset + 2, 23 + yOffset, 20, 6, 0xA0000000);
         } else {
             drawRect(xOffset + 2, 23 + yOffset, 23, 6, 0xA0000000);
         }
         GL11.glScaled(0.5D, 0.5D, 0.5D);
 
-        if(this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
+        if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
             gui.drawCenteredString(GameData.getFontRenderer(), getTime(), xOffset * 2 + 24, 48 + 2 * yOffset, clockColor);
         } else {
             gui.drawCenteredString(GameData.getFontRenderer(), getTime(), xOffset * 2 + 28, 48 + 2 * yOffset, clockColor);

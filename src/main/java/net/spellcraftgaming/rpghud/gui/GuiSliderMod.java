@@ -49,15 +49,15 @@ public class GuiSliderMod extends GuiButtonTooltip {
      */
     @Override
     protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
-        if(this.visible) {
-            if(this.dragging) {
+        if (this.visible) {
+            if (this.dragging) {
                 this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
 
-                if(this.sliderValue < 0.0F) {
+                if (this.sliderValue < 0.0F) {
                     this.sliderValue = 0.0F;
                 }
 
-                if(this.sliderValue > 1.0F) {
+                if (this.sliderValue > 1.0F) {
                     this.sliderValue = 1.0F;
                 }
 
@@ -69,22 +69,22 @@ public class GuiSliderMod extends GuiButtonTooltip {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if(this.visible) {
+        if (this.visible) {
             GameData.bindButtonTextures();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableBlend();
             GameData.tryBlendFuncSeparate();
             GameData.blendFunc();
-            int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
+            int color = (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
             HudElement.drawCustomBar(this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 14737632;
 
-            if(this.packedFGColour != 0) {
+            if (this.packedFGColour != 0) {
                 j = this.packedFGColour;
-            } else if(!this.enabled) {
+            } else if (!this.enabled) {
                 j = 10526880;
-            } else if(this.hovered) {
+            } else if (this.hovered) {
                 j = 16777120;
             }
             GameData.bindButtonTextures();
@@ -107,14 +107,14 @@ public class GuiSliderMod extends GuiButtonTooltip {
      */
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-        if(super.mousePressed(mc, mouseX, mouseY)) {
+        if (super.mousePressed(mc, mouseX, mouseY)) {
             this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
 
-            if(this.sliderValue < 0.0F) {
+            if (this.sliderValue < 0.0F) {
                 this.sliderValue = 0.0F;
             }
 
-            if(this.sliderValue > 1.0F) {
+            if (this.sliderValue > 1.0F) {
                 this.sliderValue = 1.0F;
             }
 
@@ -153,7 +153,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
 
     private float snapToStep(float value) {
-        if(this.valueStep > 0.0F) {
+        if (this.valueStep > 0.0F) {
             value = this.valueStep * Math.round(value / this.valueStep);
         }
 

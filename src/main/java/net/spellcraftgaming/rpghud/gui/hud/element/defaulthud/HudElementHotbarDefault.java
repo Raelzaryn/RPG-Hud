@@ -27,9 +27,9 @@ public class HudElementHotbarDefault extends HudElement {
 
     @Override
     public void drawElement(Gui gui, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-        if(this.mc.playerController.isSpectator()) {
+        if (this.mc.playerController.isSpectator()) {
             this.mc.ingameGUI.getSpectatorGui().renderTooltip(new ScaledResolution(mc), partialTicks);
-        } else if(this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+        } else if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
             EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
@@ -42,8 +42,8 @@ public class HudElementHotbarDefault extends HudElement {
             gui.drawTexturedModalRect(i - 91, scaledHeight - 22 - 9 + posY, 0, 0, 182, 22);
             gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, scaledHeight - 22 - 1 - 9 + posY, 0, 22, 24, 22);
 
-            if(itemstack != GameData.nullStack()) {
-                if(enumhandside == 0) {
+            if (itemstack != GameData.nullStack()) {
+                if (enumhandside == 0) {
                     gui.drawTexturedModalRect(i - 91 - 29, scaledHeight - 23 - 9 + posY, 24, 22, 29, 24);
                 } else {
                     gui.drawTexturedModalRect(i + 91, scaledHeight - 23 - 9 + posY, 53, 22, 29, 24);
@@ -56,30 +56,30 @@ public class HudElementHotbarDefault extends HudElement {
             GameData.tryBlendFuncSeparate();
             RenderHelper.enableGUIStandardItemLighting();
 
-            for(int l = 0; l < 9; ++l) {
+            for (int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 - 9 + posY;
                 this.renderHotbarItem(i1, j1, partialTicks, entityplayer, GameData.getMainInventoryItemOfSlot(l));
             }
 
-            if(itemstack != GameData.nullStack()) {
+            if (itemstack != GameData.nullStack()) {
                 int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
-                if(enumhandside == 0) {
+                if (enumhandside == 0) {
                     this.renderHotbarItem(i - 91 - 26, l1, partialTicks, entityplayer, itemstack);
                 } else {
                     this.renderHotbarItem(i + 91 + 10, l1, partialTicks, entityplayer, itemstack);
                 }
             }
 
-            if(GameData.getAttackIndicatorSetting() == 2) {
+            if (GameData.getAttackIndicatorSetting() == 2) {
                 float f1 = GameData.getCooledAttackStrength();
 
-                if(f1 < 1.0F) {
+                if (f1 < 1.0F) {
                     int i2 = scaledHeight - 20 + posY;
                     int j2 = i + 91 + 6;
 
-                    if(enumhandside == 1) {
+                    if (enumhandside == 1) {
                         j2 = i - 91 - 22;
                     }
 
@@ -99,7 +99,7 @@ public class HudElementHotbarDefault extends HudElement {
 
     /**
      * Renders an item on the screen
-     * 
+     *
      * @param xPos         the x position on the screen
      * @param yPos         the y position on the screen
      * @param partialTicks the partial ticks (used for animation)
@@ -107,10 +107,10 @@ public class HudElementHotbarDefault extends HudElement {
      * @param item         the item (via ItemStack)
      */
     protected void renderHotbarItem(int xPos, int yPos, float partialTicks, EntityPlayer player, ItemStack item) {
-        if(item != GameData.nullStack()) {
+        if (item != GameData.nullStack()) {
             float f = GameData.getItemAnimationsToGo(item) - partialTicks;
 
-            if(f > 0.0F) {
+            if (f > 0.0F) {
                 GlStateManager.pushMatrix();
                 float f1 = 1.0F + f / 5.0F;
                 GlStateManager.translate(xPos + 8, yPos + 12, 0.0F);
@@ -120,7 +120,7 @@ public class HudElementHotbarDefault extends HudElement {
 
             GameData.renderItemIntoGUI(player, item, xPos, yPos);
 
-            if(f > 0.0F) {
+            if (f > 0.0F) {
                 GlStateManager.popMatrix();
             }
 

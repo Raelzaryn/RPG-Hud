@@ -9,18 +9,22 @@ import net.spellcraftgaming.rpghud.main.ModRPGHud;
 @SideOnly(Side.CLIENT)
 public class GuiButtonTooltip extends GuiButtonLib {
 
-    /** Variable to contain the (possible) setting of this button */
+    /**
+     * Variable to contain the (possible) setting of this button
+     */
     public final String enumOptions;
 
     public int x = GameData.getButtonX(this);
     public int y = GameData.getButtonX(this);
 
-    /** Array that contains the tooltip of this button */
+    /**
+     * Array that contains the tooltip of this button
+     */
     private String[] tooltip;
 
     /**
      * Initiates a new button
-     * 
+     *
      * @param buttonId   The ID of the button
      * @param x          The x position on the screen
      * @param y          The y position on the screen
@@ -33,7 +37,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
     /**
      * Initiates a new button
-     * 
+     *
      * @param buttonId   The ID of the button
      * @param x          The x position on the screen
      * @param y          The y position on the screen
@@ -48,7 +52,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
     /**
      * Initiates a new button
-     * 
+     *
      * @param buttonId   The ID of the button
      * @param x          The x position on the screen
      * @param y          The y position on the screen
@@ -62,7 +66,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
     /**
      * Sets the tooltip of this button. Should be appended at the constructor.
-     * 
+     *
      * @param tooltip The String which'll be the button's tooltip. Line breaks are
      *                managed via the /n symbol combination.
      * @return the button
@@ -74,18 +78,18 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
     /**
      * Sets the tooltip to the one the setting of hits button contain.
-     * 
+     *
      * @return the button
      */
     public GuiButtonTooltip setTooltip() {
-        if(this.enumOptions != null)
+        if (this.enumOptions != null)
             return setTooltip(ModRPGHud.instance.settings.getSetting(this.enumOptions).getTooltip());
         return this;
     }
 
     /**
      * Returns the EnumOptionsMod of this button
-     * 
+     *
      * @return the EnumOptionsMod of this button
      */
     public String returnOptions() {
@@ -94,7 +98,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
     /**
      * Gives the tooltip of this button
-     * 
+     *
      * @return the Tooltip
      */
     public String[] getTooltip() {

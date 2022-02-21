@@ -25,52 +25,52 @@ public class HudElementCompassVanilla extends HudElement {
         int posY = this.settings.getPositionValue(Settings.compass_position)[1];
         int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
         int rotation = Math.round(((GameData.getRotationYaw() % 360) / 360) * 200);
-        if(rotation < 0)
+        if (rotation < 0)
             rotation = 200 + rotation;
 
         bind(INTERFACE);
         gui.drawTexturedModalRect(width - 56, posY, 34, 234, 112, 9);
-        if(rotation > 0 && rotation <= 100) {
+        if (rotation > 0 && rotation <= 100) {
             gui.drawCenteredString(GameData.getFontRenderer(), "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
         }
 
-        if(rotation > 25 && rotation <= 125) {
+        if (rotation > 25 && rotation <= 125) {
             gui.drawCenteredString(GameData.getFontRenderer(), ".", width + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
         }
 
-        if(rotation > 50 && rotation <= 150) {
+        if (rotation > 50 && rotation <= 150) {
             gui.drawCenteredString(GameData.getFontRenderer(), "N", width + (100 * swapSides) - (rotation * swapSides), posY + 1,
                     this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
         }
 
-        if(rotation > 75 && rotation <= 175) {
+        if (rotation > 75 && rotation <= 175) {
             gui.drawCenteredString(GameData.getFontRenderer(), ".", width + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
         }
 
-        if(rotation > 100 && rotation <= 200) {
+        if (rotation > 100 && rotation <= 200) {
             gui.drawCenteredString(GameData.getFontRenderer(), "E", width + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
         }
 
-        if(rotation >= 125) {
+        if (rotation >= 125) {
             gui.drawCenteredString(GameData.getFontRenderer(), ".", width + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
-        } else if(rotation <= 25) {
+        } else if (rotation <= 25) {
             gui.drawCenteredString(GameData.getFontRenderer(), ".", width - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
         }
 
-        if(rotation >= 150) {
+        if (rotation >= 150) {
             gui.drawCenteredString(GameData.getFontRenderer(), "S", width + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
-        } else if(rotation <= 50) {
+        } else if (rotation <= 50) {
             gui.drawCenteredString(GameData.getFontRenderer(), "S", width - (rotation * swapSides), posY + 1, -1);
         }
 
-        if(rotation >= 175) {
+        if (rotation >= 175) {
             gui.drawCenteredString(GameData.getFontRenderer(), ".", width + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
-        } else if(rotation <= 75) {
+        } else if (rotation <= 75) {
             gui.drawCenteredString(GameData.getFontRenderer(), ".", width + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
         }
 
-        if(this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
-            if(this.settings.getBoolValue(Settings.reduce_size))
+        if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
+            if (this.settings.getBoolValue(Settings.reduce_size))
                 GlStateManager.scale(0.5D, 0.5D, 0.5D);
             int[] pos = GameData.getPlayerPos();
             gui.drawString(GameData.getFontRenderer(), String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1),
@@ -80,7 +80,7 @@ public class HudElementCompassVanilla extends HudElement {
             gui.drawString(GameData.getFontRenderer(), String.valueOf(pos[2]),
                     (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - GameData.getFontRenderer().getStringWidth(String.valueOf(pos[2])),
                     (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
-            if(this.settings.getBoolValue(Settings.reduce_size))
+            if (this.settings.getBoolValue(Settings.reduce_size))
                 GlStateManager.scale(2D, 2D, 2D);
         }
     }

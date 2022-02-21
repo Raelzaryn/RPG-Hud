@@ -1,17 +1,9 @@
 package net.spellcraftgaming.lib;
 
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiLabel;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -35,16 +27,15 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public class GameData {
 
@@ -54,7 +45,7 @@ public class GameData {
     private static Minecraft mc;
 
     public static Minecraft getMinecraft() {
-        if(mc == null)
+        if (mc == null)
             mc = Minecraft.getMinecraft();
         return mc;
     }
@@ -209,16 +200,16 @@ public class GameData {
     }
 
     public static ItemStack getItemInHand(int hand) {
-        if(hand == 0)
+        if (hand == 0)
             return getMainhand();
-        else if(hand == 1)
+        else if (hand == 1)
             return getOffhand();
         else
             return nullStack();
     }
 
     public static int getOffhandSide() {
-        if(getPlayer().getPrimaryHand() == EnumHandSide.RIGHT)
+        if (getPlayer().getPrimaryHand() == EnumHandSide.RIGHT)
             return 0;
         else
             return 1;
@@ -272,11 +263,11 @@ public class GameData {
 
     public static int addArrowStackIfCorrect(ItemStack item, ItemStack arrow) {
         PotionType type1 = null;
-        if(item.getItem() instanceof ItemTippedArrow)
+        if (item.getItem() instanceof ItemTippedArrow)
             type1 = PotionUtils.getPotionTypeFromNBT(item.getTagCompound());
-        if(item.getItem() instanceof ItemTippedArrow) {
+        if (item.getItem() instanceof ItemTippedArrow) {
             PotionType type2 = PotionUtils.getPotionTypeFromNBT(arrow.getTagCompound());
-            if(type1.getEffects() == type2.getEffects())
+            if (type1.getEffects() == type2.getEffects())
                 return GameData.getItemStackSize(arrow);
         } else
             return GameData.getItemStackSize(arrow);
@@ -301,23 +292,22 @@ public class GameData {
     }
 
     public static boolean spectatorStuff() {
-        if(getMinecraft().playerController.isSpectator() && getMinecraft().pointedEntity == null) {
+        if (getMinecraft().playerController.isSpectator() && getMinecraft().pointedEntity == null) {
             RayTraceResult raytraceresult = getMinecraft().objectMouseOver;
 
-            if(raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK)
+            if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK)
                 return true;
 
             BlockPos blockpos = raytraceresult.getBlockPos();
 
             net.minecraft.block.state.IBlockState state = GameData.getWorld().getBlockState(blockpos);
-            if(!state.getBlock().hasTileEntity(state) || !(GameData.getWorld().getTileEntity(blockpos) instanceof IInventory))
-                return true;
+            return !state.getBlock().hasTileEntity(state) || !(GameData.getWorld().getTileEntity(blockpos) instanceof IInventory);
         }
         return false;
     }
 
     public static boolean isArrow(ItemStack item) {
-        if(item != GameData.nullStack())
+        if (item != GameData.nullStack())
             return ItemStack.areItemsEqual(item, arrowStack());
         // return item.getItem() instanceof ItemArrow;
 
@@ -433,7 +423,7 @@ public class GameData {
         double maxDistance = 64;
         Vec3d vec = new Vec3d(watcher.posX, watcher.posY, watcher.posZ);
         Vec3d posVec = watcher.getPositionVector();
-        if(watcher instanceof EntityPlayer) {
+        if (watcher instanceof EntityPlayer) {
             vec = vec.addVector(0D, watcher.getEyeHeight(), 0D);
             posVec = posVec.addVector(0D, watcher.getEyeHeight(), 0D);
         }
@@ -442,7 +432,7 @@ public class GameData {
         RayTraceResult ray = GameData.getWorldOfEntity(watcher).rayTraceBlocks(vec, vec2);
 
         double distance = maxDistance;
-        if(ray != null)
+        if (ray != null)
             distance = ray.hitVec.distanceTo(posVec);
         Vec3d reachVector = posVec.addVector(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 
@@ -450,19 +440,19 @@ public class GameData {
 
         List<Entity> entitiesWithinMaxDistance = GameData.getWorldOfEntity(watcher).getEntitiesWithinAABBExcludingEntity(watcher,
                 watcher.getEntityBoundingBox().grow(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
-        for(Entity entity : entitiesWithinMaxDistance)
-            if(entity instanceof EntityLiving) {
+        for (Entity entity : entitiesWithinMaxDistance)
+            if (entity instanceof EntityLiving) {
                 float collisionBorderSize = entity.getCollisionBorderSize();
                 AxisAlignedBB hitBox = entity.getEntityBoundingBox().expand(collisionBorderSize, collisionBorderSize, collisionBorderSize);
                 RayTraceResult intercept = hitBox.calculateIntercept(posVec, reachVector);
-                if(hitBox.contains(posVec)) {
-                    if(currentDistance <= 0D) {
+                if (hitBox.contains(posVec)) {
+                    if (currentDistance <= 0D) {
                         currentDistance = 0;
                         focusedEntity = (EntityLiving) entity;
                     }
-                } else if(intercept != null) {
+                } else if (intercept != null) {
                     double distanceToEntity = posVec.distanceTo(intercept.hitVec);
-                    if(distanceToEntity <= currentDistance) {
+                    if (distanceToEntity <= currentDistance) {
                         currentDistance = distanceToEntity;
                         focusedEntity = (EntityLiving) entity;
                     }
@@ -487,31 +477,32 @@ public class GameData {
         label.addLine(string);
         return label;
     }
-    
+
     public static ResourceLocation icons() {
         return Gui.ICONS;
-    }    
-    public static RenderGameOverlayEvent.ElementType getType(RenderGameOverlayEvent event){
+    }
+
+    public static RenderGameOverlayEvent.ElementType getType(RenderGameOverlayEvent event) {
         return event.getType();
     }
-    
-    public static float getPartialTicks(RenderGameOverlayEvent event){
+
+    public static float getPartialTicks(RenderGameOverlayEvent event) {
         return event.getPartialTicks();
     }
-    
+
     public static RenderGameOverlayEvent.Chat setChatPosY(RenderGameOverlayEvent.Chat event, int offset) {
         event.setPosY(event.getPosY() + offset);
         return event;
     }
-    
+
     public static void renderPotionHUDEffect(Gui gui, Potion potion, PotionEffect effect, int x, int y, float alpha) {
         potion.renderHUDEffect(effect, gui, x, y, -90, alpha);
     }
-    
+
     public static ResourceLocation InventoryBackground() {
         return GuiContainer.INVENTORY_BACKGROUND;
     }
-    
+
     public boolean isEffectBeneficial(Potion potion) {
         return potion.isBeneficial();
     }

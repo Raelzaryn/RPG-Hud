@@ -32,22 +32,22 @@ public class HudElementFoodTexture extends HudElement {
         ItemStack itemMain = GameData.getMainhand();
         ItemStack itemSec = GameData.getOffhand();
 
-        if(GameData.doesPlayerNeedFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
+        if (GameData.doesPlayerNeedFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
             float value = 0;
-            if(itemMain != GameData.nullStack() && itemMain.getItem() instanceof ItemFood) {
+            if (itemMain != GameData.nullStack() && itemMain.getItem() instanceof ItemFood) {
                 value = ((ItemFood) itemMain.getItem()).getHealAmount(itemMain);
-            } else if(itemSec != GameData.nullStack() && itemSec.getItem() instanceof ItemFood) {
+            } else if (itemSec != GameData.nullStack() && itemSec.getItem() instanceof ItemFood) {
                 value = ((ItemFood) itemSec.getItem()).getHealAmount(itemSec);
             }
-            if(value > 0) {
+            if (value > 0) {
                 int bonusHunger = (int) (value + stamina);
-                if(bonusHunger > staminaMax)
+                if (bonusHunger > staminaMax)
                     bonusHunger = staminaMax;
                 gui.drawTexturedModalRect(posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12);
             }
         }
 
-        if(GameData.isPlayerHungered()) {
+        if (GameData.isPlayerHungered()) {
             gui.drawTexturedModalRect(posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12);
         } else {
             gui.drawTexturedModalRect(posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12);
@@ -55,7 +55,7 @@ public class HudElementFoodTexture extends HudElement {
 
         String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%"
                 : stamina + "/" + staminaMax;
-        if(this.settings.getBoolValue(Settings.show_numbers_food))
+        if (this.settings.getBoolValue(Settings.show_numbers_food))
             gui.drawCenteredString(GameData.getFontRenderer(), staminaString, posX + 55, posY + 2, -1);
         GlStateManager.color(1f, 1f, 1f);
         GameData.bindIcons();

@@ -1,12 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.Gui;
 import net.spellcraftgaming.lib.GameData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.lwjgl.opengl.GL11;
 
 public class HudElementWidgetExtended extends HudElement {
 
@@ -26,14 +25,14 @@ public class HudElementWidgetExtended extends HudElement {
         int posY = this.settings.getPositionValue(Settings.widget_position)[1];
         gui.drawTexturedModalRect(posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26),
                 posY + (this.settings.getBoolValue(Settings.render_player_face) ? 4 : 0), 0, 35, 114, 44);
-        if(GameData.isRidingLivingMount()) {
+        if (GameData.isRidingLivingMount()) {
             gui.drawTexturedModalRect(posX + (this.settings.getBoolValue(Settings.render_player_face) ? 51 : 23),
                     posY + (this.settings.getBoolValue(Settings.render_player_face) ? 44 : 39), 164, 0, 92, 20);
         }
 
         int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
         int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
-        if(this.settings.getBoolValue(Settings.render_player_face)) {
+        if (this.settings.getBoolValue(Settings.render_player_face)) {
             gui.drawTexturedModalRect(posX + facePosX, posY + facePosY, 114, 0, 50, 50);
             bind(getPlayerSkin(GameData.getPlayer()));
             GL11.glScaled(0.5D, 0.5D, 0.5D);

@@ -26,14 +26,14 @@ public class HudElementHealthExtended extends HudElement {
         int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
         int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 
-        if(absorption > 1)
+        if (absorption > 1)
             drawCustomBar(posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1,
                     this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
 
-        if(GameData.isPlayerPoisoned()) {
+        if (GameData.isPlayerPoisoned()) {
             drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison),
                     offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
-        } else if(GameData.isPlayerWithering()) {
+        } else if (GameData.isPlayerWithering()) {
             drawCustomBar(posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither),
                     offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
         } else {
@@ -42,7 +42,7 @@ public class HudElementHealthExtended extends HudElement {
         }
         String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%"
                 : (health + absorption) + "/" + healthMax;
-        if(this.settings.getBoolValue(Settings.show_numbers_health))
+        if (this.settings.getBoolValue(Settings.show_numbers_health))
             gui.drawCenteredString(GameData.getFontRenderer(), stringHealth, posX + 55, posY + 2, -1);
     }
 }
