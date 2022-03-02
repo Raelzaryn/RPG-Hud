@@ -31,10 +31,10 @@ public class RenderOverlayMixin extends DrawableHelper {
     private long heartJumpEndTick;
     private int ticks;
 
-    @Inject(at = @At("HEAD"), method = "tick")
+    @Inject(at = @At("HEAD"), method = "tick()V")
     private void tick(CallbackInfo info) {
         ++this.ticks;
-        ;
+
     }
 
     @Inject(at = @At("HEAD"), method = "renderStatusBars", cancellable = true)
@@ -46,7 +46,7 @@ public class RenderOverlayMixin extends DrawableHelper {
         Random random = new Random();
         PlayerEntity playerEntity = !(client.getCameraEntity() instanceof PlayerEntity) ? null : (PlayerEntity) client.getCameraEntity();
         if(playerEntity != null) {
-            random.setSeed((long) (this.ticks * 312871));
+            random.setSeed(this.ticks * 312871L);
             int m = scaledWidth / 2 - 91;
             int n = scaledWidth / 2 + 91;
             int o = scaledHeight - 39;
@@ -95,10 +95,10 @@ public class RenderOverlayMixin extends DrawableHelper {
                 long l = Util.getMeasuringTimeMs();
                 if(i < this.lastHealthValue && playerEntity.timeUntilRegen > 0) {
                     this.lastHealthCheckTime = l;
-                    this.heartJumpEndTick = (long) (this.ticks + 20);
+                    this.heartJumpEndTick = this.ticks + 20;
                 } else if(i > this.lastHealthValue && playerEntity.timeUntilRegen > 0) {
                     this.lastHealthCheckTime = l;
-                    this.heartJumpEndTick = (long) (this.ticks + 10);
+                    this.heartJumpEndTick = this.ticks + 10;
                 }
 
                 if(l - this.lastHealthCheckTime > 1000L) {
@@ -227,7 +227,7 @@ public class RenderOverlayMixin extends DrawableHelper {
             }
             client.getProfiler().pop();
         }
-        ;
+
         info.cancel();
     }
 

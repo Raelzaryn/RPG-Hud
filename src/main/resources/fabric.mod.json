@@ -6,7 +6,8 @@
   "name": "RPG-Hud",
   "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
   "authors": [
-    "KurodaAkira"
+    "KurodaAkira",
+    "KosmX"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
