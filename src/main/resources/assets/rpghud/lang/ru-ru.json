@@ -1,0 +1,241 @@
+{
+    "name.void": "Пустота",
+    "name.hotbar": "Горячая панель",
+    "name.crosshair": "Перекрестие",
+    "name.health": "Здоровье игрока",
+    "name.air": "Дыхание игрока",
+    "name.armor": "Броня игрока",
+    "name.food": "Голод игрока",
+    "name.health_mount": "Здоровье лошади",
+    "name.jump_bar": "Панель прыжка лошади",
+    "name.experience": "Опыт игрока",
+    "name.level": "Уровень игрока",
+    "name.clock": "Часы",
+    "name.details": "Детали предмета",
+    "name.widget": "Виджет",
+    "name.record_overlay": "Наложение записи",
+    "name.chat": "Чат",
+    "name.compass": "Компас",
+    "name.pickup": "Виджет сбора",
+    "name.entity_inspect": "Осмотр сущности",
+    "name.status_effects": "Статус эффектов",
+
+    "name.force_render": "Принудительно визуализировать",
+    "tooltip.force_render": "Задай этот элемент для визуализирования/nневзирая на то, что другие моды его отключат./n /n§cАктивируй этот параметр, если другой мод/n§cотключает этот элемент.",
+
+    "name.render_vanilla": "Визуализировать ванильный элемент",
+    "tooltip.render_vanilla": "Принудительно визуализировать ванильную версию/nэтого элемента./n /n§cАктивируй этот параметр, если ты столкнулся/nс §cпроблемой этого элемента§r.",
+
+    "name.prevent_event": "Предотвратить событие",
+    "tooltip.prevent_event": "Предотвратить визуализацию события/nэтого элемента./nЭто может отключить функции других модов./n /n§cАктивируй этот параметр, если что-то отображается из другого мода,/n§cчто ты не хочешь/n§cи не можешь отключить это иным образом./n§cПРЕДУПРЕЖДЕНИЕ: Кроме того, может отключить другие вещи.",
+
+    "name.prevent_element_render": "Предотвратить визуализацию",
+    "tooltip.prevent_element_render": "Не допустить визуализацию этого элемента./nДругие моды могут по-прежнему визуализировать их /nэлементы которые связаны/nс этим элементом./n /n§cАктивируй этот параметр, если ты хочешь только/n§cвизуализировать элемент из другого мода.",
+
+    "name.scale": "Масштабирование элемента",
+    "tooltip.scale": "Задать масштабирование этого элемента/n0.5 означает, что масштабирование на 50%%/n2.0 означает, что масштабирование на 200%%",
+
+    "name.x_pos": "Координата X",
+    "tooltip.x_pos": "Задать свою X/nкоординату этого/nэлемента/nДиапазон: 0-1000/nЗначение отображает %/nэкрана с левой стороны/n250 должен отображать этот элемент на/n25%% с левой стороны экрана.",
+
+    "name.y_pos": "Координата Y",
+    "tooltip.y_pos": "Задать свою Y/nкоординату этого/nэлемента./nДиапазон: 0-1000/nЗначение отображает %/nэкрана с верхней левой/n250 должен отображать этот элемент на/n25%% с верхней стороны экрана.",
+
+    "name.use_position": "Использовать свою позицию",
+    "tooltip.use_position": "При активации этого элемента использует/nсвои X/Y Координаты, заданные в/nпараметрах этого элемента/n(Если Вид Hud поддерживает/nсвоих координаты для этого элемента.)",
+
+
+    "name.enable_button_tooltip": "Подсказка для кнопки",
+    "tooltip.enable_button_tooltip": "Показать подсказки для кнопки",
+
+    "name.show_armor": "Показать броню",
+    "tooltip.show_armor": "Показать/Скрыть отображение прочности брони/nдля оснащённой брони.",
+
+    "name.show_item_durability": "Показать прочность предмета",
+    "tooltip.show_item_durability": "Показать/Скрыть отображение прочности предмета/nдля оснащённых предметов.",
+
+    "name.show_block_count": "Показать кол-во блоков",
+    "tooltip.show_block_count": "Показать/Скрыть отображение кол-ва предмета.",
+
+    "name.show_arrow_count": "Показать кол-во стрел",
+    "tooltip.show_arrow_count": "Показать/Скрыть отображение кол-ва стрел/nесли лук оснащён.",
+
+
+    "name.show_numbers_health": "Показать значение здоровья",
+    "tooltip.show_numbers_health": "Показать/Скрыть/nзначение нумерации панели здоровья./nЕсли ты используешь современный стиль./nЭто также повлияет на/nзначение еды.",
+
+    "name.show_numbers_food": "Показать значение еды",
+    "tooltip.show_numbers_food": "Показать/Скрыть/nзначение нумерации панели выносливости/голода./nЕсли ты используешь современный стиль./nЭто также повлияет на/nзначение здоровья.",
+
+    "name.show_numbers_experience": "Показать значение опыта",
+    "tooltip.show_numbers_experience": "Показать/Скрыть /nзначение нумерации панели опыта.",
+
+    "name.enable_clock": "Включить часы",
+    "tooltip.enable_clock": "Включить/Выключить/nвиджет часов.",
+
+    "name.enable_immersive_clock": "Включить Immersive часы",
+    "tooltip.enable_immersive_clock": "Показать только виджет часов/nесли часы внутри/nинвентаря игрока.",
+
+    "name.enable_clock_color": "Включить цветные часы",
+    "tooltip.enable_clock_color": "Задать цвет виджета часов/nв зависимости от/nвремени дня.",
+
+    "name.render_player_face": "Визуазилировать лицо игрока",
+    "tooltip.render_player_face": "Включить/Выключить отображение/nлица виджета.",
+
+    "name.hud_type": "Вид Hud",
+    "tooltip.hud_type": "Сменить стиль HUD.",
+
+    "name.color_health": "Цвет здоровья",
+    "tooltip.color_health": "Задать/nполоски здоровья",
+
+    "name.color_food": "Цвет еды",
+    "tooltip.color_food": "Задать/nполоску выносливости/еды",
+
+    "name.color_air": "Цвет дыхания",
+    "tooltip.color_air": "Задать цвет/nполоски дыхания",
+
+    "name.color_experience": "Цвет опыта",
+    "tooltip.color_experience": "Задать/nполоски опыта",
+
+    "name.color_jump_bar": "Цвет полоски прыжка",
+    "tooltip.color_jump_bar": "Задать/nполоску прыжка",
+
+    "name.color_poison": "Цвет отравления",
+    "tooltip.color_poison": "Задать полоску здоровья/nв состоянии отравления.",
+
+    "name.color_wither": "Цвет иссушения",
+    "tooltip.color_wither": "Задать полоску здоровья/nв состоянии иссушения.",
+
+    "name.color_hunger": "Цвет голода",
+    "tooltip.color_hunger": "Задать полоску еды/nв состоянии голода.",
+
+    "name.color_absorption": "Цвет поглощения",
+    "tooltip.color_absorption": "Задать полоску поглощающей/nчасти здоровья.",
+
+    "name.show_hunger_preview": "Показать предосмотр еды",
+    "tooltip.show_hunger_preview": "Показать предосмотр/nпанели выносливости/голода, если/nпредмет еды выбран/nиз горячей панели.",
+
+    "name.clock_time_format": "Формат времени часов",
+    "tooltip.clock_time_format": "Задать формат времени часов или в/n24ч. или в 12ч. (до полудня/после полудня.)",
+
+    "name.reduce_size": "Снизить размер детали",
+    "tooltip.reduce_size": "Уменьшает размер/nдеталей предмета на 50%%/n(Это не повлияет со/nсовременным стилем HUD.)",
+
+    "name.enable_compass": "Включить компас",
+    "tooltip.enable_compass": "Включить/выключить/nвиджет компаса.",
+
+    "name.enable_immersive_compass": "Immersive компас",
+    "tooltip.enable_immersive_compass": "Отобразить виджет компаса/nтолько когда компас внутри/nинвентаря игрока.",
+
+    "name.enable_compass_color": "Цвет компаса",
+    "tooltip.enable_compass_color": "Включить/Выключить красный цвет/nдля \"N\" символа.",
+
+    "name.enable_pickup": "Включить сбор",
+    "tooltip.enable_pickup": "Включить/Выключить /nвиджет сбора предмета.",
+
+    "name.pickup_duration": "Продолжительность сбора",
+    "tooltip.pickup_duration": "Задать продолжительность/nвиджета сбора предмета.",
+
+    "name.limit_jump_bar": "Ограничение полоски прыжка",
+    "tooltip.limit_jump_bar": "Показывать только полоску прыжка/nкогда прыгаешь с лошадью.",
+
+    "name.invert_compass": "Перевернуть компас",
+    "tooltip.invert_compass": "Изменить левую и правую стороны/nкомпаса.",
+
+    "name.enable_entity_inspect": "Показать осмотр сущности",
+    "tooltip.enable_entity_inspect": "Переключить осмотр/nэлемента сущности.",
+
+    "name.enable_compass_coordinates": "Координаты компаса",
+    "tooltip.enable_compass_coordinates": "Переключить цифровые координаты/nкомпаса.",
+
+    "name.show_update_notification": "Оповещение обновления",
+    "tooltip.show_update_notification": "Показать оповещение в/nГлавном меню, когда доступна/nновая версия.",
+
+    "name.show_convert_notification": "Параметры оповещения",
+    "tooltip.show_convert_notification": "Показать оповещение в/nГлавном меню, когда найдены/nпараметры старых файлов.",
+
+    "name.show_durability_bar": "Показать полоску прочности",
+    "tooltip.show_durability_bar": "Показать полоску прочность/nпредметов в деталях элемента.",
+
+    "name.show_entity_armor": "Показать значение брони",
+    "tooltip.show_entity_armor": "Показать значение брони/nна смотрящего тобой сущность/n(на нём должна быть надета броня.)",
+
+    "name.status_vertical" : "Визуализировать вертикально",
+    "tooltip.status_vertical": "Визуализировать вертикально иконки/nСтатуса эффекта.",
+
+    "name.status_time" : "Показать хронометр",
+    "tooltip.status_time": "Показать хронометр для продолжительности/nСтатуса эффекта.",
+
+
+    "name.health_percentage": "В виде %",
+    "tooltip.health_percentage": "Отображать здоровье в %",
+
+    "name.hunger_percentage": "В виде %",
+    "tooltip.hunger_percentage": "Отображать голод в %",
+
+    "name.mount_health_percentage": "В виде %",
+    "tooltip.mount_health_percentage": "Отображать значение лошади в %",
+
+    "name.experience_percentage": "В виде %",
+    "tooltip.experience_percentage": "Отображать опыт в %"
+
+
+    "name.hunger_position": "Позиция",
+    "name.air_position": "Позиция",
+    "name.inspector_position": "Позиция",
+    "name.jump_bar_position": "Позиция",
+    "name.face_position": "Позиция лица",
+    "name.pickup_position": "Позиция",
+    "name.compass_position": "Позиция",
+    "name.clock_position": "Позиция",
+    "name.experience_position": "Позиция",
+    "name.health_position": "Позиция",
+    "name.item_det_position": "Предмет",
+    "name.arrow_det_position": "Стрела",
+    "name.armor_det_position": "Броня",
+    "name.mount_health_position": "Позиция",
+    "name.hotbar_position": "Позиция",
+    "name.level_position": "Позиция",
+    "name.widget_position": "Позиция HUD",
+    "name.chat_position": "Позиция",
+    "name.armor_position": "Позиция",
+
+    "name.status_scale": "Масштаб",
+    "tooltip.scale": "Задать масштабирование этого элемента/n0.5 означает, что масштабирование на 50%%/n2.0 означает, что масштабирование на 200%%",
+
+    "name.rpghud": "RPG-Hud",
+
+    "color.red": "Красный",
+    "color.blue": "Синий",
+    "color.green": "Зелёный",
+    "color.yellow": "Жёлтый",
+    "color.white": "Белый",
+    "color.grey": "Серый",
+    "color.purple": "Фиолетовый",
+    "color.pink": "Розовый",
+    "color.brown": "Коричневый",
+    "color.orange": "Оранжевый",
+    "color.aqua": "Аква",
+    "color.black": "Чёрный",
+
+    "time.24": "24ч.",
+    "time.12": "12ч.",
+
+    "gui.rpg.settings": "Параметры RPG-HUD",
+
+    "gui.rpg.general": "Общие параметры",
+    "tooltip.general": "Доступ к общим параметрам/nRPG-HUD.",
+
+    "gui.rpg.hud": "Параметры Hud",
+    "gui.rpg.color": "Параметры цвета",
+    "gui.rpg.detail": "Параметры детали",
+    "gui.rpg.debug": "Параметры отладки",
+    "gui.rpg.result": "Результат",
+    "gui.rpg.editor": "Редактор",
+    "gui.rpg.sec": "Сек.",
+
+
+    "tooltip.done": "Сохранить и вернуться",
+    "tooltip.cancel": "Вернуться без сохранений",
+    "tooltip.element": "Доступ к параметрам/nэтого элемента.",
+}
