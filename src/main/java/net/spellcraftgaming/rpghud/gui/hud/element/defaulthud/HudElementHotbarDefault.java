@@ -30,7 +30,7 @@ public class HudElementHotbarDefault extends HudElement {
     @Override
     public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR)
-            this.mc.inGameHud.getSpectatorHud().render(ms, partialTicks);
+            this.mc.inGameHud.getSpectatorHud().render(ms);
         else if(this.mc.getCameraEntity() instanceof PlayerEntity) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             bind(WIDGETS_TEX_PATH);

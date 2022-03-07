@@ -281,10 +281,10 @@ public abstract class HudElement {
         RenderSystem.disableDepthTest();
         BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
         vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        vertexbuffer.vertex(ms.peek().getModel(), posX, posY + height, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(ms.peek().getModel(), posX + width, posY + height, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(ms.peek().getModel(), posX + width, posY, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(ms.peek().getModel(), posX, posY, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY + height, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY + height, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3).next();
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3).next();
         vertexbuffer.end();
         BufferRenderer.draw(vertexbuffer);
         RenderSystem.enableTexture();
@@ -626,7 +626,7 @@ public abstract class HudElement {
     protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
         if (!item.isEmpty()) {
         	MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            float f = (float)item.getCooldown() - partialTicks;
+            float f = (float)item.getBobbingAnimationTime() - partialTicks;
 
             if (f > 0.0F) {
                 matrixStack.push();
