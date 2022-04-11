@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementArmorHotbar;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementFoodHotbar;
@@ -12,7 +10,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementHotbarHotbar
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementLevelHotbar;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementWidgetHotbar;
 
-@OnlyIn(Dist.CLIENT)
 public class HudHotbarWidget extends HudDefault {
 
 	public HudHotbarWidget(Minecraft mc, String hudKey, String hudName) {

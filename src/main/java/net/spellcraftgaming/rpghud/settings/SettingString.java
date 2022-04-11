@@ -1,10 +1,7 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@OnlyIn(Dist.CLIENT)
 public class SettingString extends Setting {
 
 	public final int defaultValueId;

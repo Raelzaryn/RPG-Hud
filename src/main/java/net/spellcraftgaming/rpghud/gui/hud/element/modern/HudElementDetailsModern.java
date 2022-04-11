@@ -13,14 +13,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 	public HudElementDetailsModern() {

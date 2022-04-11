@@ -3,11 +3,12 @@ package net.spellcraftgaming.rpghud.main;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +26,6 @@ import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 @Mod("rpg-hud")
 public class ModRPGHud {
 
@@ -40,13 +40,15 @@ public class ModRPGHud {
 	
 	public ModRPGHud() {
 		instance = this;
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		}
 	}
 	
     private void setup(final FMLCommonSetupEvent event)
     {
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 		this.settings = new Settings();
 		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));

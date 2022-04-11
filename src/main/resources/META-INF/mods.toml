@@ -24,13 +24,13 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/rpg-hud" #optional
 [[mods]] #mandatory
 
 # The modid of the mod
-modId="rpg-hud" #mandatory
+modId="rpghud" #mandatory
 
 # A text field displayed in the mod UI
 authors="KurodaAkira" #optional
 
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="3.8.4" #mandatory
+version="3.8.5" #mandatory
 
  # A display name for the mod
 displayName="RPG-Hud" #mandatory
@@ -39,3 +39,18 @@ displayName="RPG-Hud" #mandatory
 description='''
 This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)
 '''
+
+[[dependencies.rpghud]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36.2.33,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.rpghud]]
+    modId="minecraft"
+    mandatory=true
+# This version range declares a minimum of the current minecraft version up to but not including the next major version
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="CLIENT"

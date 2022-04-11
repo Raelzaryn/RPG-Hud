@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementClockExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementDetailsExtended;
@@ -13,7 +11,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthMoun
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementLevelExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExtended;
 
-@OnlyIn(Dist.CLIENT)
 public class HudExtendedWidget extends HudDefault {
 
 	public HudExtendedWidget(Minecraft mc, String hudKey, String hudName) {

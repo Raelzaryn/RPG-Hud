@@ -1,11 +1,8 @@
 package net.spellcraftgaming.rpghud.settings;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class Setting {
 
 	public final HudElementType associatedType;
