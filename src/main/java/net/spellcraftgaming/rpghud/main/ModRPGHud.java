@@ -25,8 +25,10 @@ import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod("rpg-hud")
+@Mod("rpghud")
 public class ModRPGHud {
 
 	public static ModRPGHud instance;
@@ -37,6 +39,8 @@ public class ModRPGHud {
 
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
+
+	public static final Logger LOGGER = LogManager.getLogger();
 	
 	public ModRPGHud() {
 		instance = this;
@@ -44,6 +48,8 @@ public class ModRPGHud {
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		} else {
+			LOGGER.warn("RPG-Hud is a client-side-only mod and should not be installed server-side, please remove it from your server");
 		}
 	}
 	
