@@ -6,12 +6,12 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
+import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(EnvType.CLIENT)
@@ -124,38 +124,25 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			}
 		}
 		item = this.mc.player.getMainHandStack();
-		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY
-				&& this.mc.player.getMainHandStack().getItem() instanceof BowItem) {
+		ItemStack item2 = this.mc.player.getOffHandStack();
+		if (this.settings.getBoolValue(Settings.show_arrow_count)
+			&& ((item != ItemStack.EMPTY && (item.getItem() instanceof BowItem || item.getItem() instanceof CrossbowItem))
+				|| (item2 != ItemStack.EMPTY && (item2.getItem() instanceof BowItem || item2.getItem() instanceof CrossbowItem)))) {
 			int x = this.mc.player.getInventory().size();
 			int z = 0;
-
-			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemsEqual(this.itemMainHandLastArrow, item)) {
-				ModRPGHud.renderDetailsAgain[2] = false;
-
-				item = findAmmo(this.mc.player);
-				if (item != ItemStack.EMPTY) {
-					this.itemArrow = item.copy();
-					for (int y = 0; y < x; y++) {
-						ItemStack item3 = this.mc.player.getInventory().getStack(y);
-						if (ItemStack.areItemsEqual(item, item3)) {
-							z += addArrowStackIfCorrect(item, item3);
-						}
+			ItemStack item3 = findAmmo(this.mc.player);
+			if (item3 != ItemStack.EMPTY) {
+				for (int y = 0; y < x; y++) {
+					ItemStack item4 = this.mc.player.getInventory().getStack(y);
+					if (ItemStack.areItemsEqual(item3, item4)) {
+						z += addArrowStackIfCorrect(item3, item4);
 					}
-					this.count3 = z;
 				}
-				this.count3 = 0;
-			} else {
-				z = this.count3;
 			}
 			String s = "x " + z;
 			int widthNew = this.mc.textRenderer.getWidth(s);
 			if (widthNew > width)
 				width = widthNew;
-		}
-		if (item == ItemStack.EMPTY || item == null) {
-			this.itemMainHandLastArrow = ItemStack.EMPTY;
-		} else {
-			this.itemMainHandLastArrow = item.copy();
 		}
 
 		return width;
@@ -239,45 +226,31 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 */
 	protected void drawArrowCount(DrawableHelper gui, MatrixStack ms, int width) {
 		ItemStack item = this.mc.player.getMainHandStack();
-		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY
-				&& this.mc.player.getMainHandStack().getItem() instanceof BowItem) {
+		ItemStack item2 = this.mc.player.getOffHandStack();
+		if (this.settings.getBoolValue(Settings.show_arrow_count)
+			&& ((item != ItemStack.EMPTY && (item.getItem() instanceof BowItem || item.getItem() instanceof CrossbowItem))
+				|| (item2 != ItemStack.EMPTY && (item2.getItem() instanceof BowItem || item2.getItem() instanceof CrossbowItem)))) {
 			int x = this.mc.player.getInventory().size();
 			int z = 0;
-
-			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemsEqual(this.itemMainHandLastArrow, item)) {
-				ModRPGHud.renderDetailsAgain[2] = false;
-
-				item = findAmmo(this.mc.player);
-				if (item != ItemStack.EMPTY) {
-					this.itemArrow = item.copy();
-					for (int y = 0; y < x; y++) {
-						ItemStack item3 = this.mc.player.getInventory().getStack(y);
-						if (ItemStack.areItemsEqual(item, item3)) {
-							z += addArrowStackIfCorrect(item, item3);
-						}
+			ItemStack item3 = findAmmo(this.mc.player);
+			if (item3 != ItemStack.EMPTY) {
+				for (int y = 0; y < x; y++) {
+					ItemStack item4 = this.mc.player.getInventory().getStack(y);
+					if (ItemStack.areItemsEqual(item3, item4)) {
+						z += addArrowStackIfCorrect(item3, item4);
 					}
-					this.count3 = z;
-				} else {
-					this.count3 = 0;
 				}
-			} else {
-				z = this.count3;
+			}
+			else {
+				item3 = new ItemStack(Items.ARROW);
 			}
 			drawRect(ms, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 			String s = "x " + z;
 			ms.scale(0.5f, 0.5f, 0.5f);
-			if (this.itemArrow == ItemStack.EMPTY)
-				this.itemArrow = new ItemStack(Items.ARROW);
-			this.renderGuiItemHalfSizeModel(this.itemArrow, 6, 62 + this.offset);
+			this.renderGuiItemHalfSizeModel(item3, 6, 62 + this.offset);
 			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 			ms.scale(2f, 2f, 2f);
 			this.offset += 20;
-
-		}
-		if (item == ItemStack.EMPTY || item == null) {
-			this.itemMainHandLastArrow = ItemStack.EMPTY;
-		} else {
-			this.itemMainHandLastArrow = item.copy();
 		}
 	}
 

@@ -23,8 +23,6 @@ public class ModRPGHud implements ClientModInitializer{
 
 	public static ModRPGHud instance;
     
-	public static boolean[] renderDetailsAgain = { false, false, false };
-
 	public static int screenOffset = 0;
 	
 	public Settings settings;
