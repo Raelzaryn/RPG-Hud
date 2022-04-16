@@ -83,20 +83,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x = this.mc.player.getInventory().size();
 				int z = 0;
-				if (ModRPGHud.renderDetailsAgain[0] || !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
-					this.itemMainHandLast = item.copy();
-					ModRPGHud.renderDetailsAgain[0] = false;
-
-					for (int y = 0; y < x; y++) {
-						item = this.mc.player.getInventory().getStack(y);
-						if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item
-								.getRawId(this.mc.player.getMainHandStack().getItem())) {
-							z += item.getCount();
-						}
+				for (int y = 0; y < x; y++) {
+					item = this.mc.player.getInventory().getStack(y);
+					if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item
+							.getRawId(this.mc.player.getMainHandStack().getItem())) {
+						z += item.getCount();
 					}
-					this.count1 = z;
-				} else {
-					z = this.count1;
 				}
 
 				String s = "x " + z;
@@ -113,12 +105,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				if (widthNew > width)
 					width = widthNew;
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
-				int x = this.mc.player.getInventory().size();
-				int z = 0;
-				if (ModRPGHud.renderDetailsAgain[1] || !ItemStack.areItemsEqual(this.itemOffhandLast, item)
-						|| !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
-					this.itemOffhandLast = item.copy();
-					ModRPGHud.renderDetailsAgain[1] = false;
+				ItemStack item2 = this.mc.player.getMainHandStack();
+				if( !(item2 != ItemStack.EMPTY && Item.getRawId(item2.getItem()) == Item.getRawId(item.getItem())) ) {
+					int x = this.mc.player.getInventory().size();
+					int z = 0;
 					for (int y = 0; y < x; y++) {
 						item = this.mc.player.getInventory().getStack(y);
 						if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item
@@ -126,14 +116,11 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 							z += item.getCount();
 						}
 					}
-					this.count2 = z;
-				} else {
-					z = this.count2;
+					String s = "x " + z;
+					int widthNew = this.mc.textRenderer.getWidth(s);
+					if (widthNew > width)
+						width = widthNew;
 				}
-				String s = "x " + z;
-				int widthNew = this.mc.textRenderer.getWidth(s);
-				if (widthNew > width)
-					width = widthNew;
 			}
 		}
 		item = this.mc.player.getMainHandStack();
@@ -220,38 +207,19 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.offset += 20;
 
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
+				ItemStack item2 = this.mc.player.getStackInHand(Hand.MAIN_HAND);
+				if( hand != Hand.MAIN_HAND && item2 != ItemStack.EMPTY && Item.getRawId(item2.getItem()) == Item.getRawId(item.getItem()))
+					return;
 				int x = this.mc.player.getInventory().size();
 				int z = 0;
-				if ((hand == Hand.MAIN_HAND ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1])
-						|| !ItemStack.areItemsEqual(
-								(hand == Hand.MAIN_HAND ? this.itemMainHandLast : this.itemOffhandLast), item)
-						|| !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
-					if (hand == Hand.MAIN_HAND) {
-						this.itemMainHandLast = item.copy();
-						ModRPGHud.renderDetailsAgain[0] = false;
-					} else {
-						this.itemOffhandLast = item.copy();
-						ModRPGHud.renderDetailsAgain[1] = false;
+				for (int y = 0; y < x; y++) {
+					ItemStack item3 = this.mc.player.getInventory().getStack(y);
+					if (item3 != ItemStack.EMPTY && Item.getRawId(item3.getItem()) == Item
+							.getRawId(this.mc.player.getStackInHand(hand).getItem())) {
+						z += item3.getCount();
 					}
-					for (int y = 0; y < x; y++) {
-						item = this.mc.player.getInventory().getStack(y);
-						if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item
-								.getRawId(this.mc.player.getStackInHand(hand).getItem())) {
-							z += item.getCount();
-						}
-					}
-					if (hand == Hand.MAIN_HAND)
-						this.count1 = z;
-					else
-						this.count2 = z;
-				} else {
-					if (hand == Hand.MAIN_HAND)
-						z = this.count1;
-					else
-						z = this.count2;
 				}
 
-				item = this.mc.player.getStackInHand(hand);
 				drawRect(ms, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = "x " + z;
 				ms.scale(0.5f, 0.5f, 0.5f);

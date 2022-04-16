@@ -35,11 +35,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	protected int offset = 0;
 	protected int typeOffset = 0;
-	protected int count1;
-	protected int count2;
 	protected int count3;
-	protected ItemStack itemMainHandLast = ItemStack.EMPTY;
-	protected ItemStack itemOffhandLast = ItemStack.EMPTY;
 	protected ItemStack itemMainHandLastArrow = ItemStack.EMPTY;
 	protected ItemStack itemArrow = ItemStack.EMPTY;
 
@@ -118,34 +114,17 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (reducedSize)
 					ms.scale(2f, 2f, 2f);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
+				ItemStack item2 = getItemInHand(0);
+				if( hand != 0 && item2 != ItemStack.EMPTY && Item.getRawId(item2.getItem()) == Item.getRawId(item.getItem()))
+					return;
 				int x = this.mc.player.getInventory().size();
 				int z = 0;
-				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemsEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
-					if (hand == 0) {
-						this.itemMainHandLast = item.copy();
-						ModRPGHud.renderDetailsAgain[0] = false;
-					} else {
-						this.itemOffhandLast = item.copy();
-						ModRPGHud.renderDetailsAgain[1] = false;
+				for (int y = 0; y < x; y++) {
+					ItemStack item3 = this.mc.player.getInventory().getStack(y);
+					if (item3 != ItemStack.EMPTY && Item.getRawId(item3.getItem()) == Item.getRawId(getItemInHand(hand).getItem())) {
+						z += item3.getCount();
 					}
-					for (int y = 0; y < x; y++) {
-						item = this.mc.player.getInventory().getStack(y);
-						if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item.getRawId(getItemInHand(hand).getItem())) {
-							z += item.getCount();
-						}
-					}
-					if (hand == 0)
-						this.count1 = z;
-					else
-						this.count2 = z;
-				} else {
-					if (hand == 0)
-						z = this.count1;
-					else
-						z = this.count2;
 				}
-
-				item = getItemInHand(hand);
 				String s = "x " + z;
 				if (reducedSize)
 					ms.scale(0.5f, 0.5f, 0.5f);
