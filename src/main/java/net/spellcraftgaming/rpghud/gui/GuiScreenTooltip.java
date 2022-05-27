@@ -54,7 +54,7 @@ public class GuiScreenTooltip extends Screen {
                 button = (GuiButtonTooltip) b;
 
             if(button != null) {
-                if(button.isHoveredOrFocused()) {
+                if(button.isHovered() || button.isFocused()) {
                     shouldRenderTooltip = true;
                     break;
                 }

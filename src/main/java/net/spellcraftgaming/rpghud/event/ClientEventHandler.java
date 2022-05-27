@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.BaseComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,12 +20,12 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onGuiInit(ScreenEvent.InitScreenEvent event) {
-        if (event.getScreen() instanceof TitleScreen ||event.getScreen() instanceof PauseScreen) {
+    public void onGuiInit(InitGuiEvent event) {
+        if (event.getGui() instanceof TitleScreen ||event.getGui() instanceof PauseScreen) {
             Minecraft mc = Minecraft.getInstance();
             BaseComponent s = new TranslatableComponent("name.rpghud");
-            event.addListener(new Button(event.getScreen().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20, s, button -> {
-                mc.setScreen(new GuiSettingsMod(event.getScreen(), new TranslatableComponent("gui.settings.rpghud")));
+            event.addWidget(new Button(event.getGui().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20, s, button -> {
+                mc.setScreen(new GuiSettingsMod(event.getGui(), new TranslatableComponent("gui.settings.rpghud")));
             }));
         }
     }

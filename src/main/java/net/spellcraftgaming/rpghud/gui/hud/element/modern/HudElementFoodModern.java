@@ -54,9 +54,9 @@ public class HudElementFoodModern extends HudElement {
 		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
 			if (itemMain != ItemStack.EMPTY && itemMain.getItem().isEdible()) {
-				value = itemMain.getItem().getFoodProperties(itemMain, null).getNutrition();
+				value = itemMain.getItem().getFoodProperties().getNutrition();
 			} else if (itemSec != ItemStack.EMPTY && itemMain.getItem().isEdible()) {
-				value = itemSec.getItem().getFoodProperties(itemMain, null).getNutrition();
+				value = itemSec.getItem().getFoodProperties().getNutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);

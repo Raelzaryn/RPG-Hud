@@ -25,7 +25,7 @@ public class HudElementHotbarSimple extends HudElement{
 	@Override
 	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
-                this.mc.gui.getSpectatorGui().renderHotbar(ms);
+                this.mc.gui.getSpectatorGui().renderHotbar(ms, partialTicks);
 		} else if (this.mc.getCameraEntity() instanceof Player) {
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
@@ -55,13 +55,13 @@ public class HudElementHotbarSimple extends HudElement{
 					drawRect(ms, width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
-					if(this.mc.player.isCreative()) drawRect(ms, width / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
+					drawRect(ms, width / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
 				} else {
 					drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(ms, width / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
-					if(this.mc.player.isCreative()) drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
+					drawRect(ms, width / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
 				}
 			}
 

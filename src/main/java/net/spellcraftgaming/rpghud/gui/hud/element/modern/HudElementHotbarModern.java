@@ -25,7 +25,7 @@ public class HudElementHotbarModern extends HudElement {
     @Override
     public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
-            this.mc.gui.getSpectatorGui().renderHotbar(ms);
+            this.mc.gui.getSpectatorGui().renderHotbar(ms, partialTicks);
         } else if (this.mc.getCameraEntity() instanceof Player) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
