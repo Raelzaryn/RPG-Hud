@@ -1,10 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,14 +22,14 @@ public class HudElementHealthMountTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getRidingEntity() instanceof LivingEntity && this.mc.playerController.shouldDrawHUD();
+		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hideGui;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		bind(INTERFACE);
-		RenderSystem.color3f(1f, 1f, 1f);
-		LivingEntity mount = (LivingEntity) this.mc.player.getRidingEntity();
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
 		if(health > healthMax) health = healthMax;
@@ -40,12 +41,12 @@ public class HudElementHealthMountTexture extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			RenderSystem.scaled(0.5, 0.5, 0.5);
-			AbstractGui.drawCenteredString(ms, this.mc.fontRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
-			RenderSystem.scaled(2.0, 2.0, 2.0);
+			ms.scale(0.5f, 0.5f, 0.5f);
+			Gui.drawCenteredString(ms, this.mc.font, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			ms.scale(2f, 2f, 2f);
 		}
-		RenderSystem.color3f(1f, 1f, 1f);
-		this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		bind(GuiComponent.GUI_ICONS_LOCATION);
 	}
 
 }

@@ -1,11 +1,14 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraftforge.api.distmarker.Dist;
+
+
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.client.gui.Gui;
+
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -20,15 +23,15 @@ public class HudElementLevelDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hideGui;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		GlStateManager.disableBlend();
+	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		RenderSystem.enableBlend();
 		String level = String.valueOf(this.mc.player.experienceLevel);
-		this.mc.fontRenderer.drawStringWithShadow(ms,level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 12) - (this.mc.fontRenderer.getStringWidth(level) / 2) + this.settings.getPositionValue(Settings.level_position)[0], (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 14) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
-		GlStateManager.enableBlend();
+		Gui.drawString(ms, this.mc.font, level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 12) - (this.mc.font.width(level) / 2) + this.settings.getPositionValue(Settings.level_position)[0], (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 14) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
+		RenderSystem.disableBlend();
 	}
 
 }

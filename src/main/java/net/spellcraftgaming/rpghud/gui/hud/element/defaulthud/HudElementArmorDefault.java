@@ -1,8 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
 
-import net.minecraft.client.gui.AbstractGui;
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.client.gui.Gui;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -18,14 +20,15 @@ public class HudElementArmorDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.playerController.shouldDrawHUD();
+		return !this.mc.options.hideGui;
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		bind(GUI_ICONS_LOCATION);
 		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
-		int top = scaledHeight - 40 + this.settings.getPositionValue(Settings.armor_position)[1];
-		int level = this.mc.player.getTotalArmorValue();
+		int top = scaledHeight - 39 - this.settings.getPositionValue(Settings.armor_position)[1];
+		int level = this.mc.player.getArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
 				gui.blit(ms, left + 48, top - 2, 34, 9, 9, 9);

@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.tags.FluidTags;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,32 +19,31 @@ public class HudElementAirModern extends HudElement {
 
     @Override
     public boolean checkConditions() {
-        return (this.mc.player.areEyesInFluid(FluidTags.WATER) || this.mc.player.getAir() < this.mc.player.getMaxAir()) && this.mc.playerController.shouldDrawHUD();
+        return (this.mc.player.isEyeInFluid(FluidTags.WATER) || this.mc.player.getAirSupply() < this.mc.player.getMaxAirSupply()) && !this.mc.options.hideGui;
     }
 
     @Override
-    public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-        double scale = getScale();
-        RenderSystem.scaled(scale, scale, scale);
+    public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+        float scale = getScale();
+        ms.scale(scale, scale, scale);
 
-        int airAmount = this.mc.player.getAir();
-        double maxAir = this.mc.player.getMaxAir();
+        int airAmount = this.mc.player.getAirSupply();
+        double maxAir = this.mc.player.getMaxAirSupply();
         if(airAmount < 0)
             airAmount = 0;
         int x = getPosX(scaledWidth);
         int y = getPosY(scaledHeight);
         int x2 = getWidth(scaledWidth);
         int y2 = getHeight(scaledHeight);
-        RenderSystem.disableLighting();
-        drawRect(x, y, x2, 2, 0xA0000000);
-        drawRect(x, y + y2 - 2, x2, 2, 0xA0000000);
-        drawRect(x, y + 2, 2, y2 - 4, 0xA0000000);
-        drawRect(x + x2 - 2, y + 2, 2, y2 - 4, 0xA0000000);
-        drawRect(x + 2, y + 2, x2 - 4, y2 - 4, 0x20FFFFFF);
-        drawRect(x + 2, y + 2, (int) ((x2 - 4) * (airAmount / maxAir)), y2 - 4, this.settings.getIntValue(Settings.color_air));
+        drawRect(ms, x, y, x2, 2, 0xA0000000);
+        drawRect(ms, x, y + y2 - 2, x2, 2, 0xA0000000);
+        drawRect(ms, x, y + 2, 2, y2 - 4, 0xA0000000);
+        drawRect(ms, x + x2 - 2, y + 2, 2, y2 - 4, 0xA0000000);
+        drawRect(ms, x + 2, y + 2, x2 - 4, y2 - 4, 0x20FFFFFF);
+        drawRect(ms, x + 2, y + 2, (int) ((x2 - 4) * (airAmount / maxAir)), y2 - 4, this.settings.getIntValue(Settings.color_air));
 
         scale = getInvertedScale();
-        RenderSystem.scaled(scale, scale, scale);
+        ms.scale(scale, scale, scale);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class HudElementAirModern extends HudElement {
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) ((scaledHeight - 78) * getInvertedScale() + this.settings.getPositionValue(Settings.air_position)[1]);
+        return (int) ((scaledHeight - 78 + this.settings.getPositionValue(Settings.air_position)[1]) * getInvertedScale());
     }
 
     @Override
@@ -69,7 +67,7 @@ public class HudElementAirModern extends HudElement {
     }
 
     @Override
-    public double getScale() {
+    public float getScale() {
         return 1;
     }
 }

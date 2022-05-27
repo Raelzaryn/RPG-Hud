@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -100,7 +100,6 @@ public class Settings {
     public static final String color_air = "color_air";
     public static final String air_position = "air_position";
 
-    public static final String status_enabled = "status_enabled";
     public static final String status_time = "status_time";
     public static final String status_vertical = "status_vertical";
     public static final String status_position = "pickup_position";
@@ -113,7 +112,7 @@ public class Settings {
 
     private File rpgHudDir() {
         Minecraft mc = Minecraft.getInstance();
-        return (new File(mc.gameDir.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
+        return (new File(mc.gameDirectory.getPath(), "config" + File.separator + "RPG-HUD"));
     }
 
     public Settings() {
@@ -192,15 +191,15 @@ public class Settings {
         addSetting(color_air, new SettingColor(color_air, HudElementType.AIR, HudElement.COLOR_BLUE));
         addSetting(air_position, new SettingPosition(air_position, HudElementType.AIR, 0, 0));
 
-        addSetting(mount_health_position, new SettingPosition(mount_health_position, HudElementType.HEALTH_MOUNT, 0, 0));
-        addSetting(hotbar_position, new SettingPosition(hotbar_position, HudElementType.HOTBAR, 0, 0));
-        addSetting(level_position, new SettingPosition(level_position, HudElementType.LEVEL, 0, 0));
-        addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
-        
         addSetting(status_vertical, new SettingBoolean(status_vertical, HudElementType.STATUS_EFFECTS, false));
         addSetting(status_time, new SettingBoolean(status_time, HudElementType.STATUS_EFFECTS, true));
         addSetting(status_position, new SettingPosition(status_position, HudElementType.STATUS_EFFECTS, 0, 0));
         addSetting(status_scale, new SettingDouble(status_scale, HudElementType.STATUS_EFFECTS, 1, 0, 0, 0));
+
+        addSetting(mount_health_position, new SettingPosition(mount_health_position, HudElementType.HEALTH_MOUNT, 0, 0));
+        addSetting(hotbar_position, new SettingPosition(hotbar_position, HudElementType.HOTBAR, 0, 0));
+        addSetting(level_position, new SettingPosition(level_position, HudElementType.LEVEL, 0, 0));
+        addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
 
         addDebugSettings(HudElementType.ARMOR);
         addDebugSettings(HudElementType.HOTBAR);
@@ -286,18 +285,18 @@ public class Settings {
 
     public String getButtonString(String id) {
         Setting setting = this.settings.get(id);
-        String s = I18n.format(setting.getName(), new Object[0]) + ": ";
+        String s = I18n.get(setting.getName(), new Object[0]) + ": ";
         if(setting instanceof SettingBoolean) {
-            return s + (setting.getBoolValue() ? I18n.format("options.on", new Object[0]) : I18n.format("options.off", new Object[0]));
+            return s + (setting.getBoolValue() ? I18n.get("options.on", new Object[0]) : I18n.get("options.off", new Object[0]));
         } else if(setting instanceof SettingString || setting instanceof SettingHudType) {
-            return s + I18n.format(setting.getStringValue(), new Object[0]);
+            return s + I18n.get(setting.getStringValue(), new Object[0]);
         } else if(setting instanceof SettingColor) {
             return s + intToHexString(setting.getIntValue());
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
         } else if(setting instanceof SettingFloat) {
             SettingFloat sf = (SettingFloat) setting;
-            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.format("gui.rpg.sec", new Object[0])
+            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
@@ -382,19 +381,13 @@ public class Settings {
             if(file.getParentFile() != null) {
                 file.getParentFile().mkdirs();
             }
-            
+
             if(!file.exists()) {
-                Minecraft mc = Minecraft.getInstance();
-                File oldfile = new File(mc.gameDir.getPath(), "config" + File.separator + "RPG-HUD");
-                if(oldfile.exists() && !oldfile.isDirectory()) {
-                    System.out.println("Converted old config file");
-                    oldfile.renameTo(file);
-                    load();
-                }
                 // Either a previous load attempt failed or the file is new; clear maps
                 if(!file.createNewFile())
                     return;
             }
+
             if(file.canRead()) {
                 buffer = new BufferedReader(new FileReader(file));
 
@@ -436,7 +429,7 @@ public class Settings {
             e.printStackTrace();
         }
     }
-    
+
     private void save(BufferedWriter out) throws IOException {
         for(Setting setting : settings.values()) {
             if(setting instanceof SettingBoolean) {
@@ -451,10 +444,10 @@ public class Settings {
                 out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else if(setting instanceof SettingFloat) {
                 out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingPosition) {
-                out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else if(setting instanceof SettingDouble) {
                 out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+            } else if(setting instanceof SettingPosition) {
+                out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
             } else {
                 out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);
             }

@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

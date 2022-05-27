@@ -1,11 +1,18 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.ITextComponent;
+
+
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+
+import net.minecraft.network.chat.BaseComponent;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-public class TextFieldWidgetMod extends TextFieldWidget {
+@OnlyIn(Dist.CLIENT)
+public class EditBoxMod extends EditBox {
 
     /** Variable to contain the (possible) setting of this button */
     public final String enumOptions;
@@ -13,13 +20,13 @@ public class TextFieldWidgetMod extends TextFieldWidget {
     private String[] tooltip;
     
     private ValueType type;
-    public TextFieldWidgetMod(FontRenderer fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, ITextComponent msg) {
+    public EditBoxMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, BaseComponent msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
         this.enumOptions = setting;
     }
     
-    public TextFieldWidgetMod(FontRenderer fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, ITextComponent msg) {
+    public EditBoxMod(Font fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, BaseComponent msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
         this.enumOptions = null;
@@ -48,7 +55,7 @@ public class TextFieldWidgetMod extends TextFieldWidget {
      *            managed via the /n symbol combination.
      * @return the button
      */
-    public TextFieldWidgetMod setTooltip(String tooltip) {
+    public EditBoxMod setTooltip(String tooltip) {
         this.tooltip = tooltip.split("/n");
         return this;
     }
@@ -58,7 +65,7 @@ public class TextFieldWidgetMod extends TextFieldWidget {
      * 
      * @return the button
      */
-    public TextFieldWidgetMod setTooltip() {
+    public EditBoxMod setTooltip() {
         if (this.enumOptions != null)
             return setTooltip(ModRPGHud.instance.settings.getSetting(this.enumOptions).getTooltip());
         return this;

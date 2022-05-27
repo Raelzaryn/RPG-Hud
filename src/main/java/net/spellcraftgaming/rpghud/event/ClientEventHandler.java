@@ -1,14 +1,14 @@
 package net.spellcraftgaming.rpghud.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.IngameMenuScreen;
-import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.BaseComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,12 +23,12 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onGuiInit(InitGuiEvent event) {
-        if (event.getGui() instanceof MainMenuScreen || event.getGui() instanceof IngameMenuScreen) {
+    public void onGuiInit(ScreenEvent.InitScreenEvent event) {
+        if (event.getScreen() instanceof TitleScreen ||event.getScreen() instanceof PauseScreen) {
             Minecraft mc = Minecraft.getInstance();
-            ITextComponent s = new TranslationTextComponent("name.rpghud");
-            event.addWidget(new Button(event.getGui().width - mc.fontRenderer.getStringWidth(s.getString()) - 8, 0, mc.fontRenderer.getStringWidth(s.getString()) + 8, 20, s, button -> {
-                mc.displayGuiScreen(new GuiSettingsMod(event.getGui(), new TranslationTextComponent("gui.settings.rpghud")));
+            BaseComponent s = new TranslatableComponent("name.rpghud");
+            event.addListener(new Button(event.getScreen().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20, s, button -> {
+                mc.setScreen(new GuiSettingsMod(event.getScreen(), new TranslatableComponent("gui.settings.rpghud")));
             }));
         }
     }

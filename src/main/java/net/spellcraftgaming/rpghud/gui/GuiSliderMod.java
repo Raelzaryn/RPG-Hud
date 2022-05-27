@@ -1,16 +1,19 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import javax.annotation.Nullable;
+import static net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementHotbarModern.WIDGETS_TEX_PATH;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
+
 
 @OnlyIn(Dist.CLIENT)
 public class GuiSliderMod extends GuiButtonTooltip {
@@ -37,19 +40,18 @@ public class GuiSliderMod extends GuiButtonTooltip {
     private final float valueStep;
     public int value;
 	
-    @Nullable
     public ISlider parent = null;
 
     public String suffix = "";
 
     public boolean drawString = true;
     
-	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, IPressable titleIn) {
+	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, Button.OnPress titleIn) {
 		this(color, x, y, value, minValueIn, maxValue, valueStep, null, titleIn);
 	}
 	
-	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, @Nullable ISlider par, IPressable titleIn) {
-		super(x, y, 150, 12, new TranslationTextComponent(""), titleIn);
+	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, Button.OnPress titleIn) {
+		super(x, y, 150, 12, new TranslatableComponent(""), titleIn);
 		this.color = color;
 		this.sliderValue = value / 255;
 		this.value = (int) Math.ceil(value);
@@ -110,10 +112,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
      */
     @Override
-    protected void renderBg(MatrixStack ms, Minecraft par1Minecraft, int par2, int par3)
-    {
+    protected void renderBg(PoseStack matrices, Minecraft client, int mouseX, int mouseY) {
     }
-
+    
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
      * e).
@@ -121,7 +122,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     @Override
     public void onClick(double mouseX, double mouseY)
     {
-		this.sliderValue = Math.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
+		this.sliderValue = Math.ceil(Mth.clamp(this.sliderValue * 255, 0F, 255F));
         updateSlider(mouseX, mouseY);
         this.dragging = true;
     }
@@ -137,7 +138,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		if (this.sliderValue > 1.0F) {
 			this.sliderValue = 1.0F;
 		}
-		this.value = MathHelper.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
+		this.value = Mth.ceil(Mth.clamp(this.sliderValue * 255, 0F, 255F));
     }
 
     private String getDisplayString() {
@@ -145,7 +146,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void render(MatrixStack ms, int mouseX, int mouseY, float partial)
+    public void render(PoseStack ms, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -154,15 +155,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
         	}
         	Minecraft mc = Minecraft.getInstance();
         	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(ms, this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
-
-            if (packedFGColor != 0)
-            {
-                color = packedFGColor;
-            }
-            else if (!this.active)
+            
+            if (!this.active)
             {
                 color = 10526880;
             }
@@ -172,26 +169,26 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-            mc.getTextureManager().bindTexture(WIDGETS_LOCATION);
-            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
-            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
-            this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            AbstractGui.drawCenteredString(ms, mc.fontRenderer, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
+            RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
+			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
+			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
+			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            Gui.drawCenteredString(ms, mc.font, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
         }
     }
     
 	public float normalizeValue(float value) {
-		return (float) MathHelper.clamp((this.snapToStepClamp(value) - this.maxValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
+		return (float) Mth.clamp((this.snapToStepClamp(value) - this.maxValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
 	}
 
 	public float denormalizeValue(float value) {
-		return this.snapToStepClamp((float) (this.minValue + (this.maxValue - this.minValue) * MathHelper.clamp(value, 0.0F, 1.0F)));
+		return this.snapToStepClamp((float) (this.minValue + (this.maxValue - this.minValue) * Mth.clamp(value, 0.0F, 1.0F)));
 	}
 
 	public float snapToStepClamp(float value) {
 		value = this.snapToStep(value);
-		return (float) MathHelper.clamp(value, this.minValue, this.maxValue);
+		return (float) Mth.clamp(value, this.minValue, this.maxValue);
 	}
 
 	private float snapToStep(float value) {

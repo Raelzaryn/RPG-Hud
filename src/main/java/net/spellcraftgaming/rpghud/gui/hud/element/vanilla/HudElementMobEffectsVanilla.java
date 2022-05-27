@@ -1,18 +1,19 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.INVENTORY_LOCATION;
+
 import java.util.Collection;
 
 import com.google.common.collect.Ordering;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.texture.PotionSpriteUploader;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.resources.MobEffectTextureManager;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -20,31 +21,29 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @OnlyIn(Dist.CLIENT)
-public class HudElementStatusEffectsVanilla extends HudElement {
+public class HudElementMobEffectsVanilla extends HudElement {
 
-    public HudElementStatusEffectsVanilla() {
+    public HudElementMobEffectsVanilla() {
         super(HudElementType.STATUS_EFFECTS, 0, 0, 0, 0, true);
     }
 
     @Override
-    public void drawElement(AbstractGui gui, MatrixStack ms, float na, float partialTicks, int scaledWidth, int scaledHeight) {
-        double scale = getScale();
-        RenderSystem.scaled(scale, scale, scale);
-        Collection<EffectInstance> collection = this.mc.player.getActivePotionEffects();
+    public void drawElement(Gui gui, PoseStack ms, float na, float partialTicks, int scaledWidth, int scaledHeight) {
+        float scale = getScale();
+        ms.scale(scale, scale, scale);
+        Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects();
         if(!collection.isEmpty()) {
             RenderSystem.enableBlend();
             int i = 0;
             int j = 0;
-            PotionSpriteUploader potionspriteuploader = this.mc.getPotionSpriteUploader();
-            this.mc.getTextureManager().bindTexture(ContainerScreen.INVENTORY_BACKGROUND);
+            MobEffectTextureManager potionspriteuploader = this.mc.getMobEffectTextures();
+            bind(INVENTORY_LOCATION);
 
-            for(EffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                Effect effect = effectinstance.getPotion();
-                if(!effectinstance.shouldRenderHUD())
-                    continue;
+            for(MobEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
+                MobEffect effect = effectinstance.getEffect();
                 // Rebind in case previous renderHUDEffect changed texture
-                this.mc.getTextureManager().bindTexture(ContainerScreen.INVENTORY_BACKGROUND);
-                if(effectinstance.isShowIcon()) {
+                bind(INVENTORY_LOCATION);
+                if(effectinstance.showIcon()) {
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
                     if(this.mc.isDemo()) {
@@ -73,8 +72,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         }
 
                     }
-
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
@@ -84,22 +82,21 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         gui.blit(ms, k, l, 141, 166, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
-                            f = MathHelper.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
-                                    + MathHelper.cos((float) effectinstance.getDuration() * (float) Math.PI / 5.0F)
-                                            * MathHelper.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                            f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
+                                    + Mth.cos((float) effectinstance.getDuration() * (float) Math.PI / 5.0F)
+                                            * Mth.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
                         }
                     }
-                    TextureAtlasSprite textureatlassprite = potionspriteuploader.getSprite(effect);
-                    this.mc.getTextureManager().bindTexture(textureatlassprite.getAtlasTexture().getTextureLocation());
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, f);
-                    AbstractGui.blit(ms, k + 3, l + 3, gui.getBlitOffset(), 18, 18, textureatlassprite);
+                    TextureAtlasSprite textureatlassprite = potionspriteuploader.get(effect);
+                    bind(textureatlassprite.atlas().location());
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
+                    Gui.blit(ms, k + 3, l + 3, gui.getBlitOffset(), 18, 18, textureatlassprite);
                     // Main
-                    effectinstance.renderHUDEffect(gui, ms, k, l, gui.getBlitOffset(), f);
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
                         if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
-                        k -= mc.fontRenderer.getStringWidth(s)/2;
+                        k -= mc.font.width(s)/2;
                         this.drawStringWithBackground(ms, s, k +12, l +14, -1, 0);
                     }
                 }
@@ -119,8 +116,8 @@ public class HudElementStatusEffectsVanilla extends HudElement {
     }
 
     @Override
-    public double getScale() {
-        double scale = this.settings.getDoubleValue(Settings.status_scale);
+    public float getScale() {
+        float scale = (float)this.settings.getDoubleValue(Settings.status_scale);
         //if(scale != 0)
         return scale;
         //return 1;

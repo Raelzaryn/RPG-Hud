@@ -1,14 +1,28 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.*;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.AIR;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ARMOR;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.CLOCK;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.COMPASS;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.DETAILS;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ENTITY_INSPECT;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.EXPERIENCE;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.FOOD;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH_MOUNT;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HOTBAR;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.JUMP_BAR;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.LEVEL;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.STATUS_EFFECTS;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.Gui;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -55,7 +69,7 @@ public abstract class Hud {
 		this.elements.put(WIDGET, setElementWidget());
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
-		this.elements.put(STATUS_EFFECTS, setStatusEffects());
+	    this.elements.put(STATUS_EFFECTS, setElementMobEffects());
 
 	}
 
@@ -114,9 +128,8 @@ public abstract class Hud {
 
 	/** Function which returns a new element which is the item pickup element */
 	protected abstract HudElement setElementEntityInspect();
-	
-	protected abstract HudElement setStatusEffects();
 
+    protected abstract HudElement setElementMobEffects();
 	/**
 	 * Draws the an element of the HudElementType type on the screen
 	 * 
@@ -129,7 +142,7 @@ public abstract class Hud {
 	 * @param partialTicks
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(HudElementType type, Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.elements.get(type).draw(gui, ms, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 

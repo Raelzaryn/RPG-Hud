@@ -3,16 +3,15 @@ package net.spellcraftgaming.rpghud.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.BaseComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -21,14 +20,14 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @OnlyIn(Dist.CLIENT)
 public class GuiScreenTooltip extends Screen {
 
-    protected GuiScreenTooltip(ITextComponent titleIn) {
+    protected GuiScreenTooltip(BaseComponent titleIn) {
         super(titleIn);
     }
 
     protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
 
     @Override
-    public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
         super.render(ms, mouseX, mouseY, partialTicks);
         for(GuiTextLabel label : labelList) {
             label.render(this, ms);
@@ -41,24 +40,24 @@ public class GuiScreenTooltip extends Screen {
     /**
      * Checks if a tooltip should be rendered and if so renders it on the screen.
      */
-    private void drawTooltip(MatrixStack ms, int mouseX, int mouseY) {
+    private void drawTooltip(PoseStack ms, int mouseX, int mouseY) {
         Minecraft mc = Minecraft.getInstance();
-        FontRenderer fontRenderer = mc.fontRenderer;
+        Font fontRenderer = mc.font;
         GuiScreenTooltip gui = null;
-        if(mc.currentScreen instanceof GuiScreenTooltip)
-            gui = (GuiScreenTooltip) mc.currentScreen;
+        if(mc.screen instanceof GuiScreenTooltip)
+            gui = (GuiScreenTooltip) mc.screen;
         else
             return;
 
         boolean shouldRenderTooltip = false;
         GuiButtonTooltip button = null;
-        for(int x = 0; x < this.buttons.size(); x++) {
-            Widget b = this.buttons.get(x);
+        for(int x = 0; x < this.children().size(); x++) {
+            GuiEventListener b = this.children().get(x);
             if(b instanceof GuiButtonTooltip)
                 button = (GuiButtonTooltip) b;
 
             if(button != null) {
-                if(button.isHovered()) {
+                if(button.isHoveredOrFocused()) {
                     shouldRenderTooltip = true;
                     break;
                 }
@@ -73,9 +72,9 @@ public class GuiScreenTooltip extends Screen {
             if(!(tooltip == null)) {
                 int counter = 0;
                 for(int id = 0; id < tooltip.length; id++) {
-                    int width = fontRenderer.getStringWidth(tooltip[id]);
+                    int width = fontRenderer.width(tooltip[id]);
                     if(totalWidth < width)
-                        totalWidth = fontRenderer.getStringWidth(tooltip[id]);
+                        totalWidth = fontRenderer.width(tooltip[id]);
                     counter++;
                 }
                 posX -= totalWidth / 2;
@@ -94,9 +93,9 @@ public class GuiScreenTooltip extends Screen {
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY)
-                            AbstractGui.drawString(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+                            Gui.drawString(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
                         else
-                            AbstractGui.drawString(ms, fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                            Gui.drawString(ms, fontRenderer,  tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
                     }
                 }
             }
@@ -114,11 +113,10 @@ public class GuiScreenTooltip extends Screen {
             this.text = text;
         }
 
-        public void render(Screen gui, MatrixStack ms) {
+        public void render(Screen gui, PoseStack ms) {
             RenderSystem.enableBlend();
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                    GlStateManager.DestFactor.ZERO);
-            AbstractGui.drawString(ms, minecraft.fontRenderer, text, x, y, 0xFFFFFFFF);
+            RenderSystem.defaultBlendFunc();
+            minecraft.font.draw(ms, text, x, y, 0xFFFFFFFF);
         }
     }
 

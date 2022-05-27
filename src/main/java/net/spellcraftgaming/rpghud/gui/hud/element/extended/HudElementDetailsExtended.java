@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;

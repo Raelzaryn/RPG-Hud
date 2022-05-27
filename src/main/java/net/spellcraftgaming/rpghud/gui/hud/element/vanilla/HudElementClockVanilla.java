@@ -1,12 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -24,28 +23,28 @@ public class HudElementClockVanilla extends HudElement {
 	public boolean checkConditions() {
 		return super.checkConditions() 
 				&& this.settings.getBoolValue(Settings.enable_clock) 
-				&& !this.mc.gameSettings.showDebugInfo 
-				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.inventory.hasItemStack(new ItemStack(Items.CLOCK)) : true);
+				&& !this.mc.options.renderDebug
+				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
 	}
 
 	@Override
-	public void drawElement(AbstractGui gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int clockColor = 0xFFFFFF;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			GL11.glScaled(0.5D, 0.5D, 0.5D);
-		AbstractGui.drawString(ms, this.mc.fontRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			ms.scale(0.5f, 0.5f, 0.5f);
+		Gui.drawString(ms, this.mc.font, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			GL11.glScaled(2.0D, 2.0D, 2.0D);
+			ms.scale(2f, 2f, 2f);
 	}
 
 	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
-		long time = this.mc.player.world.getDayTime();
-		long day = this.mc.player.world.getDayTime() / 24000L;
+		long time = (long) this.mc.player.level.getTimeOfDay(0);
+		long day = (long) (this.mc.player.level.getTimeOfDay(0) / 24000L);
 		long currentTime = time - (24000L * day);
 		long currentHour = (currentTime / 1000L) + 6L;
 		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
@@ -122,8 +121,8 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	public int getClockColor() {
-		long time = this.mc.player.world.getDayTime();
-		long day = this.mc.player.world.getDayTime() / 24000L;
+		long time = (long) this.mc.player.level.getTimeOfDay(0);
+		long day = (long) (this.mc.player.level.getTimeOfDay(0) / 24000L);
 		long currentTime = time - (24000L * day);
 		if (currentTime < 1000)
 			return 0xFFAF00;

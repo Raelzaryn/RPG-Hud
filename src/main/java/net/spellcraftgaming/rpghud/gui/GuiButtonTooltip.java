@@ -1,6 +1,8 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.util.text.ITextComponent;
+
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.BaseComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -13,65 +15,25 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	public int id;
 	/** Array that contains the tooltip of this button */
 	private String[] tooltip;
-	/**
-	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
-	 * @param x
-	 *            The x position on the screen
-	 * @param y
-	 *            The y position on the screen
-	 * @param buttonText
-	 *            The display Text of this button
-	 */
-	public GuiButtonTooltip(int x, int y, ITextComponent buttonText, IPressable ip) {
+
+	public GuiButtonTooltip(int x, int y, BaseComponent buttonText, Button.OnPress ip) {
 		super(x, y, buttonText, ip);
 		this.enumOptions = null;
 	}
 
-	/**
-	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
-	 * @param x
-	 *            The x position on the screen
-	 * @param y
-	 *            The y position on the screen
-	 * @param width
-	 *            the width of the button
-	 * @param height
-	 *            the height of the button
-	 * @param buttonText
-	 *            The display Text of this button
-	 */
-	public GuiButtonTooltip(int x, int y, int width, int height, ITextComponent buttonText, IPressable ip) {
+
+	public GuiButtonTooltip(int x, int y, int width, int height, BaseComponent buttonText, Button.OnPress ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.enumOptions = null;
 	}
 	
-	public GuiButtonTooltip(int id, int x, int y, int width, int height, ITextComponent buttonText, IPressable ip) {
+	public GuiButtonTooltip(int id, int x, int y, int width, int height, BaseComponent buttonText, Button.OnPress ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.id = id;
 		this.enumOptions = null;
 	}
 
-	/**
-	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
-	 * @param x
-	 *            The x position on the screen
-	 * @param y
-	 *            The y position on the screen
-	 * @param setting
-	 *            The possible setting of this button
-	 * @param buttonText
-	 *            The display Text of this button
-	 */
-	public GuiButtonTooltip(int x, int y, String setting, ITextComponent buttonText, IPressable ip) {
+	public GuiButtonTooltip(int x, int y, String setting, BaseComponent buttonText, Button.OnPress ip) {
 		super(x, y, 150, 20, buttonText, ip);
 		this.enumOptions = setting;
 	}

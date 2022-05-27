@@ -8,7 +8,7 @@
 modLoader="javafml" #mandatory
 
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[36,)" #mandatory
+loaderVersion="[40,)" #mandatory
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
@@ -24,7 +24,7 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/rpg-hud" #optional
 [[mods]] #mandatory
 
 # The modid of the mod
-modId="rpg-hud" #mandatory
+modId="rpghud" #mandatory
 
 # A text field displayed in the mod UI
 authors="KurodaAkira" #optional
