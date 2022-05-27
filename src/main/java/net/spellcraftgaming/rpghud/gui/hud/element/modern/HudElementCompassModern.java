@@ -28,7 +28,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 		int posY = getPosY(scaledHeight);
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
 
-		int rotation = Math.round(((this.mc.player.yHeadRot % 360) / 360) * 200);
+		int rotation = Math.round(((this.mc.gameRenderer.getMainCamera().getYRot() % 360) / 360) * 200);
 		if (rotation < 0)
 			rotation = 200 + rotation;
 		drawRect(ms, posX - 50, posY + 2, 100, 6, 0xAA000000);
