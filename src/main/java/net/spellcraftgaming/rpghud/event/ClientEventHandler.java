@@ -6,8 +6,6 @@ import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.BaseComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
@@ -15,7 +13,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-@OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
 
     public static void init() {

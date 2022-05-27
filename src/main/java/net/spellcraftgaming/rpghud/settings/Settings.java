@@ -14,12 +14,9 @@ import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@OnlyIn(Dist.CLIENT)
 public class Settings {
 
     private final String CONFIG_VERSION = "1.0";

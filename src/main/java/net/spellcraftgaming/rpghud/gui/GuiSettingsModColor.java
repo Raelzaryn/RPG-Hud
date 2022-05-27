@@ -1,8 +1,5 @@
 package net.spellcraftgaming.rpghud.gui;
 
-
-
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Font;
@@ -14,13 +11,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.BaseComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	private EditBox colorCodeField;

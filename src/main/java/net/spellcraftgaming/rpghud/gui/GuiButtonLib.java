@@ -4,10 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.BaseComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class GuiButtonLib extends Button {
 
 	public GuiButtonLib(int x, int y, int widthIn, int heightIn, BaseComponent buttonText, Button.OnPress ip) {

@@ -1,13 +1,9 @@
 package net.spellcraftgaming.rpghud.gui;
 
-
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.BaseComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiButtonTooltip extends GuiButtonLib {
 
 	/** Variable to contain the (possible) setting of this button */

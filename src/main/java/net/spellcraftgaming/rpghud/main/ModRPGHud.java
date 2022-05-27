@@ -3,13 +3,16 @@ package net.spellcraftgaming.rpghud.main;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.spellcraftgaming.rpghud.event.ClientEventHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
@@ -20,7 +23,7 @@ import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
+
 @Mod("rpghud")
 public class ModRPGHud {
 
@@ -33,10 +36,16 @@ public class ModRPGHud {
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
 
+	public static final Logger LOGGER = LogManager.getLogger();
+
 	public ModRPGHud() {
 		instance = this;
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		} else {
+			LOGGER.warn("RPG-Hud is a client-side-only mod and should not be installed server-side, please remove it from your server");
+		}
 	}
 
 	private void setup(final FMLCommonSetupEvent event)

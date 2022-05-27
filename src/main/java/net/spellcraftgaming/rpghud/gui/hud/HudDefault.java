@@ -1,9 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
-
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementAirDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
@@ -16,7 +13,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementJumpBarD
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementLevelDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementWidgetDefault;
 
-@OnlyIn(Dist.CLIENT)
 public class HudDefault extends HudVanilla {
 
 	public HudDefault(Minecraft mc, String hudKey, String hudName) {

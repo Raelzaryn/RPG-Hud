@@ -10,12 +10,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
-
-@OnlyIn(Dist.CLIENT)
 public class GuiSliderMod extends GuiButtonTooltip {
 	public enum EnumColor {
 		RED,

@@ -5,28 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-
 import net.minecraft.client.resources.language.I18n;
-
-
-import net.minecraftforge.api.distmarker.Dist;
-
-
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-
 import net.minecraft.network.chat.BaseComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-
 import net.spellcraftgaming.rpghud.gui.EditBoxMod.ValueType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -35,7 +23,6 @@ import net.spellcraftgaming.rpghud.settings.SettingDouble;
 import net.spellcraftgaming.rpghud.settings.SettingPosition;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiSettingsMod extends GuiScreenTooltip {
 
 	/** The ModSettings instance */

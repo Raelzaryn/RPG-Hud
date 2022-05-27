@@ -12,12 +12,9 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.BaseComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiScreenTooltip extends Screen {
 
     protected GuiScreenTooltip(BaseComponent titleIn) {

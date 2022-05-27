@@ -6,13 +6,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 public class HudElementHealthHotbar extends HudElement {
 
 	public HudElementHealthHotbar() {

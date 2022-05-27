@@ -1,11 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
-
 import net.minecraft.client.resources.language.I18n;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public enum HudElementType {
     VOID("name.void"),
     HOTBAR("name.hotbar"),

@@ -1,13 +1,22 @@
 package net.spellcraftgaming.rpghud.main;
 
+import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
+import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.ALL;
+import static net.minecraftforge.client.gui.ForgeIngameGui.AIR_LEVEL_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.ARMOR_LEVEL_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.EXPERIENCE_BAR_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.FOOD_LEVEL_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.HOTBAR_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.JUMP_BAR_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.MOUNT_HEALTH_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.PLAYER_HEALTH_ELEMENT;
+import static net.minecraftforge.client.gui.ForgeIngameGui.POTION_ICONS_ELEMENT;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-
-
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.gui.IIngameOverlay;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,11 +25,6 @@ import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
-import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.ALL;
-import static net.minecraftforge.client.gui.ForgeIngameGui.*;
-
-@OnlyIn(Dist.CLIENT)
 public class RenderOverlay {
 
     private ModRPGHud rpgHud;

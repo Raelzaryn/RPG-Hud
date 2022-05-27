@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementAirModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementArmorModern;
@@ -19,7 +17,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementJumpBarModer
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementLevelModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementWidgetModern;
 
-@OnlyIn(Dist.CLIENT)
 public class HudModern extends HudDefault {
 
 	/** offset position for element */
