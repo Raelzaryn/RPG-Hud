@@ -20,6 +20,7 @@ import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
+import net.spellcraftgaming.rpghud.gui.hud.HudSimple;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -52,6 +53,7 @@ public class ModRPGHud {
 	{
 		this.settings = new Settings();
 		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
+		this.registerHud(new HudSimple(Minecraft.getInstance(), "simple", "Simplified"));
 		this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getInstance(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(Minecraft.getInstance(), "texture", "Full Texture"));

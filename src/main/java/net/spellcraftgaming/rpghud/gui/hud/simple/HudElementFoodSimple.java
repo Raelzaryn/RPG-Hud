@@ -46,7 +46,7 @@ public class HudElementFoodSimple extends HudElement {
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
 				int colorPreview = offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW);
-				drawCustomBar(ms, posX, posY, width, 8, bonusHunger / (double) staminaMax * 100.0D, 0xA0000000, 0xA0000000, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT), 0xA0000000);
+				drawCustomBar(ms, posX, posY, width, 8, bonusHunger / (double) staminaMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT), -1);
 			}
 		}
 
