@@ -3,11 +3,12 @@ package net.spellcraftgaming.rpghud.main;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -24,9 +25,10 @@ import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@OnlyIn(Dist.CLIENT)
-@Mod("rpg-hud")
+@Mod("rpghud")
 public class ModRPGHud {
 
 	public static ModRPGHud instance;
@@ -37,16 +39,22 @@ public class ModRPGHud {
 
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
+
+	public static final Logger LOGGER = LogManager.getLogger();
 	
 	public ModRPGHud() {
 		instance = this;
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		} else {
+			LOGGER.warn("RPG-Hud is a client-side-only mod and should not be installed server-side, please remove it from your server");
+		}
 	}
 	
     private void setup(final FMLCommonSetupEvent event)
     {
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 		this.settings = new Settings();
 		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
 		this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));

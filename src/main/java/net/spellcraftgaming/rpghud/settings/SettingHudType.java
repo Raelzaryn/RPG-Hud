@@ -2,12 +2,9 @@ package net.spellcraftgaming.rpghud.settings;
 
 import java.util.Set;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-@OnlyIn(Dist.CLIENT)
 public class SettingHudType extends Setting {
 
 	public final String defaultValue;

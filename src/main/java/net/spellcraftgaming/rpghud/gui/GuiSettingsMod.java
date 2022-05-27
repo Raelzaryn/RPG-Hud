@@ -15,8 +15,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.spellcraftgaming.rpghud.gui.TextFieldWidgetMod.ValueType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -25,7 +23,6 @@ import net.spellcraftgaming.rpghud.settings.SettingDouble;
 import net.spellcraftgaming.rpghud.settings.SettingPosition;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiSettingsMod extends GuiScreenTooltip {
 
     /** The ModSettings instance */
