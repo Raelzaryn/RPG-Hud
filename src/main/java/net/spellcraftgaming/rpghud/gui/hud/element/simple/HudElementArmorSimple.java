@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud.gui.hud.simple;
+package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
 
