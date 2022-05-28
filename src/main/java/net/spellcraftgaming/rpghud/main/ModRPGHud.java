@@ -3,18 +3,19 @@ package net.spellcraftgaming.rpghud.main;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.spellcraftgaming.rpghud.event.ClientEventHandler;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
@@ -23,10 +24,9 @@ import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
+import net.spellcraftgaming.rpghud.gui.hud.HudSimple;
 import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @Mod("rpghud")
 public class ModRPGHud {
@@ -57,6 +57,7 @@ public class ModRPGHud {
     {
 		this.settings = new Settings();
 		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
+		this.registerHud(new HudSimple(Minecraft.getInstance(), "simple", "Simplified"));
 		this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getInstance(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(Minecraft.getInstance(), "texture", "Full Texture"));
