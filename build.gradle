@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 
-version = "3.9"
+version = "3.9.1"
 group = "net.spellcraftgaming.rpghud" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "[1.18.2][Forge] RPG-HUD"
 
@@ -171,8 +171,8 @@ jar {
     manifest {
         attributes([
                 "Specification-Title"     : "rpghud",
-                "Specification-Vendor"    : "rpghud",
-                "Specification-Version"   : "3.9", // We are version 1 of ourselves
+                "Specification-Vendor"    : "KurodaAkira",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "KurodaAkira",
