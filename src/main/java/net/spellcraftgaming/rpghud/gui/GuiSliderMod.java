@@ -8,7 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
@@ -48,7 +48,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 	
 	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, ButtonWidget.PressAction titleIn) {
-		super(x, y, 150, 12, new TranslatableText(""), titleIn);
+		super(x, y, 150, 12, Text.translatable(""), titleIn);
 		this.color = color;
 		this.sliderValue = value / 255;
 		this.value = (int) Math.ceil(value);

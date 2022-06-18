@@ -11,7 +11,6 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -65,7 +64,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			slider.onClick(0, 0);
 		}));
 
-		this.colorCodeField = new TextFieldWidget(client.textRenderer, this.width / 2 - 74, 115, 147, 20, new TranslatableText(Settings.intToHexString(this.color)));
+		this.colorCodeField = new TextFieldWidget(client.textRenderer, this.width / 2 - 74, 115, 147, 20, Text.translatable(Settings.intToHexString(this.color)));
 		this.colorCodeField.setText(Settings.intToHexString(this.color));
 		this.colorCodeField.setMaxLength(7);
 		
@@ -74,22 +73,22 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
 		
 		for(int i = 0; i < 6; i++) {
-			this.addDrawableChild(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i]), button -> {
+			this.addDrawableChild(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Text.translatable(colorString[i]), button -> {
 					actionPerformed(button);
 			}));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addDrawableChild(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, new TranslatableText(colorString[i+6]), button -> {
+			this.addDrawableChild(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Text.translatable(colorString[i+6]), button -> {
 					actionPerformed(button);
 			}));
 		}
 
-		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, new TranslatableText("gui.done"), button -> {
+		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Text.translatable("gui.done"), button -> {
 				setSettingColor();
 				client.setScreen(parent);
 		}).setTooltip(I18n.translate("tooltip.done", new Object[0])));
-		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, new TranslatableText("gui.cancel"), button -> {
+		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Text.translatable("gui.cancel"), button -> {
 		    client.setScreen(parent);
 		}).setTooltip(I18n.translate("tooltip.cancel", new Object[0])));
 	}

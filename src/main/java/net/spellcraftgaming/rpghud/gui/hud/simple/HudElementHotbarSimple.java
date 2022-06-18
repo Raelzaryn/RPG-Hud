@@ -85,7 +85,7 @@ public class HudElementHotbarSimple extends HudElement{
 				}
 			}
 
-            if(this.mc.options.attackIndicator == AttackIndicator.HOTBAR) {
+            if(this.mc.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR) {
                 float f1 = this.mc.player.getAttackCooldownProgress(0.0F);
 
 				if (f1 < 1.0F) {

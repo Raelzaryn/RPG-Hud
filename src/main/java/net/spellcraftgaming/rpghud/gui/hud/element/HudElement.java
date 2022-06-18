@@ -285,8 +285,7 @@ public abstract class HudElement {
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY + height, 0).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.end();
-        BufferRenderer.draw(vertexbuffer);
+        BufferRenderer.drawWithShader(vertexbuffer.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
@@ -523,8 +522,7 @@ public abstract class HudElement {
         vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).color(f, f1, f2, f3).next();
         vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).next();
-        vertexbuffer.end();
-        BufferRenderer.draw(vertexbuffer);
+        BufferRenderer.drawWithShader(vertexbuffer.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
