@@ -448,9 +448,7 @@ public abstract class HudElement {
             value = 100D;
         }
 
-        int offset = 0;
-        if (outlined)
-            offset = 1;
+        int offset = 1;
 
         int filledWidth = width;
         filledWidth = width - (offset * 2);
@@ -470,7 +468,7 @@ public abstract class HudElement {
         drawRect(ms, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
         drawRect(ms, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
 
-        if (filledWidth - percentFilled > 0) {
+        if (colorGroundDark != -1 && colorGroundLight != -1 && filledWidth - percentFilled > 0) {
             drawRect(ms, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
             drawRect(ms, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
         }
