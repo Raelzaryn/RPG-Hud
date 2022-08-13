@@ -40,8 +40,8 @@ public class HudElementClockVanilla extends HudElement {
 
 	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
-		long time = (long) this.mc.player.level.getTimeOfDay(0);
-		long day = (long) (this.mc.player.level.getTimeOfDay(0) / 24000L);
+		long time = this.mc.player.getLevel().getDayTime();
+		long day = (long) (this.mc.player.getLevel().getDayTime() / 24000L);
 		long currentTime = time - (24000L * day);
 		long currentHour = (currentTime / 1000L) + 6L;
 		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
@@ -118,8 +118,8 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	public int getClockColor() {
-		long time = (long) this.mc.player.level.getTimeOfDay(0);
-		long day = (long) (this.mc.player.level.getTimeOfDay(0) / 24000L);
+		long time = this.mc.player.level.getDayTime();
+		long day = (this.mc.player.level.getDayTime() / 24000L);
 		long currentTime = time - (24000L * day);
 		if (currentTime < 1000)
 			return 0xFFAF00;
