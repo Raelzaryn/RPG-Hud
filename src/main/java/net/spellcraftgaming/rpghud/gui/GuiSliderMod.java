@@ -126,7 +126,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 
     public void updateSlider(double mouseX, double mouseY)
     {
-		this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
+		this.sliderValue = (float) (mouseX - (this.getX() + 4)) / (float) (this.width - 8);
 
 		if (this.sliderValue < 0.0F) {
 			this.sliderValue = 0.0F;
@@ -152,7 +152,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         	}
         	MinecraftClient mc = MinecraftClient.getInstance();
         	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(ms, this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(ms, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
             
@@ -167,11 +167,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             
             String buttonText = getDisplayString();
             RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            DrawableHelper.drawCenteredText(ms, mc.textRenderer, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
+			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
+			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
+			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            DrawableHelper.drawCenteredText(ms, mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
     
