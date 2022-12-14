@@ -277,7 +277,7 @@ public abstract class HudElement {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);	
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
         BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
         vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -285,7 +285,7 @@ public abstract class HudElement {
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY + height, 0).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3).next();
-        BufferRenderer.drawWithShader(vertexbuffer.end());
+        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
@@ -514,7 +514,7 @@ public abstract class HudElement {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
         BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
         vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -522,7 +522,7 @@ public abstract class HudElement {
         vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).color(f, f1, f2, f3).next();
         vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).next();
-        BufferRenderer.drawWithShader(vertexbuffer.end());
+        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
@@ -610,9 +610,9 @@ public abstract class HudElement {
        /**
      * Renders an item on the screen
      * 
-     * @param xPos
+     * @param x
      *            the x position on the screen
-     * @param yPos
+     * @param y
      *            the y position on the screen
      * @param partialTicks
      *            the partial ticks (used for animation)

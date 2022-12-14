@@ -133,7 +133,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			}
 		}
 
-		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, Text.translatable("gui.done"), button -> {
+		this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.done"), button -> {
 				Settings settings = ModRPGHud.instance.settings;
 				for(String settingID : textFields.keySet()) {
 				    for(TextFieldWidget t : textFields.get(settingID)) {
@@ -158,7 +158,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				}
 				settings.saveSettings();
 				client.setScreen(parent);
-		}));
+		}).dimensions(this.width / 2 - 100, this.height / 6 + 168, 200, 20).build());
 	}
 
 	@Override

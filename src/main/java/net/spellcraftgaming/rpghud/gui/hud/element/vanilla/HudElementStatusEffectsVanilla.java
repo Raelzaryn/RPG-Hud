@@ -87,7 +87,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         }
                     }
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
-                    bind(textureatlassprite.getAtlas().getId());
+                    bind(textureatlassprite.getAtlasId());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
                     DrawableHelper.drawSprite(ms, k + 3, l + 3, gui.getZOffset(), 18, 18, textureatlassprite);
                     // Main
