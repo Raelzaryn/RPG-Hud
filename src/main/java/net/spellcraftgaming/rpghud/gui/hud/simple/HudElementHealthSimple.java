@@ -29,14 +29,15 @@ public class HudElementHealthSimple extends HudElement {
 		int posX = ((scaledWidth) / 2) - width - 7 + this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = scaledHeight - 32 - 8 + this.settings.getPositionValue(Settings.health_position)[1];
 
+		drawRect(ms, posX, posY, width, 8, 0xA0000000);
 		if (absorption > 1)
-			drawCustomBar(ms, posX, posY, width, 8, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, 0xA0000000, 0xA0000000, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT), 0xA0000000);
+			drawCustomBar(ms, posX, posY, width, 8, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT), false);
 		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
-			drawCustomBar(ms, posX, posY, width, 8, (double) health / (double) (healthMax + absorption) * 100D, 0xA0000000, 0xA0000000, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT), 0xA0000000);
+			drawCustomBar(ms, posX, posY, width, 8, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT), false);
 		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
-			drawCustomBar(ms, posX, posY, width, 8, (double) health / (double) (healthMax + absorption) * 100D, 0xA0000000, 0xA0000000, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT), 0xA0000000);
+			drawCustomBar(ms, posX, posY, width, 8, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT), false);
 		} else {
-			drawCustomBar(ms, posX, posY, width, 8, (double) health / (double) (healthMax + absorption) * 100D, 0xA0000000, 0xA0000000, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT), 0xA0000000);
+			drawCustomBar(ms, posX, posY, width, 8, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT), false);
 		}
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
