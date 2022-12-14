@@ -111,7 +111,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         matrixStack.scale(scale, scale, scale);
         Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
         Quaternionf quaternion2 = new Quaternionf().rotationX((float) Math.toRadians(g * 20f));
-        //quaternion.mul(quaternion2);
+        quaternion.mul(quaternion2);
         matrixStack.multiply(quaternion);
         float h = entity.bodyYaw;
         float i = entity.getYaw();
