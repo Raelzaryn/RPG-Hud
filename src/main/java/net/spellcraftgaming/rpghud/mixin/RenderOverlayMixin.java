@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.mixin;
 
 import java.util.Random;
 
+import net.minecraft.registry.tag.FluidTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,7 +18,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;

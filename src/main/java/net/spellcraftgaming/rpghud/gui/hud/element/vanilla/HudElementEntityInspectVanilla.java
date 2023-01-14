@@ -1,9 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import java.util.List;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -21,13 +18,14 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.RaycastContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Quaternionf;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class HudElementEntityInspectVanilla extends HudElement {
@@ -111,9 +109,9 @@ public class HudElementEntityInspectVanilla extends HudElement {
         MatrixStack matrixStack = new MatrixStack();
         matrixStack.translate(0.0D, 0.0D, 1000.0D);
         matrixStack.scale(scale, scale, scale);
-        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
-        Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g * 20.0F);
-        quaternion.hamiltonProduct(quaternion2);
+        Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
+        Quaternionf quaternion2 = new Quaternionf().rotationX((float) Math.toRadians(g * 20f));
+        quaternion.mul(quaternion2);
         matrixStack.multiply(quaternion);
         float h = entity.bodyYaw;
         float i = entity.getYaw();
