@@ -47,6 +47,6 @@ public class HudElementHealthHotbar extends HudElement {
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 }

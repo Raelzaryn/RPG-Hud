@@ -33,41 +33,41 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 		drawRect(ms, posX - 50, posY + 2, 100, 6, 0xAA000000);
 		
 		if (rotation > 0 && rotation <= 100) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, "W", posX + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, "W", posX + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation > 25 && rotation <= 125) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, ".", posX + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, ".", posX + (75 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation > 50 && rotation <= 150) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, "N", posX + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, "N", posX + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
 		}
 
 		if (rotation > 75 && rotation <= 175) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, ".", posX + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, ".", posX + (125 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation > 100 && rotation <= 200) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, "E", posX + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, "E", posX + (150 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation >= 125) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, ".", posX + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, ".", posX + (175 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		} else if (rotation <= 25) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, ".", posX - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, ".", posX - (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (rotation >= 150) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, "S", posX + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, "S", posX + (200 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		} else if (rotation <= 50) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, "S", posX - (rotation * swapSides), posY + 1, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, "S", posX - (rotation * swapSides), posY + 1, -1);
 		}
 
 		if (rotation >= 175) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, ".", posX + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, ".", posX + (225 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		} else if (rotation <= 75) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, ".", posX + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, ".", posX + (25 * swapSides) - (rotation * swapSides), posY - 2, -1);
 		}
 
 		if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
@@ -77,9 +77,9 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect(ms, (posX + 48) - (this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
 			ms.scale(0.5f, 0.5f, 0.5f);
-			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
-			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
+			DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
+			DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
 			ms.scale(2f, 2f, 2f);
 		}
 	}

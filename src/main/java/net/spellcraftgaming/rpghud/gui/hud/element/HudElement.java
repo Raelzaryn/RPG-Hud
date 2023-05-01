@@ -275,7 +275,6 @@ public abstract class HudElement {
         float f1 = (color >> 8 & 255) / 255.0F;
         float f2 = (color & 255) / 255.0F;
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
@@ -286,7 +285,6 @@ public abstract class HudElement {
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3).next();
         BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
     }
@@ -510,7 +508,6 @@ public abstract class HudElement {
         float f1 = (color >> 8 & 255) / 255.0F;
         float f2 = (color & 255) / 255.0F;
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
@@ -521,7 +518,6 @@ public abstract class HudElement {
         vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).next();
         vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).next();
         BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
     }
@@ -619,9 +615,8 @@ public abstract class HudElement {
      * @param item
      *            the item (via ItemStack)
      */
-    protected void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
+    protected void renderHotbarItem(MatrixStack matrixStack, int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
         if (!item.isEmpty()) {
-        	MatrixStack matrixStack = RenderSystem.getModelViewStack();
             float f = (float)item.getBobbingAnimationTime() - partialTicks;
 
             if (f > 0.0F) {
@@ -632,13 +627,13 @@ public abstract class HudElement {
                 matrixStack.translate((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
-            this.mc.getItemRenderer().renderInGuiWithOverrides(item, x, y);
+            this.mc.getItemRenderer().renderInGuiWithOverrides(matrixStack, player, item, x, y, x);
 
             if (f > 0.0F) {
                 matrixStack.pop();
             }
 
-            this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, x, y);
+            this.mc.getItemRenderer().renderGuiItemOverlay(matrixStack, this.mc.textRenderer, item, x, y);
         }
     }
     
@@ -648,7 +643,6 @@ public abstract class HudElement {
         this.mc.textRenderer.draw(ms,text, posX, posY + 1, colorBackground);
         this.mc.textRenderer.draw(ms,text, posX, posY - 1, colorBackground);
         this.mc.textRenderer.draw(ms,text, posX, posY, colorMain);
-        RenderSystem.enableBlend();
     }
     
     public boolean isChatOpen() {

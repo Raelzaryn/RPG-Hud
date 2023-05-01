@@ -39,7 +39,7 @@ public class HudElementHealthMountModern extends HudElement {
 			int width2 = this.mc.textRenderer.getWidth(stringHealth) / 2;
 			drawRect(ms, posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			ms.scale(0.5f, 0.5f, 0.5f);
-			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+			DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
 			ms.scale(2f, 2f, 2f);
 		}
 

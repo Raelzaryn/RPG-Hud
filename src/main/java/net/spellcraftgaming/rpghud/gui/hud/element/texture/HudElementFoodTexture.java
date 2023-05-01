@@ -61,7 +61,7 @@ public class HudElementFoodTexture extends HudElement {
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		bind(DrawableHelper.GUI_ICONS_TEXTURE);
 	}

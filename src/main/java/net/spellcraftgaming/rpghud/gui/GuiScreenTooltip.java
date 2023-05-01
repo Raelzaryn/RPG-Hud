@@ -93,9 +93,9 @@ public class GuiScreenTooltip extends Screen {
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY)
-                            DrawableHelper.drawStringWithShadow(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+                            DrawableHelper.drawTextWithShadow(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
                         else
-                            DrawableHelper.drawStringWithShadow(ms, fontRenderer,  tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                            DrawableHelper.drawTextWithShadow(ms, fontRenderer,  tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
                     }
                 }
             }

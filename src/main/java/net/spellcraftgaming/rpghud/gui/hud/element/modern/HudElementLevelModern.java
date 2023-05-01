@@ -50,9 +50,9 @@ public class HudElementLevelModern extends HudElement {
 		ms.scale(0.5f, 0.5f, 0.5f);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24" || !this.settings.getBoolValue(Settings.render_player_face)) {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
 		} else {
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
 		}
 		ms.scale(2.0f, 2.0f, 2.0f);
 		RenderSystem.enableBlend();

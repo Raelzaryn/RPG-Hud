@@ -74,16 +74,16 @@ public class HudElementHotbarModern extends HudElement {
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 3 - 9 + 4 + posY;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l));
+				this.renderHotbarItem(ms, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l));
 			}
 
 			if (itemstack != ItemStack.EMPTY) {
 				int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
 				if (enumhandside == Arm.LEFT) {
-					this.renderHotbarItem(i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(ms,i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
 				} else {
-					this.renderHotbarItem(i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(ms,i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
 				}
 			}
 

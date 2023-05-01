@@ -13,6 +13,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -87,7 +88,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, reducedSize? 0.5f : 1f);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
+				DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
@@ -113,7 +114,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize? 0.5f : 1f);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+				DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 				if (reducedSize)
 					ms.scale(2f, 2f, 2f);
@@ -150,7 +151,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (reducedSize)
 					ms.scale(0.5f, 0.5f, 0.5f);
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
+				DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (reducedSize)
 					ms.scale(2f, 2f, 2f);
 				this.offset += 16;
@@ -199,7 +200,7 @@ public class HudElementDetailsVanilla extends HudElement {
 			}
 
 			this.renderGuiItemModel(this.itemArrow, reducedSize ? 4 : 2, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset, reducedSize);
-			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+			DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (reducedSize)
 				ms.scale(2f, 2f, 2f);
 			this.offset += 16;
@@ -307,7 +308,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		boolean bl = !model.isSideLit();
 		if (bl)
 			DiffuseLighting.disableGuiDepthLighting();
-		this.mc.getItemRenderer().renderItem(stack, ModelTransformation.Mode.GUI, false, matrixStack2,
+		this.mc.getItemRenderer().renderItem(stack, ModelTransformationMode.GUI, false, matrixStack2,
 				(VertexConsumerProvider) immediate, LightmapTextureManager.MAX_LIGHT_COORDINATE,
 				OverlayTexture.DEFAULT_UV, model);
 		immediate.draw();

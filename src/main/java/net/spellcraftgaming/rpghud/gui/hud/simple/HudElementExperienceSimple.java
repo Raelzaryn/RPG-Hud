@@ -32,7 +32,7 @@ public class HudElementExperienceSimple extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			ms.scale(0.5f, 0.5f, 0.5f);
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringExp, posX * 2 + width, posY * 2 + 4, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, stringExp, posX * 2 + width, posY * 2 + 4, -1);
 			ms.scale(2f, 2f, 2f);
 		}
 	}

@@ -55,15 +55,15 @@ public class HudElementHotbarDefault extends HudElement {
             for(int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 + posY;
-                this.renderHotbarItem(i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().main.get(l));
+                this.renderHotbarItem(ms, i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().main.get(l));
             }
 
             if(!itemstack.isEmpty()) {
                 int l1 = scaledHeight - 16 - 3 + posY;
                 if(arm == Arm.LEFT)
-                    this.renderHotbarItem(i - 91 - 26, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(ms, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack);
                 else
-                    this.renderHotbarItem(i + 91 + 10, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(ms, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack);
             }
 
             if(this.mc.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR) {

@@ -42,7 +42,7 @@ public class HudElementHealthMountTexture extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			ms.scale(0.5f, 0.5f, 0.5f);
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			ms.scale(2f, 2f, 2f);
 		}
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);

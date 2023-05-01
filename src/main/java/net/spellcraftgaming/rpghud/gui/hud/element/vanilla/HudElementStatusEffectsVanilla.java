@@ -89,7 +89,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
                     bind(textureatlassprite.getAtlasId());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    DrawableHelper.drawSprite(ms, k + 3, l + 3, gui.getZOffset(), 18, 18, textureatlassprite);
+                    DrawableHelper.drawSprite(ms, k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;

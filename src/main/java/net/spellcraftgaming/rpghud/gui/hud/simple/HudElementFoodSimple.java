@@ -59,7 +59,7 @@ public class HudElementFoodSimple extends HudElement {
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food)) {
 			ms.scale(0.5f, 0.5f, 0.5f);
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, staminaString, posX * 2 + width, posY * 2 + 4, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, staminaString, posX * 2 + width, posY * 2 + 4, -1);
 			ms.scale(2f, 2f, 2f);
 		}
 	}

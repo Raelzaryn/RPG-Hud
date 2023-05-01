@@ -51,11 +51,11 @@ public class HudElementHotbarHotbar extends HudElement {
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l));
+				this.renderHotbarItem(ms, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l));
 			}
 
 			int l1 = scaledHeight - 47 + 3 + posY;
-			this.renderHotbarItem(posX + 184, l1, partialTicks, entityplayer, itemstack);
+			this.renderHotbarItem(ms, posX + 184, l1, partialTicks, entityplayer, itemstack);
 
             if(this.mc.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR) {
                 float f1 = this.mc.player.getAttackCooldownProgress(0.0F);
