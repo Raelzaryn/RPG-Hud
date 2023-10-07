@@ -37,12 +37,6 @@ public class TextFieldWidgetMod extends TextFieldWidget {
         POSITION;
     }
     
-    @Override
-    public void tick() {
-        super.tick();
-        
-    }
-    
     /**
      * Sets the tooltip of this button. Should be appended at the constructor.
      * 
@@ -72,7 +66,7 @@ public class TextFieldWidgetMod extends TextFieldWidget {
      * 
      * @return the Tooltip
      */
-    public String[] getTooltip() {
+    public String[] getTooltipNew() {
         return this.tooltip;
     }
 

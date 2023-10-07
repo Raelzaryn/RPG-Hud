@@ -1,3 +1,9 @@
-This is the RPG-Hud Project by KurodaAkira.
-<br>https://www.curseforge.com/minecraft/mc-mods/rpg-hud-fabric/
-<p>This branch is the MC 1.18.2 version of this Mod for the Fabric Mod Loader
+# Fabric Example Mod
+
+## Setup
+
+For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+
+## License
+
+This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.

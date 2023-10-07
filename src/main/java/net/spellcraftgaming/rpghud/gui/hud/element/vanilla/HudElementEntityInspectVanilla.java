@@ -1,10 +1,15 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import java.util.List;
+
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -23,9 +28,6 @@ import net.minecraft.world.RaycastContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
-import org.joml.Quaternionf;
-
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class HudElementEntityInspectVanilla extends HudElement {
@@ -42,46 +44,43 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
-            bind(DAMAGE_INDICATOR);
-            gui.drawTexture(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
+            dc.drawTexture(DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
-            drawCustomBar(ms, posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
+            drawCustomBar(dc, posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
-            ms.scale(0.5f, 0.5f, 0.5f);
-            DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
-            ms.scale(2f, 2f, 2f);
+            dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+            dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            dc.getMatrices().scale(2f, 2f, 2f);
 
             int x = (posX - 29 + 44 - this.mc.textRenderer.getWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
-            this.drawStringWithBackground(ms, focused.getName().getString(), x, y, -1, 0);
+            this.drawStringWithBackground(dc, focused.getName().getString(), x, y, -1, 0);
 
-            drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
+            drawEntityOnScreen(dc, posX - 60 + 16, 22 + 27 + posY, focused);
 
             if(settings.getBoolValue(Settings.show_entity_armor)) {
                 int armor = focused.getArmor();
                 if(armor > 0) {
                     String value = String.valueOf(armor);
-                    bind(DAMAGE_INDICATOR);
-                    gui.drawTexture(ms, posX - 26, posY+44, 0, 36, 19, 8);
-                    bind(DrawableHelper.GUI_ICONS_TEXTURE);
-                    ms.scale(0.5f, 0.5f, 0.5f);
-                    gui.drawTexture(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
-                    this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
-                    ms.scale(2f, 2f, 2f);
+                    dc.drawTexture(DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8);
+                    dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+                    dc.drawGuiTexture(ARMOR_FULL_TEXTURE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
+                    this.drawStringWithBackground(dc,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
+                    dc.getMatrices().scale(2f, 2f, 2f);
                 }  
             }
         }
     }
 
-    public static void drawEntityOnScreen(int posX, int posY, LivingEntity entity) {
+    public static void drawEntityOnScreen(DrawContext dc, int posX, int posY, LivingEntity entity) {
         int scale = 1;
         int s1 = (int) (18 / entity.getHeight());
         int s3 = (int) (18 / entity.getScaleFactor());
@@ -90,7 +89,6 @@ public class HudElementEntityInspectVanilla extends HudElement {
             scale = s3;
         } else
             scale = s1;
-
         if(entity instanceof SquidEntity) {
             scale = 11;
             offset = -13;
@@ -98,15 +96,16 @@ public class HudElementEntityInspectVanilla extends HudElement {
             scale = 11;
             offset = -5;
         }
+        
         posY += offset;
         float f = (float) Math.atan((180 / 40.0F));
         float g = (float) Math.atan((0 / 40.0F));
-        MatrixStack ms = RenderSystem.getModelViewStack();
+        MatrixStack ms = dc.getMatrices();
         ms.push();
         ms.translate(posX, posY, 1050.0F);
         ms.scale(1.0F, 1.0F, -1.0F);
         RenderSystem.applyModelViewMatrix();
-        MatrixStack matrixStack = new MatrixStack();
+        MatrixStack matrixStack = dc.getMatrices();
         matrixStack.translate(0.0D, 0.0D, 1000.0D);
         matrixStack.scale(scale, scale, scale);
         Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
@@ -118,11 +117,13 @@ public class HudElementEntityInspectVanilla extends HudElement {
         float j = entity.getPitch();
         float k = entity.prevHeadYaw;
         float l = entity.headYaw;
+        float m = entity.limbAnimator.getSpeed();
         entity.bodyYaw = 180.0F + f * 20.0F;
         entity.setYaw(180.0F + f * 40.0F);
         entity.setPitch(-g * 20.0F);
-        entity.headYaw = entity.getYaw();
+        entity.headYaw = entity.getYaw() + -35f;
         entity.prevHeadYaw = entity.getYaw();
+        entity.limbAnimator.setSpeed(0);
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         quaternion2.conjugate();
@@ -137,6 +138,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.setPitch(j);
         entity.prevHeadYaw = k;
         entity.headYaw = l;
+        entity.limbAnimator.setSpeed(m);
         ms.pop();
         RenderSystem.applyModelViewMatrix();
         DiffuseLighting.enableGuiDepthLighting();
@@ -155,7 +157,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         Vec3d lookVec = watcher.getRotationVector();
         Vec3d vec2 = vec.add(lookVec.normalize().multiply(maxDistance));
 
-        BlockHitResult ray = watcher.world
+        BlockHitResult ray = watcher.getWorld()
                 .raycast(new RaycastContext(vec, vec2, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, watcher));
 
         double distance = maxDistance;
@@ -166,7 +168,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         double currentDistance = distance;
 
-        List<Entity> entitiesWithinMaxDistance = watcher.world.getOtherEntities(watcher,
+        List<Entity> entitiesWithinMaxDistance = watcher.getWorld().getOtherEntities(watcher,
                 watcher.getBoundingBox().stretch(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
         for(Entity entity : entitiesWithinMaxDistance) {
             if(entity instanceof LivingEntity) {

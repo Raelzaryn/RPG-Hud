@@ -3,13 +3,12 @@ package net.spellcraftgaming.rpghud.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -188,7 +187,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			this.color = color;
 		}
 
-		this.colorCodeField.tick();
+		//this.colorCodeField.tick();
 	}
 
 	/**
@@ -201,7 +200,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		if (this.colorCodeField.isFocused()) {
 			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 			if (p_keyPressed_1_ == 28)
-				this.colorCodeField.setTextFieldFocused(false);
+				this.colorCodeField.setFocused(false);
 		}
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
@@ -217,16 +216,16 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	}
 
 	@Override
-	public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+	public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
 		TextRenderer textRenderer = client.textRenderer;
-		this.renderBackground(ms);
-		DrawableHelper.drawCenteredText(ms, textRenderer, this.title, this.width / 2, 12, -1);
-		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
-		this.colorCodeField.render(ms,mouseX, mouseY, partialTicks);
-		DrawableHelper.drawCenteredText(ms, textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
-		super.render(ms, mouseX, mouseY, partialTicks);
-		HudElement.drawCustomBar(ms, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
+		this.renderBackground(dc, mouseX, mouseY, partialTicks);
+		dc.drawCenteredTextWithShadow(textRenderer, this.title, this.width / 2, 12, -1);
+		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
+		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
+		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
+		this.colorCodeField.render(dc ,mouseX, mouseY, partialTicks);
+		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		super.render(dc, mouseX, mouseY, partialTicks);
+		HudElement.drawCustomBar(dc, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
 }

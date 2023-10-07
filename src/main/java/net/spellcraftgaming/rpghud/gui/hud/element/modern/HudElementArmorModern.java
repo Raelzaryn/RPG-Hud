@@ -2,9 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.AbstractParentElement;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -22,9 +20,9 @@ public class HudElementArmorModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 	    float scale = getScale();
-        ms.scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale, scale);
 		int left = getPosX(scaledWidth);
 		int top = getPosY(scaledHeight);
 
@@ -32,14 +30,13 @@ public class HudElementArmorModern extends HudElement {
 		if (level > 0) {
 	        int height = getHeight(scaledHeight);
 			int width2 = 1 + 9 + 2 + this.mc.textRenderer.getWidth(String.valueOf(level)) + 2;
-			drawRect(ms, left, top, width2, height, 0xA0000000);
-			this.mc.textRenderer.draw(ms,String.valueOf(level), left + 12, top + 2, -1);
-			bind(AbstractParentElement.GUI_ICONS_TEXTURE);
-			gui.drawTexture(ms, left + 1, top + 1, 34, 9, 9, 9);
+			drawRect(dc, left, top, width2, height, 0xA0000000);
+			dc.drawText(this.mc.textRenderer, String.valueOf(level), left + 12, top + 2, -1, false);
+			dc.drawGuiTexture(ARMOR_FULL_TEXTURE, left + 1, top + 1, 9, 9);
 		}
 		
 		scale = getInvertedScale();
-        ms.scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale, scale);
 	}
 	
     @Override

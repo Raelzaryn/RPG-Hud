@@ -1,14 +1,12 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
@@ -20,6 +18,25 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		BLUE;
 	}
 	
+    private static final Identifier TEXTURE = new Identifier("widget/slider");
+    private static final Identifier HIGHLIGHTED_TEXTURE = new Identifier("widget/slider_highlighted");
+    private static final Identifier HANDLE_TEXTURE = new Identifier("widget/slider_handle");
+    private static final Identifier HANDLE_HIGHLIGHTED_TEXTURE = new Identifier("widget/slider_handle_highlighted");
+    
+    private Identifier getTexture() {
+        if (this.isFocused() && !this.isFocused()) {
+            return HIGHLIGHTED_TEXTURE;
+        }
+        return TEXTURE;
+    }
+
+    private Identifier getHandleTexture() {
+        if (this.hovered || this.isFocused()) {
+            return HANDLE_HIGHLIGHTED_TEXTURE;
+        }
+        return HANDLE_TEXTURE;
+    }
+    
 	private EnumColor color;
 
     /** The value of this slider control. */
@@ -75,10 +92,10 @@ public class GuiSliderMod extends GuiButtonTooltip {
         }
 	}
 	
-	@Override
+	/*@Override
 	protected int getYImage(boolean p_getYImage_1_) {
 		return 0;
-	}
+	} */
     
     @Override
     public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
@@ -107,10 +124,10 @@ public class GuiSliderMod extends GuiButtonTooltip {
     
     /**
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     */
+     
     @Override
     protected void renderBackground(MatrixStack matrices, MinecraftClient client, int mouseX, int mouseY) {
-    }
+    }*/
     
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
@@ -143,7 +160,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void render(MatrixStack ms, int mouseX, int mouseY, float partial)
+    public void render(DrawContext dc, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -152,7 +169,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         	}
         	MinecraftClient mc = MinecraftClient.getInstance();
         	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(ms, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(dc, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
             
@@ -166,12 +183,12 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-            RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            DrawableHelper.drawCenteredText(ms, mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
+            //RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
+            
+            dc.drawGuiTexture(this.getTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            dc.drawGuiTexture(this.getHandleTexture(), this.getX() + (int)(this.value * (double)(this.width - 8)), this.getY(), 8, this.getHeight());
+            dc.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            dc.drawCenteredTextWithShadow(mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
     

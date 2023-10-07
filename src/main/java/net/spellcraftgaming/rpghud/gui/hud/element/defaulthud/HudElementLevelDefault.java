@@ -4,8 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -24,10 +23,10 @@ public class HudElementLevelDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		RenderSystem.enableBlend();
 		String level = String.valueOf(this.mc.player.experienceLevel);
-		DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 12) - (this.mc.textRenderer.getWidth(level) / 2) + this.settings.getPositionValue(Settings.level_position)[0], (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 14) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
+		dc.drawTextWithShadow(this.mc.textRenderer, level, (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 12) - (this.mc.textRenderer.getWidth(level) / 2) + this.settings.getPositionValue(Settings.level_position)[0], (this.settings.getBoolValue(Settings.render_player_face) ? 38 : 14) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
 		RenderSystem.disableBlend();
 	}
 

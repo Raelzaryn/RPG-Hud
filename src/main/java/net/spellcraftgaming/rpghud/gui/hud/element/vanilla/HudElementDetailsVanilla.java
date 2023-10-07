@@ -1,18 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -23,8 +22,10 @@ import net.minecraft.item.Items;
 import net.minecraft.item.TippedArrowItem;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
-import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Arm;
+import net.minecraft.util.crash.CrashException;
+import net.minecraft.util.crash.CrashReport;
+import net.minecraft.util.crash.CrashReportSection;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -49,25 +50,25 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.debugEnabled && !this.isChatOpen();
+		return !this.mc.getDebugHud().shouldShowDebugHud() && !this.isChatOpen();
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
-				ms.translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
-				drawArmorDetails(gui, ms);
-				ms.translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+				dc.getMatrices().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+				drawArmorDetails(dc);
+				dc.getMatrices().translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
 			}
-			ms.translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
-			drawItemDetails(gui, ms, 0);
-			drawItemDetails(gui, ms, 1);
-			ms.translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+			dc.getMatrices().translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+			drawItemDetails(dc, 0);
+			drawItemDetails(dc, 1);
+			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
-				ms.translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
-				drawArrowCount(gui, ms);
-				ms.translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+				dc.getMatrices().translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+				drawArrowCount(dc);
+				dc.getMatrices().translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
 			}
 	}
 
@@ -77,22 +78,22 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw one
 	 */
-	protected void drawArmorDetails(DrawableHelper gui, MatrixStack ms) {
+	protected void drawArmorDetails(DrawContext dc) {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (reducedSize)
-			ms.scale(0.5f, 0.5f, 0.5f);
+			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmorStack(i).getItem().isDamageable()) {
 				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, reducedSize? 0.5f : 1f);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
+				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, 1f);
+				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
 		if (reducedSize)
-			ms.scale(2f, 2f, 2f);
+			dc.getMatrices().scale(2f, 2f, 2f);
 	}
 
 	/**
@@ -103,20 +104,20 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param hand
 	 *            the hand whose item should be detailed
 	 */
-	protected void drawItemDetails(DrawableHelper gui, MatrixStack ms, int hand) {
+	protected void drawItemDetails(DrawContext dc, int hand) {
 		ItemStack item = getItemInHand(hand);
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
 				if (reducedSize)
-					ms.scale(0.5f, 0.5f, 0.5f);
+					dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize? 0.5f : 1f);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, 1f);
+				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 				if (reducedSize)
-					ms.scale(2f, 2f, 2f);
+					dc.getMatrices().scale(2f, 2f, 2f);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x = this.mc.player.getInventory().size();
 				int z = 0;
@@ -148,11 +149,11 @@ public class HudElementDetailsVanilla extends HudElement {
 				item = getItemInHand(hand);
 				String s = "x " + z;
 				if (reducedSize)
-					ms.scale(0.5f, 0.5f, 0.5f);
-				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
-				DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
+					dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
+				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (reducedSize)
-					ms.scale(2f, 2f, 2f);
+					dc.getMatrices().scale(2f, 2f, 2f);
 				this.offset += 16;
 			}
 		}
@@ -164,7 +165,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw on
 	 */
-	protected void drawArrowCount(DrawableHelper gui, MatrixStack ms) {
+	protected void drawArrowCount(DrawContext dc) {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		ItemStack item = this.mc.player.getMainHandStack();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof BowItem) {
@@ -193,15 +194,16 @@ public class HudElementDetailsVanilla extends HudElement {
 
 			String s = "x " + z;
 			if (reducedSize)
-				ms.scale(0.5f, 0.5f, 0.5f);
+				dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY) {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 
-			this.renderGuiItemModel(this.itemArrow, reducedSize ? 4 : 2, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset, reducedSize);
-			DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+			//dc.drawItemInSlot(null, item, x, z);
+			this.renderGuiItemModel(dc, this.itemArrow, reducedSize ? 4 : 2, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset, reducedSize);
+			dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (reducedSize)
-				ms.scale(2f, 2f, 2f);
+				dc.getMatrices().scale(2f, 2f, 2f);
 			this.offset += 16;
 
 		}
@@ -282,52 +284,54 @@ public class HudElementDetailsVanilla extends HudElement {
 		return arrow.getCount();
 	}
 	
-	protected void renderGuiItemHalfSizeModel(ItemStack stack, int x, int y) {
-		renderGuiItemModel(stack, x, y, true);
+	protected void renderGuiItemHalfSizeModel(DrawContext dc, ItemStack stack, int x, int y) {
+		renderGuiItemModel(dc, stack, x, y, true);
 	}
 	
-	protected void renderGuiItemModel(ItemStack stack, int x, int y, boolean halfSize) {
-		BakedModel model = this.mc.getItemRenderer().getModel(stack, null, null, 0);
-		RenderSystem.setShaderTexture(0, PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
-		RenderSystem.enableBlend();
-		RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		MatrixStack matrixStack = RenderSystem.getModelViewStack();
-		matrixStack.push();
-		if(halfSize) matrixStack.translate(x * 0.5f - 4, y * 0.5f - 4, (100.0F));
-		else matrixStack.translate(x, y, (100.0F));
-		matrixStack.translate(8.0D, 8.0D, 0.0D);
-		matrixStack.scale(1.0F, -1.0F, 1.0F);
-		if(halfSize) matrixStack.scale(0.5f, 0.5f, 0.5f);
-		matrixStack.scale(16.0F, 16.0F, 16.0F);
-		RenderSystem.applyModelViewMatrix();
-		MatrixStack matrixStack2 = new MatrixStack();
-		VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders()
-				.getEntityVertexConsumers();
-		boolean bl = !model.isSideLit();
-		if (bl)
-			DiffuseLighting.disableGuiDepthLighting();
-		this.mc.getItemRenderer().renderItem(stack, ModelTransformation.Mode.GUI, false, matrixStack2,
-				(VertexConsumerProvider) immediate, LightmapTextureManager.MAX_LIGHT_COORDINATE,
-				OverlayTexture.DEFAULT_UV, model);
-		immediate.draw();
-		RenderSystem.enableDepthTest();
-		if (bl)
-			DiffuseLighting.enableGuiDepthLighting();
-		matrixStack.pop();
-		RenderSystem.applyModelViewMatrix();
+	protected void renderGuiItemModel(DrawContext dc, ItemStack stack, int x, int y, boolean halfSize) {
+		MatrixStack matrices = dc.getMatrices();
+		BakedModel bakedModel = this.mc.getItemRenderer().getModel(stack, null, null, 0);
+        matrices.push();
+		matrices.translate(x + 8, y + 8, 150);
+		
+        try {
+            boolean bl;
+            matrices.multiplyPositionMatrix(new Matrix4f().scaling(1.0f, -1.0f, 1.0f));
+    		if(halfSize) matrices.scale(0.5f, 0.5f, 0.5f);
+    		matrices.scale(16.0F, 16.0F, 16.0F);
+            bl = !bakedModel.isSideLit();
+            if (bl) {
+                DiffuseLighting.disableGuiDepthLighting();
+            }
+            this.mc.getItemRenderer().renderItem(stack, ModelTransformationMode.GUI, false, matrices, dc.getVertexConsumers(), 0xF000F0, OverlayTexture.DEFAULT_UV, bakedModel);
+            RenderSystem.disableDepthTest();
+            dc.getVertexConsumers().draw();
+            RenderSystem.enableDepthTest();
+            if (bl) {
+                DiffuseLighting.enableGuiDepthLighting();
+            }
+        } catch (Throwable throwable) {
+            CrashReport crashReport = CrashReport.create((Throwable)throwable, (String)"Rendering item");
+            CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
+            crashReportSection.add("Item Type", () -> String.valueOf(stack.getItem()));
+            crashReportSection.add("Item Damage", () -> String.valueOf(stack.getDamage()));
+            crashReportSection.add("Item NBT", () -> String.valueOf(stack.getNbt()));
+            crashReportSection.add("Item Foil", () -> String.valueOf(stack.hasGlint()));
+            throw new CrashException(crashReport);
+        }
+        matrices.pop();
 	}
 
-	public void renderItemDurabilityBar(ItemStack stack, int x, int y, float scale) {
+	public void renderItemDurabilityBar(DrawContext dc, ItemStack stack, int x, int y, float scale) {
+		dc.drawItem(stack, x, y);
 		if (stack.isEmpty())
 			return;
 		if (stack.isItemBarVisible()) {
-			MatrixStack ms = new MatrixStack();
 			int i = stack.getItemBarStep();
 			int j = stack.getItemBarColor();
-			ms.scale(scale, scale, scale);
-			HudElement.drawRect(ms, x + 2, y + 13, 13, 2, 0x000000);
-			HudElement.drawRect(ms, x + 2, y + 13, i, 1, j);
+			dc.getMatrices().scale(scale, scale, scale);
+			HudElement.drawRect(dc, x + 2, y + 13, 13, 2, 0x000000);
+			HudElement.drawRect(dc, x + 2, y + 13, i, 1, j);
 		}
 	}
 

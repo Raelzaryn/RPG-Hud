@@ -115,7 +115,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * 
 	 * @return the Tooltip
 	 */
-	public String[] getTooltip() {
+	public String[] getTooltipNew() {
 		return this.tooltip;
 	}
 }

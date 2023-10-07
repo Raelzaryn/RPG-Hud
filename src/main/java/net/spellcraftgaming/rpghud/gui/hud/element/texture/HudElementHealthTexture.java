@@ -4,8 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -26,8 +25,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
-		bind(INTERFACE);
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
@@ -35,20 +33,19 @@ public class HudElementHealthTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 9 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 		if (absorption > 1)
-			gui.drawTexture(ms, posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
+			dc.drawTexture(INTERFACE, posX, posY, 0, 88, (int) (110.0D * ((double) (health + absorption) / (double) (healthMax + absorption))), 12);
 		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
-			gui.drawTexture(ms, posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			dc.drawTexture(INTERFACE, posX, posY, 141, 160, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
-			gui.drawTexture(ms, posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			dc.drawTexture(INTERFACE, posX, posY, 34, 244, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		} else {
-			gui.drawTexture(ms, posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
+			dc.drawTexture(INTERFACE, posX, posY, 0, 100, (int) (110.0D * ((double) health / (double) (healthMax + absorption))), 12);
 		}
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		bind(DrawableHelper.GUI_ICONS_TEXTURE);
 	}
 
 }

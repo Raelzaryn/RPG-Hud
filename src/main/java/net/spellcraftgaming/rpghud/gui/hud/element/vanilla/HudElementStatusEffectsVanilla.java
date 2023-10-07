@@ -7,11 +7,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.math.MathHelper;
@@ -27,21 +26,19 @@ public class HudElementStatusEffectsVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawableHelper gui, MatrixStack ms, float na, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawContext dc, float na, float partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        ms.scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale, scale);
         Collection<StatusEffectInstance> collection = this.mc.player.getStatusEffects();
         if(!collection.isEmpty()) {
             RenderSystem.enableBlend();
             int i = 0;
             int j = 0;
             StatusEffectSpriteManager potionspriteuploader = this.mc.getStatusEffectSpriteManager();
-            bind(HandledScreen.BACKGROUND_TEXTURE);
 
             for(StatusEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
                 StatusEffect effect = effectinstance.getEffectType();
                 // Rebind in case previous renderHUDEffect changed texture
-                bind(HandledScreen.BACKGROUND_TEXTURE);
                 if(effectinstance.shouldShowIcon()) {
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
@@ -75,10 +72,10 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        gui.drawTexture(ms, k, l, 165, 166, 24, 24);
+                        dc.drawGuiTexture(EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
                     } else {
                         // Background Regular
-                        gui.drawTexture(ms, k, l, 141, 166, 24, 24);
+                    	dc.drawGuiTexture(EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
                             f = MathHelper.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
@@ -87,16 +84,16 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         }
                     }
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
-                    bind(textureatlassprite.getAtlasId());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    DrawableHelper.drawSprite(ms, k + 3, l + 3, gui.getZOffset(), 18, 18, textureatlassprite);
+                    //TODO:
+                    dc.drawSprite(k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
                         if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
                         k -= mc.textRenderer.getWidth(s)/2;
-                        this.drawStringWithBackground(ms, s, k +12, l +14, -1, 0);
+                        this.drawStringWithBackground(dc, s, k +12, l +14, -1, 0);
                     }
                 }
             }

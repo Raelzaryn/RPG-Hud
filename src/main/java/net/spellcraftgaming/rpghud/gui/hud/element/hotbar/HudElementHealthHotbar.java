@@ -2,8 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
@@ -25,7 +24,7 @@ public class HudElementHealthHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		
 		int height = scaledHeight + this.settings.getPositionValue(Settings.health_position)[1];
 		int health = MathHelper.ceil(this.mc.player.getHealth());
@@ -35,18 +34,18 @@ public class HudElementHealthHotbar extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.health_position)[0];
 
 		if (absorption > 1)
-			drawCustomBar(ms, posX, height - 56, 200, 10, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
+			drawCustomBar(dc, posX, height - 56, 200, 10, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
 
 		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
-			drawCustomBar(ms, posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
+			drawCustomBar(dc, posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
 		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
-			drawCustomBar(ms, posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
+			drawCustomBar(dc, posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
 		} else {
-			drawCustomBar(ms, posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
+			drawCustomBar(dc, posX, height - 56, 200, 10, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
 		}
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, posX + 100, height - 55, -1);
 	}
 }

@@ -6,9 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.DrawContext;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -24,25 +22,25 @@ public class RenderOverlay implements HudRenderCallback{
         HudRenderCallback.EVENT.register(this);
     }
 
-    private void renderOverlay(MatrixStack ms, float partialTicks) {
-        this.drawElement(HudElementType.WIDGET, ms, partialTicks);
-        this.drawElement(HudElementType.CLOCK, ms, partialTicks);
-        this.drawElement(HudElementType.DETAILS, ms, partialTicks);
-        this.drawElement(HudElementType.COMPASS, ms, partialTicks);
-        this.drawElement(HudElementType.ENTITY_INSPECT, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, ms, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) this.drawElement(HudElementType.STATUS_EFFECTS, ms, partialTicks);
+    private void renderOverlay(DrawContext dc, float partialTicks) {
+        this.drawElement(HudElementType.WIDGET, dc, partialTicks);
+        this.drawElement(HudElementType.CLOCK, dc, partialTicks);
+        this.drawElement(HudElementType.DETAILS, dc, partialTicks);
+        this.drawElement(HudElementType.COMPASS, dc, partialTicks);
+        this.drawElement(HudElementType.ENTITY_INSPECT, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, dc, partialTicks);
+        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) this.drawElement(HudElementType.STATUS_EFFECTS, dc, partialTicks);
         if(!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
-            this.drawElement(HudElementType.EXPERIENCE, ms, partialTicks);
-            this.drawElement(HudElementType.LEVEL, ms, partialTicks);
+            this.drawElement(HudElementType.EXPERIENCE, dc, partialTicks);
+            this.drawElement(HudElementType.LEVEL, dc, partialTicks);
         }
         if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, ms, partialTicks);
+            this.drawElement(HudElementType.HOTBAR, dc, partialTicks);
             
             
         }
@@ -54,16 +52,15 @@ public class RenderOverlay implements HudRenderCallback{
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
-    private void drawElement(HudElementType type, MatrixStack ms, float partialTicks) {
+    private void drawElement(HudElementType type, DrawContext dc, float partialTicks) {
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
-                bind(DrawableHelper.GUI_ICONS_TEXTURE);
-               	ms.push();
+               	dc.getMatrices().push();
                 RenderSystem.enableBlend();
-                this.rpgHud.getActiveHud().drawElement(type, this.mc.inGameHud, ms, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
+                this.rpgHud.getActiveHud().drawElement(type, dc, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
                         this.mc.getWindow().getScaledHeight());
-                ms.pop();
+                dc.getMatrices().pop();
             }
 
         }
@@ -109,17 +106,13 @@ public class RenderOverlay implements HudRenderCallback{
         return false;
     }
     
-    private void bind(Identifier res) {
-        mc.getTextureManager().bindTexture(res);
-    }
-    
     public static boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
 
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
-        renderOverlay(matrixStack, tickDelta);
+    public void onHudRender(DrawContext dc, float tickDelta) {
+        renderOverlay(dc, tickDelta);
         
     }
     

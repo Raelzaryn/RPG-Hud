@@ -2,8 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -22,12 +21,12 @@ public class HudElementJumpBarDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawableHelper gui, MatrixStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
 		int center = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float jumpPower = this.mc.player.getMountJumpStrength();
 		int value = (int) (jumpPower * 100.0F);
-		drawCustomBar(ms, center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.getIntValue(Settings.color_jump_bar), offsetColorPercent(this.settings.getIntValue(Settings.color_jump_bar), OFFSET_PERCENT));
+		drawCustomBar(dc, center - 70, height - 80, 141, 10, value / 100.0D * 100.0D, this.settings.getIntValue(Settings.color_jump_bar), offsetColorPercent(this.settings.getIntValue(Settings.color_jump_bar), OFFSET_PERCENT));
 	}
 
 }
