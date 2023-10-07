@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "rpg-hud",
+  "version": "${version}",
+
+  "name": "RPG-Hud",
+  "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
+  "authors": [
+    "Raelzaryn"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/Raelzaryn/RPG-Hud",
+    "issues": "https://github.com/Raelzaryn/RPG-Hud/issues"
+  },
+
+  "license": "GPL-3.0",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.spellcraftgaming.rpghud.main.ModRPGHud"
+    ]
+  },
+  "mixins": [
+    "rpg-hud.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.22",
+    "minecraft": ">=1.20.2",
+    "java": ">=17",
+	"fabric-api": "*"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

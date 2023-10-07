@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "net.spellcraftgaming.rpghud.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "RenderOverlayMixin",
+    "GuiMenuScreenMixin",
+    "GuiTitleScreenMixin",
+    "ChatMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
