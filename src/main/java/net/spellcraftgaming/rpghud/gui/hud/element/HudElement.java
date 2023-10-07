@@ -100,9 +100,6 @@ public abstract class HudElement {
     protected static final Identifier PUMPKIN_BLUR = new Identifier("textures/misc/pumpkinblur.png");
     protected static final Identifier SPYGLASS_SCOPE = new Identifier("textures/misc/spyglass_scope.png");
     protected static final Identifier POWDER_SNOW_OUTLINE = new Identifier("textures/misc/powder_snow_outline.png");
-    
-    protected static final Identifier EFFECT_BACKGROUND = new Identifier("textures/gui/sprites/hud/effect_background.png");
-    protected static final Identifier EFFECT_BACKGROUND_AMBIENT = new Identifier("textures/gui/sprites/hud/effect_background_ambient.png");
 
     public static final int OFFSET_PERCENT = 25;
 
