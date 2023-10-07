@@ -74,11 +74,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
             dispString = "";
         }
 	}
-	
-	@Override
-	protected int getYImage(boolean p_getYImage_1_) {
-		return 0;
-	}
     
     @Override
     public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
@@ -103,13 +98,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
     public static interface ISlider
     {
         void onChangeSliderValue(GuiSliderMod guiSliderMod);
-    }
-    
-    /**
-     * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     */
-    @Override
-    protected void renderBackground(MatrixStack matrices, MinecraftClient client, int mouseX, int mouseY) {
     }
     
     /**
@@ -167,11 +155,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             
             String buttonText = getDisplayString();
             RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
-			this.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            DrawableHelper.drawCenteredText(ms, mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
+			DrawableHelper.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
+			DrawableHelper.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			DrawableHelper.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
+			DrawableHelper.drawTexture(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            DrawableHelper.drawCenteredTextWithShadow(ms, mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
     

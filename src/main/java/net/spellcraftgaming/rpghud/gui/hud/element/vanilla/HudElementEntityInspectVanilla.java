@@ -48,7 +48,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             bind(DAMAGE_INDICATOR);
-            gui.drawTexture(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
+            DrawableHelper.drawTexture(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
@@ -56,7 +56,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             ms.scale(0.5f, 0.5f, 0.5f);
-            DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             ms.scale(2f, 2f, 2f);
 
             int x = (posX - 29 + 44 - this.mc.textRenderer.getWidth(focused.getName().getString()) / 2);
@@ -70,10 +70,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 if(armor > 0) {
                     String value = String.valueOf(armor);
                     bind(DAMAGE_INDICATOR);
-                    gui.drawTexture(ms, posX - 26, posY+44, 0, 36, 19, 8);
+                    DrawableHelper.drawTexture(ms, posX - 26, posY+44, 0, 36, 19, 8);
                     bind(DrawableHelper.GUI_ICONS_TEXTURE);
                     ms.scale(0.5f, 0.5f, 0.5f);
-                    gui.drawTexture(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    DrawableHelper.drawTexture(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
                     this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     ms.scale(2f, 2f, 2f);
                 }  

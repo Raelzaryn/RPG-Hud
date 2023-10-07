@@ -43,7 +43,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
             clockColor = getClockColor();
         }
         drawRect(ms, xOffset, yOffset, width, height, 0xA0000000);
-        DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
+        DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 

@@ -68,15 +68,15 @@ public class RenderOverlayMixin extends DrawableHelper {
                     if(v > 0) {
                         aa = m + z * 8;
                         if(z * 2 + 1 < v) {
-                            this.drawTexture(matrixStack, aa, s, 34, 9, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, aa, s, 34, 9, 9, 9);
                         }
 
                         if(z * 2 + 1 == v) {
-                            this.drawTexture(matrixStack, aa, s, 25, 9, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, aa, s, 25, 9, 9, 9);
                         }
 
                         if(z * 2 + 1 > v) {
-                            this.drawTexture(matrixStack, aa, s, 16, 9, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, aa, s, 16, 9, 9, 9);
                         }
                     }
                 }
@@ -138,32 +138,32 @@ public class RenderOverlayMixin extends DrawableHelper {
                         af = 5;
                     }
 
-                    this.drawTexture(matrixStack, ad, ae, 16 + ab * 9, 9 * af, 9, 9);
+                    DrawableHelper.drawTexture(matrixStack, ad, ae, 16 + ab * 9, 9 * af, 9, 9);
                     if(bl) {
                         if(z * 2 + 1 < j) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 54, 9 * af, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, ad, ae, aa + 54, 9 * af, 9, 9);
                         }
 
                         if(z * 2 + 1 == j) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 63, 9 * af, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, ad, ae, aa + 63, 9 * af, 9, 9);
                         }
                     }
 
                     if(u > 0) {
                         if(u == p && p % 2 == 1) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 153, 9 * af, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, ad, ae, aa + 153, 9 * af, 9, 9);
                             --u;
                         } else {
-                            this.drawTexture(matrixStack, ad, ae, aa + 144, 9 * af, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, ad, ae, aa + 144, 9 * af, 9, 9);
                             u -= 2;
                         }
                     } else {
                         if(z * 2 + 1 < i) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 36, 9 * af, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, ad, ae, aa + 36, 9 * af, 9, 9);
                         }
 
                         if(z * 2 + 1 == i) {
-                            this.drawTexture(matrixStack, ad, ae, aa + 45, 9 * af, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, ad, ae, aa + 45, 9 * af, 9, 9);
                         }
                     }
                 }
@@ -193,13 +193,13 @@ public class RenderOverlayMixin extends DrawableHelper {
                         }
 
                         al = n - ah * 8 - 9;
-                        this.drawTexture(matrixStack, al, ai, 16 + ak * 9, 27, 9, 9);
+                        DrawableHelper.drawTexture(matrixStack, al, ai, 16 + ak * 9, 27, 9, 9);
                         if(ah * 2 + 1 < k) {
-                            this.drawTexture(matrixStack, al, ai, ad + 36, 27, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, al, ai, ad + 36, 27, 9, 9);
                         }
 
                         if(ah * 2 + 1 == k) {
-                            this.drawTexture(matrixStack, al, ai, ad + 45, 27, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, al, ai, ad + 45, 27, 9, 9);
                         }
                     }
 
@@ -218,9 +218,9 @@ public class RenderOverlayMixin extends DrawableHelper {
 
                     for(int ar = 0; ar < ae + al; ++ar) {
                         if(ar < ae) {
-                            this.drawTexture(matrixStack, n - ar * 8 - 9, t, 16, 18, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, n - ar * 8 - 9, t, 16, 18, 9, 9);
                         } else {
-                            this.drawTexture(matrixStack, n - ar * 8 - 9, t, 25, 18, 9, 9);
+                            DrawableHelper.drawTexture(matrixStack, n - ar * 8 - 9, t, 25, 18, 9, 9);
                         }
                     }
                 }

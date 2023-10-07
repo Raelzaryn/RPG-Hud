@@ -35,7 +35,7 @@ public class HudElementClockVanilla extends HudElement {
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			ms.scale(0.5f, 0.5f, 0.5f);
-		DrawableHelper.drawStringWithShadow(ms, this.mc.textRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
+		DrawableHelper.drawTextWithShadow(ms, this.mc.textRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			ms.scale(2f, 2f, 2f);

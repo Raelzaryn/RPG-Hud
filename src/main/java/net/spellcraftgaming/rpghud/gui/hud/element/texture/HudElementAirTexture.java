@@ -31,8 +31,8 @@ public class HudElementAirTexture extends HudElement {
 		int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.air_position)[0];
 		int airAmount = this.mc.player.getAir();
 		double maxAir = this.mc.player.getMaxAir();
-		gui.drawTexture(ms, adjustedWidth - 70, height - 80, 0, 160, 141, 10);
-		gui.drawTexture(ms, adjustedWidth - 70, height - 80, 0, 140, (int) (141.0D * (airAmount / maxAir)), 10);
+		DrawableHelper.drawTexture(ms, adjustedWidth - 70, height - 80, 0, 160, 141, 10);
+		DrawableHelper.drawTexture(ms, adjustedWidth - 70, height - 80, 0, 140, (int) (141.0D * (airAmount / maxAir)), 10);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		bind(DrawableHelper.GUI_ICONS_TEXTURE);
 	}

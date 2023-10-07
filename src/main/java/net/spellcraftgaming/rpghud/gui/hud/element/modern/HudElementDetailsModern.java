@@ -191,7 +191,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.renderGuiItemHalfSizeModel(item, 6, 62 + this.offset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(item, 6, 62 + this.offset, 0.5f);
-				DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				ms.scale(2f, 2f, 2f);
 				this.offset += 20;
 			}
@@ -215,7 +215,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.renderGuiItemHalfSizeModel(item, 6, 62 + this.offset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(item, 6, 62 + this.offset, 0.5f);
-				DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				ms.scale(2f, 2f, 2f);
 				this.offset += 20;
 
@@ -256,7 +256,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				String s = "x " + z;
 				ms.scale(0.5f, 0.5f, 0.5f);
 				this.renderGuiItemHalfSizeModel(item, 6, 62 + this.offset);
-				DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+				DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 				ms.scale(2f, 2f, 2f);
 				this.offset += 20;
 			}
@@ -301,7 +301,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
 			this.renderGuiItemHalfSizeModel(this.itemArrow, 6, 62 + this.offset);
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
 			ms.scale(2f, 2f, 2f);
 			this.offset += 20;
 

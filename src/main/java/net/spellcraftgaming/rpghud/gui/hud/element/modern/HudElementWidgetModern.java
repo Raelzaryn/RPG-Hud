@@ -33,8 +33,8 @@ public class HudElementWidgetModern extends HudElement {
 		bind(getPlayerSkin(this.mc.player));
 		RenderSystem.disableDepthTest();
 		ms.scale(0.5f, 0.5f, 0.5f);
-		gui.drawTexture(ms, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
-		gui.drawTexture(ms, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
+		DrawableHelper.drawTexture(ms, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
+		DrawableHelper.drawTexture(ms, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
 		ms.scale(2f, 2f, 2f);
 	}
 }

@@ -27,19 +27,19 @@ public class HudElementWidgetHotbar extends HudElement {
 		bind(INTERFACE);
 		int posX = this.settings.getPositionValue(Settings.widget_position)[0];
 		int posY = scaledHeight + this.settings.getPositionValue(Settings.widget_position)[1];
-		gui.drawTexture(ms, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9, 0, 172, 251, 48);
+		DrawableHelper.drawTexture(ms, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9, 0, 172, 251, 48);
 
 		int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
 		int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
-			gui.drawTexture(ms, posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52);
+			DrawableHelper.drawTexture(ms, posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52);
 			bind(getPlayerSkin(this.mc.player));
 			ms.scale(0.5f, 0.5f, 0.5f);
-			gui.drawTexture(ms, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 32, 32, 32, 32);
-			gui.drawTexture(ms, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 160, 32, 32, 32);
+			DrawableHelper.drawTexture(ms, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 32, 32, 32, 32);
+			DrawableHelper.drawTexture(ms, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 160, 32, 32, 32);
 			ms.scale(2f, 2f, 2f);
 		} else {
-			gui.drawTexture(ms, posX, posY - 12 - 52 + 7, 214, 58, 26, 42);
+			DrawableHelper.drawTexture(ms, posX, posY - 12 - 52 + 7, 214, 58, 26, 42);
 		}
 		bind(AbstractParentElement.GUI_ICONS_TEXTURE);
 	}

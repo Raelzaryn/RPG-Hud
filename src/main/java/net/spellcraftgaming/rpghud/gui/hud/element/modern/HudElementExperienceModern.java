@@ -38,7 +38,7 @@ public class HudElementExperienceModern extends HudElement {
 			int width2 = this.mc.textRenderer.getWidth(stringExp) / 2;
 			drawRect(ms, 1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
 			ms.scale(0.5f, 0.5f, 0.5f);
-			DrawableHelper.drawCenteredText(ms, this.mc.textRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
+			DrawableHelper.drawCenteredTextWithShadow(ms, this.mc.textRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
 			ms.scale(2f, 2f, 2f);
 		}
 	}

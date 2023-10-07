@@ -75,10 +75,10 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        gui.drawTexture(ms, k, l, 165, 166, 24, 24);
+                        DrawableHelper.drawTexture(ms, k, l, 165, 166, 24, 24);
                     } else {
                         // Background Regular
-                        gui.drawTexture(ms, k, l, 141, 166, 24, 24);
+                        DrawableHelper.drawTexture(ms, k, l, 141, 166, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
                             f = MathHelper.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
@@ -89,7 +89,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
                     bind(textureatlassprite.getAtlasId());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    DrawableHelper.drawSprite(ms, k + 3, l + 3, gui.getZOffset(), 18, 18, textureatlassprite);
+                    DrawableHelper.drawSprite(ms, k + 3, l + 3, 1, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;

@@ -74,16 +74,16 @@ public class HudElementHotbarModern extends HudElement {
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 3 - 9 + 4 + posY;
-				this.renderHotbarItem(i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l));
+				this.renderHotbarItem(ms, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l));
 			}
 
 			if (itemstack != ItemStack.EMPTY) {
 				int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
 				if (enumhandside == Arm.LEFT) {
-					this.renderHotbarItem(i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(ms, i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
 				} else {
-					this.renderHotbarItem(i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
+					this.renderHotbarItem(ms, i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
 				}
 			}
 
@@ -101,8 +101,8 @@ public class HudElementHotbarModern extends HudElement {
 					bind(DrawableHelper.GUI_ICONS_TEXTURE);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					gui.drawTexture(ms, j2, i2 - 9, 0, 94, 18, 18);
-					gui.drawTexture(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					DrawableHelper.drawTexture(ms, j2, i2 - 9, 0, 94, 18, 18);
+					DrawableHelper.drawTexture(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 
