@@ -9,7 +9,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.Hud;
 import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
 import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
@@ -91,50 +90,38 @@ public class ModRPGHud implements ClientModInitializer{
 	    }
 	}
 	
+    @Environment(value=EnvType.CLIENT)
     public static enum HeartTypeNew {
-        CONTAINER(new Identifier("hud/heart/container"), new Identifier("hud/heart/container_blinking"), new Identifier("hud/heart/container"), new Identifier("hud/heart/container_blinking"), new Identifier("hud/heart/container_hardcore"), new Identifier("hud/heart/container_hardcore_blinking"), new Identifier("hud/heart/container_hardcore"), new Identifier("hud/heart/container_hardcore_blinking")),
-        NORMAL(new Identifier("hud/heart/full"), new Identifier("hud/heart/full_blinking"), new Identifier("hud/heart/half"), new Identifier("hud/heart/half_blinking"), new Identifier("hud/heart/hardcore_full"), new Identifier("hud/heart/hardcore_full_blinking"), new Identifier("hud/heart/hardcore_half"), new Identifier("hud/heart/hardcore_half_blinking")),
-        POISONED(new Identifier("hud/heart/poisoned_full"), new Identifier("hud/heart/poisoned_full_blinking"), new Identifier("hud/heart/poisoned_half"), new Identifier("hud/heart/poisoned_half_blinking"), new Identifier("hud/heart/poisoned_hardcore_full"), new Identifier("hud/heart/poisoned_hardcore_full_blinking"), new Identifier("hud/heart/poisoned_hardcore_half"), new Identifier("hud/heart/poisoned_hardcore_half_blinking")),
-        WITHERED(new Identifier("hud/heart/withered_full"), new Identifier("hud/heart/withered_full_blinking"), new Identifier("hud/heart/withered_half"), new Identifier("hud/heart/withered_half_blinking"), new Identifier("hud/heart/withered_hardcore_full"), new Identifier("hud/heart/withered_hardcore_full_blinking"), new Identifier("hud/heart/withered_hardcore_half"), new Identifier("hud/heart/withered_hardcore_half_blinking")),
-        ABSORBING(new Identifier("hud/heart/absorbing_full"), new Identifier("hud/heart/absorbing_full_blinking"), new Identifier("hud/heart/absorbing_half"), new Identifier("hud/heart/absorbing_half_blinking"), new Identifier("hud/heart/absorbing_hardcore_full"), new Identifier("hud/heart/absorbing_hardcore_full_blinking"), new Identifier("hud/heart/absorbing_hardcore_half"), new Identifier("hud/heart/absorbing_hardcore_half_blinking")),
-        FROZEN(new Identifier("hud/heart/frozen_full"), new Identifier("hud/heart/frozen_full_blinking"), new Identifier("hud/heart/frozen_half"), new Identifier("hud/heart/frozen_half_blinking"), new Identifier("hud/heart/frozen_hardcore_full"), new Identifier("hud/heart/frozen_hardcore_full_blinking"), new Identifier("hud/heart/frozen_hardcore_half"), new Identifier("hud/heart/frozen_hardcore_half_blinking"));
+        CONTAINER(0, false),
+        NORMAL(2, true),
+        POISONED(4, true),
+        WITHERED(6, true),
+        ABSORBING(8, false),
+        FROZEN(9, false);
 
-        private final Identifier fullTexture;
-        private final Identifier fullBlinkingTexture;
-        private final Identifier halfTexture;
-        private final Identifier halfBlinkingTexture;
-        private final Identifier hardcoreFullTexture;
-        private final Identifier hardcoreFullBlinkingTexture;
-        private final Identifier hardcoreHalfTexture;
-        private final Identifier hardcoreHalfBlinkingTexture;
+        private final int textureIndex;
+        private final boolean hasBlinkingTexture;
 
-        private HeartTypeNew(Identifier fullTexture, Identifier fullBlinkingTexture, Identifier halfTexture, Identifier halfBlinkingTexture, Identifier hardcoreFullTexture, Identifier hardcoreFullBlinkingTexture, Identifier hardcoreHalfTexture, Identifier hardcoreHalfBlinkingTexture) {
-            this.fullTexture = fullTexture;
-            this.fullBlinkingTexture = fullBlinkingTexture;
-            this.halfTexture = halfTexture;
-            this.halfBlinkingTexture = halfBlinkingTexture;
-            this.hardcoreFullTexture = hardcoreFullTexture;
-            this.hardcoreFullBlinkingTexture = hardcoreFullBlinkingTexture;
-            this.hardcoreHalfTexture = hardcoreHalfTexture;
-            this.hardcoreHalfBlinkingTexture = hardcoreHalfBlinkingTexture;
+        HeartTypeNew(int textureIndex, boolean hasBlinkingTexture) {
+            this.textureIndex = textureIndex;
+            this.hasBlinkingTexture = hasBlinkingTexture;
         }
 
-        public Identifier getTexture(boolean hardcore, boolean half, boolean blinking) {
-            if (!hardcore) {
-                if (half) {
-                    return blinking ? this.halfBlinkingTexture : this.halfTexture;
-                }
-                return blinking ? this.fullBlinkingTexture : this.fullTexture;
+        public int getU(boolean halfHeart, boolean blinking) {
+            int i;
+            if (this == CONTAINER) {
+                i = blinking ? 1 : 0;
+            } else {
+                int j = halfHeart ? 1 : 0;
+                int k = this.hasBlinkingTexture && blinking ? 2 : 0;
+                i = j + k;
             }
-            if (half) {
-                return blinking ? this.hardcoreHalfBlinkingTexture : this.hardcoreHalfTexture;
-            }
-            return blinking ? this.hardcoreFullBlinkingTexture : this.hardcoreFullTexture;
+            return 16 + (this.textureIndex * 2 + i) * 9;
         }
 
         public static HeartTypeNew fromPlayerState(PlayerEntity player) {
-            HeartTypeNew HeartTypeNew = player.hasStatusEffect(StatusEffects.POISON) ? POISONED : (player.hasStatusEffect(StatusEffects.WITHER) ? WITHERED : (player.isFrozen() ? FROZEN : NORMAL));
-            return HeartTypeNew;
+            HeartTypeNew heartType = player.hasStatusEffect(StatusEffects.POISON) ? POISONED : (player.hasStatusEffect(StatusEffects.WITHER) ? WITHERED : (player.isFrozen() ? FROZEN : NORMAL));
+            return heartType;
         }
     }
 }

@@ -98,8 +98,8 @@ public class HudElementHotbarModern extends HudElement {
 
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					dc.drawGuiTexture(HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2 - 9, 18, 18);
-					dc.drawGuiTexture(HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 - 9 + 18 - k1, 18, k1);
+					dc.drawTexture(ICONS, j2, i2 - 9, 0, 94, 18, 18);
+					dc.drawTexture(ICONS, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

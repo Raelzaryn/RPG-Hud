@@ -33,7 +33,7 @@ public class HudElementArmorSimple extends HudElement{
 			int width2 = 1 + 9 + 2 + this.mc.textRenderer.getWidth(String.valueOf(level)) + 2;
 			drawRect(dc, left, top, width2, height, 0xA0000000);
 			dc.drawText(this.mc.textRenderer, String.valueOf(level), left + 12, top + 2, -1, false);
-			dc.drawGuiTexture(ARMOR_FULL_TEXTURE, left + 1, top + 1, 9, 9);
+			dc.drawTexture(ICONS, left + 1, top + 1, 34, 9, 9, 9);
 		}
 		
 		scale = getInvertedScale();

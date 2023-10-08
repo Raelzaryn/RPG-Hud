@@ -50,7 +50,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.getDebugHud().shouldShowDebugHud() && !this.isChatOpen();
+		return !this.mc.options.debugEnabled && !this.isChatOpen();
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public boolean checkConditions() {
-        return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.getDebugHud().shouldShowDebugHud()
+        return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.options.debugEnabled
                 && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
     }
 

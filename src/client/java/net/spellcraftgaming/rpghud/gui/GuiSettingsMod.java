@@ -162,7 +162,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 	@Override
 	public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(dc, mouseX, mouseY, partialTicks);
+		this.renderBackground(dc);
 		dc.drawCenteredTextWithShadow(client.textRenderer, I18n.translate("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<TextFieldWidget> positionPairs : textFields.values()) {
 			for(TextFieldWidget t : positionPairs)

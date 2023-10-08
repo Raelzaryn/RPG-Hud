@@ -6,7 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
@@ -17,25 +16,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		GREEN,
 		BLUE;
 	}
-	
-    private static final Identifier TEXTURE = new Identifier("widget/slider");
-    private static final Identifier HIGHLIGHTED_TEXTURE = new Identifier("widget/slider_highlighted");
-    private static final Identifier HANDLE_TEXTURE = new Identifier("widget/slider_handle");
-    private static final Identifier HANDLE_HIGHLIGHTED_TEXTURE = new Identifier("widget/slider_handle_highlighted");
-    
-    private Identifier getTexture() {
-        if (this.isFocused() && !this.isFocused()) {
-            return HIGHLIGHTED_TEXTURE;
-        }
-        return TEXTURE;
-    }
-
-    private Identifier getHandleTexture() {
-        if (this.hovered || this.isFocused()) {
-            return HANDLE_HIGHLIGHTED_TEXTURE;
-        }
-        return HANDLE_TEXTURE;
-    }
     
 	private EnumColor color;
 
@@ -183,10 +163,10 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-            //RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-            
-            dc.drawGuiTexture(this.getTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-            dc.drawGuiTexture(this.getHandleTexture(), this.getX() + (int)(this.value * (double)(this.width - 8)), this.getY(), 8, this.getHeight());
+			dc.drawTexture(WIDGETS_TEXTURE, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
+			dc.drawTexture(WIDGETS_TEXTURE, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			dc.drawTexture(WIDGETS_TEXTURE, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
+			dc.drawTexture(WIDGETS_TEXTURE, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
             dc.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             dc.drawCenteredTextWithShadow(mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }

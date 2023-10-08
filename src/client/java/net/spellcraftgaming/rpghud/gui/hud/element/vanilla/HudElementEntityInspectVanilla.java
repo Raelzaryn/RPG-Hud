@@ -72,7 +72,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     String value = String.valueOf(armor);
                     dc.drawTexture(DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8);
                     dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-                    dc.drawGuiTexture(ARMOR_FULL_TEXTURE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
+                    dc.drawTexture(ICONS, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
                     this.drawStringWithBackground(dc,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     dc.getMatrices().scale(2f, 2f, 2f);
                 }  

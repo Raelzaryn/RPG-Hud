@@ -29,13 +29,13 @@ public class HudElementArmorDefault extends HudElement {
             if (level <= 0) continue;
             x = left + w * 8;
             if (w * 2 + 1 < level) {
-                dc.drawGuiTexture(ARMOR_FULL_TEXTURE, x + 48, top - 2, 9, 9);
+            	dc.drawTexture(ICONS, x + 48, top - 2, 34, 9, 9, 9);
             }
             if (w * 2 + 1 == level) {
-                dc.drawGuiTexture(ARMOR_HALF_TEXTURE, x + 48, top - 2, 9, 9);
+            	dc.drawTexture(ICONS, x + 48, top - 2, 25, 9, 9, 9);
             }
             if (w * 2 + 1 <= level) continue;
-            dc.drawGuiTexture(ARMOR_EMPTY_TEXTURE, x + 48, top - 2, 9, 9);
+            	dc.drawTexture(ICONS, x + 48, top - 2, 16, 9, 9, 9);
         }
 	}
 

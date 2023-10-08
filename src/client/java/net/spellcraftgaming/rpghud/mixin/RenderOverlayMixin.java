@@ -23,24 +23,14 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.main.ModRPGHud.HeartTypeNew;
 import net.spellcraftgaming.rpghud.main.RenderOverlay;
 
 @Environment(value=EnvType.CLIENT)
 @Mixin(InGameHud.class)
 public class RenderOverlayMixin {
 	
-    private static final Identifier ARMOR_EMPTY_TEXTURE = new Identifier("hud/armor_empty");
-    private static final Identifier ARMOR_HALF_TEXTURE = new Identifier("hud/armor_half");
-    private static final Identifier ARMOR_FULL_TEXTURE = new Identifier("hud/armor_full");
-    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = new Identifier("hud/food_empty_hunger");
-    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = new Identifier("hud/food_half_hunger");
-    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = new Identifier("hud/food_full_hunger");
-    private static final Identifier FOOD_EMPTY_TEXTURE = new Identifier("hud/food_empty");
-    private static final Identifier FOOD_HALF_TEXTURE = new Identifier("hud/food_half");
-    private static final Identifier FOOD_FULL_TEXTURE = new Identifier("hud/food_full");
-    private static final Identifier AIR_TEXTURE = new Identifier("hud/air");
-    private static final Identifier AIR_BURSTING_TEXTURE = new Identifier("hud/air_bursting");
+    private static final Identifier ICONS = new Identifier("textures/gui/icons.png");
     
     private int lastHealthValue;
     private int renderHealthValue;
@@ -60,6 +50,8 @@ public class RenderOverlayMixin {
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
         Random random = new Random();
+        int ac;
+        int ab;
         int aa;
         int z;
         int y;
@@ -108,18 +100,18 @@ public class RenderOverlayMixin {
 	            if (u <= 0) continue;
 	            x = m + w * 8;
 	            if (w * 2 + 1 < u) {
-	                dc.drawGuiTexture(ARMOR_FULL_TEXTURE, x, s, 9, 9);
+	                dc.drawTexture(ICONS, x, s, 34, 9, 9, 9);
 	            }
 	            if (w * 2 + 1 == u) {
-	                dc.drawGuiTexture(ARMOR_HALF_TEXTURE, x, s, 9, 9);
+	                dc.drawTexture(ICONS, x, s, 25, 9, 9, 9);
 	            }
 	            if (w * 2 + 1 <= u) continue;
-	            dc.drawGuiTexture(ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
+	            dc.drawTexture(ICONS, x, s, 16, 9, 9, 9);
 	        }
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.HEALTH)) {
-        	client.getProfiler().swap("health");
-        	renderHealthBar(dc, random, playerEntity, m, o, r, v, f, i, j, p, bl);
+	        client.getProfiler().swap("health");
+	        this.renderHealthBar(dc, random, playerEntity, m, o, r, v, f, i, j, p, bl);
         }
         LivingEntity livingEntity = this.getRiddenEntity();
         x = this.getHeartCount(livingEntity);
@@ -127,29 +119,23 @@ public class RenderOverlayMixin {
 	        if (x == 0) {
 	            client.getProfiler().swap("food");
 	            for (y = 0; y < 10; ++y) {
-	                Identifier identifier3;
-	                Identifier identifier2;
-	                Identifier identifier;
 	                z = o;
+	                aa = 16;
+	                ab = 0;
 	                if (playerEntity.hasStatusEffect(StatusEffects.HUNGER)) {
-	                    identifier = FOOD_EMPTY_HUNGER_TEXTURE;
-	                    identifier2 = FOOD_HALF_HUNGER_TEXTURE;
-	                    identifier3 = FOOD_FULL_HUNGER_TEXTURE;
-	                } else {
-	                    identifier = FOOD_EMPTY_TEXTURE;
-	                    identifier2 = FOOD_HALF_TEXTURE;
-	                    identifier3 = FOOD_FULL_TEXTURE;
+	                    aa += 36;
+	                    ab = 13;
 	                }
 	                if (playerEntity.getHungerManager().getSaturationLevel() <= 0.0f && this.ticks % (k * 3 + 1) == 0) {
 	                    z += random.nextInt(3) - 1;
 	                }
-	                aa = n - y * 8 - 9;
-	                dc.drawGuiTexture(identifier, aa, z, 9, 9);
+	                ac = n - y * 8 - 9;
+	                dc.drawTexture(ICONS, ac, z, 16 + ab * 9, 27, 9, 9);
 	                if (y * 2 + 1 < k) {
-	                    dc.drawGuiTexture(identifier3, aa, z, 9, 9);
+	                    dc.drawTexture(ICONS, ac, z, aa + 36, 27, 9, 9);
 	                }
 	                if (y * 2 + 1 != k) continue;
-	                dc.drawGuiTexture(identifier2, aa, z, 9, 9);
+	                dc.drawTexture(ICONS, ac, z, aa + 45, 27, 9, 9);
 	            }
 	            t -= 10;
 	        }
@@ -159,16 +145,16 @@ public class RenderOverlayMixin {
 	        y = playerEntity.getMaxAir();
 	        z = Math.min(playerEntity.getAir(), y);
 	        if (playerEntity.isSubmergedIn(FluidTags.WATER) || z < y) {
-	            int ab = this.getHeartRows(x) - 1;
-	            t -= ab * 10;
-	            int ac = MathHelper.ceil((double)((double)(z - 2) * 10.0 / (double)y));
-	            int ad = MathHelper.ceil((double)((double)z * 10.0 / (double)y)) - ac;
-	            for (aa = 0; aa < ac + ad; ++aa) {
-	                if (aa < ac) {
-	                    dc.drawGuiTexture(AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	            aa = this.getHeartRows(x) - 1;
+	            t -= aa * 10;
+	            ab = MathHelper.ceil((double)((double)(z - 2) * 10.0 / (double)y));
+	            ac = MathHelper.ceil((double)((double)z * 10.0 / (double)y)) - ab;
+	            for (int ad = 0; ad < ab + ac; ++ad) {
+	                if (ad < ab) {
+	                    dc.drawTexture(ICONS, n - ad * 8 - 9, t, 16, 18, 9, 9);
 	                    continue;
 	                }
-	                dc.drawGuiTexture(AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                dc.drawTexture(ICONS, n - ad * 8 - 9, t, 25, 18, 9, 9);
 	            }
 	        }
         }
@@ -247,43 +233,44 @@ public class RenderOverlayMixin {
     }
     
     private void renderHealthBar(DrawContext context, Random random, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking) {
-    	ModRPGHud.HeartTypeNew HeartTypeNew = ModRPGHud.HeartTypeNew.fromPlayerState(player);
-        boolean bl = player.getWorld().getLevelProperties().isHardcore();
-        int i = MathHelper.ceil((double)((double)maxHealth / 2.0));
-        int j = MathHelper.ceil((double)((double)absorption / 2.0));
-        int k = i * 2;
-        for (int l = i + j - 1; l >= 0; --l) {
-            boolean bl4;
-            int r;
-            boolean bl2;
-            int m = l / 10;
-            int n = l % 10;
-            int o = x + n * 8;
-            int p = y - m * lines;
+        HeartTypeNew heartType = HeartTypeNew.fromPlayerState(player);
+        int i = 9 * (player.getWorld().getLevelProperties().isHardcore() ? 5 : 0);
+        int j = MathHelper.ceil((double)((double)maxHealth / 2.0));
+        int k = MathHelper.ceil((double)((double)absorption / 2.0));
+        int l = j * 2;
+        for (int m = j + k - 1; m >= 0; --m) {
+            boolean bl3;
+            int s;
+            boolean bl;
+            int n = m / 10;
+            int o = m % 10;
+            int p = x + o * 8;
+            int q = y - n * lines;
             if (lastHealth + absorption <= 4) {
-                p += random.nextInt(2);
+                q += random.nextInt(2);
             }
-            if (l < i && l == regeneratingHeartIndex) {
-                p -= 2;
+            if (m < j && m == regeneratingHeartIndex) {
+                q -= 2;
             }
-            this.drawHeart(context, ModRPGHud.HeartTypeNew.CONTAINER, o, p, bl, blinking, false);
-            int q = l * 2;
-            bl2 = l >= i;
-            if (bl2 && (r = q - k) < absorption) {
-                boolean bl32 = r + 1 == absorption;
-                this.drawHeart(context, HeartTypeNew == ModRPGHud.HeartTypeNew.WITHERED ? HeartTypeNew : ModRPGHud.HeartTypeNew.ABSORBING, o, p, bl, false, bl32);
+            this.drawHeart(context, HeartTypeNew.CONTAINER, p, q, i, blinking, false);
+            int r = m * 2;
+            bl = m >= j;
+            if (bl && (s = r - l) < absorption) {
+                boolean bl22 = s + 1 == absorption;
+                this.drawHeart(context, heartType == HeartTypeNew.WITHERED ? heartType : HeartTypeNew.ABSORBING, p, q, i, false, bl22);
             }
-            if (blinking && q < health) {
-                bl4 = q + 1 == health;
-                this.drawHeart(context, HeartTypeNew, o, p, bl, true, bl4);
+            if (blinking && r < health) {
+                bl3 = r + 1 == health;
+                this.drawHeart(context, heartType, p, q, i, true, bl3);
             }
-            if (q >= lastHealth) continue;
-            bl4 = q + 1 == lastHealth;
-            this.drawHeart(context, HeartTypeNew, o, p, bl, false, bl4);
+            if (r >= lastHealth) continue;
+            bl3 = r + 1 == lastHealth;
+            this.drawHeart(context, heartType, p, q, i, false, bl3);
         }
     }
     
-    private void drawHeart(DrawContext context, ModRPGHud.HeartTypeNew type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
-        context.drawGuiTexture(type.getTexture(hardcore, half, blinking), x, y, 9, 9);
+    private void drawHeart(DrawContext context, HeartTypeNew type, int x, int y, int v, boolean blinking, boolean halfHeart) {
+        context.drawTexture(ICONS, x, y, type.getU(halfHeart, blinking), v, 9, 9);
     }
+   
 }

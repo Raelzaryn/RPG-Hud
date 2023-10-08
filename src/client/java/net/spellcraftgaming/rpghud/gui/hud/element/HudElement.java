@@ -65,41 +65,7 @@ public abstract class HudElement {
     /** ResourceLocation of the interface texture for the RPG-HUD */
     protected static final Identifier INTERFACE = new Identifier("rpghud:textures/interface.png");
     
-    protected static final Identifier CROSSHAIR_TEXTURE = new Identifier("hud/crosshair");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE = new Identifier("hud/crosshair_attack_indicator_full");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = new Identifier("hud/crosshair_attack_indicator_background");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE = new Identifier("hud/crosshair_attack_indicator_progress");
-    protected static final Identifier EFFECT_BACKGROUND_AMBIENT_TEXTURE = new Identifier("hud/effect_background_ambient");
-    protected static final Identifier EFFECT_BACKGROUND_TEXTURE = new Identifier("hud/effect_background");
-    protected static final Identifier HOTBAR_TEXTURE = new Identifier("hud/hotbar");
-    protected static final Identifier HOTBAR_SELECTION_TEXTURE = new Identifier("hud/hotbar_selection");
-    protected static final Identifier HOTBAR_OFFHAND_LEFT_TEXTURE = new Identifier("hud/hotbar_offhand_left");
-    protected static final Identifier HOTBAR_OFFHAND_RIGHT_TEXTURE = new Identifier("hud/hotbar_offhand_right");
-    protected static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = new Identifier("hud/hotbar_attack_indicator_background");
-    protected static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE = new Identifier("hud/hotbar_attack_indicator_progress");
-    protected static final Identifier JUMP_BAR_BACKGROUND_TEXTURE = new Identifier("hud/jump_bar_background");
-    protected static final Identifier JUMP_BAR_COOLDOWN_TEXTURE = new Identifier("hud/jump_bar_cooldown");
-    protected static final Identifier JUMP_BAR_PROGRESS_TEXTURE = new Identifier("hud/jump_bar_progress");
-    protected static final Identifier EXPERIENCE_BAR_BACKGROUND_TEXTURE = new Identifier("hud/experience_bar_background");
-    protected static final Identifier EXPERIENCE_BAR_PROGRESS_TEXTURE = new Identifier("hud/experience_bar_progress");
-    protected static final Identifier ARMOR_EMPTY_TEXTURE = new Identifier("hud/armor_empty");
-    protected static final Identifier ARMOR_HALF_TEXTURE = new Identifier("hud/armor_half");
-    protected static final Identifier ARMOR_FULL_TEXTURE = new Identifier("hud/armor_full");
-    protected static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = new Identifier("hud/food_empty_hunger");
-    protected static final Identifier FOOD_HALF_HUNGER_TEXTURE = new Identifier("hud/food_half_hunger");
-    protected static final Identifier FOOD_FULL_HUNGER_TEXTURE = new Identifier("hud/food_full_hunger");
-    protected static final Identifier FOOD_EMPTY_TEXTURE = new Identifier("hud/food_empty");
-    protected static final Identifier FOOD_HALF_TEXTURE = new Identifier("hud/food_half");
-    protected static final Identifier FOOD_FULL_TEXTURE = new Identifier("hud/food_full");
-    protected static final Identifier AIR_TEXTURE = new Identifier("hud/air");
-    protected static final Identifier AIR_BURSTING_TEXTURE = new Identifier("hud/air_bursting");
-    protected static final Identifier VEHICLE_CONTAINER_HEART_TEXTURE = new Identifier("hud/heart/vehicle_container");
-    protected static final Identifier VEHICLE_FULL_HEART_TEXTURE = new Identifier("hud/heart/vehicle_full");
-    protected static final Identifier VEHICLE_HALF_HEART_TEXTURE = new Identifier("hud/heart/vehicle_half");
-    protected static final Identifier VIGNETTE_TEXTURE = new Identifier("textures/misc/vignette.png");
-    protected static final Identifier PUMPKIN_BLUR = new Identifier("textures/misc/pumpkinblur.png");
-    protected static final Identifier SPYGLASS_SCOPE = new Identifier("textures/misc/spyglass_scope.png");
-    protected static final Identifier POWDER_SNOW_OUTLINE = new Identifier("textures/misc/powder_snow_outline.png");
+    protected static final Identifier ICONS = new Identifier("textures/gui/icons.png");
 
     public static final int OFFSET_PERCENT = 25;
 
@@ -629,7 +595,7 @@ public abstract class HudElement {
      * @return the ResourceLocation
      */
     protected static Identifier getPlayerSkin(ClientPlayerEntity player) {
-        return player.getSkinTextures().texture();
+        return player.getSkinTexture();
     }
     
        /**

@@ -37,10 +37,10 @@ public class HudElementHotbarHotbar extends HudElement {
 			zLevel = -90.0F;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			dc.drawGuiTexture(HOTBAR_TEXTURE, posX, scaledHeight - 47 + posY, 182, 22);
-			dc.drawGuiTexture(HOTBAR_SELECTION_TEXTURE, posX + entityplayer.getInventory().selectedSlot * 20, scaledHeight - 47 - 1 + posY, 24, 22);
+			dc.drawTexture(WIDGETS_TEX_PATH, posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
+			dc.drawTexture(WIDGETS_TEX_PATH, posX + entityplayer.getInventory().selectedSlot * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
 
-			dc.drawGuiTexture(HOTBAR_OFFHAND_RIGHT_TEXTURE, posX + 181, scaledHeight - 47 + posY, 22, 22);
+			dc.drawTexture(WIDGETS_TEX_PATH, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
 
 			zLevel = f;
 			RenderSystem.enableBlend();
@@ -64,8 +64,8 @@ public class HudElementHotbarHotbar extends HudElement {
 
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					dc.drawGuiTexture(HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2 - 9, 18, 18);
-					dc.drawGuiTexture(HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 - 9 + 18 - k1, 18, k1);
+					dc.drawTexture(ICONS, j2, i2 - 9, 0, 94, 18, 18);
+					dc.drawTexture(ICONS, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

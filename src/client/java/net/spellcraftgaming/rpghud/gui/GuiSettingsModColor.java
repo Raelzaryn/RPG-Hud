@@ -218,7 +218,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	@Override
 	public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
 		TextRenderer textRenderer = client.textRenderer;
-		this.renderBackground(dc, mouseX, mouseY, partialTicks);
+		this.renderBackground(dc);
 		dc.drawCenteredTextWithShadow(textRenderer, this.title, this.width / 2, 12, -1);
 		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
 		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);

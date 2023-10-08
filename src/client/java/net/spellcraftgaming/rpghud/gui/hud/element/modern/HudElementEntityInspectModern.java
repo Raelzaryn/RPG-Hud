@@ -46,7 +46,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
                     String value = String.valueOf(armor);
                     drawRect(dc, posX - 30, posY + 42, 8 + (mc.textRenderer.getWidth(value) / 2), 6, 0xA0000000);
                     dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-                    dc.drawGuiTexture(ARMOR_FULL_TEXTURE, (posX - 30) * 2, (posY + 42) * 2, 9, 9);
+                    dc.drawTexture(ICONS, (posX - 30) * 2, (posY + 42) * 2, 34, 9, 9, 9);
                     dc.drawText(this.mc.textRenderer, value, (posX - 24) * 2, (posY + 42) * 2 + 1, -1, false);
                     dc.getMatrices().scale(2f, 2f, 2f);
                 }
