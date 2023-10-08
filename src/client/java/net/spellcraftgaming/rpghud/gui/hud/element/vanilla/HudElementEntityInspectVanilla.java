@@ -121,7 +121,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.bodyYaw = 180.0F + f * 20.0F;
         entity.setYaw(180.0F + f * 40.0F);
         entity.setPitch(-g * 20.0F);
-        entity.headYaw = entity.getYaw() + -35f;
+        entity.headYaw = entity.getYaw() -35f;
         entity.prevHeadYaw = entity.getYaw();
         entity.limbAnimator.setSpeed(0);
         DiffuseLighting.method_34742();
