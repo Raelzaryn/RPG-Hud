@@ -118,11 +118,13 @@ public class HudElementEntityInspectVanilla extends HudElement {
         float j = entity.getPitch();
         float k = entity.prevHeadYaw;
         float l = entity.headYaw;
+        float m = entity.limbAnimator.getSpeed();
         entity.bodyYaw = 180.0F + f * 20.0F;
         entity.setYaw(180.0F + f * 40.0F);
         entity.setPitch(-g * 20.0F);
-        entity.headYaw = entity.getYaw();
+        entity.headYaw = entity.getYaw() -35f;
         entity.prevHeadYaw = entity.getYaw();
+        entity.limbAnimator.setSpeed(0);
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         quaternion2.conjugate();
@@ -137,6 +139,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.setPitch(j);
         entity.prevHeadYaw = k;
         entity.headYaw = l;
+        entity.limbAnimator.setSpeed(m);
         ms.pop();
         RenderSystem.applyModelViewMatrix();
         DiffuseLighting.enableGuiDepthLighting();
