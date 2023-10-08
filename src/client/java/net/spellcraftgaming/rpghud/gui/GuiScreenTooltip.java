@@ -3,8 +3,6 @@ package net.spellcraftgaming.rpghud.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -87,7 +85,7 @@ public class GuiScreenTooltip extends Screen {
                     reverseY = true;
 
                 if(reverseY) {
-                	HudElement.drawRect(dc, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 0, 0xB8000000);
+                	HudElement.drawRect(dc, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 } else {
                 	HudElement.drawRect(dc, posX, posY, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 }
@@ -116,9 +114,7 @@ public class GuiScreenTooltip extends Screen {
         }
 
         public void render(Screen gui, DrawContext dc) {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            dc.drawText(client.textRenderer, text, x, y, 0xFFFFFFFF, false);
+            dc.drawText(client.textRenderer, text, x, y, 0xFFFFFFFF, true);
         }
     }
 
