@@ -87,7 +87,7 @@ public class GuiScreenTooltip extends Screen {
                     reverseY = true;
 
                 if(reverseY) {
-                	HudElement.drawRect(dc, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 0, 0xB8000000);
+                	HudElement.drawRect(dc, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xB8000000);
                 } else {
                 	HudElement.drawRect(dc, posX, posY, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 }
