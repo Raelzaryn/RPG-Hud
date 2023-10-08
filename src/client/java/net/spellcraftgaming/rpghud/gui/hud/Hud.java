@@ -13,6 +13,7 @@ import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH_
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HOTBAR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.JUMP_BAR;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.LEVEL;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.MISC;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.STATUS_EFFECTS;
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
 
@@ -68,6 +69,7 @@ public abstract class Hud {
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
 	    this.elements.put(STATUS_EFFECTS, setElementStatusEffects());
+	    this.elements.put(MISC, setElementMisc());
 
 	}
 
@@ -128,6 +130,8 @@ public abstract class Hud {
 	protected abstract HudElement setElementEntityInspect();
 
     protected abstract HudElement setElementStatusEffects();
+    
+    protected abstract HudElement setElementMisc();
 	/**
 	 * Draws the an element of the HudElementType type on the screen
 	 * 

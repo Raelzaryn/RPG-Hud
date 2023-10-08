@@ -19,6 +19,7 @@
     "name.pickup": "Pickup Widget",
     "name.entity_inspect": "Entity Inspect",
     "name.status_effects": "Status Effects",
+    "name.misc": "Miscellaneous",
 
     "name.force_render": "Force Rendering",
     "name.render_vanilla": "Render Vanilla Element",
@@ -70,6 +71,8 @@
     "name.show_entity_armor": "Show Armor Value",
     "name.status_vertical" : "Render Vertically",
     "name.status_time" : "Show timer",
+    "name.enable_fps" : "Show FPS Counter",
+    "name.color_fps" : "FPS Counter Color",
 
     "name.health_percentage": "As Percentage",
     "name.hunger_percentage": "As Percentage",
@@ -95,8 +98,10 @@
     "name.widget_position": "HUD Pos",
     "name.chat_position": "Position",
     "name.armor_position": "Position",
+    "name.fps_position": "Position",
     
     "name.status_scale": "Scale",
+    "name.fps_scale": "FPS Scale",
     
     "name.rpghud": "RPG-Hud",
 

@@ -55,6 +55,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+		
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
 				dc.getMatrices().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);

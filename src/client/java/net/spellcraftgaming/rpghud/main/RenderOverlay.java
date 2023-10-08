@@ -44,6 +44,7 @@ public class RenderOverlay implements HudRenderCallback{
             
             
         }
+        this.drawElement(HudElementType.MISC, dc, partialTicks);
     }
 
     /**
