@@ -74,16 +74,18 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         dc.drawGuiTexture(EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
                     } else {
                         // Background Regular
-                    	dc.drawGuiTexture(EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
+                    	
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
-                            f = MathHelper.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
-                                    + MathHelper.cos((float) effectinstance.getDuration() * (float) Math.PI / 5.0F)
-                                            * MathHelper.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                            f = MathHelper.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.5F, 1F)
+                                    + MathHelper.cos((float) effectinstance.getDuration() * (float) Math.PI / 7F)
+                                            * MathHelper.clamp((float) i1 / 10.0F * 0.25F, 0.1F, 0.25F);
                         }
+                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
+                        dc.drawGuiTexture(EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
                     }
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
+                    
                     dc.drawSprite(k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
