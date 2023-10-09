@@ -6,8 +6,9 @@ out/
 classes/
 
 # eclipse
-
 *.launch
+remappedSrc/
+logs/
 
 # idea
 
@@ -23,6 +24,8 @@ classes/
 bin/
 .classpath
 .project
+LICENSE
+README.md
 
 # fabric
 
