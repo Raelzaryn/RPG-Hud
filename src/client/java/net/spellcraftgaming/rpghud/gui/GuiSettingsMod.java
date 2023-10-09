@@ -74,7 +74,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 							if(b.enumOptions != null){
 								this.client.setScreen(new GuiSettingsMod(instance, b.enumOptions, Text.translatable("gui.settings.rpghud")));
 							}
-					}).setTooltip(Text.translatable("tooltip.general").getString());
+					}).setTooltip(Text.translatable("tooltip." + type.name()).getString());
 					this.addDrawableChild(guismallbutton);
 					count++;
 				}
