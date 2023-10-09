@@ -37,10 +37,12 @@ public class HudElementLevelSimple extends HudElement{
 		} else {
 			drawRect(dc, 26 + this.settings.getPositionValue(Settings.level_position)[0], posY, width, 7, 0xA0000000);
 		}
-		dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-
-		dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 4, 0x80FF20);
-		dc.getMatrices().scale(2.0f, 2.0f, 2.0f);
+		float scale =0.5f;
+		if(this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
+		float invertedScale = 1f/scale;
+		dc.getMatrices().scale(scale, scale, scale);
+		dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + Math.ceil(invertedScale*4-4)), 0x80FF20);
+		dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
 		RenderSystem.enableBlend();
 	}
 

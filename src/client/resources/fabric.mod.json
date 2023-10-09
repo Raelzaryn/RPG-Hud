@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "rpg-hud",
-  "version": "3.10",
+  "version": "3.10.1",
 
   "name": "RPG-Hud",
   "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",

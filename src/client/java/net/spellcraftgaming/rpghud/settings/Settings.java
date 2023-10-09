@@ -121,6 +121,8 @@ public class Settings {
     public static final String prevent_event = "prevent_event";
     public static final String prevent_element_render = "prevent_element_render";
     
+    public static final String debug_number_size = "debug_number_size";
+    
 
 
     private File rpgHudDir() {
@@ -225,6 +227,8 @@ public class Settings {
         addSetting(level_position, new SettingPosition(level_position, HudElementType.LEVEL, 0, 0));
         addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
 
+        addSetting(debug_number_size, new SettingBoolean(debug_number_size, HudElementType.DEBUG, false));
+        
         addDebugSettings(HudElementType.ARMOR);
         addDebugSettings(HudElementType.HOTBAR);
         addDebugSettings(HudElementType.AIR);

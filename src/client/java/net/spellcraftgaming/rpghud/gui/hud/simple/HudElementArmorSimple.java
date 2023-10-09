@@ -42,12 +42,12 @@ public class HudElementArmorSimple extends HudElement{
 	
     @Override
     public int getPosX(int scaledWidth) {
-        return (int) ((scaledWidth / 2 - 91)*getInvertedScale() + this.settings.getPositionValue(Settings.armor_position)[0]);
+        return (int) Math.round((scaledWidth / 2 - 91)*getInvertedScale() + this.settings.getPositionValue(Settings.armor_position)[0]);
     }
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) ((scaledHeight - 29 - 11)*getInvertedScale() - getHeight(scaledHeight) + this.settings.getPositionValue(Settings.armor_position)[1]);
+        return (int) Math.round((scaledHeight - 29 - 11)*getInvertedScale() - getHeight(scaledHeight) + this.settings.getPositionValue(Settings.armor_position)[1]);
     }
 
     @Override
@@ -61,7 +61,10 @@ public class HudElementArmorSimple extends HudElement{
 
     @Override
     public float getScale() {
+    	if(this.settings.getBoolValue(Settings.debug_number_size)) return 0.66f;
         return 0.5f;
     }
+    
+    
 
 }

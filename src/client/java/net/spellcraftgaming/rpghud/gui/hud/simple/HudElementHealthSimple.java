@@ -22,7 +22,8 @@ public class HudElementHealthSimple extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {		
+		
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
@@ -44,9 +45,12 @@ public class HudElementHealthSimple extends HudElement {
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, posX * 2 + width, posY * 2 + 4, -1);
-			dc.getMatrices().scale(2f, 2f, 2f);
+			float scale =0.5f;
+			if(this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
+			float invertedScale = 1f/scale;
+			dc.getMatrices().scale(scale, scale, scale);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + Math.ceil(invertedScale*4-4)), -1); //+4 correct for 0.5 // +0 correct for 1 // +12 for 0.25 // -2 for 2
+			dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
 		}
 	}
 

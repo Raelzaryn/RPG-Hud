@@ -20,6 +20,7 @@
     "name.entity_inspect": "Entity Inspect",
     "name.status_effects": "Status Effects",
     "name.misc": "Miscellaneous",
+    "name.debug": "Debug Settings",
 
     "name.force_render": "Force Rendering",
     "name.render_vanilla": "Render Vanilla Element",
@@ -76,6 +77,7 @@
     "name.enable_system_time" : "Show System Time",
     "name.color_system_time" : "System Time Color",
     "name.enable_system_time_background" : "System Time Background",
+    "name.debug_number_size" : "Debug number size",
 
     "name.health_percentage": "As Percentage",
     "name.hunger_percentage": "As Percentage",
@@ -157,6 +159,7 @@
 	"tooltip.ENTITY_INSPECT" : "Access the settings of/nthe entity inspection display",
 	"tooltip.STATUS_EFFECTS" : "Access the settings for/nthe status effects",
 	"tooltip.MISC" : "Access miscellaneous settings/nThis contains settings for/nthe fps counter and/nthe system time display",
+	"tooltip.DEBUG" : "Access to debug settings",
 
     "tooltip.color_air": "Set the color of the/nbreath bar",
     "tooltip.color_experience": "Set the color of the/nexperience bar",
@@ -218,5 +221,7 @@
     "tooltip.color_fps" : "Change the color of the/nFPS counter",
     "tooltip.enable_system_time" : "Display the current system time/n(Your local time)/nBy default in the bottom left",
     "tooltip.enable_system_time_background" : "Enable a background for the/nsystem time display",
-    "tooltip.color_system_time" : "Change the color of the/nSystem time display"
+    "tooltip.color_system_time" : "Change the color of the/nSystem time display",
+    
+    "tooltip.debug_number_size" : "With some GUI Scale settings,/nthe numbers for the HUD can/nrender bit weird, if this/nhappens, toggle this setting"
 }

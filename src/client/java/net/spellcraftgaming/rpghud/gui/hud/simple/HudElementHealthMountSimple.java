@@ -39,9 +39,12 @@ public class HudElementHealthMountSimple extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-			dc.drawCenteredTextWithShadow(this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
-			dc.getMatrices().scale(2.0f, 2.0f, 2.0f);
+			float scale =0.5f;
+			if(this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
+			float invertedScale = 1f/scale;
+			dc.getMatrices().scale(scale, scale, scale);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + (invertedScale*4-4)), -1); //+4 correct for 0.5 // +0 correct for 1 // +12 for 0.25 // -2 for 2
+			dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
 		}
 	}
 }
