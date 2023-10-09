@@ -52,7 +52,7 @@ public class HudElementMiscVanilla extends HudElement{
 		
 		if(this.settings.getBoolValue(Settings.enable_system_time_background)) {
 			int width = (int) ((2*scale) + this.mc.textRenderer.getWidth(String.valueOf(time)));
-			drawRect(dc, (int) (posX-(1*scale)), (int) (posY - (1*scale)), width, 11, 0xA0000000);
+			drawRect(dc, (int) (posX-(1*scale)), (int) (posY - (1*scale)), width, (int) (10 + (1*scale)), 0xA0000000);
 		}
 
 		dc.drawText(this.mc.textRenderer, time, posX, posY, this.settings.getIntValue(Settings.color_system_time), false);
