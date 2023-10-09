@@ -84,7 +84,6 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     }
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    //TODO:
                     dc.drawSprite(k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
@@ -94,6 +93,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         k -= mc.textRenderer.getWidth(s)/2;
                         this.drawStringWithBackground(dc, s, k +12, l +14, -1, 0);
                     }
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }
