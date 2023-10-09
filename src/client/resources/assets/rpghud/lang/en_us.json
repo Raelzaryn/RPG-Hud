@@ -19,6 +19,7 @@
     "name.pickup": "Pickup Widget",
     "name.entity_inspect": "Entity Inspect",
     "name.status_effects": "Status Effects",
+    "name.misc": "Miscellaneous",
 
     "name.force_render": "Force Rendering",
     "name.render_vanilla": "Render Vanilla Element",
@@ -70,6 +71,11 @@
     "name.show_entity_armor": "Show Armor Value",
     "name.status_vertical" : "Render Vertically",
     "name.status_time" : "Show timer",
+    "name.enable_fps" : "Show FPS Counter",
+    "name.color_fps" : "FPS Counter Color",
+    "name.enable_system_time" : "Show System Time",
+    "name.color_system_time" : "System Time Color",
+    "name.enable_system_time_background" : "System Time Background",
 
     "name.health_percentage": "As Percentage",
     "name.hunger_percentage": "As Percentage",
@@ -95,8 +101,12 @@
     "name.widget_position": "HUD Pos",
     "name.chat_position": "Position",
     "name.armor_position": "Position",
+    "name.fps_position": "Position",
+    "name.system_time_position" : "Position",
     
     "name.status_scale": "Scale",
+    "name.fps_scale": "FPS Scale",
+    "name.system_time_scale" : "Time Scale",
     
     "name.rpghud": "RPG-Hud",
 
@@ -130,6 +140,23 @@
     "tooltip.done": "Save and go back",
     "tooltip.cancel": "Go back without saving",
     "tooltip.element": "Access the settings of/nthis element",
+    
+    "tooltip.HOTBAR" : "Access the settings of/nthe hotbar",
+    "tooltip.HEALTH" : "Access the settings of/nthe health display",
+    "tooltip.ARMOR" : "Access the settings of/nthe armor display",
+    "tooltip.FOOD" : "Access the settings of/nthe hunger display",
+    "tooltip.HEALTH_MOUNT" : "Access the settings of/nthe mount health display",
+    "tooltip.AIR" : "Access the settings of/nthe breath display",
+    "tooltip.JUMP_BAR" : "Access the settings of/nthe mount jump bar display",
+    "tooltip.EXPERIENCE" : "Access the settings of/nthe experience display",
+    "tooltip.LEVEL" : "Access the settings of/nthe player level display",
+	"tooltip.CLOCK" : "Access the settings of/nthe ingame clock display",
+	"tooltip.DETAILS" : "Access the settings for/nthe item details list",
+	"tooltip.WIDGET" : "Access the settings of/nthe player widget/nthis isn't applicable for/nthe simple HUD type",
+	"tooltip.COMPASS" : "Access the settings of/nthe compass display",
+	"tooltip.ENTITY_INSPECT" : "Access the settings of/nthe entity inspection display",
+	"tooltip.STATUS_EFFECTS" : "Access the settings for/nthe status effects",
+	"tooltip.MISC" : "Access miscellaneous settings/nThis contains settings for/nthe fps counter and/nthe system time display",
 
     "tooltip.color_air": "Set the color of the/nbreath bar",
     "tooltip.color_experience": "Set the color of the/nexperience bar",
@@ -185,5 +212,11 @@
     "tooltip.health_percentage": "Display health value/nas a percentage",
     "tooltip.hunger_percentage": "Display hunger Value/nas a percentage",
     "tooltip.mount_health_percentage": "Display mount health/navalue as a percentage",
-    "tooltip.experience_percentage": "Display experience value/nas a percentage"
+    "tooltip.experience_percentage": "Display experience value/nas a percentage",
+    
+    "tooltip.enable_fps" : "Display current FPS ingame/nBy default in the top left",
+    "tooltip.color_fps" : "Change the color of the/nFPS counter",
+    "tooltip.enable_system_time" : "Display the current system time/n(Your local time)/nBy default in the bottom left",
+    "tooltip.enable_system_time_background" : "Enable a background for the/nsystem time display",
+    "tooltip.color_system_time" : "Change the color of the/nSystem time display"
 }

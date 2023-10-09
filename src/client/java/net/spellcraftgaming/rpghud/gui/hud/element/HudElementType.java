@@ -21,7 +21,8 @@ public enum HudElementType {
     WIDGET("name.widget"),
     COMPASS("name.compass"),
     ENTITY_INSPECT("name.entity_inspect"),
-    STATUS_EFFECTS("name.status_effects");
+    STATUS_EFFECTS("name.status_effects"),
+	MISC("name.misc");
 
 	private String displayName;
 

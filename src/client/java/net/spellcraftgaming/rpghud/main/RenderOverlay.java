@@ -40,10 +40,9 @@ public class RenderOverlay implements HudRenderCallback{
             this.drawElement(HudElementType.LEVEL, dc, partialTicks);
         }
         if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, dc, partialTicks);
-            
-            
+            this.drawElement(HudElementType.HOTBAR, dc, partialTicks); 
         }
+        this.drawElement(HudElementType.MISC, dc, partialTicks);
     }
 
     /**

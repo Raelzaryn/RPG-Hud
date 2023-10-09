@@ -89,6 +89,17 @@ public class Settings {
     public static final String render_player_face = "render_player_face";
     public static final String face_position = "face_position";
 
+    public static final String enable_fps = "enable_fps";
+    public static final String fps_position = "fps_position";
+    public static final String color_fps = "color_fps";
+    public static final String fps_scale = "fps_scale";
+    
+    public static final String enable_system_time = "enable_system_time";
+    public static final String enable_system_time_background = "enable_system_time_background";
+    public static final String system_time_position = "system_time_position";
+    public static final String color_system_time = "color_system_time";
+    public static final String system_time_scale = "system_time_scale";
+    
     public static final String limit_jump_bar = "limit_jump_bar";
     public static final String color_jump_bar = "color_jump_bar";
     public static final String jump_bar_position = "jump_bar_position";
@@ -109,6 +120,8 @@ public class Settings {
     public static final String render_vanilla = "render_vanilla";
     public static final String prevent_event = "prevent_event";
     public static final String prevent_element_render = "prevent_element_render";
+    
+
 
     private File rpgHudDir() {
         MinecraftClient mc = MinecraftClient.getInstance();
@@ -179,7 +192,18 @@ public class Settings {
         addSetting(render_player_face, new SettingBoolean(render_player_face, HudElementType.WIDGET, true));
         addSetting(widget_position, new SettingPosition(widget_position, HudElementType.WIDGET, 0, 0));
         addSetting(face_position, new SettingPosition(face_position, HudElementType.WIDGET, 0, 0));
-
+        
+        addSetting(enable_fps, new SettingBoolean(enable_fps, HudElementType.MISC, false));
+        addSetting(fps_position, new SettingPosition(fps_position, HudElementType.MISC, 0, 0));
+        addSetting(color_fps, new SettingColor(color_fps, HudElementType.MISC, HudElement.COLOR_GREY));
+        addSetting(fps_scale, new SettingDouble(fps_scale, HudElementType.MISC, 0.5, 0, 0, 0));
+        
+        addSetting(enable_system_time, new SettingBoolean(enable_system_time, HudElementType.MISC, true));
+        addSetting(enable_system_time_background, new SettingBoolean(enable_system_time_background, HudElementType.MISC, true));
+        addSetting(system_time_position, new SettingPosition(system_time_position, HudElementType.MISC, 0, 0));
+        addSetting(color_system_time, new SettingColor(color_system_time, HudElementType.MISC, HudElement.COLOR_GREY));
+        addSetting(system_time_scale, new SettingDouble(system_time_scale, HudElementType.MISC, 0.5, 0, 0, 0));
+        
         addSetting(limit_jump_bar, new SettingBoolean(limit_jump_bar, HudElementType.JUMP_BAR, true));
         addSetting(color_jump_bar, new SettingColor(color_jump_bar, HudElementType.JUMP_BAR, HudElement.COLOR_GREY));
         addSetting(jump_bar_position, new SettingPosition(jump_bar_position, HudElementType.JUMP_BAR, 0, 0));
