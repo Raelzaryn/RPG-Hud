@@ -70,7 +70,7 @@ public class EditBoxMod extends EditBox {
      * 
      * @return the Tooltip
      */
-    public String[] getTooltip() {
+    public String[] getTooltipNew() {
         return this.tooltip;
     }
 

@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -24,20 +25,20 @@ public class GuiScreenTooltip extends Screen {
     protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
 
     @Override
-    public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
-        super.render(ms, mouseX, mouseY, partialTicks);
+    public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
+        super.render(gg, mouseX, mouseY, partialTicks);
         for(GuiTextLabel label : labelList) {
-            label.render(this, ms);
+            label.render(this, gg.pose());
         }
         if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
-            drawTooltip(ms, mouseX, mouseY);
+            drawTooltip(gg, mouseX, mouseY);
         }
     }
 
     /**
      * Checks if a tooltip should be rendered and if so renders it on the screen.
      */
-    private void drawTooltip(PoseStack ms, int mouseX, int mouseY) {
+    private void drawTooltip(GuiGraphics gg, int mouseX, int mouseY) {
         Minecraft mc = Minecraft.getInstance();
         Font fontRenderer = mc.font;
         GuiScreenTooltip gui = null;
@@ -65,7 +66,7 @@ public class GuiScreenTooltip extends Screen {
             int posY = mouseY + 5;
             int totalWidth = 0;
             boolean reverseY = false;
-            String[] tooltip = button.getTooltip();
+            String[] tooltip = button.getTooltipNew();
             if(!(tooltip == null)) {
                 int counter = 0;
                 for(int id = 0; id < tooltip.length; id++) {

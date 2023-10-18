@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -16,8 +15,8 @@ public abstract class GuiButtonLib extends Button {
 	}
 
 	@Override
-	public void renderWidget(PoseStack ms, int mouseX, int mouseY, float partial) {
-		super.renderWidget(ms, mouseX, mouseY, partial);
+	public void renderWidget(GuiGraphics gg, int mouseX, int mouseY, float partial) {
+		super.renderWidget(gg, mouseX, mouseY, partial);
 		this.drawButton(mouseX, mouseY);
 	}
 	
