@@ -106,7 +106,7 @@ public class ModRPGHud {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-        	event.registerAboveAll("view_sun", new RenderOverlay());
+        	event.registerAboveAll("rpghud", new RenderOverlay());
         }
     }
 }
