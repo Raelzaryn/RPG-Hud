@@ -68,4 +68,6 @@ public class HudSimple extends HudVanilla{
 	protected HudElement setElementEntityInspect() {
 		return new HudElementEntityInspectModern();
 	}
+	
+	
 }

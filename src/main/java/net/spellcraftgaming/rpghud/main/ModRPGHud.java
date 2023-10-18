@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -67,7 +69,7 @@ public class ModRPGHud {
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		ClientEventHandler.init();
-		new RenderOverlay();
+		//new RenderOverlay();
 	}
 
 	/**
@@ -98,4 +100,13 @@ public class ModRPGHud {
 	public boolean isHudKeyValid(String key) {
 		return this.huds.containsKey(key);
 	}
+	
+    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    @Mod.EventBusSubscriber(modid = "rpghud", bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+        	event.registerAboveAll("view_sun", new RenderOverlay());
+        }
+    }
 }

@@ -121,14 +121,15 @@ public class HudElementEntityInspectVanilla extends HudElement {
         float j = entity.getXRot();
         float k = entity.yHeadRotO;
         float l = entity.yHeadRot;
-
+        float m = entity.walkAnimation.speed();
 
 
         entity.setYBodyRot(180.0F + f * 20.0F);
         entity.setYRot(180.0F + f * 40.0F);
         entity.setXRot(-g * 20.0F);
-        entity.yHeadRot = entity.getYRot();
+        entity.yHeadRot = entity.getYRot()-35f;
         entity.yHeadRotO = entity.getYRot();
+        entity.walkAnimation.setSpeed(0);
 
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
@@ -146,6 +147,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.setXRot(j);
         entity.yHeadRotO = k;
         entity.yHeadRot = l;
+        entity.walkAnimation.setSpeed(m);
 
 
         ms.popPose();

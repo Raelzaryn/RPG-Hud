@@ -127,6 +127,8 @@ public abstract class Hud {
 	protected abstract HudElement setElementEntityInspect();
 
     protected abstract HudElement setElementMobEffects();
+    
+    protected abstract HudElement setElementMisc();
 	/**
 	 * Draws the an element of the HudElementType type on the screen
 	 * 

@@ -498,9 +498,8 @@ public abstract class HudElement {
         vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).color(f, f1, f2, f3).endVertex();
         vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).endVertex();
         vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.end();
 
-        BufferUploader.draw(vertexbuffer.end());
+        BufferUploader.drawWithShader(vertexbuffer.end());
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
     }

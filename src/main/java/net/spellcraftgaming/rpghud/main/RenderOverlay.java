@@ -11,10 +11,10 @@ import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -142,36 +142,51 @@ public class RenderOverlay implements IGuiOverlay{
         }
     }*/
 
+    
     @SubscribeEvent
     public void onGameOverlayRenderPre(RenderGuiOverlayEvent.Pre event) {
-        NamedGuiOverlay overlay = event.getOverlay();
-        if (VanillaGuiOverlay.AIR_LEVEL.equals(overlay)) {
+        ResourceLocation overlay = event.getOverlay().id();
+        if (VanillaGuiOverlay.AIR_LEVEL.id() == overlay) {
             if (preventEventType(HudElementType.AIR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.ARMOR_LEVEL.equals(overlay)) {
+        } else if (VanillaGuiOverlay.ARMOR_LEVEL.id() == overlay) {
             if (preventEventType(HudElementType.ARMOR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.EXPERIENCE_BAR.equals(overlay)) {
+        } else if (VanillaGuiOverlay.EXPERIENCE_BAR.id() == overlay) {
             if (preventEventType(HudElementType.EXPERIENCE))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.FOOD_LEVEL.equals(overlay)) {
+        } else if (VanillaGuiOverlay.FOOD_LEVEL.id() == overlay) {
             if (preventEventType(HudElementType.FOOD))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.PLAYER_HEALTH.equals(overlay)) {
-            if (preventEventType(HudElementType.HEALTH))
-                event.setCanceled(true);
-        } else if (VanillaGuiOverlay.MOUNT_HEALTH.equals(overlay)) {
+        } else if (overlay == VanillaGuiOverlay.PLAYER_HEALTH.id()) {
+        	if (preventEventType(HudElementType.HEALTH)) {
+                event.setCanceled(true);}
+        } else if (VanillaGuiOverlay.MOUNT_HEALTH.id() == overlay) {
             if (preventEventType(HudElementType.HEALTH_MOUNT))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.HOTBAR.equals(overlay)) {
+        } else if (VanillaGuiOverlay.HOTBAR.id() == overlay) {
             if (preventEventType(HudElementType.HOTBAR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.JUMP_BAR.equals(overlay)) {
+        } else if (VanillaGuiOverlay.JUMP_BAR.id() == overlay) {
             if (preventEventType(HudElementType.JUMP_BAR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.POTION_ICONS.equals(overlay)) {
+        } else if (VanillaGuiOverlay.POTION_ICONS.id() == overlay) {
             if (preventEventType(HudElementType.STATUS_EFFECTS))
                 event.setCanceled(true);
+         }else if (VanillaGuiOverlay.CHAT_PANEL.id() == overlay) {
+        	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
+        		 event.getPoseStack().translate(0, -22, 0);
+             }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onGameOverlayRenderPost(RenderGuiOverlayEvent.Post event) {
+        ResourceLocation overlay = event.getOverlay().id();
+        if (VanillaGuiOverlay.CHAT_PANEL.id() == overlay) {
+        	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
+        		 event.getPoseStack().translate(0, 22, 0);
+             }
         }
     }
 

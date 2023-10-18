@@ -7,7 +7,7 @@ import net.minecraft.client.gui.Gui;
 public class HudElementEmpty extends HudElement {
 
 	public HudElementEmpty() {
-		super(HudElementType.VOID, 0, 0, 0, 0, false);
+		super(HudElementType.DEBUG, 0, 0, 0, 0, false);
 	}
 
 	@Override
