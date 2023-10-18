@@ -51,7 +51,7 @@ public class RenderOverlay implements IGuiOverlay{
         if (!shouldRenderVanilla(HudElementType.HOTBAR)) {
             this.drawElement(HudElementType.HOTBAR, gg, partialTicks);
         }
-		
+        this.drawElement(HudElementType.MISC, gg, partialTicks);
 	}
 	
     @SubscribeEvent
