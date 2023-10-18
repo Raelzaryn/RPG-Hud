@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud.gui.hud.simple;
+package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
