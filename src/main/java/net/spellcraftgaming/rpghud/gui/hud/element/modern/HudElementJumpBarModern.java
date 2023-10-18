@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,18 +18,18 @@ public class HudElementJumpBarModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
 		int width = scaledWidth;
 		float jumpPower = this.mc.player.getJumpRidingScale();
 		int value = (int) (jumpPower * 100.0F);
 		int posX = this.settings.getPositionValue(Settings.jump_bar_position)[0];
-		drawRect(ms, width / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
-		drawRect(ms, width / 2 - 72 + posX, height - 70, 144, 2, 0xA0000000);
-		drawRect(ms, width / 2 - 72 + posX, height - 76, 2, 6, 0xA0000000);
-		drawRect(ms, width / 2 + 70 + posX, height - 76, 2, 6, 0xA0000000);
-		drawRect(ms, width / 2 - 70 + posX, height - 76, 140, 6, 0x20FFFFFF);
-		drawRect(ms, width / 2 - 70 + posX, height - 76, (int) (140 * (value / 100.0D)), 6, this.settings.getIntValue(Settings.color_jump_bar));
+		drawRect(gg, width / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
+		drawRect(gg, width / 2 - 72 + posX, height - 70, 144, 2, 0xA0000000);
+		drawRect(gg, width / 2 - 72 + posX, height - 76, 2, 6, 0xA0000000);
+		drawRect(gg, width / 2 + 70 + posX, height - 76, 2, 6, 0xA0000000);
+		drawRect(gg, width / 2 - 70 + posX, height - 76, 140, 6, 0x20FFFFFF);
+		drawRect(gg, width / 2 - 70 + posX, height - 76, (int) (140 * (value / 100.0D)), 6, this.settings.getIntValue(Settings.color_jump_bar));
 	}
 
 }

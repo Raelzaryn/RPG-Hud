@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +21,7 @@ public class HudElementFoodExtended extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		FoodData stats = this.mc.player.getFoodData();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -44,19 +42,19 @@ public class HudElementFoodExtended extends HudElement {
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
 				int colorPreview = offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW);
-				drawCustomBar(ms, posX, posY, 110, 12, bonusHunger / (double) staminaMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
+				drawCustomBar(gg, posX, posY, 110, 12, bonusHunger / (double) staminaMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 			}
 		}
 
 		if (this.mc.player.hasEffect(MobEffects.HUNGER)) {
-			drawCustomBar(ms, posX, posY, 110, 12, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
+			drawCustomBar(gg, posX, posY, 110, 12, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
 		} else {
-			drawCustomBar(ms, posX, posY, 110, 12, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));
+			drawCustomBar(gg, posX, posY, 110, 12, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));
 		}
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
-			Gui.drawCenteredString(ms, this.mc.font, staminaString, posX + 55, posY + 2, -1);
+			gg.drawCenteredString( this.mc.font, staminaString, posX + 55, posY + 2, -1);
 	}
 
 }

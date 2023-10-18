@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +22,7 @@ public class HudElementFoodModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		FoodData stats = this.mc.player.getFoodData();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -39,10 +37,10 @@ public class HudElementFoodModern extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.hunger_position)[1];
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
-			drawRect(ms, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
-			ms.scale(0.5f, 0.5f, 0.5f);
-			Gui.drawCenteredString(ms, this.mc.font, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
-			ms.scale(2f, 2f, 2f);
+			drawRect(gg, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
+			gg.drawCenteredString( this.mc.font, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
+			gg.pose().scale(2f, 2f, 2f);
 		}
 
 		drawTetragon(posX, posX, 13 + posY, 13 + posY, 70, 58, 8, 8, 0xA0000000);

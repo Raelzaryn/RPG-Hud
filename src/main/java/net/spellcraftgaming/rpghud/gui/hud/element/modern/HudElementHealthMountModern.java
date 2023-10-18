@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -22,7 +20,7 @@ public class HudElementHealthMountModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
@@ -35,10 +33,10 @@ public class HudElementHealthMountModern extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.mount_health_position)[1];
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			int width2 = this.mc.font.width(stringHealth) / 2;
-			drawRect(ms, posX, 24 + posY, width2 + 4, 5, 0xA0000000);
-			ms.scale(0.5f, 0.5f, 0.5f);
-			Gui.drawString(ms, this.mc.font, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
-			ms.scale(2f, 2f, 2f);
+			drawRect(gg, posX, 24 + posY, width2 + 4, 5, 0xA0000000);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
+			gg.drawString(this.mc.font, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+			gg.pose().scale(2f, 2f, 2f);
 		}
 
 		drawTetragon(posX, posX, 21 + posY, 21 + posY, 58, 54, 3, 3, 0xA0000000);

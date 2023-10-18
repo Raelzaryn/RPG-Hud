@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
@@ -27,9 +26,9 @@ public class HudElementClockModern extends HudElementClockVanilla {
     }
 
     @Override
-    public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        ms.scale(scale, scale, scale);
+        gg.pose().scale(scale, scale, scale);
         int yOffset = getPosY(scaledHeight);
         int xOffset = getPosX(scaledWidth);
         int clockColor = 0xFFFFFF;
@@ -39,13 +38,13 @@ public class HudElementClockModern extends HudElementClockVanilla {
         if(this.settings.getBoolValue(Settings.enable_clock_color)) {
             clockColor = getClockColor();
         }
-        drawRect(ms, xOffset, yOffset, width, height, 0xA0000000);
-        Gui.drawCenteredString(ms, this.mc.font, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
+        drawRect(gg, xOffset, yOffset, width, height, 0xA0000000);
+        gg.drawCenteredString( this.mc.font, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         scale = getInvertedScale();
-        ms.scale(scale, scale, scale);
+        gg.pose().scale(scale, scale, scale);
     }
 
     @Override

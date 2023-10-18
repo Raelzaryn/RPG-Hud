@@ -1,11 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
-import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -23,9 +18,9 @@ public class HudElementArmorSimple extends HudElement{
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 	    float scale = getScale();
-        ms.scale(scale, scale, scale);
+        gg.pose().scale(scale, scale, scale);
 		int left = getPosX(scaledWidth);
 		int top = getPosY(scaledHeight);
 
@@ -33,14 +28,13 @@ public class HudElementArmorSimple extends HudElement{
 		if (level > 0) {
 	        int height = getHeight(scaledHeight);
 			int width2 = 1 + 9 + 2 + this.mc.font.width(String.valueOf(level)) + 2;
-			drawRect(ms, left, top, width2, height, 0xA0000000);
-			this.mc.font.draw(ms,String.valueOf(level), left + 12, top + 2, -1);
-			bind(GUI_ICONS_LOCATION);
-			GuiComponent.blit(ms, left + 1, top + 1, 34, 9, 9, 9);
+			drawRect(gg, left, top, width2, height, 0xA0000000);
+			gg.drawString(this.mc.font,String.valueOf(level), left + 12, top + 2, -1);
+			gg.blit(ICONS, left + 1, top + 1, 34, 9, 9, 9);
 		}
 		
 		scale = getInvertedScale();
-        ms.scale(scale, scale, scale);
+        gg.pose().scale(scale, scale, scale);
 	}
 	
     @Override

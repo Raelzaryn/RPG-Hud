@@ -12,8 +12,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.Direction;
@@ -45,26 +44,25 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
-            bind(DAMAGE_INDICATOR);
-            GuiComponent.blit(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
+            gg.blit(DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
-            drawCustomBar(ms, posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
+            drawCustomBar(gg, posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
-            ms.scale(0.5f, 0.5f, 0.5f);
-            Gui.drawCenteredString(ms, this.mc.font, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
-            ms.scale(2f, 2f, 2f);
+            gg.pose().scale(0.5f, 0.5f, 0.5f);
+            gg.drawCenteredString( this.mc.font, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            gg.pose().scale(2f, 2f, 2f);
 
             int x = (posX - 29 + 44 - this.mc.font.width(focused.getName().getString()) / 2);
             int y = 25 + posY;
-            this.drawStringWithBackground(ms, focused.getName().getString(), x, y, -1, 0);
+            this.drawStringWithBackground(gg, focused.getName().getString(), x, y, -1, 0);
 
             drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
 
@@ -72,13 +70,11 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 int armor = focused.getArmorValue();
                 if(armor > 0) {
                     String value = String.valueOf(armor);
-                    bind(DAMAGE_INDICATOR);
-                    GuiComponent.blit(ms, posX - 26, posY+44, 0, 36, 19, 8);
-                    bind(Gui.GUI_ICONS_LOCATION);
-                    ms.scale(0.5f, 0.5f, 0.5f);
-                    GuiComponent.blit(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
-                    this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
-                    ms.scale(2f, 2f, 2f);
+                    gg.blit(DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8);
+                    gg.pose().scale(0.5f, 0.5f, 0.5f);
+                    gg.blit(ICONS, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    this.drawStringWithBackground(gg,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
+                    gg.pose().scale(2f, 2f, 2f);
                 }  
             }
         }
@@ -104,10 +100,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
         posY += offset;
         float f = (float) Math.atan((180 / 40.0F));
         float g = (float) Math.atan((0 / 40.0F));
-        PoseStack ms = RenderSystem.getModelViewStack();
-        ms.pushPose();
-        ms.translate(posX, posY, 1050.0F);
-        ms.scale(1.0F, 1.0F, -1.0F);
+        PoseStack gg = RenderSystem.getModelViewStack();
+        gg.pushPose();
+        gg.translate(posX, posY, 1050.0F);
+        gg.scale(1.0F, 1.0F, -1.0F);
         RenderSystem.applyModelViewMatrix();
         PoseStack poseStack = new PoseStack();
         poseStack.translate(0.0D, 0.0D, 1000.0D);
@@ -150,7 +146,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.walkAnimation.setSpeed(m);
 
 
-        ms.popPose();
+        gg.popPose();
         RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
     }
@@ -168,7 +164,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         Vec3 lookVec = Vec3.directionFromRotation(watcher.getRotationVector());
         Vec3 vec2 = vec.add(lookVec.normalize().multiply(maxDistance,maxDistance,maxDistance));
 
-        BlockHitResult ray = watcher.level
+        BlockHitResult ray = watcher.level()
                 .clip(new ClipContext(vec, vec2, OUTLINE, NONE, watcher));
 
         double distance = maxDistance;
@@ -179,7 +175,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         double currentDistance = distance;
 
-        List<Entity> entitiesWithinMaxDistance = watcher.level.getEntities(watcher,
+        List<Entity> entitiesWithinMaxDistance = watcher.level().getEntities(watcher,
                 watcher.getBoundingBox().expandTowards(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expandTowards(1, 1, 1));
         for(Entity entity : entitiesWithinMaxDistance) {
             if(entity instanceof LivingEntity) {

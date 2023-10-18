@@ -1,11 +1,9 @@
 package net.spellcraftgaming.rpghud.main;
 
-import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -31,27 +29,27 @@ public class RenderOverlay implements IGuiOverlay{
     }
 
 	@Override
-	public void render(ForgeGui gui, PoseStack ms, float partialTicks, int screenWidth, int screenHeight) {
-        this.drawElement(HudElementType.WIDGET, ms, partialTicks);
-        this.drawElement(HudElementType.CLOCK, ms, partialTicks);
-        this.drawElement(HudElementType.DETAILS, ms, partialTicks);
-        this.drawElement(HudElementType.COMPASS, ms, partialTicks);
-        this.drawElement(HudElementType.ENTITY_INSPECT, ms, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, ms, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, ms, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, ms, partialTicks);
+	public void render(ForgeGui forgeGui, GuiGraphics gg, float partialTicks, int screenWidth, int screenHeight) {
+        this.drawElement(HudElementType.WIDGET, gg, partialTicks);
+        this.drawElement(HudElementType.CLOCK, gg, partialTicks);
+        this.drawElement(HudElementType.DETAILS, gg, partialTicks);
+        this.drawElement(HudElementType.COMPASS, gg, partialTicks);
+        this.drawElement(HudElementType.ENTITY_INSPECT, gg, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, gg, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, gg, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, gg, partialTicks);
         if (!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
-            this.drawElement(HudElementType.HEALTH_MOUNT, ms, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, ms, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, ms, partialTicks);
+            this.drawElement(HudElementType.HEALTH_MOUNT, gg, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, gg, partialTicks);
+        if (!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, gg, partialTicks);
         if (!shouldRenderVanilla(HudElementType.STATUS_EFFECTS))
-            this.drawElement(HudElementType.STATUS_EFFECTS, ms, partialTicks);
+            this.drawElement(HudElementType.STATUS_EFFECTS, gg, partialTicks);
         if (!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
-            this.drawElement(HudElementType.EXPERIENCE, ms, partialTicks);
-            this.drawElement(HudElementType.LEVEL, ms, partialTicks);
+            this.drawElement(HudElementType.EXPERIENCE, gg, partialTicks);
+            this.drawElement(HudElementType.LEVEL, gg, partialTicks);
         }
         if (!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, ms, partialTicks);
+            this.drawElement(HudElementType.HOTBAR, gg, partialTicks);
         }
 		
 	}
@@ -68,16 +66,15 @@ public class RenderOverlay implements IGuiOverlay{
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
-    private void drawElement(HudElementType type, PoseStack ms, float partialTicks) {
+    private void drawElement(HudElementType type, GuiGraphics gg, float partialTicks) {
 
         if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if (!preventElementRenderType(type)) {
-                bind(GUI_ICONS_LOCATION);
-                ms.pushPose();
+                gg.pose().pushPose();
                 RenderSystem.enableBlend();
-                this.rpgHud.getActiveHud().drawElement(type, this.mc.gui, ms, partialTicks, partialTicks, this.mc.getWindow().getGuiScaledWidth(),
+                this.rpgHud.getActiveHud().drawElement(type, gg, 0, partialTicks, this.mc.getWindow().getGuiScaledWidth(),
                         this.mc.getWindow().getGuiScaledHeight());
-                ms.popPose();
+                gg.pose().popPose();
             }
 
         }
@@ -126,10 +123,6 @@ public class RenderOverlay implements IGuiOverlay{
         return false;
     }
 
-    private void bind(ResourceLocation res) {
-        mc.getTextureManager().bindForSetup(res);
-    }
-
     public static boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
@@ -175,7 +168,7 @@ public class RenderOverlay implements IGuiOverlay{
                 event.setCanceled(true);
          }else if (VanillaGuiOverlay.CHAT_PANEL.id() == overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-        		 event.getPoseStack().translate(0, -22, 0);
+        		 event.getGuiGraphics().pose().translate(0, -22, 0);
              }
         }
     }
@@ -185,7 +178,7 @@ public class RenderOverlay implements IGuiOverlay{
         ResourceLocation overlay = event.getOverlay().id();
         if (VanillaGuiOverlay.CHAT_PANEL.id() == overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-        		 event.getPoseStack().translate(0, 22, 0);
+        		 event.getGuiGraphics().pose().translate(0, 22, 0);
              }
         }
     }

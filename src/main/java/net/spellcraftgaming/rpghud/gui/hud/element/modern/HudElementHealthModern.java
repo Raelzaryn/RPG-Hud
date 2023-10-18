@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
@@ -23,7 +21,7 @@ public class HudElementHealthModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
 		int health = Mth.ceil(this.mc.player.getHealth());
 		int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = Mth.ceil(this.mc.player.getMaxHealth());
@@ -40,10 +38,10 @@ public class HudElementHealthModern extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.health_position)[1];
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
-			drawRect(ms, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
-			ms.scale(0.5f, 0.5f, 0.5f);
-			Gui.drawCenteredString(ms, this.mc.font, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
-			ms.scale(2f, 2f, 2f);
+			drawRect(gg, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
+			gg.drawCenteredString( this.mc.font, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
+			gg.pose().scale(2f, 2f, 2f);
 		}
 
 		drawTetragon(posX, posX, 3 + posY, 3 + posY, 97, 83, 10, 10, 0xA0000000);

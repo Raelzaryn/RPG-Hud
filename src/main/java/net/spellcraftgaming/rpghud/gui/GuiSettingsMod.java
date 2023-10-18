@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -160,14 +158,14 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	}
 
 	@Override
-	public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(ms);
-		Gui.drawCenteredString(ms, minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(gg);
+		gg.drawCenteredString(minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<EditBox> positionPairs : textFields.values()) {
 			for(EditBox t : positionPairs)
-				t.render(ms, mouseX, mouseY, partialTicks);
+				t.render(gg, mouseX, mouseY, partialTicks);
 		}
-		super.render(ms, mouseX, mouseY, partialTicks);
+		super.render(gg, mouseX, mouseY, partialTicks);
 	}
 
 	@Override

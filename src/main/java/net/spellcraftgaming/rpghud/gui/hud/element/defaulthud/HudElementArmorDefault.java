@@ -1,11 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
-import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -22,18 +17,17 @@ public class HudElementArmorDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		bind(GUI_ICONS_LOCATION);
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
 		int top = scaledHeight - 39 - this.settings.getPositionValue(Settings.armor_position)[1];
 		int level = this.mc.player.getArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				GuiComponent.blit(ms, left + 48, top - 2, 34, 9, 9, 9);
+				gg.blit(ICONS, left + 48, top - 2, 34, 9, 9, 9);
 			} else if (i == level) {
-				GuiComponent.blit(ms, left + 48, top - 2, 25, 9, 9, 9);
+				gg.blit(ICONS, left + 48, top - 2, 25, 9, 9, 9);
 			} else if (i > level) {
-				GuiComponent.blit(ms, left + 48, top - 2, 16, 9, 9, 9);
+				gg.blit(ICONS, left + 48, top - 2, 16, 9, 9, 9);
 			}
 			left += 8;
 		}

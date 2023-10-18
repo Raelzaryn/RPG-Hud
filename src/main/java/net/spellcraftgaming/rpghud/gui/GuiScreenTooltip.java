@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -28,7 +27,7 @@ public class GuiScreenTooltip extends Screen {
     public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
         super.render(gg, mouseX, mouseY, partialTicks);
         for(GuiTextLabel label : labelList) {
-            label.render(this, gg.pose());
+            label.render(this, gg);
         }
         if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
             drawTooltip(gg, mouseX, mouseY);
@@ -85,15 +84,15 @@ public class GuiScreenTooltip extends Screen {
                     reverseY = true;
 
                 if(reverseY)
-                    fill(ms, posX, posY - 3 - tooltip.length * 12 - 2, posX + totalWidth + 10, posY, 0xA0000000);
+                	HudElement.drawRect(gg, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 else
-                    fill(ms, posX, posY, posX + totalWidth + 10, posY + 3 + tooltip.length * 12 + 2, 0xA0000000);
+                	HudElement.drawRect(gg, posX, posY, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY)
-                            Gui.drawString(ms, fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
+                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
                         else
-                            Gui.drawString(ms, fontRenderer,  tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
                     }
                 }
             }
@@ -111,10 +110,10 @@ public class GuiScreenTooltip extends Screen {
             this.text = text;
         }
 
-        public void render(Screen gui, PoseStack ms) {
+        public void render(Screen gui, GuiGraphics gg) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            minecraft.font.draw(ms, text, x, y, 0xFFFFFFFF);
+            gg.drawString(minecraft.font, text, x, y, 0xFFFFFFFF);
         }
     }
 

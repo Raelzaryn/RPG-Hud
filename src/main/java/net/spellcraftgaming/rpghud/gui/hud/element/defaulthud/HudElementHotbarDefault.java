@@ -1,11 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.AttackIndicatorStatus;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -26,25 +24,24 @@ public class HudElementHotbarDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR)
-            this.mc.gui.getSpectatorGui().renderHotbar(ms);
+            this.mc.gui.getSpectatorGui().renderHotbar(gg);
         else if (this.mc.getCameraEntity() instanceof Player) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            bind(WIDGETS_TEX_PATH);
             ItemStack itemstack = this.mc.player.getOffhandItem();
             HumanoidArm arm = this.mc.player.getMainArm().getOpposite();
             int i = scaledWidth / 2 + this.settings.getPositionValue(Settings.hotbar_position)[0];
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
             float f = zLevel;
             zLevel = -90.0F;
-            GuiComponent.blit(ms, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
-            GuiComponent.blit(ms, i - 91 - 1 + this.mc.player.getInventory().selected * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
+            gg.blit(WIDGETS_TEX_PATH, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
+            gg.blit(WIDGETS_TEX_PATH, i - 91 - 1 + this.mc.player.getInventory().selected * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
             if (!itemstack.isEmpty())
                 if (arm == HumanoidArm.LEFT)
-                    GuiComponent.blit(ms, i - 91 - 29, scaledHeight - 23 + posY, 24, 22, 29, 24);
+                	gg.blit(WIDGETS_TEX_PATH, i - 91 - 29, scaledHeight - 23 + posY, 24, 22, 29, 24);
                 else
-                    GuiComponent.blit(ms, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
+                	gg.blit(WIDGETS_TEX_PATH, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
 
             zLevel = f;
             RenderSystem.enableBlend();
@@ -53,15 +50,15 @@ public class HudElementHotbarDefault extends HudElement {
             for (int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 + posY;
-                this.renderHotbarItem(ms, i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().items.get(l));
+                this.renderHotbarItem(gg, i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().items.get(l));
             }
 
             if (!itemstack.isEmpty()) {
                 int l1 = scaledHeight - 16 - 3 + posY;
                 if (arm == HumanoidArm.LEFT)
-                    this.renderHotbarItem(ms, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(gg, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack);
                 else
-                    this.renderHotbarItem(ms, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(gg, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack);
             }
 
             if (this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
@@ -72,11 +69,10 @@ public class HudElementHotbarDefault extends HudElement {
                     if (arm == HumanoidArm.RIGHT)
                         j2 = i - 91 - 22;
 
-                    bind(Gui.GUI_ICONS_LOCATION);
                     int k1 = (int) (f1 * 19.0F);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    GuiComponent.blit(ms, j2, i2, 0, 94, 18, 18);
-                    GuiComponent.blit(ms, j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
+                    gg.blit(ICONS, j2, i2, 0, 94, 18, 18);
+                    gg.blit(ICONS, j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
                 }
             }
 

@@ -6,10 +6,8 @@ import java.util.Collection;
 
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
 import net.minecraft.util.Mth;
@@ -26,21 +24,18 @@ public class HudElementMobEffectsVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(Gui gui, PoseStack ms, float na, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float na, float partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        ms.scale(scale, scale, scale);
+        gg.pose().scale(scale, scale, scale);
         Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects();
         if(!collection.isEmpty()) {
             RenderSystem.enableBlend();
             int i = 0;
             int j = 0;
             MobEffectTextureManager potionspriteuploader = this.mc.getMobEffectTextures();
-            bind(INVENTORY_LOCATION);
 
             for(MobEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
                 MobEffect effect = effectinstance.getEffect();
-                // Rebind in case previous renderHUDEffect changed texture
-                bind(INVENTORY_LOCATION);
                 if(effectinstance.showIcon()) {
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
@@ -74,10 +69,10 @@ public class HudElementMobEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        GuiComponent.blit(ms, k, l, 165, 166, 24, 24);
+                        gg.blit(INVENTORY_LOCATION, k, l, 165, 166, 24, 24);
                     } else {
                         // Background Regular
-                        GuiComponent.blit(ms, k, l, 141, 166, 24, 24);
+                        gg.blit(INVENTORY_LOCATION, k, l, 141, 166, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
                             f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
@@ -86,16 +81,15 @@ public class HudElementMobEffectsVanilla extends HudElement {
                         }
                     }
                     TextureAtlasSprite textureatlassprite = potionspriteuploader.get(effect);
-                    bind(textureatlassprite.atlasLocation());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    Gui.blit(ms, k + 3, l + 3, 0, 18, 18, textureatlassprite);
+                    gg.blit(k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
                         if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
                         k -= mc.font.width(s)/2;
-                        this.drawStringWithBackground(ms, s, k +12, l +14, -1, 0);
+                        this.drawStringWithBackground(gg, s, k +12, l +14, -1, 0);
                     }
                 }
             }

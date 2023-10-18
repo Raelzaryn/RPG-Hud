@@ -9,7 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.HumanoidArm;
@@ -51,21 +51,21 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
-				ms.translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
-				drawArmorDetails(gui, ms);
-				ms.translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+				gg.pose().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+				drawArmorDetails(gg);
+				gg.pose().translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
 			}
-			ms.translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
-			drawItemDetails(gui, ms, 0);
-			drawItemDetails(gui, ms, 1);
-			ms.translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+			gg.pose().translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+			drawItemDetails(gg, 0);
+			drawItemDetails(gg, 1);
+			gg.pose().translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
-				ms.translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
-				drawArrowCount(gui, ms);
-				ms.translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+				gg.pose().translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+				drawArrowCount(gg);
+				gg.pose().translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
 			}
 	}
 
@@ -75,22 +75,22 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw one
 	 */
-	protected void drawArmorDetails(Gui gui, PoseStack ms) {
+	protected void drawArmorDetails(GuiGraphics gg) {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (reducedSize)
-			ms.scale(0.5f, 0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmor(i).getItem().isDamageable(null)) {
 				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, reducedSize? 0.5f : 1f);
-				Gui.drawString(ms, this.mc.font, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, reducedSize? 0.5f : 1f);
+				gg.drawString(this.mc.font, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 			}
 		}
 		if (reducedSize)
-			ms.scale(2f, 2f, 2f);
+			gg.pose().scale(2f, 2f, 2f);
 	}
 
 	/**
@@ -101,24 +101,24 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param hand
 	 *            the hand whose item should be detailed
 	 */
-	protected void drawItemDetails(Gui gui, PoseStack ms, int hand) {
+	protected void drawItemDetails(GuiGraphics gg, int hand) {
 		ItemStack item = getItemInHand(hand);
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageableItem()) {
 				if (reducedSize)
-					ms.scale(0.5f, 0.5f, 0.5f);
+					gg.pose().scale(0.5f, 0.5f, 0.5f);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize? 0.5f : 1f);
-				Gui.drawString(ms, this.mc.font, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize? 0.5f : 1f);
+				gg.drawString(this.mc.font, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 				if (reducedSize)
-					ms.scale(2f, 2f, 2f);
+					gg.pose().scale(2f, 2f, 2f);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x = this.mc.player.getInventory().getContainerSize();
 				int z = 0;
-				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.isSame((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.isSame(this.itemMainHandLast, item)) {
+				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.matches((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.matches(this.itemMainHandLast, item)) {
 					if (hand == 0) {
 						this.itemMainHandLast = item.copy();
 						ModRPGHud.renderDetailsAgain[0] = false;
@@ -146,11 +146,11 @@ public class HudElementDetailsVanilla extends HudElement {
 				item = getItemInHand(hand);
 				String s = "x " + z;
 				if (reducedSize)
-					ms.scale(0.5f, 0.5f, 0.5f);
+					gg.pose().scale(0.5f, 0.5f, 0.5f);
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
-				Gui.drawString(ms, this.mc.font, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
+				gg.drawString(this.mc.font, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (reducedSize)
-					ms.scale(2f, 2f, 2f);
+					gg.pose().scale(2f, 2f, 2f);
 				this.offset += 16;
 			}
 		}
@@ -162,14 +162,14 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gui
 	 *            the GUI to draw on
 	 */
-	protected void drawArrowCount(Gui gui, PoseStack ms) {
+	protected void drawArrowCount(GuiGraphics gg) {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		ItemStack item = this.mc.player.getMainHandItem();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof BowItem) {
 			int x = this.mc.player.getInventory().getContainerSize();
 			int z = 0;
 
-			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.isSame(this.itemMainHandLastArrow, item)) {
+			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.matches(this.itemMainHandLastArrow, item)) {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.player);
@@ -177,7 +177,7 @@ public class HudElementDetailsVanilla extends HudElement {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
 						ItemStack item3 = this.mc.player.getInventory().getItem(y);
-						if (ItemStack.isSame(item, item3)) {
+						if (ItemStack.matches(item, item3)) {
 							z += addArrowStackIfCorrect(item, item3);
 						}
 					}
@@ -191,15 +191,15 @@ public class HudElementDetailsVanilla extends HudElement {
 
 			String s = "x " + z;
 			if (reducedSize)
-				ms.scale(0.5f, 0.5f, 0.5f);
+				gg.pose().scale(0.5f, 0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY) {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 
 			this.renderGuiItemModel(this.itemArrow, reducedSize ? 4 : 2, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset, reducedSize);
-			Gui.drawString(ms, this.mc.font, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
+			gg.drawString(this.mc.font, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (reducedSize)
-				ms.scale(2f, 2f, 2f);
+				gg.pose().scale(2f, 2f, 2f);
 			this.offset += 16;
 
 		}
@@ -258,7 +258,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	
 	public static boolean isArrow(ItemStack item) {
 		if (item != ItemStack.EMPTY) {
-			return ItemStack.isSame(item, new ItemStack(Items.ARROW));
+			return ItemStack.matches(item, new ItemStack(Items.ARROW));
 		}
 
 		return false;
@@ -316,16 +316,15 @@ public class HudElementDetailsVanilla extends HudElement {
 		RenderSystem.applyModelViewMatrix();
 	}
 
-	public void renderItemDurabilityBar(ItemStack stack, int x, int y, float scale) {
+	public void renderItemDurabilityBar(GuiGraphics gg,ItemStack stack, int x, int y, float scale) {
 		if (stack.isEmpty())
 			return;
 		if (stack.isBarVisible()) {
-			PoseStack ms = new PoseStack();
 			int i = stack.getBarWidth();
 			int j = stack.getBarColor();
-			ms.scale(scale, scale, scale);
-			HudElement.drawRect(ms, x + 2, y + 13, 13, 2, 0x000000);
-			HudElement.drawRect(ms, x + 2, y + 13, i, 1, j);
+			gg.pose().scale(scale, scale, scale);
+			HudElement.drawRect(gg, x + 2, y + 13, 13, 2, 0x000000);
+			HudElement.drawRect(gg, x + 2, y + 13, i, 1, j);
 		}
 	}
 

@@ -2,12 +2,8 @@ package net.spellcraftgaming.rpghud.gui;
 
 import static net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementHotbarModern.WIDGETS_TEX_PATH;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -143,7 +139,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void render(PoseStack ms, int mouseX, int mouseY, float partial)
+    public void render(GuiGraphics gg, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -152,7 +148,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         	}
         	Minecraft mc = Minecraft.getInstance();
         	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(ms, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(gg, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
             
@@ -166,12 +162,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-            RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
-			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
-			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
-			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            Gui.drawCenteredString(ms, mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
+			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
+			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
+			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            gg.drawCenteredString(mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
     

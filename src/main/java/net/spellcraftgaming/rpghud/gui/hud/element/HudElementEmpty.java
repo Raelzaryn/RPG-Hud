@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class HudElementEmpty extends HudElement {
 
@@ -11,7 +9,7 @@ public class HudElementEmpty extends HudElement {
 	}
 
 	@Override
-	public void drawElement(Gui gui, PoseStack ms, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 	}
 
 }
