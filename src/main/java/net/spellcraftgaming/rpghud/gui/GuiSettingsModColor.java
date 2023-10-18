@@ -9,8 +9,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.BaseComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -26,7 +25,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	private int color;
 	private String title = "";
 
-	public GuiSettingsModColor(Screen parent, String color, BaseComponent titleIn) {
+	public GuiSettingsModColor(Screen parent, String color, Component titleIn) {
 		super(titleIn);
 		this.parent = parent;
 		this.colorType = color;
@@ -63,7 +62,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			slider.onClick(0, 0);
 		}));
 
-		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, new TranslatableComponent(Settings.intToHexString(this.color)));
+		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, Component.translatable(Settings.intToHexString(this.color)));
 		this.colorCodeField.setValue(Settings.intToHexString(this.color));
 		this.colorCodeField.setMaxLength(7);
 		
@@ -72,22 +71,22 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
 		
 		for(int i = 0; i < 6; i++) {
-			this.addRenderableWidget(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, new TranslatableComponent(colorString[i]), button -> {
+			this.addRenderableWidget(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), button -> {
 					actionPerformed(button);
 			}));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addRenderableWidget(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, new TranslatableComponent(colorString[i+6]), button -> {
+			this.addRenderableWidget(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+6]), button -> {
 					actionPerformed(button);
 			}));
 		}
 
-		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, new TranslatableComponent("gui.done"), button -> {
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
 				setSettingColor();
 			minecraft.setScreen(parent);
 		}).setTooltip(I18n.get("tooltip.done", new Object[0])));
-		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, new TranslatableComponent("gui.cancel"), button -> {
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> {
 			minecraft.setScreen(parent);
 		}).setTooltip(I18n.get("tooltip.cancel", new Object[0])));
 	}
@@ -200,7 +199,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		if (this.colorCodeField.isFocused()) {
 			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 			if (p_keyPressed_1_ == 28)
-				this.colorCodeField.setFocus(false);
+				this.colorCodeField.setFocused(false);
 		}
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}

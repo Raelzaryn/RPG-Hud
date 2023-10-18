@@ -5,18 +5,18 @@ import static net.minecraft.world.level.ClipContext.Fluid.NONE;
 
 import java.util.List;
 
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,7 +51,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             bind(DAMAGE_INDICATOR);
-            gui.blit(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
+            GuiComponent.blit(ms, posX - 62, 20 + posY, 0, 0, 128, 36);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
@@ -73,10 +73,10 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 if(armor > 0) {
                     String value = String.valueOf(armor);
                     bind(DAMAGE_INDICATOR);
-                    gui.blit(ms, posX - 26, posY+44, 0, 36, 19, 8);
+                    GuiComponent.blit(ms, posX - 26, posY+44, 0, 36, 19, 8);
                     bind(Gui.GUI_ICONS_LOCATION);
                     ms.scale(0.5f, 0.5f, 0.5f);
-                    gui.blit(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    GuiComponent.blit(ms, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
                     this.drawStringWithBackground(ms,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     ms.scale(2f, 2f, 2f);
                 }  
@@ -112,8 +112,8 @@ public class HudElementEntityInspectVanilla extends HudElement {
         PoseStack poseStack = new PoseStack();
         poseStack.translate(0.0D, 0.0D, 1000.0D);
         poseStack.scale(scale, scale, scale);
-        Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-        Quaternion quaternion2 =  Vector3f.XP.rotationDegrees(g * 20.0F);
+        Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
+        Quaternionf quaternion2 = new Quaternionf().rotationX((float) Math.toRadians(g * 20f));
         quaternion.mul(quaternion2);
         poseStack.mulPose(quaternion);
         float h = entity.yBodyRot;
@@ -132,7 +132,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        quaternion2.conj();
+        quaternion2.conjugate();
         entityRenderDispatcher.overrideCameraOrientation(quaternion2);
         entityRenderDispatcher.setRenderShadow(false);
         MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -171,7 +171,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         double distance = maxDistance;
         if(ray != null) {
-            distance = ray.getBlockPos().distSqr(new Vec3i(posVec.x,posVec.y,posVec.z));
+            distance = ray.getBlockPos().distToCenterSqr(posVec);
         }
         Vec3 reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 

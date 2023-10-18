@@ -310,7 +310,6 @@ public abstract class HudElement {
         float f1 = (color >> 8 & 255) / 255.0F;
         float f2 = (color & 255) / 255.0F;
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.disableDepthTest();
@@ -321,10 +320,8 @@ public abstract class HudElement {
         vertexbuffer.vertex(ms.last().pose(), posX + width, posY + height, 0).color(f, f1, f2, f3).endVertex();
         vertexbuffer.vertex(ms.last().pose(), posX + width, posY, 0).color(f, f1, f2, f3).endVertex();
         vertexbuffer.vertex(ms.last().pose(), posX, posY, 0).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.end();
 
-        BufferUploader.end(vertexbuffer);
-        RenderSystem.enableTexture();
+        BufferUploader.drawWithShader(vertexbuffer.end());
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
 
@@ -492,7 +489,6 @@ public abstract class HudElement {
         float f1 = (color >> 8 & 255) / 255.0F;
         float f2 = (color & 255) / 255.0F;
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.disableDepthTest();//VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
@@ -504,8 +500,7 @@ public abstract class HudElement {
         vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).endVertex();
         vertexbuffer.end();
 
-        BufferUploader.end(vertexbuffer);
-        RenderSystem.enableTexture();
+        BufferUploader.draw(vertexbuffer.end());
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
     }
@@ -588,7 +583,7 @@ public abstract class HudElement {
     }
 
 
-    protected void renderHotbarItem(int x, int y, float partialTicks, Player player, ItemStack item) {
+    protected void renderHotbarItem(PoseStack ms, int x, int y, float partialTicks, Player player, ItemStack item) {
         if (!item.isEmpty()) {
             PoseStack PoseStack = RenderSystem.getModelViewStack();
             float f = (float) item.getPopTime() - partialTicks;
@@ -601,13 +596,13 @@ public abstract class HudElement {
                 PoseStack.translate((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
-            this.mc.getItemRenderer().renderGuiItem(item, x, y);
+            this.mc.getItemRenderer().renderGuiItem(ms, item, x, y);
 
             if (f > 0.0F) {
                 PoseStack.popPose();
             }
 
-            this.mc.getItemRenderer().renderGuiItemDecorations(this.mc.font, item, x, y);
+            this.mc.getItemRenderer().renderGuiItemDecorations(ms, this.mc.font, item, x, y);
         }
     }
 

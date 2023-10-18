@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
 import net.minecraft.util.Mth;
@@ -73,10 +74,10 @@ public class HudElementMobEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        gui.blit(ms, k, l, 165, 166, 24, 24);
+                        GuiComponent.blit(ms, k, l, 165, 166, 24, 24);
                     } else {
                         // Background Regular
-                        gui.blit(ms, k, l, 141, 166, 24, 24);
+                        GuiComponent.blit(ms, k, l, 141, 166, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
                             f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
@@ -85,9 +86,9 @@ public class HudElementMobEffectsVanilla extends HudElement {
                         }
                     }
                     TextureAtlasSprite textureatlassprite = potionspriteuploader.get(effect);
-                    bind(textureatlassprite.atlas().location());
+                    bind(textureatlassprite.atlasLocation());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    Gui.blit(ms, k + 3, l + 3, gui.getBlitOffset(), 18, 18, textureatlassprite);
+                    Gui.blit(ms, k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;

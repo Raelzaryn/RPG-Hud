@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
@@ -46,14 +47,14 @@ public class HudElementFoodTexture extends HudElement {
 				int bonusHunger = (int) (value + stamina);
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
-				gui.blit(ms, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12);
+				GuiComponent.blit(ms, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12);
 			}
 		}
 
 		if (this.mc.player.hasEffect(MobEffects.HUNGER)) {
-			gui.blit(ms, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12);
+			GuiComponent.blit(ms, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12);
 		} else {
-			gui.blit(ms, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12);
+			GuiComponent.blit(ms, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12);
 		}
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;

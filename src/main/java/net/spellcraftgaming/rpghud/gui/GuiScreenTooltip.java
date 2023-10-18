@@ -11,13 +11,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.BaseComponent;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class GuiScreenTooltip extends Screen {
 
-    protected GuiScreenTooltip(BaseComponent titleIn) {
+    protected GuiScreenTooltip(Component titleIn) {
         super(titleIn);
     }
 

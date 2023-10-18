@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.BaseComponent;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 public class GuiButtonTooltip extends GuiButtonLib {
@@ -12,24 +12,24 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	/** Array that contains the tooltip of this button */
 	private String[] tooltip;
 
-	public GuiButtonTooltip(int x, int y, BaseComponent buttonText, Button.OnPress ip) {
+	public GuiButtonTooltip(int x, int y, Component buttonText, Button.OnPress ip) {
 		super(x, y, buttonText, ip);
 		this.enumOptions = null;
 	}
 
 
-	public GuiButtonTooltip(int x, int y, int width, int height, BaseComponent buttonText, Button.OnPress ip) {
+	public GuiButtonTooltip(int x, int y, int width, int height, Component buttonText, Button.OnPress ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.enumOptions = null;
 	}
 	
-	public GuiButtonTooltip(int id, int x, int y, int width, int height, BaseComponent buttonText, Button.OnPress ip) {
+	public GuiButtonTooltip(int id, int x, int y, int width, int height, Component buttonText, Button.OnPress ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.id = id;
 		this.enumOptions = null;
 	}
 
-	public GuiButtonTooltip(int x, int y, String setting, BaseComponent buttonText, Button.OnPress ip) {
+	public GuiButtonTooltip(int x, int y, String setting, Component buttonText, Button.OnPress ip) {
 		super(x, y, 150, 20, buttonText, ip);
 		this.enumOptions = setting;
 	}

@@ -33,7 +33,7 @@ public class HudElementHealthMountTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 54 : 49) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 
-		gui.blit(ms, posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
+		GuiComponent.blit(ms, posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
 
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 

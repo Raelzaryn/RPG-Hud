@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import static com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA;
-import static net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI;
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -19,6 +18,7 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TippedArrowItem;
@@ -305,7 +305,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		boolean bl = !model.usesBlockLight();
 		if (bl)
 			Lighting.setupForFlatItems();
-		this.mc.getItemRenderer().render(stack,GUI, false, PoseStack2,
+		this.mc.getItemRenderer().render(stack, ItemDisplayContext.GUI, false, PoseStack2,
 				 immediate, 15728880,
 				NO_OVERLAY, model);
 		immediate.endBatch();

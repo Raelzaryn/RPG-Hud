@@ -7,8 +7,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
@@ -47,7 +48,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 	
 	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, Button.OnPress titleIn) {
-		super(x, y, 150, 12, new TranslatableComponent(""), titleIn);
+		super(x, y, 150, 12, Component.translatable(""), titleIn);
 		this.color = color;
 		this.sliderValue = value / 255;
 		this.value = (int) Math.ceil(value);
@@ -74,10 +75,10 @@ public class GuiSliderMod extends GuiButtonTooltip {
         }
 	}
 	
-	@Override
-	protected int getYImage(boolean p_getYImage_1_) {
+	/*@Override
+	private int getTextureY() {
 		return 0;
-	}
+	}*/
     
     @Override
     public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
@@ -106,10 +107,10 @@ public class GuiSliderMod extends GuiButtonTooltip {
     
     /**
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     */
+     
     @Override
     protected void renderBg(PoseStack matrices, Minecraft client, int mouseX, int mouseY) {
-    }
+    }*/
     
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
@@ -125,7 +126,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 
     public void updateSlider(double mouseX, double mouseY)
     {
-		this.sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
+		this.sliderValue = (float) (mouseX - (this.getX() + 4)) / (float) (this.width - 8);
 
 		if (this.sliderValue < 0.0F) {
 			this.sliderValue = 0.0F;
@@ -151,7 +152,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         	}
         	Minecraft mc = Minecraft.getInstance();
         	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(ms, this.x, this.y, this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+			HudElement.drawCustomBar(ms, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
             
@@ -166,11 +167,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             
             String buttonText = getDisplayString();
             RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
-			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, this.height / 2);
-			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)), this.y + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, this.height / 2);
-			this.blit(ms, this.x + (int) (this.sliderValue * (this.width - 8)) + 4, this.y + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
-            Gui.drawCenteredString(ms, mc.font, buttonText, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
+			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
+			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
+			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
+			GuiComponent.blit(ms, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+            Gui.drawCenteredString(ms, mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
     

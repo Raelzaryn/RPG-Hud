@@ -1,31 +1,24 @@
 package net.spellcraftgaming.rpghud.main;
 
 import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
-import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.ALL;
-import static net.minecraftforge.client.gui.ForgeIngameGui.AIR_LEVEL_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.ARMOR_LEVEL_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.EXPERIENCE_BAR_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.FOOD_LEVEL_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.HOTBAR_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.JUMP_BAR_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.MOUNT_HEALTH_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.PLAYER_HEALTH_ELEMENT;
-import static net.minecraftforge.client.gui.ForgeIngameGui.POTION_ICONS_ELEMENT;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.IIngameOverlay;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class RenderOverlay {
+public class RenderOverlay implements IGuiOverlay{
 
     private ModRPGHud rpgHud;
     private Minecraft mc;
@@ -33,10 +26,12 @@ public class RenderOverlay {
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
         this.mc = Minecraft.getInstance();
+        
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void renderOverlay(PoseStack ms, float partialTicks) {
+	@Override
+	public void render(ForgeGui gui, PoseStack ms, float partialTicks, int screenWidth, int screenHeight) {
         this.drawElement(HudElementType.WIDGET, ms, partialTicks);
         this.drawElement(HudElementType.CLOCK, ms, partialTicks);
         this.drawElement(HudElementType.DETAILS, ms, partialTicks);
@@ -57,9 +52,14 @@ public class RenderOverlay {
         }
         if (!shouldRenderVanilla(HudElementType.HOTBAR)) {
             this.drawElement(HudElementType.HOTBAR, ms, partialTicks);
-
-
         }
+		
+	}
+	
+    @SubscribeEvent
+    public void registerOverlay(RegisterGuiOverlaysEvent event) {
+    	event.registerAboveAll("rpg_hud", this);
+    	
     }
 
     /**
@@ -134,57 +134,46 @@ public class RenderOverlay {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
 
+    /*TODO:
     @SubscribeEvent
     public void onChatRender(RenderGameOverlayEvent.Chat event) {
         if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
             event.setPosY(event.getPosY() - 22);
         }
-    }
+    }*/
 
     @SubscribeEvent
-    public void onGameOverlayRender(RenderGameOverlayEvent.Pre event) {
-        if (event.getType() == ALL) {
-            renderOverlay(event.getMatrixStack(), event.getPartialTicks());
-        }
-    }
-
-    @SubscribeEvent
-    public void onGameOverlayRender(RenderGameOverlayEvent.PreLayer event) {
-        if (event.getType() == ALL) {
-            renderOverlay(event.getMatrixStack(), event.getPartialTicks());
-            return;
-        }
-        IIngameOverlay overlay = event.getOverlay();
-        if (AIR_LEVEL_ELEMENT.equals(overlay)) {
+    public void onGameOverlayRenderPre(RenderGuiOverlayEvent.Pre event) {
+        NamedGuiOverlay overlay = event.getOverlay();
+        if (VanillaGuiOverlay.AIR_LEVEL.equals(overlay)) {
             if (preventEventType(HudElementType.AIR))
                 event.setCanceled(true);
-        } else if (ARMOR_LEVEL_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.ARMOR_LEVEL.equals(overlay)) {
             if (preventEventType(HudElementType.ARMOR))
                 event.setCanceled(true);
-        } else if (EXPERIENCE_BAR_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.EXPERIENCE_BAR.equals(overlay)) {
             if (preventEventType(HudElementType.EXPERIENCE))
                 event.setCanceled(true);
-        } else if (FOOD_LEVEL_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.FOOD_LEVEL.equals(overlay)) {
             if (preventEventType(HudElementType.FOOD))
                 event.setCanceled(true);
-        } else if (PLAYER_HEALTH_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.PLAYER_HEALTH.equals(overlay)) {
             if (preventEventType(HudElementType.HEALTH))
                 event.setCanceled(true);
-        } else if (MOUNT_HEALTH_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.MOUNT_HEALTH.equals(overlay)) {
             if (preventEventType(HudElementType.HEALTH_MOUNT))
                 event.setCanceled(true);
-        } else if (HOTBAR_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.HOTBAR.equals(overlay)) {
             if (preventEventType(HudElementType.HOTBAR))
                 event.setCanceled(true);
-        } else if (JUMP_BAR_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.JUMP_BAR.equals(overlay)) {
             if (preventEventType(HudElementType.JUMP_BAR))
                 event.setCanceled(true);
-        } else if (POTION_ICONS_ELEMENT.equals(overlay)) {
+        } else if (VanillaGuiOverlay.POTION_ICONS.equals(overlay)) {
             if (preventEventType(HudElementType.STATUS_EFFECTS))
                 event.setCanceled(true);
         }
     }
-
 
     /*
     @Override

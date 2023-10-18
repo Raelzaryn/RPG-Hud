@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.BaseComponent;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 
@@ -14,13 +14,13 @@ public class EditBoxMod extends EditBox {
     private String[] tooltip;
     
     private ValueType type;
-    public EditBoxMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, BaseComponent msg) {
+    public EditBoxMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
         this.enumOptions = setting;
     }
     
-    public EditBoxMod(Font fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, BaseComponent msg) {
+    public EditBoxMod(Font fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
         this.enumOptions = null;

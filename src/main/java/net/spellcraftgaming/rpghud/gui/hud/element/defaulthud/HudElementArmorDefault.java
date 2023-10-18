@@ -5,6 +5,7 @@ import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -28,11 +29,11 @@ public class HudElementArmorDefault extends HudElement {
 		int level = this.mc.player.getArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				gui.blit(ms, left + 48, top - 2, 34, 9, 9, 9);
+				GuiComponent.blit(ms, left + 48, top - 2, 34, 9, 9, 9);
 			} else if (i == level) {
-				gui.blit(ms, left + 48, top - 2, 25, 9, 9, 9);
+				GuiComponent.blit(ms, left + 48, top - 2, 25, 9, 9, 9);
 			} else if (i > level) {
-				gui.blit(ms, left + 48, top - 2, 16, 9, 9, 9);
+				GuiComponent.blit(ms, left + 48, top - 2, 16, 9, 9, 9);
 			}
 			left += 8;
 		}

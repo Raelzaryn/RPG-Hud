@@ -5,6 +5,7 @@ import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -35,7 +36,7 @@ public class HudElementArmorSimple extends HudElement{
 			drawRect(ms, left, top, width2, height, 0xA0000000);
 			this.mc.font.draw(ms,String.valueOf(level), left + 12, top + 2, -1);
 			bind(GUI_ICONS_LOCATION);
-			gui.blit(ms, left + 1, top + 1, 34, 9, 9, 9);
+			GuiComponent.blit(ms, left + 1, top + 1, 34, 9, 9, 9);
 		}
 		
 		scale = getInvertedScale();
