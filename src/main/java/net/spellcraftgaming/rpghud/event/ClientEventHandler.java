@@ -24,9 +24,9 @@ public class ClientEventHandler {
             Minecraft mc = Minecraft.getInstance();
             Component s = Component.translatable("name.rpghud");
             
-            event.addListener(Button.builder(s, (button) -> {
+            event.addListener(new Button(event.getScreen().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20, s, (button) -> {
             	mc.setScreen(new GuiSettingsMod(event.getScreen(), Component.translatable("gui.settings.rpghud")));
-            }).bounds(event.getScreen().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20).build());
+            }));
         }
     }
     

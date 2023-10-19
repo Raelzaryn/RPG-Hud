@@ -199,7 +199,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		if (this.colorCodeField.isFocused()) {
 			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 			if (p_keyPressed_1_ == 28)
-				this.colorCodeField.setFocused(false);
+				this.colorCodeField.setFocus(false);
 		}
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}

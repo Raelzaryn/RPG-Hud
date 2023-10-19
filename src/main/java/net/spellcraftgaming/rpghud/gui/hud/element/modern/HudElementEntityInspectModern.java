@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -47,7 +46,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
                     String value = String.valueOf(armor);
                     drawRect(ms, posX - 30, posY + 42, 8 + (mc.font.width(value) / 2), 6, 0xA0000000);
                     ms.scale(0.5f, 0.5f, 0.5f);
-                    GuiComponent.blit(ms, (posX - 30) * 2, (posY + 42) * 2, 34, 9, 9, 9);
+                    gui.blit(ms, (posX - 30) * 2, (posY + 42) * 2, 34, 9, 9, 9);
                     this.mc.font.draw(ms, value, (posX - 24) * 2, (posY + 42) * 2 + 1, -1);
                     ms.scale(2f, 2f, 2f);
                 }

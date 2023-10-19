@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -32,7 +31,7 @@ public class HudElementCompassVanilla extends HudElement {
 			rotation = 200 + rotation;
 
 		bind(INTERFACE);
-		GuiComponent.blit(ms, width - 56, posY, 34, 234, 112, 9);
+		gui.blit(ms, width - 56, posY, 34, 234, 112, 9);
 		if (rotation > 0 && rotation <= 100) {
 			Gui.drawCenteredString(ms, this.mc.font, "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}

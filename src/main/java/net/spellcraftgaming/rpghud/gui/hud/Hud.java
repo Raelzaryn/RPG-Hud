@@ -68,7 +68,7 @@ public abstract class Hud {
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
 		this.elements.put(STATUS_EFFECTS, setElementMobEffects());
-		this.elements.put(MISC, setElementMobEffects());
+		this.elements.put(MISC, setElementMisc());
 
 	}
 

@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -100,8 +99,8 @@ public class HudElementHotbarSimple extends HudElement{
 					bind(Gui.GUI_ICONS_LOCATION);
 					int k1 = (int) (f1 * 19.0F);
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					GuiComponent.blit(ms, j2, i2 - 9, 0, 94, 18, 18);
-					GuiComponent.blit(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+					gui.blit(ms, j2, i2 - 9, 0, 94, 18, 18);
+					gui.blit(ms, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
 				}
 			}
 

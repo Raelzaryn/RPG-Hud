@@ -595,13 +595,13 @@ public abstract class HudElement {
                 PoseStack.translate((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
-            this.mc.getItemRenderer().renderGuiItem(ms, item, x, y);
+            this.mc.getItemRenderer().renderGuiItem(item, x, y);
 
             if (f > 0.0F) {
                 PoseStack.popPose();
             }
 
-            this.mc.getItemRenderer().renderGuiItemDecorations(ms, this.mc.font, item, x, y);
+            this.mc.getItemRenderer().renderGuiItemDecorations(this.mc.font, item, x, y);
         }
     }
 

@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +19,6 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TippedArrowItem;
@@ -305,7 +305,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		boolean bl = !model.usesBlockLight();
 		if (bl)
 			Lighting.setupForFlatItems();
-		this.mc.getItemRenderer().render(stack, ItemDisplayContext.GUI, false, PoseStack2,
+		this.mc.getItemRenderer().render(stack, ItemTransforms.TransformType.GUI, false, PoseStack2,
 				 immediate, 15728880,
 				NO_OVERLAY, model);
 		immediate.endBatch();

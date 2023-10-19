@@ -69,7 +69,6 @@ public class RenderOverlay implements IGuiOverlay{
      * @param partialTicks the partialTicks to be used for animations
      */
     private void drawElement(HudElementType type, PoseStack ms, float partialTicks) {
-
         if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if (!preventElementRenderType(type)) {
                 bind(GUI_ICONS_LOCATION);

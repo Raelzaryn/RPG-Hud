@@ -8,16 +8,16 @@ import net.minecraft.network.chat.Component;
 public abstract class GuiButtonLib extends Button {
 
 	public GuiButtonLib(int x, int y, int widthIn, int heightIn, Component buttonText, Button.OnPress ip) {
-		super(x, y, widthIn, heightIn, buttonText, ip, DEFAULT_NARRATION);
+		super(x, y, widthIn, heightIn, buttonText, ip);
 	}
 	
 	public GuiButtonLib(int x, int y, Component buttonText, Button.OnPress ip) {
-		super(x, y, 200, 20, buttonText, ip, DEFAULT_NARRATION);
+		super(x, y, 200, 20, buttonText, ip);
 	}
 
 	@Override
-	public void renderWidget(PoseStack ms, int mouseX, int mouseY, float partial) {
-		super.renderWidget(ms, mouseX, mouseY, partial);
+	public void render(PoseStack ms, int mouseX, int mouseY, float partial) {
+		super.render(ms, mouseX, mouseY, partial);
 		this.drawButton(mouseX, mouseY);
 	}
 	

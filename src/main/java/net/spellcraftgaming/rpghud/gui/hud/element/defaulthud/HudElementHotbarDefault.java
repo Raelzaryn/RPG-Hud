@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -38,13 +37,13 @@ public class HudElementHotbarDefault extends HudElement {
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
             float f = zLevel;
             zLevel = -90.0F;
-            GuiComponent.blit(ms, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
-            GuiComponent.blit(ms, i - 91 - 1 + this.mc.player.getInventory().selected * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
+            gui.blit(ms, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
+            gui.blit(ms, i - 91 - 1 + this.mc.player.getInventory().selected * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
             if (!itemstack.isEmpty())
                 if (arm == HumanoidArm.LEFT)
-                    GuiComponent.blit(ms, i - 91 - 29, scaledHeight - 23 + posY, 24, 22, 29, 24);
+                    gui.blit(ms, i - 91 - 29, scaledHeight - 23 + posY, 24, 22, 29, 24);
                 else
-                    GuiComponent.blit(ms, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
+                    gui.blit(ms, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
 
             zLevel = f;
             RenderSystem.enableBlend();
@@ -75,8 +74,8 @@ public class HudElementHotbarDefault extends HudElement {
                     bind(Gui.GUI_ICONS_LOCATION);
                     int k1 = (int) (f1 * 19.0F);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    GuiComponent.blit(ms, j2, i2, 0, 94, 18, 18);
-                    GuiComponent.blit(ms, j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
+                    gui.blit(ms, j2, i2, 0, 94, 18, 18);
+                    gui.blit(ms, j2, i2 + 18 - k1, 18, 112 - k1, 18, k1);
                 }
             }
 

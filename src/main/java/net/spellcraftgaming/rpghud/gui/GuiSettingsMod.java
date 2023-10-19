@@ -131,7 +131,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			}
 		}
 
-		this.addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> {
+		this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, Component.translatable("gui.done"), button -> {
 			Settings settings = ModRPGHud.instance.settings;
 			for(String settingID : textFields.keySet()) {
 			    for(EditBox t : textFields.get(settingID)) {
@@ -156,7 +156,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			}
 			settings.saveSettings();
 			minecraft.setScreen(parent);
-		}).bounds(this.width / 2 - 100, this.height / 6 + 168, 200, 20).build());
+		}));
 	}
 
 	@Override
