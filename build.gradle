@@ -22,7 +22,7 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"modid" {
+		"rpghud" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}

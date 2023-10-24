@@ -6,8 +6,8 @@ out/
 classes/
 
 # eclipse
+
 *.launch
-remappedSrc/
 logs/
 
 # idea
@@ -24,9 +24,18 @@ logs/
 bin/
 .classpath
 .project
-LICENSE
-README.md
+
+# macos
+
+*.DS_Store
 
 # fabric
 
 run/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
