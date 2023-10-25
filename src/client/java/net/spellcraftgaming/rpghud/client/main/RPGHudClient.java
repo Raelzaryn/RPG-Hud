@@ -12,4 +12,6 @@ public class RPGHudClient implements ClientModInitializer {
 		currentHud = new HudSimple("simple");
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 	}
+	
+	
 }

@@ -14,12 +14,12 @@ import net.spellcraftgaming.rpghud.client.main.RPGHudClient;
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
 	
-	@Inject(at = @At("RETURN"), method = "render")
+	@Inject(at = @At("TAIL"), method = "render")
 	private void render(DrawContext dc, float tickDelta, CallbackInfo info) {
 		for(OverlayElement e : RPGHudClient.currentHud.elements.values()) {
 			if(e.type != Type.DEBUG) {
-				e.render(dc, tickDelta);
-				
+				RPGHudClient.currentHud.renderElement(e.type, dc, tickDelta);
+				//e.render(dc, tickDelta);
 			}
 		}
 	}

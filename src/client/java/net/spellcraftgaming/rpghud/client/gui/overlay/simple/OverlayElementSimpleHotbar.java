@@ -8,29 +8,32 @@ import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayElement;
 import net.spellcraftgaming.rpghud.client.helper.DrawHelper;
 
 public class OverlayElementSimpleHotbar extends OverlayElement{
-    
-	boolean scaleIsGui = false; //TODO: SETTING
-	
+    	
 	public OverlayElementSimpleHotbar() {
-		super(Type.HOTBAR, 182, 2);
-		this.xAnchor = X_ANCHOR_RIGHT;
-		this.yAnchor = Y_ANCHOR_TOP;
-		
+		super(Type.HOTBAR, 182, 22);		
+	}
+	
+	@Override
+	public void initialize() {
+		this.anchoredX = 500; //TODO: SETTING
+		this.anchoredY = 1000; //TODO: SETTING
+		this.scale = 2; //TODO: SETTING
+		this.isGuiScale = true; //TODO: SETTING
+		this.xAnchor = X_ANCHOR_CENTER; //TODO: SETTING
+		this.yAnchor = Y_ANCHOR_BOTTOM; //TODO: SETTING
 	}
 
 	@Override
 	public void render(DrawContext dc, float tickDelta) {
+		//initialize();
 		MinecraftClient instance = MinecraftClient.getInstance();
-
 		int posX = getPosX();
 		int posY = getPosY();
-		float scaleFloat = getScale();
-		float invertedScale = getInvertedScale();
 		// render
 		if(instance.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             instance.inGameHud.getSpectatorHud().render(dc);
 		} else if (instance.getCameraEntity() instanceof PlayerEntity) {
-			if(!scaleIsGui) dc.getMatrices().scale(scaleFloat, scaleFloat, scaleFloat);
+			
 			
 			PlayerEntity entityplayer = (PlayerEntity) instance.getCameraEntity();
 
@@ -48,54 +51,6 @@ public class OverlayElementSimpleHotbar extends OverlayElement{
 			for (int i = 0; i < 9; ++i) {
 				DrawHelper.renderHotbarItem(dc, posX + i * 20 + 3, posY + 3, tickDelta, entityplayer, instance.player.getInventory().main.get(i));
 			}
-			
-			if(!scaleIsGui) dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
 		}
 	}
-
-	@Override
-	public int getPosX() {
-		MinecraftClient instance = MinecraftClient.getInstance();
-		int scaledWidth = instance.getWindow().getScaledWidth();
-
-		final int anchoredX = 1000; //TODO: SETTING
-		
-		int posX = (int) ((scaledWidth / 1000D) * anchoredX * getInvertedScale());
-		
-		if(this.xAnchor == X_ANCHOR_CENTER) posX -= (width / 2);
-		if(this.xAnchor == X_ANCHOR_RIGHT) posX -= width;
-		
-		return posX;
-	}
-
-	@Override
-	public int getPosY() {
-		MinecraftClient instance = MinecraftClient.getInstance();
-		int scaledHeight = instance.getWindow().getScaledHeight();
-		
-		final int anchoredY = 0; //TODO: SETTING
-		
-		int posY = (int) ((scaledHeight / 1000D) * anchoredY * getInvertedScale());
-		
-		if(this.yAnchor == Y_ANCHOR_CENTER) posY -= (height / 2);
-		if(this.yAnchor == Y_ANCHOR_BOTTOM) posY -= height;
-		
-		return posY;
-	}
-
-	@Override
-	public float getScale() {
-		MinecraftClient instance = MinecraftClient.getInstance();
-		double guiScale = instance.getWindow().getScaleFactor();
-		
-		final int scale = 2; //TODO SETTING
-
-		float scaleFloat = (float) (scale / guiScale);
-		// TODO Auto-generated method stub
-		if(scaleIsGui) {
-			scaleFloat = (float) guiScale;
-		}
-		return scaleFloat;
-	}
-
 }

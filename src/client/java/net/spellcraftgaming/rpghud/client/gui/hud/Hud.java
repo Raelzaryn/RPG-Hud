@@ -35,6 +35,18 @@ public abstract class Hud {
 	}
 	
 	public void renderElement(OverlayElement.Type type, DrawContext dc, float tickDelta) {
-		elements.get(type).render(dc, tickDelta);
+		OverlayElement element = elements.get(type);
+		boolean isGuiNotScale = !element.isGuiScale;
+		if(isGuiNotScale) {
+			float scale = element.getScale();
+			dc.getMatrices().scale(scale, scale, scale);
+		}
+
+		element.render(dc, tickDelta);
+		
+		if(isGuiNotScale) {
+			float invertedScale = element.getInvertedScale();
+			dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
+		}
 	}
 }
