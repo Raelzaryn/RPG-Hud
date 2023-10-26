@@ -6,13 +6,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayElement;
+import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayElementType;
 import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayParentAnchor;
 import net.spellcraftgaming.rpghud.client.helper.DrawHelper;
 
 public class OverlayElementSimpleHotbarOffhand extends OverlayElement {
 
 	public OverlayElementSimpleHotbarOffhand() {
-		super(Type.HOTBAR_OFFHAND, 22, 22);
+		super(OverlayElementType.HOTBAR_OFFHAND, 22, 22);
 	}
 
 	@Override
@@ -24,12 +25,11 @@ public class OverlayElementSimpleHotbarOffhand extends OverlayElement {
 			
 		this.yAnchor = Y_ANCHOR_CENTER; // TODO: SETTING
 		this.xAnchor = X_ANCHOR_RIGHT;
-		this.parentAnchor = new OverlayParentAnchor(Type.HOTBAR, X_ANCHOR_LEFT, Y_ANCHOR_CENTER, -2, 0);
+		this.parentAnchor = new OverlayParentAnchor(OverlayElementType.HOTBAR, X_ANCHOR_LEFT, Y_ANCHOR_CENTER, -2, 0);
 	}
 	
 	@Override
 	public void render(DrawContext dc, float tickDelta) {
-		//initialize();
 		MinecraftClient instance = MinecraftClient.getInstance();
 		
 		PlayerEntity entityplayer = (PlayerEntity) instance.getCameraEntity();

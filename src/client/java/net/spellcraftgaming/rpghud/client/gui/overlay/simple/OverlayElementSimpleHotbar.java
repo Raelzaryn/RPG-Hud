@@ -5,12 +5,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.GameMode;
 import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayElement;
+import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayElementType;
 import net.spellcraftgaming.rpghud.client.helper.DrawHelper;
 
 public class OverlayElementSimpleHotbar extends OverlayElement{
     	
 	public OverlayElementSimpleHotbar() {
-		super(Type.HOTBAR, 182, 22);		
+		super(OverlayElementType.HOTBAR, 182, 22);		
 	}
 	
 	@Override
@@ -25,7 +26,6 @@ public class OverlayElementSimpleHotbar extends OverlayElement{
 
 	@Override
 	public void render(DrawContext dc, float tickDelta) {
-		//initialize();
 		MinecraftClient instance = MinecraftClient.getInstance();
 		int posX = getPosX();
 		int posY = getPosY();

@@ -38,6 +38,9 @@ public class DrawHelper {
     public static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = new Identifier("hud/hotbar_attack_indicator_background");
     public static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE = new Identifier("hud/hotbar_attack_indicator_progress");
     public static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
+    public static final Identifier ARMOR_EMPTY_TEXTURE = new Identifier("hud/armor_empty");
+    public static final Identifier ARMOR_HALF_TEXTURE = new Identifier("hud/armor_half");
+    public static final Identifier ARMOR_FULL_TEXTURE = new Identifier("hud/armor_full");
     
     /**
      * Draws a rectangle on the screen
@@ -171,4 +174,63 @@ public class DrawHelper {
             dc.drawItemInSlot(instance.textRenderer, item, x, y);
         }
     }
+    
+    public static int offsetColorPercent(int color, int offsetPercent) {
+        int colorOffset;
+
+        int colorPart = (color >> 16 & 255);
+        colorPart -= colorPart / (100 / offsetPercent);
+        if (colorPart > 0xFF)
+            colorPart = 0xFF;
+        else if (colorPart < 0)
+            colorPart = 0;
+
+        colorOffset = colorPart << 16;
+        colorPart = (color >> 8 & 255);
+        colorPart -= colorPart / (100 / offsetPercent);
+        if (colorPart > 0xFF)
+            colorPart = 0xFF;
+        else if (colorPart < 0)
+            colorPart = 0;
+
+        colorOffset += colorPart << 8;
+        colorPart = (color & 255);
+        colorPart -= colorPart / (100 / offsetPercent);
+        if (colorPart > 0xFF)
+            colorPart = 0xFF;
+        else if (colorPart < 0)
+            colorPart = 0;
+        colorOffset += colorPart;
+        return colorOffset;
+    }
+
+    public static int offsetColor(int color, int offset) {
+        int colorOffset;
+
+        int colorPart = (color >> 16 & 255);
+        colorPart += (offset >> 16 & 255);
+        if (colorPart > 0xFF)
+            colorPart = 0xFF;
+        else if (colorPart < 0)
+            colorPart = 0;
+
+        colorOffset = colorPart << 16;
+        colorPart = (color >> 8 & 255);
+        colorPart += (offset >> 8 & 255);
+        if (colorPart > 0xFF)
+            colorPart = 0xFF;
+        else if (colorPart < 0)
+            colorPart = 0;
+
+        colorOffset += colorPart << 8;
+        colorPart = (color & 255);
+        colorPart += (offset & 255);
+        if (colorPart > 0xFF)
+            colorPart = 0xFF;
+        else if (colorPart < 0)
+            colorPart = 0;
+        colorOffset += colorPart;
+        return colorOffset;
+    }
+
 }

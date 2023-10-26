@@ -2,7 +2,6 @@ package net.spellcraftgaming.rpghud.client.gui.overlay;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.resource.language.I18n;
 import net.spellcraftgaming.rpghud.client.main.RPGHudClient;
 
 public abstract class OverlayElement {
@@ -15,7 +14,7 @@ public abstract class OverlayElement {
 	public final int Y_ANCHOR_CENTER = 1;
 	public final int Y_ANCHOR_BOTTOM = 2;
 	
-	public final Type type;
+	public final OverlayElementType type;
 	
 	public int xAnchor = 0;
 	public int yAnchor = 0;
@@ -27,18 +26,22 @@ public abstract class OverlayElement {
 	
 	protected OverlayParentAnchor parentAnchor;
 	
-	public OverlayElement(Type type, int width, int height) {
+	public OverlayElement(OverlayElementType type, int width, int height) {
 		this.type = type;
 		this.width = width;
 		this.height = height;
 		initialize();
 	}
 	
-	protected final int width;
-	protected final int height;
+	protected int width;
+	protected int height;
 	
 	public float getInvertedScale() {
 		return 1 / getScale();
+	}
+	
+	public boolean shouldRender() {
+		return true;
 	}
 	
 	public abstract void render(DrawContext dc, float tickDelta);
@@ -112,21 +115,5 @@ public abstract class OverlayElement {
 		if(this.parentAnchor != null) return true;
 		return false;
 	}
-	public enum Type{
-		
-		DEBUG("name.debug"),
-	    HOTBAR("name.hotbar"),
-	    HOTBAR_OFFHAND("name.hotbar_offhand"),
-	    ATTACK_INDICATOR("name.attack_indicator");
-		
-		private String displayName;
 
-		private Type(String displayName) {
-			this.displayName = displayName;
-		}
-
-	    public String getDisplayName() {
-	        return I18n.translate(this.displayName);
-	    }
-	}
 }
