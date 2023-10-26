@@ -11,8 +11,10 @@ public enum OverlayElementType {
     EXPERIENCE("name.experience"),
     LEVEL("name.level"),
     HEALTH("name.health"),
+    MOUNT_HEALTH("name.mount_health"),
     ARMOR("name.armor"),
-    HUNGER("name.hunger");
+    HUNGER("name.hunger"),
+    BREATH("name.breath");
 	
 	private String displayName;
 

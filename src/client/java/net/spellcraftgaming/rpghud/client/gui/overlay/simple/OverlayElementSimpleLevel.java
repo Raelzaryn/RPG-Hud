@@ -38,7 +38,7 @@ public class OverlayElementSimpleLevel extends OverlayElement{
 		int posX = getPosX();
 		int posY = getPosY();
 		DrawHelper.drawRect(dc, posX, posY, width, height, 0xA0000000);
-		dc.drawCenteredTextWithShadow(instance.textRenderer, level, posX + (width/2), posY, 0x80FF20);
+		dc.drawCenteredTextWithShadow(instance.textRenderer, level, posX + (width/2), posY + 1, 0x80FF20);
 	}
 
 }

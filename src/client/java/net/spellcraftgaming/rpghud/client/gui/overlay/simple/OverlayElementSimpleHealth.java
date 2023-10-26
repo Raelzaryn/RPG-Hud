@@ -68,7 +68,7 @@ public class OverlayElementSimpleHealth extends OverlayElement {
 
 		String stringHealth = health_percentage ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (show_numbers_health) {
-			dc.drawCenteredTextWithShadow(instance.textRenderer, stringHealth, posX + (width/2), posY, -1);
+			dc.drawCenteredTextWithShadow(instance.textRenderer, stringHealth, posX + (width/2), posY + 1, -1);
 		}
 
 	}

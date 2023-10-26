@@ -32,7 +32,7 @@ public class OverlayElementSimpleHotbarAttackIndicator extends OverlayElement {
 		this.isGuiScale = true; //TODO: SETTING
 			
 		this.yAnchor = Y_ANCHOR_CENTER; // TODO: SETTING
-		this.xAnchor = X_ANCHOR_LEFT;
+		this.xAnchor = X_ANCHOR_LEFT; //TODO: SETTING
 		this.parentAnchor = new OverlayParentAnchor(OverlayElementType.HOTBAR, X_ANCHOR_RIGHT, Y_ANCHOR_CENTER, 2, 0);
 	}
 	

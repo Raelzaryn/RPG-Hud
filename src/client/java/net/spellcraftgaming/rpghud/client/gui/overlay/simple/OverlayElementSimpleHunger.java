@@ -83,7 +83,7 @@ public class OverlayElementSimpleHunger extends OverlayElement{
 		
 		String hungerString = hunger_percentage ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (show_numbers_hunger) {
-			dc.drawCenteredTextWithShadow(instance.textRenderer, hungerString, posX + (width/2), posY, -1);
+			dc.drawCenteredTextWithShadow(instance.textRenderer, hungerString, posX + (width/2), posY + 1, -1);
 		}
 	}
 

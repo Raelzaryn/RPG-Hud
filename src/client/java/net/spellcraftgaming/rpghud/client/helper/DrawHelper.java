@@ -144,6 +144,15 @@ public class DrawHelper {
         }
     }
     
+    public static void drawCustomBarBackdropBright(DrawContext dc, int x, int y, int width, int height, double value, int colorBar) {
+        DrawHelper.drawRect(dc, x, y, width, 2, COLOR_BACKDROP);
+        DrawHelper.drawRect(dc, x, y +  height - 2, width, 2, COLOR_BACKDROP);
+        DrawHelper.drawRect(dc, x, y + 2, 2, height - 4, COLOR_BACKDROP);
+        DrawHelper.drawRect(dc, x + width - 2, y + 2, 2, height - 4, COLOR_BACKDROP);
+        DrawHelper.drawRect(dc, x + 2, y + 2, width - 4, height - 4, 0x20FFFFFF);
+        DrawHelper.drawRect(dc, x + 2, y + 2, (int) ((width - 4) * value), height - 4, colorBar);
+    }
+    
     public static void drawCustomBarBackdrop(DrawContext dc, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
     	drawRect(dc, x, y, width, height, COLOR_BACKDROP);
     	drawCustomBar(dc, x, y, width, height, value, -1, -1, colorBarLight, colorBarDark, false);

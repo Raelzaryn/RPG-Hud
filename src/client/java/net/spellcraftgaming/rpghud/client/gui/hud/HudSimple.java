@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.client.gui.hud;
 
 import net.spellcraftgaming.rpghud.client.gui.overlay.OverlayElementType;
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleArmor;
+import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleBreath;
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleExperience;
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleHealth;
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleHotbar;
@@ -9,6 +10,7 @@ import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpl
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleHotbarOffhand;
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleHunger;
 import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleLevel;
+import net.spellcraftgaming.rpghud.client.gui.overlay.simple.OverlayElementSimpleMountHealth;
 
 public class HudSimple extends Hud {
 
@@ -27,5 +29,7 @@ public class HudSimple extends Hud {
 		this.elements.put(OverlayElementType.HUNGER, new OverlayElementSimpleHunger());
 		this.elements.put(OverlayElementType.ARMOR, new OverlayElementSimpleArmor());
 		this.elements.put(OverlayElementType.LEVEL, new OverlayElementSimpleLevel());
+		this.elements.put(OverlayElementType.BREATH, new OverlayElementSimpleBreath());
+		this.elements.put(OverlayElementType.MOUNT_HEALTH, new OverlayElementSimpleMountHealth());
 	}
 }

@@ -52,9 +52,17 @@ public class OverlayElementSimpleExperience extends OverlayElement{
 		DrawHelper.drawCustomBarBackdrop(dc, posX, posY, width, height, exp * full, color_experience, DrawHelper.offsetColorPercent(color_experience, 25));
 		
 		String stringExp = experience_percentage ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
-
+		
+		boolean reduceByOne = true;
+		
+		if(reduceByOne) {
+			float scaleLower  = getScale();
+			if (scaleLower > 1) {
+				scaleLower -= 1;
+			}
+		}
 		if (show_numbers_experience) {
-			dc.drawCenteredTextWithShadow( instance.textRenderer, stringExp, posX + (width/2), (int) posY, -1);
+			dc.drawCenteredTextWithShadow( instance.textRenderer, stringExp, posX + (width/2), posY + 1, -1);
 		}
 		
 	}
