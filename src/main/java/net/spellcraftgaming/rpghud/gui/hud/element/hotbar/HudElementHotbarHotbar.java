@@ -45,14 +45,16 @@ public class HudElementHotbarHotbar extends HudElement {
 			RenderSystem.enableBlend();
 	        RenderSystem.defaultBlendFunc();
 
+	        int ii = 1;
+	        
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
-				this.renderHotbarItem(ms, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().items.get(l));
+				this.renderSlot(i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().items.get(l), ii++);
 			}
 
 			int l1 = scaledHeight - 47 + 3 + posY;
-			this.renderHotbarItem(ms, posX + 184, l1, partialTicks, entityplayer, itemstack);
+			this.renderSlot(posX + 184, l1, partialTicks, entityplayer, itemstack, ii++);
 
             if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
                 float f1 = this.mc.player.getAttackAnim(0.0F);

@@ -605,6 +605,29 @@ public abstract class HudElement {
         }
     }
 
+    protected void renderSlot(int x, int y, float partialTicks, Player player, ItemStack item, int p_168683_) {
+        if (!item.isEmpty()) {
+           PoseStack posestack = RenderSystem.getModelViewStack();
+           float f = (float)item.getPopTime() - partialTicks;
+           if (f > 0.0F) {
+              float f1 = 1.0F + f / 5.0F;
+              posestack.pushPose();
+              posestack.translate((double)(x + 8), (double)(y + 12), 0.0D);
+              posestack.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+              posestack.translate((double)(-(x + 8)), (double)(-(y + 12)), 0.0D);
+              RenderSystem.applyModelViewMatrix();
+           }
+
+           this.mc.getItemRenderer().renderAndDecorateItem(player, item, x, y, p_168683_);
+           RenderSystem.setShader(GameRenderer::getPositionColorShader);
+           if (f > 0.0F) {
+              posestack.popPose();
+              RenderSystem.applyModelViewMatrix();
+           }
+
+           this.mc.getItemRenderer().renderGuiItemDecorations(this.mc.font, item, x, y);
+        }
+     }
     protected void drawStringWithBackground(PoseStack ms, String text, int posX, int posY, int colorMain, int colorBackground) {
         this.mc.font.draw(ms, text, posX + 1, posY, colorBackground);
         this.mc.font.draw(ms, text, posX - 1, posY, colorBackground);
