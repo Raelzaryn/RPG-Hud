@@ -34,7 +34,7 @@ public class HudElementMiscVanilla extends HudElement{
 		scale = getInvertedScale(scale);
 		String fps = this.mc.fpsString.split(" ")[0];
 		int posX = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
-		int posY = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
+		int posY = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[1]) * scale);
 		Gui.drawString(ms, this.mc.font, fps, posX, posY, this.settings.getIntValue(Settings.color_fps));
 
 		ms.scale(scale, scale, scale);
