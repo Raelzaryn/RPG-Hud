@@ -18,8 +18,8 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		BLUE;
 	}
 	
-    private static final Identifier HANDLE_TEXTURE = new Identifier("widget/slider_handle");
-    private static final Identifier HANDLE_HIGHLIGHTED_TEXTURE = new Identifier("widget/slider_handle_highlighted");
+    private static final Identifier HANDLE_TEXTURE = Identifier.ofVanilla("widget/slider_handle");
+    private static final Identifier HANDLE_HIGHLIGHTED_TEXTURE = Identifier.ofVanilla("widget/slider_handle_highlighted");
     
 
     private Identifier getHandleTexture() {

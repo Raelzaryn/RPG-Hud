@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -22,7 +23,7 @@ public class RenderOverlay implements HudRenderCallback{
         HudRenderCallback.EVENT.register(this);
     }
 
-    private void renderOverlay(DrawContext dc, float partialTicks) {
+    private void renderOverlay(DrawContext dc, RenderTickCounter partialTicks) {
         this.drawElement(HudElementType.WIDGET, dc, partialTicks);
         this.drawElement(HudElementType.CLOCK, dc, partialTicks);
         this.drawElement(HudElementType.DETAILS, dc, partialTicks);
@@ -51,13 +52,13 @@ public class RenderOverlay implements HudRenderCallback{
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
-    private void drawElement(HudElementType type, DrawContext dc, float partialTicks) {
+    private void drawElement(HudElementType type, DrawContext dc, RenderTickCounter partialTicks) {
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
                	dc.getMatrices().push();
                 RenderSystem.enableBlend();
-                this.rpgHud.getActiveHud().drawElement(type, dc, partialTicks, partialTicks, this.mc.getWindow().getScaledWidth(),
+                this.rpgHud.getActiveHud().drawElement(type, dc, 0F, partialTicks, this.mc.getWindow().getScaledWidth(),
                         this.mc.getWindow().getScaledHeight());
                 dc.getMatrices().pop();
             }
@@ -110,7 +111,7 @@ public class RenderOverlay implements HudRenderCallback{
     }
 
     @Override
-    public void onHudRender(DrawContext dc, float tickDelta) {
+    public void onHudRender(DrawContext dc, RenderTickCounter tickDelta) {
         renderOverlay(dc, tickDelta);
         
     }

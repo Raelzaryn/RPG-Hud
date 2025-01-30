@@ -11,6 +11,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -33,7 +34,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Environment(value=EnvType.CLIENT)
 public class HudElementEntityInspectVanilla extends HudElement {
 
-    protected static final Identifier DAMAGE_INDICATOR = new Identifier("rpghud:textures/entityinspect.png");
+    protected static final Identifier DAMAGE_INDICATOR = Identifier.of("rpghud", "textures/entityinspect.png");
 
     @Override
     public boolean checkConditions() {
@@ -45,7 +46,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];

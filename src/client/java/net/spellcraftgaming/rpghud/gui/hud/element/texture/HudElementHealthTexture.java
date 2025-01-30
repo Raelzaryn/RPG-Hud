@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -25,7 +26,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledHeight, int scaledWidth) {
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		int health = MathHelper.ceil(this.mc.player.getHealth());
 		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());

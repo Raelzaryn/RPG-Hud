@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -23,7 +24,7 @@ public class HudElementMiscVanilla extends HudElement{
 	}
 	
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		if(this.settings.getBoolValue(Settings.enable_fps)) renderFPS(dc, scaledWidth, scaledHeight);
 		if(this.settings.getBoolValue(Settings.enable_system_time)) renderSystemTime(dc, scaledWidth, scaledHeight);
 		

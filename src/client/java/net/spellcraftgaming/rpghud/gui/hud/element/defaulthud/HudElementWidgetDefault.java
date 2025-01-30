@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -22,7 +23,7 @@ public class HudElementWidgetDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.widget_position)[0];
 		int posY = this.settings.getPositionValue(Settings.widget_position)[1];
 		dc.drawTexture(INTERFACE,posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 25), posY + (this.settings.getBoolValue(Settings.render_player_face) ? 8 : 0), 0, 0, 114, 35);

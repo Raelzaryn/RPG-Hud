@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.effect.StatusEffect;
@@ -26,7 +27,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawContext dc, float na, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawContext dc, float na, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
         dc.getMatrices().scale(scale, scale, scale);
         Collection<StatusEffectInstance> collection = this.mc.player.getStatusEffects();

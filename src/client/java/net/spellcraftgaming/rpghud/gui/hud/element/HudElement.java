@@ -10,6 +10,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
@@ -63,43 +64,43 @@ public abstract class HudElement {
     public static final int[] COLOR_DEFAULT = { 0x4C4C4C, 0x3D3D3D };
 
     /** ResourceLocation of the interface texture for the RPG-HUD */
-    protected static final Identifier INTERFACE = new Identifier("rpghud:textures/interface.png");
+    protected static final Identifier INTERFACE = Identifier.of("rpghud", "textures/interface.png");
     
-    protected static final Identifier CROSSHAIR_TEXTURE = new Identifier("hud/crosshair");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE = new Identifier("hud/crosshair_attack_indicator_full");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = new Identifier("hud/crosshair_attack_indicator_background");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE = new Identifier("hud/crosshair_attack_indicator_progress");
-    protected static final Identifier EFFECT_BACKGROUND_AMBIENT_TEXTURE = new Identifier("hud/effect_background_ambient");
-    protected static final Identifier EFFECT_BACKGROUND_TEXTURE = new Identifier("hud/effect_background");
-    protected static final Identifier HOTBAR_TEXTURE = new Identifier("hud/hotbar");
-    protected static final Identifier HOTBAR_SELECTION_TEXTURE = new Identifier("hud/hotbar_selection");
-    protected static final Identifier HOTBAR_OFFHAND_LEFT_TEXTURE = new Identifier("hud/hotbar_offhand_left");
-    protected static final Identifier HOTBAR_OFFHAND_RIGHT_TEXTURE = new Identifier("hud/hotbar_offhand_right");
-    protected static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = new Identifier("hud/hotbar_attack_indicator_background");
-    protected static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE = new Identifier("hud/hotbar_attack_indicator_progress");
-    protected static final Identifier JUMP_BAR_BACKGROUND_TEXTURE = new Identifier("hud/jump_bar_background");
-    protected static final Identifier JUMP_BAR_COOLDOWN_TEXTURE = new Identifier("hud/jump_bar_cooldown");
-    protected static final Identifier JUMP_BAR_PROGRESS_TEXTURE = new Identifier("hud/jump_bar_progress");
-    protected static final Identifier EXPERIENCE_BAR_BACKGROUND_TEXTURE = new Identifier("hud/experience_bar_background");
-    protected static final Identifier EXPERIENCE_BAR_PROGRESS_TEXTURE = new Identifier("hud/experience_bar_progress");
-    protected static final Identifier ARMOR_EMPTY_TEXTURE = new Identifier("hud/armor_empty");
-    protected static final Identifier ARMOR_HALF_TEXTURE = new Identifier("hud/armor_half");
-    protected static final Identifier ARMOR_FULL_TEXTURE = new Identifier("hud/armor_full");
-    protected static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = new Identifier("hud/food_empty_hunger");
-    protected static final Identifier FOOD_HALF_HUNGER_TEXTURE = new Identifier("hud/food_half_hunger");
-    protected static final Identifier FOOD_FULL_HUNGER_TEXTURE = new Identifier("hud/food_full_hunger");
-    protected static final Identifier FOOD_EMPTY_TEXTURE = new Identifier("hud/food_empty");
-    protected static final Identifier FOOD_HALF_TEXTURE = new Identifier("hud/food_half");
-    protected static final Identifier FOOD_FULL_TEXTURE = new Identifier("hud/food_full");
-    protected static final Identifier AIR_TEXTURE = new Identifier("hud/air");
-    protected static final Identifier AIR_BURSTING_TEXTURE = new Identifier("hud/air_bursting");
-    protected static final Identifier VEHICLE_CONTAINER_HEART_TEXTURE = new Identifier("hud/heart/vehicle_container");
-    protected static final Identifier VEHICLE_FULL_HEART_TEXTURE = new Identifier("hud/heart/vehicle_full");
-    protected static final Identifier VEHICLE_HALF_HEART_TEXTURE = new Identifier("hud/heart/vehicle_half");
-    protected static final Identifier VIGNETTE_TEXTURE = new Identifier("textures/misc/vignette.png");
-    protected static final Identifier PUMPKIN_BLUR = new Identifier("textures/misc/pumpkinblur.png");
-    protected static final Identifier SPYGLASS_SCOPE = new Identifier("textures/misc/spyglass_scope.png");
-    protected static final Identifier POWDER_SNOW_OUTLINE = new Identifier("textures/misc/powder_snow_outline.png");
+    protected static final Identifier CROSSHAIR_TEXTURE = Identifier.ofVanilla("hud/crosshair");
+    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE = Identifier.ofVanilla("hud/crosshair_attack_indicator_full");
+    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/crosshair_attack_indicator_background");
+    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/crosshair_attack_indicator_progress");
+    protected static final Identifier EFFECT_BACKGROUND_AMBIENT_TEXTURE = Identifier.ofVanilla("hud/effect_background_ambient");
+    protected static final Identifier EFFECT_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/effect_background");
+    protected static final Identifier HOTBAR_TEXTURE = Identifier.ofVanilla("hud/hotbar");
+    protected static final Identifier HOTBAR_SELECTION_TEXTURE = Identifier.ofVanilla("hud/hotbar_selection");
+    protected static final Identifier HOTBAR_OFFHAND_LEFT_TEXTURE = Identifier.ofVanilla("hud/hotbar_offhand_left");
+    protected static final Identifier HOTBAR_OFFHAND_RIGHT_TEXTURE = Identifier.ofVanilla("hud/hotbar_offhand_right");
+    protected static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/hotbar_attack_indicator_background");
+    protected static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/hotbar_attack_indicator_progress");
+    protected static final Identifier JUMP_BAR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/jump_bar_background");
+    protected static final Identifier JUMP_BAR_COOLDOWN_TEXTURE = Identifier.ofVanilla("hud/jump_bar_cooldown");
+    protected static final Identifier JUMP_BAR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/jump_bar_progress");
+    protected static final Identifier EXPERIENCE_BAR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/experience_bar_background");
+    protected static final Identifier EXPERIENCE_BAR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/experience_bar_progress");
+    protected static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.ofVanilla("hud/armor_empty");
+    protected static final Identifier ARMOR_HALF_TEXTURE = Identifier.ofVanilla("hud/armor_half");
+    protected static final Identifier ARMOR_FULL_TEXTURE = Identifier.ofVanilla("hud/armor_full");
+    protected static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_empty_hunger");
+    protected static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_half_hunger");
+    protected static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_full_hunger");
+    protected static final Identifier FOOD_EMPTY_TEXTURE = Identifier.ofVanilla("hud/food_empty");
+    protected static final Identifier FOOD_HALF_TEXTURE = Identifier.ofVanilla("hud/food_half");
+    protected static final Identifier FOOD_FULL_TEXTURE = Identifier.ofVanilla("hud/food_full");
+    protected static final Identifier AIR_TEXTURE = Identifier.ofVanilla("hud/air");
+    protected static final Identifier AIR_BURSTING_TEXTURE = Identifier.ofVanilla("hud/air_bursting");
+    protected static final Identifier VEHICLE_CONTAINER_HEART_TEXTURE = Identifier.ofVanilla("hud/heart/vehicle_container");
+    protected static final Identifier VEHICLE_FULL_HEART_TEXTURE = Identifier.ofVanilla("hud/heart/vehicle_full");
+    protected static final Identifier VEHICLE_HALF_HEART_TEXTURE = Identifier.ofVanilla("hud/heart/vehicle_half");
+    protected static final Identifier VIGNETTE_TEXTURE = Identifier.ofVanilla("textures/misc/vignette.png");
+    protected static final Identifier PUMPKIN_BLUR = Identifier.ofVanilla("textures/misc/pumpkinblur.png");
+    protected static final Identifier SPYGLASS_SCOPE = Identifier.ofVanilla("textures/misc/spyglass_scope.png");
+    protected static final Identifier POWDER_SNOW_OUTLINE = Identifier.ofVanilla("textures/misc/powder_snow_outline.png");
 
     public static final int OFFSET_PERCENT = 25;
 
@@ -177,11 +178,11 @@ public abstract class HudElement {
     /**
      * Function called to draw this element on the screen
      */
-    public void draw(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void draw(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         this.drawElement(dc, zLevel, partialTicks, scaledWidth, scaledHeight);
     }
 
-    public abstract void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
+    public abstract void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
@@ -316,12 +317,12 @@ public abstract class HudElement {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
-        BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
-        vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY + height, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY + height, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3).next();
+        
+        BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY + height, 0).color(f, f1, f2, f3);
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY + height, 0).color(f, f1, f2, f3);
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3);
+        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3);
         BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
         //RenderSystem.enableTexture();
         RenderSystem.disableBlend();
@@ -551,12 +552,11 @@ public abstract class HudElement {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
-        BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
-        vertexbuffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        vertexbuffer.vertex(posX1, (double) posY1 + height1, 0.0D).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).next();
-        vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).next();
+        BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        vertexbuffer.vertex(posX1, (float) posY1 + height1, 0F).color(f, f1, f2, f3);
+        vertexbuffer.vertex((float) posX2 + width2, (float) posY2 + height2, 0F).color(f, f1, f2, f3);
+        vertexbuffer.vertex((float) posX1 + width1, posY2, 0F).color(f, f1, f2, f3);
+        vertexbuffer.vertex(posX2, posY1, 0F).color(f, f1, f2, f3);
         BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
         //RenderSystem.enableTexture();
         RenderSystem.disableBlend();
@@ -646,10 +646,10 @@ public abstract class HudElement {
      * @param item
      *            the item (via ItemStack)
      */
-    protected void renderHotbarItem(DrawContext dc, int x, int y, float partialTicks, PlayerEntity player, ItemStack item) {
+    protected void renderHotbarItem(DrawContext dc, int x, int y, RenderTickCounter partialTicks, PlayerEntity player, ItemStack item) {
         if (!item.isEmpty()) {
         	MatrixStack matrixStack = dc.getMatrices();
-            float f = (float)item.getBobbingAnimationTime() - partialTicks;
+            float f = (float)item.getBobbingAnimationTime() - partialTicks.getTickDelta(false);
 
             if (f > 0.0F) {
                 matrixStack.push();

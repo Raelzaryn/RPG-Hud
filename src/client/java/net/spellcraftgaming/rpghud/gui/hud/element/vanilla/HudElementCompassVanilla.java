@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -23,7 +24,7 @@ public class HudElementCompassVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		int width = scaledWidth / 2 + this.settings.getPositionValue(Settings.compass_position)[0];
 		int posY = this.settings.getPositionValue(Settings.compass_position)[1];
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;

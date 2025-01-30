@@ -24,6 +24,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -144,7 +145,7 @@ public abstract class Hud {
 	 * @param partialTicks
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(HudElementType type, DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		this.elements.get(type).draw(dc, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 

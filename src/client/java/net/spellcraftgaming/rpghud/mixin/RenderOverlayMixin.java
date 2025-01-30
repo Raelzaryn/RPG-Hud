@@ -30,17 +30,17 @@ import net.spellcraftgaming.rpghud.main.RenderOverlay;
 @Mixin(InGameHud.class)
 public class RenderOverlayMixin {
 	
-    private static final Identifier ARMOR_EMPTY_TEXTURE = new Identifier("hud/armor_empty");
-    private static final Identifier ARMOR_HALF_TEXTURE = new Identifier("hud/armor_half");
-    private static final Identifier ARMOR_FULL_TEXTURE = new Identifier("hud/armor_full");
-    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = new Identifier("hud/food_empty_hunger");
-    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = new Identifier("hud/food_half_hunger");
-    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = new Identifier("hud/food_full_hunger");
-    private static final Identifier FOOD_EMPTY_TEXTURE = new Identifier("hud/food_empty");
-    private static final Identifier FOOD_HALF_TEXTURE = new Identifier("hud/food_half");
-    private static final Identifier FOOD_FULL_TEXTURE = new Identifier("hud/food_full");
-    private static final Identifier AIR_TEXTURE = new Identifier("hud/air");
-    private static final Identifier AIR_BURSTING_TEXTURE = new Identifier("hud/air_bursting");
+    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.ofVanilla("hud/armor_empty");
+    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.ofVanilla("hud/armor_half");
+    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.ofVanilla("hud/armor_full");
+    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE =Identifier.ofVanilla("hud/food_empty_hunger");
+    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_half_hunger");
+    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_full_hunger");
+    private static final Identifier FOOD_EMPTY_TEXTURE = Identifier.ofVanilla("hud/food_empty");
+    private static final Identifier FOOD_HALF_TEXTURE = Identifier.ofVanilla("hud/food_half");
+    private static final Identifier FOOD_FULL_TEXTURE = Identifier.ofVanilla("hud/food_full");
+    private static final Identifier AIR_TEXTURE = Identifier.ofVanilla("hud/air");
+    private static final Identifier AIR_BURSTING_TEXTURE = Identifier.ofVanilla("hud/air_bursting");
     
     private int lastHealthValue;
     private int renderHealthValue;
@@ -192,6 +192,12 @@ public class RenderOverlayMixin {
     @Inject(at = @At("HEAD"), method = "renderExperienceBar", cancellable = true)
     private void renderExperienceBar(CallbackInfo info) {
         if(!RenderOverlay.shouldRenderVanilla(HudElementType.EXPERIENCE))
+            info.cancel();
+    }
+    
+    @Inject(at = @At("HEAD"), method = "renderExperienceLevel", cancellable = true)
+    private void renderExperienceLevel(CallbackInfo info) {
+        if(!RenderOverlay.shouldRenderVanilla(HudElementType.LEVEL))
             info.cancel();
     }
 

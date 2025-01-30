@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
@@ -21,7 +22,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = getPosX(scaledWidth);
 		int posY = getPosY(scaledHeight);
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;

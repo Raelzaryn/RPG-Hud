@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.AttackIndicator;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
@@ -18,7 +19,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Environment(value=EnvType.CLIENT)
 public class HudElementHotbarDefault extends HudElement {
 
-    protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
+    protected static final Identifier WIDGETS_TEX_PATH = Identifier.ofVanilla("textures/gui/widgets.png");
 
     public int offset = -9;
     
@@ -27,7 +28,7 @@ public class HudElementHotbarDefault extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR)
             this.mc.inGameHud.getSpectatorHud().render(dc);
         else if(this.mc.getCameraEntity() instanceof PlayerEntity) {

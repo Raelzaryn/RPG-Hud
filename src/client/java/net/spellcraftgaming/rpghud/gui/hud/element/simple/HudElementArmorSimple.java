@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -21,7 +22,7 @@ public class HudElementArmorSimple extends HudElement{
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 	    float scale = getScale();
         dc.getMatrices().scale(scale, scale, scale);
 		int left = getPosX(scaledWidth);

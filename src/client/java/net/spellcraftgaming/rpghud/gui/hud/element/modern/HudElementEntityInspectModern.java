@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -11,7 +12,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public class HudElementEntityInspectModern extends HudElementEntityInspectVanilla {
 
     @Override
-    public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
