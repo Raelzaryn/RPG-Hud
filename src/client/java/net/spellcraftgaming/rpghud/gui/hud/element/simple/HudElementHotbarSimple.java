@@ -9,7 +9,6 @@ import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.GameMode;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -22,15 +21,12 @@ public class HudElementHotbarSimple extends HudElement{
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
     }
 
-    protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
-
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(dc);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
 			ItemStack itemstack = this.mc.player.getOffHandStack();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];

@@ -152,7 +152,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void render(DrawContext dc, int mouseX, int mouseY, float partial)
+    public void renderWidget(DrawContext dc, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {

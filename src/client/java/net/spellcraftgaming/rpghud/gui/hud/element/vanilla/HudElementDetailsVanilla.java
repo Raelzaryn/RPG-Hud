@@ -13,6 +13,8 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
@@ -20,8 +22,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.TippedArrowItem;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.util.Arm;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
@@ -84,7 +84,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		if (reducedSize)
 			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
-			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmorStack(i).getItem().isDamageable()) {
+			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmorStack(i).contains(DataComponentTypes.DAMAGE)) {
 				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
@@ -255,7 +255,8 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	public static int getOffhandSide() {
-		if (MinecraftClient.getInstance().player.getMainArm() == Arm.RIGHT)
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if (mc.player.getMainArm() == Arm.RIGHT)
 			return 0;
 		else
 			return 1;
@@ -270,11 +271,11 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	public static int addArrowStackIfCorrect(ItemStack item, ItemStack arrow) {
-		Potion type1 = null;
+		PotionContentsComponent type1 = null;
 		if (item.getItem() instanceof TippedArrowItem)
-			type1 = PotionUtil.getPotion(item);
+			type1 = item.get(DataComponentTypes.POTION_CONTENTS);
 		if (item.getItem() instanceof TippedArrowItem) {
-			Potion type2 = PotionUtil.getPotion(arrow);
+			PotionContentsComponent type2 = arrow.get(DataComponentTypes.POTION_CONTENTS);
 			if (type1.getEffects() == type2.getEffects()) {
 				return arrow.getCount();
 			}
@@ -316,7 +317,7 @@ public class HudElementDetailsVanilla extends HudElement {
             CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
             crashReportSection.add("Item Type", () -> String.valueOf(stack.getItem()));
             crashReportSection.add("Item Damage", () -> String.valueOf(stack.getDamage()));
-            crashReportSection.add("Item NBT", () -> String.valueOf(stack.getNbt()));
+            crashReportSection.add("Item NBT", () -> String.valueOf(stack.getComponents()));
             crashReportSection.add("Item Foil", () -> String.valueOf(stack.hasGlint()));
             throw new CrashException(crashReport);
         }

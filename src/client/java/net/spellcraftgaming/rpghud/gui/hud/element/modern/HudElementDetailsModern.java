@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
@@ -55,7 +56,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		int width = 0;
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY
-					&& this.mc.player.getInventory().getArmorStack(i).getItem().isDamageable()) {
+					&& this.mc.player.getInventory().getArmorStack(i).contains(DataComponentTypes.DAMAGE)) {
 				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				int widthNew = this.mc.textRenderer.getWidth(s);
@@ -173,7 +174,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	protected void drawArmorDetails(DrawContext dc, int width) {
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY
-					&& this.mc.player.getInventory().getArmorStack(i).getItem().isDamageable()) {
+					&& this.mc.player.getInventory().getArmorStack(i).contains(DataComponentTypes.DAMAGE)) {
 				drawRect(dc, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
 				ItemStack item = this.mc.player.getInventory().getArmorStack(i);

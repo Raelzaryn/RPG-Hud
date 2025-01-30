@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.item.ItemStack;
@@ -39,10 +40,10 @@ public class HudElementFoodSimple extends HudElement {
 		drawRect(dc, posX, posY, width, 8, 0xA0000000);
 		if (stats.isNotFull() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.getItem().getFoodComponent() != null) {
-				value = itemMain.getItem().getFoodComponent().getHunger();
-			} else if (itemSec != ItemStack.EMPTY && itemMain.getItem().getFoodComponent() != null) {
-				value = itemSec.getItem().getFoodComponent().getHunger();
+			if (itemMain != ItemStack.EMPTY && itemMain.contains(DataComponentTypes.FOOD)) {
+				value = itemMain.get(DataComponentTypes.FOOD).nutrition();
+			} else if (itemSec != ItemStack.EMPTY && itemMain.contains(DataComponentTypes.FOOD)) {
+				value = itemSec.get(DataComponentTypes.FOOD).nutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);

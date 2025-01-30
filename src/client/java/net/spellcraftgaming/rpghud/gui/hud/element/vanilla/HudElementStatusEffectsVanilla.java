@@ -12,6 +12,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -36,7 +37,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
             StatusEffectSpriteManager potionspriteuploader = this.mc.getStatusEffectSpriteManager();
 
             for(StatusEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                StatusEffect effect = effectinstance.getEffectType();
+                RegistryEntry<StatusEffect> effect = effectinstance.getEffectType();
                 // Rebind in case previous renderHUDEffect changed texture
                 if(effectinstance.shouldShowIcon()) {
                     int k = getPosX(scaledWidth);
@@ -45,7 +46,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         l += 15;
                     }
                     
-                    if(effect.isBeneficial()) {
+                    if(effect.value().isBeneficial()) {
                         ++i;
                         if(rpgHud.settings.getBoolValue(Settings.status_vertical)) {
                             k -= 25;

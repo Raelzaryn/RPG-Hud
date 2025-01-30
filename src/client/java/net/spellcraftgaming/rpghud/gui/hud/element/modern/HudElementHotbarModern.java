@@ -9,7 +9,6 @@ import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.GameMode;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -21,8 +20,6 @@ public class HudElementHotbarModern extends HudElement {
 	public HudElementHotbarModern() {
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
     }
-
-    protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
 
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {

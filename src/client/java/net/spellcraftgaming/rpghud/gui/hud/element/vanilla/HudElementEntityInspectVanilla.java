@@ -16,6 +16,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -190,6 +191,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 }
             }
         }
+        if (focusedEntity instanceof ArmorStandEntity) return null;
         return focusedEntity;
     }
 

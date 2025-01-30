@@ -20,8 +20,8 @@ public abstract class GuiButtonLib extends ButtonWidget{
 	}
 
 	@Override
-	public void renderButton(DrawContext dc, int mouseX, int mouseY, float partial) {
-		super.renderButton(dc, mouseX, mouseY, partial);
+	protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+		super.renderWidget(context, mouseX, mouseY, delta);
 		this.drawButton(mouseX, mouseY);
 	}
 	

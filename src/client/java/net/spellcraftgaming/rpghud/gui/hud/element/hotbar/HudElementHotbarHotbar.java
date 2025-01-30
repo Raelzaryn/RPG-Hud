@@ -8,7 +8,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.GameMode;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -16,8 +15,6 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(value=EnvType.CLIENT)
 public class HudElementHotbarHotbar extends HudElement {
-
-	protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
 
 	public HudElementHotbarHotbar() {
 		super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
