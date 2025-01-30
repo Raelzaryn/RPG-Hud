@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -176,8 +177,8 @@ public class GuiSliderMod extends GuiButtonTooltip {
             
             String buttonText = getDisplayString();
             
-            dc.drawGuiTexture(this.getHandleTexture(), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
-            dc.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            dc.drawGuiTexture(RenderLayer::getGuiTextured, this.getHandleTexture(), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
+            //dc.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             dc.drawCenteredTextWithShadow(mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }

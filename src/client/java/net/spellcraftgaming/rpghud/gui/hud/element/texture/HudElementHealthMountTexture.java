@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -34,7 +35,7 @@ public class HudElementHealthMountTexture extends HudElement {
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 53 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 54 : 49) + this.settings.getPositionValue(Settings.mount_health_position)[1];
 
-		dc.drawTexture(INTERFACE, posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8);
+		dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX, posY, 0, 124, (int) (88.0D * ((double) health / (double) healthMax)), 8, 256, 256);
 
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 

@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.AttackIndicator;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -32,37 +33,39 @@ public class HudElementHotbarDefault extends HudElement {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR)
             this.mc.inGameHud.getSpectatorHud().render(dc);
         else if(this.mc.getCameraEntity() instanceof PlayerEntity) {
+        	int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             ItemStack itemstack = this.mc.player.getOffHandStack();
             Arm arm = this.mc.player.getMainArm().getOpposite();
             int i = scaledWidth / 2 + this.settings.getPositionValue(Settings.hotbar_position)[0];
-            int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
+            
             float f = zLevel;
             zLevel = -90.0F;
-            dc.drawGuiTexture(HOTBAR_TEXTURE, i - 91, scaledHeight - 22 + posY, 182, 22);
-            dc.drawGuiTexture(HOTBAR_SELECTION_TEXTURE, i - 91 - 1 + this.mc.player.getInventory().selectedSlot * 20, scaledHeight - 22 + posY - 1, 24, 22);
+            dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_TEXTURE, i - 91, scaledHeight - 22 + posY, 182, 22);
+            dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_SELECTION_TEXTURE, i - 91 - 1 + this.mc.player.getInventory().selectedSlot * 20, scaledHeight - 22 + posY - 1, 24, 23);
             if(!itemstack.isEmpty())
                 if(arm == Arm.LEFT)
-                	dc.drawGuiTexture(HOTBAR_OFFHAND_LEFT_TEXTURE, i - 91 - 29, scaledHeight - 23 + posY, 29, 24);
+                	dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_OFFHAND_LEFT_TEXTURE, i - 91 - 29, scaledHeight - 23 + posY, 29, 24);
                 else
-                	dc.drawGuiTexture(HOTBAR_OFFHAND_RIGHT_TEXTURE, i + 91, scaledHeight - 23 + posY, 29, 24);
+                	dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_OFFHAND_RIGHT_TEXTURE, i + 91, scaledHeight - 23 + posY, 29, 24);
 
             zLevel = f;
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-
+            int s = 1;
+            
             for(int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 + posY;
-                this.renderHotbarItem(dc, i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().main.get(l));
+                this.renderHotbarItem(dc, i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().main.get(l), s++);
             }
 
             if(!itemstack.isEmpty()) {
                 int l1 = scaledHeight - 16 - 3 + posY;
                 if(arm == Arm.LEFT)
-                    this.renderHotbarItem(dc, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(dc, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack, s++);
                 else
-                    this.renderHotbarItem(dc, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(dc, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack, s++);
             }
 
             if(this.mc.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR) {
@@ -75,8 +78,8 @@ public class HudElementHotbarDefault extends HudElement {
 
                     int k1 = (int) (f1 * 19.0F);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    dc.drawGuiTexture(HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2, 18, 18);
-                    dc.drawGuiTexture(HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 + 18 - k1, 18, k1);
+                    dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2, 18, 18);
+                    dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 + 18 - k1, 18, k1);
                 }
             }
 

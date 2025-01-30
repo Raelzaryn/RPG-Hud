@@ -1,18 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import org.joml.Matrix4f;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -24,9 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.TippedArrowItem;
 import net.minecraft.util.Arm;
-import net.minecraft.util.crash.CrashException;
-import net.minecraft.util.crash.CrashReport;
-import net.minecraft.util.crash.CrashReportSection;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -293,6 +282,10 @@ public class HudElementDetailsVanilla extends HudElement {
 	
 	protected void renderGuiItemModel(DrawContext dc, ItemStack stack, int x, int y, boolean halfSize) {
 		MatrixStack matrices = dc.getMatrices();
+		if(halfSize) matrices.scale(0.5f, 0.5f, 0.5f);
+		dc.drawItem(stack, x, y);
+		if(halfSize) matrices.scale(2f, 2f, 2f);
+		/*MatrixStack matrices = dc.getMatrices();
 		BakedModel bakedModel = this.mc.getItemRenderer().getModel(stack, null, null, 0);
         matrices.push();
 		matrices.translate(x + 8, y + 8, 150);
@@ -322,7 +315,7 @@ public class HudElementDetailsVanilla extends HudElement {
             crashReportSection.add("Item Foil", () -> String.valueOf(stack.hasGlint()));
             throw new CrashException(crashReport);
         }
-        matrices.pop();
+        matrices.pop();*/
 	}
 
 	public void renderItemDurabilityBar(DrawContext dc, ItemStack stack, int x, int y, float scale) {

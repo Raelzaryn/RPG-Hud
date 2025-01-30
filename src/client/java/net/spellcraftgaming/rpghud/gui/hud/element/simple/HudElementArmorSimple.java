@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -34,7 +35,7 @@ public class HudElementArmorSimple extends HudElement{
 			int width2 = 1 + 9 + 2 + this.mc.textRenderer.getWidth(String.valueOf(level)) + 2;
 			drawRect(dc, left, top, width2, height, 0xA0000000);
 			dc.drawText(this.mc.textRenderer, String.valueOf(level), left + 12, top + 2, -1, false);
-			dc.drawGuiTexture(ARMOR_FULL_TEXTURE, left + 1, top + 1, 9, 9);
+			dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, left + 1, top + 1, 9, 9);
 		}
 		
 		scale = getInvertedScale();

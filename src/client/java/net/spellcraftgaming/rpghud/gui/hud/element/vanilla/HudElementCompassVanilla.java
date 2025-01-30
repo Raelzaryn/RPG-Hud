@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -32,7 +33,7 @@ public class HudElementCompassVanilla extends HudElement {
 		if (rotation < 0)
 			rotation = 200 + rotation;
 
-		dc.drawTexture(INTERFACE, width - 56, posY, 34, 234, 112, 9);
+		dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, width - 56, posY, 34, 234, 112, 9, 256, 256);
 		if (rotation > 0 && rotation <= 100) {
 			dc.drawCenteredTextWithShadow( this.mc.textRenderer, "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}

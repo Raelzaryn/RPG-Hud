@@ -4,15 +4,13 @@ import java.util.List;
 
 import org.joml.Quaternionf;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -51,7 +49,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
-            dc.drawTexture(DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36);
+            dc.drawTexture(RenderLayer::getGuiTextured, DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36, 256, 256);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
@@ -72,9 +70,9 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 int armor = focused.getArmor();
                 if(armor > 0) {
                     String value = String.valueOf(armor);
-                    dc.drawTexture(DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8);
+                    dc.drawTexture(RenderLayer::getGuiTextured, DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8, 256, 256);
                     dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-                    dc.drawGuiTexture(ARMOR_FULL_TEXTURE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
+                    dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
                     this.drawStringWithBackground(dc,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     dc.getMatrices().scale(2f, 2f, 2f);
                 }  
@@ -106,7 +104,6 @@ public class HudElementEntityInspectVanilla extends HudElement {
         ms.push();
         ms.translate(posX, posY, 1050.0F);
         ms.scale(1.0F, 1.0F, -1.0F);
-        RenderSystem.applyModelViewMatrix();
         MatrixStack matrixStack = dc.getMatrices();
         matrixStack.translate(0.0D, 0.0D, 1000.0D);
         matrixStack.scale(scale, scale, scale);
@@ -131,9 +128,8 @@ public class HudElementEntityInspectVanilla extends HudElement {
         quaternion2.conjugate();
         entityRenderDispatcher.setRotation(quaternion2);
         entityRenderDispatcher.setRenderShadows(false);
-        VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880);
-        immediate.draw();
+        dc.draw(vertexConsumers -> entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, dc.getMatrices(), vertexConsumers, 15728880));
+		dc.draw();
         entityRenderDispatcher.setRenderShadows(true);
         entity.bodyYaw = h;
         entity.setYaw(i);
@@ -142,7 +138,6 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.headYaw = l;
         entity.limbAnimator.setSpeed(m);
         ms.pop();
-        RenderSystem.applyModelViewMatrix();
         DiffuseLighting.enableGuiDepthLighting();
     }
 

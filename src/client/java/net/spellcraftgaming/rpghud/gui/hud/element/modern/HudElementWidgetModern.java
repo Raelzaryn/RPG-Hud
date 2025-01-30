@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -34,8 +35,10 @@ public class HudElementWidgetModern extends HudElement {
 		Identifier skin = getPlayerSkin(this.mc.player);
 		RenderSystem.disableDepthTest();
 		dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-		dc.drawTexture(skin, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
-		dc.drawTexture(skin, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
+		
+		dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
+		dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);
+		
 		dc.getMatrices().scale(2f, 2f, 2f);
 	}
 }

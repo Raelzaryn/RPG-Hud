@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
@@ -73,7 +74,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        dc.drawGuiTexture(EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
+                        dc.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
                     } else {
                         // Background Regular
                     	
@@ -84,11 +85,11 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                                             * MathHelper.clamp((float) i1 / 10.0F * 0.25F, 0.1F, 0.25F);
                         }
                         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                        dc.drawGuiTexture(EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
+                        dc.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
                     }
                     Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
                     
-                    dc.drawSprite(k + 3, l + 3, 0, 18, 18, textureatlassprite);
+                    dc.drawSpriteStretched(RenderLayer::getGuiTextured, textureatlassprite, k + 3, l + 3, 0, 18, 18);
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;

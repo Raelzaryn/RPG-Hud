@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
@@ -47,7 +48,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
                     String value = String.valueOf(armor);
                     drawRect(dc, posX - 30, posY + 42, 8 + (mc.textRenderer.getWidth(value) / 2), 6, 0xA0000000);
                     dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-                    dc.drawGuiTexture(ARMOR_FULL_TEXTURE, (posX - 30) * 2, (posY + 42) * 2, 9, 9);
+                    dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, (posX - 30) * 2, (posY + 42) * 2, 9, 9);
                     dc.drawText(this.mc.textRenderer, value, (posX - 24) * 2, (posY + 42) * 2 + 1, -1, false);
                     dc.getMatrices().scale(2f, 2f, 2f);
                 }

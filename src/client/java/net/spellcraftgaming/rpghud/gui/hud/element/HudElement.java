@@ -5,11 +5,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
@@ -315,7 +315,8 @@ public abstract class HudElement {
         RenderSystem.enableBlend();
         //RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        //RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.disableDepthTest();
         
         BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -550,7 +551,7 @@ public abstract class HudElement {
         RenderSystem.enableBlend();
         //RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
         RenderSystem.disableDepthTest();
         BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         vertexbuffer.vertex(posX1, (float) posY1 + height1, 0F).color(f, f1, f2, f3);
@@ -646,27 +647,24 @@ public abstract class HudElement {
      * @param item
      *            the item (via ItemStack)
      */
-    protected void renderHotbarItem(DrawContext dc, int x, int y, RenderTickCounter partialTicks, PlayerEntity player, ItemStack item) {
-        if (!item.isEmpty()) {
-        	MatrixStack matrixStack = dc.getMatrices();
-            float f = (float)item.getBobbingAnimationTime() - partialTicks.getTickDelta(false);
+    protected void renderHotbarItem(DrawContext context, int x, int y, RenderTickCounter tickCounter, PlayerEntity player, ItemStack stack, int seed) {
+		if (!stack.isEmpty()) {
+			float f = (float)stack.getBobbingAnimationTime() - tickCounter.getTickDelta(false);
+			if (f > 0.0F) {
+				float g = 1.0F + f / 5.0F;
+				context.getMatrices().push();
+				context.getMatrices().translate((float)(x + 8), (float)(y + 12), 0.0F);
+				context.getMatrices().scale(1.0F / g, (g + 1.0F) / 2.0F, 1.0F);
+				context.getMatrices().translate((float)(-(x + 8)), (float)(-(y + 12)), 0.0F);
+			}
 
-            if (f > 0.0F) {
-                matrixStack.push();
-                float f1 = 1.0F + f / 5.0F;
-                matrixStack.translate(x + 8, y + 12, 0.0F);
-                matrixStack.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-                matrixStack.translate((-(x + 8)), (-(y + 12)), 0.0F);
-            }
-            dc.drawItem(item, x, y);
-            // this.mc.getItemRenderer().renderInGuiWithOverrides(item, x, y);
+			context.drawItem(player, stack, x, y, seed);
+			if (f > 0.0F) {
+				context.getMatrices().pop();
+			}
 
-            if (f > 0.0F) {
-                matrixStack.pop();
-            }
-            dc.drawItemInSlot(this.mc.textRenderer, item, x, y);
-            //this.mc.getItemRenderer().renderGuiItemOverlay(this.mc.textRenderer, item, x, y);
-        }
+			context.drawStackOverlay(this.mc.textRenderer, stack, x, y);
+		}
     }
     
     protected void drawStringWithBackground(DrawContext dc, String text, int posX, int posY, int colorMain, int colorBackground) {

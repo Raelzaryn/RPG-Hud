@@ -12,6 +12,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -22,6 +23,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.profiler.Profilers;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.main.RenderOverlay;
@@ -91,7 +93,7 @@ public class RenderOverlayMixin {
         int m = scaledWidth / 2 - 91;
         int n = scaledWidth / 2 + 91;
         int o = scaledHeight - 39;
-        float f = Math.max((float)playerEntity.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH), (float)Math.max(j, i));
+        float f = Math.max((float)playerEntity.getAttributeValue(EntityAttributes.MAX_HEALTH), (float)Math.max(j, i));
         int p = MathHelper.ceil((float)playerEntity.getAbsorptionAmount());
         int q = MathHelper.ceil((float)((f + (float)p) / 2.0f / 10.0f));
         int r = Math.max(10 - (q - 2), 3);
@@ -103,29 +105,29 @@ public class RenderOverlayMixin {
             v = this.ticks % MathHelper.ceil((float)(f + 5.0f));
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.ARMOR)) {
-	        client.getProfiler().push("armor");
+	        Profilers.get().push("armor");
 	        for (int w = 0; w < 10; ++w) {
 	            if (u <= 0) continue;
 	            x = m + w * 8;
 	            if (w * 2 + 1 < u) {
-	                dc.drawGuiTexture(ARMOR_FULL_TEXTURE, x, s, 9, 9);
+	                dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, x, s, 9, 9);
 	            }
 	            if (w * 2 + 1 == u) {
-	                dc.drawGuiTexture(ARMOR_HALF_TEXTURE, x, s, 9, 9);
+	                dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_HALF_TEXTURE, x, s, 9, 9);
 	            }
 	            if (w * 2 + 1 <= u) continue;
-	            dc.drawGuiTexture(ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
+	            dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
 	        }
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.HEALTH)) {
-        	client.getProfiler().swap("health");
+        	Profilers.get().swap("health");
         	renderHealthBar(dc, random, playerEntity, m, o, r, v, f, i, j, p, bl);
         }
         LivingEntity livingEntity = this.getRiddenEntity();
         x = this.getHeartCount(livingEntity);
         if(RenderOverlay.shouldRenderVanilla(HudElementType.FOOD)) {
 	        if (x == 0) {
-	            client.getProfiler().swap("food");
+	            Profilers.get().swap("food");
 	            for (y = 0; y < 10; ++y) {
 	                Identifier identifier3;
 	                Identifier identifier2;
@@ -144,18 +146,18 @@ public class RenderOverlayMixin {
 	                    z += random.nextInt(3) - 1;
 	                }
 	                aa = n - y * 8 - 9;
-	                dc.drawGuiTexture(identifier, aa, z, 9, 9);
+	                dc.drawGuiTexture(RenderLayer::getGuiTextured, identifier, aa, z, 9, 9);
 	                if (y * 2 + 1 < k) {
-	                    dc.drawGuiTexture(identifier3, aa, z, 9, 9);
+	                    dc.drawGuiTexture(RenderLayer::getGuiTextured, identifier3, aa, z, 9, 9);
 	                }
 	                if (y * 2 + 1 != k) continue;
-	                dc.drawGuiTexture(identifier2, aa, z, 9, 9);
+	                dc.drawGuiTexture(RenderLayer::getGuiTextured, identifier2, aa, z, 9, 9);
 	            }
 	            t -= 10;
 	        }
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.AIR)) {
-	        client.getProfiler().swap("air");
+	        Profilers.get().swap("air");
 	        y = playerEntity.getMaxAir();
 	        z = Math.min(playerEntity.getAir(), y);
 	        if (playerEntity.isSubmergedIn(FluidTags.WATER) || z < y) {
@@ -165,14 +167,14 @@ public class RenderOverlayMixin {
 	            int ad = MathHelper.ceil((double)((double)z * 10.0 / (double)y)) - ac;
 	            for (aa = 0; aa < ac + ad; ++aa) {
 	                if (aa < ac) {
-	                    dc.drawGuiTexture(AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                    dc.drawGuiTexture(RenderLayer::getGuiTextured, AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
 	                    continue;
 	                }
-	                dc.drawGuiTexture(AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                dc.drawGuiTexture(RenderLayer::getGuiTextured, AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
 	            }
 	        }
         }
-        client.getProfiler().pop();
+        Profilers.get().pop();
         info.cancel();
     }
 
@@ -290,6 +292,6 @@ public class RenderOverlayMixin {
     }
     
     private void drawHeart(DrawContext context, ModRPGHud.HeartTypeNew type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
-        context.drawGuiTexture(type.getTexture(hardcore, half, blinking), x, y, 9, 9);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, type.getTexture(hardcore, half, blinking), x, y, 9, 9);
     }
 }
