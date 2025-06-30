@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
@@ -178,7 +179,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         List<Entity> entitiesWithinMaxDistance = watcher.level().getEntities(watcher,
                 watcher.getBoundingBox().expandTowards(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expandTowards(1, 1, 1));
         for(Entity entity : entitiesWithinMaxDistance) {
-            if(entity instanceof LivingEntity) {
+            if(entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
                 float collisionBorderSize = entity.getPickRadius();
                 AABB hitBox = entity.getBoundingBox().expandTowards(collisionBorderSize, collisionBorderSize, collisionBorderSize);
                 Vec3 hitVecIn = intercept(posVec, reachVector, hitBox);
@@ -197,6 +198,8 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 }
             }
         }
+        
+
         return focusedEntity;
     }
 
