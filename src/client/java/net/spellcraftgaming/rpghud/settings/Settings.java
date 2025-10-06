@@ -22,7 +22,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 @Environment(value=EnvType.CLIENT)
 public class Settings {
 
-    private final String CONFIG_VERSION = "1.0";
+    private final String CONFIG_VERSION = "2.0";
     private Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
     private File file;
     public static final String NEW_LINE = System.getProperty("line.separator");
@@ -128,7 +128,7 @@ public class Settings {
 
     private File rpgHudDir() {
         MinecraftClient mc = MinecraftClient.getInstance();
-        return (new File(mc.runDirectory.getPath(), "config" + File.separator + "RPG-HUD"));
+        return (new File(mc.runDirectory.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
     }
 
     public Settings() {
