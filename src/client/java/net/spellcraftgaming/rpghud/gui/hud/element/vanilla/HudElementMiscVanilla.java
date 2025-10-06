@@ -32,19 +32,19 @@ public class HudElementMiscVanilla extends HudElement{
 	
 	private void renderFPS(DrawContext dc, int scaledWidth, int scaledHeight) {
 		float scale = (float) this.settings.getDoubleValue(Settings.fps_scale);
-		dc.getMatrices().scale(scale, scale, scale);
+		dc.getMatrices().scale(scale, scale);
 		scale = getInvertedScale(scale);
 		String fps = this.mc.fpsDebugString.split(" ")[0];
 		int posX = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
 		int posY = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
 		dc.drawText(this.mc.textRenderer, fps, posX, posY, this.settings.getIntValue(Settings.color_fps), false);
 
-		dc.getMatrices().scale(scale, scale, scale);
+		dc.getMatrices().scale(scale, scale);
 	}
 	
 	private void renderSystemTime(DrawContext dc, int scaledWidth, int scaledHeight) {
 		float scale = (float) this.settings.getDoubleValue(Settings.system_time_scale);
-		dc.getMatrices().scale(scale, scale, scale);
+		dc.getMatrices().scale(scale, scale);
 		scale = getInvertedScale(scale);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 		String time = formatter.format(LocalDateTime.now());
@@ -58,7 +58,7 @@ public class HudElementMiscVanilla extends HudElement{
 
 		dc.drawText(this.mc.textRenderer, time, posX, posY, this.settings.getIntValue(Settings.color_system_time), false);
 		
-		dc.getMatrices().scale(scale, scale, scale);
+		dc.getMatrices().scale(scale, scale);
 	}
     
     public float getInvertedScale(float scale) {

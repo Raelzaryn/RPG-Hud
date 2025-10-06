@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
@@ -37,28 +38,28 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
 		int width = calculateWidth();
 		if (this.settings.getBoolValue(Settings.show_armor)) {
-			dc.getMatrices().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+			dc.getMatrices().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1]);
 			drawArmorDetails(dc, width);
-			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1]);
 		}
-		dc.getMatrices().translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+		dc.getMatrices().translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1]);
 		drawItemDetails(dc, Hand.MAIN_HAND, width);
 		drawItemDetails(dc, Hand.OFF_HAND, width);
-		dc.getMatrices().translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+		dc.getMatrices().translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1]);
 		if (this.settings.getBoolValue(Settings.show_arrow_count)) {
-			dc.getMatrices().translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+			dc.getMatrices().translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1]);
 			drawArrowCount(dc, width);
-			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1]);
 		}
 	}
 
 	/** Calculates the width for the element background */
 	private int calculateWidth() {
 		int width = 0;
-		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
-			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY
-					&& this.mc.player.getInventory().getArmorStack(i).contains(DataComponentTypes.DAMAGE)) {
-				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
+		for (int i = PlayerInventory.EQUIPMENT_SLOTS.size() +35; i >= 36; i--) {
+			if (this.mc.player.getInventory().getStack(i) != ItemStack.EMPTY
+					&& this.mc.player.getInventory().getStack(i).contains(DataComponentTypes.DAMAGE)) {
+				ItemStack item = this.mc.player.getInventory().getStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				int widthNew = this.mc.textRenderer.getWidth(s);
 				if (widthNew > width)
@@ -173,18 +174,18 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param width the width of the background
 	 */
 	protected void drawArmorDetails(DrawContext dc, int width) {
-		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
-			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY
-					&& this.mc.player.getInventory().getArmorStack(i).contains(DataComponentTypes.DAMAGE)) {
+		for (int i = PlayerInventory.EQUIPMENT_SLOTS.size() +35; i >= 36; i--) {
+			if (this.mc.player.getInventory().getStack(i) != ItemStack.EMPTY
+					&& this.mc.player.getInventory().getStack(i).contains(DataComponentTypes.DAMAGE)) {
 				drawRect(dc, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
-				dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
+				dc.getMatrices().scale(0.5f, 0.5f);
+				ItemStack item = this.mc.player.getInventory().getStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				this.renderGuiItemHalfSizeModel(dc, item, 6, 62 + this.offset);
+				this.renderGuiItemModel(dc, item, 6, 62 + this.offset, false);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(dc, item, 6, 62 + this.offset, 1f);
 				dc.drawCenteredTextWithShadow( this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-				dc.getMatrices().scale(2f, 2f, 2f);
+				dc.getMatrices().scale(2f, 2f);
 				this.offset += 20;
 			}
 		}
@@ -203,12 +204,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
 				drawRect(dc, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
-				dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-				this.renderGuiItemHalfSizeModel(dc, item, 6, 62 + this.offset);
+				dc.getMatrices().scale(0.5f, 0.5f);
+				this.renderGuiItemModel(dc, item, 6, 62 + this.offset, false);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(dc, item, 6, 62 + this.offset, 1f);
 				dc.drawCenteredTextWithShadow( this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-				dc.getMatrices().scale(2f, 2f, 2f);
+				dc.getMatrices().scale(2f, 2f);
 				this.offset += 20;
 
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
@@ -246,10 +247,11 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				item = this.mc.player.getStackInHand(hand);
 				drawRect(dc, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = "x " + z;
-				dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-				this.renderGuiItemHalfSizeModel(dc, item, 6, 62 + this.offset);
+
+				dc.getMatrices().scale(0.5f, 0.5f);
+				this.renderGuiItemModel(dc, item, 6, 62 + this.offset, false);
 				dc.drawCenteredTextWithShadow( this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-				dc.getMatrices().scale(2f, 2f, 2f);
+				dc.getMatrices().scale(2f, 2f);
 				this.offset += 20;
 			}
 		}
@@ -289,12 +291,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			}
 			drawRect(dc, 2, 30 + this.offset / 2, 10 + 6 + (width / 2), 10, 0xA0000000);
 			String s = "x " + z;
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+			dc.getMatrices().scale(0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
-			this.renderGuiItemHalfSizeModel(dc, this.itemArrow, 6, 62 + this.offset);
+			this.renderGuiItemModel(dc, this.itemArrow, 6, 62 + this.offset, false);
 			dc.drawCenteredTextWithShadow( this.mc.textRenderer, s, 32 + width / 2, 66 + this.offset, -1);
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(2f, 2f);
 			this.offset += 20;
 
 		}

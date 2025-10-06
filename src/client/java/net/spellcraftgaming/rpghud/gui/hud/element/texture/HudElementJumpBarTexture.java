@@ -1,11 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -30,10 +28,8 @@ public class HudElementJumpBarTexture extends HudElement {
 		int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float var14 = this.mc.player.getMountJumpStrength();
 		int color = (int) (var14 * 100.0F);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		dc.drawTexture(RenderLayer::getGuiTextured,INTERFACE, adjustedWidth - 71, height - 80, 0, 160, 141, 10, 256, 256);
-		dc.drawTexture(RenderLayer::getGuiTextured,INTERFACE, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10, 256, 256);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		dc.drawTexture(RenderPipelines.GUI_TEXTURED,INTERFACE, adjustedWidth - 71, height - 80, 0, 160, 141, 10, 256, 256);
+		dc.drawTexture(RenderPipelines.GUI_TEXTURED,INTERFACE, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10, 256, 256);
 	}
 
 }

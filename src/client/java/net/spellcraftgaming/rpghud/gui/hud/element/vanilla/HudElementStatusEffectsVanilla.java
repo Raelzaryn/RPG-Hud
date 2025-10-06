@@ -3,18 +3,17 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import java.util.Collection;
 
 import com.google.common.collect.Ordering;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -30,18 +29,17 @@ public class HudElementStatusEffectsVanilla extends HudElement {
     @Override
     public void drawElement(DrawContext dc, float na, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        dc.getMatrices().scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale);
         Collection<StatusEffectInstance> collection = this.mc.player.getStatusEffects();
         if(!collection.isEmpty()) {
-            RenderSystem.enableBlend();
             int i = 0;
             int j = 0;
-            StatusEffectSpriteManager potionspriteuploader = this.mc.getStatusEffectSpriteManager();
 
             for(StatusEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
                 RegistryEntry<StatusEffect> effect = effectinstance.getEffectType();
                 // Rebind in case previous renderHUDEffect changed texture
                 if(effectinstance.shouldShowIcon()) {
+                	
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
                     if(this.mc.isDemo()) {
@@ -70,11 +68,10 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         }
 
                     }
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        dc.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
+                        dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
                     } else {
                         // Background Regular
                     	
@@ -84,12 +81,10 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                                     + MathHelper.cos((float) effectinstance.getDuration() * (float) Math.PI / 7F)
                                             * MathHelper.clamp((float) i1 / 10.0F * 0.25F, 0.1F, 0.25F);
                         }
-                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                        dc.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
+                        dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
                     }
-                    Sprite textureatlassprite = potionspriteuploader.getSprite(effect);
                     
-                    dc.drawSpriteStretched(RenderLayer::getGuiTextured, textureatlassprite, k + 3, l + 3, 0, 18, 18);
+                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.getEffectTexture(effect), k + 3, l + 3, 18, 18, ColorHelper.getWhite(f));
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
@@ -98,7 +93,6 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                         k -= mc.textRenderer.getWidth(s)/2;
                         this.drawStringWithBackground(dc, s, k +12, l +14, -1, 0);
                     }
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }

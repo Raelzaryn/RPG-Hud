@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -32,13 +32,13 @@ public class HudElementArmorHotbar extends HudElement {
             if (level <= 0) continue;
             x = left + w * 8;
             if (w * 2 + 1 < level) {
-                dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, x + 62, top - 2, 9, 9);
+                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, x + 62, top - 2, 9, 9);
             }
             if (w * 2 + 1 == level) {
-                dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_HALF_TEXTURE, x + 62, top - 2, 9, 9);
+                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_HALF_TEXTURE, x + 62, top - 2, 9, 9);
             }
             if (w * 2 + 1 <= level) continue;
-            dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_EMPTY_TEXTURE, x + 62, top -2, 9, 9);
+            dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, x + 62, top -2, 9, 9);
         }
 	}
 

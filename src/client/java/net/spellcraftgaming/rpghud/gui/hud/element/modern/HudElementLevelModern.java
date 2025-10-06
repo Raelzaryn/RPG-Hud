@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -37,8 +35,6 @@ public class HudElementLevelModern extends HudElement {
 		if (this.mc.textRenderer.getWidth(level) > (width + 2))
 			width = this.mc.textRenderer.getWidth(level) + 2;
 		
-		RenderSystem.disableBlend();
-		
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2) + this.settings.getPositionValue(Settings.level_position)[0];
 		int posY = ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 22 : 26) + this.settings.getPositionValue(Settings.level_position)[1];
 		
@@ -47,15 +43,14 @@ public class HudElementLevelModern extends HudElement {
 		} else {
 			drawRect(dc, 26 + this.settings.getPositionValue(Settings.level_position)[0], posY, width, 7, 0xA0000000);
 		}
-		dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+		dc.getMatrices().scale(0.5f, 0.5f);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24" || !this.settings.getBoolValue(Settings.render_player_face)) {
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0x80FF20);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, (posX * 2) + width, posY * 2 + 3, 0xFF80FF20);
 		} else {
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0x80FF20);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0xFF80FF20);
 		}
-		dc.getMatrices().scale(2.0f, 2.0f, 2.0f);
-		RenderSystem.enableBlend();
+		dc.getMatrices().scale(2.0f, 2.0f);
 	}
 
 }

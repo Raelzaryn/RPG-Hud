@@ -41,7 +41,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 		}
 
 		if (rotation > 50 && rotation <= 150) {
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, "N", posX + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xE60909 : -1);
+			dc.drawCenteredTextWithShadow( this.mc.textRenderer, "N", posX + (100 * swapSides) - (rotation * swapSides), posY + 1, this.settings.getBoolValue(Settings.enable_compass_color) ? 0xFFE60909 : -1);
 		}
 
 		if (rotation > 75 && rotation <= 175) {
@@ -76,11 +76,11 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect(dc, (int) (posX - ((float) this.mc.textRenderer.getWidth(String.valueOf(pos[1])) / 4) - 2), posY + 11, this.mc.textRenderer.getWidth(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);
 			drawRect(dc, (posX + 48) - (this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.textRenderer.getWidth(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+			dc.getMatrices().scale(0.5f, 0.5f);
 			dc.drawTextWithShadow(this.mc.textRenderer, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
 			dc.drawCenteredTextWithShadow( this.mc.textRenderer, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
 			dc.drawTextWithShadow(this.mc.textRenderer, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.textRenderer.getWidth(String.valueOf(pos[2])), (posY + 12) * 2, -1);
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(2f, 2f);
 		}
 	}
 	

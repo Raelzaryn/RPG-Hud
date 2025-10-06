@@ -35,9 +35,9 @@ public class HudElementHealthMountDefault extends HudElement {
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+			dc.getMatrices().scale(0.5f, 0.5f);
 			dc.drawCenteredTextWithShadow(this.mc.textRenderer, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
-			dc.getMatrices().scale(2.0f, 2.0f, 2.0f);
+			dc.getMatrices().scale(2.0f, 2.0f);
 		}
 	}
 

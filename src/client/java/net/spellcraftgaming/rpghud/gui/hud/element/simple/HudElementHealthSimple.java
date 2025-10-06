@@ -49,9 +49,9 @@ public class HudElementHealthSimple extends HudElement {
 			float scale =0.5f;
 			if(this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
 			float invertedScale = 1f/scale;
-			dc.getMatrices().scale(scale, scale, scale);
+			dc.getMatrices().scale(scale, scale);
 			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + Math.ceil(invertedScale*4-4)), -1); //+4 correct for 0.5 // +0 correct for 1 // +12 for 0.25 // -2 for 2
-			dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
+			dc.getMatrices().scale(invertedScale, invertedScale);
 		}
 	}
 

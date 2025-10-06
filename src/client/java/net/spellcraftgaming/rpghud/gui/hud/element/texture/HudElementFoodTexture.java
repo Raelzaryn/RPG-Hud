@@ -1,11 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.effect.StatusEffects;
@@ -30,7 +28,6 @@ public class HudElementFoodTexture extends HudElement {
 
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		HungerManager stats = this.mc.player.getHungerManager();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
@@ -50,20 +47,19 @@ public class HudElementFoodTexture extends HudElement {
 				int bonusHunger = (int) (value + stamina);
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
-				dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12, 256, 256);
+				dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12, 256, 256);
 			}
 		}
 
 		if (this.mc.player.hasStatusEffect(StatusEffects.HUNGER)) {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12, 256, 256);
 		} else {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12, 256, 256);
 		}
 		
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food))
 			dc.drawCenteredTextWithShadow( this.mc.textRenderer, staminaString, posX + 55, posY + 2, -1);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 
 }

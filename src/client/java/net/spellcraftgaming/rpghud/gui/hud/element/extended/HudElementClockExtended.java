@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -18,16 +16,15 @@ public class HudElementClockExtended extends HudElementClockVanilla {
 
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		int clockColor = 0xFFFFFF;
+		int clockColor = 0xFFFFFFFF;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+			dc.getMatrices().scale(0.5f, 0.5f);
 		dc.drawText(this.mc.textRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor, false);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(2f, 2f);
 	}
 
 }

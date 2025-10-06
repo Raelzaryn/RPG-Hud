@@ -65,9 +65,9 @@ public class HudElementFoodSimple extends HudElement {
 			float scale =0.5f;
 			if(this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
 			float invertedScale = 1f/scale;
-			dc.getMatrices().scale(scale, scale, scale);
+			dc.getMatrices().scale(scale, scale);
 			dc.drawCenteredTextWithShadow( this.mc.textRenderer, staminaString, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + Math.ceil(invertedScale*4-4)), -1);
-			dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
+			dc.getMatrices().scale(invertedScale, invertedScale);
 		}
 	}
 

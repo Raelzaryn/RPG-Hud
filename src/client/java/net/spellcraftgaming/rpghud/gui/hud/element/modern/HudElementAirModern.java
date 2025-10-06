@@ -24,7 +24,7 @@ public class HudElementAirModern extends HudElement {
     @Override
     public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        dc.getMatrices().scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale);
 
         int airAmount = this.mc.player.getAir();
         double maxAir = this.mc.player.getMaxAir();
@@ -42,7 +42,7 @@ public class HudElementAirModern extends HudElement {
         drawRect(dc, x + 2, y + 2, (int) ((x2 - 4) * (airAmount / maxAir)), y2 - 4, this.settings.getIntValue(Settings.color_air));
 
         scale = getInvertedScale();
-        dc.getMatrices().scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -28,7 +26,6 @@ public class HudElementLevelSimple extends HudElement{
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		
 		int width = 12;
-		RenderSystem.disableBlend();
 		
 		int posX = ((scaledWidth - width) /2) + this.settings.getPositionValue(Settings.level_position)[0];
 		int posY = scaledHeight - 32 - 8 + this.settings.getPositionValue(Settings.level_position)[1];
@@ -41,10 +38,9 @@ public class HudElementLevelSimple extends HudElement{
 		float scale =0.5f;
 		if(this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
 		float invertedScale = 1f/scale;
-		dc.getMatrices().scale(scale, scale, scale);
-		dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + Math.ceil(invertedScale*4-4)), 0x80FF20);
-		dc.getMatrices().scale(invertedScale, invertedScale, invertedScale);
-		RenderSystem.enableBlend();
+		dc.getMatrices().scale(scale, scale);
+		dc.drawCenteredTextWithShadow( this.mc.textRenderer, level, Math.round((posX + (width/2))* invertedScale), (int) Math.round(((posY)* invertedScale) + Math.ceil(invertedScale*4-4)), 0xFF80FF20);
+		dc.getMatrices().scale(invertedScale, invertedScale);
 	}
 
 }

@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -29,16 +27,16 @@ public class HudElementClockVanilla extends HudElement {
 
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		int clockColor = 0xFFFFFF;
+		int clockColor = 0xFFFFFFFF;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+			dc.getMatrices().scale(0.5f, 0.5f);
 		dc.drawTextWithShadow(this.mc.textRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(2f, 2f);
 	}
 
 	/** Returns the time of the minecraft world as a String */
@@ -125,29 +123,29 @@ public class HudElementClockVanilla extends HudElement {
 		long day = this.mc.player.getWorld().getTimeOfDay() / 24000L;
 		long currentTime = time - (24000L * day);
 		if (currentTime < 1000)
-			return 0xFFAF00;
+			return 0xFFFFAF00;
 		else if (currentTime < 6000)
-			return 0xFFAF00;
+			return 0xFFFFAF00;
 		else if (currentTime < 11000)
-			return 0xFFCF00;
+			return 0xFFFFCF00;
 		else if (currentTime < 12000)
-			return 0xFFAF00;
+			return 0xFFFFAF00;
 		else if (currentTime < 13000)
-			return 0xFFA200;
+			return 0xFFFFA200;
 		else if (currentTime < 13500)
-			return 0xE36E21;
+			return 0xFFE36E21;
 		else if (currentTime < 18000)
-			return 0x345D74;
+			return 0xFF345D74;
 		else if (currentTime < 21000)
-			return 0x1F3847;
+			return 0xFF1F3847;
 		else if (currentTime < 22250)
-			return 0x345D74;
+			return 0xFF345D74;
 		else if (currentTime < 22500)
-			return 0x775D74;
+			return 0xFF775D74;
 		else if (currentTime < 23000)
-			return 0xE36E21;
+			return 0xFFE36E21;
 		else
-			return 0xFFA200;
+			return 0xFFFFA200;
 	}
 
 }

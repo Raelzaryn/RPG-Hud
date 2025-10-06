@@ -1,23 +1,26 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import org.joml.Matrix3x2f;
+
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.ShaderProgramKeys;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.render.state.ColoredQuadGuiElementRenderState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -303,31 +306,11 @@ public abstract class HudElement {
     public static void drawRect(DrawContext dc, int posX, int posY, int width, int height, int color) {
     	if (color == -1)
             return;
-        float f3;
         if (color <= 0xFFFFFF && color >= 0)
-            f3 = 1.0F;
-        else
-            f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
-        MatrixStack ms = dc.getMatrices();
-        RenderSystem.enableBlend();
-        //RenderSystem.disableTexture();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
-        //RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        RenderSystem.disableDepthTest();
+            color = color + 0xFF000000;
+        dc.fill(posX, posY, posX + width, posY+height, color);
         
-        BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY + height, 0).color(f, f1, f2, f3);
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY + height, 0).color(f, f1, f2, f3);
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX + width, posY, 0).color(f, f1, f2, f3);
-        vertexbuffer.vertex(ms.peek().getPositionMatrix(), posX, posY, 0).color(f, f1, f2, f3);
-        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
-        //RenderSystem.enableTexture();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
+        //BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
     }
 
     /**
@@ -535,8 +518,16 @@ public abstract class HudElement {
      * @param color
      *            color of the tetragon (hexa format 0xAARRGGBB)
      */
-    public void drawTetragon(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
-        if (color == -1)
+    public void drawTetragon(DrawContext dc, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
+        dc.state
+			.addSimpleElement(
+				new ColoredTetragonGuiElementRenderState(
+					RenderPipelines.GUI, TextureSetup.empty(), new Matrix3x2f(dc.getMatrices()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, dc.scissorStack.peekLast()
+				)
+			);
+        
+    	//dc.state.
+        /*if (color == -1)
             return;
         if(width1 < 0) width1 = 0;
         if(width2 < 0) width2 = 0;
@@ -548,20 +539,12 @@ public abstract class HudElement {
         float f = (color >> 16 & 255) / 255.0F;
         float f1 = (color >> 8 & 255) / 255.0F;
         float f2 = (color & 255) / 255.0F;
-        RenderSystem.enableBlend();
-        //RenderSystem.disableTexture();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
-        RenderSystem.disableDepthTest();
         BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         vertexbuffer.vertex(posX1, (float) posY1 + height1, 0F).color(f, f1, f2, f3);
         vertexbuffer.vertex((float) posX2 + width2, (float) posY2 + height2, 0F).color(f, f1, f2, f3);
         vertexbuffer.vertex((float) posX1 + width1, posY2, 0F).color(f, f1, f2, f3);
         vertexbuffer.vertex(posX2, posY1, 0F).color(f, f1, f2, f3);
-        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
-        //RenderSystem.enableTexture();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
+        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());*/
     }
 
     public static int offsetColorPercent(int color, int offsetPercent) {
@@ -649,18 +632,18 @@ public abstract class HudElement {
      */
     protected void renderHotbarItem(DrawContext context, int x, int y, RenderTickCounter tickCounter, PlayerEntity player, ItemStack stack, int seed) {
 		if (!stack.isEmpty()) {
-			float f = (float)stack.getBobbingAnimationTime() - tickCounter.getTickDelta(false);
+			float f = (float)stack.getBobbingAnimationTime() - tickCounter.getTickProgress(false);
 			if (f > 0.0F) {
 				float g = 1.0F + f / 5.0F;
-				context.getMatrices().push();
-				context.getMatrices().translate((float)(x + 8), (float)(y + 12), 0.0F);
-				context.getMatrices().scale(1.0F / g, (g + 1.0F) / 2.0F, 1.0F);
-				context.getMatrices().translate((float)(-(x + 8)), (float)(-(y + 12)), 0.0F);
+				context.getMatrices().pushMatrix();
+				context.getMatrices().translate((float)(x + 8), (float)(y + 12));
+				context.getMatrices().scale(1.0F / g, (g + 1.0F) / 2.0F);
+				context.getMatrices().translate((float)(-(x + 8)), (float)(-(y + 12)));
 			}
 
 			context.drawItem(player, stack, x, y, seed);
 			if (f > 0.0F) {
-				context.getMatrices().pop();
+				context.getMatrices().popMatrix();
 			}
 
 			context.drawStackOverlay(this.mc.textRenderer, stack, x, y);
@@ -673,7 +656,6 @@ public abstract class HudElement {
         dc.drawText(this.mc.textRenderer,text, posX, posY + 1, colorBackground, false);
         dc.drawText(this.mc.textRenderer,text, posX, posY - 1, colorBackground, false);
         dc.drawText(this.mc.textRenderer,text, posX, posY, colorMain, false);
-        RenderSystem.enableBlend();
     }
     
     public boolean isChatOpen() {

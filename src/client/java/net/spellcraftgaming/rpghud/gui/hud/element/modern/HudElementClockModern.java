@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -32,10 +30,10 @@ public class HudElementClockModern extends HudElementClockVanilla {
     @Override
     public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        dc.getMatrices().scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale);
         int yOffset = getPosY(scaledHeight);
         int xOffset = getPosX(scaledWidth);
-        int clockColor = 0xFFFFFF;
+        int clockColor = 0xFFFFFFFF;
 
         int width = getWidth(scaledWidth);
         int height = getHeight(scaledHeight);
@@ -45,10 +43,8 @@ public class HudElementClockModern extends HudElementClockVanilla {
         drawRect(dc, xOffset, yOffset, width, height, 0xA0000000);
         dc.drawCenteredTextWithShadow( this.mc.textRenderer, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
         scale = getInvertedScale();
-        dc.getMatrices().scale(scale, scale, scale);
+        dc.getMatrices().scale(scale, scale);
     }
 
     @Override

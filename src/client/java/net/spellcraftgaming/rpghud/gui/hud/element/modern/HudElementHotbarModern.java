@@ -1,12 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.AttackIndicator;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -28,7 +26,6 @@ public class HudElementHotbarModern extends HudElement {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(dc);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
 			ItemStack itemstack = this.mc.player.getOffHandStack();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
@@ -47,7 +44,7 @@ public class HudElementHotbarModern extends HudElement {
 					drawRect(dc, width / 2 - 91 + 2 + (x * 20) + posX, height - 22 - 3, 18, 18, 0x60000000);
 				}
 			}
-			drawRect(dc, width / 2 - 91 + 2 + (entityplayer.getInventory().selectedSlot * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
+			drawRect(dc, width / 2 - 91 + 2 + (entityplayer.getInventory().getSelectedSlot() * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
 			if (itemstack != ItemStack.EMPTY) {
 				if (enumhandside == Arm.LEFT) {
 					drawRect(dc, width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
@@ -65,14 +62,12 @@ public class HudElementHotbarModern extends HudElement {
 			}
 
 			zLevel = f;
-			RenderSystem.enableBlend();
-			RenderSystem.defaultBlendFunc();
 
 			int s = 1;
 			for (int l = 0; l < 9; ++l) {
 				int i1 = i - 90 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 3 - 9 + 4 + posY;
-				this.renderHotbarItem(dc, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l), s++);
+				this.renderHotbarItem(dc, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().getStack(l), s++);
 			}
 
 			if (itemstack != ItemStack.EMPTY) {
@@ -97,13 +92,10 @@ public class HudElementHotbarModern extends HudElement {
 					}
 
 					int k1 = (int) (f1 * 19.0F);
-					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2 - 9, 18, 18);
-					dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 - 9 + 18 - k1, 18, k1);
+					dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2 - 9, 18, 18);
+					dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 - 9 + 18 - k1, 18, k1);
 				}
 			}
-
-			RenderSystem.disableBlend();
 		}
 	}
 }

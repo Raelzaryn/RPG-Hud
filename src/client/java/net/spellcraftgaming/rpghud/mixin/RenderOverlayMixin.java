@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -110,13 +110,13 @@ public class RenderOverlayMixin {
 	            if (u <= 0) continue;
 	            x = m + w * 8;
 	            if (w * 2 + 1 < u) {
-	                dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, x, s, 9, 9);
+	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, x, s, 9, 9);
 	            }
 	            if (w * 2 + 1 == u) {
-	                dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_HALF_TEXTURE, x, s, 9, 9);
+	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_HALF_TEXTURE, x, s, 9, 9);
 	            }
 	            if (w * 2 + 1 <= u) continue;
-	            dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
+	            dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
 	        }
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.HEALTH)) {
@@ -146,12 +146,12 @@ public class RenderOverlayMixin {
 	                    z += random.nextInt(3) - 1;
 	                }
 	                aa = n - y * 8 - 9;
-	                dc.drawGuiTexture(RenderLayer::getGuiTextured, identifier, aa, z, 9, 9);
+	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier, aa, z, 9, 9);
 	                if (y * 2 + 1 < k) {
-	                    dc.drawGuiTexture(RenderLayer::getGuiTextured, identifier3, aa, z, 9, 9);
+	                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier3, aa, z, 9, 9);
 	                }
 	                if (y * 2 + 1 != k) continue;
-	                dc.drawGuiTexture(RenderLayer::getGuiTextured, identifier2, aa, z, 9, 9);
+	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier2, aa, z, 9, 9);
 	            }
 	            t -= 10;
 	        }
@@ -167,10 +167,10 @@ public class RenderOverlayMixin {
 	            int ad = MathHelper.ceil((double)((double)z * 10.0 / (double)y)) - ac;
 	            for (aa = 0; aa < ac + ad; ++aa) {
 	                if (aa < ac) {
-	                    dc.drawGuiTexture(RenderLayer::getGuiTextured, AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
 	                    continue;
 	                }
-	                dc.drawGuiTexture(RenderLayer::getGuiTextured, AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
 	            }
 	        }
         }
@@ -185,7 +185,7 @@ public class RenderOverlayMixin {
             info.cancel();
     }
 
-    @Inject(at = @At("HEAD"), method = "renderMountJumpBar", cancellable = true)
+    /*@Inject(at = @At("HEAD"), method = "renderMountJumpBar", cancellable = true)
     private void renderMountJumpBar(CallbackInfo info) {
         if(!RenderOverlay.shouldRenderVanilla(HudElementType.JUMP_BAR))
             info.cancel();
@@ -201,7 +201,7 @@ public class RenderOverlayMixin {
     private void renderExperienceLevel(CallbackInfo info) {
         if(!RenderOverlay.shouldRenderVanilla(HudElementType.LEVEL))
             info.cancel();
-    }
+    }*/
 
     @Inject(at = @At("HEAD"), method = "renderMountHealth", cancellable = true)
     private void renderMountHealth(CallbackInfo info) {
@@ -292,6 +292,6 @@ public class RenderOverlayMixin {
     }
     
     private void drawHeart(DrawContext context, ModRPGHud.HeartTypeNew type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, type.getTexture(hardcore, half, blinking), x, y, 9, 9);
+        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, type.getTexture(hardcore, half, blinking), x, y, 9, 9);
     }
 }

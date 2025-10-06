@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
@@ -26,22 +26,22 @@ public class HudElementWidgetExtended extends HudElement {
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		int posY = this.settings.getPositionValue(Settings.widget_position)[1];
-		dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY + (this.settings.getBoolValue(Settings.render_player_face) ? 4 : 0), 0, 35, 114, 44, 256, 256);
+		dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY + (this.settings.getBoolValue(Settings.render_player_face) ? 4 : 0), 0, 35, 114, 44, 256, 256);
 		if (this.mc.player.getVehicle() instanceof LivingEntity) {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 51 : 23), posY + (this.settings.getBoolValue(Settings.render_player_face) ? 44 : 39), 164, 0, 92, 20, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 51 : 23), posY + (this.settings.getBoolValue(Settings.render_player_face) ? 44 : 39), 164, 0, 92, 20, 256, 256);
 		}
 
 		int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
 		int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
 		if (this.settings.getBoolValue(Settings.render_player_face)) {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX + facePosX, posY + facePosY, 114, 0, 50, 50, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + facePosX, posY + facePosY, 114, 0, 50, 50, 256, 256);
 			Identifier skin = getPlayerSkin(this.mc.player);
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-			dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 32, 32, 32, 32, 256, 256);
-			dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 160, 32, 32, 32, 256, 256);
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(0.5f, 0.5f);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 32, 32, 32, 32, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 160, 32, 32, 32, 256, 256);
+			dc.getMatrices().scale(2f, 2f);
 		} else {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX, 3, 214, 20, 26, 38, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, 3, 214, 20, 26, 38, 256, 256);
 		}
 	}
 

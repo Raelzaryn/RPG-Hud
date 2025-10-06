@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -25,10 +23,8 @@ public class HudElementLevelHotbar extends HudElement {
 
 	@Override
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		RenderSystem.enableBlend();
 		String level = String.valueOf(this.mc.player.experienceLevel);
-		dc.drawTextWithShadow(this.mc.textRenderer, level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.textRenderer.getWidth(level) / 2, scaledHeight - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
-		RenderSystem.disableBlend();
+		dc.drawTextWithShadow(this.mc.textRenderer, level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.textRenderer.getWidth(level) / 2, scaledHeight - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40) + this.settings.getPositionValue(Settings.level_position)[1], 0xFF80FF20);
 	}
 
 }

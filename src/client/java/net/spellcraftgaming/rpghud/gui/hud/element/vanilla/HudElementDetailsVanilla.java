@@ -1,14 +1,16 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import org.joml.Matrix3x2fStack;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
@@ -48,18 +50,18 @@ public class HudElementDetailsVanilla extends HudElement {
 		
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
-				dc.getMatrices().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+				dc.getMatrices().translate(this.settings.getPositionValue(Settings.armor_det_position)[0], this.settings.getPositionValue(Settings.armor_det_position)[1]);
 				drawArmorDetails(dc);
-				dc.getMatrices().translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1], 0);
+				dc.getMatrices().translate(-this.settings.getPositionValue(Settings.armor_det_position)[0], -this.settings.getPositionValue(Settings.armor_det_position)[1]);
 			}
-			dc.getMatrices().translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+			dc.getMatrices().translate(this.settings.getPositionValue(Settings.item_det_position)[0], this.settings.getPositionValue(Settings.item_det_position)[1]);
 			drawItemDetails(dc, 0);
 			drawItemDetails(dc, 1);
-			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1], 0);
+			dc.getMatrices().translate(-this.settings.getPositionValue(Settings.item_det_position)[0], -this.settings.getPositionValue(Settings.item_det_position)[1]);
 			if (this.settings.getBoolValue(Settings.show_arrow_count)) {
-				dc.getMatrices().translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+				dc.getMatrices().translate(this.settings.getPositionValue(Settings.arrow_det_position)[0], this.settings.getPositionValue(Settings.arrow_det_position)[1]);
 				drawArrowCount(dc);
-				dc.getMatrices().translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1], 0);
+				dc.getMatrices().translate(-this.settings.getPositionValue(Settings.arrow_det_position)[0], -this.settings.getPositionValue(Settings.arrow_det_position)[1]);
 			}
 	}
 
@@ -72,10 +74,18 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected void drawArmorDetails(DrawContext dc) {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (reducedSize)
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
-			if (this.mc.player.getInventory().getArmorStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmorStack(i).contains(DataComponentTypes.DAMAGE)) {
-				ItemStack item = this.mc.player.getInventory().getArmorStack(i);
+			dc.getMatrices().scale(0.5f, 0.5f);
+		this.mc.player.getInventory();
+		
+		this.mc.player.getInventory();
+		
+		//36=boots
+		//37=legs
+		//38=chest
+		//39=helmet
+		for (int i = PlayerInventory.EQUIPMENT_SLOTS.size() +35; i >= 36; i--) {
+			if (this.mc.player.getInventory().getStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getStack(i).contains(DataComponentTypes.DAMAGE)) {
+				ItemStack item = this.mc.player.getInventory().getStack(i);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, 1f);
@@ -84,8 +94,10 @@ public class HudElementDetailsVanilla extends HudElement {
 			}
 		}
 		if (reducedSize)
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(2f, 2f);
 	}
+	
+
 
 	/**
 	 * Draws the held item details
@@ -101,14 +113,14 @@ public class HudElementDetailsVanilla extends HudElement {
 		if (item != ItemStack.EMPTY) {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
 				if (reducedSize)
-					dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+					dc.getMatrices().scale(0.5f, 0.5f);
 				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, 1f);
 				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 				this.offset += 16;
 				if (reducedSize)
-					dc.getMatrices().scale(2f, 2f, 2f);
+					dc.getMatrices().scale(2f, 2f);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
 				int x = this.mc.player.getInventory().size();
 				int z = 0;
@@ -140,11 +152,11 @@ public class HudElementDetailsVanilla extends HudElement {
 				item = getItemInHand(hand);
 				String s = "x " + z;
 				if (reducedSize)
-					dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+					dc.getMatrices().scale(0.5f, 0.5f);
 				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
 				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset, -1);
 				if (reducedSize)
-					dc.getMatrices().scale(2f, 2f, 2f);
+					dc.getMatrices().scale(2f, 2f);
 				this.offset += 16;
 			}
 		}
@@ -185,7 +197,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 			String s = "x " + z;
 			if (reducedSize)
-				dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+				dc.getMatrices().scale(0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY) {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
@@ -194,7 +206,7 @@ public class HudElementDetailsVanilla extends HudElement {
 			this.renderGuiItemModel(dc, this.itemArrow, reducedSize ? 4 : 2, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset, reducedSize);
 			dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
 			if (reducedSize)
-				dc.getMatrices().scale(2f, 2f, 2f);
+				dc.getMatrices().scale(2f, 2f);
 			this.offset += 16;
 
 		}
@@ -281,10 +293,10 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	protected void renderGuiItemModel(DrawContext dc, ItemStack stack, int x, int y, boolean halfSize) {
-		MatrixStack matrices = dc.getMatrices();
-		if(halfSize) matrices.scale(0.5f, 0.5f, 0.5f);
+		Matrix3x2fStack matrices = dc.getMatrices();
+		if(halfSize) matrices.scale(0.5f, 0.5f);
 		dc.drawItem(stack, x, y);
-		if(halfSize) matrices.scale(2f, 2f, 2f);
+		if(halfSize) matrices.scale(2f, 2f);
 		/*MatrixStack matrices = dc.getMatrices();
 		BakedModel bakedModel = this.mc.getItemRenderer().getModel(stack, null, null, 0);
         matrices.push();
@@ -325,7 +337,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		if (stack.isItemBarVisible()) {
 			int i = stack.getItemBarStep();
 			int j = stack.getItemBarColor();
-			dc.getMatrices().scale(scale, scale, scale);
+			dc.getMatrices().scale(scale, scale);
 			HudElement.drawRect(dc, x + 2, y + 13, 13, 2, 0x000000);
 			HudElement.drawRect(dc, x + 2, y + 13, i, 1, j);
 		}

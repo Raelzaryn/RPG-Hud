@@ -1,26 +1,30 @@
 package net.spellcraftgaming.rpghud.main;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(value=EnvType.CLIENT)
-public class RenderOverlay implements HudRenderCallback{
+public class RenderOverlay implements HudElement{
 
     private ModRPGHud rpgHud;
     private MinecraftClient mc;
-
+    public static final Identifier RPG_HUD = Identifier.of("rpghud", "rpghud");
+    		
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
         this.mc = MinecraftClient.getInstance();
-        HudRenderCallback.EVENT.register(this);
+        HudElementRegistry.addLast(RPG_HUD, this);
+        HudElementRegistry.removeElement(VanillaHudElements.INFO_BAR);
+        //HudRenderCallback.EVENT.register(this);
     }
 
     private void renderOverlay(DrawContext dc, RenderTickCounter partialTicks) {
@@ -56,11 +60,11 @@ public class RenderOverlay implements HudRenderCallback{
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
-               	dc.getMatrices().push();
-                RenderSystem.enableBlend();
+               	dc.getMatrices().pushMatrix();
+               	dc.createNewRootLayer();
                 this.rpgHud.getActiveHud().drawElement(type, dc, 0F, partialTicks, this.mc.getWindow().getScaledWidth(),
                         this.mc.getWindow().getScaledHeight());
-                dc.getMatrices().pop();
+                dc.getMatrices().popMatrix();
             }
 
         }
@@ -110,11 +114,11 @@ public class RenderOverlay implements HudRenderCallback{
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
 
-    @Override
-    public void onHudRender(DrawContext dc, RenderTickCounter tickDelta) {
-        renderOverlay(dc, tickDelta);
-        
-    }
+	@Override
+	public void render(DrawContext context, RenderTickCounter tickCounter) {
+		renderOverlay(context, tickCounter);
+		
+	}
     
     /*private static HudElementType getEventAlias(ElementType type) {
         switch(type) {

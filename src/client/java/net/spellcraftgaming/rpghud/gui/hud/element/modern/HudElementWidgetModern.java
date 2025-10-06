@@ -1,11 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -30,15 +28,12 @@ public class HudElementWidgetModern extends HudElement {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
 		drawRect(dc, posX + 2, posY + 2, 20, 20, 0xA0000000);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.enableBlend();
 		Identifier skin = getPlayerSkin(this.mc.player);
-		RenderSystem.disableDepthTest();
-		dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+		dc.getMatrices().scale(0.5f, 0.5f);
 		
-		dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
-		dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);
+		dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
+		dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);
 		
-		dc.getMatrices().scale(2f, 2f, 2f);
+		dc.getMatrices().scale(2f, 2f);
 	}
 }

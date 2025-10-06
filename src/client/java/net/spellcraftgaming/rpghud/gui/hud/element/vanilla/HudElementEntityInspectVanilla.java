@@ -7,12 +7,10 @@ import org.joml.Quaternionf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -49,16 +47,16 @@ public class HudElementEntityInspectVanilla extends HudElement {
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
-            dc.drawTexture(RenderLayer::getGuiTextured, DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36, 256, 256);
+            dc.drawTexture(RenderPipelines.GUI_TEXTURED, DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36, 256, 256);
             float health = focused.getHealth();
             float maxHealth = focused.getMaxHealth();
             if(health > maxHealth) health = maxHealth;
             drawCustomBar(dc, posX - 25, 34 + posY, 89, 8, (double) health / (double) maxHealth * 100D,
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
-            dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
+            dc.getMatrices().scale(0.5f, 0.5f);
             dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
-            dc.getMatrices().scale(2f, 2f, 2f);
+            dc.getMatrices().scale(2f, 2f);
 
             int x = (posX - 29 + 44 - this.mc.textRenderer.getWidth(focused.getName().getString()) / 2);
             int y = 25 + posY;
@@ -70,11 +68,11 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 int armor = focused.getArmor();
                 if(armor > 0) {
                     String value = String.valueOf(armor);
-                    dc.drawTexture(RenderLayer::getGuiTextured, DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8, 256, 256);
-                    dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-                    dc.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
+                    dc.drawTexture(RenderPipelines.GUI_TEXTURED, DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8, 256, 256);
+                    dc.getMatrices().scale(0.5f, 0.5f);
+                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
                     this.drawStringWithBackground(dc,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
-                    dc.getMatrices().scale(2f, 2f, 2f);
+                    dc.getMatrices().scale(2f, 2f);
                 }  
             }
         }
@@ -98,47 +96,38 @@ public class HudElementEntityInspectVanilla extends HudElement {
         }
         
         posY += offset;
+        
         float f = (float) Math.atan((180 / 40.0F));
         float g = (float) Math.atan((0 / 40.0F));
-        MatrixStack ms = dc.getMatrices();
-        ms.push();
-        ms.translate(posX, posY, 1050.0F);
-        ms.scale(1.0F, 1.0F, -1.0F);
-        MatrixStack matrixStack = dc.getMatrices();
-        matrixStack.translate(0.0D, 0.0D, 1000.0D);
-        matrixStack.scale(scale, scale, scale);
         Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
         Quaternionf quaternion2 = new Quaternionf().rotationX((float) Math.toRadians(g * 20f));
         quaternion.mul(quaternion2);
-        matrixStack.multiply(quaternion);
         float h = entity.bodyYaw;
         float i = entity.getYaw();
         float j = entity.getPitch();
-        float k = entity.prevHeadYaw;
+        float k = entity.lastHeadYaw;
         float l = entity.headYaw;
         float m = entity.limbAnimator.getSpeed();
         entity.bodyYaw = 180.0F + f * 20.0F;
         entity.setYaw(180.0F + f * 40.0F);
         entity.setPitch(-g * 20.0F);
         entity.headYaw = entity.getYaw() -35f;
-        entity.prevHeadYaw = entity.getYaw();
+        entity.lastHeadYaw = entity.getYaw();
         entity.limbAnimator.setSpeed(0);
-        DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         quaternion2.conjugate();
         entityRenderDispatcher.setRotation(quaternion2);
         entityRenderDispatcher.setRenderShadows(false);
-        dc.draw(vertexConsumers -> entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, dc.getMatrices(), vertexConsumers, 15728880));
-		dc.draw();
+        //TODO: New Render System
+        //TODO: dc.draw(vertexConsumers -> entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, dc.getMatrices(), vertexConsumers, 15728880));
+        //TODO: dc.draw();
         entityRenderDispatcher.setRenderShadows(true);
         entity.bodyYaw = h;
         entity.setYaw(i);
         entity.setPitch(j);
-        entity.prevHeadYaw = k;
+        entity.lastHeadYaw = k;
         entity.headYaw = l;
         entity.limbAnimator.setSpeed(m);
-        ms.pop();
-        DiffuseLighting.enableGuiDepthLighting();
     }
 
     public static LivingEntity getFocusedEntity(Entity watcher) {

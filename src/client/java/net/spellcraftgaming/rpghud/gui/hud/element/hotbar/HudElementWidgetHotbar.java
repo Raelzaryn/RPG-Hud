@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -27,19 +27,19 @@ public class HudElementWidgetHotbar extends HudElement {
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.widget_position)[0];
 		int posY = scaledHeight + this.settings.getPositionValue(Settings.widget_position)[1];
-		dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9, 0, 172, 251, 48, 256, 256);
+		dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9, 0, 172, 251, 48, 256, 256);
 
 		int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
 		int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
 		if (ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52, 256, 256);
 			Identifier skin = getPlayerSkin(this.mc.player);
-			dc.getMatrices().scale(0.5f, 0.5f, 0.5f);
-			dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 32, 32, 32, 32, 256, 256);
-			dc.drawTexture(RenderLayer::getGuiTextured, skin, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 160, 32, 32, 32, 256, 256);
-			dc.getMatrices().scale(2f, 2f, 2f);
+			dc.getMatrices().scale(0.5f, 0.5f);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 32, 32, 32, 32, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 160, 32, 32, 32, 256, 256);
+			dc.getMatrices().scale(2f, 2f);
 		} else {
-			dc.drawTexture(RenderLayer::getGuiTextured, INTERFACE, posX, posY - 12 - 52 + 7, 214, 58, 26, 42, 256, 256);
+			dc.drawTexture(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY - 12 - 52 + 7, 214, 58, 26, 42, 256, 256);
 		}
 	}
 }

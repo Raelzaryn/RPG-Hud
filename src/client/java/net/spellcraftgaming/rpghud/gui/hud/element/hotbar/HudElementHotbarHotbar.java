@@ -1,12 +1,10 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.AttackIndicator;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -28,7 +26,6 @@ public class HudElementHotbarHotbar extends HudElement {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(dc);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
 			ItemStack itemstack = this.mc.player.getOffHandStack();
 			int i = scaledWidth / 2;
@@ -36,21 +33,19 @@ public class HudElementHotbarHotbar extends HudElement {
 			zLevel = -90.0F;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_TEXTURE, posX, scaledHeight - 47 + posY, 182, 22);
-			dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_SELECTION_TEXTURE, posX + entityplayer.getInventory().selectedSlot * 20, scaledHeight - 47 - 1 + posY, 24, 22);
+			dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_TEXTURE, posX, scaledHeight - 47 + posY, 182, 22);
+			dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_SELECTION_TEXTURE, posX + entityplayer.getInventory().getSelectedSlot() * 20, scaledHeight - 47 - 1 + posY, 24, 22);
 
-			dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_OFFHAND_RIGHT_TEXTURE, posX + 181, scaledHeight - 47 + posY, 22, 22);
+			dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_RIGHT_TEXTURE, posX + 181, scaledHeight - 47 + posY, 22, 22);
 
 			zLevel = f;
-			RenderSystem.enableBlend();
-	        RenderSystem.defaultBlendFunc();
 
 	        int s = 1;
 	        
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
-				this.renderHotbarItem(dc, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().main.get(l), s++);
+				this.renderHotbarItem(dc, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().getStack(s), s++);
 			}
 
 			int l1 = scaledHeight - 47 + 3 + posY;
@@ -64,13 +59,11 @@ public class HudElementHotbarHotbar extends HudElement {
 					int j2 = i + 40 + this.settings.getPositionValue(Settings.hotbar_position)[0];
 
 					int k1 = (int) (f1 * 19.0F);
-					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2 - 9, 18, 18);
-					dc.drawGuiTexture(RenderLayer::getGuiTextured, HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 - 9 + 18 - k1, 18, k1);
+					dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, j2, i2 - 9, 18, 18);
+					dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE, j2, i2 - 9 + 18 - k1, 18, k1);
 				}
 			}
 
-			RenderSystem.disableBlend();
 		}
 	}
 }
