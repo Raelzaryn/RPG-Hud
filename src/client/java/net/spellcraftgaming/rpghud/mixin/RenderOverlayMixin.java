@@ -53,7 +53,6 @@ public class RenderOverlayMixin {
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo info) {
         ++this.ticks;
-        ;
     }
 
     @Inject(at = @At("HEAD"), method = "renderStatusBars", cancellable = true)
