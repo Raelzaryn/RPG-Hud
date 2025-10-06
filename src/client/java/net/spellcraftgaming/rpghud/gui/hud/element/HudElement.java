@@ -21,43 +21,43 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public abstract class HudElement {
 
     /** The values of the color red */
-    public static final int COLOR_RED = 0xC10000;
+    public static final int COLOR_RED = 0xFFC10000;
 
     /** The values of the color red */
-    public static final int COLOR_PINK = 0xFF69B4;
+    public static final int COLOR_PINK = 0xFFFF69B4;
 
     /** The values of the color red */
-    public static final int COLOR_BROWN = 0x8b4513;
+    public static final int COLOR_BROWN = 0xFF8b4513;
 
     /** The values of the color white */
-    public static final int COLOR_WHITE = 0xF2F2F2;
+    public static final int COLOR_WHITE = 0xFFF2F2F2;
 
     /** The values of the color white */
-    public static final int COLOR_ORANGE = 0xFF8400;
+    public static final int COLOR_ORANGE = 0xFFFF8400;
 
     /** The values of the color green */
-    public static final int COLOR_GREEN = 0x3BC200;
+    public static final int COLOR_GREEN = 0xFF3BC200;
 
     /** The values of the color red */
-    public static final int COLOR_PURPLE = 0xA400F0;
+    public static final int COLOR_PURPLE = 0xFFA400F0;
 
     /** The values of the color blue */
-    public static final int COLOR_BLUE = 0x005BC2;
+    public static final int COLOR_BLUE = 0xFF005BC2;
 
     /** The values of the color blue */
-    public static final int COLOR_AQUA = 0x00FFFF;
+    public static final int COLOR_AQUA = 0xFF00FFFF;
 
     /** The value of the color black */
-    public static final int COLOR_BLACK = 0x292929;
+    public static final int COLOR_BLACK = 0xFF292929;
 
     /** The values of the color grey */
-    public static final int COLOR_GREY = 0x8A8A8A;
+    public static final int COLOR_GREY = 0xFF8A8A8A;
 
     /** The values of the color yellow */
-    public static final int COLOR_YELLOW = 0xEEEE00;
+    public static final int COLOR_YELLOW = 0xFFEEEE00;
 
     /** The values of the default color */
-    public static final int[] COLOR_DEFAULT = { 0x4C4C4C, 0x3D3D3D };
+    public static final int[] COLOR_DEFAULT = { 0xFF4C4C4C, 0xFF3D3D3D };
 
     /** ResourceLocation of the interface texture for the RPG-HUD */
     protected static final Identifier INTERFACE = Identifier.of("rpghud", "textures/interface.png");
