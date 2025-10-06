@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import java.util.List;
 
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,6 +12,8 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -44,7 +47,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
     @Override
     public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
-        if(focused != null) {
+        if(focused != null && !(focused instanceof ArmorStandEntity)) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             dc.drawTexture(RenderPipelines.GUI_TEXTURED, DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36, 256, 256);
@@ -94,40 +97,45 @@ public class HudElementEntityInspectVanilla extends HudElement {
             scale = 11;
             offset = -5;
         }
-        
         posY += offset;
         
-        float f = (float) Math.atan((180 / 40.0F));
-        float g = (float) Math.atan((0 / 40.0F));
-        Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
-        Quaternionf quaternion2 = new Quaternionf().rotationX((float) Math.toRadians(g * 20f));
-        quaternion.mul(quaternion2);
-        float h = entity.bodyYaw;
-        float i = entity.getYaw();
-        float j = entity.getPitch();
-        float k = entity.lastHeadYaw;
-        float l = entity.headYaw;
-        float m = entity.limbAnimator.getSpeed();
-        entity.bodyYaw = 180.0F + f * 20.0F;
-        entity.setYaw(180.0F + f * 40.0F);
-        entity.setPitch(-g * 20.0F);
-        entity.headYaw = entity.getYaw() -35f;
-        entity.lastHeadYaw = entity.getYaw();
-        entity.limbAnimator.setSpeed(0);
-        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
-        quaternion2.conjugate();
-        entityRenderDispatcher.setRotation(quaternion2);
-        entityRenderDispatcher.setRenderShadows(false);
-        //TODO: New Render System
-        //TODO: dc.draw(vertexConsumers -> entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, dc.getMatrices(), vertexConsumers, 15728880));
-        //TODO: dc.draw();
-        entityRenderDispatcher.setRenderShadows(true);
-        entity.bodyYaw = h;
-        entity.setYaw(i);
-        entity.setPitch(j);
-        entity.lastHeadYaw = k;
-        entity.headYaw = l;
-        entity.limbAnimator.setSpeed(m);
+        int x1 = posX - 24;
+        int x2 = posX + 24;
+        int y1 = posY - 25;
+        int y2 = posY + 24;
+		dc.enableScissor(posX - 14, posY - 25 - offset, posX+15, posY+3 - offset);
+		
+		float h = (float)Math.atan(180 / 40.0F);
+		float i = (float)Math.atan(0/ 40.0F);
+		Quaternionf quaternionf = new Quaternionf().rotateZ((float) Math.PI);
+		Quaternionf quaternionf2 = new Quaternionf().rotateX(i * 20.0F * (float) (Math.PI / 180.0));
+		quaternionf.mul(quaternionf2);
+		float j = entity.bodyYaw;
+		float k = entity.getYaw();
+		float l = entity.getPitch();
+		float m = entity.lastHeadYaw;
+		float n = entity.headYaw;
+		float o = entity.limbAnimator.getSpeed();
+		entity.limbAnimator.setSpeed(0);
+		entity.bodyYaw = 180.0F + h * 20.0F;
+		entity.setYaw(180.0F + h * 40.0F);
+		entity.setPitch(-i * 20.0F);
+		entity.headYaw = entity.getYaw() -35f;
+		entity.lastHeadYaw = entity.getYaw();
+		Vector3f vector3f = new Vector3f(0.0F, 0, 0.0F);
+		
+		EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
+		EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
+		EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState(entity, 1.0F);
+		entityRenderState.hitbox = null;
+		dc.addEntity(entityRenderState, scale, vector3f, quaternionf, quaternionf2, x1, y1, x2, y2);
+		entity.bodyYaw = j;
+		entity.setYaw(k);
+		entity.setPitch(l);
+		entity.lastHeadYaw = m;
+		entity.headYaw = n;
+		entity.limbAnimator.setSpeed(o);
+		dc.disableScissor();
     }
 
     public static LivingEntity getFocusedEntity(Entity watcher) {
