@@ -2,20 +2,13 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import org.joml.Matrix3x2f;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.vertex.VertexFormat;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.render.state.ColoredQuadGuiElementRenderState;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
