@@ -81,6 +81,7 @@ public class Settings {
     public static final String enable_compass_coordinates = "enable_compass_coordinates";
     public static final String invert_compass = "invert_compass";
     public static final String compass_position = "compass_position";
+    public static final String shift_boss_bar = "shift_boss_bar";
 
     public static final String enable_pickup = "enable_pickup";
     public static final String pickup_duration = "pickup_duration";
@@ -190,6 +191,7 @@ public class Settings {
         addSetting(enable_compass_coordinates, new SettingBoolean(enable_compass_coordinates, HudElementType.COMPASS, true));
         addSetting(invert_compass, new SettingBoolean(invert_compass, HudElementType.COMPASS, false));
         addSetting(compass_position, new SettingPosition(compass_position, HudElementType.COMPASS, 0, 0));
+        addSetting(shift_boss_bar, new SettingBoolean(shift_boss_bar, HudElementType.COMPASS, true));
 
         addSetting(render_player_face, new SettingBoolean(render_player_face, HudElementType.WIDGET, true));
         addSetting(widget_position, new SettingPosition(widget_position, HudElementType.WIDGET, 0, 0));
@@ -228,6 +230,7 @@ public class Settings {
         addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
 
         addSetting(debug_number_size, new SettingBoolean(debug_number_size, HudElementType.DEBUG, false));
+
         
         addDebugSettings(HudElementType.ARMOR);
         addDebugSettings(HudElementType.HOTBAR);

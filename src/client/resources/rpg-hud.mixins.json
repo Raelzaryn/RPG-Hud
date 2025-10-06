@@ -8,7 +8,8 @@
     "RenderOverlayMixin",
     "GuiMenuScreenMixin",
     "GuiTitleScreenMixin",
-    "ChatMixin"
+    "ChatMixin",
+	"BossBarHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
