@@ -22,7 +22,7 @@ public class BossBarHudMixin {
     		context.getMatrices().translate(0, 20);
     }
     
-    @Inject(at = @At("TAIL"), method = "render")
+    @Inject(at = @At("RETURN"), method = "render")
     private void renderBarEnd(DrawContext context, CallbackInfo into) {
     	if(ModRPGHud.instance.settings.getBoolValue(Settings.shift_boss_bar) && ModRPGHud.instance.settings.getBoolValue(Settings.enable_compass))
     		context.getMatrices().translate(0, -20);
