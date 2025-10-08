@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import org.joml.Matrix3x2fStack;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -75,9 +73,6 @@ public class HudElementDetailsVanilla extends HudElement {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (reducedSize)
 			dc.getMatrices().scale(0.5f, 0.5f);
-		this.mc.player.getInventory();
-		
-		this.mc.player.getInventory();
 		
 		//36=boots
 		//37=legs
@@ -293,45 +288,10 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	protected void renderGuiItemModel(DrawContext dc, ItemStack stack, int x, int y, boolean halfSize) {
-		Matrix3x2fStack matrices = dc.getMatrices();
-		if(halfSize) matrices.scale(0.5f, 0.5f);
 		dc.drawItem(stack, x, y);
-		if(halfSize) matrices.scale(2f, 2f);
-		/*MatrixStack matrices = dc.getMatrices();
-		BakedModel bakedModel = this.mc.getItemRenderer().getModel(stack, null, null, 0);
-        matrices.push();
-		matrices.translate(x + 8, y + 8, 150);
-		
-        try {
-            boolean bl;
-            matrices.multiplyPositionMatrix(new Matrix4f().scaling(1.0f, -1.0f, 1.0f));
-    		if(halfSize) matrices.scale(0.5f, 0.5f, 0.5f);
-    		matrices.scale(16.0F, 16.0F, 16.0F);
-            bl = !bakedModel.isSideLit();
-            if (bl) {
-                DiffuseLighting.disableGuiDepthLighting();
-            }
-            this.mc.getItemRenderer().renderItem(stack, ModelTransformationMode.GUI, false, matrices, dc.getVertexConsumers(), 0xF000F0, OverlayTexture.DEFAULT_UV, bakedModel);
-            RenderSystem.disableDepthTest();
-            dc.getVertexConsumers().draw();
-            RenderSystem.enableDepthTest();
-            if (bl) {
-                DiffuseLighting.enableGuiDepthLighting();
-            }
-        } catch (Throwable throwable) {
-            CrashReport crashReport = CrashReport.create((Throwable)throwable, (String)"Rendering item");
-            CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
-            crashReportSection.add("Item Type", () -> String.valueOf(stack.getItem()));
-            crashReportSection.add("Item Damage", () -> String.valueOf(stack.getDamage()));
-            crashReportSection.add("Item NBT", () -> String.valueOf(stack.getComponents()));
-            crashReportSection.add("Item Foil", () -> String.valueOf(stack.hasGlint()));
-            throw new CrashException(crashReport);
-        }
-        matrices.pop();*/
 	}
 
 	public void renderItemDurabilityBar(DrawContext dc, ItemStack stack, int x, int y, float scale) {
-		dc.drawItem(stack, x, y);
 		if (stack.isEmpty())
 			return;
 		if (stack.isItemBarVisible()) {
