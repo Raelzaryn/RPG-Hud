@@ -24,6 +24,7 @@ public class RenderOverlay implements HudElement{
         this.mc = MinecraftClient.getInstance();
         HudElementRegistry.addLast(RPG_HUD, this);
         HudElementRegistry.removeElement(VanillaHudElements.INFO_BAR);
+        HudElementRegistry.removeElement(VanillaHudElements.EXPERIENCE_LEVEL);
         //HudRenderCallback.EVENT.register(this);
     }
 

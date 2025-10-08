@@ -79,6 +79,7 @@
     "name.enable_system_time_background" : "System Time Background",
     "name.debug_number_size" : "Debug number size",
 	"name.shift_boss_bar" : "Shift Boss Bar",
+	"name.show_locator" : "Show Locator",
 
     "name.health_percentage": "As Percentage",
     "name.hunger_percentage": "As Percentage",
@@ -225,5 +226,6 @@
     "tooltip.color_system_time" : "Change the color of the/nSystem time display",
     
     "tooltip.debug_number_size" : "With some GUI Scale settings,/nthe numbers for the HUD can/nrender bit weird, if this/nhappens, toggle this setting",
-	"tooltip.shift_boss_bar" : "Shift the Boss bar down to/nnot obstruct with compass/nwhen compass is enabled"
+	"tooltip.shift_boss_bar" : "Shift the Boss bar down to/nnot obstruct with compass/nwhen compass is enabled",
+	"tooltip.show_locator" : "Shows the player locator/nas part of the Compass"
 }

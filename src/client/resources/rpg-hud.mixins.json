@@ -9,7 +9,8 @@
     "GuiMenuScreenMixin",
     "GuiTitleScreenMixin",
     "ChatMixin",
-	"BossBarHudMixin"
+	"BossBarHudMixin",
+	"LocatorBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1

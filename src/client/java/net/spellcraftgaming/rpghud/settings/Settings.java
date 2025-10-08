@@ -82,6 +82,7 @@ public class Settings {
     public static final String invert_compass = "invert_compass";
     public static final String compass_position = "compass_position";
     public static final String shift_boss_bar = "shift_boss_bar";
+    public static final String show_locator = "show_locator";
 
     public static final String enable_pickup = "enable_pickup";
     public static final String pickup_duration = "pickup_duration";
@@ -192,6 +193,8 @@ public class Settings {
         addSetting(invert_compass, new SettingBoolean(invert_compass, HudElementType.COMPASS, false));
         addSetting(compass_position, new SettingPosition(compass_position, HudElementType.COMPASS, 0, 0));
         addSetting(shift_boss_bar, new SettingBoolean(shift_boss_bar, HudElementType.COMPASS, true));
+        addSetting(show_locator, new SettingBoolean(show_locator, HudElementType.COMPASS, true));
+       
 
         addSetting(render_player_face, new SettingBoolean(render_player_face, HudElementType.WIDGET, true));
         addSetting(widget_position, new SettingPosition(widget_position, HudElementType.WIDGET, 0, 0));
