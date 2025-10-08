@@ -157,7 +157,8 @@ public abstract class Hud {
 	 * @return true if it should be rendered, false if not
 	 */
 	public boolean checkElementConditions(HudElementType type) {
-		return this.elements.get(type).checkConditions();
+		HudElement element = this.elements.get(type);
+		return element != null ? this.elements.get(type).checkConditions() : false;
 	}
 	
 	public boolean isVanillaElement(HudElementType type) {
