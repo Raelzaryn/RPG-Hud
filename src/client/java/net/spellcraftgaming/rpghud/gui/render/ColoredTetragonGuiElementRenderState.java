@@ -35,19 +35,19 @@ public record ColoredTetragonGuiElementRenderState(
 		this(pipeline, textureSetup, pose, posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, scissorArea, createBounds(posX1, posX2, posY1, posY2, width1, width2, height1, height2, pose, scissorArea));
 	}
 
-	@Override
-	public void setupVertices(VertexConsumer vertices, float depth) {
-		int convertedcolor = color;
-    	if (color == -1)
+    @Override
+    public void setupVertices(VertexConsumer vertices) {
+        int convertedcolor = color;
+        if (color == -1)
             return;
         if (color <= 0xFFFFFF && color >= 0)
             convertedcolor = color + 0xFF000000;
 
-        vertices.vertex(this.pose(), (float)posX1, (float) posY1, depth).color(convertedcolor);
-		vertices.vertex(this.pose(), (float)posX2, (float) posY1+height1, depth).color(convertedcolor);
-		vertices.vertex(this.pose(), (float)posX2+width2, (float)posY2+height2, depth).color(convertedcolor);
-		vertices.vertex(this.pose(), (float)posX1+width1, (float)posY2, depth).color(convertedcolor);
-	}
+        vertices.vertex(this.pose(), (float)posX1, (float) posY1).color(convertedcolor);
+        vertices.vertex(this.pose(), (float)posX2, (float) posY1+height1).color(convertedcolor);
+        vertices.vertex(this.pose(), (float)posX2+width2, (float)posY2+height2).color(convertedcolor);
+        vertices.vertex(this.pose(), (float)posX1+width1, (float)posY2).color(convertedcolor);
+    }
 
 	@Nullable
 	private static ScreenRect createBounds(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, Matrix3x2f pose, @Nullable ScreenRect scissorArea) {

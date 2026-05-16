@@ -255,7 +255,7 @@ public class RenderOverlayMixin {
     
     private void renderHealthBar(DrawContext context, Random random, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking) {
     	ModRPGHud.HeartTypeNew HeartTypeNew = ModRPGHud.HeartTypeNew.fromPlayerState(player);
-        boolean bl = player.getWorld().getLevelProperties().isHardcore();
+        boolean bl = player.getEntityWorld().getLevelProperties().isHardcore();
         int i = MathHelper.ceil((double)((double)maxHealth / 2.0));
         int j = MathHelper.ceil((double)((double)absorption / 2.0));
         int k = i * 2;

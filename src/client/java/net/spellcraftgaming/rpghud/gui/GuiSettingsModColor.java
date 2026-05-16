@@ -3,16 +3,20 @@ package net.spellcraftgaming.rpghud.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.input.MouseInput;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.lwjgl.glfw.GLFW;
 
 @Environment(value=EnvType.CLIENT)
 public class GuiSettingsModColor extends GuiScreenTooltip {
@@ -53,14 +57,15 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void init() {
+        Click click = new Click(0.0, 0.0, new MouseInput(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0));
 		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
-			slider.onClick(0, 0);
+			slider.onClick(click, false);
 		}));
 		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
-			slider.onClick(0, 0);
+			slider.onClick(click, false);
 		}));
 		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
-			slider.onClick(0, 0);
+			slider.onClick(click, false);
 		}));
 
 		this.colorCodeField = new TextFieldWidget(client.textRenderer, this.width / 2 - 74, 115, 147, 20, Text.translatable(Settings.intToHexString(this.color)));
@@ -195,30 +200,29 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	 * the equivalent of KeyListener.keyTyped(KeyEvent e). Args : character
 	 * (character on the key), keyCode (lwjgl Keyboard key code)
 	 */
-	@Override
-	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-		if (this.colorCodeField.isFocused()) {
-			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
-			if (p_keyPressed_1_ == 28)
-				this.colorCodeField.setFocused(false);
-		}
-		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
-	}
-	
-	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-	       for(Element child : this.children()) {
-	            if(child instanceof GuiSliderMod) {
-	                ((GuiSliderMod) child).dragging = false;
-	            }
-	        }
-	    return super.mouseReleased(mouseX, mouseY, button);
-	}
+    @Override
+    public boolean keyPressed(KeyInput input) {
+        if (this.colorCodeField.isFocused()) {
+            this.colorCodeField.keyPressed(input);
+            if (input.key() == 28)
+                this.colorCodeField.setFocused(false);
+        }
+        return super.keyPressed(input);
+    }
+
+    @Override
+    public boolean mouseReleased(Click click) {
+        for(Element child : this.children()) {
+            if(child instanceof GuiSliderMod) {
+                ((GuiSliderMod) child).dragging = false;
+            }
+        }
+        return super.mouseReleased(click);
+    }
 
 	@Override
 	public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
 		TextRenderer textRenderer = client.textRenderer;
-		this.renderBackground(dc, mouseX, mouseY, partialTicks);
 		dc.drawCenteredTextWithShadow(textRenderer, this.title, this.width / 2, 12, -1);
 		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
 		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);

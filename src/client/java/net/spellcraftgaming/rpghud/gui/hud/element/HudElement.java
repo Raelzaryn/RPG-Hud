@@ -1,7 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
-import org.joml.Matrix3x2f;
-
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -9,6 +8,7 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.texture.PlayerSkinProvider;
 import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,10 +16,12 @@ import net.minecraft.util.Identifier;
 import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Matrix3x2f;
+
+import java.util.UUID;
 
 @Environment(value=EnvType.CLIENT)
 public abstract class HudElement {
-
     /** The values of the color red */
     public static final int COLOR_RED = 0xFFC10000;
 
@@ -606,9 +608,14 @@ public abstract class HudElement {
      * @return the ResourceLocation
      */
     protected static Identifier getPlayerSkin(ClientPlayerEntity player) {
-        return player.getSkinTextures().texture();
+        MinecraftClient instance = MinecraftClient.getInstance();
+        PlayerSkinProvider skinProvider = instance.getSkinProvider();
+        UUID uuid = player.getUuid();
+        GameProfile profile = new GameProfile(uuid, "");
+
+        return skinProvider.supplySkinTextures(profile, false).get().body().texturePath();
     }
-    
+
        /**
      * Renders an item on the screen
      * 
