@@ -325,7 +325,7 @@ public class Settings {
         } else if(setting instanceof SettingString || setting instanceof SettingHudType) {
             return s + I18n.translate(setting.getStringValue(), new Object[0]);
         } else if(setting instanceof SettingColor) {
-            return s + intToHexString(setting.getIntValue());
+            return s + intToHexString(setting.getIntValue(), false);
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
         } else if(setting instanceof SettingFloat) {
@@ -339,24 +339,9 @@ public class Settings {
         }
     }
 
-    public static String intToHexString(int hex) {
+    public static String intToHexString(int hex, boolean keepAlfa) {
         String s = Integer.toHexString(hex).toUpperCase();
-        if(hex <= 0xFFFFF) {
-            s = "0" + s;
-            if(hex <= 0xFFFF) {
-                s = "0" + s;
-                if(hex <= 0xFFF) {
-                    s = "0" + s;
-                    if(hex <= 0xFF) {
-                        s = "0" + s;
-                        if(hex <= 0xF) {
-                            s = "0" + s;
-                        }
-                    }
-                }
-            }
-        }
-        return "#" + s;
+        return "#" + (keepAlfa ? s : s.substring(2));
     }
 
     public void saveSettings() {
