@@ -4,9 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -58,7 +58,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	}
 	
 	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, ButtonWidget.PressAction titleIn) {
-		super(x, y, 150, 12, Text.translatable(""), titleIn);
+		super(x, y, 150, 12, net.minecraft.text.Text.translatable(""), titleIn);
 		this.color = color;
 		this.sliderValue = value / 255;
 		this.value = (int) Math.ceil(value);
@@ -89,11 +89,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	protected int getYImage(boolean p_getYImage_1_) {
 		return 0;
 	} */
-    
+
     @Override
-    public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
-    	this.dragging = false;
-    	return super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
+    public boolean mouseReleased(Click click) {
+        this.dragging = false;
+        return super.mouseReleased(click);
     }
 
     public int getValueInt()
@@ -127,10 +127,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * e).
      */
     @Override
-    public void onClick(double mouseX, double mouseY)
-    {
-		this.sliderValue = Math.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
-        updateSlider(mouseX, mouseY);
+    public void onClick(Click click, boolean doubled) {
+        this.sliderValue = Math.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
+        updateSlider(click.x(), click.y());
         this.dragging = true;
     }
 
@@ -151,10 +150,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
     private String getDisplayString() {
         return "#" + Integer.toHexString(getValue()).toUpperCase();
     }
-    
+
     @Override
-    public void renderWidget(DrawContext dc, int mouseX, int mouseY, float partial)
-    {
+    protected void drawIcon(DrawContext dc, int mouseX, int mouseY, float deltaTicks) {
         if (this.visible)
         {
         	if(this.dragging) {

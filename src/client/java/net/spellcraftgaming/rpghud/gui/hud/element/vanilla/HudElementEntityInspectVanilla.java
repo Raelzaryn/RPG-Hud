@@ -2,6 +2,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import java.util.List;
 
+import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
+import net.minecraft.client.render.entity.EntityRenderManager;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+import net.minecraft.text.Text;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -11,7 +15,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.Entity;
@@ -124,11 +127,11 @@ public class HudElementEntityInspectVanilla extends HudElement {
 		entity.headYaw = entity.getYaw() -35f;
 		entity.lastHeadYaw = entity.getYaw();
 		Vector3f vector3f = new Vector3f(0.0F, 0, 0.0F);
-		
-		EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
+
+        EntityRenderManager entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
 		EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
 		EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState(entity, 1.0F);
-		entityRenderState.hitbox = null;
+
 		dc.addEntity(entityRenderState, scale, vector3f, quaternionf, quaternionf2, x1, y1, x2, y2);
 		entity.bodyYaw = j;
 		entity.setYaw(k);
@@ -143,7 +146,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         LivingEntity focusedEntity = null;
         double maxDistance = 64;
         Vec3d vec = new Vec3d(watcher.getX(), watcher.getY(), watcher.getZ());
-        Vec3d posVec = watcher.getPos();
+        Vec3d posVec = watcher.getEntityPos();
         if(watcher instanceof PlayerEntity) {
             vec = vec.add(0D, watcher.getStandingEyeHeight(), 0D);
             posVec = posVec.add(0D, watcher.getStandingEyeHeight(), 0D);
@@ -152,7 +155,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         Vec3d lookVec = watcher.getRotationVector();
         Vec3d vec2 = vec.add(lookVec.normalize().multiply(maxDistance));
 
-        BlockHitResult ray = watcher.getWorld()
+        BlockHitResult ray = watcher.getEntityWorld()
                 .raycast(new RaycastContext(vec, vec2, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, watcher));
 
         double distance = maxDistance;
@@ -163,7 +166,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         double currentDistance = distance;
 
-        List<Entity> entitiesWithinMaxDistance = watcher.getWorld().getOtherEntities(watcher,
+        List<Entity> entitiesWithinMaxDistance = watcher.getEntityWorld().getOtherEntities(watcher,
                 watcher.getBoundingBox().stretch(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance).expand(1, 1, 1));
         for(Entity entity : entitiesWithinMaxDistance) {
             if(entity instanceof LivingEntity) {

@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @Environment(value=EnvType.CLIENT)
@@ -26,7 +26,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int x, int y, Text buttonText, ButtonWidget.PressAction ip) {
+	public GuiButtonTooltip(int x, int y, net.minecraft.text.Text buttonText, ButtonWidget.PressAction ip) {
 		super(x, y, buttonText, ip);
 		this.enumOptions = null;
 	}
@@ -47,12 +47,12 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int x, int y, int width, int height, Text buttonText, ButtonWidget.PressAction ip) {
+	public GuiButtonTooltip(int x, int y, int width, int height, net.minecraft.text.Text buttonText, ButtonWidget.PressAction ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.enumOptions = null;
 	}
 	
-	public GuiButtonTooltip(int id, int x, int y, int width, int height, Text buttonText, ButtonWidget.PressAction ip) {
+	public GuiButtonTooltip(int id, int x, int y, int width, int height, net.minecraft.text.Text buttonText, ButtonWidget.PressAction ip) {
 		super(x, y, width, height, buttonText, ip);
 		this.id = id;
 		this.enumOptions = null;
@@ -72,7 +72,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	 * @param buttonText
 	 *            The display Text of this button
 	 */
-	public GuiButtonTooltip(int x, int y, String setting, Text buttonText, ButtonWidget.PressAction ip) {
+	public GuiButtonTooltip(int x, int y, String setting, net.minecraft.text.Text buttonText, ButtonWidget.PressAction ip) {
 		super(x, y, 150, 20, buttonText, ip);
 		this.enumOptions = setting;
 	}

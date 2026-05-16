@@ -107,21 +107,21 @@ public class HudElementCompassVanilla extends HudElement {
 	}
 	
 	public void renderLocator(DrawContext context, RenderTickCounter tickCounter, int posX, int posY) {
-		World world = this.client.cameraEntity.getWorld();
+		World world = this.client.getCameraEntity().getEntityWorld();
 		this.client
 			.player
 			.networkHandler
 			.getWaypointHandler()
 			.forEachWaypoint(
-				this.client.cameraEntity,
+                    this.client.getCameraEntity(),
 				waypoint -> {
-					if (!(Boolean)waypoint.getSource().left().map(uuid -> uuid.equals(this.client.cameraEntity.getUuid())).orElse(false)) {
-						double d = waypoint.getRelativeYaw(world, this.client.gameRenderer.getCamera()) / 1.25;
+					if (!(Boolean)waypoint.getSource().left().map(uuid -> uuid.equals(this.client.getCameraEntity().getUuid())).orElse(false)) {
+						double d = waypoint.getRelativeYaw(world, this.client.gameRenderer.getCamera(), entity -> tickCounter.getTickProgress(false)) / 1.25;
 						if (!(d <= -61.0) && !(d > 60.0)) {
 							int j = MathHelper.ceil((context.getScaledWindowWidth() - 9) / 2.0F);
 							Config config = waypoint.getConfig();
 							WaypointStyleAsset waypointStyleAsset = this.client.getWaypointStyleAssetManager().get(config.style);
-							float f = MathHelper.sqrt((float)waypoint.squaredDistanceTo(this.client.cameraEntity));
+							float f = MathHelper.sqrt((float)waypoint.squaredDistanceTo(this.client.getCameraEntity()));
 							Identifier identifier = waypointStyleAsset.getSpriteForDistance(f);
 							int k = (Integer)config.color
 								.orElseGet(
@@ -133,7 +133,7 @@ public class HudElementCompassVanilla extends HudElement {
 								);
 							int l = (int)(d * 100.0 / 2.0 / 60.0);
 							context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier, j + l, posY - 2, 9, 9, k);
-							Pitch pitch = waypoint.getPitch(world, this.client.gameRenderer);
+							Pitch pitch = waypoint.getPitch(world, this.client.gameRenderer, entity -> tickCounter.getTickProgress(false));
 							if (pitch != Pitch.NONE) {
 								int m;
 								Identifier identifier2;
