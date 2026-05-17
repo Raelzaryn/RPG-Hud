@@ -2,7 +2,6 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 

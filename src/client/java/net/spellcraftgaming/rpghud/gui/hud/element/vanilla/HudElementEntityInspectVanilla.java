@@ -2,10 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import java.util.List;
 
-import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.minecraft.client.render.entity.EntityRenderManager;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.text.Text;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
