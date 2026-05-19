@@ -9,61 +9,59 @@ import com.google.common.collect.ImmutableMap;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.bar.Bar;
-import net.minecraft.client.gui.hud.bar.ExperienceBar;
-import net.minecraft.client.gui.hud.bar.JumpBar;
-import net.minecraft.client.gui.hud.bar.LocatorBar;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.JumpingMount;
-import net.minecraft.util.Nullables;
+import net.minecraft.Optionull;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.contextualbar.ContextualBarRenderer;
+import net.minecraft.client.gui.contextualbar.ExperienceBarRenderer;
+import net.minecraft.client.gui.contextualbar.JumpableVehicleBarRenderer;
+import net.minecraft.client.gui.contextualbar.LocatorBarRenderer;
+import net.minecraft.world.entity.PlayerRideableJumping;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementLocatorBarVanilla extends HudElement{
 
-	private final Map<BarType, Supplier<Bar>> bars;
-	private Pair<BarType, Bar> currentBar = Pair.of(BarType.EMPTY, Bar.EMPTY);
-	private MinecraftClient client;
+	private Pair<BarType, ContextualBarRenderer> currentBar = Pair.of(BarType.EMPTY, ContextualBarRenderer.EMPTY);
+	private final Map<BarType, Supplier<ContextualBarRenderer>> bars;
 	
 	public HudElementLocatorBarVanilla() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
-		client = MinecraftClient.getInstance();
+
 		this.bars = ImmutableMap.of(
 				BarType.EMPTY,
-				() -> Bar.EMPTY,
+				() -> ContextualBarRenderer.EMPTY,
 				BarType.EXPERIENCE,
-				() -> new ExperienceBar(client),
+				() -> new ExperienceBarRenderer(mc),
 				BarType.LOCATOR,
-				() -> new LocatorBar(client),
+				() -> new LocatorBarRenderer(mc),
 				BarType.JUMPABLE_VEHICLE,
-				() -> new JumpBar(client)
+				() -> new JumpableVehicleBarRenderer(mc)
 			);
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth,
+	public void drawElement(GuiGraphicsExtractor dc, float zLevel, DeltaTracker partialTicks, int scaledWidth,
 			int scaledHeight) {
 		BarType barType = this.getCurrentBarType();
 		if (barType != this.currentBar.getKey()) {
-			this.currentBar = Pair.of(barType, (Bar)((Supplier<Bar>)this.bars.get(barType)).get());
+			this.currentBar  = Pair.of(barType, (ContextualBarRenderer)((Supplier)this.bars.get(barType)).get());
 		}
 		
-		this.currentBar.getValue().renderBar(dc, partialTicks);
-		if (this.client.interactionManager.hasExperienceBar() && this.client.player.experienceLevel > 0) {
-			Bar.drawExperienceLevel(dc, this.client.textRenderer, this.client.player.experienceLevel);
+		this.currentBar.getValue().extractBackground(dc, partialTicks);
+		if (this.mc.gameMode.hasExperience() && this.mc.player.experienceLevel > 0) {
+			ContextualBarRenderer.extractExperienceLevel(dc, this.mc.font, this.mc.player.experienceLevel);
 		}
 
-		this.currentBar.getValue().renderAddons(dc, partialTicks);
+		this.currentBar.getValue().extractRenderState(dc, partialTicks);
 		
 	}
 
 	private BarType getCurrentBarType() {
-		boolean bl = this.client.player.networkHandler.getWaypointHandler().hasWaypoint();
-		boolean bl2 = this.client.player.getJumpingMount() != null;
-		boolean bl3 = this.client.interactionManager.hasExperienceBar();
+		boolean bl = this.mc.player.connection.getWaypointManager().hasWaypoints();
+		boolean bl2 = this.mc.player.jumpableVehicle() != null;
+		boolean bl3 = this.mc.gameMode.hasExperience();
 		if (bl) {
 			if (bl2 && this.shouldShowJumpBar()) {
 				return BarType.JUMPABLE_VEHICLE;
@@ -79,12 +77,12 @@ public class HudElementLocatorBarVanilla extends HudElement{
 	}
 	
 	private boolean shouldShowExperienceBar() {
-		return this.client.player.experienceBarDisplayStartTime + 100 > this.client.player.age;
+		return this.mc.player.experienceDisplayStartTick + 100 > this.mc.player.tickCount;
 	}
 	
 	private boolean shouldShowJumpBar() {
-		return this.client.player.getMountJumpStrength() > 0.0F
-			|| (Integer)Nullables.mapOrElse(this.client.player.getJumpingMount(), JumpingMount::getJumpCooldown, 0) > 0;
+		return this.mc.player.getJumpRidingScale() > 0.0F
+				|| (Integer)Optionull.mapOrDefault(this.mc.player.jumpableVehicle(), PlayerRideableJumping::getJumpCooldown, 0) > 0;
 	}
 	
 	@Environment(EnvType.CLIENT)

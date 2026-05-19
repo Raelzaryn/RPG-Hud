@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.AttackIndicator;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameMode;
+import net.minecraft.world.entity.HumanoidArm;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -33,7 +35,7 @@ public class HudElementHotbarDefault extends HudElement {
         else if(this.mc.getCameraEntity() instanceof PlayerEntity) {
         	int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
             ItemStack itemstack = this.mc.player.getOffHandStack();
-            Arm arm = this.mc.player.getMainArm().getOpposite();
+            HumanoidArm arm = this.mc.player.getMainArm().getOpposite();
             int i = scaledWidth / 2 + this.settings.getPositionValue(Settings.hotbar_position)[0];
             
             float f = zLevel;
@@ -41,7 +43,7 @@ public class HudElementHotbarDefault extends HudElement {
             dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_TEXTURE, i - 91, scaledHeight - 22 + posY, 182, 22);
             dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_SELECTION_TEXTURE, i - 91 - 1 + this.mc.player.getInventory().getSelectedSlot() * 20, scaledHeight - 22 + posY - 1, 24, 23);
             if(!itemstack.isEmpty())
-                if(arm == Arm.LEFT)
+                if(arm == HumanoidArm.LEFT)
                 	dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_LEFT_TEXTURE, i - 91 - 29, scaledHeight - 23 + posY, 29, 24);
                 else
                 	dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_RIGHT_TEXTURE, i + 91, scaledHeight - 23 + posY, 29, 24);
@@ -57,18 +59,18 @@ public class HudElementHotbarDefault extends HudElement {
 
             if(!itemstack.isEmpty()) {
                 int l1 = scaledHeight - 16 - 3 + posY;
-                if(arm == Arm.LEFT)
+                if(arm == HumanoidArm.LEFT)
                     this.renderHotbarItem(dc, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack, s++);
                 else
                     this.renderHotbarItem(dc, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack, s++);
             }
 
-            if(this.mc.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR) {
+            if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
                 float f1 = this.mc.player.getAttackCooldownProgress(0.0F);
                 if(f1 < 1.0F) {
                     int i2 = scaledHeight - 20 + posY;
                     int j2 = i + 91 + 6;
-                    if(arm == Arm.RIGHT)
+                    if(arm == HumanoidArm.RIGHT)
                         j2 = i - 91 - 22;
 
                     int k1 = (int) (f1 * 19.0F);

@@ -27,6 +27,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -48,7 +49,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
     @Override
     public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
-        if(focused != null && !(focused instanceof ArmorStandEntity) && !focused.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+        if(focused != null && !(focused instanceof ArmorStand) && !focused.hasStatusEffect(StatusEffects.INVISIBILITY)) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
             int posY = this.settings.getPositionValue(Settings.inspector_position)[1];
             dc.drawTexture(RenderPipelines.GUI_TEXTURED, DAMAGE_INDICATOR, posX - 62, 20 + posY, 0, 0, 128, 36, 256, 256);
@@ -185,7 +186,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 }
             }
         }
-        if (focusedEntity instanceof ArmorStandEntity) return null;
+        if (focusedEntity instanceof ArmorStand) return null;
         return focusedEntity;
     }
 

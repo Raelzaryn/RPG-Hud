@@ -1,21 +1,27 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.TippedArrowItem;
 import net.minecraft.util.Arm;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TippedArrowItem;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -35,12 +41,13 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected ItemStack itemArrow = ItemStack.EMPTY;
 
 	public HudElementDetailsVanilla() {
+		
 		super(HudElementType.DETAILS, 0, 0, 0, 0, true);
 	}
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.getDebugHud().shouldShowDebugHud() && !this.isChatOpen();
+		return !this.mc.getDebugOverlay().showDebugScreen() && !this.isChatOpen();
 	}
 
 	@Override
@@ -78,10 +85,10 @@ public class HudElementDetailsVanilla extends HudElement {
 		//37=legs
 		//38=chest
 		//39=helmet
-		for (int i = PlayerInventory.EQUIPMENT_SLOTS.size() +35; i >= 36; i--) {
-			if (this.mc.player.getInventory().getStack(i) != ItemStack.EMPTY && this.mc.player.getInventory().getStack(i).contains(DataComponentTypes.DAMAGE)) {
-				ItemStack item = this.mc.player.getInventory().getStack(i);
-				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
+		for (int i = Inventory.EQUIPMENT_SLOT_MAPPING.size() +35; i >= 36; i--) {
+			if (this.mc.player.getInventory().getItem(i) != ItemStack.EMPTY && this.mc.player.getInventory().getItem(i).contains(DataComponentTypes.DAMAGE)) {
+				ItemStack item = this.mc.player.getInventory().getItem(i);
+				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset, reducedSize);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset, 1f);
 				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset, -1);
@@ -106,10 +113,10 @@ public class HudElementDetailsVanilla extends HudElement {
 		ItemStack item = getItemInHand(hand);
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (item != ItemStack.EMPTY) {
-			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageable()) {
+			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageableItem()) {
 				if (reducedSize)
 					dc.getMatrices().scale(0.5f, 0.5f);
-				String s = (item.getMaxDamage() - item.getDamage()) + "/" + item.getMaxDamage();
+				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, reducedSize);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(dc, item, reducedSize ? 4 : 2, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset, 1f);
 				dc.drawTextWithShadow(this.mc.textRenderer, s, 23, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset, -1);
@@ -117,9 +124,9 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (reducedSize)
 					dc.getMatrices().scale(2f, 2f);
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
-				int x = this.mc.player.getInventory().size();
+				int x = this.mc.player.getInventory().getContainerSize();
 				int z = 0;
-				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.areItemsEqual((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.areItemsEqual(this.itemMainHandLast, item)) {
+				if ((hand == 0 ? ModRPGHud.renderDetailsAgain[0] : ModRPGHud.renderDetailsAgain[1]) || !ItemStack.isSameItem((hand == 0 ? this.itemMainHandLast : this.itemOffhandLast), item) || !ItemStack.isSameItem(this.itemMainHandLast, item)) {
 					if (hand == 0) {
 						this.itemMainHandLast = item.copy();
 						ModRPGHud.renderDetailsAgain[0] = false;
@@ -128,8 +135,8 @@ public class HudElementDetailsVanilla extends HudElement {
 						ModRPGHud.renderDetailsAgain[1] = false;
 					}
 					for (int y = 0; y < x; y++) {
-						item = this.mc.player.getInventory().getStack(y);
-						if (item != ItemStack.EMPTY && Item.getRawId(item.getItem()) == Item.getRawId(getItemInHand(hand).getItem())) {
+						item = this.mc.player.getInventory().getItem(y);
+						if (item != ItemStack.EMPTY && Item.getId(item.getItem()) == Item.getId(getItemInHand(hand).getItem())) {
 							z += item.getCount();
 						}
 					}
@@ -165,20 +172,20 @@ public class HudElementDetailsVanilla extends HudElement {
 	 */
 	protected void drawArrowCount(DrawContext dc) {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
-		ItemStack item = this.mc.player.getMainHandStack();
+		ItemStack item = this.mc.player.getMainHandItem();
 		if (this.settings.getBoolValue(Settings.show_arrow_count) && item != ItemStack.EMPTY && item.getItem() instanceof BowItem) {
-			int x = this.mc.player.getInventory().size();
+			int x = this.mc.player.getInventory().getContainerSize();
 			int z = 0;
 
-			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.areItemsEqual(this.itemMainHandLastArrow, item)) {
+			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.isSameItem(this.itemMainHandLastArrow, item)) {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
 				item = findAmmo(this.mc.player);
 				if (item != ItemStack.EMPTY) {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
-						ItemStack item3 = this.mc.player.getInventory().getStack(y);
-						if (ItemStack.areItemsEqual(item, item3)) {
+						ItemStack item3 = this.mc.player.getInventory().getItem(y);
+						if (ItemStack.isSameItem(item, item3)) {
 							z += addArrowStackIfCorrect(item, item3);
 						}
 					}
@@ -222,15 +229,15 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @return returns the ItemStack of the arrow. If none can be found returns
 	 *         ItemStack.EMPTY
 	 */
-	protected static ItemStack findAmmo(PlayerEntity player) {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if (isArrow(mc.player.getOffHandStack())) {
-			return mc.player.getOffHandStack();
-		} else if (isArrow(mc.player.getMainHandStack())) {
-			return mc.player.getMainHandStack();
+	protected static ItemStack findAmmo(Player player) {
+		Minecraft mc = Minecraft.getInstance();
+		if (isArrow(mc.player.getOffhandItem())) {
+			return mc.player.getOffhandItem();
+		} else if (isArrow(mc.player.getMainHandItem())) {
+			return mc.player.getMainHandItem();
 		} else {
-			for (int i = 0; i < player.getInventory().size(); ++i) {
-				ItemStack itemstack = player.getInventory().getStack(i);
+			for (int i = 0; i < player.getInventory().getContainerSize(); ++i) {
+				ItemStack itemstack = player.getInventory().getItem(i);
 
 				if (isArrow(itemstack)) {
 					return itemstack;
@@ -242,18 +249,18 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	public static ItemStack getItemInHand(int hand) {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
 		if (hand == 0)
-			return mc.player.getMainHandStack();
+			return mc.player.getMainHandItem();
 		else if (hand == 1)
-			return mc.player.getOffHandStack();
+			return mc.player.getOffhandItem();
 		else
 			return ItemStack.EMPTY;
 	}
 	
 	public static int getOffhandSide() {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if (mc.player.getMainArm() == Arm.RIGHT)
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player.getMainArm() == HumanoidArm.RIGHT)
 			return 0;
 		else
 			return 1;
@@ -261,7 +268,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	
 	public static boolean isArrow(ItemStack item) {
 		if (item != ItemStack.EMPTY) {
-			return ItemStack.areItemsEqual(item, new ItemStack(Items.ARROW));
+			return ItemStack.isSameItem(item, new ItemStack(Items.ARROW));
 		}
 
 		return false;
@@ -291,13 +298,13 @@ public class HudElementDetailsVanilla extends HudElement {
 		dc.drawItem(stack, x, y);
 	}
 
-	public void renderItemDurabilityBar(DrawContext dc, ItemStack stack, int x, int y, float scale) {
+	public void renderItemDurabilityBar(GuiGraphicsExtractor dc, ItemStack stack, int x, int y, float scale) {
 		if (stack.isEmpty())
 			return;
-		if (stack.isItemBarVisible()) {
+		if (stack.isBarVisible()) {
 			int i = stack.getItemBarStep();
 			int j = stack.getItemBarColor();
-			dc.getMatrices().scale(scale, scale);
+			dc.pose().scale(scale, scale);
 			HudElement.drawRect(dc, x + 2, y + 13, 13, 2, 0x000000);
 			HudElement.drawRect(dc, x + 2, y + 13, i, 1, j);
 		}

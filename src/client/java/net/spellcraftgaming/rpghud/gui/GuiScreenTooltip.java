@@ -3,14 +3,13 @@ package net.spellcraftgaming.rpghud.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -18,7 +17,7 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Environment(value=EnvType.CLIENT)
 public class GuiScreenTooltip extends Screen {
 
-    protected GuiScreenTooltip(Text titleIn) {
+    protected GuiScreenTooltip(Component titleIn) {
         super(titleIn);
     }
 

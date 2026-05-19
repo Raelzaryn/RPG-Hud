@@ -7,42 +7,44 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.profiler.Profilers;
+import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.main.RenderOverlay;
 
 @Environment(value=EnvType.CLIENT)
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public class RenderOverlayMixin {
 	
-    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.ofVanilla("hud/armor_empty");
-    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.ofVanilla("hud/armor_half");
-    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.ofVanilla("hud/armor_full");
-    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE =Identifier.ofVanilla("hud/food_empty_hunger");
-    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_half_hunger");
-    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_full_hunger");
-    private static final Identifier FOOD_EMPTY_TEXTURE = Identifier.ofVanilla("hud/food_empty");
-    private static final Identifier FOOD_HALF_TEXTURE = Identifier.ofVanilla("hud/food_half");
-    private static final Identifier FOOD_FULL_TEXTURE = Identifier.ofVanilla("hud/food_full");
-    private static final Identifier AIR_TEXTURE = Identifier.ofVanilla("hud/air");
-    private static final Identifier AIR_BURSTING_TEXTURE = Identifier.ofVanilla("hud/air_bursting");
+    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/armor_empty");
+    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.withDefaultNamespace("hud/armor_half");
+    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/armor_full");
+    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_empty_hunger");
+    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_half_hunger");
+    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_full_hunger");
+    private static final Identifier FOOD_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/food_empty");
+    private static final Identifier FOOD_HALF_TEXTURE = Identifier.withDefaultNamespace("hud/food_half");
+    private static final Identifier FOOD_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/food_full");
+    private static final Identifier AIR_TEXTURE = Identifier.withDefaultNamespace("hud/air");
+    private static final Identifier AIR_BURSTING_TEXTURE = Identifier.withDefaultNamespace("hud/air_bursting");
     
     private int lastHealthValue;
     private int renderHealthValue;
@@ -57,7 +59,7 @@ public class RenderOverlayMixin {
 
     @Inject(at = @At("HEAD"), method = "renderStatusBars", cancellable = true)
     private void renderStatusBars(DrawContext dc, CallbackInfo info) {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
         Random random = new Random();
@@ -69,7 +71,7 @@ public class RenderOverlayMixin {
         if (playerEntity == null) {
             return;
         }
-        int i = MathHelper.ceil((float)playerEntity.getHealth());
+        int i = Mth.ceil((float)playerEntity.getHealth());
         boolean bl = this.heartJumpEndTick > (long)this.ticks && (this.heartJumpEndTick - (long)this.ticks) / 3L % 2L == 1L;
         long l = Util.getMeasuringTimeMs();
         if (i < this.lastHealthValue && playerEntity.timeUntilRegen > 0) {
@@ -93,15 +95,15 @@ public class RenderOverlayMixin {
         int n = scaledWidth / 2 + 91;
         int o = scaledHeight - 39;
         float f = Math.max((float)playerEntity.getAttributeValue(EntityAttributes.MAX_HEALTH), (float)Math.max(j, i));
-        int p = MathHelper.ceil((float)playerEntity.getAbsorptionAmount());
-        int q = MathHelper.ceil((float)((f + (float)p) / 2.0f / 10.0f));
+        int p = Mth.ceil((float)playerEntity.getAbsorptionAmount());
+        int q = Mth.ceil((float)((f + (float)p) / 2.0f / 10.0f));
         int r = Math.max(10 - (q - 2), 3);
         int s = o - (q - 1) * r - 10;
         int t = o - 10;
         int u = playerEntity.getArmor();
         int v = -1;
         if (playerEntity.hasStatusEffect(StatusEffects.REGENERATION)) {
-            v = this.ticks % MathHelper.ceil((float)(f + 5.0f));
+            v = this.ticks % Mth.ceil((float)(f + 5.0f));
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.ARMOR)) {
 	        Profilers.get().push("armor");
