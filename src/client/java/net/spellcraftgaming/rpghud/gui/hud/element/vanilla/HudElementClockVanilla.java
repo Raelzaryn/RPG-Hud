@@ -17,7 +17,7 @@ public class HudElementClockVanilla extends HudElement {
 	public HudElementClockVanilla() {
 		super(HudElementType.CLOCK, 0, 0, 0, 0, true);
 	}
-
+	
 	@Override
 	public boolean checkConditions() {
 		return super.checkConditions() 

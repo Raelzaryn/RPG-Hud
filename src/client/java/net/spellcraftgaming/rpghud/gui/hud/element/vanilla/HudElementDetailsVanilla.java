@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
@@ -31,6 +33,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected ItemStack itemArrow = ItemStack.EMPTY;
 
 	public HudElementDetailsVanilla() {
+		
 		super(HudElementType.DETAILS, 0, 0, 0, 0, true);
 	}
 

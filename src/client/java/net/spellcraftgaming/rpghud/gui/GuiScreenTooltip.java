@@ -3,6 +3,8 @@ package net.spellcraftgaming.rpghud.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;

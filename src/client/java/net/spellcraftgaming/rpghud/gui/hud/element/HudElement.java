@@ -1,6 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
+import java.util.UUID;
+
+import org.joml.Matrix3x2f;
+
 import com.mojang.authlib.GameProfile;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
@@ -19,9 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
-import org.joml.Matrix3x2f;
-
-import java.util.UUID;
 
 @Environment(value=EnvType.CLIENT)
 public abstract class HudElement {

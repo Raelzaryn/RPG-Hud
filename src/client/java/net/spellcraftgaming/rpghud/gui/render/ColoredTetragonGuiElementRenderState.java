@@ -14,7 +14,7 @@ import org.joml.Matrix3x2f;
 public record ColoredTetragonGuiElementRenderState(
 	RenderPipeline pipeline,
 	TextureSetup textureSetup,
-	Matrix3x2f pose,
+	Matrix3x2fc pose,
 	int posX1, 
 	int posX2, 
 	int posY1, 
@@ -33,6 +33,7 @@ public record ColoredTetragonGuiElementRenderState(
 		this(pipeline, textureSetup, pose, posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, scissorArea, createBounds(posX1, posX2, posY1, posY2, width1, width2, height1, height2, pose, scissorArea));
 	}
 
+	
     @Override
     public void buildVertices(VertexConsumer vertexConsumer) {
         int convertedcolor = color;

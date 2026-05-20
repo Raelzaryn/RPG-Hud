@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
+import java.util.function.Supplier;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.Button;

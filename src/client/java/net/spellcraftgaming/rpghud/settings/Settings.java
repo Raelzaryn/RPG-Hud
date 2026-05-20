@@ -12,6 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -454,6 +456,39 @@ public class Settings {
             e.printStackTrace();
         }
     }
+Community Info Section
+r/kde
+Kreddit, the KDE Community on Reddit
+KDE is an international community creating free and open source software. Visit our main page to know more: https://kde.org --- This is not a technical support forum. Please visit https://discuss.kde.org for user support. --- This is not a bug tracker. Please visit https://bugs.kde.org to report bugs.
+Created Jan 25, 2008
+Public
+143K Weekly visitors
+2K Weekly contributions
+Community Bookmarks
+r/kde Rules
+1
+Respect the KDE Code of Conduct
+2
+No duplicates
+3
+No spam
+4
+No blog spam
+5
+No screenshot of your desktop, use the Monthly Screenshot Thread instead
+6
+No comparison between desktop environments and/or distros
+7
+No misinformation
+8
+No linking to Twitter/X from posts or comments
+9
+No memes, image macros, rage comics, overdone jokes
+KDE Websites
+
+    KDE Homepage
+    KDE Planet
+    K
 
     private void save(BufferedWriter out) throws IOException {
         for(Setting setting : settings.values()) {
