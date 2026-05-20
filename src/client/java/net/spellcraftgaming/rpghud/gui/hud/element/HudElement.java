@@ -14,11 +14,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.SkinManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -69,7 +70,7 @@ public abstract class HudElement {
     public static final int[] COLOR_DEFAULT = { 0xFF4C4C4C, 0xFF3D3D3D };
 
     /** ResourceLocation of the interface texture for the RPG-HUD */
-    protected static final Identifier INTERFACE = Identifier.fromNamespaceAndPath("rpghud", "textures/interface.png");
+    protected static final Identifier INTERFACE = Identifier.parse("rpghud:textures/interface.png");
     
     protected static final Identifier CROSSHAIR_TEXTURE = Identifier.withDefaultNamespace("hud/crosshair");
     protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_full");
@@ -147,6 +148,8 @@ public abstract class HudElement {
     protected float scaleInverted;
 
     public HudElementType parent;
+    protected Identifier playerSkinId = Identifier.withDefaultNamespace("textures/entity/player/slim/steve.png");
+
     /**
      * Constructor
      * 
@@ -183,11 +186,11 @@ public abstract class HudElement {
     /**
      * Function called to draw this element on the screen
      */
-    public void draw(GuiGraphicsExtractor dc, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
-        this.drawElement(dc, zLevel, partialTicks, scaledWidth, scaledHeight);
+    public void draw(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+        this.drawElement(graphics, deltaTracker, scaledWidth, scaledHeight);
     }
 
-    public abstract void drawElement(GuiGraphicsExtractor dc, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight);
+    public abstract void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
@@ -305,14 +308,12 @@ public abstract class HudElement {
      * @param color
      *            the color of the rectangle
      */
-    public static void drawRect(GuiGraphicsExtractor dc, int posX, int posY, int width, int height, int color) {
+    public static void drawRect(GuiGraphicsExtractor graphics, int posX, int posY, int width, int height, int color) {
     	if (color == -1)
             return;
         if (color <= 0xFFFFFF && color >= 0)
             color = color + 0xFF000000;
-        dc.fill(posX, posY, posX + width, posY+height, color);
-        
-        //BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
+        graphics.fill(posX, posY, posX + width, posY+height, color);
     }
 
     /**
@@ -328,11 +329,11 @@ public abstract class HudElement {
      *            the height of the outline
      * @param color
      */
-    protected static void drawOutline(GuiGraphicsExtractor dc, int x, int y, int width, int height, int color) {
-        drawRect(dc, x, y, width, 1, color);
-        drawRect(dc, x, y+1, 1, height-2, color);
-        drawRect(dc, x + width - 1, y+1, 1, height-2, color);
-        drawRect(dc, x, y + height - 1, width, 1, color);
+    protected static void drawOutline(GuiGraphicsExtractor graphics, int x, int y, int width, int height, int color) {
+        drawRect(graphics, x, y, width, 1, color);
+        drawRect(graphics, x, y+1, 1, height-2, color);
+        drawRect(graphics, x + width - 1, y+1, 1, height-2, color);
+        drawRect(graphics, x, y + height - 1, width, 1, color);
     }
 
     /**
@@ -353,8 +354,8 @@ public abstract class HudElement {
      * @param colorBarDark
      *            the color for the bar (dark
      */
-    public static void drawCustomBar(GuiGraphicsExtractor dc, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
-        drawCustomBar(dc, x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
+        drawCustomBar(graphics, x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
     }
 
     /**
@@ -379,8 +380,8 @@ public abstract class HudElement {
      * @param colorBarDark
      *            the color for the bar (dark
      */
-    public static void drawCustomBar(GuiGraphicsExtractor dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
-        drawCustomBar(dc, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
+        drawCustomBar(graphics, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
     }
 
     /**
@@ -407,8 +408,8 @@ public abstract class HudElement {
      * @param outlined
      *            whether this bar has an outline or not
      */
-    public static void drawCustomBar(GuiGraphicsExtractor dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
-        drawCustomBar(dc, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
+        drawCustomBar(graphics, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
     }
 
     /**
@@ -435,8 +436,8 @@ public abstract class HudElement {
      * @param colorOutline
      *            the color of the outline
      */
-    public static void drawCustomBar(GuiGraphicsExtractor dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
-        drawCustomBar(dc, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+        drawCustomBar(graphics, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
     }
 
     /**
@@ -465,7 +466,7 @@ public abstract class HudElement {
      * @param colorOutline
      *            the color of the outline
      */
-    public static void drawCustomBar(GuiGraphicsExtractor dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
         if (value < 0.0D) {
             value = 0.0D;
         }else if (value > 100D) {
@@ -483,18 +484,18 @@ public abstract class HudElement {
         if (filledHeight < 0)
             filledHeight = 0;
 
-        int percentFilled = (int) Math.round(value / 100.0D * filledWidth);
+        int percentFilled = Math.toIntExact(Math.round(value / 100.0D * filledWidth));
 
         if (outlined)
-            drawOutline(dc, x, y, width, height, colorOutline);
+            drawOutline(graphics, x, y, width, height, colorOutline);
         int halfedFilledHeight = filledHeight / 2;
 
-        drawRect(dc, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
-        drawRect(dc, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
+        drawRect(graphics, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
+        drawRect(graphics, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
 
         if (colorGroundDark != -1 && colorGroundLight != -1 && filledWidth - percentFilled > 0) {
-            drawRect(dc, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
-            drawRect(dc, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
+            drawRect(graphics, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
+            drawRect(graphics, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
         }
     }
 
@@ -520,33 +521,10 @@ public abstract class HudElement {
      * @param color
      *            color of the tetragon (hexa format 0xAARRGGBB)
      */
-    public void drawTetragon(GuiGraphicsExtractor dc, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
-        dc.guiRenderState
-			.addGuiElement(
-				new ColoredTetragonGuiElementRenderState(
-					RenderPipelines.GUI, TextureSetup.noTexture(), new Matrix3x2f(dc.pose()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, dc.scissorStack.peekLast()
-				)
-			);
-        
-    	//dc.state.
-        /*if (color == -1)
-            return;
-        if(width1 < 0) width1 = 0;
-        if(width2 < 0) width2 = 0;
-        float f3;
-        if (color <= 0xFFFFFF && color >= 0)
-            f3 = 1.0F;
-        else
-            f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
-        BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        vertexbuffer.vertex(posX1, (float) posY1 + height1, 0F).color(f, f1, f2, f3);
-        vertexbuffer.vertex((float) posX2 + width2, (float) posY2 + height2, 0F).color(f, f1, f2, f3);
-        vertexbuffer.vertex((float) posX1 + width1, posY2, 0F).color(f, f1, f2, f3);
-        vertexbuffer.vertex(posX2, posY1, 0F).color(f, f1, f2, f3);
-        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());*/
+    public void drawTetragon(GuiGraphicsExtractor graphics, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
+        graphics.guiRenderState.addGuiElement(new ColoredTetragonGuiElementRenderState(
+                RenderPipelines.GUI, TextureSetup.noTexture(), new Matrix3x2f(graphics.pose()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, graphics.scissorStack.peek()
+        ));
     }
 
     public static int offsetColorPercent(int color, int offsetPercent) {
@@ -608,19 +586,20 @@ public abstract class HudElement {
     }
 
     /**
-     * Returns the ResourceLocation for the skin of the player
+     * Fetch the skin of the player and save the ResourceLocation in playerSkinId
      * 
      * @param player
      *            the player whose skin should be returned
      * @return the ResourceLocation
      */
-    protected static Identifier getPlayerSkin(LocalPlayer player) {
+    private void fetchPlayerSkin(LocalPlayer player) {
         Minecraft instance = Minecraft.getInstance();
         SkinManager skinProvider = instance.getSkinManager();
-        UUID uuid = player.getUUID();
-        GameProfile profile = new GameProfile(uuid, "");
+        GameProfile profile = player.getGameProfile();
 
-        return skinProvider.createLookup(profile, false).get().body().texturePath();
+        skinProvider.get(profile).thenAccept(playerSkin -> {
+            playerSkin.ifPresent(skin -> this.playerSkinId = skin.body().texturePath());
+        });
     }
 
        /**
@@ -630,42 +609,42 @@ public abstract class HudElement {
      *            the x position on the screen
      * @param y
      *            the y position on the screen
-     * @param partialTicks
+     * @param deltaTracker
      *            the partial ticks (used for animation)
      * @param player
      *            the player who should get the item rendered
-     * @param item
+     * @param stack
      *            the item (via ItemStack)
      */
-    protected void renderHotbarItem(GuiGraphicsExtractor context, int x, int y, DeltaTracker tickCounter, Player player, ItemStack stack, int seed) {
+    protected void renderHotbarItem(GuiGraphicsExtractor graphics, int x, int y, DeltaTracker deltaTracker, LocalPlayer player, ItemStack stack, int seed) {
 		if (!stack.isEmpty()) {
-			float f = (float)stack.getPopTime() - tickCounter.getGameTimeDeltaPartialTick(false);
+			float f = (float)stack.getPopTime() - deltaTracker.getGameTimeDeltaPartialTick(false);
 			if (f > 0.0F) {
 				float g = 1.0F + f / 5.0F;
-				context.pose().pushMatrix();
-				context.pose().translate((float)(x + 8), (float)(y + 12));
-				context.pose().scale(1.0F / g, (g + 1.0F) / 2.0F);
-				context.pose().translate((float)(-(x + 8)), (float)(-(y + 12)));
+                graphics.pose().pushMatrix();
+                graphics.pose().translate((float)(x + 8), (float)(y + 12));
+                graphics.pose().scale(1.0F / g, (g + 1.0F) / 2.0F);
+                graphics.pose().translate((float)(-(x + 8)), (float)(-(y + 12)));
 			}
 
-			context.item(player, stack, x, y, seed);
+            graphics.item(player, stack, x, y, seed);
 			if (f > 0.0F) {
-				context.pose().popMatrix();
+                graphics.pose().popMatrix();
 			}
 
-			context.itemDecorations(this.mc.font, stack, x, y);
+			graphics.itemDecorations(Minecraft.getInstance().font, stack, x, y);
 		}
     }
     
-    protected void drawStringWithBackground(GuiGraphicsExtractor dc, String text, int posX, int posY, int colorMain, int colorBackground) {
-        dc.text(this.mc.font,text, posX + 1, posY, colorBackground, false);
-        dc.text(this.mc.font,text, posX - 1, posY, colorBackground, false);
-        dc.text(this.mc.font,text, posX, posY + 1, colorBackground, false);
-        dc.text(this.mc.font,text, posX, posY - 1, colorBackground, false);
-        dc.text(this.mc.font,text, posX, posY, colorMain, false);
+    protected void drawStringWithBackground(GuiGraphicsExtractor graphics, String text, int posX, int posY, int colorMain, int colorBackground) {
+        graphics.text(this.mc.font, text, posX + 1, posY, colorBackground, true);
+        graphics.text(this.mc.font, text, posX - 1, posY, colorBackground, true);
+        graphics.text(this.mc.font, text, posX, posY + 1, colorBackground, true);
+        graphics.text(this.mc.font, text, posX, posY - 1, colorBackground, true);
+        graphics.text(this.mc.font, text, posX, posY, colorMain, true);
     }
     
     public boolean isChatOpen() {
-        return this.mc.screen instanceof ChatScreen;   
+        return this.mc.screen instanceof ChatScreen;
     }
 }

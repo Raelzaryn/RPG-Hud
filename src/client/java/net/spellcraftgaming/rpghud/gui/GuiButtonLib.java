@@ -7,14 +7,16 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
-@Environment(value=EnvType.CLIENT)
-public abstract class GuiButtonLib extends Button.Plain{
+import java.util.function.Supplier;
 
-	public GuiButtonLib(int x, int y, int widthIn, int heightIn, Component buttonText, Button.OnPress ip) {
+@Environment(value=EnvType.CLIENT)
+public abstract class GuiButtonLib extends Button.Plain {
+
+	public GuiButtonLib(int x, int y, int widthIn, int heightIn, Component buttonText, OnPress ip) {
 		super(x, y, widthIn, heightIn, buttonText, ip, Supplier::get);
 	}
 	
-	public GuiButtonLib(int x, int y, Component buttonText, Button.OnPress ip) {
+	public GuiButtonLib(int x, int y, Component buttonText, OnPress ip) {
 		super(x, y, 200, 20, buttonText, ip, Supplier::get);
 	}
 }

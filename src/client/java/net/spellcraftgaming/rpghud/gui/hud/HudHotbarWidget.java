@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementArmorHotbar;
 import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementFoodHotbar;
@@ -15,7 +15,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementWidgetHotbar
 @Environment(value=EnvType.CLIENT)
 public class HudHotbarWidget extends HudDefault {
 
-	public HudHotbarWidget(MinecraftClient mc, String hudKey, String hudName) {
+	public HudHotbarWidget(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 		this.chatOffset = -22;
 	}

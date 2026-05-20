@@ -1,32 +1,17 @@
 package net.spellcraftgaming.rpghud.gui.hud;
 
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.AIR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ARMOR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.CLOCK;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.COMPASS;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.DETAILS;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.ENTITY_INSPECT;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.EXPERIENCE;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.FOOD;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HEALTH_MOUNT;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.HOTBAR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.JUMP_BAR;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.LEVEL;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.MISC;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.STATUS_EFFECTS;
-import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.*;
 
 @Environment(value=EnvType.CLIENT)
 public abstract class Hud {
@@ -40,10 +25,10 @@ public abstract class Hud {
 	protected Map<HudElementType, HudElement> elements = new HashMap<HudElementType, HudElement>();
 
 	/** Minecraft instance */
-	protected MinecraftClient mc;
+	protected Minecraft mc;
 
 	public int chatOffset = 0;
-	public Hud(MinecraftClient mc, String hudKey, String hudName) {
+	public Hud(Minecraft mc, String hudKey, String hudName) {
 		this.mc = mc;
 		this.hudKey = hudKey;
 		this.hudName = hudName;
@@ -138,15 +123,13 @@ public abstract class Hud {
 	 * 
 	 * @param type
 	 *            The type of the Element
-	 * @param gui
+	 * @param graphics
 	 *            The gui to draw on
-	 * @param zLevel
-	 *            The zLevel to draw at
-	 * @param partialTicks
+	 * @param deltaTracker
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		this.elements.get(type).draw(dc, zLevel, partialTicks, scaledWidth, scaledHeight);
+	public void drawElement(HudElementType type, GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		this.elements.get(type).draw(graphics, deltaTracker, scaledWidth, scaledHeight);
 	}
 
 	/**

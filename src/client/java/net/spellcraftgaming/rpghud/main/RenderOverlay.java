@@ -5,67 +5,70 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.resources.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Matrix3x2f;
+import org.joml.Vector3f;
 
 @Environment(value=EnvType.CLIENT)
-public class RenderOverlay implements HudElement{
+public class RenderOverlay implements HudElement {
 
     private ModRPGHud rpgHud;
-    private MinecraftClient mc;
-    public static final Identifier RPG_HUD = Identifier.of("rpghud", "rpghud");
+    private Minecraft mc;
+    public static final Identifier RPG_HUD = Identifier.parse("rpghud:rpghud");
     		
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
-        this.mc = MinecraftClient.getInstance();
-        HudElementRegistry.addLast(RPG_HUD, this);
+        this.mc = Minecraft.getInstance();
+        HudElementRegistry.addFirst(RPG_HUD, this);
         HudElementRegistry.removeElement(VanillaHudElements.INFO_BAR);
         HudElementRegistry.removeElement(VanillaHudElements.EXPERIENCE_LEVEL);
         //HudRenderCallback.EVENT.register(this);
     }
 
-    private void renderOverlay(DrawContext dc, RenderTickCounter partialTicks) {
-        this.drawElement(HudElementType.WIDGET, dc, partialTicks);
-        this.drawElement(HudElementType.CLOCK, dc, partialTicks);
-        this.drawElement(HudElementType.DETAILS, dc, partialTicks);
-        this.drawElement(HudElementType.COMPASS, dc, partialTicks);
-        this.drawElement(HudElementType.ENTITY_INSPECT, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, dc, partialTicks);
-        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) this.drawElement(HudElementType.STATUS_EFFECTS, dc, partialTicks);
+    private void renderOverlay(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
+        this.drawElement(HudElementType.WIDGET, graphics, deltaTracker);
+        this.drawElement(HudElementType.CLOCK, graphics, deltaTracker);
+        this.drawElement(HudElementType.DETAILS, graphics, deltaTracker);
+        this.drawElement(HudElementType.COMPASS, graphics, deltaTracker);
+        this.drawElement(HudElementType.ENTITY_INSPECT, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.HEALTH_MOUNT)) this.drawElement(HudElementType.HEALTH_MOUNT, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, graphics, deltaTracker);
+        if(!shouldRenderVanilla(HudElementType.STATUS_EFFECTS)) this.drawElement(HudElementType.STATUS_EFFECTS, graphics, deltaTracker);
         if(!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
-            this.drawElement(HudElementType.EXPERIENCE, dc, partialTicks);
-            this.drawElement(HudElementType.LEVEL, dc, partialTicks);
+            this.drawElement(HudElementType.EXPERIENCE, graphics, deltaTracker);
+            this.drawElement(HudElementType.LEVEL, graphics, deltaTracker);
         }
         if(!shouldRenderVanilla(HudElementType.HOTBAR)) {
-            this.drawElement(HudElementType.HOTBAR, dc, partialTicks);
+            this.drawElement(HudElementType.HOTBAR, graphics, deltaTracker);
         }
-        this.drawElement(HudElementType.MISC, dc, partialTicks);
+        this.drawElement(HudElementType.MISC, graphics, deltaTracker);
     }
 
     /**
      * Draw the specified HudElement of the HudElementType from the active Hud
-     * 
+     *
      * @param type         the HudElementType to be rendered
-     * @param partialTicks the partialTicks to be used for animations
+     * @param deltaTracker the deltaTracker to be used for animations
      */
-    private void drawElement(HudElementType type, DrawContext dc, RenderTickCounter partialTicks) {
+    private void drawElement(HudElementType type, GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
 
         if(this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if(!preventElementRenderType(type)) {
-               	dc.getMatrices().pushMatrix();
-               	dc.createNewRootLayer();
-                this.rpgHud.getActiveHud().drawElement(type, dc, 0F, partialTicks, this.mc.getWindow().getScaledWidth(),
-                        this.mc.getWindow().getScaledHeight());
-                dc.getMatrices().popMatrix();
+                graphics.pose().pushMatrix();
+                graphics.guiRenderState.nextStratum();
+                this.rpgHud.getActiveHud().drawElement(type, graphics, deltaTracker, this.mc.getWindow().getGuiScaledWidth(),
+                        this.mc.getWindow().getGuiScaledHeight());
+                graphics.pose().popMatrix();
             }
 
         }
@@ -86,6 +89,7 @@ public class RenderOverlay implements HudElement{
     public static boolean shouldRenderVanilla(HudElementType type) {
         return isVanillaElement(type) || forceRenderTypeVanilla(type);
     }
+
     /**
      * Checks if the HudElementType has a setting to force the vanilla hud element
      * to be rendered and if it is activated
@@ -98,7 +102,6 @@ public class RenderOverlay implements HudElement{
         }
         return false;
     }
-
     /**
      * Checks if the HudElementType has a setting to prevent the forge event and if
      * it is activated
@@ -110,37 +113,13 @@ public class RenderOverlay implements HudElement{
             return rpgHud.settings.getBoolValue(id);
         return false;
     }
-    
+
     public static boolean isVanillaElement(HudElementType type) {
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
 
-	@Override
-	public void render(DrawContext context, RenderTickCounter tickCounter) {
-		renderOverlay(context, tickCounter);
-		
-	}
-    
-    /*private static HudElementType getEventAlias(ElementType type) {
-        switch(type) {
-            case HOTBAR:
-                return HudElementType.HOTBAR;
-            case HEALTH:
-                return HudElementType.HEALTH;
-            case ARMOR:
-                return HudElementType.ARMOR;
-            case FOOD:
-                return HudElementType.FOOD;
-            case HEALTHMOUNT:
-                return HudElementType.HEALTH_MOUNT;
-            case AIR:
-                return HudElementType.AIR;
-            case JUMPBAR:
-                return HudElementType.JUMP_BAR;
-            case EXPERIENCE:
-                return HudElementType.EXPERIENCE;
-            default:
-                return null;
-        }
-    }*/
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
+        renderOverlay(graphics, deltaTracker);
+    }
 }

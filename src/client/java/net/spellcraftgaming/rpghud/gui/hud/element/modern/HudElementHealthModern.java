@@ -2,10 +2,13 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -21,19 +24,19 @@ public class HudElementHealthModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledHeight, int scaledWidth) {
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
-		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		int health = Mth.ceil(this.mc.player.getHealth());
+		int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());
+		int healthMax = Mth.ceil(this.mc.player.getMaxHealth());
 
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
 		
-		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
-		int width = this.mc.textRenderer.getWidth(stringHealth) / 2 + 4;
+		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? Mth.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
+		int width = this.mc.font.width(stringHealth) / 2 + 4;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
@@ -42,23 +45,23 @@ public class HudElementHealthModern extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.health_position)[1];
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
-			drawRect(dc, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
-			dc.getMatrices().scale(0.5f, 0.5f);
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
-			dc.getMatrices().scale(2f, 2f);
+			drawRect(graphics, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
+			graphics.pose().scale(0.5f, 0.5f);
+			graphics.centeredText(this.mc.font, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
+			graphics.pose().scale(2f, 2f);
 		}
 
-		drawTetragon(dc, posX, posX, 3 + posY, 3 + posY, 97, 83, 10, 10, 0xA0000000);
-		drawTetragon(dc, posX + 2, posX + 2, 5 + posY, 5 + posY, 89, 79, 6, 6, 0x20FFFFFF);
+		drawTetragon(graphics, posX, posX, 3 + posY, 3 + posY, 97, 83, 10, 10, 0xA0000000);
+		drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, 89, 79, 6, 6, 0x20FFFFFF);
 
 		if (absorption > 1)
-			drawTetragon(dc, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_absorption));
-		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
-			drawTetragon(dc, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_poison));
-		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
-			drawTetragon(dc, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_wither));
+			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_absorption));
+		if (this.mc.player.hasEffect(MobEffects.POISON)) {
+			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_poison));
+		} else if (this.mc.player.hasEffect(MobEffects.WITHER)) {
+			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_wither));
 		} else {
-			drawTetragon(dc, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));
+			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));
 		}
 	}
 

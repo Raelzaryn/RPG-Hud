@@ -16,6 +16,7 @@ import com.mojang.authlib.minecraft.client.MinecraftClient;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -129,8 +130,8 @@ public class Settings {
 
 
     private File rpgHudDir() {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        return (new File(mc.runDirectory.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
+        Minecraft mc = Minecraft.getInstance();
+        return (new File(mc.gameDirectory.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
     }
 
     public Settings() {
@@ -320,18 +321,18 @@ public class Settings {
 
     public String getButtonString(String id) {
         Setting setting = this.settings.get(id);
-        String s = I18n.get(setting.getName(), new Object[0]) + ": ";
+        String s = I18n.get(setting.getName()) + ": ";
         if(setting instanceof SettingBoolean) {
-            return s + (setting.getBoolValue() ? I18n.get("options.on", new Object[0]) : I18n.get("options.off", new Object[0]));
+            return s + (setting.getBoolValue() ? I18n.get("options.on") : I18n.get("options.off"));
         } else if(setting instanceof SettingString || setting instanceof SettingHudType) {
-            return s + I18n.get(setting.getStringValue(), new Object[0]);
+            return s + I18n.get(setting.getStringValue());
         } else if(setting instanceof SettingColor) {
             return s + intToHexString(setting.getIntValue(), false);
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
         } else if(setting instanceof SettingFloat) {
             SettingFloat sf = (SettingFloat) setting;
-            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
+            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec")
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
@@ -455,6 +456,39 @@ public class Settings {
             e.printStackTrace();
         }
     }
+Community Info Section
+r/kde
+Kreddit, the KDE Community on Reddit
+KDE is an international community creating free and open source software. Visit our main page to know more: https://kde.org --- This is not a technical support forum. Please visit https://discuss.kde.org for user support. --- This is not a bug tracker. Please visit https://bugs.kde.org to report bugs.
+Created Jan 25, 2008
+Public
+143K Weekly visitors
+2K Weekly contributions
+Community Bookmarks
+r/kde Rules
+1
+Respect the KDE Code of Conduct
+2
+No duplicates
+3
+No spam
+4
+No blog spam
+5
+No screenshot of your desktop, use the Monthly Screenshot Thread instead
+6
+No comparison between desktop environments and/or distros
+7
+No misinformation
+8
+No linking to Twitter/X from posts or comments
+9
+No memes, image macros, rage comics, overdone jokes
+KDE Websites
+
+    KDE Homepage
+    KDE Planet
+    K
 
     private void save(BufferedWriter out) throws IOException {
         for(Setting setting : settings.values()) {

@@ -2,17 +2,17 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.input.MouseInput;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -21,7 +21,7 @@ import org.lwjgl.glfw.GLFW;
 @Environment(value=EnvType.CLIENT)
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
-	private TextFieldWidget colorCodeField;
+	private TextFieldWidgetMod colorCodeField;
 	private Screen parent;
 	private String colorType;
 	private int colorR;
@@ -30,16 +30,16 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	private int color;
 	private String title = "";
 
-	public GuiSettingsModColor(Screen parent, String color, Text titleIn) {
+	public GuiSettingsModColor(Screen parent, String color, Component titleIn) {
 		super(titleIn);
 		this.parent = parent;
 		this.colorType = color;
 		setColors();
-		this.title = setTitle() + " " + I18n.translate("gui.rpg.editor", new Object[0]);
+		this.title = setTitle() + " " + I18n.get("gui.rpg.editor");
 	}
 
 	private String setTitle() {
-		return I18n.translate("name." + this.colorType, new Object[0]);
+		return I18n.get("name." + this.colorType);
 	}
 
 	private void setColors() {
@@ -57,47 +57,50 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void init() {
-        Click click = new Click(0.0, 0.0, new MouseInput(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0));
-		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
+		MouseButtonEvent click = new MouseButtonEvent(0.0, 0.0, new MouseButtonInfo(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
 			slider.onClick(click, false);
 		}));
-		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
 			slider.onClick(click, false);
 		}));
-		this.addDrawableChild(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
 			slider.onClick(click, false);
 		}));
 
-		this.colorCodeField = new TextFieldWidget(client.textRenderer, this.width / 2 - 74, 115, 147, 20, Text.literal(Settings.intToHexString(this.color, false)));
+		this.colorCodeField = new TextFieldWidgetMod(Minecraft.getInstance().font, TextFieldWidgetMod.ValueType.HEX, this.width / 2 - 74, 115, 147, 20, Component.literal(Settings.intToHexString(this.color, false)));
 		this.colorCodeField.setMaxLength(7);
-		
-		this.addDrawableChild(colorCodeField);
+
+		this.addRenderableWidget(this.colorCodeField);
+
+
 		String[] colorString = new String[] {"color.red", "color.pink", "color.brown", "color.white", "color.orange", "color.green",
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow", "color.green_frost"};
 		
 		for(int i = 0; i < 7; i++) {
-			this.addDrawableChild(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Text.translatable(colorString[i]), button -> {
-					actionPerformed(button);
-			}));
+			GuiButtonTooltip guiButtonTooltip = new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), button -> {
+				actionPerformed((GuiButtonTooltip) button);
+			});
+			this.addRenderableWidget(guiButtonTooltip);
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addDrawableChild(new GuiButtonTooltip(17 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Text.translatable(colorString[i+7]), button -> {
-					actionPerformed(button);
-			}));
+			GuiButtonTooltip guiButtonTooltip = new GuiButtonTooltip(17 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+7]), button -> {
+				actionPerformed((GuiButtonTooltip) button);
+			});
+			this.addRenderableWidget(guiButtonTooltip);
 		}
 
-		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Text.translatable("gui.done"), button -> {
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
 				setSettingColor();
-				client.setScreen(parent);
-		}).setTooltip(I18n.translate("tooltip.done", new Object[0])));
-		this.addDrawableChild(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Text.translatable("gui.cancel"), button -> {
-		    client.setScreen(parent);
-		}).setTooltip(I18n.translate("tooltip.cancel", new Object[0])));
+				Minecraft.getInstance().setScreen(parent);
+		}).setTooltip(I18n.get("tooltip.done")));
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> {
+			Minecraft.getInstance().setScreen(parent);
+		}).setTooltip(I18n.get("tooltip.cancel")));
 	}
 	
-	protected void actionPerformed(ButtonWidget b) {
-		GuiButtonTooltip button = (GuiButtonTooltip) b;
+	protected void actionPerformed(GuiButtonTooltip button) {
 		if (button.active) {
 			if (button.id == 10) {
 				setColorTo(HudElement.COLOR_RED);
@@ -127,9 +130,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_GREEN_FROST);
 			} else if (button.id == 250) {
 				setSettingColor();
-				this.client.setScreen(this.parent);
+				Minecraft.getInstance().setScreen(this.parent);
 			} else if (button.id == 251) {
-				this.client.setScreen(this.parent);
+				Minecraft.getInstance().setScreen(this.parent);
 			}
 		}
 	}
@@ -145,28 +148,30 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.colorB = (this.color & 255);
 		((GuiSliderMod) this.children().get(2)).sliderValue = (float) this.colorB / 255;
 		((GuiSliderMod) this.children().get(2)).value = this.colorB;
-		this.colorCodeField.setText(Settings.intToHexString(this.color, false));
+		this.colorCodeField.setValue(Settings.intToHexString(this.color, false));
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 		if (this.colorCodeField.isFocused()) {
-			if(!this.colorCodeField.getText().startsWith("#")) {
-				String s = "#" + this.colorCodeField.getText();
-				if(this.colorCodeField.getText().length() >= 7) {
+			String fieldString = this.colorCodeField.getValue();
+			if(!fieldString.startsWith("#")) {
+				String s = "#" + fieldString;
+				if(fieldString.length() >= 7) {
 					s = "#";
 					for(int i = 0; i < 6; i++) {
-						s += this.colorCodeField.getText().charAt(i);
+						s += fieldString.charAt(i);
 					}
 				}
-				this.colorCodeField.setText(s);
+				this.colorCodeField.setValue(s);
+				fieldString = s;
 			}
 			
-			if (this.colorCodeField.getText().length() == 7) {
-				if (this.colorCodeField.getText().startsWith("#")) {
-					if (this.colorCodeField.getText().replace("#", "").matches("[0-9A-Fa-f]+")) {
-						this.color = (0xFF << 24) | Integer.valueOf(this.colorCodeField.getText().replace("#", ""), 16);
+			if (fieldString.length() == 7) {
+				if (fieldString.startsWith("#")) {
+					if (fieldString.replace("#", "").matches("[0-9A-Fa-f]+")) {
+						this.color = (0xFF << 24) | Integer.valueOf(fieldString.replace("#", ""), 16);
 						this.colorR = (this.color >> 16 & 255);
 						((GuiSliderMod) this.children().get(0)).sliderValue = (float) this.colorR / 255;
 						((GuiSliderMod) this.children().get(0)).value = this.colorR;
@@ -179,9 +184,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 					}
 				} 
 			}
-			this.colorCodeField.setText(this.colorCodeField.getText().toUpperCase());
+			this.colorCodeField.setValue(fieldString.toUpperCase());
 		} else {
-			this.colorCodeField.setText(Settings.intToHexString(this.color, false));
+			this.colorCodeField.setValue(Settings.intToHexString(this.color, false));
 			this.colorR = ((GuiSliderMod) this.children().get(0)).getValue();
 			this.colorG = ((GuiSliderMod) this.children().get(1)).getValue();
 			this.colorB = ((GuiSliderMod) this.children().get(2)).getValue();
@@ -192,8 +197,6 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				color = 0;
             this.color = (0xFF << 24) | color;
 		}
-
-		//this.colorCodeField.tick();
 	}
 
 	/**
@@ -201,36 +204,36 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	 * the equivalent of KeyListener.keyTyped(KeyEvent e). Args : character
 	 * (character on the key), keyCode (lwjgl Keyboard key code)
 	 */
-    @Override
-    public boolean keyPressed(KeyInput input) {
-        if (this.colorCodeField.isFocused()) {
-            this.colorCodeField.keyPressed(input);
-            if (input.key() == 28)
-                this.colorCodeField.setFocused(false);
-        }
-        return super.keyPressed(input);
-    }
-
-    @Override
-    public boolean mouseReleased(Click click) {
-        for(Element child : this.children()) {
-            if(child instanceof GuiSliderMod) {
-                ((GuiSliderMod) child).dragging = false;
-            }
-        }
-        return super.mouseReleased(click);
-    }
+	@Override
+	public boolean keyPressed(KeyEvent event) {
+		if (this.colorCodeField.isFocused()) {
+			this.colorCodeField.keyPressed(event);
+			if (event.key() == 28)
+				this.colorCodeField.setFocused(false);
+		}
+		return super.keyPressed(event);
+	}
 
 	@Override
-	public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
-		TextRenderer textRenderer = client.textRenderer;
-		dc.drawCenteredTextWithShadow(textRenderer, this.title, this.width / 2, 12, -1);
-		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
-		this.colorCodeField.render(dc ,mouseX, mouseY, partialTicks);
-		dc.drawCenteredTextWithShadow(textRenderer, I18n.translate("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color, false), this.width / 2, 141, -1);
-		super.render(dc, mouseX, mouseY, partialTicks);
-		HudElement.drawCustomBar(dc, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
+	public boolean mouseReleased(MouseButtonEvent event) {
+		for(GuiEventListener child : this.children()) {
+			if(child instanceof GuiSliderMod) {
+				((GuiSliderMod) child).dragging = false;
+			}
+		}
+		return super.mouseReleased(event);
+	}
+
+	@Override
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		graphics.centeredText(this.font, this.title, this.width / 2, 12, -1);
+		graphics.centeredText(this.font, Component.translatable("color.red"), this.width / 2, 40 - 9, -1);
+		graphics.centeredText(this.font, Component.translatable("color.green"), this.width / 2, 65 - 9, -1);
+		graphics.centeredText(this.font, Component.translatable("color.blue"), this.width / 2, 90 - 9, -1);
+		this.colorCodeField.extractRenderState(graphics, mouseX, mouseY, a);
+		graphics.centeredText(this.font, Component.translatable("gui.rpg.result"), this.width / 2, 141, -1);
+
+		super.extractRenderState(graphics, mouseX, mouseY, a);
+		HudElement.drawCustomBar(graphics, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
 }

@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resources.language.I18n;
 
 @Environment(value=EnvType.CLIENT)
 public enum HudElementType {
@@ -31,6 +31,6 @@ public enum HudElementType {
 	}
 
     public String getDisplayName() {
-        return I18n.translate(this.displayName);
+        return I18n.get(this.displayName);
     }
 }

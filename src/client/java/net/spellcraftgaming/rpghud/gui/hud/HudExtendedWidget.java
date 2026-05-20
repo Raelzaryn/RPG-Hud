@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementClockExtended;
 import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementDetailsExtended;
@@ -16,7 +16,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExte
 @Environment(value=EnvType.CLIENT)
 public class HudExtendedWidget extends HudDefault {
 
-	public HudExtendedWidget(MinecraftClient mc, String hudKey, String hudName) {
+	public HudExtendedWidget(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 	}
 

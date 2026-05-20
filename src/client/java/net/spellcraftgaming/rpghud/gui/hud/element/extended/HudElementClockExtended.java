@@ -2,8 +2,9 @@ package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -15,16 +16,20 @@ public class HudElementClockExtended extends HudElementClockVanilla {
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		int clockColor = 0xFFFFFFFF;
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		final int clockColor;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
+		} else {
+			clockColor = 0xFFFFFFFF;
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			dc.getMatrices().scale(0.5f, 0.5f);
-		dc.drawText(this.mc.textRenderer, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor, false);
+			graphics.pose().scale(0.5f, 0.5f);
+		int x = (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0];
+		int y = (this.settings.getBoolValue(Settings.reduce_size) ? 124 : 62) + this.settings.getPositionValue(Settings.clock_position)[1];
+		graphics.text(this.mc.font, getTime(), x, y, clockColor, true);
 		if (this.settings.getBoolValue(Settings.reduce_size))
-			dc.getMatrices().scale(2f, 2f);
+			graphics.pose().scale(2f, 2f);
 	}
 
 }

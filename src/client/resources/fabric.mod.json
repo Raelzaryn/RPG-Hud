@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "rpg-hud",
-	"version": "3.11.1",
+	"version": "${version}",
 
 	"name": "RPG-Hud",
 	"description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
@@ -27,9 +27,9 @@
 	],
 
 	"depends": {
-		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.4",
-		"java": ">=21",
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
 		"fabric-api": "*"
 	},
 	"suggests": {

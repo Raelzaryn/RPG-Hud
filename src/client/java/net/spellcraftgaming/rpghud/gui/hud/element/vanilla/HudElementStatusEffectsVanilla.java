@@ -6,15 +6,16 @@ import com.google.common.collect.Ordering;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.Holder;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.phys.AABB;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -27,18 +28,18 @@ public class HudElementStatusEffectsVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(DrawContext dc, float na, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        dc.getMatrices().scale(scale, scale);
-        Collection<StatusEffectInstance> collection = this.mc.player.getStatusEffects();
+        graphics.pose().scale(scale, scale);
+        Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects();
         if(!collection.isEmpty()) {
             int i = 0;
             int j = 0;
 
-            for(StatusEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                RegistryEntry<StatusEffect> effect = effectinstance.getEffectType();
+            for(MobEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
+                Holder<MobEffect> effect = effectinstance.getEffect();
                 // Rebind in case previous renderHUDEffect changed texture
-                if(effectinstance.shouldShowIcon()) {
+                if(effectinstance.showIcon()) {
                 	
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
@@ -71,27 +72,27 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
+                        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_AMBIENT_TEXTURE, k, l, 24, 24);
                     } else {
                         // Background Regular
                     	
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
-                            f = MathHelper.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.5F, 1F)
-                                    + MathHelper.cos((float) effectinstance.getDuration() * (float) Math.PI / 7F)
-                                            * MathHelper.clamp((float) i1 / 10.0F * 0.25F, 0.1F, 0.25F);
+                            f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.5F, 1F)
+                                    + Mth.cos((float) effectinstance.getDuration() * (float) Math.PI / 7F)
+                                            * Mth.clamp((float) i1 / 10.0F * 0.25F, 0.1F, 0.25F);
                         }
-                        dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
+                        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
                     }
                     
-                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.getEffectTexture(effect), k + 3, l + 3, 18, 18, ColorHelper.getWhite(f));
+                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, Gui.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
-                        if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
-                        k -= mc.textRenderer.getWidth(s)/2;
-                        this.drawStringWithBackground(dc, s, k +12, l +14, -1, 0);
+                        if(duration < 600) s = duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60));
+                        k -= mc.font.width(s)/2;
+                        this.drawStringWithBackground(graphics, s, k +12, l +14, -1, 0);
                     }
                 }
             }

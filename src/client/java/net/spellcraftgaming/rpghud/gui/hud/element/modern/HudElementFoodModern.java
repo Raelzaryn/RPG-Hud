@@ -2,12 +2,16 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.HungerManager;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.ItemStack;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -23,17 +27,17 @@ public class HudElementFoodModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		HungerManager stats = this.mc.player.getHungerManager();
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		FoodData stats = this.mc.player.getFoodData();
 		int stamina = stats.getFoodLevel();
 		int staminaMax = 20;
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
-		int width = this.mc.textRenderer.getWidth(staminaString) / 2 + 4;
+		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? Mth.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
+		int width = this.mc.font.width(staminaString) / 2 + 4;
 		if(width < xOffset) width = xOffset;
 		else ((HudModern) this.rpgHud.huds.get("modern")).setPosX(width);
 
@@ -42,37 +46,37 @@ public class HudElementFoodModern extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.hunger_position)[1];
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
-			drawRect(dc, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
-			dc.getMatrices().scale(0.5f, 0.5f);
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
-			dc.getMatrices().scale(2f, 2f);
+			drawRect(graphics, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
+			graphics.pose().scale(0.5f, 0.5f);
+			graphics.centeredText(this.mc.font, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
+			graphics.pose().scale(2f, 2f);
 		}
 
-		drawTetragon(dc, posX, posX, 13 + posY, 13 + posY, 70, 58, 8, 8, 0xA0000000);
-		drawTetragon(dc, posX + 2, posX + 2, 13 + posY, 13 + posY, 64, 54, 6, 6, 0x20FFFFFF);
+		drawTetragon(graphics, posX, posX, 13 + posY, 13 + posY, 70, 58, 8, 8, 0xA0000000);
+		drawTetragon(graphics, posX + 2, posX + 2, 13 + posY, 13 + posY, 64, 54, 6, 6, 0x20FFFFFF);
 
-		ItemStack itemMain = this.mc.player.getMainHandStack();
-		ItemStack itemSec = this.mc.player.getOffHandStack();
+		ItemStack itemMain = this.mc.player.getMainHandItem();
+		ItemStack itemSec = this.mc.player.getOffhandItem();
 
-		if (stats.isNotFull() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
+		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.contains(DataComponentTypes.FOOD)) {
-				value = itemMain.get(DataComponentTypes.FOOD).nutrition();
-			} else if (itemSec != ItemStack.EMPTY && itemMain.contains(DataComponentTypes.FOOD)) {
-				value = itemSec.get(DataComponentTypes.FOOD).nutrition();
+			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+				value = itemMain.get(DataComponents.FOOD).nutrition();
+			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+				value = itemSec.get(DataComponents.FOOD).nutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
-				drawTetragon(dc, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) bonusHunger / (double) staminaMax)), (int) (63 * ((double) bonusHunger / (double) 20)) - 10, 6, 6, offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW));
+				drawTetragon(graphics, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) bonusHunger / (double) staminaMax)), (int) (63 * ((double) bonusHunger / (double) 20)) - 10, 6, 6, offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW));
 			}
 		}
 
-		if (this.mc.player.hasStatusEffect(StatusEffects.HUNGER)) {
-			drawTetragon(dc, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_hunger));
+		if (this.mc.player.hasEffect(MobEffects.HUNGER)) {
+			drawTetragon(graphics, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_hunger));
 		} else {
-			drawTetragon(dc, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_food));
+			drawTetragon(graphics, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_food));
 		}
 	}
 

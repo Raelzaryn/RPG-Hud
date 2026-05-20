@@ -2,13 +2,13 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 @Environment(value=EnvType.CLIENT)
-public class TextFieldWidgetMod extends TextFieldWidget {
+public class TextFieldWidgetMod extends EditBox {
 
     /** Variable to contain the (possible) setting of this button */
     public final String enumOptions;
@@ -16,16 +16,14 @@ public class TextFieldWidgetMod extends TextFieldWidget {
     private String[] tooltip;
     
     private ValueType type;
-    public TextFieldWidgetMod(TextRenderer fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Text msg) {
+    public TextFieldWidgetMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
         this.enumOptions = setting;
     }
     
-    public TextFieldWidgetMod(TextRenderer fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, Text msg) {
-        super(fontIn, xIn, yIn, widthIn, heightIn, msg);
-        this.type = type;
-        this.enumOptions = null;
+    public TextFieldWidgetMod(Font fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
+        this(fontIn, type, null, xIn, yIn, widthIn, heightIn, msg);
     }
     
     public ValueType getValueType() {
@@ -34,6 +32,7 @@ public class TextFieldWidgetMod extends TextFieldWidget {
     
     public enum ValueType{
         DOUBLE,
+        HEX,
         POSITION;
     }
     

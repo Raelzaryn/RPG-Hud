@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementAirDefault;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
@@ -18,7 +18,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementWidgetDe
 @Environment(value=EnvType.CLIENT)
 public class HudDefault extends HudVanilla {
 
-	public HudDefault(MinecraftClient mc, String hudKey, String hudName) {
+	public HudDefault(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 	}
 
