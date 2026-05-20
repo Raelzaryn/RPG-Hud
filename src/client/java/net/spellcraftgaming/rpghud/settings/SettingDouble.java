@@ -2,7 +2,6 @@ package net.spellcraftgaming.rpghud.settings;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.util.math.MathHelper;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
 @Environment(value=EnvType.CLIENT)
@@ -64,16 +63,16 @@ public class SettingDouble extends Setting {
 	}
 	
 	public static double normalizeValue(SettingDouble setting, double value) {
-		return MathHelper.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
+		return Math.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
 	}
 
 	public static double denormalizeValue(SettingDouble setting, double value) {
-		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * MathHelper.clamp(value, 0.0F, 1.0F));
+		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * Math.clamp(value, 0.0F, 1.0F));
 	}
 
 	public static double snapToStepClamp(SettingDouble setting, double value) {
 		value = snapToStep(setting, value);
-		return MathHelper.clamp(value, setting.minValue, setting.maxValue);
+		return Math.clamp(value, setting.minValue, setting.maxValue);
 	}
 
 	public static double snapToStep(SettingDouble setting, double value) {

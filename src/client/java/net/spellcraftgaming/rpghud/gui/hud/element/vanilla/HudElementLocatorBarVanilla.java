@@ -3,67 +3,64 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.contextualbar.ContextualBarRenderer;
+import net.minecraft.client.gui.contextualbar.ExperienceBarRenderer;
+import net.minecraft.client.gui.contextualbar.JumpableVehicleBarRenderer;
+import net.minecraft.client.gui.contextualbar.LocatorBarRenderer;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableMap;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.bar.Bar;
-import net.minecraft.client.gui.hud.bar.ExperienceBar;
-import net.minecraft.client.gui.hud.bar.JumpBar;
-import net.minecraft.client.gui.hud.bar.LocatorBar;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.JumpingMount;
-import net.minecraft.util.Nullables;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementLocatorBarVanilla extends HudElement{
 
-	private final Map<BarType, Supplier<Bar>> bars;
-	private Pair<BarType, Bar> currentBar = Pair.of(BarType.EMPTY, Bar.EMPTY);
-	private MinecraftClient client;
+	private final Map<BarType, Supplier<ContextualBarRenderer>> bars;
+	private Pair<BarType, ContextualBarRenderer> currentBar = Pair.of(BarType.EMPTY, ContextualBarRenderer.EMPTY);
+	private Minecraft client;
 	
 	public HudElementLocatorBarVanilla() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
-		client = MinecraftClient.getInstance();
+		client = Minecraft.getInstance();
 		this.bars = ImmutableMap.of(
 				BarType.EMPTY,
-				() -> Bar.EMPTY,
+				() -> ContextualBarRenderer.EMPTY,
 				BarType.EXPERIENCE,
-				() -> new ExperienceBar(client),
+				() -> new ExperienceBarRenderer(client),
 				BarType.LOCATOR,
-				() -> new LocatorBar(client),
+				() -> new LocatorBarRenderer(client),
 				BarType.JUMPABLE_VEHICLE,
-				() -> new JumpBar(client)
+				() -> new JumpableVehicleBarRenderer(client)
 			);
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth,
-			int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		BarType barType = this.getCurrentBarType();
 		if (barType != this.currentBar.getKey()) {
-			this.currentBar = Pair.of(barType, (Bar)((Supplier<Bar>)this.bars.get(barType)).get());
-		}
-		
-		this.currentBar.getValue().renderBar(dc, partialTicks);
-		if (this.client.interactionManager.hasExperienceBar() && this.client.player.experienceLevel > 0) {
-			Bar.drawExperienceLevel(dc, this.client.textRenderer, this.client.player.experienceLevel);
+			this.currentBar = Pair.of(barType, this.bars.get(barType).get());
 		}
 
-		this.currentBar.getValue().renderAddons(dc, partialTicks);
-		
+		this.currentBar.getValue().extractBackground(graphics, deltaTracker);
+		if (RPGHudUtils.isSurvival() && this.client.player.experienceLevel > 0) {
+			ContextualBarRenderer.extractExperienceLevel(graphics, this.mc.font, this.client.player.experienceLevel);
+		}
+
+		this.currentBar.getValue().extractRenderState(graphics, deltaTracker);
 	}
 
 	private BarType getCurrentBarType() {
-		boolean bl = this.client.player.networkHandler.getWaypointHandler().hasWaypoint();
-		boolean bl2 = this.client.player.getJumpingMount() != null;
-		boolean bl3 = this.client.interactionManager.hasExperienceBar();
+		boolean bl = this.client.player.connection.getWaypointManager().hasWaypoints();
+		boolean bl2 = this.client.player.jumpableVehicle() != null;
+		boolean bl3 = RPGHudUtils.isSurvival();
 		if (bl) {
 			if (bl2 && this.shouldShowJumpBar()) {
 				return BarType.JUMPABLE_VEHICLE;
@@ -77,26 +74,25 @@ public class HudElementLocatorBarVanilla extends HudElement{
 			return bl3 ? BarType.EXPERIENCE : BarType.EMPTY;
 		}
 	}
-	
+
 	private boolean shouldShowExperienceBar() {
-		return this.client.player.experienceBarDisplayStartTime + 100 > this.client.player.age;
+		return this.client.player.experienceDisplayStartTick + 100 > this.client.player.getAgeScale();
 	}
-	
+
 	private boolean shouldShowJumpBar() {
-		return this.client.player.getMountJumpStrength() > 0.0F
-			|| (Integer)Nullables.mapOrElse(this.client.player.getJumpingMount(), JumpingMount::getJumpCooldown, 0) > 0;
+		return this.client.player.getJumpRidingScale() > 0.0F || this.client.player.jumpableVehicle().getJumpCooldown() > 0;
 	}
-	
 	@Environment(EnvType.CLIENT)
 	static enum BarType {
 		EMPTY,
 		EXPERIENCE,
 		LOCATOR,
 		JUMPABLE_VEHICLE;
+
 	}
-	
+
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 }

@@ -3,16 +3,19 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.texture.PlayerSkinProvider;
-import net.minecraft.client.texture.TextureSetup;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.resources.SkinManager;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.PlayerSkin;
+import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -65,43 +68,43 @@ public abstract class HudElement {
     public static final int[] COLOR_DEFAULT = { 0xFF4C4C4C, 0xFF3D3D3D };
 
     /** ResourceLocation of the interface texture for the RPG-HUD */
-    protected static final Identifier INTERFACE = Identifier.of("rpghud", "textures/interface.png");
+    protected static final Identifier INTERFACE = Identifier.parse("rpghud:textures/interface.png");
     
-    protected static final Identifier CROSSHAIR_TEXTURE = Identifier.ofVanilla("hud/crosshair");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE = Identifier.ofVanilla("hud/crosshair_attack_indicator_full");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/crosshair_attack_indicator_background");
-    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/crosshair_attack_indicator_progress");
-    protected static final Identifier EFFECT_BACKGROUND_AMBIENT_TEXTURE = Identifier.ofVanilla("hud/effect_background_ambient");
-    protected static final Identifier EFFECT_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/effect_background");
-    protected static final Identifier HOTBAR_TEXTURE = Identifier.ofVanilla("hud/hotbar");
-    protected static final Identifier HOTBAR_SELECTION_TEXTURE = Identifier.ofVanilla("hud/hotbar_selection");
-    protected static final Identifier HOTBAR_OFFHAND_LEFT_TEXTURE = Identifier.ofVanilla("hud/hotbar_offhand_left");
-    protected static final Identifier HOTBAR_OFFHAND_RIGHT_TEXTURE = Identifier.ofVanilla("hud/hotbar_offhand_right");
-    protected static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/hotbar_attack_indicator_background");
-    protected static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/hotbar_attack_indicator_progress");
-    protected static final Identifier JUMP_BAR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/jump_bar_background");
-    protected static final Identifier JUMP_BAR_COOLDOWN_TEXTURE = Identifier.ofVanilla("hud/jump_bar_cooldown");
-    protected static final Identifier JUMP_BAR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/jump_bar_progress");
-    protected static final Identifier EXPERIENCE_BAR_BACKGROUND_TEXTURE = Identifier.ofVanilla("hud/experience_bar_background");
-    protected static final Identifier EXPERIENCE_BAR_PROGRESS_TEXTURE = Identifier.ofVanilla("hud/experience_bar_progress");
-    protected static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.ofVanilla("hud/armor_empty");
-    protected static final Identifier ARMOR_HALF_TEXTURE = Identifier.ofVanilla("hud/armor_half");
-    protected static final Identifier ARMOR_FULL_TEXTURE = Identifier.ofVanilla("hud/armor_full");
-    protected static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_empty_hunger");
-    protected static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_half_hunger");
-    protected static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_full_hunger");
-    protected static final Identifier FOOD_EMPTY_TEXTURE = Identifier.ofVanilla("hud/food_empty");
-    protected static final Identifier FOOD_HALF_TEXTURE = Identifier.ofVanilla("hud/food_half");
-    protected static final Identifier FOOD_FULL_TEXTURE = Identifier.ofVanilla("hud/food_full");
-    protected static final Identifier AIR_TEXTURE = Identifier.ofVanilla("hud/air");
-    protected static final Identifier AIR_BURSTING_TEXTURE = Identifier.ofVanilla("hud/air_bursting");
-    protected static final Identifier VEHICLE_CONTAINER_HEART_TEXTURE = Identifier.ofVanilla("hud/heart/vehicle_container");
-    protected static final Identifier VEHICLE_FULL_HEART_TEXTURE = Identifier.ofVanilla("hud/heart/vehicle_full");
-    protected static final Identifier VEHICLE_HALF_HEART_TEXTURE = Identifier.ofVanilla("hud/heart/vehicle_half");
-    protected static final Identifier VIGNETTE_TEXTURE = Identifier.ofVanilla("textures/misc/vignette.png");
-    protected static final Identifier PUMPKIN_BLUR = Identifier.ofVanilla("textures/misc/pumpkinblur.png");
-    protected static final Identifier SPYGLASS_SCOPE = Identifier.ofVanilla("textures/misc/spyglass_scope.png");
-    protected static final Identifier POWDER_SNOW_OUTLINE = Identifier.ofVanilla("textures/misc/powder_snow_outline.png");
+    protected static final Identifier CROSSHAIR_TEXTURE = Identifier.withDefaultNamespace("hud/crosshair");
+    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_full");
+    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_background");
+    protected static final Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_progress");
+    protected static final Identifier EFFECT_BACKGROUND_AMBIENT_TEXTURE = Identifier.withDefaultNamespace("hud/effect_background_ambient");
+    protected static final Identifier EFFECT_BACKGROUND_TEXTURE = Identifier.withDefaultNamespace("hud/effect_background");
+    protected static final Identifier HOTBAR_TEXTURE = Identifier.withDefaultNamespace("hud/hotbar");
+    protected static final Identifier HOTBAR_SELECTION_TEXTURE = Identifier.withDefaultNamespace("hud/hotbar_selection");
+    protected static final Identifier HOTBAR_OFFHAND_LEFT_TEXTURE = Identifier.withDefaultNamespace("hud/hotbar_offhand_left");
+    protected static final Identifier HOTBAR_OFFHAND_RIGHT_TEXTURE = Identifier.withDefaultNamespace("hud/hotbar_offhand_right");
+    protected static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_TEXTURE = Identifier.withDefaultNamespace("hud/hotbar_attack_indicator_background");
+    protected static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_TEXTURE = Identifier.withDefaultNamespace("hud/hotbar_attack_indicator_progress");
+    protected static final Identifier JUMP_BAR_BACKGROUND_TEXTURE = Identifier.withDefaultNamespace("hud/jump_bar_background");
+    protected static final Identifier JUMP_BAR_COOLDOWN_TEXTURE = Identifier.withDefaultNamespace("hud/jump_bar_cooldown");
+    protected static final Identifier JUMP_BAR_PROGRESS_TEXTURE = Identifier.withDefaultNamespace("hud/jump_bar_progress");
+    protected static final Identifier EXPERIENCE_BAR_BACKGROUND_TEXTURE = Identifier.withDefaultNamespace("hud/experience_bar_background");
+    protected static final Identifier EXPERIENCE_BAR_PROGRESS_TEXTURE = Identifier.withDefaultNamespace("hud/experience_bar_progress");
+    protected static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/armor_empty");
+    protected static final Identifier ARMOR_HALF_TEXTURE = Identifier.withDefaultNamespace("hud/armor_half");
+    protected static final Identifier ARMOR_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/armor_full");
+    protected static final Identifier FOOD_EMPTY_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_empty_hunger");
+    protected static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_half_hunger");
+    protected static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_full_hunger");
+    protected static final Identifier FOOD_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/food_empty");
+    protected static final Identifier FOOD_HALF_TEXTURE = Identifier.withDefaultNamespace("hud/food_half");
+    protected static final Identifier FOOD_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/food_full");
+    protected static final Identifier AIR_TEXTURE = Identifier.withDefaultNamespace("hud/air");
+    protected static final Identifier AIR_BURSTING_TEXTURE = Identifier.withDefaultNamespace("hud/air_bursting");
+    protected static final Identifier VEHICLE_CONTAINER_HEART_TEXTURE = Identifier.withDefaultNamespace("hud/heart/vehicle_container");
+    protected static final Identifier VEHICLE_FULL_HEART_TEXTURE = Identifier.withDefaultNamespace("hud/heart/vehicle_full");
+    protected static final Identifier VEHICLE_HALF_HEART_TEXTURE = Identifier.withDefaultNamespace("hud/heart/vehicle_half");
+    protected static final Identifier VIGNETTE_TEXTURE = Identifier.withDefaultNamespace("textures/misc/vignette.png");
+    protected static final Identifier PUMPKIN_BLUR = Identifier.withDefaultNamespace("textures/misc/pumpkinblur.png");
+    protected static final Identifier SPYGLASS_SCOPE = Identifier.withDefaultNamespace("textures/misc/spyglass_scope.png");
+    protected static final Identifier POWDER_SNOW_OUTLINE = Identifier.withDefaultNamespace("textures/misc/powder_snow_outline.png");
 
     public static final int OFFSET_PERCENT = 25;
 
@@ -131,7 +134,7 @@ public abstract class HudElement {
     protected HudElementType type;
 
     /** The Minecraft instance */
-    protected MinecraftClient mc;
+    protected Minecraft mc;
 
     /** The Mod instance */
     protected ModRPGHud rpgHud;
@@ -143,6 +146,8 @@ public abstract class HudElement {
     protected float scaleInverted;
 
     public HudElementType parent;
+    protected Identifier playerSkinId = Identifier.withDefaultNamespace("textures/entity/player/slim/steve.png");
+
     /**
      * Constructor
      * 
@@ -168,7 +173,7 @@ public abstract class HudElement {
         this.elementWidth = width;
         this.elementHeight = height;
         this.moveable = moveable;
-        this.mc = MinecraftClient.getInstance();
+        this.mc = Minecraft.getInstance();
         this.rpgHud = ModRPGHud.instance;
         this.settings = this.rpgHud.settings;
         this.scale = 1f;
@@ -179,11 +184,11 @@ public abstract class HudElement {
     /**
      * Function called to draw this element on the screen
      */
-    public void draw(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-        this.drawElement(dc, zLevel, partialTicks, scaledWidth, scaledHeight);
+    public void draw(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+        this.drawElement(graphics, deltaTracker, scaledWidth, scaledHeight);
     }
 
-    public abstract void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight);
+    public abstract void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
@@ -256,10 +261,10 @@ public abstract class HudElement {
     public boolean setPos(int posX, int posY) {
         boolean xValid = false;
         boolean yValid = false;
-        if (posX >= 0 && posX < (this.mc.getWindow().getScaledWidth() - this.elementWidth)) {
+        if (posX >= 0 && posX < (this.mc.getWindow().getGuiScaledWidth() - this.elementWidth)) {
             xValid = true;
         }
-        if (posY >= 0 && posY < (this.mc.getWindow().getScaledHeight() - this.elementHeight)) {
+        if (posY >= 0 && posY < (this.mc.getWindow().getGuiScaledHeight() - this.elementHeight)) {
             yValid = true;
         }
         if (xValid && yValid) {
@@ -301,14 +306,12 @@ public abstract class HudElement {
      * @param color
      *            the color of the rectangle
      */
-    public static void drawRect(DrawContext dc, int posX, int posY, int width, int height, int color) {
+    public static void drawRect(GuiGraphicsExtractor graphics, int posX, int posY, int width, int height, int color) {
     	if (color == -1)
             return;
         if (color <= 0xFFFFFF && color >= 0)
             color = color + 0xFF000000;
-        dc.fill(posX, posY, posX + width, posY+height, color);
-        
-        //BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());
+        graphics.fill(posX, posY, posX + width, posY+height, color);
     }
 
     /**
@@ -324,11 +327,11 @@ public abstract class HudElement {
      *            the height of the outline
      * @param color
      */
-    protected static void drawOutline(DrawContext dc, int x, int y, int width, int height, int color) {
-        drawRect(dc, x, y, width, 1, color);
-        drawRect(dc, x, y+1, 1, height-2, color);
-        drawRect(dc, x + width - 1, y+1, 1, height-2, color);
-        drawRect(dc, x, y + height - 1, width, 1, color);
+    protected static void drawOutline(GuiGraphicsExtractor graphics, int x, int y, int width, int height, int color) {
+        drawRect(graphics, x, y, width, 1, color);
+        drawRect(graphics, x, y+1, 1, height-2, color);
+        drawRect(graphics, x + width - 1, y+1, 1, height-2, color);
+        drawRect(graphics, x, y + height - 1, width, 1, color);
     }
 
     /**
@@ -349,8 +352,8 @@ public abstract class HudElement {
      * @param colorBarDark
      *            the color for the bar (dark
      */
-    public static void drawCustomBar(DrawContext dc, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
-        drawCustomBar(dc, x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
+        drawCustomBar(graphics, x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
     }
 
     /**
@@ -375,8 +378,8 @@ public abstract class HudElement {
      * @param colorBarDark
      *            the color for the bar (dark
      */
-    public static void drawCustomBar(DrawContext dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
-        drawCustomBar(dc, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
+        drawCustomBar(graphics, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
     }
 
     /**
@@ -403,8 +406,8 @@ public abstract class HudElement {
      * @param outlined
      *            whether this bar has an outline or not
      */
-    public static void drawCustomBar(DrawContext dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
-        drawCustomBar(dc, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
+        drawCustomBar(graphics, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
     }
 
     /**
@@ -431,8 +434,8 @@ public abstract class HudElement {
      * @param colorOutline
      *            the color of the outline
      */
-    public static void drawCustomBar(DrawContext dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
-        drawCustomBar(dc, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+        drawCustomBar(graphics, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
     }
 
     /**
@@ -461,7 +464,7 @@ public abstract class HudElement {
      * @param colorOutline
      *            the color of the outline
      */
-    public static void drawCustomBar(DrawContext dc, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+    public static void drawCustomBar(GuiGraphicsExtractor graphics, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
         if (value < 0.0D) {
             value = 0.0D;
         }else if (value > 100D) {
@@ -479,18 +482,18 @@ public abstract class HudElement {
         if (filledHeight < 0)
             filledHeight = 0;
 
-        int percentFilled = (int) Math.round(value / 100.0D * filledWidth);
+        int percentFilled = Math.toIntExact(Math.round(value / 100.0D * filledWidth));
 
         if (outlined)
-            drawOutline(dc, x, y, width, height, colorOutline);
+            drawOutline(graphics, x, y, width, height, colorOutline);
         int halfedFilledHeight = filledHeight / 2;
 
-        drawRect(dc, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
-        drawRect(dc, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
+        drawRect(graphics, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
+        drawRect(graphics, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
 
         if (colorGroundDark != -1 && colorGroundLight != -1 && filledWidth - percentFilled > 0) {
-            drawRect(dc, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
-            drawRect(dc, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
+            drawRect(graphics, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
+            drawRect(graphics, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
         }
     }
 
@@ -516,33 +519,10 @@ public abstract class HudElement {
      * @param color
      *            color of the tetragon (hexa format 0xAARRGGBB)
      */
-    public void drawTetragon(DrawContext dc, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
-        dc.state
-			.addSimpleElement(
-				new ColoredTetragonGuiElementRenderState(
-					RenderPipelines.GUI, TextureSetup.empty(), new Matrix3x2f(dc.getMatrices()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, dc.scissorStack.peekLast()
-				)
-			);
-        
-    	//dc.state.
-        /*if (color == -1)
-            return;
-        if(width1 < 0) width1 = 0;
-        if(width2 < 0) width2 = 0;
-        float f3;
-        if (color <= 0xFFFFFF && color >= 0)
-            f3 = 1.0F;
-        else
-            f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
-        BufferBuilder vertexbuffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        vertexbuffer.vertex(posX1, (float) posY1 + height1, 0F).color(f, f1, f2, f3);
-        vertexbuffer.vertex((float) posX2 + width2, (float) posY2 + height2, 0F).color(f, f1, f2, f3);
-        vertexbuffer.vertex((float) posX1 + width1, posY2, 0F).color(f, f1, f2, f3);
-        vertexbuffer.vertex(posX2, posY1, 0F).color(f, f1, f2, f3);
-        BufferRenderer.drawWithGlobalProgram(vertexbuffer.end());*/
+    public void drawTetragon(GuiGraphicsExtractor graphics, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
+        graphics.guiRenderState.addGuiElement(new ColoredTetragonGuiElementRenderState(
+                RenderPipelines.GUI, TextureSetup.noTexture(), new Matrix3x2f(graphics.pose()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, graphics.scissorStack.peek()
+        ));
     }
 
     public static int offsetColorPercent(int color, int offsetPercent) {
@@ -604,19 +584,20 @@ public abstract class HudElement {
     }
 
     /**
-     * Returns the ResourceLocation for the skin of the player
+     * Fetch the skin of the player and save the ResourceLocation in playerSkinId
      * 
      * @param player
      *            the player whose skin should be returned
      * @return the ResourceLocation
      */
-    protected static Identifier getPlayerSkin(ClientPlayerEntity player) {
-        MinecraftClient instance = MinecraftClient.getInstance();
-        PlayerSkinProvider skinProvider = instance.getSkinProvider();
-        UUID uuid = player.getUuid();
-        GameProfile profile = new GameProfile(uuid, "");
+    private void fetchPlayerSkin(LocalPlayer player) {
+        Minecraft instance = Minecraft.getInstance();
+        SkinManager skinProvider = instance.getSkinManager();
+        GameProfile profile = player.getGameProfile();
 
-        return skinProvider.supplySkinTextures(profile, false).get().body().texturePath();
+        skinProvider.get(profile).thenAccept(playerSkin -> {
+            playerSkin.ifPresent(skin -> this.playerSkinId = skin.body().texturePath());
+        });
     }
 
        /**
@@ -626,42 +607,42 @@ public abstract class HudElement {
      *            the x position on the screen
      * @param y
      *            the y position on the screen
-     * @param partialTicks
+     * @param deltaTracker
      *            the partial ticks (used for animation)
      * @param player
      *            the player who should get the item rendered
-     * @param item
+     * @param stack
      *            the item (via ItemStack)
      */
-    protected void renderHotbarItem(DrawContext context, int x, int y, RenderTickCounter tickCounter, PlayerEntity player, ItemStack stack, int seed) {
+    protected void renderHotbarItem(GuiGraphicsExtractor graphics, int x, int y, DeltaTracker deltaTracker, LocalPlayer player, ItemStack stack, int seed) {
 		if (!stack.isEmpty()) {
-			float f = (float)stack.getBobbingAnimationTime() - tickCounter.getTickProgress(false);
+			float f = (float)stack.getPopTime() - deltaTracker.getGameTimeDeltaPartialTick(false);
 			if (f > 0.0F) {
 				float g = 1.0F + f / 5.0F;
-				context.getMatrices().pushMatrix();
-				context.getMatrices().translate((float)(x + 8), (float)(y + 12));
-				context.getMatrices().scale(1.0F / g, (g + 1.0F) / 2.0F);
-				context.getMatrices().translate((float)(-(x + 8)), (float)(-(y + 12)));
+                graphics.pose().pushMatrix();
+                graphics.pose().translate((float)(x + 8), (float)(y + 12));
+                graphics.pose().scale(1.0F / g, (g + 1.0F) / 2.0F);
+                graphics.pose().translate((float)(-(x + 8)), (float)(-(y + 12)));
 			}
 
-			context.drawItem(player, stack, x, y, seed);
+            graphics.item(player, stack, x, y, seed);
 			if (f > 0.0F) {
-				context.getMatrices().popMatrix();
+                graphics.pose().popMatrix();
 			}
 
-			context.drawStackOverlay(this.mc.textRenderer, stack, x, y);
+			graphics.itemDecorations(Minecraft.getInstance().font, stack, x, y);
 		}
     }
     
-    protected void drawStringWithBackground(DrawContext dc, String text, int posX, int posY, int colorMain, int colorBackground) {
-        dc.drawText(this.mc.textRenderer,text, posX + 1, posY, colorBackground, false);
-        dc.drawText(this.mc.textRenderer,text, posX - 1, posY, colorBackground, false);
-        dc.drawText(this.mc.textRenderer,text, posX, posY + 1, colorBackground, false);
-        dc.drawText(this.mc.textRenderer,text, posX, posY - 1, colorBackground, false);
-        dc.drawText(this.mc.textRenderer,text, posX, posY, colorMain, false);
+    protected void drawStringWithBackground(GuiGraphicsExtractor graphics, String text, int posX, int posY, int colorMain, int colorBackground) {
+        graphics.text(this.mc.font, text, posX + 1, posY, colorBackground, true);
+        graphics.text(this.mc.font, text, posX - 1, posY, colorBackground, true);
+        graphics.text(this.mc.font, text, posX, posY + 1, colorBackground, true);
+        graphics.text(this.mc.font, text, posX, posY - 1, colorBackground, true);
+        graphics.text(this.mc.font, text, posX, posY, colorMain, true);
     }
     
     public boolean isChatOpen() {
-        return this.mc.currentScreen instanceof net.minecraft.client.gui.screen.ChatScreen;
+        return this.mc.screen instanceof ChatScreen;
     }
 }

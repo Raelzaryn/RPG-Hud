@@ -2,10 +2,10 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -20,20 +20,19 @@ public class HudElementWidgetModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
+		return RPGHudUtils.isSurvival() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
-		drawRect(dc, posX + 2, posY + 2, 20, 20, 0xA0000000);
-		Identifier skin = getPlayerSkin(this.mc.player);
-		dc.getMatrices().scale(0.5f, 0.5f);
+		drawRect(graphics, posX + 2, posY + 2, 20, 20, 0xA0000000);
+		graphics.pose().scale(0.5f, 0.5f);
 		
-		dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
-		dc.drawTexture(RenderPipelines.GUI_TEXTURED, skin, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.playerSkinId, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.playerSkinId, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);
 		
-		dc.getMatrices().scale(2f, 2f);
+		graphics.pose().scale(2f, 2f);
 	}
 }

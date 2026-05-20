@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 @Environment(value=EnvType.CLIENT)
 public class HudElementEmpty extends HudElement {
@@ -13,7 +13,7 @@ public class HudElementEmpty extends HudElement {
 	}
 	
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 	}
 
 }

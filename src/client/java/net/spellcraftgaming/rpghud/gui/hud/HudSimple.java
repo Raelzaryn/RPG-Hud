@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementAirModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementCompassModern;
@@ -19,7 +19,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.simple.HudElementLevelSimple;
 @Environment(value=EnvType.CLIENT)
 public class HudSimple extends HudVanilla{
 
-	public HudSimple(MinecraftClient mc, String hudKey, String hudName) {
+	public HudSimple(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 	}
 	

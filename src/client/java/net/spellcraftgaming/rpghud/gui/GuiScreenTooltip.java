@@ -5,12 +5,12 @@ import java.util.List;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -18,41 +18,36 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Environment(value=EnvType.CLIENT)
 public class GuiScreenTooltip extends Screen {
 
-    protected GuiScreenTooltip(Text titleIn) {
+    protected GuiScreenTooltip(Component titleIn) {
         super(titleIn);
     }
 
     protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
 
     @Override
-    public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
-        super.render(dc, mouseX, mouseY, partialTicks);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        super.extractRenderState(graphics, mouseX, mouseY, a);
         for(GuiTextLabel label : labelList) {
-            label.render(this, dc);
+            label.render(this, graphics);
         }
         if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
-            drawTooltip(dc, mouseX, mouseY);
+            drawTooltip(graphics, mouseX, mouseY);
         }
     }
 
     /**
      * Checks if a tooltip should be rendered and if so renders it on the screen.
      */
-    private void drawTooltip(DrawContext dc, int mouseX, int mouseY) {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        TextRenderer fontRenderer = mc.textRenderer;
-        GuiScreenTooltip gui = null;
-        if(mc.currentScreen instanceof GuiScreenTooltip)
-            gui = (GuiScreenTooltip) mc.currentScreen;
-        else
-            return;
+    private void drawTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        Minecraft mc = Minecraft.getInstance();
+        if (!(mc.screen instanceof GuiScreenTooltip gui)) return;
 
         boolean shouldRenderTooltip = false;
         GuiButtonTooltip button = null;
         for(int x = 0; x < this.children().size(); x++) {
-            Element b = this.children().get(x);
-            if(b instanceof GuiButtonTooltip)
-                button = (GuiButtonTooltip) b;
+            GuiEventListener guiEventListener = this.children().get(x);
+            if(guiEventListener instanceof GuiButtonTooltip)
+                button = (GuiButtonTooltip) guiEventListener;
 
             if(button != null) {
                 if(button.isHovered()) {
@@ -70,9 +65,9 @@ public class GuiScreenTooltip extends Screen {
             if(!(tooltip == null)) {
                 int counter = 0;
                 for(int id = 0; id < tooltip.length; id++) {
-                    int width = fontRenderer.getWidth(tooltip[id]);
+                    int width = Minecraft.getInstance().font.width(tooltip[id]);
                     if(totalWidth < width)
-                        totalWidth = fontRenderer.getWidth(tooltip[id]);
+                        totalWidth = Minecraft.getInstance().font.width(tooltip[id]);
                     counter++;
                 }
                 posX -= totalWidth / 2;
@@ -85,16 +80,16 @@ public class GuiScreenTooltip extends Screen {
                     reverseY = true;
 
                 if(reverseY) {
-                	HudElement.drawRect(dc, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
+                	HudElement.drawRect(graphics, posX, posY - 3 - tooltip.length * 12 - 2, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 } else {
-                	HudElement.drawRect(dc, posX, posY, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
+                	HudElement.drawRect(graphics, posX, posY, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 }
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY) {
-                        	dc.drawTextWithShadow(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xFFBBBBBB);
-                        }else {
-                        	dc.drawTextWithShadow(fontRenderer,  tooltip[id], posX + 5, posY + 5 + 12 * id, 0xFFBBBBBB);
+                            graphics.text(this.font, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xFFBBBBBB, false);
+                        } else {
+                            graphics.text(this.font, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xFFBBBBBB, false);
                         }
                     }
                 }
@@ -113,8 +108,8 @@ public class GuiScreenTooltip extends Screen {
             this.text = text;
         }
 
-        public void render(Screen gui, DrawContext dc) {
-            dc.drawText(client.textRenderer, text, x, y, 0xFFFFFFFF, true);
+        public void render(Screen gui, GuiGraphicsExtractor graphics) {
+            graphics.text(Minecraft.getInstance().font, this.text, x, y, 0xFFFFFFFF, false);
         }
     }
 

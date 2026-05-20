@@ -2,9 +2,11 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -18,27 +20,27 @@ public class HudElementArmorModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 	    float scale = getScale();
-        dc.getMatrices().scale(scale, scale);
+        graphics.pose().scale(scale, scale);
 		int left = getPosX(scaledWidth);
 		int top = getPosY(scaledHeight);
 
-		int level = this.mc.player.getArmor();
+		int level = this.mc.player.getArmorValue();
 		if (level > 0) {
-	        int height = getHeight(scaledHeight);
-			int width2 = 1 + 9 + 2 + this.mc.textRenderer.getWidth(String.valueOf(level)) + 2;
-			drawRect(dc, left, top, width2, height, 0xA0000000);
-			dc.drawText(this.mc.textRenderer, String.valueOf(level), left + 12, top + 2, -1, false);
-			dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, left + 1, top + 1, 9, 9);
-		}
+            int height = getHeight(scaledHeight);
+            int width2 = 1 + 9 + 2 + this.mc.font.width(String.valueOf(level)) + 2;
+            drawRect(graphics, left, top, width2, height, 0xA0000000);
+            graphics.text(this.mc.font, String.valueOf(level), left + 12, top + 2, -1, true);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, left + 1, top + 1, 9, 9);
+        }
 		
 		scale = getInvertedScale();
-        dc.getMatrices().scale(scale, scale);
+        graphics.pose().scale(scale, scale);
 	}
 	
     @Override

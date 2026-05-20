@@ -14,8 +14,8 @@ import java.util.Map;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
@@ -128,8 +128,8 @@ public class Settings {
 
 
     private File rpgHudDir() {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        return (new File(mc.runDirectory.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
+        Minecraft mc = Minecraft.getInstance();
+        return (new File(mc.gameDirectory.getPath(), "config" + File.separator + "RPG-HUD.cfg"));
     }
 
     public Settings() {
@@ -319,18 +319,18 @@ public class Settings {
 
     public String getButtonString(String id) {
         Setting setting = this.settings.get(id);
-        String s = I18n.translate(setting.getName(), new Object[0]) + ": ";
+        String s = I18n.get(setting.getName()) + ": ";
         if(setting instanceof SettingBoolean) {
-            return s + (setting.getBoolValue() ? I18n.translate("options.on", new Object[0]) : I18n.translate("options.off", new Object[0]));
+            return s + (setting.getBoolValue() ? I18n.get("options.on") : I18n.get("options.off"));
         } else if(setting instanceof SettingString || setting instanceof SettingHudType) {
-            return s + I18n.translate(setting.getStringValue(), new Object[0]);
+            return s + I18n.get(setting.getStringValue());
         } else if(setting instanceof SettingColor) {
             return s + intToHexString(setting.getIntValue(), false);
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
         } else if(setting instanceof SettingFloat) {
             SettingFloat sf = (SettingFloat) setting;
-            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.translate("gui.rpg.sec", new Object[0])
+            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec")
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;

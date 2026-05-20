@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementAirModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementArmorModern;
@@ -25,7 +25,7 @@ public class HudModern extends HudDefault {
 	/** offset position for element */
 	private int posX = 0;
 
-	public HudModern(MinecraftClient mc, String hudKey, String hudName) {
+	public HudModern(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 	}
 

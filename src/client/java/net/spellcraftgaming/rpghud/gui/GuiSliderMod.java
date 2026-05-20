@@ -2,13 +2,14 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 
 @Environment(value=EnvType.CLIENT)
@@ -19,12 +20,12 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		BLUE;
 	}
 	
-    private static final Identifier HANDLE_TEXTURE = Identifier.ofVanilla("widget/slider_handle");
-    private static final Identifier HANDLE_HIGHLIGHTED_TEXTURE = Identifier.ofVanilla("widget/slider_handle_highlighted");
+    private static final Identifier HANDLE_TEXTURE = Identifier.withDefaultNamespace("widget/slider_handle");
+    private static final Identifier HANDLE_HIGHLIGHTED_TEXTURE = Identifier.withDefaultNamespace("widget/slider_handle_highlighted");
     
 
     private Identifier getHandleTexture() {
-        if (this.hovered || this.isFocused()) {
+        if (this.isHovered() || this.isFocused()) {
             return HANDLE_HIGHLIGHTED_TEXTURE;
         }
         return HANDLE_TEXTURE;
@@ -53,15 +54,15 @@ public class GuiSliderMod extends GuiButtonTooltip {
 
     public boolean drawString = true;
     
-	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ButtonWidget.PressAction titleIn) {
+	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, OnPress titleIn) {
 		this(color, x, y, value, minValueIn, maxValue, valueStep, null, titleIn);
 	}
 	
-	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, ButtonWidget.PressAction titleIn) {
-		super(x, y, 150, 12, net.minecraft.text.Text.translatable(""), titleIn);
+	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ISlider par, OnPress titleIn) {
+		super(x, y, 150, 12, Component.literal(""), titleIn);
 		this.color = color;
 		this.sliderValue = value / 255;
-		this.value = (int) Math.ceil(value);
+		this.value = Mth.ceil(value);
 		this.minValue = minValueIn;
 		this.maxValue = maxValue;
 		this.valueStep = valueStep;
@@ -84,16 +85,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             dispString = "";
         }
 	}
-	
-	/*@Override
-	protected int getYImage(boolean p_getYImage_1_) {
-		return 0;
-	} */
 
     @Override
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         this.dragging = false;
-        return super.mouseReleased(click);
+        return super.mouseReleased(event);
     }
 
     public int getValueInt()
@@ -102,7 +98,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
 
     public int getValue() {
-        return (int) Math.ceil(this.value);
+        return Mth.ceil(this.value);
     }
 
     public void setValue(double d)
@@ -119,7 +115,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
      
     @Override
-    protected void renderBackground(MatrixStack matrices, MinecraftClient client, int mouseX, int mouseY) {
+    protected void renderBackground(MatrixStack matrices, Minecraft client, int mouseX, int mouseY) {
     }*/
     
     /**
@@ -127,9 +123,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
      * e).
      */
     @Override
-    public void onClick(Click click, boolean doubled) {
-        this.sliderValue = Math.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
-        updateSlider(click.x(), click.y());
+    public void onClick(MouseButtonEvent event, boolean doubleClick) {
+        this.sliderValue = Math.ceil(Math.clamp(this.sliderValue * 255, 0F, 255F));
+        updateSlider(event.x(), event.y());
         this.dragging = true;
     }
 
@@ -144,7 +140,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		if (this.sliderValue > 1.0F) {
 			this.sliderValue = 1.0F;
 		}
-		this.value = MathHelper.ceil(MathHelper.clamp(this.sliderValue * 255, 0F, 255F));
+		this.value = Mth.ceil(Math.clamp(this.sliderValue * 255, 0F, 255F));
     }
 
     private String getDisplayString() {
@@ -152,46 +148,41 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
 
     @Override
-    protected void drawIcon(DrawContext dc, int mouseX, int mouseY, float deltaTicks) {
-        if (this.visible)
-        {
-        	if(this.dragging) {
-        		updateSlider(mouseX, mouseY);
-        	}
-        	MinecraftClient mc = MinecraftClient.getInstance();
-        	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
-			HudElement.drawCustomBar(dc, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
-			
-            color = 14737632;
-            
-            if (!this.active)
-            {
-                color = 10526880;
+    protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        if (this.visible) {
+            if (this.dragging) {
+                updateSlider(mouseX, mouseY);
             }
-            else if (this.isHovered())
-            {
-                color = 16777120;
+            int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
+            HudElement.drawCustomBar(graphics, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
+
+            int buttonTextColor;
+
+            if (!this.active) {
+                buttonTextColor = 10526880;
+            } else if (this.isHovered()) {
+                buttonTextColor = 16777120;
+            } else {
+                buttonTextColor = 14737632;
             }
-            
+
             String buttonText = getDisplayString();
-            
-            dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, this.getHandleTexture(), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
-            //dc.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            dc.drawCenteredTextWithShadow(mc.textRenderer, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getHandleTexture(), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
+            graphics.centeredText(Minecraft.getInstance().font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, buttonTextColor);
         }
     }
     
 	public float normalizeValue(float value) {
-		return (float) MathHelper.clamp((this.snapToStepClamp(value) - this.maxValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
+		return (float) Math.clamp((this.snapToStepClamp(value) - this.maxValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
 	}
 
 	public float denormalizeValue(float value) {
-		return this.snapToStepClamp((float) (this.minValue + (this.maxValue - this.minValue) * MathHelper.clamp(value, 0.0F, 1.0F)));
+		return this.snapToStepClamp((float) (this.minValue + (this.maxValue - this.minValue) * Math.clamp(value, 0.0F, 1.0F)));
 	}
 
 	public float snapToStepClamp(float value) {
 		value = this.snapToStep(value);
-		return (float) MathHelper.clamp(value, this.minValue, this.maxValue);
+		return (float) Math.clamp(value, this.minValue, this.maxValue);
 	}
 
 	private float snapToStep(float value) {

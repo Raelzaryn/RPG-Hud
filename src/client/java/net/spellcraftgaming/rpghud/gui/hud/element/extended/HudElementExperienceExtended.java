@@ -2,9 +2,12 @@ package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -19,25 +22,25 @@ public class HudElementExperienceExtended extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
-		int expCap = this.mc.player.getNextLevelExperience();
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
+		int expCap = this.mc.player.getXpNeededForNextLevel();
 		double full = 100D / expCap;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 35 : 31) + this.settings.getPositionValue(Settings.experience_position)[1];
 
-		drawCustomBar(dc, posX, posY, 88, 8, exp * full, -1, -1, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
+		drawCustomBar(graphics, posX, posY, 88, 8, exp * full, -1, -1, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 
-		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
+		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			dc.getMatrices().scale(0.5f, 0.5f);
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
-			dc.getMatrices().scale(2f, 2f);
+			graphics.pose().scale(0.5f, 0.5f);
+			graphics.centeredText(this.mc.font, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
+			graphics.pose().scale(2f, 2f);
 		}
 	}
 

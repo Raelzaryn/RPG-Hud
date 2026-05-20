@@ -2,9 +2,12 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -18,23 +21,23 @@ public class HudElementExperienceDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
-		int expCap = this.mc.player.getNextLevelExperience();
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
+		int expCap = this.mc.player.getXpNeededForNextLevel();
 		double full = 100D / expCap;
 		int posX = this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
-		drawCustomBar(dc, posX, scaledHeight - 10 + posY, scaledWidth, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
+		drawCustomBar(graphics, posX, scaledHeight - 10 + posY, scaledWidth, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 
-		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
+		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		int var7 = scaledWidth / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			dc.drawCenteredTextWithShadow(this.mc.textRenderer, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
+			graphics.centeredText(this.mc.font, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
 	}
 
 }

@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.settings;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resources.language.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
 @Environment(value=EnvType.CLIENT)
@@ -62,15 +62,15 @@ public abstract class Setting {
     public abstract Setting setValue(Object o);
 
     public String getName() {
-        return I18n.translate("name." + this.ID, new Object[0]);
+        return I18n.get("name." + this.ID);
     }
 
     public String getTooltip() {
-        return I18n.translate("tooltip." + this.ID, new Object[0]);
+        return I18n.get("tooltip." + this.ID);
     }
 
     public String getFormatedTooltip() {
-        return I18n.translate("tooltip." + this.ID, new Object[0]).replaceAll("/n", " ");
+        return I18n.get("tooltip." + this.ID).replace("/n", " ");
     }
 
 }

@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.settings;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resources.language.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
 @Environment(value=EnvType.CLIENT)
@@ -19,37 +19,37 @@ public class SettingBooleanDebug extends SettingBoolean{
 	
 	public String getName() {
 		if(this.ID.contains(prevent_event))
-			return I18n.translate("name." + prevent_event, new Object[0]);
+			return I18n.get("name." + prevent_event);
 		else if(this.ID.contains(prevent_element_render))
-			return I18n.translate("name." + prevent_element_render, new Object[0]);
+			return I18n.get("name." + prevent_element_render);
 		else if(this.ID.contains(render_vanilla))
-			return I18n.translate("name." + render_vanilla, new Object[0]);
+			return I18n.get("name." + render_vanilla);
 		else if(this.ID.contains(force_render))
-			return I18n.translate("name." + force_render, new Object[0]);
-		else return I18n.translate("name." + this.ID + "error", new Object[0]);
+			return I18n.get("name." + force_render);
+		else return I18n.get("name." + this.ID + "error");
 	}
 
 	public String getTooltip() {
 		if(this.ID.contains(prevent_event))
-			return I18n.translate("tooltip." + prevent_event, new Object[0]);
+			return I18n.get("tooltip." + prevent_event);
 		else if(this.ID.contains(prevent_element_render))
-			return I18n.translate("tooltip." + prevent_element_render, new Object[0]);
+			return I18n.get("tooltip." + prevent_element_render);
 		else if(this.ID.contains(render_vanilla))
-			return I18n.translate("tooltip." + render_vanilla, new Object[0]);
+			return I18n.get("tooltip." + render_vanilla);
 		else if(this.ID.contains(force_render))
-			return I18n.translate("tooltip." + force_render, new Object[0]);
-		else return I18n.translate("tooltip." + this.ID + "error", new Object[0]);
+			return I18n.get("tooltip." + force_render);
+		else return I18n.get("tooltip." + this.ID + "error");
 	}
 	
 	public String getFormatedTooltip() {
 		if(this.ID.contains(prevent_event))
-			return I18n.translate("tooltip." + prevent_event, new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + prevent_event).replace("/n", " ");
 		else if(this.ID.contains(prevent_element_render))
-			return I18n.translate("tooltip." + prevent_element_render, new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + prevent_element_render).replace("/n", " ");
 		else if(this.ID.contains(render_vanilla))
-			return I18n.translate("tooltip." + render_vanilla, new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + render_vanilla).replace("/n", " ");
 		else if(this.ID.contains(force_render))
-			return I18n.translate("tooltip." + force_render, new Object[0]).replaceAll("/n", " ");
-		else return I18n.translate("tooltip." + this.ID + "error", new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + force_render).replace("/n", " ");
+		else return I18n.get("tooltip." + this.ID + "error").replace("/n", " ");
 	}
 }

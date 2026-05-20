@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
@@ -16,7 +16,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementStatusEffec
 @Environment(value=EnvType.CLIENT)
 public class HudVanilla extends Hud {
 
-	public HudVanilla(MinecraftClient mc, String hudKey, String hudName) {
+	public HudVanilla(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 	}
 

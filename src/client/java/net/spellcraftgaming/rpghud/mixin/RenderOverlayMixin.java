@@ -1,48 +1,49 @@
 package net.spellcraftgaming.rpghud.mixin;
 
-import java.util.Random;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.Util;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.metrics.profiling.ProfilerSamplerAdapter;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
+import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.main.RenderOverlay;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.HungerManager;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.profiler.Profilers;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
-import net.spellcraftgaming.rpghud.main.RenderOverlay;
+import java.util.Random;
 
 @Environment(value=EnvType.CLIENT)
-@Mixin(InGameHud.class)
-public class RenderOverlayMixin {
+@Mixin(Gui.class)
+public abstract class RenderOverlayMixin {
 	
-    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.ofVanilla("hud/armor_empty");
-    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.ofVanilla("hud/armor_half");
-    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.ofVanilla("hud/armor_full");
-    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE =Identifier.ofVanilla("hud/food_empty_hunger");
-    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_half_hunger");
-    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.ofVanilla("hud/food_full_hunger");
-    private static final Identifier FOOD_EMPTY_TEXTURE = Identifier.ofVanilla("hud/food_empty");
-    private static final Identifier FOOD_HALF_TEXTURE = Identifier.ofVanilla("hud/food_half");
-    private static final Identifier FOOD_FULL_TEXTURE = Identifier.ofVanilla("hud/food_full");
-    private static final Identifier AIR_TEXTURE = Identifier.ofVanilla("hud/air");
-    private static final Identifier AIR_BURSTING_TEXTURE = Identifier.ofVanilla("hud/air_bursting");
+    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/armor_empty");
+    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.withDefaultNamespace("hud/armor_half");
+    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/armor_full");
+    private static final Identifier FOOD_EMPTY_HUNGER_TEXTURE =Identifier.withDefaultNamespace("hud/food_empty_hunger");
+    private static final Identifier FOOD_HALF_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_half_hunger");
+    private static final Identifier FOOD_FULL_HUNGER_TEXTURE = Identifier.withDefaultNamespace("hud/food_full_hunger");
+    private static final Identifier FOOD_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/food_empty");
+    private static final Identifier FOOD_HALF_TEXTURE = Identifier.withDefaultNamespace("hud/food_half");
+    private static final Identifier FOOD_FULL_TEXTURE = Identifier.withDefaultNamespace("hud/food_full");
+    private static final Identifier AIR_TEXTURE = Identifier.withDefaultNamespace("hud/air");
+    private static final Identifier AIR_BURSTING_TEXTURE = Identifier.withDefaultNamespace("hud/air_bursting");
     
     private int lastHealthValue;
     private int renderHealthValue;
@@ -55,27 +56,27 @@ public class RenderOverlayMixin {
         ++this.ticks;
     }
 
-    @Inject(at = @At("HEAD"), method = "renderStatusBars", cancellable = true)
-    private void renderStatusBars(DrawContext dc, CallbackInfo info) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        int scaledWidth = client.getWindow().getScaledWidth();
-        int scaledHeight = client.getWindow().getScaledHeight();
+    @Inject(at = @At("HEAD"), method = "extractPlayerHealth", cancellable = true)
+    private void extractPlayerHealth(GuiGraphicsExtractor graphics, CallbackInfo info) {
+        Minecraft client = Minecraft.getInstance();
+        int scaledWidth = client.getWindow().getGuiScaledWidth();
+        int scaledHeight = client.getWindow().getGuiScaledHeight();
         Random random = new Random();
         int aa;
         int z;
         int y;
         int x;
-        PlayerEntity playerEntity = this.getCameraPlayer();
+        Player playerEntity = this.getCameraPlayer();
         if (playerEntity == null) {
             return;
         }
-        int i = MathHelper.ceil((float)playerEntity.getHealth());
+        int i = Mth.ceil(playerEntity.getHealth());
         boolean bl = this.heartJumpEndTick > (long)this.ticks && (this.heartJumpEndTick - (long)this.ticks) / 3L % 2L == 1L;
-        long l = Util.getMeasuringTimeMs();
-        if (i < this.lastHealthValue && playerEntity.timeUntilRegen > 0) {
+        long l = Util.getMillis();
+        if (i < this.lastHealthValue && playerEntity.invulnerableTime > 0) {
             this.lastHealthCheckTime = l;
             this.heartJumpEndTick = this.ticks + 20;
-        } else if (i > this.lastHealthValue && playerEntity.timeUntilRegen > 0) {
+        } else if (i > this.lastHealthValue && playerEntity.invulnerableTime > 0) {
             this.lastHealthCheckTime = l;
             this.heartJumpEndTick = this.ticks + 10;
         }
@@ -87,52 +88,52 @@ public class RenderOverlayMixin {
         this.lastHealthValue = i;
         int j = this.renderHealthValue;
         random.setSeed((long)(this.ticks * 312871));
-        HungerManager hungerManager = playerEntity.getHungerManager();
+        FoodData hungerManager = playerEntity.getFoodData();
         int k = hungerManager.getFoodLevel();
         int m = scaledWidth / 2 - 91;
         int n = scaledWidth / 2 + 91;
         int o = scaledHeight - 39;
-        float f = Math.max((float)playerEntity.getAttributeValue(EntityAttributes.MAX_HEALTH), (float)Math.max(j, i));
-        int p = MathHelper.ceil((float)playerEntity.getAbsorptionAmount());
-        int q = MathHelper.ceil((float)((f + (float)p) / 2.0f / 10.0f));
+        float f = Math.max((float)playerEntity.getAttributeValue(Attributes.MAX_HEALTH), (float)Math.max(j, i));
+        int p = Mth.ceil(playerEntity.getAbsorptionAmount());
+        int q = Mth.ceil((f + (float)p) / 2.0f / 10.0f);
         int r = Math.max(10 - (q - 2), 3);
         int s = o - (q - 1) * r - 10;
         int t = o - 10;
-        int u = playerEntity.getArmor();
+        int u = playerEntity.getArmorValue();
         int v = -1;
-        if (playerEntity.hasStatusEffect(StatusEffects.REGENERATION)) {
-            v = this.ticks % MathHelper.ceil((float)(f + 5.0f));
+        if (playerEntity.hasEffect(MobEffects.REGENERATION)) {
+            v = (int) (this.ticks % Math.ceil(f + 5.0f));
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.ARMOR)) {
-	        Profilers.get().push("armor");
+	        Profiler.get().push("armor");
 	        for (int w = 0; w < 10; ++w) {
 	            if (u <= 0) continue;
 	            x = m + w * 8;
 	            if (w * 2 + 1 < u) {
-	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, x, s, 9, 9);
+	                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, x, s, 9, 9);
 	            }
 	            if (w * 2 + 1 == u) {
-	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_HALF_TEXTURE, x, s, 9, 9);
+	                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_HALF_TEXTURE, x, s, 9, 9);
 	            }
 	            if (w * 2 + 1 <= u) continue;
-	            dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
+	            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, x, s, 9, 9);
 	        }
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.HEALTH)) {
-        	Profilers.get().swap("health");
-        	renderHealthBar(dc, random, playerEntity, m, o, r, v, f, i, j, p, bl);
+        	Profiler.get().popPush("health");
+            this.extractHearts(graphics, playerEntity, m, o, r, v, f, i, j, p, bl);
         }
-        LivingEntity livingEntity = this.getRiddenEntity();
-        x = this.getHeartCount(livingEntity);
+        LivingEntity livingEntity = this.getPlayerVehicleWithHealth();
+        x = this.getVehicleMaxHearts(livingEntity);
         if(RenderOverlay.shouldRenderVanilla(HudElementType.FOOD)) {
 	        if (x == 0) {
-	            Profilers.get().swap("food");
+	            Profiler.get().popPush("food");
 	            for (y = 0; y < 10; ++y) {
 	                Identifier identifier3;
 	                Identifier identifier2;
 	                Identifier identifier;
 	                z = o;
-	                if (playerEntity.hasStatusEffect(StatusEffects.HUNGER)) {
+	                if (playerEntity.hasEffect(MobEffects.HUNGER)) {
 	                    identifier = FOOD_EMPTY_HUNGER_TEXTURE;
 	                    identifier2 = FOOD_HALF_HUNGER_TEXTURE;
 	                    identifier3 = FOOD_FULL_HUNGER_TEXTURE;
@@ -141,156 +142,73 @@ public class RenderOverlayMixin {
 	                    identifier2 = FOOD_HALF_TEXTURE;
 	                    identifier3 = FOOD_FULL_TEXTURE;
 	                }
-	                if (playerEntity.getHungerManager().getSaturationLevel() <= 0.0f && this.ticks % (k * 3 + 1) == 0) {
+	                if (playerEntity.getFoodData().getSaturationLevel() <= 0.0f && this.ticks % (k * 3 + 1) == 0) {
 	                    z += random.nextInt(3) - 1;
 	                }
 	                aa = n - y * 8 - 9;
-	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier, aa, z, 9, 9);
+	                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, aa, z, 9, 9);
 	                if (y * 2 + 1 < k) {
-	                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier3, aa, z, 9, 9);
+	                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier3, aa, z, 9, 9);
 	                }
 	                if (y * 2 + 1 != k) continue;
-	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier2, aa, z, 9, 9);
+	                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier2, aa, z, 9, 9);
 	            }
 	            t -= 10;
 	        }
         }
         if(RenderOverlay.shouldRenderVanilla(HudElementType.AIR)) {
-	        Profilers.get().swap("air");
-	        y = playerEntity.getMaxAir();
-	        z = Math.min(playerEntity.getAir(), y);
-	        if (playerEntity.isSubmergedIn(FluidTags.WATER) || z < y) {
-	            int ab = this.getHeartRows(x) - 1;
+	        Profiler.get().popPush("air");
+	        y = playerEntity.getMaxAirSupply();
+	        z = Math.min(playerEntity.getAirSupply(), y);
+	        if (playerEntity.isEyeInFluid(FluidTags.WATER) || z < y) {
+	            int ab = this.getVisibleVehicleHeartRows(x) - 1;
 	            t -= ab * 10;
-	            int ac = MathHelper.ceil((double)((double)(z - 2) * 10.0 / (double)y));
-	            int ad = MathHelper.ceil((double)((double)z * 10.0 / (double)y)) - ac;
+	            int ac = Mth.ceil((double)((double)(z - 2) * 10.0 / (double)y));
+	            int ad = Mth.ceil((double)((double)z * 10.0 / (double)y)) - ac;
 	            for (aa = 0; aa < ac + ad; ++aa) {
 	                if (aa < ac) {
-	                    dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);
 	                    continue;
 	                }
-	                dc.drawGuiTexture(RenderPipelines.GUI_TEXTURED, AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
+	                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, AIR_BURSTING_TEXTURE, n - aa * 8 - 9, t, 9, 9);
 	            }
 	        }
         }
-        Profilers.get().pop();
+        Profiler.get().pop();
         info.cancel();
     }
 
 
-    @Inject(at = @At("HEAD"), method = "renderHotbar", cancellable = true)
-    private void renderHotbar(CallbackInfo info) {
+    @Inject(at = @At("HEAD"), method = "extractItemHotbar", cancellable = true)
+    private void extractItemHotbar(CallbackInfo info) {
         if(!RenderOverlay.shouldRenderVanilla(HudElementType.HOTBAR))
             info.cancel();
     }
 
-    /*@Inject(at = @At("HEAD"), method = "renderMountJumpBar", cancellable = true)
-    private void renderMountJumpBar(CallbackInfo info) {
-        if(!RenderOverlay.shouldRenderVanilla(HudElementType.JUMP_BAR))
-            info.cancel();
-    }
-
-    @Inject(at = @At("HEAD"), method = "renderExperienceBar", cancellable = true)
-    private void renderExperienceBar(CallbackInfo info) {
-        if(!RenderOverlay.shouldRenderVanilla(HudElementType.EXPERIENCE))
-            info.cancel();
-    }
-    
-    @Inject(at = @At("HEAD"), method = "renderExperienceLevel", cancellable = true)
-    private void renderExperienceLevel(CallbackInfo info) {
-        if(!RenderOverlay.shouldRenderVanilla(HudElementType.LEVEL))
-            info.cancel();
-    }*/
-
-    @Inject(at = @At("HEAD"), method = "renderMountHealth", cancellable = true)
-    private void renderMountHealth(CallbackInfo info) {
+    @Inject(at = @At("HEAD"), method = "extractVehicleHealth", cancellable = true)
+    private void extractVehicleHealth(CallbackInfo info) {
         if(!RenderOverlay.shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
             info.cancel();
     }
     
-    @Inject(at = @At("HEAD"), method = "renderStatusEffectOverlay", cancellable = true)
-    private void renderStatusEffectOverlay(CallbackInfo info) {
+    @Inject(at = @At("HEAD"), method = "extractEffects", cancellable = true)
+    private void extractEffects(CallbackInfo info) {
         if(!RenderOverlay.shouldRenderVanilla(HudElementType.STATUS_EFFECTS))
             info.cancel();
     }
 
-    private int getHeartCount(LivingEntity entity) {
-        if(entity != null && entity.isLiving()) {
-            float f = entity.getMaxHealth();
-            int i = (int) (f + 0.5F) / 2;
-            if(i > 30) {
-                i = 30;
-            }
+    @Shadow
+    protected abstract int getVehicleMaxHearts(LivingEntity entity);
 
-            return i;
-        } else {
-            return 0;
-        }
-    }
+    @Shadow
+    protected abstract int getVisibleVehicleHeartRows(int heartCount);
 
-    private int getHeartRows(int heartCount) {
-        return (int) Math.ceil((double) heartCount / 10.0D);
-    }
+    @Shadow
+    protected abstract Player getCameraPlayer();
 
-    private PlayerEntity getCameraPlayer() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        return !(client.getCameraEntity() instanceof PlayerEntity) ? null : (PlayerEntity) client.getCameraEntity();
-    }
+    @Shadow
+    protected abstract LivingEntity getPlayerVehicleWithHealth();
 
-    private LivingEntity getRiddenEntity() {
-        PlayerEntity playerEntity = this.getCameraPlayer();
-        if(playerEntity != null) {
-            Entity entity = playerEntity.getVehicle();
-            if(entity == null) {
-                return null;
-            }
-
-            if(entity instanceof LivingEntity) {
-                return (LivingEntity) entity;
-            }
-        }
-
-        return null;
-    }
-    
-    private void renderHealthBar(DrawContext context, Random random, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking) {
-    	ModRPGHud.HeartTypeNew HeartTypeNew = ModRPGHud.HeartTypeNew.fromPlayerState(player);
-        boolean bl = player.getEntityWorld().getLevelProperties().isHardcore();
-        int i = MathHelper.ceil((double)((double)maxHealth / 2.0));
-        int j = MathHelper.ceil((double)((double)absorption / 2.0));
-        int k = i * 2;
-        for (int l = i + j - 1; l >= 0; --l) {
-            boolean bl4;
-            int r;
-            boolean bl2;
-            int m = l / 10;
-            int n = l % 10;
-            int o = x + n * 8;
-            int p = y - m * lines;
-            if (lastHealth + absorption <= 4) {
-                p += random.nextInt(2);
-            }
-            if (l < i && l == regeneratingHeartIndex) {
-                p -= 2;
-            }
-            this.drawHeart(context, ModRPGHud.HeartTypeNew.CONTAINER, o, p, bl, blinking, false);
-            int q = l * 2;
-            bl2 = l >= i;
-            if (bl2 && (r = q - k) < absorption) {
-                boolean bl32 = r + 1 == absorption;
-                this.drawHeart(context, HeartTypeNew == ModRPGHud.HeartTypeNew.WITHERED ? HeartTypeNew : ModRPGHud.HeartTypeNew.ABSORBING, o, p, bl, false, bl32);
-            }
-            if (blinking && q < health) {
-                bl4 = q + 1 == health;
-                this.drawHeart(context, HeartTypeNew, o, p, bl, true, bl4);
-            }
-            if (q >= lastHealth) continue;
-            bl4 = q + 1 == lastHealth;
-            this.drawHeart(context, HeartTypeNew, o, p, bl, false, bl4);
-        }
-    }
-    
-    private void drawHeart(DrawContext context, ModRPGHud.HeartTypeNew type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
-        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, type.getTexture(hardcore, half, blinking), x, y, 9, 9);
-    }
+    @Shadow
+    protected abstract void extractHearts(GuiGraphicsExtractor graphics, Player player, int xLeft, int yLineBase, int healthRowHeight, int heartOffsetIndex, float maxHealth, int currentHealth, int oldHealth, int absorption, boolean blink);
 }

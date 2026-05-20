@@ -2,10 +2,13 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -18,32 +21,32 @@ public class HudElementHealthDefault extends HudElement {
 		parent = HudElementType.WIDGET;
 	}
 
-	@Override
+    @Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
-	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledHeight, int scaledWidth) {
-		int health = MathHelper.ceil(this.mc.player.getHealth());
-		int absorption = MathHelper.ceil(this.mc.player.getAbsorptionAmount());
-		int healthMax = MathHelper.ceil(this.mc.player.getMaxHealth());
-		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 24) + this.settings.getPositionValue(Settings.health_position)[0];
-		int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 13 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
+    @Override
+    public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+        int health = Mth.ceil(this.mc.player.getHealth());
+        int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());
+        int healthMax = Mth.ceil(this.mc.player.getMaxHealth());
+        int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 24) + this.settings.getPositionValue(Settings.health_position)[0];
+        int posY = (this.settings.getBoolValue(Settings.render_player_face) ? 13 : 5) + this.settings.getPositionValue(Settings.health_position)[1];
 
-		if (absorption > 1)
-			drawCustomBar(dc, posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
+        if (absorption > 1)
+            drawCustomBar(graphics, posX, posY, 110, 12, (double) (health + absorption) / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_absorption), offsetColorPercent(this.settings.getIntValue(Settings.color_absorption), OFFSET_PERCENT));
 
-		if (this.mc.player.hasStatusEffect(StatusEffects.POISON)) {
-			drawCustomBar(dc, posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
-		} else if (this.mc.player.hasStatusEffect(StatusEffects.WITHER)) {
-			drawCustomBar(dc, posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
-		} else {
-			drawCustomBar(dc, posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
-		}
+        if (this.mc.player.hasEffect(MobEffects.POISON)) {
+            drawCustomBar(graphics, posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_poison), offsetColorPercent(this.settings.getIntValue(Settings.color_poison), OFFSET_PERCENT));
+        } else if (this.mc.player.hasEffect(MobEffects.WITHER)) {
+            drawCustomBar(graphics, posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_wither), offsetColorPercent(this.settings.getIntValue(Settings.color_wither), OFFSET_PERCENT));
+        } else {
+            drawCustomBar(graphics, posX, posY, 110, 12, (double) health / (double) (healthMax + absorption) * 100D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
+        }
 
-		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
-		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			dc.drawCenteredTextWithShadow(this.mc.textRenderer, stringHealth, posX + 55, posY + 2, -1);
-	}
+        String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? Mth.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
+        if (this.settings.getBoolValue(Settings.show_numbers_health))
+            graphics.centeredText(this.mc.font, stringHealth, posX + 55, posY + 2, -1);
+    }
 }

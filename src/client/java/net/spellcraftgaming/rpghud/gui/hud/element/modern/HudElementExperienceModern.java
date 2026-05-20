@@ -2,9 +2,12 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -18,28 +21,28 @@ public class HudElementExperienceModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.interactionManager.hasStatusBars();
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override
-	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
-		int exp = MathHelper.ceil(this.mc.player.getNextLevelExperience() * this.mc.player.experienceProgress);
-		int expCap = this.mc.player.getNextLevelExperience();
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
+		int expCap = this.mc.player.getXpNeededForNextLevel();
 		double full = ((double) (scaledWidth - 2)) / expCap;
 		int posX = this.settings.getPositionValue(Settings.experience_position)[0];
 		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
 
-		drawRect(dc, posX, scaledHeight - 7 + posY, scaledWidth, 7, 0xA0000000);
-		drawRect(dc, 1 + posX, scaledHeight - 6 + posY, (int) (exp * full), 4, this.settings.getIntValue(Settings.color_experience));
+		drawRect(graphics, posX, scaledHeight - 7 + posY, scaledWidth, 7, 0xA0000000);
+		drawRect(graphics, 1 + posX, scaledHeight - 6 + posY, (int) (exp * full), 4, this.settings.getIntValue(Settings.color_experience));
 
-		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
+		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			int width2 = this.mc.textRenderer.getWidth(stringExp) / 2;
-			drawRect(dc, 1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
-			dc.getMatrices().scale(0.5f, 0.5f);
-			dc.drawCenteredTextWithShadow( this.mc.textRenderer, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
-			dc.getMatrices().scale(2f, 2f);
+			int width2 = this.mc.font.width(stringExp) / 2;
+			drawRect(graphics, 1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
+			graphics.pose().scale(0.5f, 0.5f);
+			graphics.centeredText(this.mc.font, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
+			graphics.pose().scale(2f, 2f);
 		}
 	}
 
