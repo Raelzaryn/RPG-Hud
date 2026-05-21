@@ -4,36 +4,30 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementAirModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementArmorModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementClockModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementCompassModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementDetailsModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementEntityInspectModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementExperienceModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementFoodModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementHealthModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementHealthMountModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementHotbarModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementJumpBarModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementLevelModern;
-import net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementWidgetModern;
+import net.spellcraftgaming.rpghud.gui.hud.element.modern.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudModern extends HudDefault {
 
-	/** offset position for element */
+	/**
+	 * offset position for element
+	 */
 	private int posX = 0;
 
 	public HudModern(Minecraft mc, String hudKey, String hudName) {
 		super(mc, hudKey, hudName);
 	}
 
-	/** get the offset position */
+	/**
+	 * get the offset position
+	 */
 	public int getPosX() {
 		return this.posX;
 	}
-	/** set the offset position */
+
+	/**
+	 * set the offset position
+	 */
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}

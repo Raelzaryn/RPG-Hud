@@ -4,13 +4,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class SettingInteger extends Setting {
 
 	public final int defaultValue;
-	public int value;
 	public final int minValue;
 	public final int maxValue;
+	public int value;
 
 	public SettingInteger(String ID, int defaultValue, int minValue, int maxValue) {
 		super(ID);
@@ -19,7 +19,7 @@ public class SettingInteger extends Setting {
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 	}
-	
+
 	public SettingInteger(String ID, HudElementType type, int defaultValue, int minValue, int maxValue) {
 		super(ID, type);
 		this.defaultValue = defaultValue;
@@ -30,7 +30,7 @@ public class SettingInteger extends Setting {
 
 	@Override
 	public void increment() {
-		if (this.value < this.maxValue)
+		if(this.value < this.maxValue)
 			this.value++;
 		else
 			this.value = this.minValue;
@@ -48,7 +48,7 @@ public class SettingInteger extends Setting {
 
 	@Override
 	public Setting setValue(Object o) {
-		if (o instanceof Integer) {
+		if(o instanceof Integer) {
 			this.value = (Integer) o;
 		}
 		return this;
@@ -58,6 +58,6 @@ public class SettingInteger extends Setting {
 	public Object getDefaultValue() {
 		return this.defaultValue;
 	}
-	
-	
+
+
 }

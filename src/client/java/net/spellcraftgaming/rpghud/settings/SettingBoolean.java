@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class SettingBoolean extends Setting {
 
 	public final boolean defaultValue;
@@ -15,7 +15,7 @@ public class SettingBoolean extends Setting {
 		this.defaultValue = defaultValue;
 		this.value = defaultValue;
 	}
-	
+
 	public SettingBoolean(String ID, HudElementType type, boolean defaultValue) {
 		super(ID, type);
 		this.defaultValue = defaultValue;
@@ -39,7 +39,7 @@ public class SettingBoolean extends Setting {
 
 	@Override
 	public Setting setValue(Object o) {
-		if (o instanceof Boolean) {
+		if(o instanceof Boolean) {
 			this.value = (Boolean) o;
 		}
 		return this;

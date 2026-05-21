@@ -4,14 +4,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class SettingDouble extends Setting {
 
 	public final double defaultValue;
-	public double value;
 	public final double minValue;
 	public final double maxValue;
 	public final double step;
+	public double value;
 
 	public SettingDouble(String ID, double defaultValue, double minValue, double maxValue, double step) {
 		super(ID);
@@ -21,7 +21,7 @@ public class SettingDouble extends Setting {
 		this.maxValue = maxValue;
 		this.step = step;
 	}
-	
+
 	public SettingDouble(String ID, HudElementType type, double defaultValue, double minValue, double maxValue, double step) {
 		super(ID, type);
 		this.defaultValue = defaultValue;
@@ -31,9 +31,30 @@ public class SettingDouble extends Setting {
 		this.step = step;
 	}
 
+	public static double normalizeValue(SettingDouble setting, double value) {
+		return Math.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
+	}
+
+	public static double denormalizeValue(SettingDouble setting, double value) {
+		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * Math.clamp(value, 0.0F, 1.0F));
+	}
+
+	public static double snapToStepClamp(SettingDouble setting, double value) {
+		value = snapToStep(setting, value);
+		return Math.clamp(value, setting.minValue, setting.maxValue);
+	}
+
+	public static double snapToStep(SettingDouble setting, double value) {
+		if(setting.step > 0.0F) {
+			value = setting.step * Math.round(value / setting.step);
+		}
+
+		return value;
+	}
+
 	@Override
 	public void increment() {
-		if (this.value < this.maxValue)
+		if(this.value < this.maxValue)
 			this.value += this.step;
 		else
 			this.value = this.minValue;
@@ -51,7 +72,7 @@ public class SettingDouble extends Setting {
 
 	@Override
 	public Setting setValue(Object o) {
-		if (o instanceof Double) {
+		if(o instanceof Double) {
 			this.value = (Double) o;
 		}
 		return this;
@@ -60,26 +81,5 @@ public class SettingDouble extends Setting {
 	@Override
 	public Object getDefaultValue() {
 		return this.defaultValue;
-	}
-	
-	public static double normalizeValue(SettingDouble setting, double value) {
-		return Math.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
-	}
-
-	public static double denormalizeValue(SettingDouble setting, double value) {
-		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * Math.clamp(value, 0.0F, 1.0F));
-	}
-
-	public static double snapToStepClamp(SettingDouble setting, double value) {
-		value = snapToStep(setting, value);
-		return Math.clamp(value, setting.minValue, setting.maxValue);
-	}
-
-	public static double snapToStep(SettingDouble setting, double value) {
-		if (setting.step > 0.0F) {
-			value = setting.step * Math.round(value / setting.step);
-		}
-
-		return value;
 	}
 }

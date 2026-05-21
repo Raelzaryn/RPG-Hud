@@ -5,14 +5,14 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class SettingFloat extends Setting {
 
 	public final float defaultValue;
-	public float value;
 	public final float minValue;
 	public final float maxValue;
 	public final float step;
+	public float value;
 
 	public SettingFloat(String ID, float defaultValue, float minValue, float maxValue, float step) {
 		super(ID);
@@ -22,7 +22,7 @@ public class SettingFloat extends Setting {
 		this.maxValue = maxValue;
 		this.step = step;
 	}
-	
+
 	public SettingFloat(String ID, HudElementType type, float defaultValue, float minValue, float maxValue, float step) {
 		super(ID, type);
 		this.defaultValue = defaultValue;
@@ -32,9 +32,30 @@ public class SettingFloat extends Setting {
 		this.step = step;
 	}
 
+	public static float normalizeValue(SettingFloat setting, float value) {
+		return Mth.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
+	}
+
+	public static float denormalizeValue(SettingFloat setting, float value) {
+		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * Mth.clamp(value, 0.0F, 1.0F));
+	}
+
+	public static float snapToStepClamp(SettingFloat setting, float value) {
+		value = snapToStep(setting, value);
+		return Mth.clamp(value, setting.minValue, setting.maxValue);
+	}
+
+	public static float snapToStep(SettingFloat setting, float value) {
+		if(setting.step > 0.0F) {
+			value = setting.step * Math.round(value / setting.step);
+		}
+
+		return value;
+	}
+
 	@Override
 	public void increment() {
-		if (this.value < this.maxValue)
+		if(this.value < this.maxValue)
 			this.value += this.step;
 		else
 			this.value = this.minValue;
@@ -52,7 +73,7 @@ public class SettingFloat extends Setting {
 
 	@Override
 	public Setting setValue(Object o) {
-		if (o instanceof Float) {
+		if(o instanceof Float) {
 			this.value = (Float) o;
 		}
 		return this;
@@ -61,26 +82,5 @@ public class SettingFloat extends Setting {
 	@Override
 	public Object getDefaultValue() {
 		return this.defaultValue;
-	}
-	
-	public static float normalizeValue(SettingFloat setting, float value) {
-		return Mth.clamp((snapToStepClamp(setting, value) - setting.minValue) / (setting.maxValue - setting.minValue), 0.0F, 1.0F);
-	}
-
-	public static float denormalizeValue(SettingFloat setting, float value) {
-		return snapToStepClamp(setting, setting.minValue + (setting.maxValue - setting.minValue) * Mth.clamp(value, 0.0F, 1.0F));
-	}
-
-	public static float snapToStepClamp(SettingFloat setting, float value) {
-		value = snapToStep(setting, value);
-		return Mth.clamp(value, setting.minValue, setting.maxValue);
-	}
-
-	public static float snapToStep(SettingFloat setting, float value) {
-		if (setting.step > 0.0F) {
-			value = setting.step * Math.round(value / setting.step);
-		}
-
-		return value;
 	}
 }

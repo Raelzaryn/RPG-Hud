@@ -12,70 +12,25 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 import java.util.Objects;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementClockVanilla extends HudElement {
 
 	public HudElementClockVanilla() {
 		super(HudElementType.CLOCK, 0, 0, 0, 0, true);
 	}
 
-	@Override
-	public boolean checkConditions() {
-		return super.checkConditions() 
-				&& this.settings.getBoolValue(Settings.enable_clock) 
-				&& !this.mc.debugEntries.isOverlayVisible()
-				&& (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
-	}
-
-	@Override
-	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
-		final int clockColor;
-		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
-			clockColor = getClockColor();
-		}else {
-			clockColor = 0xFFFFFFFF;
-		}
-		if (this.settings.getBoolValue(Settings.reduce_size))
-			graphics.pose().scale(0.5f, 0.5f);
-		int x = (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0];
-		int y = (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1];
-		graphics.text(this.mc.font, getTime(), x, y, clockColor, false);
-		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		if (this.settings.getBoolValue(Settings.reduce_size))
-			graphics.pose().scale(2f, 2f);
-	}
-
-	/** Returns the time of the minecraft world as a String */
-	public String getTime() {
-		long time = this.mc.player.level().getDefaultClockTime();
-		long day = time / 24000L;
-		long currentTime = time - (24000L * day);
-		long currentHour = (currentTime / 1000L) + 6L;
-		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
-		currentTimeMin = currentTimeMin / (1000.0D / 60.0D);
-		int currentMin = (int) currentTimeMin;
-		if (currentHour > 24)
-			currentHour -= 24L;
-		if (Objects.equals(this.settings.getStringValue(Settings.clock_time_format), "time.24")) {
-			return get24HourTimeForString(currentHour, currentMin);
-		}
-		return get12HourTimeForString(currentHour, currentMin);
-	}
-
 	/**
 	 * Formats the parameter time into the 24-hour format and returns it as a
 	 * String
-	 * 
-	 * @param currentHour
-	 *            the hour
-	 * @param currentMin
-	 *            the minute
+	 *
+	 * @param currentHour the hour
+	 * @param currentMin  the minute
 	 */
 	public static String get24HourTimeForString(long currentHour, long currentMin) {
 		StringBuilder sb = new StringBuilder();
-		if (currentHour == 24)
+		if(currentHour == 24)
 			currentHour = 0;
-		if (currentHour < 10)
+		if(currentHour < 10)
 			sb.append("0");
 		sb.append(currentHour);
 		return sb + ":" + getMinuteForString(currentMin);
@@ -84,27 +39,25 @@ public class HudElementClockVanilla extends HudElement {
 	/**
 	 * Formats the parameter time into the 12-hour format and returns it as a
 	 * string
-	 * 
-	 * @param currentHour
-	 *            the hour
-	 * @param currentMin
-	 *            the minute
+	 *
+	 * @param currentHour the hour
+	 * @param currentMin  the minute
 	 */
 	public static String get12HourTimeForString(long currentHour, long currentMin) {
 		StringBuilder sb = new StringBuilder();
 		String period = "am";
-		if (currentHour == 12) {
+		if(currentHour == 12) {
 			period = "pm";
 		}
-		if (currentHour == 24) {
+		if(currentHour == 24) {
 			currentHour = 12;
 			period = "am";
 		}
-		if (currentHour > 12) {
+		if(currentHour > 12) {
 			currentHour -= 12;
 			period = "pm";
 		}
-		if (currentHour < 10)
+		if(currentHour < 10)
 			sb.append(0);
 		sb.append(currentHour);
 		return sb + ":" + getMinuteForString(currentMin) + " " + period;
@@ -112,43 +65,87 @@ public class HudElementClockVanilla extends HudElement {
 
 	/**
 	 * Transforms the minute into a two digit String
-	 * 
-	 * @param currentMin
-	 *            the minute
+	 *
+	 * @param currentMin the minute
 	 */
 	public static String getMinuteForString(long currentMin) {
 		StringBuilder sb = new StringBuilder();
-		if (currentMin < 10)
+		if(currentMin < 10)
 			sb.append("0");
 		sb.append(currentMin);
 		return sb.toString();
+	}
+
+	@Override
+	public boolean checkConditions() {
+		return super.checkConditions()
+				       && this.settings.getBoolValue(Settings.enable_clock)
+				       && !this.mc.debugEntries.isOverlayVisible()
+				       && (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
+	}
+
+	@Override
+	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
+		final int clockColor;
+		if(this.settings.getBoolValue(Settings.enable_clock_color)) {
+			clockColor = getClockColor();
+		} else {
+			clockColor = 0xFFFFFFFF;
+		}
+		if(this.settings.getBoolValue(Settings.reduce_size))
+			graphics.pose().scale(0.5f, 0.5f);
+		int x = (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0];
+		int y = (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1];
+		graphics.text(this.mc.font, getTime(), x, y, clockColor, false);
+		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		if(this.settings.getBoolValue(Settings.reduce_size))
+			graphics.pose().scale(2f, 2f);
+	}
+
+	/**
+	 * Returns the time of the minecraft world as a String
+	 */
+	public String getTime() {
+		long time = this.mc.player.level().getDefaultClockTime();
+		long day = time / 24000L;
+		long currentTime = time - (24000L * day);
+		long currentHour = (currentTime / 1000L) + 6L;
+		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
+		currentTimeMin = currentTimeMin / (1000.0D / 60.0D);
+		int currentMin = (int) currentTimeMin;
+		if(currentHour > 24)
+			currentHour -= 24L;
+		if(Objects.equals(this.settings.getStringValue(Settings.clock_time_format), "time.24")) {
+			return get24HourTimeForString(currentHour, currentMin);
+		}
+		return get12HourTimeForString(currentHour, currentMin);
 	}
 
 	public int getClockColor() {
 		long time = this.mc.player.level().getDefaultClockTime();
 		long day = time / 24000L;
 		long currentTime = time - (24000L * day);
-		if (currentTime < 1000)
+		if(currentTime < 1000)
 			return 0xFFFFAF00;
-		else if (currentTime < 6000)
+		else if(currentTime < 6000)
 			return 0xFFFFAF00;
-		else if (currentTime < 11000)
+		else if(currentTime < 11000)
 			return 0xFFFFCF00;
-		else if (currentTime < 12000)
+		else if(currentTime < 12000)
 			return 0xFFFFAF00;
-		else if (currentTime < 13000)
+		else if(currentTime < 13000)
 			return 0xFFFFA200;
-		else if (currentTime < 13500)
+		else if(currentTime < 13500)
 			return 0xFFE36E21;
-		else if (currentTime < 18000)
+		else if(currentTime < 18000)
 			return 0xFF345D74;
-		else if (currentTime < 21000)
+		else if(currentTime < 21000)
 			return 0xFF1F3847;
-		else if (currentTime < 22250)
+		else if(currentTime < 22250)
 			return 0xFF345D74;
-		else if (currentTime < 22500)
+		else if(currentTime < 22500)
 			return 0xFF775D74;
-		else if (currentTime < 23000)
+		else if(currentTime < 23000)
 			return 0xFFE36E21;
 		else
 			return 0xFFFFA200;

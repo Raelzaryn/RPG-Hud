@@ -10,12 +10,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementFoodTexture extends HudElement {
 
 	public HudElementFoodTexture() {
@@ -38,29 +38,29 @@ public class HudElementFoodTexture extends HudElement {
 		ItemStack itemMain = this.mc.player.getMainHandItem();
 		ItemStack itemSec = this.mc.player.getOffhandItem();
 
-		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
+		if(stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+			if(itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
 				value = itemMain.get(DataComponents.FOOD).nutrition();
-			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+			} else if(itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
 				value = itemSec.get(DataComponents.FOOD).nutrition();
 			}
-			if (value > 0) {
+			if(value > 0) {
 				int bonusHunger = (int) (value + stamina);
-				if (bonusHunger > staminaMax)
+				if(bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
 				graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY, 141, 148, (int) (110.0D * (bonusHunger / (double) staminaMax)), 12, 256, 256);
 			}
 		}
 
-		if (this.mc.player.hasEffect(MobEffects.HUNGER)) {
+		if(this.mc.player.hasEffect(MobEffects.HUNGER)) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY, 141, 136, (int) (110.0D * (stamina / (double) staminaMax)), 12, 256, 256);
 		} else {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY, 110, 100, (int) (110.0D * (stamina / (double) staminaMax)), 12, 256, 256);
 		}
-		
+
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? Mth.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
-		if (this.settings.getBoolValue(Settings.show_numbers_food))
+		if(this.settings.getBoolValue(Settings.show_numbers_food))
 			graphics.centeredText(this.mc.font, staminaString, posX + 55, posY + 2, -1);
 	}
 

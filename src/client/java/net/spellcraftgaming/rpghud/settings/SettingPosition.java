@@ -4,8 +4,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
-public class SettingPosition extends Setting{
+@Environment(value = EnvType.CLIENT)
+public class SettingPosition extends Setting {
 
 	public final int defaultX, defaultY;
 	public int x, y;
@@ -30,7 +30,7 @@ public class SettingPosition extends Setting{
 	public void increment() {
 	}
 
-	public void setPosition(int x, int y){
+	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -53,9 +53,7 @@ public class SettingPosition extends Setting{
 			try {
 				this.x = Integer.parseInt(positions[0]);
 				this.y = Integer.parseInt(positions[1]);
-			}
-			catch(NumberFormatException e)
-			{
+			} catch(NumberFormatException e) {
 				this.x = 0;
 				this.y = 0;
 			}

@@ -6,12 +6,12 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementHealthMountHotbar extends HudElement {
 
 	public HudElementHealthMountHotbar() {
@@ -33,10 +33,10 @@ public class HudElementHealthMountHotbar extends HudElement {
 		if(health > healthMax) health = healthMax;
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		drawCustomBar(graphics, posX, height - 56, 200, 10, (double) health / (double) healthMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
-		
+
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? Mth.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
-		if (this.settings.getBoolValue(Settings.show_numbers_health))
+		if(this.settings.getBoolValue(Settings.show_numbers_health))
 			graphics.centeredText(this.mc.font, stringHealth, posX + 100, height - 55, -1);
 	}
 

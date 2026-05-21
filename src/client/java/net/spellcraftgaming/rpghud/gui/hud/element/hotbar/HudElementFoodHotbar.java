@@ -9,12 +9,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementFoodHotbar extends HudElement {
 
 	public HudElementFoodHotbar() {
@@ -37,30 +37,30 @@ public class HudElementFoodHotbar extends HudElement {
 		ItemStack itemMain = this.mc.player.getMainHandItem();
 		ItemStack itemSec = this.mc.player.getOffhandItem();
 
-		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
+		if(stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+			if(itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
 				value = itemMain.get(DataComponents.FOOD).nutrition();
-			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+			} else if(itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
 				value = itemSec.get(DataComponents.FOOD).nutrition();
 			}
-			if (value > 0) {
+			if(value > 0) {
 				int bonusHunger = (int) (value + stamina);
-				if (bonusHunger > staminaMax)
+				if(bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
 				int colorPreview = offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW);
 				drawCustomBar(graphics, posX, height - 26, 200, 10, bonusHunger / (double) staminaMax * 100.0D, -1, -1, colorPreview, offsetColorPercent(colorPreview, OFFSET_PERCENT));
 			}
 		}
 
-		if (this.mc.player.hasEffect(MobEffects.HUNGER)) {
+		if(this.mc.player.hasEffect(MobEffects.HUNGER)) {
 			drawCustomBar(graphics, posX, height - 26, 200, 10, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_hunger), offsetColorPercent(this.settings.getIntValue(Settings.color_hunger), OFFSET_PERCENT));
 		} else {
 			drawCustomBar(graphics, posX, height - 26, 200, 10, stamina / (double) staminaMax * 100.0D, -1, -1, this.settings.getIntValue(Settings.color_food), offsetColorPercent(this.settings.getIntValue(Settings.color_food), OFFSET_PERCENT));
 		}
-		
+
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) == true ? Mth.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
-		if (this.settings.getBoolValue(Settings.show_numbers_food))
+		if(this.settings.getBoolValue(Settings.show_numbers_food))
 			graphics.centeredText(this.mc.font, staminaString, posX + 100, height - 25, -1);
 	}
 

@@ -1,13 +1,13 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import java.util.Set;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
-@Environment(value=EnvType.CLIENT)
+import java.util.Set;
+
+@Environment(value = EnvType.CLIENT)
 public class SettingHudType extends Setting {
 
 	public final String defaultValue;
@@ -18,7 +18,7 @@ public class SettingHudType extends Setting {
 		this.defaultValue = value;
 		this.value = this.defaultValue;
 	}
-	
+
 	public SettingHudType(String ID, HudElementType type, int defaultValueId) {
 		super(ID, type);
 		this.defaultValue = this.value;
@@ -30,15 +30,15 @@ public class SettingHudType extends Setting {
 		Set<String> huds = ModRPGHud.instance.huds.keySet();
 		String[] keys = huds.toArray(new String[huds.size()]);
 		int size = keys.length;
-		for (int n = 0; n < size; n++) {
-			if (keys[n].equals(this.value)) {
+		for(int n = 0; n < size; n++) {
+			if(keys[n].equals(this.value)) {
 				n++;
-				if (n == size)
+				if(n == size)
 					n = 0;
 				this.value = keys[n];
 				return;
 			}
-}
+		}
 	}
 
 	@Override
@@ -53,12 +53,12 @@ public class SettingHudType extends Setting {
 
 	@Override
 	public Setting setValue(Object o) {
-		if (o instanceof String) {
+		if(o instanceof String) {
 			this.value = (String) o;
 		}
 		return this;
 	}
-	
+
 	@Override
 	public Object getDefaultValue() {
 		return this.defaultValue;

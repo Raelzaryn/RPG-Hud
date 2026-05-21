@@ -5,12 +5,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.tags.FluidTags;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementAirDefault extends HudElement {
 
 	public HudElementAirDefault() {

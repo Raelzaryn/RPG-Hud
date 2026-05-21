@@ -5,18 +5,18 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.resources.language.I18n;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
-public class SettingBooleanDebug extends SettingBoolean{
+@Environment(value = EnvType.CLIENT)
+public class SettingBooleanDebug extends SettingBoolean {
 
 	public static final String force_render = "force_render";
 	public static final String render_vanilla = "render_vanilla";
 	public static final String prevent_event = "prevent_event";
 	public static final String prevent_element_render = "prevent_element_render";
-	
+
 	public SettingBooleanDebug(String ID, HudElementType type, boolean defaultValue) {
 		super(ID, type, defaultValue);
 	}
-	
+
 	public String getName() {
 		if(this.ID.contains(prevent_event))
 			return I18n.get("name." + prevent_event);
@@ -40,7 +40,7 @@ public class SettingBooleanDebug extends SettingBoolean{
 			return I18n.get("tooltip." + force_render);
 		else return I18n.get("tooltip." + this.ID + "error");
 	}
-	
+
 	public String getFormatedTooltip() {
 		if(this.ID.contains(prevent_event))
 			return I18n.get("tooltip." + prevent_event).replace("/n", " ");

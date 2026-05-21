@@ -5,15 +5,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementEmpty;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementEntityInspectVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementLocatorBarVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementMiscVanilla;
-import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementStatusEffectsVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudVanilla extends Hud {
 
 	public HudVanilla(Minecraft mc, String hudKey, String hudName) {
@@ -90,15 +84,15 @@ public class HudVanilla extends Hud {
 		return new HudElementEntityInspectVanilla();
 	}
 
-    @Override
-    protected HudElement setElementStatusEffects() {
-        return new HudElementStatusEffectsVanilla();
-    }
+	@Override
+	protected HudElement setElementStatusEffects() {
+		return new HudElementStatusEffectsVanilla();
+	}
 
 	@Override
 	protected HudElement setElementMisc() {
 		return new HudElementMiscVanilla();
 	}
-    
-    
+
+
 }

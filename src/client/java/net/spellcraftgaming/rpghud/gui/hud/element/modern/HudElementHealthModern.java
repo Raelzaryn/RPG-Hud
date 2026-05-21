@@ -6,13 +6,13 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementHealthModern extends HudElement {
 
 	public HudElementHealthModern() {
@@ -32,7 +32,7 @@ public class HudElementHealthModern extends HudElement {
 		int healthMax = Mth.ceil(this.mc.player.getMaxHealth());
 
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		
+
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? Mth.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		int width = this.mc.font.width(stringHealth) / 2 + 4;
 		if(width < xOffset) width = xOffset;
@@ -42,7 +42,7 @@ public class HudElementHealthModern extends HudElement {
 		int textPosX = this.settings.getPositionValue(Settings.health_position)[0];
 		int posY = this.settings.getPositionValue(Settings.health_position)[1];
 
-		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
+		if(this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(graphics, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
 			graphics.pose().scale(0.5f, 0.5f);
 			graphics.centeredText(this.mc.font, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
@@ -52,11 +52,11 @@ public class HudElementHealthModern extends HudElement {
 		drawTetragon(graphics, posX, posX, 3 + posY, 3 + posY, 97, 83, 10, 10, 0xA0000000);
 		drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, 89, 79, 6, 6, 0x20FFFFFF);
 
-		if (absorption > 1)
+		if(absorption > 1)
 			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))), (int) (89 * ((double) (health + absorption) / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_absorption));
-		if (this.mc.player.hasEffect(MobEffects.POISON)) {
+		if(this.mc.player.hasEffect(MobEffects.POISON)) {
 			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_poison));
-		} else if (this.mc.player.hasEffect(MobEffects.WITHER)) {
+		} else if(this.mc.player.hasEffect(MobEffects.WITHER)) {
 			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_wither));
 		} else {
 			drawTetragon(graphics, posX + 2, posX + 2, 5 + posY, 5 + posY, (int) (89 * ((double) health / (double) (healthMax + absorption))), (int) (89 * ((double) health / (double) (healthMax + absorption))) - 10, 6, 6, this.settings.getIntValue(Settings.color_health));

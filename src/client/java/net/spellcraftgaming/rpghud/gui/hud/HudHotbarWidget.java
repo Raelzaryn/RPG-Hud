@@ -4,15 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementArmorHotbar;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementFoodHotbar;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementHealthHotbar;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementHealthMountHotbar;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementHotbarHotbar;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementLevelHotbar;
-import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.HudElementWidgetHotbar;
+import net.spellcraftgaming.rpghud.gui.hud.element.hotbar.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudHotbarWidget extends HudDefault {
 
 	public HudHotbarWidget(Minecraft mc, String hudKey, String hudName) {

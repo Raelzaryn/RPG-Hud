@@ -7,12 +7,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementHealthMountTexture extends HudElement {
 
 	public HudElementHealthMountTexture() {
@@ -38,7 +38,7 @@ public class HudElementHealthMountTexture extends HudElement {
 
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? Mth.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
-		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
+		if(this.settings.getBoolValue(Settings.show_numbers_health)) {
 			graphics.pose().scale(0.5f, 0.5f);
 			graphics.centeredText(this.mc.font, stringHealth, posX * 2 + 88, posY * 2 + 4, -1);
 			graphics.pose().scale(2f, 2f);

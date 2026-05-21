@@ -4,14 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementAirTexture;
-import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementExperienceTexture;
-import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementFoodTexture;
-import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthMountTexture;
-import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementHealthTexture;
-import net.spellcraftgaming.rpghud.gui.hud.element.texture.HudElementJumpBarTexture;
+import net.spellcraftgaming.rpghud.gui.hud.element.texture.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudFullTexture extends HudExtendedWidget {
 
 	public HudFullTexture(Minecraft mc, String hudKey, String hudName) {

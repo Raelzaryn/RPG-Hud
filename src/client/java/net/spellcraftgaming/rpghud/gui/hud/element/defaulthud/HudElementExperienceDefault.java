@@ -5,12 +5,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementExperienceDefault extends HudElement {
 
 	public HudElementExperienceDefault() {
@@ -31,10 +31,10 @@ public class HudElementExperienceDefault extends HudElement {
 		int posY = this.settings.getPositionValue(Settings.experience_position)[1];
 		drawCustomBar(graphics, posX, scaledHeight - 10 + posY, scaledWidth, 10, exp * full, this.settings.getIntValue(Settings.color_experience), offsetColorPercent(this.settings.getIntValue(Settings.color_experience), 25));
 
-		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
+		String stringExp = this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		int var7 = scaledWidth / 2;
-		if (this.settings.getBoolValue(Settings.show_numbers_experience))
+		if(this.settings.getBoolValue(Settings.show_numbers_experience))
 			graphics.centeredText(this.mc.font, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
 	}
 

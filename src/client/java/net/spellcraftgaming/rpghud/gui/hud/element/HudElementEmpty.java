@@ -5,13 +5,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementEmpty extends HudElement {
 
 	public HudElementEmpty() {
 		super(HudElementType.DEBUG, 0, 0, 0, 0, false);
 	}
-	
+
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 	}

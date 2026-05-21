@@ -12,7 +12,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementHotbarHotbar extends HudElement {
 
 	public HudElementHotbarHotbar() {
@@ -27,8 +27,8 @@ public class HudElementHotbarHotbar extends HudElement {
 
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
-        if (this.mc.getCameraEntity() instanceof Player entityplayer) {
-            ItemStack itemstack = this.mc.player.getOffhandItem();
+		if(this.mc.getCameraEntity() instanceof Player entityplayer) {
+			ItemStack itemstack = this.mc.player.getOffhandItem();
 			int i = scaledWidth / 2;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
@@ -37,9 +37,9 @@ public class HudElementHotbarHotbar extends HudElement {
 
 			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_RIGHT_TEXTURE, posX + 181, scaledHeight - 47 + posY, 22, 22);
 
-	        int s = 1;
-	        
-			for (int l = 0; l < 9; ++l) {
+			int s = 1;
+
+			for(int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
 				this.renderHotbarItem(graphics, i1, j1, deltaTracker, this.mc.player, this.mc.player.getInventory().getItem(s), s++);
@@ -51,7 +51,7 @@ public class HudElementHotbarHotbar extends HudElement {
 			if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
 				float f1 = this.mc.player.getAttackAnim(0.0f);
 
-				if (f1 < 1.0F) {
+				if(f1 < 1.0F) {
 					int i2 = scaledHeight - 36 + posY;
 					int j2 = i + 40 + this.settings.getPositionValue(Settings.hotbar_position)[0];
 

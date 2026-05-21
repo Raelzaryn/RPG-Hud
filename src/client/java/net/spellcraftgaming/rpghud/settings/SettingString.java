@@ -4,12 +4,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class SettingString extends Setting {
 
 	public final int defaultValueId;
-	public int valueId;
 	public final String[] possibleValues;
+	public int valueId;
 
 	public SettingString(String ID, int defaultValueId, String[] possibleValues) {
 		super(ID);
@@ -17,7 +17,7 @@ public class SettingString extends Setting {
 		this.defaultValueId = defaultValueId;
 		this.valueId = defaultValueId;
 	}
-	
+
 	public SettingString(String ID, HudElementType type, int defaultValueId, String[] possibleValues) {
 		super(ID, type);
 		this.possibleValues = possibleValues;
@@ -27,7 +27,7 @@ public class SettingString extends Setting {
 
 	@Override
 	public void increment() {
-		if (this.valueId < (this.possibleValues.length - 1)) {
+		if(this.valueId < (this.possibleValues.length - 1)) {
 			this.valueId++;
 		} else {
 			this.valueId = 0;
@@ -46,20 +46,20 @@ public class SettingString extends Setting {
 
 	@Override
 	public Setting setValue(Object o) {
-		if (o instanceof String) {
+		if(o instanceof String) {
 			boolean set = false;
 			for(int i = 0; i < this.possibleValues.length; i++) {
-                if(((String) o).equals(this.possibleValues[i])){
-                    this.valueId = i;
-                    set = true;
-                }
-            }
+				if(((String) o).equals(this.possibleValues[i])) {
+					this.valueId = i;
+					set = true;
+				}
+			}
 			if(!set) this.valueId = this.defaultValueId;
 
 		}
 		return this;
 	}
-	
+
 	@Override
 	public Object getDefaultValue() {
 		return this.possibleValues[this.defaultValueId];

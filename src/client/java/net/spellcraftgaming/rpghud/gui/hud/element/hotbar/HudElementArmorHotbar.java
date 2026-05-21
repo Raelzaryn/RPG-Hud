@@ -5,12 +5,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementArmorHotbar extends HudElement {
 
 	public HudElementArmorHotbar() {
@@ -29,18 +29,18 @@ public class HudElementArmorHotbar extends HudElement {
 		int level = this.mc.player.getArmorValue();
 
 		int x;
-        for (int w = 0; w < 10; ++w) {
-            if (level <= 0) continue;
-            x = left + w * 8;
-            if (w * 2 + 1 < level) {
+		for(int w = 0; w < 10; ++w) {
+			if(level <= 0) continue;
+			x = left + w * 8;
+			if(w * 2 + 1 < level) {
 				graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, x + 62, top - 2, 9, 9);
-            }
-            if (w * 2 + 1 == level) {
+			}
+			if(w * 2 + 1 == level) {
 				graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_HALF_TEXTURE, x + 62, top - 2, 9, 9);
-            }
-            if (w * 2 + 1 <= level) continue;
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, x + 62, top -2, 9, 9);
-        }
+			}
+			if(w * 2 + 1 <= level) continue;
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, x + 62, top - 2, 9, 9);
+		}
 	}
 
 }

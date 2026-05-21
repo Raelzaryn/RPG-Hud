@@ -4,16 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementClockExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementDetailsExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementExperienceExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementFoodExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementHealthMountExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementLevelExtended;
-import net.spellcraftgaming.rpghud.gui.hud.element.extended.HudElementWidgetExtended;
+import net.spellcraftgaming.rpghud.gui.hud.element.extended.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudExtendedWidget extends HudDefault {
 
 	public HudExtendedWidget(Minecraft mc, String hudKey, String hudName) {
@@ -49,7 +42,7 @@ public class HudExtendedWidget extends HudDefault {
 	public HudElement setElementWidget() {
 		return new HudElementWidgetExtended();
 	}
-	
+
 	@Override
 	public HudElement setElementClock() {
 		return new HudElementClockExtended();

@@ -7,10 +7,10 @@ import net.minecraft.world.level.GameType;
 import java.util.Optional;
 
 public class RPGHudUtils {
-    public static boolean isSurvival() {
-        return Optional.ofNullable(Minecraft.getInstance().player)
-                .map(AbstractClientPlayer::gameMode)
-                .map(GameType::isSurvival)
-                .orElse(false);
-    }
+	public static boolean isSurvival() {
+		return Optional.ofNullable(Minecraft.getInstance().player)
+				       .map(AbstractClientPlayer::gameMode)
+				       .map(GameType::isSurvival)
+				       .orElse(false);
+	}
 }

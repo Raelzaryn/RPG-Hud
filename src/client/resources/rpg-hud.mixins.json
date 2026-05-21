@@ -5,12 +5,12 @@
   "mixins": [
   ],
   "client": [
-    "RenderOverlayMixin",
+    "BossBarHudMixin",
+    "ChatMixin",
     "GuiMenuScreenMixin",
     "GuiTitleScreenMixin",
-    "ChatMixin",
-	"BossBarHudMixin",
-	"LocatorBarMixin"
+    "LocatorBarMixin",
+    "RenderOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -10,7 +10,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementJumpBarTexture extends HudElement {
 
 	public HudElementJumpBarTexture() {
@@ -28,8 +28,8 @@ public class HudElementJumpBarTexture extends HudElement {
 		int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float var14 = this.mc.player.getJumpRidingScale();
 		int color = (int) (var14 * 100.0F);
-		graphics.blit(RenderPipelines.GUI_TEXTURED,INTERFACE, adjustedWidth - 71, height - 80, 0, 160, 141, 10, 256, 256);
-		graphics.blit(RenderPipelines.GUI_TEXTURED,INTERFACE, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, adjustedWidth - 71, height - 80, 0, 160, 141, 10, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10, 256, 256);
 	}
 
 }

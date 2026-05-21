@@ -5,13 +5,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementWidgetHotbar extends HudElement {
 
 	public HudElementWidgetHotbar() {
@@ -31,7 +31,7 @@ public class HudElementWidgetHotbar extends HudElement {
 
 		int facePosX = this.settings.getPositionValue(Settings.face_position)[0];
 		int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
-		if (ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
+		if(ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face)) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + facePosX, posY - 16 - 52 + 7 + facePosY, 164, 20, 50, 52, 256, 256);
 			graphics.pose().scale(0.5f, 0.5f);
 			graphics.blit(RenderPipelines.GUI_TEXTURED, this.playerSkinId, posX * 2 + 34 + facePosX * 2, posY * 2 - 88 + facePosY * 2, 32, 32, 32, 32, 256, 256);

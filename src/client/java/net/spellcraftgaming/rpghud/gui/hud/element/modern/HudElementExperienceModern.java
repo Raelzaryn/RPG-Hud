@@ -5,12 +5,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementExperienceModern extends HudElement {
 
 	public HudElementExperienceModern() {
@@ -33,9 +33,9 @@ public class HudElementExperienceModern extends HudElement {
 		drawRect(graphics, posX, scaledHeight - 7 + posY, scaledWidth, 7, 0xA0000000);
 		drawRect(graphics, 1 + posX, scaledHeight - 6 + posY, (int) (exp * full), 4, this.settings.getIntValue(Settings.color_experience));
 
-		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
+		String stringExp = this.settings.getBoolValue(Settings.experience_percentage) ? Mth.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
-		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
+		if(this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			int width2 = this.mc.font.width(stringExp) / 2;
 			drawRect(graphics, 1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
 			graphics.pose().scale(0.5f, 0.5f);

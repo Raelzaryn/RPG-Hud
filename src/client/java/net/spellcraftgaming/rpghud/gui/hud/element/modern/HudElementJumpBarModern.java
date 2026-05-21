@@ -9,7 +9,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementJumpBarModern extends HudElement {
 
 	public HudElementJumpBarModern() {
@@ -18,13 +18,13 @@ public class HudElementJumpBarModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return  this.mc.player.getVehicle() instanceof LivingEntity && (!this.settings.getBoolValue(Settings.limit_jump_bar) || this.mc.player.getJumpRidingScale() > 0F);
+		return this.mc.player.getVehicle() instanceof LivingEntity && (!this.settings.getBoolValue(Settings.limit_jump_bar) || this.mc.player.getJumpRidingScale() > 0F);
 	}
 
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
-        float jumpPower = this.mc.player.getJumpRidingScale();
+		float jumpPower = this.mc.player.getJumpRidingScale();
 		int value = (int) (jumpPower * 100.0F);
 		int posX = this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		drawRect(graphics, scaledWidth / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);

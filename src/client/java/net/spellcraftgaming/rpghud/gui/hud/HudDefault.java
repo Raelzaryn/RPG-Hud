@@ -4,18 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementAirDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementExperienceDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementFoodDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHealthDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHealthMountDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementJumpBarDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementLevelDefault;
-import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementWidgetDefault;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudDefault extends HudVanilla {
 
 	public HudDefault(Minecraft mc, String hudKey, String hudName) {

@@ -13,21 +13,25 @@ import java.util.Map;
 
 import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.*;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public abstract class Hud {
 
-	/** Hud key for registering */
+	/**
+	 * Hud key for registering
+	 */
 	private final String hudKey;
 
-	/** Hud name for display in settings */
+	/**
+	 * Hud name for display in settings
+	 */
 	private final String hudName;
-
+	public int chatOffset = 0;
 	protected Map<HudElementType, HudElement> elements = new HashMap<HudElementType, HudElement>();
-
-	/** Minecraft instance */
+	/**
+	 * Minecraft instance
+	 */
 	protected Minecraft mc;
 
-	public int chatOffset = 0;
 	public Hud(Minecraft mc, String hudKey, String hudName) {
 		this.mc = mc;
 		this.hudKey = hudKey;
@@ -54,36 +58,53 @@ public abstract class Hud {
 		this.elements.put(WIDGET, setElementWidget());
 		this.elements.put(COMPASS, setElementCompass());
 		this.elements.put(ENTITY_INSPECT, setElementEntityInspect());
-	    this.elements.put(STATUS_EFFECTS, setElementStatusEffects());
-	    this.elements.put(MISC, setElementMisc());
+		this.elements.put(STATUS_EFFECTS, setElementStatusEffects());
+		this.elements.put(MISC, setElementMisc());
 
 	}
 
-	/** get the key (String) of this HUD */
+	/**
+	 * get the key (String) of this HUD
+	 */
 	public String getHudKey() {
 		return this.hudKey;
 	}
 
-	/** get the name of this HUD */
+	/**
+	 * get the name of this HUD
+	 */
 	public String getHudName() {
 		return this.hudName;
 	}
-	/** Function which returns a new element which is the hotbar element */
+
+	/**
+	 * Function which returns a new element which is the hotbar element
+	 */
 	protected abstract HudElement setElementHotbar();
 
-	/** Function which returns a new element which is the health element */
+	/**
+	 * Function which returns a new element which is the health element
+	 */
 	protected abstract HudElement setElementHealth();
 
-	/** Function which returns a new element which is the food element */
+	/**
+	 * Function which returns a new element which is the food element
+	 */
 	protected abstract HudElement setElementFood();
 
-	/** Function which returns a new element which is the armor element */
+	/**
+	 * Function which returns a new element which is the armor element
+	 */
 	protected abstract HudElement setElementArmor();
 
-	/** Function which returns a new element which is the air element */
+	/**
+	 * Function which returns a new element which is the air element
+	 */
 	protected abstract HudElement setElementAir();
 
-	/** Function which returns a new element which is the experience element */
+	/**
+	 * Function which returns a new element which is the experience element
+	 */
 	protected abstract HudElement setElementExperience();
 
 	/**
@@ -92,7 +113,9 @@ public abstract class Hud {
 	 */
 	protected abstract HudElement setElementLevel();
 
-	/** Function which returns a new element which is the jump bar element */
+	/**
+	 * Function which returns a new element which is the jump bar element
+	 */
 	protected abstract HudElement setElementJumpBar();
 
 	/**
@@ -100,33 +123,41 @@ public abstract class Hud {
 	 */
 	protected abstract HudElement setElementHealthMount();
 
-	/** Function which returns a new element which is the clock element */
+	/**
+	 * Function which returns a new element which is the clock element
+	 */
 	protected abstract HudElement setElementClock();
 
-	/** Function which returns a new element which is the details element */
+	/**
+	 * Function which returns a new element which is the details element
+	 */
 	protected abstract HudElement setElementDetails();
 
-	/** Function which returns a new element which is the widget element */
+	/**
+	 * Function which returns a new element which is the widget element
+	 */
 	protected abstract HudElement setElementWidget();
 
-	/** Function which returns a new element which is the compass element */
+	/**
+	 * Function which returns a new element which is the compass element
+	 */
 	protected abstract HudElement setElementCompass();
 
-	/** Function which returns a new element which is the item pickup element */
+	/**
+	 * Function which returns a new element which is the item pickup element
+	 */
 	protected abstract HudElement setElementEntityInspect();
 
-    protected abstract HudElement setElementStatusEffects();
-    
-    protected abstract HudElement setElementMisc();
+	protected abstract HudElement setElementStatusEffects();
+
+	protected abstract HudElement setElementMisc();
+
 	/**
 	 * Draws an element of the HudElementType type on the screen
-	 * 
-	 * @param type
-	 *            The type of the Element
-	 * @param graphics
-	 *            The gui to draw on
-	 * @param deltaTracker
-	 *            The partialTicks for animations
+	 *
+	 * @param type         The type of the Element
+	 * @param graphics     The gui to draw on
+	 * @param deltaTracker The partialTicks for animations
 	 */
 	public void drawElement(HudElementType type, GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		this.elements.get(type).draw(graphics, deltaTracker, scaledWidth, scaledHeight);
@@ -134,17 +165,16 @@ public abstract class Hud {
 
 	/**
 	 * Checks whether the element of the specified type should be rendered
-	 * 
-	 * @param type
-	 *            The HudElementType to get checked
+	 *
+	 * @param type The HudElementType to get checked
 	 * @return true if it should be rendered, false if not
 	 */
 	public boolean checkElementConditions(HudElementType type) {
 		HudElement element = this.elements.get(type);
 		return element != null && this.elements.get(type).checkConditions();
 	}
-	
+
 	public boolean isVanillaElement(HudElementType type) {
-	    return this.elements.get(type) == null;
+		return this.elements.get(type) == null;
 	}
 }

@@ -6,13 +6,13 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class HudElementHealthMountModern extends HudElement {
 
 	public HudElementHealthMountModern() {
@@ -30,14 +30,14 @@ public class HudElementHealthMountModern extends HudElement {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = Mth.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
-		if (health > healthMax) health = healthMax;
+		if(health > healthMax) health = healthMax;
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
-		
+
 		String stringHealth = this.settings.getBoolValue(Settings.mount_health_percentage) ? Mth.floor((double) health / (double) healthMax * 100) + "%" : health + "/" + healthMax;
 
-		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset -2 : -2) + this.settings.getPositionValue(Settings.mount_health_position)[0];
+		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 26 : 4) + (this.settings.getBoolValue(Settings.show_numbers_health) ? xOffset - 2 : -2) + this.settings.getPositionValue(Settings.mount_health_position)[0];
 		int posY = this.settings.getPositionValue(Settings.mount_health_position)[1];
-		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
+		if(this.settings.getBoolValue(Settings.show_numbers_health)) {
 			int width2 = this.mc.font.width(stringHealth) / 2;
 			drawRect(graphics, posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			graphics.pose().scale(0.5f, 0.5f);
