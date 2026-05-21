@@ -1,9 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import java.util.Collection;
-
 import com.google.common.collect.Ordering;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
@@ -15,10 +12,11 @@ import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.phys.AABB;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.util.Collection;
 
 @Environment(value=EnvType.CLIENT)
 public class HudElementStatusEffectsVanilla extends HudElement {
@@ -98,6 +96,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
             }
         }
         scale = getInvertedScale();
+        graphics.pose().scale(scale, scale);
     }
 
     @Override
@@ -112,9 +111,8 @@ public class HudElementStatusEffectsVanilla extends HudElement {
 
     @Override
     public float getScale() {
-        float scale = (float)this.settings.getDoubleValue(Settings.status_scale);
         //if(scale != 0)
-        return scale;
+        return (float) this.settings.getDoubleValue(Settings.status_scale);
         //return 1;
     }
 }

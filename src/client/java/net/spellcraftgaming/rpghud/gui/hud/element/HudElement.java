@@ -1,11 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
-import java.util.UUID;
-
-import org.joml.Matrix3x2f;
-
 import com.mojang.authlib.GameProfile;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
@@ -16,14 +11,12 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.SkinManager;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Matrix3x2f;
 
 @Environment(value=EnvType.CLIENT)
 public abstract class HudElement {
@@ -256,8 +249,8 @@ public abstract class HudElement {
     /**
      * Sets the position of this element to posX and posY if they are valid
      * 
-     * @param posX
-     * @param posY
+     * @param posX x position on screen
+     * @param posY y position on screen
      * @return whether the position is valid or not
      */
     public boolean setPos(int posX, int posY) {
@@ -277,7 +270,7 @@ public abstract class HudElement {
     }
 
     /**
-     * Resets the position of this element to it's default position
+     * Resets the position of this element to its default position
      */
     public void setPositionToDefault() {
         this.posX = this.defaultPosX;
@@ -288,7 +281,7 @@ public abstract class HudElement {
      * This function must return true when the element should be rendered<br>
      * For example:<br>
      * For the air element this should return true whenever the player is in
-     * survival/adventure and under water
+     * survival/adventure and underwater
      */
     public boolean checkConditions() {
         return true;
@@ -328,6 +321,7 @@ public abstract class HudElement {
      * @param height
      *            the height of the outline
      * @param color
+     *            color of the outline
      */
     protected static void drawOutline(GuiGraphicsExtractor graphics, int x, int y, int width, int height, int color) {
         drawRect(graphics, x, y, width, 1, color);
@@ -479,7 +473,7 @@ public abstract class HudElement {
         filledWidth = width - (offset * 2);
         if (filledWidth < 0)
             filledWidth = 0;
-        int filledHeight = width;
+        int filledHeight = height;
         filledHeight = height - (offset * 2);
         if (filledHeight < 0)
             filledHeight = 0;
@@ -488,14 +482,14 @@ public abstract class HudElement {
 
         if (outlined)
             drawOutline(graphics, x, y, width, height, colorOutline);
-        int halfedFilledHeight = filledHeight / 2;
+        int halvedFilledHeight = filledHeight / 2;
 
-        drawRect(graphics, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
-        drawRect(graphics, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
+        drawRect(graphics, x + offset, y + offset, percentFilled, halvedFilledHeight, colorBarLight);
+        drawRect(graphics, x + offset, y + offset + halvedFilledHeight, percentFilled, filledHeight - halvedFilledHeight, colorBarDark);
 
         if (colorGroundDark != -1 && colorGroundLight != -1 && filledWidth - percentFilled > 0) {
-            drawRect(graphics, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
-            drawRect(graphics, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
+            drawRect(graphics, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halvedFilledHeight, colorGroundLight);
+            drawRect(graphics, x + offset + percentFilled, y + offset + halvedFilledHeight, filledWidth - percentFilled, filledHeight - halvedFilledHeight, colorGroundDark);
         }
     }
 
@@ -563,24 +557,18 @@ public abstract class HudElement {
         colorPart += (offset >> 16 & 255);
         if (colorPart > 0xFF)
             colorPart = 0xFF;
-        else if (colorPart < 0)
-            colorPart = 0;
 
         colorOffset = colorPart << 16;
         colorPart = (color >> 8 & 255);
         colorPart += (offset >> 8 & 255);
         if (colorPart > 0xFF)
             colorPart = 0xFF;
-        else if (colorPart < 0)
-            colorPart = 0;
 
         colorOffset += colorPart << 8;
         colorPart = (color & 255);
         colorPart += (offset & 255);
         if (colorPart > 0xFF)
             colorPart = 0xFF;
-        else if (colorPart < 0)
-            colorPart = 0;
         colorOffset += colorPart;
         return colorOffset;
     }

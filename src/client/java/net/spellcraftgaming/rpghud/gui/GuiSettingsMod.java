@@ -5,7 +5,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -26,16 +25,16 @@ import java.util.Map;
 public class GuiSettingsMod extends GuiScreenTooltip {
 
 	/** The ModSettings instance */
-	private Settings settings;
+	private final Settings settings;
 
 	/** The GuiScreen which lead to this GUI */
-	private Screen parent;
+	private final Screen parent;
 
-	private String subSetting;
+	private final String subSetting;
 
-	private Map<String, List<TextFieldWidgetMod>> textFields = new HashMap<>();
+	private final Map<String, List<TextFieldWidgetMod>> textFields = new HashMap<>();
 
-    private GuiSettingsMod instance;
+    private final GuiSettingsMod instance;
 	
 	public GuiSettingsMod(Screen parent, String subSetting, Component titleIn) {
 		super(titleIn);
@@ -56,8 +55,8 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	@Override
 	public void init() {
         Font font = Minecraft.getInstance().font;
-		if(this.subSetting.equals("")){
-			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", Component.translatable("gui.rpg.general"), button -> {
+		if(this.subSetting.isEmpty()){
+			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155, this.height / 6 - 14, "general", Component.translatable("gui.rpg.general"), button -> {
 					GuiButtonTooltip b = (GuiButtonTooltip) button;
 					if(b.enumOptions != null)
 					    Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
@@ -136,7 +135,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				Settings settings = ModRPGHud.instance.settings;
 				for(String settingID : textFields.keySet()) {
 				    for(TextFieldWidgetMod t : textFields.get(settingID)) {
-	                    if(t instanceof TextFieldWidgetMod) {
+	                    if(t != null) {
 	                        ValueType type = t.getValueType();
 	                        switch(type) {
 	                            case DOUBLE:
@@ -144,7 +143,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	                                try {
 	                                    value = Double.parseDouble(textFields.get(settingID).get(0).getValue());
 	                                    this.settings.getSetting(settingID).setValue(value);
-	                                } catch(NumberFormatException e) {
+	                                } catch(NumberFormatException _) {
 	                                }
 	                                break;
 	                            case POSITION:
@@ -184,7 +183,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                             try {
                                 value = Double.valueOf(textFields.get(settingID).get(0).getValue());
                                 this.settings.getSetting(settingID).setValue(value);
-                            } catch(NumberFormatException e) {
+                            } catch(NumberFormatException _) {
                             }
                             break;
                         case POSITION:

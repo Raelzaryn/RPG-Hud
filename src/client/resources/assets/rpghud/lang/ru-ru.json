@@ -177,7 +177,7 @@
     "tooltip.mount_health_percentage": "Отображать значение лошади в %",
 
     "name.experience_percentage": "В виде %",
-    "tooltip.experience_percentage": "Отображать опыт в %"
+    "tooltip.experience_percentage": "Отображать опыт в %",
 
 
     "name.hunger_position": "Позиция",
@@ -201,7 +201,6 @@
     "name.armor_position": "Позиция",
 
     "name.status_scale": "Масштаб",
-    "tooltip.scale": "Задать масштабирование этого элемента/n0.5 означает, что масштабирование на 50%%/n2.0 означает, что масштабирование на 200%%",
 
     "name.rpghud": "RPG-Hud",
 
@@ -237,5 +236,5 @@
 
     "tooltip.done": "Сохранить и вернуться",
     "tooltip.cancel": "Вернуться без сохранений",
-    "tooltip.element": "Доступ к параметрам/nэтого элемента.",
+    "tooltip.element": "Доступ к параметрам/nэтого элемента."
 }

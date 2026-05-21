@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud;
+package net.spellcraftgaming.rpghud.main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;

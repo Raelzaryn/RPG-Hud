@@ -15,7 +15,7 @@ public class TextFieldWidgetMod extends EditBox {
     /** Array that contains the tooltip of this button */
     private String[] tooltip;
     
-    private ValueType type;
+    private final ValueType type;
     public TextFieldWidgetMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
@@ -33,7 +33,7 @@ public class TextFieldWidgetMod extends EditBox {
     public enum ValueType{
         DOUBLE,
         HEX,
-        POSITION;
+        POSITION
     }
     
     /**

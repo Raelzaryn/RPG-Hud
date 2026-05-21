@@ -18,22 +18,21 @@ public class HudElementJumpBarModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return  this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getJumpRidingScale() > 0F : true);
+		return  this.mc.player.getVehicle() instanceof LivingEntity && (!this.settings.getBoolValue(Settings.limit_jump_bar) || this.mc.player.getJumpRidingScale() > 0F);
 	}
 
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
-		int width = scaledWidth;
-		float jumpPower = this.mc.player.getJumpRidingScale();
+        float jumpPower = this.mc.player.getJumpRidingScale();
 		int value = (int) (jumpPower * 100.0F);
 		int posX = this.settings.getPositionValue(Settings.jump_bar_position)[0];
-		drawRect(graphics, width / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
-		drawRect(graphics, width / 2 - 72 + posX, height - 70, 144, 2, 0xA0000000);
-		drawRect(graphics, width / 2 - 72 + posX, height - 76, 2, 6, 0xA0000000);
-		drawRect(graphics, width / 2 + 70 + posX, height - 76, 2, 6, 0xA0000000);
-		drawRect(graphics, width / 2 - 70 + posX, height - 76, 140, 6, 0x20FFFFFF);
-		drawRect(graphics, width / 2 - 70 + posX, height - 76, (int) (140 * (value / 100.0D)), 6, this.settings.getIntValue(Settings.color_jump_bar));
+		drawRect(graphics, scaledWidth / 2 - 72 + posX, height - 78, 144, 2, 0xA0000000);
+		drawRect(graphics, scaledWidth / 2 - 72 + posX, height - 70, 144, 2, 0xA0000000);
+		drawRect(graphics, scaledWidth / 2 - 72 + posX, height - 76, 2, 6, 0xA0000000);
+		drawRect(graphics, scaledWidth / 2 + 70 + posX, height - 76, 2, 6, 0xA0000000);
+		drawRect(graphics, scaledWidth / 2 - 70 + posX, height - 76, 140, 6, 0x20FFFFFF);
+		drawRect(graphics, scaledWidth / 2 - 70 + posX, height - 76, (int) (140 * (value / 100.0D)), 6, this.settings.getIntValue(Settings.color_jump_bar));
 	}
 
 }

@@ -1,14 +1,11 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +30,6 @@ public class HudElementDetailsVanilla extends HudElement {
 	protected ItemStack itemArrow = ItemStack.EMPTY;
 
 	public HudElementDetailsVanilla() {
-		
 		super(HudElementType.DETAILS, 0, 0, 0, 0, true);
 	}
 
@@ -198,7 +194,7 @@ public class HudElementDetailsVanilla extends HudElement {
 			this.offset += 16;
 
 		}
-		if (item == ItemStack.EMPTY || item == null) {
+		if (item == ItemStack.EMPTY) {
 			this.itemMainHandLastArrow = ItemStack.EMPTY;
 		} else {
 			this.itemMainHandLastArrow = item.copy();

@@ -7,12 +7,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,9 +24,9 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 public class Settings {
 
     private final String CONFIG_VERSION = "2.0";
-    private Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
-    private File file;
-    public static final String NEW_LINE = System.getProperty("line.separator");
+    private final Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
+    private final File file;
+    public static final String NEW_LINE = System.lineSeparator();
 
     public static final String hud_type = "hud_type";
     public static final String enable_button_tooltip = "enable_button_tooltip";
@@ -145,10 +144,6 @@ public class Settings {
     public void init() {
         addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
         addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
-        // addSetting(show_update_notification, new
-        // SettingBoolean(show_update_notification, true));
-        // addSetting(show_convert_notification, new
-        // SettingBoolean(show_convert_notification, true));
 
         addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
         addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));
@@ -250,9 +245,6 @@ public class Settings {
     }
 
     public void addDebugSettings(HudElementType type) {
-        // addSetting(force_render + "_" + type.name().toLowerCase(), new
-        // SettingBooleanDebug(force_render + "_" + type.name().toLowerCase(), type,
-        // false));
         addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBooleanDebug(render_vanilla + "_" + type.name().toLowerCase(), type, false));
         addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_event + "_" + type.name().toLowerCase(), type, false));
         addSetting(prevent_element_render + "_" + type.name().toLowerCase(),
@@ -265,8 +257,7 @@ public class Settings {
 
     public int[] getPositionValue(String i) {
         String[] postions = this.settings.get(i).getValue().toString().split("_");
-        int[] values = { Integer.valueOf(postions[0]), Integer.valueOf(postions[1]) };
-        return values;
+        return new int[]{ Integer.parseInt(postions[0]), Integer.parseInt(postions[1]) };
     }
 
     public Object getValue(String i) {
@@ -330,8 +321,7 @@ public class Settings {
             return s + intToHexString(setting.getIntValue(), false);
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
-        } else if(setting instanceof SettingFloat) {
-            SettingFloat sf = (SettingFloat) setting;
+        } else if(setting instanceof SettingFloat sf) {
             return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec")
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
@@ -368,7 +358,7 @@ public class Settings {
     public List<String> getSettingsOf(String type) {
         List<String> settings = new ArrayList<String>();
         for(String key : this.settings.keySet()) {
-            if(this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name() == type)
+            if(this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name().equals(type))
                 settings.add(key);
             else if(type == "general" && this.settings.get(key).associatedType == null)
                 settings.add(key);
@@ -388,7 +378,7 @@ public class Settings {
 
             if(file.canWrite()) {
                 FileOutputStream fos = new FileOutputStream(file);
-                BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+                BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
 
                 buffer.write("Version=" + CONFIG_VERSION + NEW_LINE);
 
@@ -444,8 +434,6 @@ public class Settings {
                                 this.setSetting(setting[0], this.getSetting(setting[0]).setValue(Double.valueOf(setting[1])));
                             } else if(type[0].matches("P")) {
                                 this.setSetting(setting[0], setting[1]);
-                            } else {
-                                // TODO: Logger
                             }
                         }
 
@@ -456,60 +444,28 @@ public class Settings {
             e.printStackTrace();
         }
     }
-Community Info Section
-r/kde
-Kreddit, the KDE Community on Reddit
-KDE is an international community creating free and open source software. Visit our main page to know more: https://kde.org --- This is not a technical support forum. Please visit https://discuss.kde.org for user support. --- This is not a bug tracker. Please visit https://bugs.kde.org to report bugs.
-Created Jan 25, 2008
-Public
-143K Weekly visitors
-2K Weekly contributions
-Community Bookmarks
-r/kde Rules
-1
-Respect the KDE Code of Conduct
-2
-No duplicates
-3
-No spam
-4
-No blog spam
-5
-No screenshot of your desktop, use the Monthly Screenshot Thread instead
-6
-No comparison between desktop environments and/or distros
-7
-No misinformation
-8
-No linking to Twitter/X from posts or comments
-9
-No memes, image macros, rage comics, overdone jokes
-KDE Websites
-
-    KDE Homepage
-    KDE Planet
-    K
 
     private void save(BufferedWriter out) throws IOException {
         for(Setting setting : settings.values()) {
-            if(setting instanceof SettingBoolean) {
-                out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingString) {
-                out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingHudType) {
-                out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingColor) {
-                out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingInteger) {
-                out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingFloat) {
-                out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingDouble) {
-                out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingPosition) {
-                out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else {
-                out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);
+            switch (setting) {
+                case SettingBoolean settingBoolean ->
+                        out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingString settingString ->
+                        out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingHudType settingHudType ->
+                        out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingColor settingColor ->
+                        out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingInteger settingInteger ->
+                        out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingFloat settingFloat ->
+                        out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingDouble settingDouble ->
+                        out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingPosition settingPosition ->
+                        out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case null, default ->
+                        out.write("E:" + (setting != null ? setting.ID : "null") + "=" + "ERROR" + NEW_LINE);
             }
         }
     }

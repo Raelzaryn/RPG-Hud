@@ -1,16 +1,15 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import java.util.List;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -23,19 +22,14 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
-import static net.minecraft.world.level.ClipContext.Fluid.SOURCE_ONLY;
+import java.util.List;
 
 @Environment(value=EnvType.CLIENT)
 public class HudElementEntityInspectVanilla extends HudElement {
@@ -162,9 +156,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         BlockHitResult ray = level.clip(new ClipContext(vec, vec2, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, watcher));
 
         double distance = maxDistance;
-        if(ray != null) {
-            distance = ray.getLocation().distanceTo(posVec);
-        }
+        distance = ray.getLocation().distanceTo(posVec);
         Vec3 reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 
         double currentDistance = distance;
@@ -201,7 +193,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         double d0 = vecB.x - vecA.x;
         double d1 = vecB.y - vecA.y;
         double d2 = vecB.z - vecA.z;
-        enumfacing = func_197741_a(bb, vecA, adouble, enumfacing, d0, d1, d2);
+        enumfacing = func_197741_a(bb, vecA, adouble, null, d0, d1, d2);
         if(enumfacing == null) {
             return null;
         } else {

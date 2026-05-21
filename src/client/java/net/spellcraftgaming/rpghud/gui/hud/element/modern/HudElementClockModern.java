@@ -4,8 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
@@ -55,7 +53,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public int getPosX(int scaledWidth) {
-        return (int) (this.settings.getPositionValue(Settings.clock_position)[0] + ((2 + this.settings.getStringValue(Settings.clock_time_format) == "time.24" ? 0 :2)*getInvertedScale()));
+        return (int) (this.settings.getPositionValue(Settings.clock_position)[0] + (((2 + this.settings.getStringValue(Settings.clock_time_format)).equals("time.24") ? 0 :2)*getInvertedScale()));
     }
 
     @Override

@@ -2,15 +2,11 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.WaypointStyle;
-import net.minecraft.client.waypoints.ClientWaypointManager;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
@@ -18,10 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.waypoints.TrackedWaypoint;
-import net.minecraft.world.waypoints.Waypoint;
-import net.minecraft.world.waypoints.WaypointManager;
-import net.minecraft.world.waypoints.WaypointStyleAsset;
-import net.spellcraftgaming.rpghud.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -29,18 +21,16 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Environment(value=EnvType.CLIENT)
 public class HudElementCompassVanilla extends HudElement {
 
-	private Minecraft client;
 	private static final Identifier ARROW_UP = Identifier.withDefaultNamespace("hud/locator_bar_arrow_up");
 	private static final Identifier ARROW_DOWN = Identifier.withDefaultNamespace("hud/locator_bar_arrow_down");
 	
 	public HudElementCompassVanilla() {
 		super(HudElementType.COMPASS, 0, 0, 0, 0, true);
-		client = Minecraft.getInstance();
 	}
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.getBoolValue(Settings.enable_compass) && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)) : true);
+		return this.settings.getBoolValue(Settings.enable_compass) && (!this.settings.getBoolValue(Settings.enable_immersive_compass) || this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)));
 	}
 
 	@Override
@@ -115,14 +105,14 @@ public class HudElementCompassVanilla extends HudElement {
 	
 	public void renderLocator(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int posX, int posY) {
 		Level level = this.mc.level;
-		this.mc.player.connection.getWaypointManager().forEachWaypoint(this.client.getCameraEntity(), waypoint -> {
-			if (!(Boolean)waypoint.id().left().map(uuid -> uuid.equals(this.client.getCameraEntity().getUUID())).orElse(false)) {
-				double d = waypoint.yawAngleToCamera(level, this.client.gameRenderer.getMainCamera(), entity -> deltaTracker.getGameTimeDeltaPartialTick(false)) / 1.25;
+		this.mc.player.connection.getWaypointManager().forEachWaypoint(this.mc.getCameraEntity(), waypoint -> {
+			if (!(Boolean)waypoint.id().left().map(uuid -> uuid.equals(this.mc.getCameraEntity().getUUID())).orElse(false)) {
+				double d = waypoint.yawAngleToCamera(level, this.mc.gameRenderer.getMainCamera(), entity -> deltaTracker.getGameTimeDeltaPartialTick(false)) / 1.25;
 				if (!(d <= -61.0) && !(d > 60.0)) {
-					int j = Mth.ceil((this.client.getWindow().getGuiScaledWidth() - 9) / 2.0F);
-					this.client.getWaypointStyles().get(waypoint.icon().style);
-					WaypointStyle waypointStyleAsset = this.client.getWaypointStyles().get(waypoint.icon().style);
-					float f = Mth.sqrt((float)waypoint.distanceSquared(this.client.getCameraEntity()));
+					int j = Mth.ceil((this.mc.getWindow().getGuiScaledWidth() - 9) / 2.0F);
+					this.mc.getWaypointStyles().get(waypoint.icon().style);
+					WaypointStyle waypointStyleAsset = this.mc.getWaypointStyles().get(waypoint.icon().style);
+					float f = Mth.sqrt((float)waypoint.distanceSquared(this.mc.getCameraEntity()));
 					Identifier identifier = waypointStyleAsset.sprite(f);
 
 					int k = waypoint.icon().color
@@ -135,7 +125,7 @@ public class HudElementCompassVanilla extends HudElement {
 							);
 					int l = (int)(d * 100.0 / 2.0 / 60.0);
 					graphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, j + l, posY - 2, 9, 9, k);
-					TrackedWaypoint.PitchDirection pitch = waypoint.pitchDirectionToCamera(level, this.client.gameRenderer, entity -> deltaTracker.getGameTimeDeltaPartialTick(false));
+					TrackedWaypoint.PitchDirection pitch = waypoint.pitchDirectionToCamera(level, this.mc.gameRenderer, entity -> deltaTracker.getGameTimeDeltaPartialTick(false));
 					if (pitch != TrackedWaypoint.PitchDirection.NONE) {
 						int m;
 						Identifier identifier2;

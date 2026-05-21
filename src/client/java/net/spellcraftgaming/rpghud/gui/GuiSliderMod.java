@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -17,7 +16,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	public enum EnumColor {
 		RED,
 		GREEN,
-		BLUE;
+		BLUE
 	}
 	
     private static final Identifier HANDLE_TEXTURE = Identifier.withDefaultNamespace("widget/slider_handle");
@@ -31,7 +30,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         return HANDLE_TEXTURE;
     }
     
-	private EnumColor color;
+	private final EnumColor color;
 
     /** The value of this slider control. */
     public double sliderValue = 1.0F;
@@ -106,17 +105,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
         this.sliderValue = (d - minValue) / (maxValue - minValue);
     }
 
-    public static interface ISlider
-    {
+    public interface ISlider {
         void onChangeSliderValue(GuiSliderMod guiSliderMod);
     }
-    
-    /**
-     * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     
-    @Override
-    protected void renderBackground(MatrixStack matrices, Minecraft client, int mouseX, int mouseY) {
-    }*/
     
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
@@ -153,7 +144,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
             if (this.dragging) {
                 updateSlider(mouseX, mouseY);
             }
-            int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
+            int color = (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
             HudElement.drawCustomBar(graphics, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 
             int buttonTextColor;

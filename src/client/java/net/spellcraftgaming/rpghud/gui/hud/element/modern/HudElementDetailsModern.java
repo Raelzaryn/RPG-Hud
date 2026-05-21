@@ -4,9 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.*;
@@ -26,12 +24,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		this.moveable = true;
 	}
 
-	@Override
-	public boolean checkConditions() {
-		return !this.mc.debugEntries.isOverlayVisible() && !this.isChatOpen();
-	}
-
-	@Override
+    @Override
     public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
 		int width = calculateWidth();
@@ -156,7 +149,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (widthNew > width)
 				width = widthNew;
 		}
-		if (item == ItemStack.EMPTY || item == null) {
+		if (item == ItemStack.EMPTY) {
 			this.itemMainHandLastArrow = ItemStack.EMPTY;
 		} else {
 			this.itemMainHandLastArrow = item.copy();
@@ -294,7 +287,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			this.offset += 20;
 		}
 
-		if (item == ItemStack.EMPTY || item == null) {
+		if (item == ItemStack.EMPTY) {
 			this.itemMainHandLastArrow = ItemStack.EMPTY;
 		} else {
 			this.itemMainHandLastArrow = item.copy();

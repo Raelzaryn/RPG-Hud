@@ -4,11 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
-import net.spellcraftgaming.rpghud.RPGHudUtils;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -53,7 +51,7 @@ public class HudElementHealthSimple extends HudElement {
 			if (this.settings.getBoolValue(Settings.debug_number_size)) scale = 0.666666666f;
 			float invertedScale = 1f / scale;
 			graphics.pose().scale(scale, scale);
-			graphics.centeredText(this.mc.font, stringHealth, Math.round((posX + (width / 2)) * invertedScale), (int) Math.round(((posY) * invertedScale) + Math.ceil(invertedScale * 4 - 4)), -1);
+			graphics.centeredText(this.mc.font, stringHealth, Math.round((posX + ((float) width / 2)) * invertedScale), (int) Math.round(((posY) * invertedScale) + Math.ceil(invertedScale * 4 - 4)), -1);
 			graphics.pose().scale(invertedScale, invertedScale);
 		}
 	}

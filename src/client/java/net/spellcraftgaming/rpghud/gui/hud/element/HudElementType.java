@@ -24,9 +24,9 @@ public enum HudElementType {
     STATUS_EFFECTS("name.status_effects"),
 	MISC("name.misc");
 
-	private String displayName;
+	private final String displayName;
 
-	private HudElementType(String displayName) {
+	HudElementType(String displayName) {
 		this.displayName = displayName;
 	}
 

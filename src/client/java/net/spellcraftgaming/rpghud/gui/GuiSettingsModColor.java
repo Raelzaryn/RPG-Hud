@@ -3,9 +3,7 @@ package net.spellcraftgaming.rpghud.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
@@ -22,8 +20,8 @@ import org.lwjgl.glfw.GLFW;
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	private TextFieldWidgetMod colorCodeField;
-	private Screen parent;
-	private String colorType;
+	private final Screen parent;
+	private final String colorType;
 	private int colorR;
 	private int colorG;
 	private int colorB;
@@ -157,15 +155,15 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		if (this.colorCodeField.isFocused()) {
 			String fieldString = this.colorCodeField.getValue();
 			if(!fieldString.startsWith("#")) {
-				String s = "#" + fieldString;
+				StringBuilder s = new StringBuilder("#" + fieldString);
 				if(fieldString.length() >= 7) {
-					s = "#";
+					s = new StringBuilder("#");
 					for(int i = 0; i < 6; i++) {
-						s += fieldString.charAt(i);
+						s.append(fieldString.charAt(i));
 					}
 				}
-				this.colorCodeField.setValue(s);
-				fieldString = s;
+				this.colorCodeField.setValue(s.toString());
+				fieldString = s.toString();
 			}
 			
 			if (fieldString.length() == 7) {

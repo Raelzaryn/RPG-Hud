@@ -4,15 +4,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.player.Player;
 import net.spellcraftgaming.rpghud.gui.hud.*;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Environment(value=EnvType.CLIENT)
 public class ModRPGHud implements ClientModInitializer{
@@ -69,7 +66,7 @@ public class ModRPGHud implements ClientModInitializer{
 	}
 
 	public boolean isVanillaHud() {
-	    return this.settings.getStringValue(Settings.hud_type) == "vanilla";
+	    return Objects.equals(this.settings.getStringValue(Settings.hud_type), "vanilla");
 	}
 	
 	/** Checks if a Hud with the specified key is registered */

@@ -4,12 +4,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.util.Objects;
 
 @Environment(value=EnvType.CLIENT)
 public class HudElementClockVanilla extends HudElement {
@@ -17,13 +18,13 @@ public class HudElementClockVanilla extends HudElement {
 	public HudElementClockVanilla() {
 		super(HudElementType.CLOCK, 0, 0, 0, 0, true);
 	}
-	
+
 	@Override
 	public boolean checkConditions() {
 		return super.checkConditions() 
 				&& this.settings.getBoolValue(Settings.enable_clock) 
 				&& !this.mc.debugEntries.isOverlayVisible()
-				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
+				&& (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
 	}
 
 	@Override
@@ -55,14 +56,14 @@ public class HudElementClockVanilla extends HudElement {
 		int currentMin = (int) currentTimeMin;
 		if (currentHour > 24)
 			currentHour -= 24L;
-		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
+		if (Objects.equals(this.settings.getStringValue(Settings.clock_time_format), "time.24")) {
 			return get24HourTimeForString(currentHour, currentMin);
 		}
 		return get12HourTimeForString(currentHour, currentMin);
 	}
 
 	/**
-	 * Formats the parameter time into the 24 hour format and returns it as a
+	 * Formats the parameter time into the 24-hour format and returns it as a
 	 * String
 	 * 
 	 * @param currentHour
@@ -77,11 +78,11 @@ public class HudElementClockVanilla extends HudElement {
 		if (currentHour < 10)
 			sb.append("0");
 		sb.append(currentHour);
-		return sb.toString() + ":" + getMinuteForString(currentMin);
+		return sb + ":" + getMinuteForString(currentMin);
 	}
 
 	/**
-	 * Formats the parameter time into the 12 hour format and returns it as a
+	 * Formats the parameter time into the 12-hour format and returns it as a
 	 * string
 	 * 
 	 * @param currentHour
@@ -106,7 +107,7 @@ public class HudElementClockVanilla extends HudElement {
 		if (currentHour < 10)
 			sb.append(0);
 		sb.append(currentHour);
-		return sb.toString() + ":" + getMinuteForString(currentMin) + " " + period;
+		return sb + ":" + getMinuteForString(currentMin) + " " + period;
 	}
 
 	/**

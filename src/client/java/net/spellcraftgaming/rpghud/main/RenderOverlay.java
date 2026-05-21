@@ -8,18 +8,15 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
-import org.joml.Matrix3x2f;
-import org.joml.Vector3f;
 
 @Environment(value=EnvType.CLIENT)
 public class RenderOverlay implements HudElement {
 
-    private ModRPGHud rpgHud;
-    private Minecraft mc;
+    private final ModRPGHud rpgHud;
+    private final Minecraft mc;
     public static final Identifier RPG_HUD = Identifier.parse("rpghud:rpghud");
     		
     public RenderOverlay() {

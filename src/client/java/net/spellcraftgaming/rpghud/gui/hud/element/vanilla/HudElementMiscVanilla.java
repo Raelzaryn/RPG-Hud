@@ -1,16 +1,15 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Environment(value=EnvType.CLIENT)
 public class HudElementMiscVanilla extends HudElement{

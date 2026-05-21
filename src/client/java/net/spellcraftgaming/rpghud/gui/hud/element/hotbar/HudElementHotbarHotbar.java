@@ -27,9 +27,8 @@ public class HudElementHotbarHotbar extends HudElement {
 
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
-        if (this.mc.getCameraEntity() instanceof Player) {
-			Player entityplayer = (Player) this.mc.getCameraEntity();
-			ItemStack itemstack = this.mc.player.getOffhandItem();
+        if (this.mc.getCameraEntity() instanceof Player entityplayer) {
+            ItemStack itemstack = this.mc.player.getOffhandItem();
 			int i = scaledWidth / 2;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];

@@ -11,15 +11,12 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.util.profiling.Profiler;
-import net.minecraft.util.profiling.metrics.profiling.ProfilerSamplerAdapter;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.main.RenderOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -87,7 +84,7 @@ public abstract class RenderOverlayMixin {
         }
         this.lastHealthValue = i;
         int j = this.renderHealthValue;
-        random.setSeed((long)(this.ticks * 312871));
+        random.setSeed((long)(this.ticks * 312871L));
         FoodData hungerManager = playerEntity.getFoodData();
         int k = hungerManager.getFoodLevel();
         int m = scaledWidth / 2 - 91;

@@ -1,14 +1,8 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,6 +10,9 @@ import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(value=EnvType.CLIENT)
 public class GuiScreenTooltip extends Screen {
@@ -66,10 +63,10 @@ public class GuiScreenTooltip extends Screen {
             String[] tooltip = button.getTooltipNew();
             if(!(tooltip == null)) {
                 int counter = 0;
-                for(int id = 0; id < tooltip.length; id++) {
-                    int width = Minecraft.getInstance().font.width(tooltip[id]);
-                    if(totalWidth < width)
-                        totalWidth = Minecraft.getInstance().font.width(tooltip[id]);
+                for (String s : tooltip) {
+                    int width = Minecraft.getInstance().font.width(s);
+                    if (totalWidth < width)
+                        totalWidth = Minecraft.getInstance().font.width(s);
                     counter++;
                 }
                 posX -= totalWidth / 2;
@@ -99,9 +96,9 @@ public class GuiScreenTooltip extends Screen {
         }
     }
 
-    public class GuiTextLabel {
-        int x;
-        int y;
+    public static class GuiTextLabel {
+        final int x;
+        final int y;
         String text;
 
         public GuiTextLabel(int x, int y, String text) {

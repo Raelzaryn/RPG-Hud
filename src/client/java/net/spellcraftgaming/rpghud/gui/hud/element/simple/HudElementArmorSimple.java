@@ -5,9 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
-import net.spellcraftgaming.rpghud.RPGHudUtils;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -17,7 +15,6 @@ public class HudElementArmorSimple extends HudElement{
 
 	public HudElementArmorSimple() {
 		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -47,7 +44,7 @@ public class HudElementArmorSimple extends HudElement{
 	
     @Override
     public int getPosX(int scaledWidth) {
-        return Math.round((scaledWidth / 2 - 91)*getInvertedScale() + this.settings.getPositionValue(Settings.armor_position)[0]);
+        return Math.round(((float) scaledWidth / 2 - 91)*getInvertedScale() + this.settings.getPositionValue(Settings.armor_position)[0]);
     }
 
     @Override

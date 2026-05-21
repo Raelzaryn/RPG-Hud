@@ -119,7 +119,7 @@ public abstract class Hud {
     
     protected abstract HudElement setElementMisc();
 	/**
-	 * Draws the an element of the HudElementType type on the screen
+	 * Draws an element of the HudElementType type on the screen
 	 * 
 	 * @param type
 	 *            The type of the Element
@@ -141,7 +141,7 @@ public abstract class Hud {
 	 */
 	public boolean checkElementConditions(HudElementType type) {
 		HudElement element = this.elements.get(type);
-		return element != null ? this.elements.get(type).checkConditions() : false;
+		return element != null && this.elements.get(type).checkConditions();
 	}
 	
 	public boolean isVanillaElement(HudElementType type) {
