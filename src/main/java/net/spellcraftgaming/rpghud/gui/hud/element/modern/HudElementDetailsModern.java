@@ -19,11 +19,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	}
 
 	@Override
-	public boolean checkConditions() {
-		return !this.mc.options.hideGui && !this.isChatOpen();
-	}
-
-	@Override
 	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth,
 			int scaledHeight) {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)

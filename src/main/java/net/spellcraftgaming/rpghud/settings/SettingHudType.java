@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.settings;
 
-import java.util.Set;
-
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+
+import java.util.Set;
 
 public class SettingHudType extends Setting {
 

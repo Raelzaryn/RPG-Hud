@@ -2,7 +2,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.AttackIndicatorStatus;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
@@ -22,7 +21,7 @@ public class HudElementHotbarDefault extends HudElement {
     protected static final ResourceLocation HOTBAR_ATTACK_INDICATOR_BACKGROUND_SPRITE = new ResourceLocation("hud/hotbar_attack_indicator_background");
     protected static final ResourceLocation HOTBAR_ATTACK_INDICATOR_PROGRESS_SPRITE = new ResourceLocation("hud/hotbar_attack_indicator_progress");
 
-    public int offset = -9;
+    public final int offset = -9;
 
     public HudElementHotbarDefault() {
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);

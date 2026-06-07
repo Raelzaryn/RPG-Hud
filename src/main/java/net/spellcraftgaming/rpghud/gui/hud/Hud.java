@@ -33,10 +33,10 @@ public abstract class Hud {
 	/** Hud name for display in settings */
 	private final String hudName;
 
-	protected Map<HudElementType, HudElement> elements = new HashMap<HudElementType, HudElement>();
+	protected final Map<HudElementType, HudElement> elements = new HashMap<>();
 
 	/** Minecraft instance */
-	protected Minecraft mc;
+	protected final Minecraft mc;
 
 	public int chatOffset = 0;
 	public Hud(Minecraft mc, String hudKey, String hudName) {

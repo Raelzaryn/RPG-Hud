@@ -41,13 +41,13 @@ public class SettingBooleanDebug extends SettingBoolean{
 	
 	public String getFormatedTooltip() {
 		if(this.ID.contains(prevent_event))
-			return I18n.get("tooltip." + prevent_event, new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + prevent_event, new Object[0]).replace("/n", " ");
 		else if(this.ID.contains(prevent_element_render))
-			return I18n.get("tooltip." + prevent_element_render, new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + prevent_element_render, new Object[0]).replace("/n", " ");
 		else if(this.ID.contains(render_vanilla))
-			return I18n.get("tooltip." + render_vanilla, new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + render_vanilla, new Object[0]).replace("/n", " ");
 		else if(this.ID.contains(force_render))
-			return I18n.get("tooltip." + force_render, new Object[0]).replaceAll("/n", " ");
-		else return I18n.get("tooltip." + this.ID + "error", new Object[0]).replaceAll("/n", " ");
+			return I18n.get("tooltip." + force_render, new Object[0]).replace("/n", " ");
+		else return I18n.get("tooltip." + this.ID + "error", new Object[0]).replace("/n", " ");
 	}
 }

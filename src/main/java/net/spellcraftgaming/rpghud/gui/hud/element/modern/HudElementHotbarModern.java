@@ -1,16 +1,12 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -24,10 +20,9 @@ public class HudElementHotbarModern extends HudElementHotbarDefault {
     public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
-        } else if (this.mc.getCameraEntity() instanceof Player) {
+        } else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            Player entityplayer = (Player) this.mc.getCameraEntity();
-            ItemStack itemstack = this.mc.player.getOffhandItem();
+	        ItemStack itemstack = this.mc.player.getOffhandItem();
             int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
             HumanoidArm enumhandside = this.mc.player.getMainArm().getOpposite();

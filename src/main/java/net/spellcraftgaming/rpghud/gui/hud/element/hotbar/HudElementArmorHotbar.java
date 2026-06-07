@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -10,11 +8,6 @@ public class HudElementArmorHotbar extends HudElementArmorDefault {
 
 	public HudElementArmorHotbar() {
 		super();
-	}
-
-	@Override
-	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
 	}
 
 	@Override

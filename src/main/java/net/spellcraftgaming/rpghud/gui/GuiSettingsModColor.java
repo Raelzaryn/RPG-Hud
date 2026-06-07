@@ -15,8 +15,8 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	private EditBox colorCodeField;
-	private Screen parent;
-	private String colorType;
+	private final Screen parent;
+	private final String colorType;
 	private int colorR;
 	private int colorG;
 	private int colorB;
@@ -50,15 +50,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void init() {
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
-			slider.onClick(0, 0);
-		}));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
-			slider.onClick(0, 0);
-		}));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
-			slider.onClick(0, 0);
-		}));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
 
 		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, Component.translatable(Settings.intToHexString(this.color)));
 		this.colorCodeField.setValue(Settings.intToHexString(this.color));
@@ -69,24 +63,18 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
 		
 		for(int i = 0; i < 6; i++) {
-			this.addRenderableWidget(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), button -> {
-					actionPerformed(button);
-			}));
+			this.addRenderableWidget(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), this::actionPerformed));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addRenderableWidget(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+6]), button -> {
-					actionPerformed(button);
-			}));
+			this.addRenderableWidget(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+6]), this::actionPerformed));
 		}
 
 		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
 				setSettingColor();
 			minecraft.setScreen(parent);
 		}).setTooltip(I18n.get("tooltip.done", new Object[0])));
-		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> {
-			minecraft.setScreen(parent);
-		}).setTooltip(I18n.get("tooltip.cancel", new Object[0])));
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> minecraft.setScreen(parent)).setTooltip(I18n.get("tooltip.cancel", new Object[0])));
 	}
 	
 	protected void actionPerformed(Button b) {
@@ -144,20 +132,20 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		super.tick();
 		if (this.colorCodeField.isFocused()) {
 			if(!this.colorCodeField.getValue().startsWith("#")) {
-				String s = "#" + this.colorCodeField.getValue();
+				StringBuilder s = new StringBuilder("#" + this.colorCodeField.getValue());
 				if(this.colorCodeField.getValue().length() >= 7) {
-					s = "#";
+					s = new StringBuilder("#");
 					for(int i = 0; i < 6; i++) {
-						s += this.colorCodeField.getValue().charAt(i);
+						s.append(this.colorCodeField.getValue().charAt(i));
 					}
 				}
-				this.colorCodeField.setValue(s);
+				this.colorCodeField.setValue(s.toString());
 			}
 			
 			if (this.colorCodeField.getValue().length() == 7) {
 				if (this.colorCodeField.getValue().startsWith("#")) {
 					if (this.colorCodeField.getValue().replace("#", "").matches("[0-9A-Fa-f]+")) {
-						this.color = Integer.valueOf(this.colorCodeField.getValue().replace("#", ""), 16).intValue();
+						this.color = Integer.valueOf(this.colorCodeField.getValue().replace("#", ""), 16);
 						this.colorR = (this.color >> 16 & 255);
 						((GuiSliderMod) this.children().get(0)).sliderValue = (float) this.colorR / 255;
 						((GuiSliderMod) this.children().get(0)).value = this.colorR;

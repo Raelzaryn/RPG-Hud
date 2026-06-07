@@ -14,20 +14,20 @@ public class GuiSliderMod extends GuiButtonTooltip {
 		BLUE;
 	}
 	
-	private EnumColor color;
+	private final EnumColor color;
 
     /** The value of this slider control. */
-    public double sliderValue = 1.0F;
+    public double sliderValue;
 
     public String dispString = "";
 
     /** Is this slider control being dragged. */
     public boolean dragging = false;
-    public boolean showDecimal = true;
+    public final boolean showDecimal = true;
 
-    public double minValue = 0.0D;
-    public double maxValue = 5.0D;
-    public int precision = 1;
+    public double minValue;
+    public double maxValue;
+    public int precision;
     private final float valueStep;
     public int value;
 	
@@ -35,7 +35,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 
     public String suffix = "";
 
-    public boolean drawString = true;
+    public final boolean drawString = true;
     
 	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, Button.OnPress titleIn) {
 		this(color, x, y, value, minValueIn, maxValue, valueStep, null, titleIn);

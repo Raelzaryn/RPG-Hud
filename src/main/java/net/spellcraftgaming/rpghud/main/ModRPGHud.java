@@ -28,12 +28,12 @@ public class ModRPGHud {
 
 	public static ModRPGHud instance;
 
-	public static boolean[] renderDetailsAgain = { false, false, false };
+	public final static boolean[] renderDetailsAgain = { false, false, false };
 
 	public Settings settings;
 
 	/** Map of all registered HUDs */
-	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
+	public final Map<String, Hud> huds = new LinkedHashMap<>();
 
 	public static final Logger LOGGER = LogUtils.getLogger();
 

@@ -13,12 +13,7 @@ public class EditBoxMod extends EditBox {
     /** Array that contains the tooltip of this button */
     private String[] tooltip;
     
-    private ValueType type;
-    public EditBoxMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
-        super(fontIn, xIn, yIn, widthIn, heightIn, msg);
-        this.type = type;
-        this.enumOptions = setting;
-    }
+    private final ValueType type;
     
     public EditBoxMod(Font fontIn, ValueType type, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
@@ -47,25 +42,4 @@ public class EditBoxMod extends EditBox {
         this.tooltip = tooltip.split("/n");
         return this;
     }
-    
-    /**
-     * Sets the tooltip to the one the setting of hits button contain.
-     * 
-     * @return the button
-     */
-    public EditBoxMod setTooltip() {
-        if (this.enumOptions != null)
-            return setTooltip(ModRPGHud.instance.settings.getSetting(this.enumOptions).getTooltip());
-        return this;
-    }
-    
-    /**
-     * Gives the tooltip of this button
-     * 
-     * @return the Tooltip
-     */
-    public String[] getTooltipNew() {
-        return this.tooltip;
-    }
-
 }

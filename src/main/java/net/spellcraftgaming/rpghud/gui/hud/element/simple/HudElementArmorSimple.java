@@ -1,8 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 

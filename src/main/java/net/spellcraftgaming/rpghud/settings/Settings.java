@@ -22,9 +22,9 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 public class Settings {
 
     private final String CONFIG_VERSION = "1.0";
-    private Map<String, Setting> settings = new LinkedHashMap<String, Setting>();
-    private File file;
-    public static final String NEW_LINE = System.getProperty("line.separator");
+    private final Map<String, Setting> settings = new LinkedHashMap<>();
+    private final File file;
+    public static final String NEW_LINE = System.lineSeparator();
 
     public static final String hud_type = "hud_type";
     public static final String enable_button_tooltip = "enable_button_tooltip";
@@ -355,7 +355,7 @@ public class Settings {
     }
 
     public List<String> getSettingsOf(HudElementType type) {
-        List<String> settings = new ArrayList<String>();
+        List<String> settings = new ArrayList<>();
         for(String key : this.settings.keySet()) {
             if(this.settings.get(key).associatedType == type)
                 settings.add(key);
@@ -364,7 +364,7 @@ public class Settings {
     }
 
     public List<String> getSettingsOf(String type) {
-        List<String> settings = new ArrayList<String>();
+        List<String> settings = new ArrayList<>();
         for(String key : this.settings.keySet()) {
             if(this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name() == type)
                 settings.add(key);
@@ -457,25 +457,26 @@ public class Settings {
 
     private void save(BufferedWriter out) throws IOException {
         for(Setting setting : settings.values()) {
-            if(setting instanceof SettingBoolean) {
-                out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingString) {
-                out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingHudType) {
-                out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingColor) {
-                out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingInteger) {
-                out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingFloat) {
-                out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingDouble) {
-                out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else if(setting instanceof SettingPosition) {
-                out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-            } else {
-                out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);
-            }
+	        switch(setting) {
+		        case SettingBoolean settingBoolean ->
+				        out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingString settingString ->
+                        out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingHudType settingHudType ->
+				        out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingColor settingColor ->
+                        out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingInteger settingInteger ->
+				        out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingFloat settingFloat ->
+                        out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingDouble settingDouble ->
+                        out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case SettingPosition settingPosition ->
+				        out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+		        case null, default ->
+                        out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);
+	        }
         }
     }
 }

@@ -2,7 +2,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
@@ -15,8 +14,6 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 import java.util.Collection;
-
-import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.INVENTORY_LOCATION;
 
 public class HudElementMobEffectsVanilla extends HudElement {
 

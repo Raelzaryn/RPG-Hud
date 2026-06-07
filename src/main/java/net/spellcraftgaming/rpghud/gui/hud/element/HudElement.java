@@ -123,25 +123,25 @@ public abstract class HudElement {
     /**
      * The Type of this element
      */
-    protected HudElementType type;
+    protected final HudElementType type;
 
     /**
      * The Minecraft instance
      */
-    protected Minecraft mc;
+    protected final Minecraft mc;
 
     /**
      * The Mod instance
      */
-    protected ModRPGHud rpgHud;
+    protected final ModRPGHud rpgHud;
 
     /**
      * The Mod settings
      */
-    protected Settings settings;
+    protected final Settings settings;
 
-    protected float scale;
-    protected float scaleInverted;
+    protected final float scale;
+    protected final float scaleInverted;
 
     public HudElementType parent;
 
