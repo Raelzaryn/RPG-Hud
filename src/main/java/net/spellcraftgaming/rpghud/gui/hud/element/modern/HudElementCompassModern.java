@@ -14,7 +14,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.renderDebug && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)) : true);
+		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.hideGui && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)) : true);
 	}
 
 	@Override

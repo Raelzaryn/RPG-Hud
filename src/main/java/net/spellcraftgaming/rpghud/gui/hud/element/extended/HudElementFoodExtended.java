@@ -1,6 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
@@ -32,10 +33,10 @@ public class HudElementFoodExtended extends HudElement {
 
 		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
-			if (itemMain != ItemStack.EMPTY && itemMain.getItem().isEdible()) {
-				value = itemMain.getItem().getFoodProperties(itemMain, null).getNutrition();
-			} else if (itemSec != ItemStack.EMPTY && itemMain.getItem().isEdible()) {
-				value = itemSec.getItem().getFoodProperties(itemMain, null).getNutrition();
+			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+				value = itemMain.getItem().getFoodProperties(itemMain, null).nutrition();
+			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
+				value = itemSec.getItem().getFoodProperties(itemMain, null).nutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);

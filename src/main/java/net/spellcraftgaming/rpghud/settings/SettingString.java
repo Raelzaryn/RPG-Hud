@@ -45,10 +45,11 @@ public class SettingString extends Setting {
 	public Setting setValue(Object o) {
 		if (o instanceof String) {
 			boolean set = false;
-			for(int i = 0; i < this.possibleValues.length; i++)
-			if(((String) o).equals(this.possibleValues[i])){
-				this.valueId = i;
-				set = true;
+			for(int i = 0; i < this.possibleValues.length; i++) {
+				if(((String) o).equals(this.possibleValues[i])){
+					this.valueId = i;
+					set = true;
+				}
 			}
 			if(!set) this.valueId = this.defaultValueId;
 

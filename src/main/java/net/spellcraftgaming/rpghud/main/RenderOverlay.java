@@ -1,35 +1,32 @@
 package net.spellcraftgaming.rpghud.main;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.common.NeoForge;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class RenderOverlay implements IGuiOverlay{
+public class RenderOverlay implements LayeredDraw.Layer {
 
-    private ModRPGHud rpgHud;
-    private Minecraft mc;
+    private final ModRPGHud rpgHud;
+    private final Minecraft mc;
 
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
         this.mc = Minecraft.getInstance();
-        
-        MinecraftForge.EVENT_BUS.register(this);
+
+        NeoForge.EVENT_BUS.register(this);
     }
 
 	@Override
-	public void render(ForgeGui forgeGui, GuiGraphics gg, float partialTicks, int screenWidth, int screenHeight) {
+	public void render(GuiGraphics gg, float partialTicks) {
         this.drawElement(HudElementType.WIDGET, gg, partialTicks);
         this.drawElement(HudElementType.CLOCK, gg, partialTicks);
         this.drawElement(HudElementType.DETAILS, gg, partialTicks);
@@ -53,12 +50,6 @@ public class RenderOverlay implements IGuiOverlay{
         }
         this.drawElement(HudElementType.MISC, gg, partialTicks);
 	}
-	
-    @SubscribeEvent
-    public void registerOverlay(RegisterGuiOverlaysEvent event) {
-    	event.registerAboveAll("rpg_hud", this);
-    	
-    }
 
     /**
      * Draw the specified HudElement of the HudElementType from the active Hud
@@ -127,46 +118,37 @@ public class RenderOverlay implements IGuiOverlay{
         return ModRPGHud.instance.getActiveHud().isVanillaElement(type);
     }
 
-    /*TODO:
     @SubscribeEvent
-    public void onChatRender(RenderGameOverlayEvent.Chat event) {
-        if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-            event.setPosY(event.getPosY() - 22);
-        }
-    }*/
-
-    
-    @SubscribeEvent
-    public void onGameOverlayRenderPre(RenderGuiOverlayEvent.Pre event) {
-        ResourceLocation overlay = event.getOverlay().id();
-        if (VanillaGuiOverlay.AIR_LEVEL.id() == overlay) {
+    public void onGameOverlayRenderPre(RenderGuiLayerEvent.Pre event) {
+        ResourceLocation overlay = event.getName();
+        if (VanillaGuiLayers.AIR_LEVEL == overlay) {
             if (preventEventType(HudElementType.AIR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.ARMOR_LEVEL.id() == overlay) {
+        } else if (VanillaGuiLayers.ARMOR_LEVEL == overlay) {
             if (preventEventType(HudElementType.ARMOR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.EXPERIENCE_BAR.id() == overlay) {
+        } else if (VanillaGuiLayers.EXPERIENCE_BAR == overlay) {
             if (preventEventType(HudElementType.EXPERIENCE))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.FOOD_LEVEL.id() == overlay) {
+        } else if (VanillaGuiLayers.FOOD_LEVEL == overlay) {
             if (preventEventType(HudElementType.FOOD))
                 event.setCanceled(true);
-        } else if (overlay == VanillaGuiOverlay.PLAYER_HEALTH.id()) {
+        } else if (overlay == VanillaGuiLayers.PLAYER_HEALTH) {
         	if (preventEventType(HudElementType.HEALTH)) {
                 event.setCanceled(true);}
-        } else if (VanillaGuiOverlay.MOUNT_HEALTH.id() == overlay) {
+        } else if (VanillaGuiLayers.VEHICLE_HEALTH == overlay) {
             if (preventEventType(HudElementType.HEALTH_MOUNT))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.HOTBAR.id() == overlay) {
+        } else if (VanillaGuiLayers.HOTBAR == overlay) {
             if (preventEventType(HudElementType.HOTBAR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.JUMP_BAR.id() == overlay) {
+        } else if (VanillaGuiLayers.JUMP_METER == overlay) {
             if (preventEventType(HudElementType.JUMP_BAR))
                 event.setCanceled(true);
-        } else if (VanillaGuiOverlay.POTION_ICONS.id() == overlay) {
+        } else if (VanillaGuiLayers.EFFECTS == overlay) {
             if (preventEventType(HudElementType.STATUS_EFFECTS))
                 event.setCanceled(true);
-         }else if (VanillaGuiOverlay.CHAT_PANEL.id() == overlay) {
+         }else if (VanillaGuiLayers.CHAT == overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
         		 event.getGuiGraphics().pose().translate(0, -22, 0);
              }
@@ -174,9 +156,9 @@ public class RenderOverlay implements IGuiOverlay{
     }
     
     @SubscribeEvent
-    public void onGameOverlayRenderPost(RenderGuiOverlayEvent.Post event) {
-        ResourceLocation overlay = event.getOverlay().id();
-        if (VanillaGuiOverlay.CHAT_PANEL.id() == overlay) {
+    public void onGameOverlayRenderPost(RenderGuiLayerEvent.Post event) {
+        ResourceLocation overlay = event.getName();
+        if (VanillaGuiLayers.CHAT== overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
         		 event.getGuiGraphics().pose().translate(0, 22, 0);
              }

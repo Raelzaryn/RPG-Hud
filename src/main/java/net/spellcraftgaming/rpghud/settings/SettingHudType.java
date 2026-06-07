@@ -15,12 +15,6 @@ public class SettingHudType extends Setting {
 		this.defaultValue = value;
 		this.value = this.defaultValue;
 	}
-	
-	public SettingHudType(String ID, HudElementType type, int defaultValueId) {
-		super(ID, type);
-		this.defaultValue = this.value;
-		this.value = this.defaultValue;
-	}
 
 	@Override
 	public void increment() {

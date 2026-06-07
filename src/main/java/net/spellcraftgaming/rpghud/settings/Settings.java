@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -255,8 +256,7 @@ public class Settings {
 
     public int[] getPositionValue(String i) {
         String[] postions = this.settings.get(i).getValue().toString().split("_");
-        int[] values = { Integer.valueOf(postions[0]), Integer.valueOf(postions[1]) };
-        return values;
+	    return new int[]{ Integer.parseInt(postions[0]), Integer.parseInt(postions[1]) };
     }
 
     public Object getValue(String i) {
@@ -320,9 +320,8 @@ public class Settings {
             return s + intToHexString(setting.getIntValue());
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
-        } else if(setting instanceof SettingFloat) {
-            SettingFloat sf = (SettingFloat) setting;
-            return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
+        } else if(setting instanceof SettingFloat sf) {
+	        return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
@@ -387,7 +386,7 @@ public class Settings {
 
             if(file.canWrite()) {
                 FileOutputStream fos = new FileOutputStream(file);
-                BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+                BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
 
                 buffer.write("Version=" + CONFIG_VERSION + NEW_LINE);
 

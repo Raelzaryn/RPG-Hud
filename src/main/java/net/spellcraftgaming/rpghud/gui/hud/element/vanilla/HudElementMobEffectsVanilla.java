@@ -1,15 +1,12 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.INVENTORY_LOCATION;
-
-import java.util.Collection;
-
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,7 +14,14 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import java.util.Collection;
+
+import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.INVENTORY_LOCATION;
+
 public class HudElementMobEffectsVanilla extends HudElement {
+
+    protected static final ResourceLocation EFFECT_BACKGROUND_AMBIENT_SPRITE = new ResourceLocation("hud/effect_background_ambient");
+    protected static final ResourceLocation EFFECT_BACKGROUND_SPRITE = new ResourceLocation("hud/effect_background");
 
     public HudElementMobEffectsVanilla() {
         super(HudElementType.STATUS_EFFECTS, 0, 0, 0, 0, true);
@@ -35,7 +39,7 @@ public class HudElementMobEffectsVanilla extends HudElement {
             MobEffectTextureManager potionspriteuploader = this.mc.getMobEffectTextures();
 
             for(MobEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                MobEffect effect = effectinstance.getEffect();
+                MobEffect effect = effectinstance.getEffect().value();
                 if(effectinstance.showIcon()) {
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
@@ -69,10 +73,10 @@ public class HudElementMobEffectsVanilla extends HudElement {
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        gg.blit(INVENTORY_LOCATION, k, l, 165, 166, 24, 24);
+                        gg.blitSprite(EFFECT_BACKGROUND_AMBIENT_SPRITE, k, l, 24, 24);
                     } else {
                         // Background Regular
-                        gg.blit(INVENTORY_LOCATION, k, l, 141, 166, 24, 24);
+                        gg.blitSprite(EFFECT_BACKGROUND_SPRITE, k, l, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
                             f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
@@ -80,7 +84,7 @@ public class HudElementMobEffectsVanilla extends HudElement {
                                             * Mth.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
                         }
                     }
-                    TextureAtlasSprite textureatlassprite = potionspriteuploader.get(effect);
+                    TextureAtlasSprite textureatlassprite = potionspriteuploader.get(effectinstance.getEffect());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
                     gg.blit(k + 3, l + 3, 0, 18, 18, textureatlassprite);
                     // Main

@@ -11,15 +11,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class HudElementHotbarModern extends HudElement {
+public class HudElementHotbarModern extends HudElementHotbarDefault {
 
     public HudElementHotbarModern() {
-        super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
+        super();
     }
-
-    public static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
     @Override
     public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
@@ -27,7 +26,6 @@ public class HudElementHotbarModern extends HudElement {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
         } else if (this.mc.getCameraEntity() instanceof Player) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
             Player entityplayer = (Player) this.mc.getCameraEntity();
             ItemStack itemstack = this.mc.player.getOffhandItem();
             int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
@@ -86,21 +84,12 @@ public class HudElementHotbarModern extends HudElement {
             }
 
             if (this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
-                float f1 = this.mc.player.getAttackAnim(0.0F);
+                int j2 = i + 91 + 6;
 
-                if (f1 < 1.0F) {
-                    int i2 = scaledHeight - 17 + posY;
-                    int j2 = i + 91 + 6;
-
-                    if (enumhandside == HumanoidArm.RIGHT) {
-                        j2 = i - 91 - 22;
-                    }
-
-                    int k1 = (int) (f1 * 19.0F);
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    gg.blit(ICONS, j2, i2 - 9, 0, 94, 18, 18);
-                    gg.blit(ICONS, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
+                if (enumhandside == HumanoidArm.RIGHT) {
+                    j2 = i - 91 - 22;
                 }
+                renderAttackIndicator(gg, j2 + posX, scaledHeight - 26 + posY);
             }
 
             RenderSystem.disableBlend();

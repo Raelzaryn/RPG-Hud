@@ -1,23 +1,23 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class HudElementHotbarHotbar extends HudElement {
+public class HudElementHotbarHotbar extends HudElementHotbarDefault {
 
 	protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
 	public HudElementHotbarHotbar() {
-		super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
+		super();
 		parent = HudElementType.WIDGET;
 	}
 
@@ -34,10 +34,10 @@ public class HudElementHotbarHotbar extends HudElement {
 			zLevel = -90.0F;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			gg.blit(WIDGETS_TEX_PATH, posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
-			gg.blit(WIDGETS_TEX_PATH, posX + entityplayer.getInventory().selected * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
+			gg.blitSprite(HOTBAR_SPRITE, posX, scaledHeight - 47 + posY, 182, 22);
+			gg.blitSprite(HOTBAR_SELECTION_SPRITE, posX + entityplayer.getInventory().selected * 20, scaledHeight - 47 - 1 + posY, 24, 22);
 
-			gg.blit(WIDGETS_TEX_PATH, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
+			gg.blitSprite(HOTBAR_OFFHAND_RIGHT_SPRITE, posX + 174, scaledHeight - 48 + posY, 29, 24);
 
 			zLevel = f;
 			RenderSystem.enableBlend();
@@ -53,17 +53,7 @@ public class HudElementHotbarHotbar extends HudElement {
 			this.renderHotbarItem(gg, posX + 184, l1, partialTicks, entityplayer, itemstack);
 
             if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
-                float f1 = this.mc.player.getAttackAnim(0.0F);
-
-				if (f1 < 1.0F) {
-					int i2 = scaledHeight - 36 + posY;
-					int j2 = i + 40 + this.settings.getPositionValue(Settings.hotbar_position)[0];
-
-					int k1 = (int) (f1 * 19.0F);
-					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					gg.blit(ICONS, j2, i2 - 9, 0, 94, 18, 18);
-					gg.blit(ICONS, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
-				}
+				renderAttackIndicator(gg,posX + 210 + this.settings.getPositionValue(Settings.hotbar_position)[0], scaledHeight - 44 + posY);
 			}
 
 			RenderSystem.disableBlend();

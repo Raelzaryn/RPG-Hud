@@ -8,10 +8,16 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -23,11 +29,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TippedArrowItem;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Matrix4fStack;
 
 public class HudElementDetailsVanilla extends HudElement {
 
@@ -47,7 +54,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.renderDebug && !this.isChatOpen();
+		return !this.mc.options.hideGui && !this.isChatOpen();
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui
+	 * @param gg
 	 *            the GUI to draw one
 	 */
 	protected void drawArmorDetails(GuiGraphics gg) {
@@ -75,11 +82,11 @@ public class HudElementDetailsVanilla extends HudElement {
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
 		if (reducedSize) gg.pose().scale(0.5f, 0.5f, 0.5f);
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
-			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmor(i).getItem().isDamageable(null)) {
+			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY && this.mc.player.getInventory().getArmor(i).isDamageableItem()) {
 				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
-				this.renderGuiItemModel(item, (reducedSize ? 4 : 2) + xOffset, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset + yOffset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset + yOffset, reducedSize? 0.5f : 1f);
+				this.renderGuiItemModel(gg, item, (reducedSize ? 4 : 2) + xOffset, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset + yOffset, reducedSize);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 5 : 2 + xOffset, (reducedSize ? 127 + typeOffset*2: 62+typeOffset) + this.offset + yOffset);
 				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset + yOffset, -1);
 				this.offset += 16;
 			}
@@ -90,7 +97,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui
+	 * @param gg
 	 *            the GUI to draw on
 	 * @param hand
 	 *            the hand whose item should be detailed
@@ -105,8 +112,8 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (reducedSize)
 					gg.pose().scale(0.5f, 0.5f, 0.5f);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
-				this.renderGuiItemModel(item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize? 0.5f : 1f);
+				this.renderGuiItemModel(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 5 : 2 + xOffset, (reducedSize ? 127 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset);
 				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
 				this.offset += 16;
 				if (reducedSize)
@@ -143,7 +150,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				String s = "x " + z;
 				if (reducedSize)
 					gg.pose().scale(0.5f, 0.5f, 0.5f);
-				this.renderGuiItemModel(item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize);
+				this.renderGuiItemModel(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize);
 				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 132 + typeOffset*2 : 66 + typeOffset) + this.offset + yOffset, -1);
 				if (reducedSize)
 					gg.pose().scale(2f, 2f, 2f);
@@ -155,7 +162,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui
+	 * @param gg
 	 *            the GUI to draw on
 	 */
 	protected void drawArrowCount(GuiGraphics gg) {
@@ -193,7 +200,7 @@ public class HudElementDetailsVanilla extends HudElement {
 			if (this.itemArrow == ItemStack.EMPTY) {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
-			this.renderGuiItemModel(this.itemArrow, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset + yOffset, reducedSize);
+			this.renderGuiItemModel(gg, this.itemArrow, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset + yOffset, reducedSize);
 			gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
 			if (reducedSize)
 				gg.pose().scale(2f, 2f, 2f);
@@ -262,12 +269,12 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 	
 	public static int addArrowStackIfCorrect(ItemStack item, ItemStack arrow) {
-		Potion type1 = null;
-		if (item.getItem() instanceof TippedArrowItem)
-			type1 = PotionUtils.getPotion(item);
+		PotionContents type1 = null;
+		if (item.getItem() instanceof TippedArrowItem tai)
+			type1 = item.get(DataComponents.POTION_CONTENTS);//PotionUtils.getPotion(item);
 		if (item.getItem() instanceof TippedArrowItem) {
-			Potion type2 = PotionUtils.getPotion(arrow);
-			if (type1.getEffects() == type2.getEffects()) {
+			PotionContents type2 = arrow.get(DataComponents.POTION_CONTENTS);//PotionContents.getPotion(arrow);
+			if (type1.potion() == type2.potion()) {
 				return arrow.getCount();
 			}
 		} else {
@@ -277,50 +284,45 @@ public class HudElementDetailsVanilla extends HudElement {
 		return arrow.getCount();
 	}
 	
-	protected void renderGuiItemHalfSizeModel(ItemStack stack, int x, int y) {
-		renderGuiItemModel(stack, x, y, true);
+	protected void renderGuiItemHalfSizeModel(GuiGraphics gg, ItemStack stack, int x, int y) {
+		renderGuiItemModel(gg, stack, x, y, true);
 	}
 	
-	protected void renderGuiItemModel(ItemStack stack, int x, int y, boolean halfSize) {
-		BakedModel model = this.mc.getItemRenderer().getModel(stack, null, null, 0);
-		RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-		RenderSystem.enableBlend();
-		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, ONE_MINUS_SRC_ALPHA);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		PoseStack PoseStack = RenderSystem.getModelViewStack();
-		PoseStack.pushPose();
-		if(halfSize) PoseStack.translate(x * 0.5f - 4, y * 0.5f - 4, (100.0F));
-		else PoseStack.translate(x, y, (100.0F));
-		PoseStack.translate(8.0D, 8.0D, 0.0D);
-		PoseStack.scale(1.0F, -1.0F, 1.0F);
-		if(halfSize) PoseStack.scale(0.5f, 0.5f, 0.5f);
-		PoseStack.scale(16.0F, 16.0F, 16.0F);
-		RenderSystem.applyModelViewMatrix();
-		PoseStack PoseStack2 = new PoseStack();
-		MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers()
-				.bufferSource();
-		boolean bl = !model.usesBlockLight();
-		if (bl)
-			Lighting.setupForFlatItems();
-		this.mc.getItemRenderer().render(stack, ItemDisplayContext.GUI, false, PoseStack2,
-				 immediate, 15728880,
-				NO_OVERLAY, model);
-		immediate.endBatch();
-		RenderSystem.enableDepthTest();
-		if (bl)
-			Lighting.setupFor3DItems();
-		PoseStack.popPose();
-		RenderSystem.applyModelViewMatrix();
+	protected void renderGuiItemModel(GuiGraphics gg, ItemStack stack, int x, int y, boolean halfSize) {
+		BakedModel bakedmodel = this.mc.getItemRenderer().getModel(stack, null, null, 0);
+		gg.pose().pushPose();
 
+		if(halfSize) gg.pose().translate(1f, 3f, 1f);
+
+		gg.pose().translate((float)(x + 8), (float)(y + 8), (float)(150));
+		try {
+			gg.pose().scale(16.0F, -16.0F, 16.0F);
+			boolean flag = !bakedmodel.usesBlockLight();
+			if (flag) {
+				Lighting.setupForFlatItems();
+			}
+			this.mc.getItemRenderer().render(stack, ItemDisplayContext.GUI, false, gg.pose(), gg.bufferSource(), 15728880, OverlayTexture.NO_OVERLAY, bakedmodel);
+			gg.flush();
+			if (flag) {
+				Lighting.setupFor3DItems();
+			}
+		} catch (Throwable throwable) {
+			CrashReport crashreport = CrashReport.forThrowable(throwable, "Rendering item");
+			CrashReportCategory crashreportcategory = crashreport.addCategory("Item being rendered");
+			crashreportcategory.setDetail("Item Type", () -> String.valueOf(stack.getItem()));
+			crashreportcategory.setDetail("Item Components", () -> String.valueOf(stack.getComponents()));
+			crashreportcategory.setDetail("Item Foil", () -> String.valueOf(stack.hasFoil()));
+			throw new ReportedException(crashreport);
+		}
+;       gg.pose().popPose();
 	}
 
-	public void renderItemDurabilityBar(GuiGraphics gg,ItemStack stack, int x, int y, float scale) {
+	public void renderItemDurabilityBar(GuiGraphics gg,ItemStack stack, int x, int y) {
 		if (stack.isEmpty())
 			return;
 		if (stack.isBarVisible()) {
 			int i = stack.getBarWidth();
 			int j = stack.getBarColor();
-			//gg.pose().scale(scale, scale, scale);
 			HudElement.drawRect(gg, x + 2, y + 13, 13, 2, 0x000000);
 			HudElement.drawRect(gg, x + 2, y + 13, i, 1, j);
 		}

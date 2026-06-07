@@ -1,16 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import static net.minecraft.world.level.ClipContext.Block.OUTLINE;
-import static net.minecraft.world.level.ClipContext.Fluid.NONE;
-
-import java.util.List;
-
-import org.joml.Quaternionf;
-
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -30,10 +22,17 @@ import net.minecraft.world.phys.Vec3;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Quaternionf;
+
+import java.util.List;
+
+import static net.minecraft.world.level.ClipContext.Block.OUTLINE;
+import static net.minecraft.world.level.ClipContext.Fluid.NONE;
 
 public class HudElementEntityInspectVanilla extends HudElement {
 
     protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/entityinspect.png");
+    protected static final ResourceLocation ARMOR_FULL_SPRITE = new ResourceLocation("hud/armor_full");
 
     @Override
     public boolean checkConditions() {
@@ -65,7 +64,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
             int y = 25 + posY;
             this.drawStringWithBackground(gg, focused.getName().getString(), x, y, -1, 0);
 
-            drawEntityOnScreen(posX - 60 + 16, 22 + 27 + posY, focused);
+            drawEntityOnScreen(gg, posX - 60 + 16, 22 + 27 + posY, focused);
 
             if(settings.getBoolValue(Settings.show_entity_armor)) {
                 int armor = focused.getArmorValue();
@@ -73,7 +72,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     String value = String.valueOf(armor);
                     gg.blit(DAMAGE_INDICATOR, posX - 26, posY+44, 0, 36, 19, 8);
                     gg.pose().scale(0.5f, 0.5f, 0.5f);
-                    gg.blit(ICONS, (posX - 24) * 2 -1, (posY + 45) * 2, 34, 9, 9, 9);
+                    gg.blitSprite(ARMOR_FULL_SPRITE, (posX - 24) * 2 -1, (posY + 45) * 2, 9, 9);
                     this.drawStringWithBackground(gg,value, (posX - 18) * 2 -2, (posY + 45) * 2 + 1, -1, 0);
                     gg.pose().scale(2f, 2f, 2f);
                 }  
@@ -81,7 +80,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         }
     }
 
-    public static void drawEntityOnScreen(int posX, int posY, LivingEntity entity) {
+    public static void drawEntityOnScreen(GuiGraphics gg, int posX, int posY, LivingEntity entity) {
         int scale = 1;
         int s1 = (int) (18 / entity.getBbHeight());
         int s3 = (int) (18 / entity.getScale());
@@ -101,18 +100,20 @@ public class HudElementEntityInspectVanilla extends HudElement {
         posY += offset;
         float f = (float) Math.atan((180 / 40.0F));
         float g = (float) Math.atan((0 / 40.0F));
-        PoseStack gg = RenderSystem.getModelViewStack();
-        gg.pushPose();
-        gg.translate(posX, posY, 1050.0F);
-        gg.scale(1.0F, 1.0F, -1.0F);
+
+        gg.pose().pushPose();
+        gg.pose().translate(posX, posY, 1050.0F);
+        gg.pose().scale(1.0F, 1.0F, -1.0F);
+        gg.pose().scale(scale, scale, scale);
+
         RenderSystem.applyModelViewMatrix();
-        PoseStack poseStack = new PoseStack();
-        poseStack.translate(0.0D, 0.0D, 1000.0D);
-        poseStack.scale(scale, scale, scale);
+
         Quaternionf quaternion = new Quaternionf().rotationZ((float) Math.PI);
         Quaternionf quaternion2 = new Quaternionf().rotationX((float) Math.toRadians(g * 20f));
         quaternion.mul(quaternion2);
-        poseStack.mulPose(quaternion);
+
+        gg.pose().mulPose(quaternion);
+
         float h = entity.yBodyRot;
         float i = entity.getYRot();
         float j = entity.getXRot();
@@ -133,11 +134,9 @@ public class HudElementEntityInspectVanilla extends HudElement {
         quaternion2.conjugate();
         entityRenderDispatcher.overrideCameraOrientation(quaternion2);
         entityRenderDispatcher.setRenderShadow(false);
-        MultiBufferSource.BufferSource immediate = Minecraft.getInstance().renderBuffers().bufferSource();
-        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, immediate, 15728880);
-        immediate.endBatch();
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, gg.pose(), gg.bufferSource(), 0xF000F0));
+        gg.flush();
         entityRenderDispatcher.setRenderShadow(true);
-
 
         entity.yBodyRot = h;
         entity.setYRot(i);
@@ -146,8 +145,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entity.yHeadRot = l;
         entity.walkAnimation.setSpeed(m);
 
-
-        gg.popPose();
+        gg.pose().popPose();
         RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
     }

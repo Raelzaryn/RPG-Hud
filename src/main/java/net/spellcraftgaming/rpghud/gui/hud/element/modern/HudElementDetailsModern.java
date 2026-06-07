@@ -2,11 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -24,7 +20,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.renderDebug && !this.isChatOpen();
+		return !this.mc.options.hideGui && !this.isChatOpen();
 	}
 
 	@Override
@@ -51,7 +47,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		int width = 0;
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY
-					&& this.mc.player.getInventory().getArmor(i).getItem().isDamageable(null)) {
+					&& this.mc.player.getInventory().getArmor(i).isDamageableItem()) {
 				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				int widthNew = this.mc.font.width(s);
@@ -163,7 +159,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui   the GUI to draw one
+	 * @param gg   the GUI to draw one
 	 * @param width the width of the background
 	 */
 	protected void drawArmorDetails(GuiGraphics gg, int width) {
@@ -171,14 +167,14 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 		int yOffset = this.settings.getPositionValue(Settings.armor_det_position)[1];
 		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
 			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY
-					&& this.mc.player.getInventory().getArmor(i).getItem().isDamageable(null)) {
+					&& this.mc.player.getInventory().getArmor(i).isDamageableItem()) {
 				drawRect(gg, 2  + (xOffset/2), 30 + this.offset / 2 + (yOffset / 2), 10 + 6 + (width / 2), 10, 0xA0000000);
 				gg.pose().scale(0.5f, 0.5f, 0.5f);
 				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
-				this.renderGuiItemHalfSizeModel(item, 6 + xOffset, 62 + this.offset + yOffset);
+				this.renderGuiItemHalfSizeModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
-					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset, 0.5f);
+					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2  + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
@@ -189,7 +185,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param gg  the GUI to draw on
 	 * @param hand  the hand whose item should be detailed
 	 * @param width the width of the background
 	 */
@@ -202,9 +198,9 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				drawRect(gg, 2 + (xOffset /2), 30 + this.offset / 2 + (yOffset/2), 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				gg.pose().scale(0.5f, 0.5f, 0.5f);
-				this.renderGuiItemHalfSizeModel(item, 6 + xOffset, 62 + this.offset + yOffset);
+				this.renderGuiItemHalfSizeModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
-					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset, 0.5f);
+					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
@@ -245,7 +241,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				drawRect(gg, 2 + (xOffset /2), 30 + this.offset / 2 + (yOffset /2), 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = "x " + z;
 				gg.pose().scale(0.5f, 0.5f, 0.5f);
-				this.renderGuiItemHalfSizeModel(item, 6 + xOffset, 62 + this.offset + yOffset);
+				this.renderGuiItemHalfSizeModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
@@ -256,7 +252,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param gg   the GUI to draw on
 	 * @param width the width of the background
 	 */
 	protected void drawArrowCount(GuiGraphics gg, int width) {
@@ -292,7 +288,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			gg.pose().scale(0.5f, 0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
-			this.renderGuiItemHalfSizeModel(this.itemArrow, 6 + xOffset, 62 + this.offset + yOffset);
+			this.renderGuiItemHalfSizeModel(gg, this.itemArrow, 6 + xOffset, 62 + this.offset + yOffset);
 			gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 			gg.pose().scale(2f, 2f, 2f);
 			this.offset += 20;

@@ -1,13 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -18,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.joml.Matrix4fStack;
 
 public abstract class HudElement {
 
@@ -90,8 +85,6 @@ public abstract class HudElement {
      * ResourceLocation of the interface texture for the RPG-HUD
      */
     protected static final ResourceLocation INTERFACE = new ResourceLocation("rpghud:textures/interface.png");
-    
-    protected static final ResourceLocation ICONS = new ResourceLocation("textures/gui/icons.png");
 
     public static final int OFFSET_PERCENT = 25;
 
@@ -440,12 +433,10 @@ public abstract class HudElement {
         if (outlined)
             offset = 1;
 
-        int filledWidth = width;
-        filledWidth = width - (offset * 2);
+        int filledWidth = width - (offset * 2);
         if (filledWidth < 0)
             filledWidth = 0;
-        int filledHeight = width;
-        filledHeight = height - (offset * 2);
+        int filledHeight = height - (offset * 2);
         if (filledHeight < 0)
             filledHeight = 0;
 
@@ -453,14 +444,14 @@ public abstract class HudElement {
 
         if (outlined)
             drawOutline(gg, x, y, width, height, colorOutline);
-        int halfedFilledHeight = filledHeight / 2;
+        int halvedFilledHeight = filledHeight / 2;
 
-        drawRect(gg, x + offset, y + offset, percentFilled, halfedFilledHeight, colorBarLight);
-        drawRect(gg, x + offset, y + offset + halfedFilledHeight, percentFilled, filledHeight - halfedFilledHeight, colorBarDark);
+        drawRect(gg, x + offset, y + offset, percentFilled, halvedFilledHeight, colorBarLight);
+        drawRect(gg, x + offset, y + offset + halvedFilledHeight, percentFilled, filledHeight - halvedFilledHeight, colorBarDark);
 
         if (filledWidth - percentFilled > 0) {
-            drawRect(gg, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halfedFilledHeight, colorGroundLight);
-            drawRect(gg, x + offset + percentFilled, y + offset + halfedFilledHeight, filledWidth - percentFilled, filledHeight - halfedFilledHeight, colorGroundDark);
+            drawRect(gg, x + offset + percentFilled, y + offset, filledWidth - percentFilled, halvedFilledHeight, colorGroundLight);
+            drawRect(gg, x + offset + percentFilled, y + offset + halvedFilledHeight, filledWidth - percentFilled, filledHeight - halvedFilledHeight, colorGroundDark);
         }
     }
 
@@ -571,17 +562,17 @@ public abstract class HudElement {
      * @return the ResourceLocation
      */
     protected static ResourceLocation getPlayerSkin(LocalPlayer player) {
-        return player.getSkinTextureLocation();
+        return player.getSkin().texture();
     }
 
 
     protected void renderHotbarItem(GuiGraphics gg, int x, int y, float partialTicks, Player player, ItemStack item) {
         if (!item.isEmpty()) {
-            PoseStack PoseStack = RenderSystem.getModelViewStack();
+            Matrix4fStack PoseStack = RenderSystem.getModelViewStack();
             float f = (float) item.getPopTime() - partialTicks;
 
             if (f > 0.0F) {
-                PoseStack.pushPose();
+                PoseStack.pushMatrix();
                 float f1 = 1.0F + f / 5.0F;
                 PoseStack.translate(x + 8, y + 12, 0.0F);
                 PoseStack.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
@@ -591,7 +582,7 @@ public abstract class HudElement {
             gg.renderItem(item, x, y);
 
             if (f > 0.0F) {
-                PoseStack.popPose();
+                PoseStack.popMatrix();
             }
             gg.renderItemDecorations(this.mc.font, item, x, y);
         }

@@ -1,19 +1,13 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
-import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class HudElementArmorModern extends HudElement {
+public class HudElementArmorModern extends HudElementArmorDefault {
 
 	public HudElementArmorModern() {
-		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
-	}
-
-	@Override
-	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
+		super();
 	}
 
 	@Override
@@ -29,7 +23,7 @@ public class HudElementArmorModern extends HudElement {
 			int width2 = 1 + 9 + 2 + this.mc.font.width(String.valueOf(level)) + 2;
 			drawRect(gg, left, top, width2, height, 0xA0000000);
 			gg.drawString(this.mc.font,String.valueOf(level), left + 12, top + 2, -1);
-			gg.blit(ICONS, left + 1, top + 1, 34, 9, 9, 9);
+			gg.blitSprite(ARMOR_FULL_SPRITE, left + 1, top + 1, 9, 9);
 		}
 		
 		scale = getInvertedScale();

@@ -3,12 +3,13 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class HudElementArmorHotbar extends HudElement {
+public class HudElementArmorHotbar extends HudElementArmorDefault {
 
 	public HudElementArmorHotbar() {
-		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
+		super();
 	}
 
 	@Override
@@ -23,11 +24,11 @@ public class HudElementArmorHotbar extends HudElement {
 		int level = this.mc.player.getArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				gg.blit(ICONS,left + 62, top - 2, 34, 9, 9, 9);
+				gg.blitSprite(ARMOR_FULL_SPRITE, left + 62, top - 2, 9, 9);
 			} else if (i == level) {
-				gg.blit(ICONS,left + 62, top - 2, 25, 9, 9, 9);
+				gg.blitSprite(ARMOR_HALF_SPRITE, left + 62, top - 2, 9, 9);
 			} else if (i > level) {
-				gg.blit(ICONS,left + 62, top - 2, 16, 9, 9, 9);
+				gg.blitSprite(ARMOR_EMPTY_SPRITE, left + 62, top - 2, 9, 9);
 			}
 			left += 8;
 		}

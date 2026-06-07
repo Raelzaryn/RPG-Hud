@@ -134,7 +134,7 @@ public abstract class Hud {
 	 * 
 	 * @param type
 	 *            The type of the Element
-	 * @param gui
+	 * @param gg
 	 *            The gui to draw on
 	 * @param zLevel
 	 *            The zLevel to draw at

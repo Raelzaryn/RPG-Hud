@@ -67,7 +67,7 @@ public abstract class Setting {
     }
 
     public String getFormatedTooltip() {
-        return I18n.get("tooltip." + this.ID, new Object[0]).replaceAll("/n", " ");
+        return I18n.get("tooltip." + this.ID, new Object[0]).replace("/n", " ");
     }
 
 }

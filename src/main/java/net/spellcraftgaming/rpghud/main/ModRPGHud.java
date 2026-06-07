@@ -1,34 +1,30 @@
 package net.spellcraftgaming.rpghud.main;
 
+import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.spellcraftgaming.rpghud.event.ClientEventHandler;
+import net.spellcraftgaming.rpghud.gui.hud.*;
+import net.spellcraftgaming.rpghud.settings.Settings;
+import org.slf4j.Logger;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.spellcraftgaming.rpghud.event.ClientEventHandler;
-import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
-import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudModern;
-import net.spellcraftgaming.rpghud.gui.hud.HudSimple;
-import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
-import net.spellcraftgaming.rpghud.settings.Settings;
-
-
-@Mod("rpghud")
+@Mod(ModRPGHud.MODID)
 public class ModRPGHud {
+
+	public static final String MODID = "rpghud";
 
 	public static ModRPGHud instance;
 
@@ -39,19 +35,19 @@ public class ModRPGHud {
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
 
-	public static final Logger LOGGER = LogManager.getLogger();
+	public static final Logger LOGGER = LogUtils.getLogger();
 
-	public ModRPGHud() {
+	public ModRPGHud(IEventBus modEventBus) {
 		instance = this;
 		if (FMLEnvironment.dist == Dist.CLIENT) {
-			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+			modEventBus.addListener(this::setup);
+			modEventBus.addListener(this::doClientStuff);
 		} else {
 			LOGGER.warn("RPG-Hud is a client-side-only mod and should not be installed server-side, please remove it from your server");
 		}
 	}
 
-	private void setup(final FMLCommonSetupEvent event)
+	private void setup(FMLCommonSetupEvent event)
 	{
 		this.settings = new Settings();
 		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
@@ -102,11 +98,11 @@ public class ModRPGHud {
 	}
 	
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = "rpghud", bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = ModRPGHud.MODID, bus = EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
-        public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-        	event.registerAboveAll("rpghud", new RenderOverlay());
+        public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
+        	event.registerAboveAll(new ResourceLocation(ModRPGHud.MODID), new RenderOverlay());
         }
     }
 }

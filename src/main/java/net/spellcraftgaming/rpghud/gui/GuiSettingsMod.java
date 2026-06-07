@@ -1,10 +1,5 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -19,6 +14,11 @@ import net.spellcraftgaming.rpghud.settings.SettingColor;
 import net.spellcraftgaming.rpghud.settings.SettingDouble;
 import net.spellcraftgaming.rpghud.settings.SettingPosition;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GuiSettingsMod extends GuiScreenTooltip {
 
@@ -159,7 +159,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 	@Override
 	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(gg);
+		this.renderBackground(gg, mouseX, mouseY, partialTicks);
 		gg.drawCenteredString(minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<EditBox> positionPairs : textFields.values()) {
 			for(EditBox t : positionPairs)
@@ -190,7 +190,6 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                             break;
                     }
                 }
-				t.tick();
 			}
 		}
 	}

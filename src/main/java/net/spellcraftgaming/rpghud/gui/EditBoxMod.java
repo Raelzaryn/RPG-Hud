@@ -35,12 +35,6 @@ public class EditBoxMod extends EditBox {
         POSITION;
     }
     
-    @Override
-    public void tick() {
-        super.tick();
-        
-    }
-    
     /**
      * Sets the tooltip of this button. Should be appended at the constructor.
      * 

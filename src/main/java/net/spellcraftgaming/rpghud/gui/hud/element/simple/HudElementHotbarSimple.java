@@ -11,12 +11,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementHotbarDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class HudElementHotbarSimple extends HudElement{
+public class HudElementHotbarSimple extends HudElementHotbarDefault {
 
 	public HudElementHotbarSimple() {
-        super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
+        super();
     }
 
     protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
@@ -39,7 +40,6 @@ public class HudElementHotbarSimple extends HudElement{
 			float f = zLevel;
 			zLevel = -90.0F;
 			drawRect(gg, width / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
-			drawRect(gg, width / 2 - 91 + posX, height - 22 - 5 + 20, 182, 2, 0xA0000000);
 			if(this.mc.player.isCreative()) drawRect(gg, width / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
 			for (int x = 0; x < 10; x++) {
 				drawRect(gg, width / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
@@ -85,21 +85,12 @@ public class HudElementHotbarSimple extends HudElement{
 			}
 
             if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
-                float f1 = this.mc.player.getAttackAnim(0.0F);
+	            int j2 = i + 91 + 6;
 
-				if (f1 < 1.0F) {
-					int i2 = scaledHeight - 17 + posY;
-					int j2 = i + 91 + 6;
-
-					if (enumhandside == HumanoidArm .RIGHT) {
-						j2 = i - 91 - 22;
-					}
-
-					int k1 = (int) (f1 * 19.0F);
-					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					gg.blit(ICONS, j2, i2 - 9, 0, 94, 18, 18);
-					gg.blit(ICONS, j2, i2 - 9 + 18 - k1, 18, 112 - k1, 18, k1);
-				}
+	            if (enumhandside == HumanoidArm .RIGHT) {
+		            j2 = i - 91 - 22;
+	            }
+				renderAttackIndicator(gg, j2, scaledHeight - 25 + posY);
 			}
 
 			RenderSystem.disableBlend();

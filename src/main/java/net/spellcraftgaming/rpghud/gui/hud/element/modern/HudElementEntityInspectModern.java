@@ -35,7 +35,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
             int y = 23 + posY;
             gg.drawString(this.mc.font, focused.getName().getString(), x, y, -1);
 
-            drawEntityOnScreen(posX - 60 + 14, 22 + 25 + posY, focused);
+            drawEntityOnScreen(gg, posX - 60 + 14, 22 + 25 + posY, focused);
 
             if(settings.getBoolValue(Settings.show_entity_armor)) {
                 int armor = focused.getArmorValue();
@@ -43,7 +43,7 @@ public class HudElementEntityInspectModern extends HudElementEntityInspectVanill
                     String value = String.valueOf(armor);
                     drawRect(gg, posX - 30, posY + 42, 8 + (mc.font.width(value) / 2), 6, 0xA0000000);
                     gg.pose().scale(0.5f, 0.5f, 0.5f);
-                    gg.blit(ICONS, (posX - 30) * 2, (posY + 42) * 2, 34, 9, 9, 9);
+                    gg.blitSprite(ARMOR_FULL_SPRITE, (posX - 30) * 2, (posY + 42) * 2, 9, 9);
                     gg.drawString(this.mc.font, value, (posX - 24) * 2, (posY + 42) * 2 + 1, -1);
                     gg.pose().scale(2f, 2f, 2f);
                 }

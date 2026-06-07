@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import static net.spellcraftgaming.rpghud.gui.hud.element.modern.HudElementHotbarModern.WIDGETS_TEX_PATH;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -139,7 +137,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void render(GuiGraphics gg, int mouseX, int mouseY, float partial)
+    public void renderWidget(GuiGraphics gg, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -162,10 +160,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 0, 66, 4, this.height / 2);
-			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY() + (this.height / 2), 0, 86 - (this.height / 2), 4, this.height / 2);
-			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY(), 196, 66, 4, this.height / 2);
-			gg.blit(WIDGETS_TEX_PATH, this.getX() + (int) (this.sliderValue * (this.width - 8)) + 4, this.getY() + (this.height / 2), 196, 86 - (this.height / 2), 4, this.height / 2);
+	        gg.blitSprite(SPRITES.get(this.active, false), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
             gg.drawCenteredString(mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
