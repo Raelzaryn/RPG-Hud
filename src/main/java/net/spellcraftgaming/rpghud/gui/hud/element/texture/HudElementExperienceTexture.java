@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,7 +22,7 @@ public class HudElementExperienceTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
 		int expCap = this.mc.player.getXpNeededForNextLevel();

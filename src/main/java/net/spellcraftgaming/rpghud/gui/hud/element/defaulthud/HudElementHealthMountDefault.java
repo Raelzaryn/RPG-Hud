@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,7 @@ public class HudElementHealthMountDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = Mth.ceil(mount.getHealth());
 		int healthMax = Mth.ceil(mount.getMaxHealth());

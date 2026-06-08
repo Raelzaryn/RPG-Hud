@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,7 +22,7 @@ public class HudElementWidgetModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
 		drawRect(gg, posX + 2, posY + 2, 20, 20, 0xA0000000);

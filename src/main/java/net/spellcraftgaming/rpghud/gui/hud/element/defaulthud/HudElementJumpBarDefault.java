@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -18,7 +19,7 @@ public class HudElementJumpBarDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
 		int center = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float jumpPower = this.mc.player.getJumpRidingScale();

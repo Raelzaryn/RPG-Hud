@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -8,9 +9,9 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementArmorDefault extends HudElement {
 
-	protected static final ResourceLocation ARMOR_EMPTY_SPRITE = new ResourceLocation("hud/armor_empty");
-	protected static final ResourceLocation ARMOR_HALF_SPRITE = new ResourceLocation("hud/armor_half");
-	protected static final ResourceLocation ARMOR_FULL_SPRITE = new ResourceLocation("hud/armor_full");
+	protected static final ResourceLocation ARMOR_EMPTY_SPRITE = ResourceLocation.withDefaultNamespace("hud/armor_empty");
+	protected static final ResourceLocation ARMOR_HALF_SPRITE = ResourceLocation.withDefaultNamespace("hud/armor_half");
+	protected static final ResourceLocation ARMOR_FULL_SPRITE = ResourceLocation.withDefaultNamespace("hud/armor_full");
 
 	public HudElementArmorDefault() {
 		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
@@ -22,7 +23,7 @@ public class HudElementArmorDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int left = scaledWidth / 2 - 91 + this.settings.getPositionValue(Settings.armor_position)[0];
 		int top = scaledHeight - 39 - this.settings.getPositionValue(Settings.armor_position)[1];
 		int level = this.mc.player.getArmorValue();

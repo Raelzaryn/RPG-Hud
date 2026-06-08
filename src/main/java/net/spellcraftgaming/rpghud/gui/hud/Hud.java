@@ -20,6 +20,7 @@ import static net.spellcraftgaming.rpghud.gui.hud.element.HudElementType.WIDGET;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -141,7 +142,7 @@ public abstract class Hud {
 	 * @param partialTicks
 	 *            The partialTicks for animations
 	 */
-	public void drawElement(HudElementType type, GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(HudElementType type, GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		this.elements.get(type).draw(gg, zLevel, partialTicks, scaledWidth, scaledHeight);
 	}
 

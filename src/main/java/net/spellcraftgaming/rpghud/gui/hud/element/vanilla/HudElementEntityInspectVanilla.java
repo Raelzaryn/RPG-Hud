@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -29,8 +30,8 @@ import static net.minecraft.world.level.ClipContext.Fluid.NONE;
 
 public class HudElementEntityInspectVanilla extends HudElement {
 
-    protected static final ResourceLocation DAMAGE_INDICATOR = new ResourceLocation("rpghud:textures/entityinspect.png");
-    protected static final ResourceLocation ARMOR_FULL_SPRITE = new ResourceLocation("hud/armor_full");
+    protected static final ResourceLocation DAMAGE_INDICATOR = ResourceLocation.fromNamespaceAndPath("rpghud","textures/entityinspect.png");
+    protected static final ResourceLocation ARMOR_FULL_SPRITE = ResourceLocation.withDefaultNamespace("hud/armor_full");
 
     @Override
     public boolean checkConditions() {
@@ -42,7 +43,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];

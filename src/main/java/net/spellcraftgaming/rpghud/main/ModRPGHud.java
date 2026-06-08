@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-@Mod(ModRPGHud.MODID)
+@Mod(value = ModRPGHud.MODID, dist = Dist.CLIENT)
 public class ModRPGHud {
 
 	public static final String MODID = "rpghud";
@@ -98,11 +98,11 @@ public class ModRPGHud {
 	}
 	
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = ModRPGHud.MODID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = ModRPGHud.MODID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
-        	event.registerAboveAll(new ResourceLocation(ModRPGHud.MODID), new RenderOverlay());
+        	event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(ModRPGHud.MODID, ModRPGHud.MODID), new RenderOverlay());
         }
     }
 }

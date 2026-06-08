@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -19,7 +20,7 @@ public class HudElementWidgetHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int posX = this.settings.getPositionValue(Settings.widget_position)[0];
 		int posY = scaledHeight + this.settings.getPositionValue(Settings.widget_position)[1];
 		gg.blit(INTERFACE, posX + (this.settings.getBoolValue(Settings.render_player_face) ? 50 : 26), posY - 16 - 52 + 9, 0, 172, 251, 48);

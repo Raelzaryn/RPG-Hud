@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -18,7 +19,7 @@ public class HudElementExperienceModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
 		int expCap = this.mc.player.getXpNeededForNextLevel();
 		double full = ((double) (scaledWidth - 2)) / expCap;

@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -19,7 +20,7 @@ public class HudElementHealthSimple extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int health = Mth.ceil(this.mc.player.getHealth());
 		int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = Mth.ceil(this.mc.player.getMaxHealth());

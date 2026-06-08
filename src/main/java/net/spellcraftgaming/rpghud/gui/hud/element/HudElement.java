@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -84,7 +85,7 @@ public abstract class HudElement {
     /**
      * ResourceLocation of the interface texture for the RPG-HUD
      */
-    protected static final ResourceLocation INTERFACE = new ResourceLocation("rpghud:textures/interface.png");
+    protected static final ResourceLocation INTERFACE = ResourceLocation.fromNamespaceAndPath("rpghud","textures/interface.png");
 
     public static final int OFFSET_PERCENT = 25;
 
@@ -175,11 +176,11 @@ public abstract class HudElement {
     /**
      * Function called to draw this element on the screen
      */
-    public void draw(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void draw(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         this.drawElement(gg, zLevel, partialTicks, scaledWidth, scaledHeight);
     }
 
-    public abstract void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight);
+    public abstract void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
@@ -309,14 +310,13 @@ public abstract class HudElement {
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.disableDepthTest();
 
-        BufferBuilder vertexbuffer = Tesselator.getInstance().getBuilder();
-        vertexbuffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        vertexbuffer.vertex(gg.pose().last().pose(), posX, posY + height, 0).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.vertex(gg.pose().last().pose(), posX + width, posY + height, 0).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.vertex(gg.pose().last().pose(), posX + width, posY, 0).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.vertex(gg.pose().last().pose(), posX, posY, 0).color(f, f1, f2, f3).endVertex();
+        BufferBuilder vertexbuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX, posY + height, 0).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX + width, posY + height, 0).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX + width, posY, 0).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX, posY, 0).setColor(f, f1, f2, f3);
 
-        BufferUploader.drawWithShader(vertexbuffer.end());
+        BufferUploader.drawWithShader(vertexbuffer.buildOrThrow());
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
 
@@ -485,14 +485,13 @@ public abstract class HudElement {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.disableDepthTest();//VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-        BufferBuilder vertexbuffer = Tesselator.getInstance().getBuilder();
-        vertexbuffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        vertexbuffer.vertex(posX1, (double) posY1 + height1, 0.0D).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.vertex((double) posX2 + width2, (double) posY2 + height2, 0.0D).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.vertex((double) posX1 + width1, posY2, 0.0D).color(f, f1, f2, f3).endVertex();
-        vertexbuffer.vertex(posX2, posY1, 0.0D).color(f, f1, f2, f3).endVertex();
+        BufferBuilder vertexbuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        vertexbuffer.addVertex(posX1, posY1 + height1, 0F).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(posX2 + width2, posY2 + height2, 0F).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(posX1 + width1, posY2, 0F).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(posX2, posY1, 0F).setColor(f, f1, f2, f3);
 
-        BufferUploader.drawWithShader(vertexbuffer.end());
+        BufferUploader.drawWithShader(vertexbuffer.buildOrThrow());
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
     }
@@ -566,10 +565,10 @@ public abstract class HudElement {
     }
 
 
-    protected void renderHotbarItem(GuiGraphics gg, int x, int y, float partialTicks, Player player, ItemStack item) {
+    protected void renderHotbarItem(GuiGraphics gg, int x, int y, DeltaTracker partialTicks, Player player, ItemStack item) {
         if (!item.isEmpty()) {
             Matrix4fStack PoseStack = RenderSystem.getModelViewStack();
-            float f = (float) item.getPopTime() - partialTicks;
+            float f = (float) item.getPopTime() - partialTicks.getGameTimeDeltaPartialTick(false);
 
             if (f > 0.0F) {
                 PoseStack.pushMatrix();

@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +23,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledHeight, int scaledWidth) {
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		int health = Mth.ceil(this.mc.player.getHealth());
 		int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());

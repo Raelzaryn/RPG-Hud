@@ -1,6 +1,7 @@
 package net.spellcraftgaming.rpghud.main;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
@@ -26,7 +27,7 @@ public class RenderOverlay implements LayeredDraw.Layer {
     }
 
 	@Override
-	public void render(GuiGraphics gg, float partialTicks) {
+	public void render(GuiGraphics gg, DeltaTracker partialTicks) {
         this.drawElement(HudElementType.WIDGET, gg, partialTicks);
         this.drawElement(HudElementType.CLOCK, gg, partialTicks);
         this.drawElement(HudElementType.DETAILS, gg, partialTicks);
@@ -57,7 +58,7 @@ public class RenderOverlay implements LayeredDraw.Layer {
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
-    private void drawElement(HudElementType type, GuiGraphics gg, float partialTicks) {
+    private void drawElement(HudElementType type, GuiGraphics gg, DeltaTracker partialTicks) {
 
         if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if (!preventElementRenderType(type)) {

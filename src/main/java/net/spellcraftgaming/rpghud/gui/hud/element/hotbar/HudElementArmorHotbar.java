@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -11,7 +12,7 @@ public class HudElementArmorHotbar extends HudElementArmorDefault {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int left = (this.settings.getBoolValue(Settings.render_player_face) ? 46 : 22) + this.settings.getPositionValue(Settings.armor_position)[0];
 		int top = scaledHeight - 64 + this.settings.getPositionValue(Settings.armor_position)[1];
 		int level = this.mc.player.getArmorValue();

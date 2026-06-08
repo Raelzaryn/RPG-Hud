@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.AttackIndicatorStatus;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -13,15 +14,13 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHotbarHotbar extends HudElementHotbarDefault {
 
-	protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
-
 	public HudElementHotbarHotbar() {
 		super();
 		parent = HudElementType.WIDGET;
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
 		} else if (this.mc.getCameraEntity() instanceof Player entityplayer) {

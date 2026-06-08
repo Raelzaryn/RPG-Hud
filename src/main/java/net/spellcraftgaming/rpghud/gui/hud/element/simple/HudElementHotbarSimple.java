@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.AttackIndicatorStatus;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
@@ -17,15 +18,12 @@ public class HudElementHotbarSimple extends HudElementHotbarDefault {
         super();
     }
 
-    protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
-
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
                 this.mc.gui.getSpectatorGui().renderHotbar(gg);
 		} else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
 	        ItemStack itemstack = this.mc.player.getOffhandItem();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = 5 + this.settings.getPositionValue(Settings.hotbar_position)[1];

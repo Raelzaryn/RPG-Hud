@@ -2,6 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
@@ -17,15 +19,15 @@ import java.util.Collection;
 
 public class HudElementMobEffectsVanilla extends HudElement {
 
-    protected static final ResourceLocation EFFECT_BACKGROUND_AMBIENT_SPRITE = new ResourceLocation("hud/effect_background_ambient");
-    protected static final ResourceLocation EFFECT_BACKGROUND_SPRITE = new ResourceLocation("hud/effect_background");
+    protected static final ResourceLocation EFFECT_BACKGROUND_AMBIENT_SPRITE = ResourceLocation.withDefaultNamespace("hud/effect_background_ambient");
+    protected static final ResourceLocation EFFECT_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("hud/effect_background");
 
     public HudElementMobEffectsVanilla() {
         super(HudElementType.STATUS_EFFECTS, 0, 0, 0, 0, true);
     }
 
     @Override
-    public void drawElement(GuiGraphics gg, float na, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float na, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
         gg.pose().scale(scale, scale, scale);
         Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects();

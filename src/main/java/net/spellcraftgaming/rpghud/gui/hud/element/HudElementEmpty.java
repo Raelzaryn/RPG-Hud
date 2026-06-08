@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class HudElementEmpty extends HudElement {
@@ -9,7 +10,7 @@ public class HudElementEmpty extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 	}
 
 }

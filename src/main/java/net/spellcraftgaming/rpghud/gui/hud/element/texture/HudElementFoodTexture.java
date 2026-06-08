@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffects;
@@ -24,7 +25,7 @@ public class HudElementFoodTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		FoodData stats = this.mc.player.getFoodData();
 		int stamina = stats.getFoodLevel();

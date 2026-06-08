@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,7 @@ public class HudElementCompassVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int width = scaledWidth / 2 + this.settings.getPositionValue(Settings.compass_position)[0];
 		int posY = this.settings.getPositionValue(Settings.compass_position)[1];
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;

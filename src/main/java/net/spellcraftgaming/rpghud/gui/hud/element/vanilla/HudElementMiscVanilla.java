@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,7 +21,7 @@ public class HudElementMiscVanilla extends HudElement{
 	}
 	
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		if(this.settings.getBoolValue(Settings.enable_fps)) renderFPS(gg, scaledWidth, scaledHeight);
 		if(this.settings.getBoolValue(Settings.enable_system_time)) renderSystemTime(gg, scaledWidth, scaledHeight);
 		
