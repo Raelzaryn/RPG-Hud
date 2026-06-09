@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -14,7 +15,7 @@ public class HudElementArmorModern extends HudElementArmorDefault {
 	@Override
 	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 	    float scale = getScale();
-        gg.pose().scale(scale, scale, scale);
+        gg.pose().scale(scale, scale);
 		int left = getPosX(scaledWidth);
 		int top = getPosY(scaledHeight);
 
@@ -24,11 +25,11 @@ public class HudElementArmorModern extends HudElementArmorDefault {
 			int width2 = 1 + 9 + 2 + this.mc.font.width(String.valueOf(level)) + 2;
 			drawRect(gg, left, top, width2, height, 0xA0000000);
 			gg.drawString(this.mc.font,String.valueOf(level), left + 12, top + 2, -1);
-			gg.blitSprite(ARMOR_FULL_SPRITE, left + 1, top + 1, 9, 9);
+			gg.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_SPRITE, left + 1, top + 1, 9, 9);
 		}
 		
 		scale = getInvertedScale();
-        gg.pose().scale(scale, scale, scale);
+        gg.pose().scale(scale, scale);
 	}
 	
     @Override

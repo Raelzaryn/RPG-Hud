@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.spellcraftgaming.rpghud.gui.hud.element.defaulthud.HudElementArmorDefault;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
@@ -18,11 +19,11 @@ public class HudElementArmorHotbar extends HudElementArmorDefault {
 		int level = this.mc.player.getArmorValue();
 		for (int i = 1; level > 0 && i < 20; i += 2) {
 			if (i < level) {
-				gg.blitSprite(ARMOR_FULL_SPRITE, left + 62, top - 2, 9, 9);
+				gg.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_SPRITE, left + 62, top - 2, 9, 9);
 			} else if (i == level) {
-				gg.blitSprite(ARMOR_HALF_SPRITE, left + 62, top - 2, 9, 9);
+				gg.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_HALF_SPRITE, left + 62, top - 2, 9, 9);
 			} else if (i > level) {
-				gg.blitSprite(ARMOR_EMPTY_SPRITE, left + 62, top - 2, 9, 9);
+				gg.blitSprite(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_SPRITE, left + 62, top - 2, 9, 9);
 			}
 			left += 8;
 		}

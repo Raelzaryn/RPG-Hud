@@ -1,10 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -24,26 +23,23 @@ public class HudElementHotbarHotbar extends HudElementHotbarDefault {
         if(this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
 		} else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 	        ItemStack itemstack = this.mc.player.getOffhandItem();
 			int i = scaledWidth / 2;
 			float f = zLevel;
 			zLevel = -90.0F;
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
-			gg.blitSprite(HOTBAR_SPRITE, posX, scaledHeight - 47 + posY, 182, 22);
-			gg.blitSprite(HOTBAR_SELECTION_SPRITE, posX + entityplayer.getInventory().selected * 20, scaledHeight - 47 - 1 + posY, 24, 22);
+			gg.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_SPRITE, posX, scaledHeight - 47 + posY, 182, 22);
+			gg.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_SELECTION_SPRITE, posX + entityplayer.getInventory().getSelectedSlot() * 20, scaledHeight - 47 - 1 + posY, 24, 22);
 
-			gg.blitSprite(HOTBAR_OFFHAND_RIGHT_SPRITE, posX + 174, scaledHeight - 48 + posY, 29, 24);
+			gg.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_RIGHT_SPRITE, posX + 174, scaledHeight - 48 + posY, 29, 24);
 
 			zLevel = f;
-			RenderSystem.enableBlend();
-	        RenderSystem.defaultBlendFunc();
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
-				this.renderHotbarItem(gg, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().items.get(l));
+				this.renderHotbarItem(gg, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().getItem(l));
 			}
 
 			int l1 = scaledHeight - 47 + 3 + posY;
@@ -52,8 +48,6 @@ public class HudElementHotbarHotbar extends HudElementHotbarDefault {
             if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
 				renderAttackIndicator(gg,posX + 210 + this.settings.getPositionValue(Settings.hotbar_position)[0], scaledHeight - 44 + posY);
 			}
-
-			RenderSystem.disableBlend();
 		}
 	}
 }

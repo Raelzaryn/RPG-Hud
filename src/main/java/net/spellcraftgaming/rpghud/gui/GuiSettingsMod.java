@@ -54,7 +54,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	public void init() {
 		Font fontRenderer = minecraft.font;
 		if(this.subSetting.isEmpty()){
-			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", Component.translatable("gui.rpg.general"), button -> {
+			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155, this.height / 6 - 14, "general", Component.translatable("gui.rpg.general"), button -> {
 					GuiButtonTooltip b = (GuiButtonTooltip) button;
 					if(b.enumOptions != null)
 					    minecraft.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
@@ -159,7 +159,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 	@Override
 	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(gg, mouseX, mouseY, partialTicks);
+		//this.renderBackground(gg, mouseX, mouseY, partialTicks);
 		gg.drawCenteredString(minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<EditBox> positionPairs : textFields.values()) {
 			for(EditBox t : positionPairs)

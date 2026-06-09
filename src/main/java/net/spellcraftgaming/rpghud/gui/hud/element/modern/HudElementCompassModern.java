@@ -15,7 +15,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.hideGui && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)) : true);
+		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.hideGui && (!this.settings.getBoolValue(Settings.enable_immersive_compass) || this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)));
 	}
 
 	@Override
@@ -73,11 +73,11 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 			drawRect(gg, (int) (posX - ((float) this.mc.font.width(String.valueOf(pos[1])) / 4) - 2), posY + 11, this.mc.font.width(String.valueOf(pos[1])) / 2 + 4, 6, 0xA0000000);
 			drawRect(gg, (posX + 48) - (this.mc.font.width(String.valueOf(pos[2])) / 2) - 2, posY + 11, this.mc.font.width(String.valueOf(pos[2])) / 2 + 4, 6, 0xA0000000);
 
-			gg.pose().scale(0.5f, 0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f);
 			gg.drawString(this.mc.font, String.valueOf(pos[0]), (posX - 48) * 2, (posY + 12) * 2, -1);
 			gg.drawCenteredString( this.mc.font, String.valueOf(pos[1]), posX * 2, (posY + 12) * 2, -1);
 			gg.drawString(this.mc.font, String.valueOf(pos[2]), (posX + 48) * 2 - this.mc.font.width(String.valueOf(pos[2])), (posY + 12) * 2, -1);
-			gg.pose().scale(2f, 2f, 2f);
+			gg.pose().scale(2f, 2f);
 		}
 	}
 	

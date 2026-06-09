@@ -1,7 +1,5 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -23,16 +21,16 @@ public class HudElementClockModern extends HudElementClockVanilla {
     @Override
     public boolean checkConditions() {
         return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.options.hideGui
-                && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
+                && (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
     }
 
     @Override
     public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        gg.pose().scale(scale, scale, scale);
+        gg.pose().scale(scale, scale);
         int yOffset = getPosY(scaledHeight);
         int xOffset = getPosX(scaledWidth);
-        int clockColor = 0xFFFFFF;
+        int clockColor = 0xFFFFFFFF;
 
         int width = getWidth(scaledWidth);
         int height = getHeight(scaledHeight);
@@ -42,10 +40,8 @@ public class HudElementClockModern extends HudElementClockVanilla {
         drawRect(gg, xOffset, yOffset, width, height, 0xA0000000);
         gg.drawCenteredString( this.mc.font, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
         scale = getInvertedScale();
-        gg.pose().scale(scale, scale, scale);
+        gg.pose().scale(scale, scale);
     }
 
     @Override

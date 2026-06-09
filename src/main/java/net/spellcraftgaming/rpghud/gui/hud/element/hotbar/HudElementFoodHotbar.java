@@ -35,9 +35,9 @@ public class HudElementFoodHotbar extends HudElement {
 		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
 			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
-				value = itemMain.getItem().getFoodProperties(itemMain, null).nutrition();
+				value = itemMain.get(DataComponents.FOOD).nutrition();
 			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
-				value = itemSec.getItem().getFoodProperties(itemMain, null).nutrition();
+				value = itemSec.get(DataComponents.FOOD).nutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);

@@ -1,9 +1,8 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -17,7 +16,7 @@ public class HudElementJumpBarTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getJumpRidingScale() > 0F : true);
+		return this.mc.player.getVehicle() instanceof LivingEntity && (!this.settings.getBoolValue(Settings.limit_jump_bar) || this.mc.player.getJumpRidingScale() > 0F);
 	}
 
 	@Override
@@ -26,10 +25,8 @@ public class HudElementJumpBarTexture extends HudElement {
 		int adjustedWidth = (scaledWidth / 2) + this.settings.getPositionValue(Settings.jump_bar_position)[0];
 		float var14 = this.mc.player.getJumpRidingScale();
 		int color = (int) (var14 * 100.0F);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		gg.blit(INTERFACE, adjustedWidth - 71, height - 80, 0, 160, 141, 10);
-		gg.blit(INTERFACE, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		gg.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, adjustedWidth - 71, height - 80, 0, 160, 141, 10, 256, 256);
+		gg.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, adjustedWidth - 71, height - 80, 0, 150, (int) (141.0D * (color / 100.0D)), 10, 256, 256);
 	}
 
 }

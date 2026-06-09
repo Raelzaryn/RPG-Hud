@@ -34,9 +34,9 @@ public class HudElementExperienceModern extends HudElement {
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			int width2 = this.mc.font.width(stringExp) / 2;
 			drawRect(gg, 1 + posX, scaledHeight - 15 + posY, width2 + 4, 8, 0xA0000000);
-			gg.pose().scale(0.5f, 0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f);
 			gg.drawCenteredString( this.mc.font, stringExp, 6 + width2 + posX * 2, (scaledHeight - 12) * 2 - 1 + posY * 2, -1);
-			gg.pose().scale(2f, 2f, 2f);
+			gg.pose().scale(2f, 2f);
 		}
 	}
 

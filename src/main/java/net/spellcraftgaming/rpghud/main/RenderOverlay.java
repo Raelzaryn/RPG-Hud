@@ -1,20 +1,19 @@
 package net.spellcraftgaming.rpghud.main;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.GuiLayer;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
-public class RenderOverlay implements LayeredDraw.Layer {
+public class RenderOverlay implements GuiLayer {
 
     private final ModRPGHud rpgHud;
     private final Minecraft mc;
@@ -62,11 +61,10 @@ public class RenderOverlay implements LayeredDraw.Layer {
 
         if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if (!preventElementRenderType(type)) {
-                gg.pose().pushPose();
-                RenderSystem.enableBlend();
+                gg.pose().pushMatrix();
                 this.rpgHud.getActiveHud().drawElement(type, gg, 0, partialTicks, this.mc.getWindow().getGuiScaledWidth(),
                         this.mc.getWindow().getGuiScaledHeight());
-                gg.pose().popPose();
+                gg.pose().popMatrix();
             }
 
         }
@@ -126,10 +124,12 @@ public class RenderOverlay implements LayeredDraw.Layer {
             if (preventEventType(HudElementType.AIR))
                 event.setCanceled(true);
         } else if (VanillaGuiLayers.ARMOR_LEVEL == overlay) {
-            if (preventEventType(HudElementType.ARMOR))
+            if(preventEventType(HudElementType.ARMOR))
                 event.setCanceled(true);
-        } else if (VanillaGuiLayers.EXPERIENCE_BAR == overlay) {
+        } else if (VanillaGuiLayers.CONTEXTUAL_INFO_BAR_BACKGROUND == overlay) {
             if (preventEventType(HudElementType.EXPERIENCE))
+                event.setCanceled(true);
+            if (preventEventType(HudElementType.JUMP_BAR))
                 event.setCanceled(true);
         } else if (VanillaGuiLayers.FOOD_LEVEL == overlay) {
             if (preventEventType(HudElementType.FOOD))
@@ -143,15 +143,17 @@ public class RenderOverlay implements LayeredDraw.Layer {
         } else if (VanillaGuiLayers.HOTBAR == overlay) {
             if (preventEventType(HudElementType.HOTBAR))
                 event.setCanceled(true);
-        } else if (VanillaGuiLayers.JUMP_METER == overlay) {
+        } else if (VanillaGuiLayers.CONTEXTUAL_INFO_BAR == overlay) {
+            if (preventEventType(HudElementType.EXPERIENCE))
+                event.setCanceled(true);
             if (preventEventType(HudElementType.JUMP_BAR))
                 event.setCanceled(true);
         } else if (VanillaGuiLayers.EFFECTS == overlay) {
-            if (preventEventType(HudElementType.STATUS_EFFECTS))
+            if(preventEventType(HudElementType.STATUS_EFFECTS))
                 event.setCanceled(true);
-         }else if (VanillaGuiLayers.CHAT == overlay) {
+        } else if (VanillaGuiLayers.CHAT == overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-        		 event.getGuiGraphics().pose().translate(0, -22, 0);
+        		 event.getGuiGraphics().pose().translate(0, -22);
              }
         }
     }
@@ -161,38 +163,9 @@ public class RenderOverlay implements LayeredDraw.Layer {
         ResourceLocation overlay = event.getName();
         if (VanillaGuiLayers.CHAT== overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
-        		 event.getGuiGraphics().pose().translate(0, 22, 0);
+        		 event.getGuiGraphics().pose().translate(0, 22);
              }
         }
     }
 
-    /*
-    @Override
-    public void onHudRender(PoseStack matrixStack, float tickDelta) {
-        renderOverlay(matrixStack, tickDelta);
-
-    }*/
-
-    /*private static HudElementType getEventAlias(ElementType type) {
-        switch(type) {
-            case HOTBAR:
-                return HudElementType.HOTBAR;
-            case HEALTH:
-                return HudElementType.HEALTH;
-            case ARMOR:
-                return HudElementType.ARMOR;
-            case FOOD:
-                return HudElementType.FOOD;
-            case HEALTHMOUNT:
-                return HudElementType.HEALTH_MOUNT;
-            case AIR:
-                return HudElementType.AIR;
-            case JUMPBAR:
-                return HudElementType.JUMP_BAR;
-            case EXPERIENCE:
-                return HudElementType.EXPERIENCE;
-            default:
-                return null;
-        }
-    }*/
 }

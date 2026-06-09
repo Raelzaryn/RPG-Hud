@@ -1,10 +1,5 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,6 +9,9 @@ import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiScreenTooltip extends Screen {
 
@@ -89,12 +87,14 @@ public class GuiScreenTooltip extends Screen {
                 	HudElement.drawRect(gg, posX, posY, totalWidth + 10, 3 + tooltip.length * 12 + 2, 0xC0000000);
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
-                        if(reverseY)
-                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xBBBBBB);
-                        else
-                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xBBBBBB);
+                        if(reverseY) {
+                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xFFBBBBBB);
+                        } else {
+                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xFFBBBBBB);
+                        }
                     }
                 }
+
             }
         }
     }
@@ -111,8 +111,6 @@ public class GuiScreenTooltip extends Screen {
         }
 
         public void render(Screen gui, GuiGraphics gg) {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
             gg.drawString(minecraft.font, text, x, y, 0xFFFFFFFF);
         }
     }

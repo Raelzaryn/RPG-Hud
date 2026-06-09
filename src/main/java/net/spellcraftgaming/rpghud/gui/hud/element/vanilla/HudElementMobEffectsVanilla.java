@@ -1,13 +1,13 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import com.google.common.collect.Ordering;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.MobEffectTextureManager;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,16 +29,14 @@ public class HudElementMobEffectsVanilla extends HudElement {
     @Override
     public void drawElement(GuiGraphics gg, float na, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        gg.pose().scale(scale, scale, scale);
+        gg.pose().scale(scale, scale);
         Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects();
         if(!collection.isEmpty()) {
-            RenderSystem.enableBlend();
             int i = 0;
             int j = 0;
-            MobEffectTextureManager potionspriteuploader = this.mc.getMobEffectTextures();
 
             for(MobEffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                MobEffect effect = effectinstance.getEffect().value();
+                Holder<MobEffect> effect = effectinstance.getEffect();
                 if(effectinstance.showIcon()) {
                     int k = getPosX(scaledWidth);
                     int l = getPosY(scaledHeight);
@@ -46,7 +44,7 @@ public class HudElementMobEffectsVanilla extends HudElement {
                         l += 15;
                     }
                     
-                    if(effect.isBeneficial()) {
+                    if(effect.value().isBeneficial()) {
                         ++i;
                         if(rpgHud.settings.getBoolValue(Settings.status_vertical)) {
                             k -= 25;
@@ -68,14 +66,13 @@ public class HudElementMobEffectsVanilla extends HudElement {
                         }
 
                     }
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     float f = 1.0F;
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
-                        gg.blitSprite(EFFECT_BACKGROUND_AMBIENT_SPRITE, k, l, 24, 24);
+                        gg.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_AMBIENT_SPRITE, k, l, 24, 24);
                     } else {
                         // Background Regular
-                        gg.blitSprite(EFFECT_BACKGROUND_SPRITE, k, l, 24, 24);
+                        gg.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_SPRITE, k, l, 24, 24);
                         if(effectinstance.getDuration() <= 200) {
                             int i1 = 10 - effectinstance.getDuration() / 20;
                             f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
@@ -83,14 +80,13 @@ public class HudElementMobEffectsVanilla extends HudElement {
                                             * Mth.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
                         }
                     }
-                    TextureAtlasSprite textureatlassprite = potionspriteuploader.get(effectinstance.getEffect());
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                    gg.blit(k + 3, l + 3, 0, 18, 18, textureatlassprite);
+                    gg.blitSprite(RenderPipelines.GUI_TEXTURED, Gui.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
+
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
-                        if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
+                        if(duration < 600) s = duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60));
                         k -= mc.font.width(s)/2;
                         this.drawStringWithBackground(gg, s, k +12, l +14, -1, 0);
                     }
@@ -107,14 +103,11 @@ public class HudElementMobEffectsVanilla extends HudElement {
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
+        return 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
     }
 
     @Override
     public float getScale() {
-        float scale = (float)this.settings.getDoubleValue(Settings.status_scale);
-        //if(scale != 0)
-        return scale;
-        //return 1;
+        return (float) this.settings.getDoubleValue(Settings.status_scale);
     }
 }

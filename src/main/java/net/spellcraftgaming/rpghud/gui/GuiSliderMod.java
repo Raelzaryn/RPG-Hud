@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -11,7 +12,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	public enum EnumColor {
 		RED,
 		GREEN,
-		BLUE;
+		BLUE
 	}
 	
 	private final EnumColor color;
@@ -25,9 +26,9 @@ public class GuiSliderMod extends GuiButtonTooltip {
     public boolean dragging = false;
     public final boolean showDecimal = true;
 
-    public double minValue;
-    public double maxValue;
-    public int precision;
+    public final double minValue;
+    public final double maxValue;
+    public final int precision;
     private final float valueStep;
     public int value;
 	
@@ -68,11 +69,6 @@ public class GuiSliderMod extends GuiButtonTooltip {
             dispString = "";
         }
 	}
-	
-	/*@Override
-	private int getTextureY() {
-		return 0;
-	}*/
     
     @Override
     public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
@@ -94,7 +90,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         this.sliderValue = (d - minValue) / (maxValue - minValue);
     }
 
-    public static interface ISlider
+    public interface ISlider
     {
         void onChangeSliderValue(GuiSliderMod guiSliderMod);
     }
@@ -160,7 +156,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
             }
             
             String buttonText = getDisplayString();
-	        gg.blitSprite(SPRITES.get(this.active, false), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
+	        gg.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, false), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
             gg.drawCenteredString(mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }

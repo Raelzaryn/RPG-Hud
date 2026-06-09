@@ -32,9 +32,9 @@ public class HudElementExperienceExtended extends HudElement {
 		String stringExp =  this.settings.getBoolValue(Settings.experience_percentage) ? (int) Math.floor((double) exp / (double) expCap * 100) + "%" : exp + "/" + expCap;
 
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
-			gg.pose().scale(0.5f, 0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f);
 			gg.drawCenteredString( this.mc.font, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
-			gg.pose().scale(2f, 2f, 2f);
+			gg.pose().scale(2f, 2f);
 		}
 	}
 

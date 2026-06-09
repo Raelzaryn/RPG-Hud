@@ -201,7 +201,6 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	@Override
 	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
 		Font Font = minecraft.font;
-		this.renderBackground(gg, mouseX, mouseY, partialTicks);
 		gg.drawCenteredString(Font, this.title, this.width / 2, 12, -1);
 		gg.drawCenteredString(Font, I18n.get("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
 		gg.drawCenteredString(Font, I18n.get("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
