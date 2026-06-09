@@ -31,17 +31,17 @@ public record ColoredTetragonGuiElementRenderState(
 	}
 
 	@Override
-	public void buildVertices(VertexConsumer vertices, float depth) {
+	public void buildVertices(VertexConsumer vertices) {
 		int convertedcolor = color;
 		if (color == -1)
 			return;
 		if (color <= 0xFFFFFF && color >= 0)
 			convertedcolor = color + 0xFF000000;
 
-		vertices.addVertex((float)posX1, (float) posY1, depth).setColor(convertedcolor);
-		vertices.addVertex((float)posX2, (float) posY1+height1, depth).setColor(convertedcolor);
-		vertices.addVertex((float)posX2+width2, (float)posY2+height2, depth).setColor(convertedcolor);
-		vertices.addVertex((float)posX1+width1, (float)posY2, depth).setColor(convertedcolor);
+		vertices.addVertexWith2DPose(this.pose(), (float)posX1, (float) posY1).setColor(convertedcolor);
+		vertices.addVertexWith2DPose(this.pose(), (float)posX2, (float) posY1+height1).setColor(convertedcolor);
+		vertices.addVertexWith2DPose(this.pose(),(float)posX2+width2, (float)posY2+height2).setColor(convertedcolor);
+		vertices.addVertexWith2DPose(this.pose(),(float)posX1+width1, (float)posY2).setColor(convertedcolor);
 	}
 
 	@Nullable

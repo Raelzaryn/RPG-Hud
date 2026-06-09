@@ -3,7 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -25,7 +25,7 @@ public class HudElementWidgetModern extends HudElement {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
 		drawRect(gg, posX + 2, posY + 2, 20, 20, 0xA0000000);
-		ResourceLocation l = getPlayerSkin(this.mc.player);
+		Identifier l = getPlayerSkin(this.mc.player);
 		gg.pose().scale(0.5f, 0.5f);
 		gg.blit(RenderPipelines.GUI_TEXTURED, l, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
 		gg.blit(l, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);

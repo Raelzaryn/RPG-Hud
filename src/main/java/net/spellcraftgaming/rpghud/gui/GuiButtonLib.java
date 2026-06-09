@@ -15,11 +15,12 @@ public abstract class GuiButtonLib extends Button {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gg, int mouseX, int mouseY, float partial) {
-		super.renderWidget(gg, mouseX, mouseY, partial);
+	public void renderContents(GuiGraphics gg, int mouseX, int mouseY, float partial) {
 		this.drawButton(mouseX, mouseY);
+		this.renderDefaultSprite(gg);
+		this.renderDefaultLabel(gg.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE));
 	}
-	
+
 	public void drawButton(int mouseX, int mouseY){
 	}
 }

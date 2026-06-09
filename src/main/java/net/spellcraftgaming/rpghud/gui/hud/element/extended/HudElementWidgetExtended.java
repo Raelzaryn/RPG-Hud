@@ -3,7 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.extended;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -32,7 +32,7 @@ public class HudElementWidgetExtended extends HudElement {
 		int facePosY = this.settings.getPositionValue(Settings.face_position)[1];
 		if (this.settings.getBoolValue(Settings.render_player_face)) {
 			gg.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + facePosX, posY + facePosY, 114, 0, 50, 50, 256, 256);
-			ResourceLocation l = getPlayerSkin(this.mc.player);
+			Identifier l = getPlayerSkin(this.mc.player);
 			gg.pose().scale(0.5f, 0.5f);
 			gg.blit(RenderPipelines.GUI_TEXTURED, l,posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 32, 32, 32, 32, 256, 256);
 			gg.blit(RenderPipelines.GUI_TEXTURED, l,posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 160, 32, 32, 32, 256, 256);

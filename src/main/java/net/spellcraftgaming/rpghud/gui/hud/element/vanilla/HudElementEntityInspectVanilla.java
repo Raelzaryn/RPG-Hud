@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.squid.Squid;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.monster.spider.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
@@ -33,8 +33,8 @@ import static net.minecraft.world.level.ClipContext.Fluid.NONE;
 
 public class HudElementEntityInspectVanilla extends HudElement {
 
-    protected static final ResourceLocation DAMAGE_INDICATOR = ResourceLocation.fromNamespaceAndPath("rpghud","textures/entityinspect.png");
-    protected static final ResourceLocation ARMOR_FULL_SPRITE = ResourceLocation.withDefaultNamespace("hud/armor_full");
+    protected static final Identifier DAMAGE_INDICATOR = Identifier.fromNamespaceAndPath("rpghud","textures/entityinspect.png");
+    protected static final Identifier ARMOR_FULL_SPRITE = Identifier.withDefaultNamespace("hud/armor_full");
 
     @Override
     public boolean checkConditions() {
@@ -94,7 +94,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
 
         if(entity instanceof Squid) {
             scale = 11;
-            offset = -13;
+            offset = -6;
         } else if(entity instanceof Spider) {
             scale = 11;
             offset = -5;
@@ -133,7 +133,6 @@ public class HudElementEntityInspectVanilla extends HudElement {
         EntityRenderer entityrenderer = entityRenderDispatcher.getRenderer(entity);
         EntityRenderState entityrenderstate = entityrenderer.createRenderState();
         entityrenderer.extractRenderState(entity, entityrenderstate, 1.0F);
-        entityrenderstate.hitboxesRenderState = null;
 
         RenderStateExtensions.onUpdateEntityRenderState(entityrenderer, entity, entityrenderstate);
         gg.submitEntityRenderState(entityrenderstate, scale, new Vector3f(0.0F, 0, 0.0F), quaternion, quaternion2, x1, y1, x2, y2);

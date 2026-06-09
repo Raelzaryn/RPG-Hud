@@ -34,7 +34,7 @@ public class HudElementArmorModern extends HudElementArmorDefault {
 	
     @Override
     public int getPosX(int scaledWidth) {
-        return (int) ((scaledWidth / 2 - 91)*getInvertedScale() + this.settings.getPositionValue(Settings.armor_position)[0]);
+        return (int) (((float) scaledWidth / 2 - 91)*getInvertedScale() + this.settings.getPositionValue(Settings.armor_position)[0]);
     }
 
     @Override

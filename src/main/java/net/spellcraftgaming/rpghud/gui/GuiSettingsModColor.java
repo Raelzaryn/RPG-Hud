@@ -6,11 +6,16 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.options.OptionsScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.lwjgl.glfw.GLFW;
 
 public class GuiSettingsModColor extends GuiScreenTooltip {
 
@@ -50,12 +55,13 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 	@Override
 	public void init() {
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
+		MouseButtonEvent click = new MouseButtonEvent(0.0, 0.0, new MouseButtonInfo(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> slider.onClick(click, false)));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> slider.onClick(click, false)));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> slider.onClick(click, false)));
 
-		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, Component.translatable(Settings.intToHexString(this.color)));
-		this.colorCodeField.setValue(Settings.intToHexString(this.color));
+		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, Component.translatable(Settings.intToHexString(this.color, true)));
+		this.colorCodeField.setValue(Settings.intToHexString(this.color, true));
 		this.colorCodeField.setMaxLength(7);
 		
 		this.addRenderableWidget(colorCodeField);
@@ -124,7 +130,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.colorB = (this.color & 255);
 		((GuiSliderMod) this.children().get(2)).sliderValue = (float) this.colorB / 255;
 		((GuiSliderMod) this.children().get(2)).value = this.colorB;
-		this.colorCodeField.setValue(Settings.intToHexString(this.color));
+		this.colorCodeField.setValue(Settings.intToHexString(this.color, true));
 	}
 
 	@Override
@@ -160,7 +166,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			}
 			this.colorCodeField.setValue(this.colorCodeField.getValue().toUpperCase());
 		} else {
-			this.colorCodeField.setValue(Settings.intToHexString(this.color));
+			this.colorCodeField.setValue(Settings.intToHexString(this.color, true));
 			this.colorR = ((GuiSliderMod) this.children().get(0)).getValue();
 			this.colorG = ((GuiSliderMod) this.children().get(1)).getValue();
 			this.colorB = ((GuiSliderMod) this.children().get(2)).getValue();
@@ -172,30 +178,28 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			this.color = color;
 		}
 	}
-
 	/**
 	 * Fired when a key is typed (except F11 which toggles full screen). This is
 	 * the equivalent of KeyListener.keyTyped(KeyEvent e). Args : character
 	 * (character on the key), keyCode (lwjgl Keyboard key code)
 	 */
 	@Override
-	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+	public boolean keyPressed(KeyEvent p_446782_) {
 		if (this.colorCodeField.isFocused()) {
-			this.colorCodeField.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
-			if (p_keyPressed_1_ == 28)
+			this.colorCodeField.keyPressed(p_446782_);
+			if (p_446782_.input() == 28)
 				this.colorCodeField.setFocused(false);
 		}
-		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+		return super.keyPressed(p_446782_);
 	}
-	
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+	public boolean mouseReleased(MouseButtonEvent p_446955_) {
 	       for(GuiEventListener child : this.children()) {
 	            if(child instanceof GuiSliderMod) {
 	                ((GuiSliderMod) child).dragging = false;
 	            }
 	        }
-	    return super.mouseReleased(mouseX, mouseY, button);
+	    return super.mouseReleased(p_446955_);
 	}
 
 	@Override
@@ -206,7 +210,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		gg.drawCenteredString(Font, I18n.get("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
 		gg.drawCenteredString(Font, I18n.get("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
 		this.colorCodeField.render(gg, mouseX, mouseY, partialTicks);
-		gg.drawCenteredString(Font, I18n.get("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		gg.drawCenteredString(Font, I18n.get("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color, true), this.width / 2, 141, -1);
 		super.render(gg, mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(gg, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}

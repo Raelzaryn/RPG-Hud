@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.main;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -39,7 +39,7 @@ public class ModRPGHud {
 
 	public ModRPGHud(IEventBus modEventBus) {
 		instance = this;
-		if (FMLEnvironment.dist == Dist.CLIENT) {
+		if (FMLEnvironment.getDist() == Dist.CLIENT) {
 			modEventBus.addListener(this::setup);
 			modEventBus.addListener(this::doClientStuff);
 		} else {
@@ -102,7 +102,7 @@ public class ModRPGHud {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
-        	event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(ModRPGHud.MODID, ModRPGHud.MODID), new RenderOverlay());
+        	event.registerAboveAll(Identifier.fromNamespaceAndPath(ModRPGHud.MODID, ModRPGHud.MODID), new RenderOverlay());
         }
     }
 }

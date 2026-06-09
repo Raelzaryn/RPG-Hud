@@ -8,7 +8,7 @@ import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
@@ -87,7 +87,7 @@ public abstract class HudElement {
     /**
      * ResourceLocation of the interface texture for the RPG-HUD
      */
-    protected static final ResourceLocation INTERFACE = ResourceLocation.fromNamespaceAndPath("rpghud","textures/interface.png");
+    protected static final Identifier INTERFACE = Identifier.fromNamespaceAndPath("rpghud","textures/interface.png");
 
     public static final int OFFSET_PERCENT = 25;
 
@@ -523,8 +523,8 @@ public abstract class HudElement {
      * @param player the player whose skin should be returned
      * @return the ResourceLocation
      */
-    protected static ResourceLocation getPlayerSkin(LocalPlayer player) {
-        return player.getSkin().texture();
+    protected static Identifier getPlayerSkin(LocalPlayer player) {
+        return player.getSkin().body().texturePath();
     }
 
 

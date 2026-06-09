@@ -31,7 +31,7 @@ public class HudElementMiscVanilla extends HudElement{
 		float scale = (float) this.settings.getDoubleValue(Settings.fps_scale);
 		gg.pose().scale(scale, scale);
 		scale = getInvertedScale(scale);
-		String fps = this.mc.fpsString.split(" ")[0];
+		String fps = String.valueOf(this.mc.getFps());
 		int posX = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
 		int posY = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
 		gg.drawString(this.mc.font, fps, posX, posY, this.settings.getIntValue(Settings.color_fps));

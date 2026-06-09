@@ -3,7 +3,7 @@ package net.spellcraftgaming.rpghud.main;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.GuiLayer;
@@ -119,7 +119,7 @@ public class RenderOverlay implements GuiLayer {
 
     @SubscribeEvent
     public void onGameOverlayRenderPre(RenderGuiLayerEvent.Pre event) {
-        ResourceLocation overlay = event.getName();
+        Identifier overlay = event.getName();
         if (VanillaGuiLayers.AIR_LEVEL == overlay) {
             if (preventEventType(HudElementType.AIR))
                 event.setCanceled(true);
@@ -160,7 +160,7 @@ public class RenderOverlay implements GuiLayer {
     
     @SubscribeEvent
     public void onGameOverlayRenderPost(RenderGuiLayerEvent.Post event) {
-        ResourceLocation overlay = event.getName();
+        Identifier overlay = event.getName();
         if (VanillaGuiLayers.CHAT== overlay) {
         	 if (ModRPGHud.instance.getActiveHud() instanceof HudHotbarWidget) {
         		 event.getGuiGraphics().pose().translate(0, 22);

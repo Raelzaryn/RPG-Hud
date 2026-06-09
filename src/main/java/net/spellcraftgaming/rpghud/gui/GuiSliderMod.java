@@ -3,6 +3,7 @@ package net.spellcraftgaming.rpghud.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -69,11 +70,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
             dispString = "";
         }
 	}
-    
-    @Override
-    public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
+
+	@Override
+    public boolean mouseReleased(MouseButtonEvent p_446092_) {
     	this.dragging = false;
-    	return super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
+    	return super.mouseReleased(p_446092_);
     }
 
     public int getValueInt()
@@ -101,16 +102,16 @@ public class GuiSliderMod extends GuiButtonTooltip {
     @Override
     protected void renderBg(PoseStack matrices, Minecraft client, int mouseX, int mouseY) {
     }*/
-    
-    /**
+	/**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
      * e).
      */
+
     @Override
-    public void onClick(double mouseX, double mouseY)
+    public void onClick(MouseButtonEvent p_446368_, boolean p_434377_)
     {
 		this.sliderValue = Math.ceil(Mth.clamp(this.sliderValue * 255, 0F, 255F));
-        updateSlider(mouseX, mouseY);
+        updateSlider(p_446368_.x(), p_446368_.y());
         this.dragging = true;
     }
 
@@ -133,7 +134,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void renderWidget(GuiGraphics gg, int mouseX, int mouseY, float partial)
+    public void renderContents(GuiGraphics gg, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -141,7 +142,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         		updateSlider(mouseX, mouseY);
         	}
         	Minecraft mc = Minecraft.getInstance();
-        	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
+        	int color = (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
 			HudElement.drawCustomBar(gg, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;
