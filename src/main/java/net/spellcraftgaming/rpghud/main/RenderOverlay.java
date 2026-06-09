@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.main;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
@@ -26,7 +26,7 @@ public class RenderOverlay implements GuiLayer {
     }
 
 	@Override
-	public void render(GuiGraphics gg, DeltaTracker partialTicks) {
+	public void render(GuiGraphicsExtractor gg, DeltaTracker partialTicks) {
         this.drawElement(HudElementType.WIDGET, gg, partialTicks);
         this.drawElement(HudElementType.CLOCK, gg, partialTicks);
         this.drawElement(HudElementType.DETAILS, gg, partialTicks);
@@ -57,7 +57,7 @@ public class RenderOverlay implements GuiLayer {
      * @param type         the HudElementType to be rendered
      * @param partialTicks the partialTicks to be used for animations
      */
-    private void drawElement(HudElementType type, GuiGraphics gg, DeltaTracker partialTicks) {
+    private void drawElement(HudElementType type, GuiGraphicsExtractor gg, DeltaTracker partialTicks) {
 
         if (this.rpgHud.getActiveHud().checkElementConditions(type)) {
             if (!preventElementRenderType(type)) {

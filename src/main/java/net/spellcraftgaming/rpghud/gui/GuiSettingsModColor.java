@@ -1,12 +1,11 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -203,15 +202,15 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	}
 
 	@Override
-	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
+	public void extractRenderState(GuiGraphicsExtractor gg, int mouseX, int mouseY, float partialTicks) {
 		Font Font = minecraft.font;
-		gg.drawCenteredString(Font, this.title, this.width / 2, 12, -1);
-		gg.drawCenteredString(Font, I18n.get("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
-		gg.drawCenteredString(Font, I18n.get("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
-		gg.drawCenteredString(Font, I18n.get("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
-		this.colorCodeField.render(gg, mouseX, mouseY, partialTicks);
-		gg.drawCenteredString(Font, I18n.get("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color, true), this.width / 2, 141, -1);
-		super.render(gg, mouseX, mouseY, partialTicks);
+		gg.centeredText(Font, this.title, this.width / 2, 12, -1);
+		gg.centeredText(Font, I18n.get("color.red", new Object[0]), this.width / 2, 40 - 9, -1);
+		gg.centeredText(Font, I18n.get("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
+		gg.centeredText(Font, I18n.get("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
+		this.colorCodeField.extractRenderState(gg, mouseX, mouseY, partialTicks);
+		gg.centeredText(Font, I18n.get("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color, true), this.width / 2, 141, -1);
+		super.extractRenderState(gg, mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(gg, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
 }

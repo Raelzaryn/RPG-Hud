@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -20,7 +20,7 @@ public class HudElementLevelModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		
 		int xOffset = ((HudModern) this.rpgHud.huds.get("modern")).getPosX();
@@ -43,9 +43,9 @@ public class HudElementLevelModern extends HudElement {
 		gg.pose().scale(0.5f, 0.5f);
 
 		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24" || !this.settings.getBoolValue(Settings.render_player_face)) {
-			gg.drawCenteredString( this.mc.font, level, (posX * 2) + width, posY * 2 + 3, 0xFF80FF20);
+			gg.centeredText( this.mc.font, level, (posX * 2) + width, posY * 2 + 3, 0xFF80FF20);
 		} else {
-			gg.drawCenteredString( this.mc.font, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0xFF80FF20);
+			gg.centeredText( this.mc.font, level, 70 + this.settings.getPositionValue(Settings.level_position)[0] * 2, posY * 2 + 3, 0xFF80FF20);
 		}
 		gg.pose().scale(2.0f, 2.0f);
 	}

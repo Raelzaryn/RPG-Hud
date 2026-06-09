@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
@@ -25,7 +25,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
     }
 
     @Override
-    public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
         gg.pose().scale(scale, scale);
         int yOffset = getPosY(scaledHeight);
@@ -38,7 +38,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
             clockColor = getClockColor();
         }
         drawRect(gg, xOffset, yOffset, width, height, 0xA0000000);
-        gg.drawCenteredString( this.mc.font, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
+        gg.centeredText( this.mc.font, getTime(), xOffset + (width / 2), yOffset + 2, clockColor);
 
         scale = getInvertedScale();
         gg.pose().scale(scale, scale);

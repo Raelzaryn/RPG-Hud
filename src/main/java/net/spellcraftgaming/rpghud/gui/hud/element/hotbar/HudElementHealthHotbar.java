@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,7 +22,7 @@ public class HudElementHealthHotbar extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		
 		int height = scaledHeight + this.settings.getPositionValue(Settings.health_position)[1];
 		int health = Mth.ceil(this.mc.player.getHealth());
@@ -44,6 +44,6 @@ public class HudElementHealthHotbar extends HudElement {
 		
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gg.drawCenteredString( this.mc.font, stringHealth, posX + 100, height - 55, -1);
+			gg.centeredText( this.mc.font, stringHealth, posX + 100, height - 55, -1);
 	}
 }

@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +17,9 @@ public class HudElementHotbarSimple extends HudElementHotbarDefault {
     }
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
-                this.mc.gui.getSpectatorGui().renderHotbar(gg);
+                this.mc.gui.getSpectatorGui().extractHotbar(gg);
 		} else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
 	        ItemStack itemstack = this.mc.player.getOffhandItem();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];

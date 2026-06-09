@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -37,7 +37,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = 0;
 			if (this.settings.getBoolValue(Settings.show_armor)) {
 				drawArmorDetails(gg);
@@ -55,7 +55,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gg
 	 *            the GUI to draw one
 	 */
-	protected void drawArmorDetails(GuiGraphics gg) {
+	protected void drawArmorDetails(GuiGraphicsExtractor gg) {
 		int xOffset = this.settings.getPositionValue(Settings.armor_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.armor_det_position)[1];
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
@@ -66,7 +66,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(gg, item, (reducedSize ? 4 : 2) + xOffset, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset + yOffset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 5 : 2 + xOffset, (reducedSize ? 127 + typeOffset*2: 62+typeOffset) + this.offset + yOffset);
-				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 128 + (typeOffset*2): 66 + typeOffset) + this.offset + yOffset, -1);
+				gg.text(this.mc.font, s, 23 + xOffset, (reducedSize ? 128 + (typeOffset*2): 66 + typeOffset) + this.offset + yOffset, -1);
 				this.offset += 16;
 			}
 		}
@@ -81,7 +81,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param hand
 	 *            the hand whose item should be detailed
 	 */
-	protected void drawItemDetails(GuiGraphics gg, int hand) {
+	protected void drawItemDetails(GuiGraphicsExtractor gg, int hand) {
 		ItemStack item = getItemInHand(hand);
 		int xOffset = this.settings.getPositionValue(Settings.item_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.item_det_position)[1];
@@ -93,7 +93,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset);
 				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 5 : 2 + xOffset, (reducedSize ? 127 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset);
-				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 128  + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
+				gg.text(this.mc.font, s, 23 + xOffset, (reducedSize ? 128  + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
 				this.offset += 16;
 				if (reducedSize)
 					gg.pose().scale(2f, 2f);
@@ -130,7 +130,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				if (reducedSize)
 					gg.pose().scale(0.5f, 0.5f);
 				this.renderGuiItemModel(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset);
-				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 128 + typeOffset*2 : 66 + typeOffset) + this.offset + yOffset, -1);
+				gg.text(this.mc.font, s, 23 + xOffset, (reducedSize ? 128 + typeOffset*2 : 66 + typeOffset) + this.offset + yOffset, -1);
 				if (reducedSize)
 					gg.pose().scale(2f, 2f);
 				this.offset += 16;
@@ -144,7 +144,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	 * @param gg
 	 *            the GUI to draw on
 	 */
-	protected void drawArrowCount(GuiGraphics gg) {
+	protected void drawArrowCount(GuiGraphicsExtractor gg) {
 		int xOffset = this.settings.getPositionValue(Settings.arrow_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.arrow_det_position)[1];
 		boolean reducedSize = this.settings.getBoolValue(Settings.reduce_size);
@@ -180,7 +180,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				this.itemArrow = new ItemStack(Items.ARROW);
 			}
 			this.renderGuiItemModel(gg, this.itemArrow, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124  + typeOffset*2: 62 + typeOffset) + this.offset + yOffset);
-			gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 128 + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
+			gg.text(this.mc.font, s, 23 + xOffset, (reducedSize ? 128 + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
 			if (reducedSize)
 				gg.pose().scale(2f, 2f);
 			this.offset += 16;
@@ -263,11 +263,11 @@ public class HudElementDetailsVanilla extends HudElement {
 		return arrow.getCount();
 	}
 
-	protected void renderGuiItemModel(GuiGraphics gg, ItemStack stack, int x, int y) {
-		gg.renderItem(stack, x, y);
+	protected void renderGuiItemModel(GuiGraphicsExtractor gg, ItemStack stack, int x, int y) {
+		gg.item(stack, x, y);
 	}
 
-	public void renderItemDurabilityBar(GuiGraphics gg,ItemStack stack, int x, int y) {
+	public void renderItemDurabilityBar(GuiGraphicsExtractor gg,ItemStack stack, int x, int y) {
 		if (stack.isEmpty())
 			return;
 		if (stack.isBarVisible()) {

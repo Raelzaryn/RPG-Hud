@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -134,7 +134,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
     }
     
     @Override
-    public void renderContents(GuiGraphics gg, int mouseX, int mouseY, float partial)
+    public void extractContents(GuiGraphicsExtractor gg, int mouseX, int mouseY, float partial)
     {
         if (this.visible)
         {
@@ -158,7 +158,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
             
             String buttonText = getDisplayString();
 	        gg.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, false), this.getX() + (int) (this.sliderValue * (this.width - 8)), this.getY(), 8, this.getHeight());
-            gg.drawCenteredString(mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
+            gg.centeredText(mc.font, buttonText, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color);
         }
     }
     

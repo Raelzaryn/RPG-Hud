@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,7 +21,7 @@ public class HudElementHealthMountModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		LivingEntity mount = (LivingEntity) this.mc.player.getVehicle();
 		int health = (int) Math.ceil(mount.getHealth());
 		int healthMax = (int) mount.getMaxHealth();
@@ -36,7 +36,7 @@ public class HudElementHealthMountModern extends HudElement {
 			int width2 = this.mc.font.width(stringHealth) / 2;
 			drawRect(gg, posX, 24 + posY, width2 + 4, 5, 0xA0000000);
 			gg.pose().scale(0.5f, 0.5f);
-			gg.drawString(this.mc.font, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
+			gg.text(this.mc.font, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
 			gg.pose().scale(2f, 2f);
 		}
 

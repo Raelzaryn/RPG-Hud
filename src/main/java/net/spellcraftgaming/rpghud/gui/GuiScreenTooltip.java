@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -22,8 +22,8 @@ public class GuiScreenTooltip extends Screen {
     protected final List<GuiTextLabel> labelList = new ArrayList<>();
 
     @Override
-    public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
-        super.render(gg, mouseX, mouseY, partialTicks);
+    public void extractRenderState(GuiGraphicsExtractor gg, int mouseX, int mouseY, float partialTicks) {
+        super.extractRenderState(gg, mouseX, mouseY, partialTicks);
         for(GuiTextLabel label : labelList) {
             label.render(this, gg);
         }
@@ -35,7 +35,7 @@ public class GuiScreenTooltip extends Screen {
     /**
      * Checks if a tooltip should be rendered and if so renders it on the screen.
      */
-    private void drawTooltip(GuiGraphics gg, int mouseX, int mouseY) {
+    private void drawTooltip(GuiGraphicsExtractor gg, int mouseX, int mouseY) {
         Minecraft mc = Minecraft.getInstance();
         Font fontRenderer = mc.font;
         GuiScreenTooltip gui;
@@ -88,9 +88,9 @@ public class GuiScreenTooltip extends Screen {
                 for(int id = 0; id < tooltip.length; id++) {
                     if(!tooltip[id].isEmpty()) {
                         if(reverseY) {
-                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xFFBBBBBB);
+                            gg.text(fontRenderer, tooltip[id], posX + 5, posY - 2 - 12 * (counter - id - 1) - 10, 0xFFBBBBBB);
                         } else {
-                            gg.drawString(fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xFFBBBBBB);
+                            gg.text(fontRenderer, tooltip[id], posX + 5, posY + 5 + 12 * id, 0xFFBBBBBB);
                         }
                     }
                 }
@@ -110,8 +110,8 @@ public class GuiScreenTooltip extends Screen {
             this.text = text;
         }
 
-        public void render(Screen gui, GuiGraphics gg) {
-            gg.drawString(minecraft.font, text, x, y, 0xFFFFFFFF);
+        public void render(Screen gui, GuiGraphicsExtractor gg) {
+            gg.text(minecraft.font, text, x, y, 0xFFFFFFFF);
         }
     }
 

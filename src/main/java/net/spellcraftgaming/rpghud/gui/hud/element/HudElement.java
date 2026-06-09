@@ -3,7 +3,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
@@ -147,7 +147,7 @@ public abstract class HudElement {
     protected final float scaleInverted;
 
     public HudElementType parent;
-    private GuiGraphics gg;
+    private GuiGraphicsExtractor gg;
 
     /**
      * Constructor
@@ -179,11 +179,11 @@ public abstract class HudElement {
     /**
      * Function called to draw this element on the screen
      */
-    public void draw(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+    public void draw(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         this.drawElement(gg, zLevel, partialTicks, scaledWidth, scaledHeight);
     }
 
-    public abstract void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight);
+    public abstract void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight);
 
     /**
      * Returns the x coordinate of this element
@@ -297,7 +297,7 @@ public abstract class HudElement {
      * @param height the height of the rectangle
      * @param color  the color of the rectangle
      */
-    public static void drawRect(GuiGraphics gg, int posX, int posY, int width, int height, int color) {
+    public static void drawRect(GuiGraphicsExtractor gg, int posX, int posY, int width, int height, int color) {
         if (color == -1)
             return;
         if (color <= 0xFFFFFF && color >= 0)
@@ -316,7 +316,7 @@ public abstract class HudElement {
      * @param height the height of the outline
      * @param color
      */
-    protected static void drawOutline(GuiGraphics gg, int x, int y, int width, int height, int color) {
+    protected static void drawOutline(GuiGraphicsExtractor gg, int x, int y, int width, int height, int color) {
         drawRect(gg, x, y, width, 1, color);
         drawRect(gg, x, y + 1, 1, height - 2, color);
         drawRect(gg, x + width - 1, y + 1, 1, height - 2, color);
@@ -334,7 +334,7 @@ public abstract class HudElement {
      * @param colorBarLight the color for the bar (light)
      * @param colorBarDark  the color for the bar (dark
      */
-    public static void drawCustomBar(GuiGraphics gg, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
+    public static void drawCustomBar(GuiGraphicsExtractor gg, int x, int y, int width, int height, double value, int colorBarLight, int colorBarDark) {
         drawCustomBar(gg, x, y, width, height, value, HudElement.COLOR_DEFAULT[0], HudElement.COLOR_DEFAULT[1], colorBarLight, colorBarDark, true, 0x000000);
     }
 
@@ -351,7 +351,7 @@ public abstract class HudElement {
      * @param colorBarLight    the color for the bar (light)
      * @param colorBarDark     the color for the bar (dark
      */
-    public static void drawCustomBar(GuiGraphics gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
+    public static void drawCustomBar(GuiGraphicsExtractor gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark) {
         drawCustomBar(gg, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, 0x000000);
     }
 
@@ -369,7 +369,7 @@ public abstract class HudElement {
      * @param colorBarDark     the color for the bar (dark
      * @param outlined         whether this bar has an outline or not
      */
-    public static void drawCustomBar(GuiGraphics gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
+    public static void drawCustomBar(GuiGraphicsExtractor gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined) {
         drawCustomBar(gg, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, outlined, 0x000000);
     }
 
@@ -387,7 +387,7 @@ public abstract class HudElement {
      * @param colorBarDark     the color for the bar (dark
      * @param colorOutline     the color of the outline
      */
-    public static void drawCustomBar(GuiGraphics gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
+    public static void drawCustomBar(GuiGraphicsExtractor gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, int colorOutline) {
         drawCustomBar(gg, x, y, width, height, value, colorGroundLight, colorGroundDark, colorBarLight, colorBarDark, true, colorOutline);
     }
 
@@ -406,7 +406,7 @@ public abstract class HudElement {
      * @param outlined         whether this bar has an outline or not
      * @param colorOutline     the color of the outline
      */
-    public static void drawCustomBar(GuiGraphics gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
+    public static void drawCustomBar(GuiGraphicsExtractor gg, int x, int y, int width, int height, double value, int colorGroundLight, int colorGroundDark, int colorBarLight, int colorBarDark, boolean outlined, int colorOutline) {
         if (value < 0.0D) {
             value = 0.0D;
         } else if (value > 100D) {
@@ -452,7 +452,7 @@ public abstract class HudElement {
      * @param height2 height of the right edge
      * @param color   color of the tetragon (hexa format 0xAARRGGBB)
      */
-    public void drawTetragon(GuiGraphics gg, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
+    public void drawTetragon(GuiGraphicsExtractor gg, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
 
         gg.submitGuiElementRenderState(new ColoredTetragonGuiElementRenderState(
                 RenderPipelines.GUI, TextureSetup.noTexture(), new Matrix3x2f(gg.pose()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, gg.peekScissorStack()
@@ -528,7 +528,7 @@ public abstract class HudElement {
     }
 
 
-    protected void renderHotbarItem(GuiGraphics gg, int x, int y, DeltaTracker partialTicks, Player player, ItemStack item) {
+    protected void renderHotbarItem(GuiGraphicsExtractor gg, int x, int y, DeltaTracker partialTicks, Player player, ItemStack item) {
         if (!item.isEmpty()) {
             Matrix4fStack PoseStack = RenderSystem.getModelViewStack();
             float f = (float) item.getPopTime() - partialTicks.getGameTimeDeltaPartialTick(false);
@@ -541,21 +541,21 @@ public abstract class HudElement {
                 PoseStack.translate((-(x + 8)), (-(y + 12)), 0.0F);
             }
 
-            gg.renderItem(item, x, y);
+            gg.item(item, x, y);
 
             if (f > 0.0F) {
                 PoseStack.popMatrix();
             }
-            gg.renderItemDecorations(this.mc.font, item, x, y);
+            gg.itemDecorations(this.mc.font, item, x, y);
         }
     }
 
-    protected void drawStringWithBackground(GuiGraphics gg, String text, int posX, int posY, int colorMain, int colorBackground) {
-    	gg.drawString(this.mc.font, text, posX + 1, posY, colorBackground);
-    	gg.drawString(this.mc.font, text, posX - 1, posY, colorBackground);
-    	gg.drawString(this.mc.font, text, posX, posY + 1, colorBackground);
-    	gg.drawString(this.mc.font, text, posX, posY - 1, colorBackground);
-    	gg.drawString(this.mc.font, text, posX, posY, colorMain);
+    protected void drawStringWithBackground(GuiGraphicsExtractor gg, String text, int posX, int posY, int colorMain, int colorBackground) {
+    	gg.text(this.mc.font, text, posX + 1, posY, colorBackground);
+    	gg.text(this.mc.font, text, posX - 1, posY, colorBackground);
+    	gg.text(this.mc.font, text, posX, posY + 1, colorBackground);
+    	gg.text(this.mc.font, text, posX, posY - 1, colorBackground);
+    	gg.text(this.mc.font, text, posX, posY, colorMain);
     }
 
     public boolean isChatOpen() {

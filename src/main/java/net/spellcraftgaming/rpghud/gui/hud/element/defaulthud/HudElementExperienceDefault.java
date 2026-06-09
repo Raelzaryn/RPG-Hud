@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.defaulthud;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -19,7 +19,7 @@ public class HudElementExperienceDefault extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
 		int expCap = this.mc.player.getXpNeededForNextLevel();
 		double full = 100D / expCap;
@@ -31,7 +31,7 @@ public class HudElementExperienceDefault extends HudElement {
 
 		int var7 = scaledWidth / 2;
 		if (this.settings.getBoolValue(Settings.show_numbers_experience))
-			gg.drawCenteredString(this.mc.font, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
+			gg.centeredText(this.mc.font, stringExp, var7 + posX, scaledHeight - 9 + posY, -1);
 	}
 
 }

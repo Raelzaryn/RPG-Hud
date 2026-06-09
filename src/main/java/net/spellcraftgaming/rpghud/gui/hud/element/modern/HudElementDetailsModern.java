@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -22,7 +22,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth,
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth,
 	                        int scaledHeight) {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)
 				+ ((this.settings.getBoolValue(Settings.show_numbers_health)
@@ -159,7 +159,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param gg   the GUI to draw one
 	 * @param width the width of the background
 	 */
-	protected void drawArmorDetails(GuiGraphics gg, int width) {
+	protected void drawArmorDetails(GuiGraphicsExtractor gg, int width) {
 		int xOffset = this.settings.getPositionValue(Settings.armor_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.armor_det_position)[1];
 		for (EquipmentSlot equipmentslot : EquipmentSlotGroup.ARMOR) {
@@ -171,7 +171,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.renderGuiItemModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
-				gg.drawCenteredString( this.mc.font, s, 32 + width / 2  + xOffset, 66 + this.offset + yOffset, -1);
+				gg.centeredText( this.mc.font, s, 32 + width / 2  + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f);
 				this.offset += 20;
 			}
@@ -185,7 +185,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param hand  the hand whose item should be detailed
 	 * @param width the width of the background
 	 */
-	protected void drawItemDetails(GuiGraphics gg, InteractionHand hand, int width) {
+	protected void drawItemDetails(GuiGraphicsExtractor gg, InteractionHand hand, int width) {
 		int xOffset = this.settings.getPositionValue(Settings.item_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.item_det_position)[1];
 		ItemStack item = this.mc.player.getItemInHand(hand);
@@ -197,7 +197,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				this.renderGuiItemModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
-				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
+				gg.centeredText( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f);
 				this.offset += 20;
 
@@ -238,7 +238,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				String s = "x " + z;
 				gg.pose().scale(0.5f, 0.5f);
 				this.renderGuiItemModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
-				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
+				gg.centeredText( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f);
 				this.offset += 20;
 			}
@@ -251,7 +251,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	 * @param gg   the GUI to draw on
 	 * @param width the width of the background
 	 */
-	protected void drawArrowCount(GuiGraphics gg, int width) {
+	protected void drawArrowCount(GuiGraphicsExtractor gg, int width) {
 		int xOffset = this.settings.getPositionValue(Settings.arrow_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.arrow_det_position)[1];
 		ItemStack item = this.mc.player.getMainHandItem();
@@ -285,7 +285,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
 			this.renderGuiItemModel(gg, this.itemArrow, 6 + xOffset, 62 + this.offset + yOffset);
-			gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
+			gg.centeredText( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 			gg.pose().scale(2f, 2f);
 			this.offset += 20;
 

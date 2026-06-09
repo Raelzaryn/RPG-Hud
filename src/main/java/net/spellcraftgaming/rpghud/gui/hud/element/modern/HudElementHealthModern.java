@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
@@ -22,7 +22,7 @@ public class HudElementHealthModern extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledHeight, int scaledWidth) {
 		int health = Mth.ceil(this.mc.player.getHealth());
 		int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = Mth.ceil(this.mc.player.getMaxHealth());
@@ -41,7 +41,7 @@ public class HudElementHealthModern extends HudElement {
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(gg, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 4, width, 8, 0xA0000000);
 			gg.pose().scale(0.5f, 0.5f);
-			gg.drawCenteredString( this.mc.font, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
+			gg.centeredText( this.mc.font, stringHealth, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 12, -1);
 			gg.pose().scale(2f, 2f);
 		}
 

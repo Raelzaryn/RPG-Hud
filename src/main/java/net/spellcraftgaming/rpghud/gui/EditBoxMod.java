@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
-import net.spellcraftgaming.rpghud.main.ModRPGHud;
 
 
 public class EditBoxMod extends EditBox {

@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -23,22 +23,22 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int clockColor = 0xFFFFFF;
 		if (this.settings.getBoolValue(Settings.enable_clock_color)) {
 			clockColor = getClockColor();
 		}
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			gg.pose().scale(0.5f, 0.5f);
-		gg.drawString(this.mc.font, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
+		gg.text(this.mc.font, getTime(), (this.settings.getBoolValue(Settings.reduce_size) ? 8 : 4) + this.settings.getPositionValue(Settings.clock_position)[0], (this.settings.getBoolValue(Settings.reduce_size) ? 104 : 52) + this.settings.getPositionValue(Settings.clock_position)[1], clockColor);
 		if (this.settings.getBoolValue(Settings.reduce_size))
 			gg.pose().scale(2f, 2f);
 	}
 
 	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
-		long time = this.mc.player.level().getDayTime();
-		long day = (long) (this.mc.player.level().getDayTime() / 24000L);
+		long time = this.mc.player.level().getDefaultClockTime();
+		long day = (long) (this.mc.player.level().getDefaultClockTime() / 24000L);
 		long currentTime = time - (24000L * day);
 		long currentHour = (currentTime / 1000L) + 6L;
 		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
@@ -115,8 +115,8 @@ public class HudElementClockVanilla extends HudElement {
 	}
 
 	public int getClockColor() {
-		long time = this.mc.player.level().getDayTime();
-		long day = (this.mc.player.level().getDayTime() / 24000L);
+		long time = this.mc.player.level().getDefaultClockTime();
+		long day = (this.mc.player.level().getDefaultClockTime() / 24000L);
 		long currentTime = time - (24000L * day);
 		if (currentTime < 1000)
 			return 0xFFFFAF00;

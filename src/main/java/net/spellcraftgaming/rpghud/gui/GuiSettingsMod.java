@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -158,14 +158,14 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	}
 
 	@Override
-	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
+	public void extractRenderState(GuiGraphicsExtractor gg, int mouseX, int mouseY, float partialTicks) {
 		//this.renderBackground(gg, mouseX, mouseY, partialTicks);
-		gg.drawCenteredString(minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+		gg.centeredText(minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
 		for(List<EditBox> positionPairs : textFields.values()) {
 			for(EditBox t : positionPairs)
-				t.render(gg, mouseX, mouseY, partialTicks);
+				t.extractRenderState(gg, mouseX, mouseY, partialTicks);
 		}
-		super.render(gg, mouseX, mouseY, partialTicks);
+		super.extractRenderState(gg, mouseX, mouseY, partialTicks);
 	}
 
 	@Override

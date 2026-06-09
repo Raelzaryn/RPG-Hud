@@ -2,7 +2,7 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -46,7 +46,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     @Override
-    public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         LivingEntity focused = getFocusedEntity(this.mc.player);
         if(focused != null) {
             int posX = (scaledWidth / 2) + this.settings.getPositionValue(Settings.inspector_position)[0];
@@ -59,7 +59,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
                     this.settings.getIntValue(Settings.color_health), offsetColorPercent(this.settings.getIntValue(Settings.color_health), OFFSET_PERCENT));
             String stringHealth = ((double) Math.round(health * 10)) / 10 + "/" + ((double) Math.round(maxHealth * 10)) / 10;
             gg.pose().scale(0.5f, 0.5f);
-            gg.drawCenteredString( this.mc.font, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
+            gg.centeredText( this.mc.font, stringHealth, (posX - 27 + 44) * 2, (36 + posY) * 2, -1);
             gg.pose().scale(2f, 2f);
 
             int x = (posX - 29 + 44 - this.mc.font.width(focused.getName().getString()) / 2);
@@ -82,7 +82,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         }
     }
 
-    public static void drawEntityOnScreen(GuiGraphics gg, int posX, int posY, LivingEntity entity) {
+    public static void drawEntityOnScreen(GuiGraphicsExtractor gg, int posX, int posY, LivingEntity entity) {
         int scale = 1;
         int s1 = (int) (18 / entity.getBbHeight());
         int s3 = (int) (18 / entity.getScale());
@@ -135,7 +135,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         entityrenderer.extractRenderState(entity, entityrenderstate, 1.0F);
 
         RenderStateExtensions.onUpdateEntityRenderState(entityrenderer, entity, entityrenderstate);
-        gg.submitEntityRenderState(entityrenderstate, scale, new Vector3f(0.0F, 0, 0.0F), quaternion, quaternion2, x1, y1, x2, y2);
+        gg.entity(entityrenderstate, scale, new Vector3f(0.0F, 0, 0.0F), quaternion, quaternion2, x1, y1, x2, y2);
 
         entity.yBodyRot = h;
         entity.setYRot(i);

@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -21,7 +21,7 @@ public class HudElementExperienceTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		int exp = Mth.ceil(this.mc.player.getXpNeededForNextLevel() * this.mc.player.experienceProgress);
 		int expCap = this.mc.player.getXpNeededForNextLevel();
 		int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.experience_position)[0];
@@ -33,7 +33,7 @@ public class HudElementExperienceTexture extends HudElement {
 	
 		if (this.settings.getBoolValue(Settings.show_numbers_experience)) {
 			gg.pose().scale(0.5f, 0.5f);
-			gg.drawCenteredString( this.mc.font, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
+			gg.centeredText( this.mc.font, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
 			gg.pose().scale(2f, 2f);
 		}
 	}

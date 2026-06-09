@@ -8,10 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
@@ -321,7 +318,7 @@ public class Settings {
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
         } else if(setting instanceof SettingFloat sf) {
-	        return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
+	        return s + (Objects.equals(id, pickup_duration) ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
                     : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
@@ -359,7 +356,7 @@ public class Settings {
         for(String key : this.settings.keySet()) {
             if(this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name() == type)
                 settings.add(key);
-            else if(type == "general" && this.settings.get(key).associatedType == null)
+            else if(Objects.equals(type, "general") && this.settings.get(key).associatedType == null)
                 settings.add(key);
         }
         return settings;

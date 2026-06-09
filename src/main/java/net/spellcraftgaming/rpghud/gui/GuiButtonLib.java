@@ -1,6 +1,6 @@
 package net.spellcraftgaming.rpghud.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -15,10 +15,10 @@ public abstract class GuiButtonLib extends Button {
 	}
 
 	@Override
-	public void renderContents(GuiGraphics gg, int mouseX, int mouseY, float partial) {
+	public void extractContents(GuiGraphicsExtractor gg, int mouseX, int mouseY, float partial) {
 		this.drawButton(mouseX, mouseY);
-		this.renderDefaultSprite(gg);
-		this.renderDefaultLabel(gg.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE));
+		this.extractDefaultSprite(gg);
+		this.extractDefaultLabel(gg.textRendererForWidget(this, GuiGraphicsExtractor.HoveredTextEffects.NONE));
 	}
 
 	public void drawButton(int mouseX, int mouseY){

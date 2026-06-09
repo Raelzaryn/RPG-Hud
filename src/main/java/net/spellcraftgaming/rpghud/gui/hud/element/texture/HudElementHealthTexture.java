@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.texture;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +22,7 @@ public class HudElementHealthTexture extends HudElement {
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledHeight, int scaledWidth) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledHeight, int scaledWidth) {
 		int health = Mth.ceil(this.mc.player.getHealth());
 		int absorption = Mth.ceil(this.mc.player.getAbsorptionAmount());
 		int healthMax = Mth.ceil(this.mc.player.getMaxHealth());
@@ -40,7 +40,7 @@ public class HudElementHealthTexture extends HudElement {
 
 		String stringHealth = this.settings.getBoolValue(Settings.health_percentage) ? (int) Math.floor((double) health / (double) healthMax * 100) + "%" : (health + absorption) + "/" + healthMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_health))
-			gg.drawCenteredString( this.mc.font, stringHealth, posX + 55, posY + 2, -1);
+			gg.centeredText( this.mc.font, stringHealth, posX + 55, posY + 2, -1);
 	}
 
 }

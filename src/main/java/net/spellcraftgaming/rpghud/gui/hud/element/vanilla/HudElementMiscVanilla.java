@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -21,25 +21,25 @@ public class HudElementMiscVanilla extends HudElement{
 	}
 	
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		if(this.settings.getBoolValue(Settings.enable_fps)) renderFPS(gg, scaledWidth, scaledHeight);
 		if(this.settings.getBoolValue(Settings.enable_system_time)) renderSystemTime(gg, scaledWidth, scaledHeight);
 		
 	}
 	
-	private void renderFPS(GuiGraphics gg, int scaledWidth, int scaledHeight) {
+	private void renderFPS(GuiGraphicsExtractor gg, int scaledWidth, int scaledHeight) {
 		float scale = (float) this.settings.getDoubleValue(Settings.fps_scale);
 		gg.pose().scale(scale, scale);
 		scale = getInvertedScale(scale);
 		String fps = String.valueOf(this.mc.getFps());
 		int posX = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
 		int posY = (int) ((1 + this.settings.getPositionValue(Settings.fps_position)[0]) * scale);
-		gg.drawString(this.mc.font, fps, posX, posY, this.settings.getIntValue(Settings.color_fps));
+		gg.text(this.mc.font, fps, posX, posY, this.settings.getIntValue(Settings.color_fps));
 
 		gg.pose().scale(scale, scale);
 	}
 	
-	private void renderSystemTime(GuiGraphics gg, int scaledWidth, int scaledHeight) {
+	private void renderSystemTime(GuiGraphicsExtractor gg, int scaledWidth, int scaledHeight) {
 		float scale = (float) this.settings.getDoubleValue(Settings.system_time_scale);
 		gg.pose().scale(scale, scale);
 		scale = getInvertedScale(scale);
@@ -53,7 +53,7 @@ public class HudElementMiscVanilla extends HudElement{
 			drawRect(gg, Math.round(posX-(1*scale)), Math.round(posY - (1*scale))-1, width, Math.round(10 + (1*scale)), 0xA0000000);
 		}
 
-		gg.drawString(this.mc.font, time, posX, posY, this.settings.getIntValue(Settings.color_system_time));
+		gg.text(this.mc.font, time, posX, posY, this.settings.getIntValue(Settings.color_system_time));
 		
 		gg.pose().scale(scale, scale);
 	}

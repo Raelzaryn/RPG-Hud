@@ -1,7 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -19,7 +19,7 @@ public class HudElementLevelSimple extends HudElement{
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		
 		int width = 12;
@@ -34,7 +34,7 @@ public class HudElementLevelSimple extends HudElement{
 		}
 		gg.pose().scale(0.5f, 0.5f);
 
-		gg.drawCenteredString( this.mc.font, level, (posX * 2) + width, posY * 2 + 4, 0xFF80FF20);
+		gg.centeredText( this.mc.font, level, (posX * 2) + width, posY * 2 + 4, 0xFF80FF20);
 		gg.pose().scale(2.0f, 2.0f);
 	}
 
