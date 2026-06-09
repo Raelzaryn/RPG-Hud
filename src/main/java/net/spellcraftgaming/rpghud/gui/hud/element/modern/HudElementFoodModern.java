@@ -40,13 +40,13 @@ public class HudElementFoodModern extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) {
 			drawRect(gg, textPosX + (this.settings.getBoolValue(Settings.render_player_face) ? 23 : 2), posY + 12, width, 8, 0xA0000000);
-			gg.pose().scale(0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
 			gg.drawCenteredString( this.mc.font, staminaString, textPosX * 2 + (this.settings.getBoolValue(Settings.render_player_face) ? 42 : 0) + width + 4, posY * 2 + 28, -1);
-			gg.pose().scale(2f, 2f);
+			gg.pose().scale(2f, 2f, 2f);
 		}
 
-		drawTetragon(gg, posX, posX, 13 + posY, 13 + posY, 70, 58, 8, 8, 0xA0000000);
-		drawTetragon(gg, posX + 2, posX + 2, 13 + posY, 13 + posY, 64, 54, 6, 6, 0x20FFFFFF);
+		drawTetragon(posX, posX, 13 + posY, 13 + posY, 70, 58, 8, 8, 0xA0000000);
+		drawTetragon(posX + 2, posX + 2, 13 + posY, 13 + posY, 64, 54, 6, 6, 0x20FFFFFF);
 
 		ItemStack itemMain = this.mc.player.getMainHandItem();
 		ItemStack itemSec = this.mc.player.getOffhandItem();
@@ -54,22 +54,22 @@ public class HudElementFoodModern extends HudElement {
 		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
 			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
-				value = itemMain.get(DataComponents.FOOD).nutrition();
+				value = itemMain.getItem().getFoodProperties(itemMain, null).nutrition();
 			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
-				value = itemSec.get(DataComponents.FOOD).nutrition();
+				value = itemSec.getItem().getFoodProperties(itemMain, null).nutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
 				if (bonusHunger > staminaMax)
 					bonusHunger = staminaMax;
-				drawTetragon(gg, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) bonusHunger / (double) staminaMax)), (int) (63 * ((double) bonusHunger / (double) 20)) - 10, 6, 6, offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW));
+				drawTetragon(posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) bonusHunger / (double) staminaMax)), (int) (63 * ((double) bonusHunger / (double) 20)) - 10, 6, 6, offsetColor(this.settings.getIntValue(Settings.color_food), OFFSET_PREVIEW));
 			}
 		}
 
 		if (this.mc.player.hasEffect(MobEffects.HUNGER)) {
-			drawTetragon(gg, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_hunger));
+			drawTetragon(posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_hunger));
 		} else {
-			drawTetragon(gg, posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_food));
+			drawTetragon(posX + 2, posX + 2, 13 + posY, 13 + posY, (int) (64 * ((double) stamina / (double) staminaMax)), (int) (64 * ((double) stamina / (double) 20)) - 10, 6, 6, this.settings.getIntValue(Settings.color_food));
 		}
 	}
 

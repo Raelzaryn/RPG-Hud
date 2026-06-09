@@ -20,7 +20,7 @@ public class HudElementAirModern extends HudElement {
     @Override
     public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         float scale = getScale();
-        gg.pose().scale(scale, scale);
+        gg.pose().scale(scale, scale, scale);
 
         int airAmount = this.mc.player.getAirSupply();
         double maxAir = this.mc.player.getMaxAirSupply();
@@ -38,7 +38,7 @@ public class HudElementAirModern extends HudElement {
         drawRect(gg, x + 2, y + 2, (int) ((x2 - 4) * (airAmount / maxAir)), y2 - 4, this.settings.getIntValue(Settings.color_air));
 
         scale = getInvertedScale();
-        gg.pose().scale(scale, scale);
+        gg.pose().scale(scale, scale, scale);
     }
 
     @Override

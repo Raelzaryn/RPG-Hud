@@ -1,8 +1,9 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -25,10 +26,13 @@ public class HudElementWidgetModern extends HudElement {
 		int posX = this.settings.getPositionValue(Settings.face_position)[0];
 		int posY = this.settings.getPositionValue(Settings.face_position)[1];
 		drawRect(gg, posX + 2, posY + 2, 20, 20, 0xA0000000);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.enableBlend();
 		ResourceLocation l = getPlayerSkin(this.mc.player);
-		gg.pose().scale(0.5f, 0.5f);
-		gg.blit(RenderPipelines.GUI_TEXTURED, l, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32, 256, 256);
-		gg.blit(l, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32, 256, 256);
-		gg.pose().scale(2f, 2f);
+		RenderSystem.disableDepthTest();
+		gg.pose().scale(0.5f, 0.5f, 0.5f);
+		gg.blit(l, posX * 2 + 8, posY * 2 + 8, 32, 32, 32, 32);
+		gg.blit(l, posX * 2 + 8, posY * 2 + 8, 160, 32, 32, 32);
+		gg.pose().scale(2f, 2f, 2f);
 	}
 }

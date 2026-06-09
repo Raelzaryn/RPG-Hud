@@ -35,13 +35,13 @@ public class HudElementHealthMountModern extends HudElement {
 		if (this.settings.getBoolValue(Settings.show_numbers_health)) {
 			int width2 = this.mc.font.width(stringHealth) / 2;
 			drawRect(gg, posX, 24 + posY, width2 + 4, 5, 0xA0000000);
-			gg.pose().scale(0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
 			gg.drawString(this.mc.font, stringHealth, posX * 2 + 4, 48 + posY * 2, -1);
-			gg.pose().scale(2f, 2f);
+			gg.pose().scale(2f, 2f, 2f);
 		}
 
-		drawTetragon(gg, posX, posX, 21 + posY, 21 + posY, 58, 54, 3, 3, 0xA0000000);
-		drawTetragon(gg, posX + 2, posX + 2, 21 + posY, 21 + posY, (int) (((double) health / (double) healthMax) * 53), (int) (((double) health / (double) healthMax) * 53 - 2), 1, 1, this.settings.getIntValue(Settings.color_health));
+		drawTetragon(posX, posX, 21 + posY, 21 + posY, 58, 54, 3, 3, 0xA0000000);
+		drawTetragon(posX + 2, posX + 2, 21 + posY, 21 + posY, (int) (((double) health / (double) healthMax) * 53), (int) (((double) health / (double) healthMax) * 53 - 2), 1, 1, this.settings.getIntValue(Settings.color_health));
 
 	}
 

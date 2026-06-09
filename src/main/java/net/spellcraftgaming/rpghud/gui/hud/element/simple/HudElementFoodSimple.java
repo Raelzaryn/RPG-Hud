@@ -37,9 +37,9 @@ public class HudElementFoodSimple extends HudElement {
 		if (stats.needsFood() && this.settings.getBoolValue(Settings.show_hunger_preview)) {
 			float value = 0;
 			if (itemMain != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
-				value = itemMain.get(DataComponents.FOOD).nutrition();
+				value = itemMain.getItem().getFoodProperties(itemMain, null).nutrition();
 			} else if (itemSec != ItemStack.EMPTY && itemMain.has(DataComponents.FOOD)) {
-				value = itemSec.get(DataComponents.FOOD).nutrition();
+				value = itemSec.getItem().getFoodProperties(itemMain, null).nutrition();
 			}
 			if (value > 0) {
 				int bonusHunger = (int) (value + stamina);
@@ -57,9 +57,9 @@ public class HudElementFoodSimple extends HudElement {
 		}
 		String staminaString = this.settings.getBoolValue(Settings.hunger_percentage) ? (int) Math.floor((double) stamina / (double) staminaMax * 100) + "%" : stamina + "/" + staminaMax;
 		if (this.settings.getBoolValue(Settings.show_numbers_food)) {
-			gg.pose().scale(0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
 			gg.drawCenteredString( this.mc.font, staminaString, posX * 2 + width, posY * 2 + 4, -1);
-			gg.pose().scale(2f, 2f);
+			gg.pose().scale(2f, 2f, 2f);
 		}
 	}
 

@@ -3,7 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -18,7 +17,7 @@ public class HudElementCompassVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.getBoolValue(Settings.enable_compass) && (!this.settings.getBoolValue(Settings.enable_immersive_compass) || this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)));
+		return this.settings.getBoolValue(Settings.enable_compass) && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)) : true);
 	}
 
 	@Override
@@ -30,7 +29,7 @@ public class HudElementCompassVanilla extends HudElement {
 		if (rotation < 0)
 			rotation = 200 + rotation;
 
-		gg.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, width - 56, posY, 34, 234, 112, 9, 256, 256);
+		gg.blit(INTERFACE, width - 56, posY, 34, 234, 112, 9);
 		if (rotation > 0 && rotation <= 100) {
 			gg.drawCenteredString( this.mc.font, "W", width + (50 * swapSides) - (rotation * swapSides), posY + 1, -1);
 		}
@@ -71,13 +70,13 @@ public class HudElementCompassVanilla extends HudElement {
 
 		if (this.settings.getBoolValue(Settings.enable_compass_coordinates)) {
 			if (this.settings.getBoolValue(Settings.reduce_size))
-				gg.pose().scale(0.5f, 0.5f);
+				gg.pose().scale(0.5f, 0.5f, 0.5f);
 			int[] pos = getPlayerPos();
 			gg.drawString(this.mc.font, String.valueOf(pos[0]), (width - 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			gg.drawCenteredString( this.mc.font, String.valueOf(pos[1]), width * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			gg.drawString(this.mc.font, String.valueOf(pos[2]), (width + 50) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1) - mc.font.width(String.valueOf(pos[2])), (posY + 11) * (this.settings.getBoolValue(Settings.reduce_size) ? 2 : 1), -1);
 			if (this.settings.getBoolValue(Settings.reduce_size))
-				gg.pose().scale(2f, 2f);
+				gg.pose().scale(2f, 2f, 2f);
 		}
 	}
 

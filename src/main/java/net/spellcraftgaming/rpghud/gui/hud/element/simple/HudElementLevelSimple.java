@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -23,6 +25,7 @@ public class HudElementLevelSimple extends HudElement{
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		
 		int width = 12;
+		RenderSystem.disableBlend();
 		
 		int posX = ((scaledWidth - width) /2) + this.settings.getPositionValue(Settings.level_position)[0];
 		int posY = scaledHeight - 32 - 8 + this.settings.getPositionValue(Settings.level_position)[1];
@@ -32,10 +35,11 @@ public class HudElementLevelSimple extends HudElement{
 		} else {
 			drawRect(gg, 26 + this.settings.getPositionValue(Settings.level_position)[0], posY, width, 7, 0xA0000000);
 		}
-		gg.pose().scale(0.5f, 0.5f);
+		gg.pose().scale(0.5f, 0.5f, 0.5f);
 
-		gg.drawCenteredString( this.mc.font, level, (posX * 2) + width, posY * 2 + 4, 0xFF80FF20);
-		gg.pose().scale(2.0f, 2.0f);
+		gg.drawCenteredString( this.mc.font, level, (posX * 2) + width, posY * 2 + 4, 0x80FF20);
+		gg.pose().scale(2.0f, 2.0f, 2.0f);
+		RenderSystem.enableBlend();
 	}
 
 }

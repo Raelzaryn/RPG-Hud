@@ -1,5 +1,6 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,47 +22,51 @@ public class HudElementHotbarModern extends HudElementHotbarDefault {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
         } else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 	        ItemStack itemstack = this.mc.player.getOffhandItem();
             int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
             HumanoidArm enumhandside = this.mc.player.getMainArm().getOpposite();
-	        int height = scaledHeight + posY;
-            int i = (scaledWidth / 2) + posX;
+            int width = scaledWidth;
+            int height = scaledHeight + posY;
+            int i = (width / 2) + posX;
             float f = zLevel;
             zLevel = -90.0F;
-            drawRect(gg, scaledWidth / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
-            if (this.mc.player.isCreative()) drawRect(gg, scaledWidth / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
+            drawRect(gg, width / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
+            if (this.mc.player.isCreative()) drawRect(gg, width / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
             for (int x = 0; x < 10; x++) {
-                drawRect(gg, scaledWidth / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
+                drawRect(gg, width / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
                 if (x < 9) {
-                    drawRect(gg, scaledWidth / 2 - 91 + 2 + (x * 20) + posX, height - 22 - 3, 18, 18, 0x60000000);
+                    drawRect(gg, width / 2 - 91 + 2 + (x * 20) + posX, height - 22 - 3, 18, 18, 0x60000000);
                 }
             }
-            drawRect(gg, scaledWidth / 2 - 91 + 2 + (entityplayer.getInventory().getSelectedSlot() * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
+            drawRect(gg, width / 2 - 91 + 2 + (entityplayer.getInventory().selected * 20) + posX, height - 22 - 3, 18, 18, 0x40FFFFFF);
             if (itemstack != ItemStack.EMPTY) {
                 if (enumhandside == HumanoidArm.LEFT) {
-                    drawRect(gg, scaledWidth / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
-                    drawRect(gg, scaledWidth / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
-                    drawRect(gg, scaledWidth / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
-                    drawRect(gg, scaledWidth / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
+                    drawRect(gg, width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
+                    drawRect(gg, width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
+                    drawRect(gg, width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
+                    drawRect(gg, width / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
                     if (this.mc.player.isCreative())
-                        drawRect(gg, scaledWidth / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
+                        drawRect(gg, width / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
                 } else {
-                    drawRect(gg, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
-                    drawRect(gg, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
-                    drawRect(gg, scaledWidth / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
-                    drawRect(gg, scaledWidth / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
+                    drawRect(gg, width / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
+                    drawRect(gg, width / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
+                    drawRect(gg, width / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
+                    drawRect(gg, width / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
                     if (this.mc.player.isCreative())
-                        drawRect(gg, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
+                        drawRect(gg, width / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
                 }
             }
 
             zLevel = f;
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
 
             for (int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 - 9 + 4 + posY;
-                this.renderHotbarItem(gg, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().getItem(l));
+                this.renderHotbarItem(gg, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().items.get(l));
             }
 
             if (itemstack != ItemStack.EMPTY) {
@@ -82,6 +87,8 @@ public class HudElementHotbarModern extends HudElementHotbarDefault {
                 }
                 renderAttackIndicator(gg, j2 + posX, scaledHeight - 26 + posY);
             }
+
+            RenderSystem.disableBlend();
         }
     }
 }

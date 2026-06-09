@@ -3,8 +3,6 @@ package net.spellcraftgaming.rpghud.gui.hud.element.modern;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.*;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementDetailsVanilla;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
@@ -43,9 +41,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/** Calculates the width for the element background */
 	private int calculateWidth() {
 		int width = 0;
-		for (EquipmentSlot equipmentslot : EquipmentSlotGroup.ARMOR) {
-			ItemStack item = this.mc.player.getItemBySlot(equipmentslot);
-			if (item != ItemStack.EMPTY && item.isDamageableItem()) {
+		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
+			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY
+					&& this.mc.player.getInventory().getArmor(i).isDamageableItem()) {
+				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				int widthNew = this.mc.font.width(s);
 				if (widthNew > width)
@@ -162,17 +161,18 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	protected void drawArmorDetails(GuiGraphics gg, int width) {
 		int xOffset = this.settings.getPositionValue(Settings.armor_det_position)[0];
 		int yOffset = this.settings.getPositionValue(Settings.armor_det_position)[1];
-		for (EquipmentSlot equipmentslot : EquipmentSlotGroup.ARMOR) {
-			ItemStack item = this.mc.player.getItemBySlot(equipmentslot);
-			if (item != ItemStack.EMPTY && item.isDamageableItem()) {
+		for (int i = this.mc.player.getInventory().armor.size() - 1; i >= 0; i--) {
+			if (this.mc.player.getInventory().getArmor(i) != ItemStack.EMPTY
+					&& this.mc.player.getInventory().getArmor(i).isDamageableItem()) {
 				drawRect(gg, 2  + (xOffset/2), 30 + this.offset / 2 + (yOffset / 2), 10 + 6 + (width / 2), 10, 0xA0000000);
-				gg.pose().scale(0.5f, 0.5f);
+				gg.pose().scale(0.5f, 0.5f, 0.5f);
+				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
-				this.renderGuiItemModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
+				this.renderGuiItemHalfSizeModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2  + xOffset, 66 + this.offset + yOffset, -1);
-				gg.pose().scale(2f, 2f);
+				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
 			}
 		}
@@ -193,12 +193,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (this.settings.getBoolValue(Settings.show_item_durability) && item.isDamageableItem()) {
 				drawRect(gg, 2 + (xOffset /2), 30 + this.offset / 2 + (yOffset/2), 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
-				gg.pose().scale(0.5f, 0.5f);
-				this.renderGuiItemModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
+				gg.pose().scale(0.5f, 0.5f, 0.5f);
+				this.renderGuiItemHalfSizeModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
 					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
-				gg.pose().scale(2f, 2f);
+				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
 
 			} else if (this.settings.getBoolValue(Settings.show_block_count) && item.getItem() instanceof BlockItem) {
@@ -236,10 +236,10 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				item = this.mc.player.getItemInHand(hand);
 				drawRect(gg, 2 + (xOffset /2), 30 + this.offset / 2 + (yOffset /2), 10 + 6 + (width / 2), 10, 0xA0000000);
 				String s = "x " + z;
-				gg.pose().scale(0.5f, 0.5f);
-				this.renderGuiItemModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
+				gg.pose().scale(0.5f, 0.5f, 0.5f);
+				this.renderGuiItemHalfSizeModel(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
-				gg.pose().scale(2f, 2f);
+				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
 			}
 		}
@@ -263,7 +263,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (ModRPGHud.renderDetailsAgain[2] || !ItemStack.matches(this.itemMainHandLastArrow, item)) {
 				ModRPGHud.renderDetailsAgain[2] = false;
 
-				item = this.mc.player.getProjectile(this.mc.player.getMainHandItem());
+				item = findAmmo(this.mc.player);
 				if (item != ItemStack.EMPTY) {
 					this.itemArrow = item.copy();
 					for (int y = 0; y < x; y++) {
@@ -281,12 +281,12 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			}
 			drawRect(gg, 2 + (xOffset /2), 30 + this.offset / 2 + (yOffset /2), 10 + 6 + (width / 2), 10, 0xA0000000);
 			String s = "x " + z;
-			gg.pose().scale(0.5f, 0.5f);
+			gg.pose().scale(0.5f, 0.5f, 0.5f);
 			if (this.itemArrow == ItemStack.EMPTY)
 				this.itemArrow = new ItemStack(Items.ARROW);
-			this.renderGuiItemModel(gg, this.itemArrow, 6 + xOffset, 62 + this.offset + yOffset);
+			this.renderGuiItemHalfSizeModel(gg, this.itemArrow, 6 + xOffset, 62 + this.offset + yOffset);
 			gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
-			gg.pose().scale(2f, 2f);
+			gg.pose().scale(2f, 2f, 2f);
 			this.offset += 20;
 
 		}

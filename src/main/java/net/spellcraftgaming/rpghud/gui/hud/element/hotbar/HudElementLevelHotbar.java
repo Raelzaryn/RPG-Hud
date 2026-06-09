@@ -1,5 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.hotbar;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
@@ -20,8 +22,10 @@ public class HudElementLevelHotbar extends HudElement {
 
 	@Override
 	public void drawElement(GuiGraphics gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
+		RenderSystem.enableBlend();
 		String level = String.valueOf(this.mc.player.experienceLevel);
 		gg.drawString(mc.font, level, (this.settings.getBoolValue(Settings.render_player_face) ? 25 : 13) + this.settings.getPositionValue(Settings.level_position)[0] - this.mc.font.width(level) / 2, scaledHeight - (this.settings.getBoolValue(Settings.render_player_face) ? 22 : 40) + this.settings.getPositionValue(Settings.level_position)[1], 0x80FF20);
+		RenderSystem.disableBlend();
 	}
 
 }

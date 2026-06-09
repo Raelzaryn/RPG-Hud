@@ -1,20 +1,18 @@
 package net.spellcraftgaming.rpghud.gui.hud.element;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.spellcraftgaming.rpghud.gui.render.ColoredTetragonGuiElementRenderState;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
-import org.joml.Matrix3x2f;
 import org.joml.Matrix4fStack;
 
 public abstract class HudElement {
@@ -22,67 +20,67 @@ public abstract class HudElement {
     /**
      * The values of the color red
      */
-    public static final int COLOR_RED = 0xFFC10000;
+    public static final int COLOR_RED = 0xC10000;
 
     /**
      * The values of the color red
      */
-    public static final int COLOR_PINK = 0xFFFF69B4;
+    public static final int COLOR_PINK = 0xFF69B4;
 
     /**
      * The values of the color red
      */
-    public static final int COLOR_BROWN = 0xFF8b4513;
+    public static final int COLOR_BROWN = 0x8b4513;
 
     /**
      * The values of the color white
      */
-    public static final int COLOR_WHITE = 0xFFF2F2F2;
+    public static final int COLOR_WHITE = 0xF2F2F2;
 
     /**
      * The values of the color white
      */
-    public static final int COLOR_ORANGE = 0xFFFF8400;
+    public static final int COLOR_ORANGE = 0xFF8400;
 
     /**
      * The values of the color green
      */
-    public static final int COLOR_GREEN = 0xFF3BC200;
+    public static final int COLOR_GREEN = 0x3BC200;
 
     /**
      * The values of the color red
      */
-    public static final int COLOR_PURPLE = 0xFFA400F0;
+    public static final int COLOR_PURPLE = 0xA400F0;
 
     /**
      * The values of the color blue
      */
-    public static final int COLOR_BLUE = 0xFF005BC2;
+    public static final int COLOR_BLUE = 0x005BC2;
 
     /**
      * The values of the color blue
      */
-    public static final int COLOR_AQUA = 0xFF00FFFF;
+    public static final int COLOR_AQUA = 0x00FFFF;
 
     /**
      * The value of the color black
      */
-    public static final int COLOR_BLACK = 0xFF292929;
+    public static final int COLOR_BLACK = 0x292929;
 
     /**
      * The values of the color grey
      */
-    public static final int COLOR_GREY = 0xFF8A8A8A;
+    public static final int COLOR_GREY = 0x8A8A8A;
 
     /**
      * The values of the color yellow
      */
-    public static final int COLOR_YELLOW = 0xFFEEEE00;
+    public static final int COLOR_YELLOW = 0xEEEE00;
 
     /**
      * The values of the default color
      */
-    public static final int[] COLOR_DEFAULT = {0xFF4C4C4C, 0xFF3D3D3D};
+    public static final int[] COLOR_DEFAULT = {0x4C4C4C, 0x3D3D3D};
 
     /**
      * ResourceLocation of the interface texture for the RPG-HUD
@@ -147,7 +145,6 @@ public abstract class HudElement {
     protected final float scaleInverted;
 
     public HudElementType parent;
-    private GuiGraphics gg;
 
     /**
      * Constructor
@@ -300,9 +297,28 @@ public abstract class HudElement {
     public static void drawRect(GuiGraphics gg, int posX, int posY, int width, int height, int color) {
         if (color == -1)
             return;
+        float f3;
         if (color <= 0xFFFFFF && color >= 0)
-            color = color + 0xFF000000;
-        gg.fill(posX, posY, posX + width, posY+height, color);
+            f3 = 1.0F;
+        else
+            f3 = (color >> 24 & 255) / 255.0F;
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.disableDepthTest();
+
+        BufferBuilder vertexbuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX, posY + height, 0).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX + width, posY + height, 0).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX + width, posY, 0).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(gg.pose().last().pose(), posX, posY, 0).setColor(f, f1, f2, f3);
+
+        BufferUploader.drawWithShader(vertexbuffer.buildOrThrow());
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
 
 
     }
@@ -452,11 +468,32 @@ public abstract class HudElement {
      * @param height2 height of the right edge
      * @param color   color of the tetragon (hexa format 0xAARRGGBB)
      */
-    public void drawTetragon(GuiGraphics gg, int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
+    public void drawTetragon(int posX1, int posX2, int posY1, int posY2, int width1, int width2, int height1, int height2, int color) {
+        if (color == -1)
+            return;
+        if (width1 < 0) width1 = 0;
+        if (width2 < 0) width2 = 0;
+        float f3;
+        if (color <= 0xFFFFFF && color >= 0)
+            f3 = 1.0F;
+        else
+            f3 = (color >> 24 & 255) / 255.0F;
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.disableDepthTest();//VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        BufferBuilder vertexbuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        vertexbuffer.addVertex(posX1, posY1 + height1, 0F).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(posX2 + width2, posY2 + height2, 0F).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(posX1 + width1, posY2, 0F).setColor(f, f1, f2, f3);
+        vertexbuffer.addVertex(posX2, posY1, 0F).setColor(f, f1, f2, f3);
 
-        gg.submitGuiElementRenderState(new ColoredTetragonGuiElementRenderState(
-                RenderPipelines.GUI, TextureSetup.noTexture(), new Matrix3x2f(gg.pose()), posX1, posX2, posY1, posY2, width1, width2, height1, height2, color, gg.peekScissorStack()
-        ));
+        BufferUploader.drawWithShader(vertexbuffer.buildOrThrow());
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
     }
 
     public static int offsetColorPercent(int color, int offsetPercent) {
@@ -556,6 +593,7 @@ public abstract class HudElement {
     	gg.drawString(this.mc.font, text, posX, posY + 1, colorBackground);
     	gg.drawString(this.mc.font, text, posX, posY - 1, colorBackground);
     	gg.drawString(this.mc.font, text, posX, posY, colorMain);
+        RenderSystem.enableBlend();
     }
 
     public boolean isChatOpen() {
