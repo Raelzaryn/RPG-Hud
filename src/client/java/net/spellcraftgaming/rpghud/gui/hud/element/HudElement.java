@@ -593,6 +593,7 @@ public abstract class HudElement {
 
 	protected static Identifier getPlayerSkin(LocalPlayer player){
 		if(playerSkinId == null) {
+			playerSkinId = Identifier.withDefaultNamespace("textures/entity/player/slim/steve.png");
 			Minecraft instance = Minecraft.getInstance();
 			SkinManager skinProvider = instance.getSkinManager();
 			GameProfile profile = player.getGameProfile();
