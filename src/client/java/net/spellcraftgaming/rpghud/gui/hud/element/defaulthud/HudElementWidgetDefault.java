@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
@@ -37,8 +38,9 @@ public class HudElementWidgetDefault extends HudElement {
 		if(this.settings.getBoolValue(Settings.render_player_face)) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX + facePosX, posY + facePosY, 114, 0, 50, 50, 256, 256);
 			graphics.pose().scale(0.5f, 0.5f);
-			graphics.blit(RenderPipelines.GUI_TEXTURED, this.playerSkinId, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 32, 32, 32, 32, 256, 256);
-			graphics.blit(RenderPipelines.GUI_TEXTURED, this.playerSkinId, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 160, 32, 32, 32, 256, 256);
+			Identifier playerSkin = getPlayerSkin(this.mc.player);
+			graphics.blit(RenderPipelines.GUI_TEXTURED, playerSkin, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 32, 32, 32, 32, 256, 256);
+			graphics.blit(RenderPipelines.GUI_TEXTURED, playerSkin, posX * 2 + 34 + facePosX * 2, posY * 2 + 34 + facePosY * 2, 160, 32, 32, 32, 256, 256);
 			graphics.pose().scale(2f, 2f);
 		} else {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, INTERFACE, posX, posY + (this.settings.getBoolValue(Settings.render_player_face) ? 11 : 3), 114, 50, 25, 29, 256, 256);

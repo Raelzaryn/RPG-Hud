@@ -177,7 +177,8 @@ public abstract class HudElement {
 	protected Settings settings;
 	protected float scale;
 	protected float scaleInverted;
-	protected Identifier playerSkinId = Identifier.withDefaultNamespace("textures/entity/player/slim/steve.png");
+
+	protected static Identifier playerSkinId;
 
 	/**
 	 * Constructor
@@ -544,14 +545,8 @@ public abstract class HudElement {
 	 * @param player the player whose skin should be returned
 	 * @return the ResourceLocation
 	 */
-	private void fetchPlayerSkin(LocalPlayer player) {
-		Minecraft instance = Minecraft.getInstance();
-		SkinManager skinProvider = instance.getSkinManager();
-		GameProfile profile = player.getGameProfile();
+	protected void fetchPlayerSkin(LocalPlayer player) {
 
-		skinProvider.get(profile).thenAccept(playerSkin -> {
-			playerSkin.ifPresent(skin -> this.playerSkinId = skin.body().texturePath());
-		});
 	}
 
 	/**
@@ -575,6 +570,7 @@ public abstract class HudElement {
 			}
 
 			graphics.item(player, stack, x, y, seed);
+			fetchPlayerSkin(mc.player);
 			if(f > 0.0F) {
 				graphics.pose().popMatrix();
 			}
@@ -593,5 +589,16 @@ public abstract class HudElement {
 
 	public boolean isChatOpen() {
 		return this.mc.screen instanceof ChatScreen;
+	}
+
+	protected static Identifier getPlayerSkin(LocalPlayer player){
+		if(playerSkinId == null) {
+			Minecraft instance = Minecraft.getInstance();
+			SkinManager skinProvider = instance.getSkinManager();
+			GameProfile profile = player.getGameProfile();
+
+			skinProvider.get(profile).thenAccept(playerSkin -> playerSkin.ifPresent(skin -> playerSkinId = skin.body().texturePath()));
+		}
+		return playerSkinId;
 	}
 }
