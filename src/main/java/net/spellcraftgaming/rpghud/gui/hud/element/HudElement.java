@@ -559,6 +559,6 @@ public abstract class HudElement {
     }
 
     public boolean isChatOpen() {
-        return this.mc.screen instanceof ChatScreen;
+        return this.mc.gui.screen() instanceof ChatScreen;
     }
 }

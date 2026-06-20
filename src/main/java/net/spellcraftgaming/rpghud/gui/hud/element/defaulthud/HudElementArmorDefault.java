@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementArmorDefault extends HudElement {
@@ -20,7 +21,7 @@ public class HudElementArmorDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override

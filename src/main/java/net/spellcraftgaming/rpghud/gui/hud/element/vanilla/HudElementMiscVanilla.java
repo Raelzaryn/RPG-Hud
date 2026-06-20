@@ -17,7 +17,7 @@ public class HudElementMiscVanilla extends HudElement{
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
+		return !this.mc.gui.hud.isHidden();
 	}
 	
 	@Override

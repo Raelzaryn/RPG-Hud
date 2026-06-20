@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.gui.hud.HudModern;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementFoodModern extends HudElement {
@@ -20,7 +21,7 @@ public class HudElementFoodModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override

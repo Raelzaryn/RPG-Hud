@@ -31,7 +31,7 @@ public class HudElementHotbarDefault extends HudElement {
     @Override
     public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR)
-            this.mc.gui.getSpectatorGui().extractHotbar(gg);
+            this.mc.gui.hud.getSpectatorGui().extractHotbar(gg);
         else if (this.mc.getCameraEntity() instanceof Player) {
             ItemStack itemstack = this.mc.player.getOffhandItem();
             HumanoidArm arm = this.mc.player.getMainArm().getOpposite();

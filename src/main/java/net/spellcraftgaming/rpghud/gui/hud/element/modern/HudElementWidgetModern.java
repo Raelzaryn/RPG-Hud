@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementWidgetModern extends HudElement {
@@ -17,7 +18,7 @@ public class HudElementWidgetModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
+		return RPGHudUtils.isSurvival() && ModRPGHud.instance.settings.getBoolValue(Settings.render_player_face);
 	}
 
 	@Override

@@ -10,7 +10,6 @@ public class HudElementArmorSimple extends HudElementArmorDefault {
 
 	public HudElementArmorSimple() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

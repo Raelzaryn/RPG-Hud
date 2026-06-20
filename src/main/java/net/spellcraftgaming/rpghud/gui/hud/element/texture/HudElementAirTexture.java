@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementAirTexture extends HudElement {
@@ -15,7 +16,7 @@ public class HudElementAirTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return (this.mc.player.isUnderWater() || this.mc.player.getAirSupply() < this.mc.player.getMaxAirSupply()) && !this.mc.options.hideGui;
+		return (this.mc.player.isUnderWater() || this.mc.player.getAirSupply() < this.mc.player.getMaxAirSupply()) && RPGHudUtils.isSurvival();
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
 import com.google.common.collect.Ordering;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -80,7 +80,7 @@ public class HudElementMobEffectsVanilla extends HudElement {
                                             * Mth.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
                         }
                     }
-                    gg.blitSprite(RenderPipelines.GUI_TEXTURED, Gui.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
+                    gg.blitSprite(RenderPipelines.GUI_TEXTURED, Hud.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
 
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {

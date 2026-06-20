@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementCompassVanilla;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementCompassModern extends HudElementCompassVanilla {
@@ -15,7 +16,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.hideGui && (!this.settings.getBoolValue(Settings.enable_immersive_compass) || this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)));
+		return this.settings.getBoolValue(Settings.enable_compass) && RPGHudUtils.isSurvival() && (!this.settings.getBoolValue(Settings.enable_immersive_compass) || this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)));
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 		int posY = getPosY(scaledHeight);
 		int swapSides = this.settings.getBoolValue(Settings.invert_compass) ? -1 : 1;
 
-		int rotation = Math.round(((this.mc.gameRenderer.getMainCamera().yRot() % 360) / 360) * 200);
+		int rotation = Math.round(((this.mc.gameRenderer.mainCamera().yRot() % 360) / 360) * 200);
 		if (rotation < 0)
 			rotation = 200 + rotation;
 		drawRect(gg, posX - 50, posY + 2, 100, 6, 0xAA000000);

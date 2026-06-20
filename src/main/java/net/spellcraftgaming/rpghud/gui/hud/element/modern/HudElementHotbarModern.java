@@ -19,7 +19,7 @@ public class HudElementHotbarModern extends HudElementHotbarDefault {
     @Override
     public void drawElement(GuiGraphicsExtractor gg, float zLevel, DeltaTracker partialTicks, int scaledWidth, int scaledHeight) {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
-            this.mc.gui.getSpectatorGui().extractHotbar(gg);
+            this.mc.gui.hud.getSpectatorGui().extractHotbar(gg);
         } else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
 	        ItemStack itemstack = this.mc.player.getOffhandItem();
             int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];

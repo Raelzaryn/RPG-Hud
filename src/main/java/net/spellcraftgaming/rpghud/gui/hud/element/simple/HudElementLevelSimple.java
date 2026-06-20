@@ -10,12 +10,11 @@ public class HudElementLevelSimple extends HudElement{
 
 	public HudElementLevelSimple() {
 		super(HudElementType.LEVEL, 0, 0, 0, 0, true);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
+		return !this.mc.gui.hud.isHidden();
 	}
 
 	@Override

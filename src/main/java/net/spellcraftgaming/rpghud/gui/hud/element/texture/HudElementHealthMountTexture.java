@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthMountTexture extends HudElement {
@@ -17,7 +18,7 @@ public class HudElementHealthMountTexture extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hideGui;
+		return this.mc.player.getVehicle() instanceof LivingEntity && RPGHudUtils.isSurvival();
 	}
 
 	@Override

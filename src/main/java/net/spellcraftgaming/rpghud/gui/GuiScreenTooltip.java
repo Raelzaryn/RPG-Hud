@@ -39,8 +39,8 @@ public class GuiScreenTooltip extends Screen {
         Minecraft mc = Minecraft.getInstance();
         Font fontRenderer = mc.font;
         GuiScreenTooltip gui;
-        if(mc.screen instanceof GuiScreenTooltip)
-            gui = (GuiScreenTooltip) mc.screen;
+        if(mc.gui.screen() instanceof GuiScreenTooltip)
+            gui = (GuiScreenTooltip) mc.gui.screen();
         else
             return;
 

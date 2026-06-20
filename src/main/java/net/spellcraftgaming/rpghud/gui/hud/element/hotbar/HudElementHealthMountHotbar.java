@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthMountHotbar extends HudElement {
@@ -16,7 +17,7 @@ public class HudElementHealthMountHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hideGui;
+		return this.mc.player.getVehicle() instanceof LivingEntity && RPGHudUtils.isSurvival();
 	}
 
 	@Override

@@ -6,18 +6,18 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthMountSimple extends HudElement {
 
 	public HudElementHealthMountSimple() {
 		super(HudElementType.HEALTH_MOUNT, 0, 0, 0, 0, true);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && !this.mc.options.hideGui;
+		return this.mc.player.getVehicle() instanceof LivingEntity && RPGHudUtils.isSurvival();
 	}
 	
 	@Override

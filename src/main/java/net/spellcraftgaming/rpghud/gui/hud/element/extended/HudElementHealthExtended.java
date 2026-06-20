@@ -6,6 +6,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthExtended extends HudElement {
@@ -17,7 +18,7 @@ public class HudElementHealthExtended extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui;
+		return RPGHudUtils.isSurvival();
 	}
 
 	@Override

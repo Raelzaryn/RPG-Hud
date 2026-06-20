@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementClockModern extends HudElementClockVanilla {
@@ -20,7 +21,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public boolean checkConditions() {
-        return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.options.hideGui
+        return this.settings.getBoolValue(Settings.enable_clock) && RPGHudUtils.isSurvival()
                 && (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
     }
 

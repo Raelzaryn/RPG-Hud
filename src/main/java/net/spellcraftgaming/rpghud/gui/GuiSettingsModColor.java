@@ -77,9 +77,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 
 		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
 				setSettingColor();
-			minecraft.setScreen(parent);
+			minecraft.gui.setScreen(parent);
 		}).setTooltip(I18n.get("tooltip.done", new Object[0])));
-		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> minecraft.setScreen(parent)).setTooltip(I18n.get("tooltip.cancel", new Object[0])));
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> minecraft.gui.setScreen(parent)).setTooltip(I18n.get("tooltip.cancel", new Object[0])));
 	}
 	
 	protected void actionPerformed(Button b) {
@@ -111,9 +111,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_YELLOW);
 			} else if (button.id == 250) {
 				setSettingColor();
-				this.minecraft.setScreen(this.parent);
+				this.minecraft.gui.setScreen(this.parent);
 			} else if (button.id == 251) {
-				this.minecraft.setScreen(this.parent);
+				this.minecraft.gui.setScreen(this.parent);
 			}
 		}
 	}

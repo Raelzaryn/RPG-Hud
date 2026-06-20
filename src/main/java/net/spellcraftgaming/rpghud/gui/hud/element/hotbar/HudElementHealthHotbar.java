@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
+import net.spellcraftgaming.rpghud.main.RPGHudUtils;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class HudElementHealthHotbar extends HudElement {
@@ -18,7 +19,7 @@ public class HudElementHealthHotbar extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui && !(this.mc.player.getVehicle() instanceof LivingEntity);
+		return RPGHudUtils.isSurvival() && !(this.mc.player.getVehicle() instanceof LivingEntity);
 	}
 
 	@Override

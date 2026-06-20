@@ -33,7 +33,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return !this.mc.options.hideGui && !this.isChatOpen();
+		return !this.mc.gui.hud.isHidden() && !this.isChatOpen();
 	}
 
 	@Override
