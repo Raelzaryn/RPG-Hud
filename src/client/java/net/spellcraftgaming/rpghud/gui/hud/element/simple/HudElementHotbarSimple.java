@@ -28,7 +28,7 @@ public class HudElementHotbarSimple extends HudElement {
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		if(this.mc.getCameraEntity() instanceof Player entityplayer) {
-			ItemStack itemstack = this.mc.player.getMainHandItem();
+			ItemStack itemstack = this.mc.player.getOffhandItem();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = 5 + this.settings.getPositionValue(Settings.hotbar_position)[1];
 			HumanoidArm enumhandside = this.mc.player.getMainArm().getOpposite();
