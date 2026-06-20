@@ -2,17 +2,21 @@ package net.spellcraftgaming.rpghud.main;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.spellcraftgaming.rpghud.event.ClientEventHandler;
+import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 import net.spellcraftgaming.rpghud.gui.hud.*;
 import net.spellcraftgaming.rpghud.settings.Settings;
 import org.slf4j.Logger;
@@ -37,11 +41,12 @@ public class ModRPGHud {
 
 	public static final Logger LOGGER = LogUtils.getLogger();
 
-	public ModRPGHud(IEventBus modEventBus) {
+	public ModRPGHud(IEventBus modEventBus, ModContainer container) {
 		instance = this;
 		if (FMLEnvironment.getDist() == Dist.CLIENT) {
 			modEventBus.addListener(this::setup);
 			modEventBus.addListener(this::doClientStuff);
+			container.registerExtensionPoint(IConfigScreenFactory.class, (mc, parent) -> new GuiSettingsMod(parent, Component.translatable("gui.rpg.settings")));
 		} else {
 			LOGGER.warn("RPG-Hud is a client-side-only mod and should not be installed server-side, please remove it from your server");
 		}

@@ -8,10 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
@@ -28,8 +25,7 @@ public class Settings {
 
     public static final String hud_type = "hud_type";
     public static final String enable_button_tooltip = "enable_button_tooltip";
-    public static final String show_update_notification = "show_update_notification";
-    public static final String show_convert_notification = "show_convert_notification";
+    public static final String enable_config_button = "enable_config_button";
     public static final String hotbar_position = "hotbar_position";
     public static final String widget_position = "widget_position";
     public static final String chat_position = "chat_position";
@@ -92,13 +88,13 @@ public class Settings {
     public static final String fps_position = "fps_position";
     public static final String color_fps = "color_fps";
     public static final String fps_scale = "fps_scale";
-    
+
     public static final String enable_system_time = "enable_system_time";
     public static final String enable_system_time_background = "enable_system_time_background";
     public static final String system_time_position = "system_time_position";
     public static final String color_system_time = "color_system_time";
     public static final String system_time_scale = "system_time_scale";
-    
+
     public static final String limit_jump_bar = "limit_jump_bar";
     public static final String color_jump_bar = "color_jump_bar";
     public static final String jump_bar_position = "jump_bar_position";
@@ -119,19 +115,18 @@ public class Settings {
     public static final String render_vanilla = "render_vanilla";
     public static final String prevent_event = "prevent_event";
     public static final String prevent_element_render = "prevent_element_render";
-    
+
     //public static final String debug_number_size = "debug_number_size";
-    
+
 
 
     private File rpgHudDir() {
-        Minecraft mc = Minecraft.getInstance();
-        return (new File(mc.gameDirectory.getPath(), "config" + File.separator + "RPG-HUD"));
+        return (new File(Minecraft.getInstance().gameDirectory.getPath(), "config" + File.separator + "RPG-HUD"));
     }
 
     public Settings() {
-        file = rpgHudDir();
-        init();
+        this.file = rpgHudDir();
+        this.init();
         this.load();
         this.save();
 
@@ -140,10 +135,7 @@ public class Settings {
     public void init() {
         addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
         addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
-        // addSetting(show_update_notification, new
-        // SettingBoolean(show_update_notification, true));
-        // addSetting(show_convert_notification, new
-        // SettingBoolean(show_convert_notification, true));
+        addSetting(enable_config_button, new SettingBoolean(enable_config_button, false));
 
         addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
         addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));
@@ -167,7 +159,7 @@ public class Settings {
         addSetting(hunger_percentage, new SettingBoolean(hunger_percentage, HudElementType.FOOD, false));
         addSetting(show_hunger_preview, new SettingBoolean(show_hunger_preview, HudElementType.FOOD, true));
         addSetting(color_food, new SettingColor(color_food, HudElementType.FOOD, HudElement.COLOR_GREEN));
-        addSetting(color_hunger, new SettingColor(color_hunger, HudElementType.FOOD, 0x9ba067));
+        addSetting(color_hunger, new SettingColor(color_hunger, HudElementType.FOOD, HudElement.COLOR_GREEN_FROST));
         addSetting(hunger_position, new SettingPosition(hunger_position, HudElementType.FOOD, 0, 0));
 
         addSetting(show_numbers_experience, new SettingBoolean(show_numbers_experience, HudElementType.EXPERIENCE, true));
@@ -193,18 +185,18 @@ public class Settings {
         addSetting(render_player_face, new SettingBoolean(render_player_face, HudElementType.WIDGET, true));
         addSetting(widget_position, new SettingPosition(widget_position, HudElementType.WIDGET, 0, 0));
         addSetting(face_position, new SettingPosition(face_position, HudElementType.WIDGET, 0, 0));
-        
+
         addSetting(enable_fps, new SettingBoolean(enable_fps, HudElementType.MISC, false));
         addSetting(fps_position, new SettingPosition(fps_position, HudElementType.MISC, 0, 0));
         addSetting(color_fps, new SettingColor(color_fps, HudElementType.MISC, HudElement.COLOR_GREY));
         addSetting(fps_scale, new SettingDouble(fps_scale, HudElementType.MISC, 0.5, 0, 0, 0));
-        
+
         addSetting(enable_system_time, new SettingBoolean(enable_system_time, HudElementType.MISC, true));
         addSetting(enable_system_time_background, new SettingBoolean(enable_system_time_background, HudElementType.MISC, true));
         addSetting(system_time_position, new SettingPosition(system_time_position, HudElementType.MISC, 0, 0));
         addSetting(color_system_time, new SettingColor(color_system_time, HudElementType.MISC, HudElement.COLOR_GREY));
         addSetting(system_time_scale, new SettingDouble(system_time_scale, HudElementType.MISC, 0.5, 0, 0, 0));
-        
+
         addSetting(limit_jump_bar, new SettingBoolean(limit_jump_bar, HudElementType.JUMP_BAR, true));
         addSetting(color_jump_bar, new SettingColor(color_jump_bar, HudElementType.JUMP_BAR, HudElement.COLOR_GREY));
         addSetting(jump_bar_position, new SettingPosition(jump_bar_position, HudElementType.JUMP_BAR, 0, 0));
@@ -227,7 +219,7 @@ public class Settings {
         addSetting(armor_position, new SettingPosition(armor_position, HudElementType.ARMOR, 0, 0));
 
         //addSetting(debug_number_size, new SettingBoolean(debug_number_size, HudElementType.DEBUG, false));
-        
+
         addDebugSettings(HudElementType.ARMOR);
         addDebugSettings(HudElementType.HOTBAR);
         addDebugSettings(HudElementType.AIR);
@@ -241,13 +233,9 @@ public class Settings {
     }
 
     public void addDebugSettings(HudElementType type) {
-        // addSetting(force_render + "_" + type.name().toLowerCase(), new
-        // SettingBooleanDebug(force_render + "_" + type.name().toLowerCase(), type,
-        // false));
         addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBooleanDebug(render_vanilla + "_" + type.name().toLowerCase(), type, false));
         addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_event + "_" + type.name().toLowerCase(), type, false));
-        addSetting(prevent_element_render + "_" + type.name().toLowerCase(),
-                new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
+        addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
     }
 
     public Setting getSetting(String id) {
@@ -255,8 +243,8 @@ public class Settings {
     }
 
     public int[] getPositionValue(String i) {
-        String[] postions = this.settings.get(i).getValue().toString().split("_");
-	    return new int[]{ Integer.parseInt(postions[0]), Integer.parseInt(postions[1]) };
+        String[] positions = this.settings.get(i).getValue().toString().split("_");
+        return new int[]{ Integer.parseInt(positions[0]), Integer.parseInt(positions[1]) };
     }
 
     public Object getValue(String i) {
@@ -321,8 +309,8 @@ public class Settings {
         } else if(setting instanceof SettingInteger) {
             return s + setting.getIntValue();
         } else if(setting instanceof SettingFloat sf) {
-	        return s + (id == pickup_duration ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
-                    : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
+            return s + (Objects.equals(id, pickup_duration) ? Math.ceil(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())) + " " + I18n.get("gui.rpg.sec", new Object[0])
+                                : String.valueOf(SettingFloat.snapToStepClamp(sf, sf.getFloatValue())));
         } else if(setting instanceof SettingPosition || setting instanceof SettingDouble) {
             return s;
         } else {
@@ -359,7 +347,7 @@ public class Settings {
         for(String key : this.settings.keySet()) {
             if(this.settings.get(key).associatedType != null && this.settings.get(key).associatedType.name() == type)
                 settings.add(key);
-            else if(type == "general" && this.settings.get(key).associatedType == null)
+            else if(Objects.equals(type, "general") && this.settings.get(key).associatedType == null)
                 settings.add(key);
         }
         return settings;
@@ -448,26 +436,26 @@ public class Settings {
 
     private void save(BufferedWriter out) throws IOException {
         for(Setting setting : settings.values()) {
-	        switch(setting) {
-		        case SettingBoolean settingBoolean ->
-				        out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingString settingString ->
+            switch(setting) {
+                case SettingBoolean settingBoolean ->
+                        out.write("B:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingString settingString ->
                         out.write("S:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingHudType settingHudType ->
-				        out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingColor settingColor ->
+                case SettingHudType settingHudType ->
+                        out.write("H:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingColor settingColor ->
                         out.write("C:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingInteger settingInteger ->
-				        out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingFloat settingFloat ->
+                case SettingInteger settingInteger ->
+                        out.write("I:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case SettingFloat settingFloat ->
                         out.write("F:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingDouble settingDouble ->
+                case SettingDouble settingDouble ->
                         out.write("D:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case SettingPosition settingPosition ->
-				        out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
-		        case null, default ->
+                case SettingPosition settingPosition ->
+                        out.write("P:" + setting.ID + "=" + setting.getValue() + NEW_LINE);
+                case null, default ->
                         out.write("E:" + setting.ID + "=" + "ERROR" + NEW_LINE);
-	        }
+            }
         }
     }
 }

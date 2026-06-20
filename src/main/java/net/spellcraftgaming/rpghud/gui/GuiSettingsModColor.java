@@ -6,7 +6,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -66,14 +65,14 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		
 		this.addRenderableWidget(colorCodeField);
 		String[] colorString = new String[] {"color.red", "color.pink", "color.brown", "color.white", "color.orange", "color.green",
-				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
+				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow", "color.green_frost"};
 		
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 7; i++) {
 			this.addRenderableWidget(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), this::actionPerformed));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addRenderableWidget(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+6]), this::actionPerformed));
+			this.addRenderableWidget(new GuiButtonTooltip(17 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+7]), this::actionPerformed));
 		}
 
 		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
@@ -110,6 +109,8 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_GREY);
 			} else if (button.id == 21) {
 				setColorTo(HudElement.COLOR_YELLOW);
+			} else if (button.id == 22) {
+				setColorTo(HudElement.COLOR_GREEN_FROST);
 			} else if (button.id == 250) {
 				setSettingColor();
 				this.minecraft.setScreen(this.parent);
