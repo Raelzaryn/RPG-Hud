@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,16 +34,16 @@ public class HudElementHotbarHotbar extends HudElement {
 			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
 			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_TEXTURE, posX, scaledHeight - 47 + posY, 182, 22);
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_SELECTION_TEXTURE, posX + entityplayer.getInventory().getSelectedSlot() * 20, scaledHeight - 47 - 1 + posY, 24, 22);
-
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_RIGHT_TEXTURE, posX + 181, scaledHeight - 47 + posY, 22, 22);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_SELECTION_TEXTURE, posX + entityplayer.getInventory().getSelectedSlot() * 20 - 1, scaledHeight - 46 - 2 + posY, 24, 23);
+			drawRect(graphics,posX + entityplayer.getInventory().getSelectedSlot() * 20 - 1, scaledHeight - 25 + posY,24,1,0xFF000000 );
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_OFFHAND_RIGHT_TEXTURE, posX + 174, scaledHeight - 48 + posY, 29, 24);
 
 			int s = 1;
 
-			for(int l = 0; l < 9; ++l) {
+			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
-				this.renderHotbarItem(graphics, i1, j1, deltaTracker, this.mc.player, this.mc.player.getInventory().getItem(s), s++);
+				this.renderHotbarItem(graphics, i1, j1, deltaTracker, this.mc.player, this.mc.player.getInventory().getItem(l), s++);
 			}
 
 			int l1 = scaledHeight - 47 + 3 + posY;

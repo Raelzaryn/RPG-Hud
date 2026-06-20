@@ -6,12 +6,12 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
+// Add the Terraformers maven repo to your repositories block
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
 }
 
 base {
@@ -38,6 +38,8 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    // Prior to Minecraft 26.x, use "modImplementation" instead
+    implementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 }
 
 processResources {

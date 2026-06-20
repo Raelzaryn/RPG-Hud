@@ -20,6 +20,7 @@ public class Settings {
 	public static final String NEW_LINE = System.lineSeparator();
 	public static final String hud_type = "hud_type";
 	public static final String enable_button_tooltip = "enable_button_tooltip";
+	public static final String enable_config_button = "enable_config_button";
 	public static final String show_update_notification = "show_update_notification";
 	public static final String show_convert_notification = "show_convert_notification";
 	public static final String hotbar_position = "hotbar_position";
@@ -131,6 +132,7 @@ public class Settings {
 	public void init() {
 		addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
 		addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
+		addSetting(enable_config_button, new SettingBoolean(enable_config_button, false));
 
 		addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
 		addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));

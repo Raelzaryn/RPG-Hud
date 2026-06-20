@@ -56,6 +56,10 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		this.instance = this;
 	}
 
+	public GuiSettingsMod(Screen parent) {
+		this(parent, Component.translatable("gui.rpg.settings"));
+	}
+
 	@Override
 	public void init() {
 		Font font = Minecraft.getInstance().font;
@@ -85,6 +89,9 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		} else {
 			List<String> settingList = this.settings.getSettingsOf(this.subSetting);
 			for(int i = 0; i < settingList.size(); i++) {
+				if(settingList.get(i).equals("enable_config_button") && !ModRPGHud.instance.compatibility.compatModMenu){
+					break;
+				}
 				if(this.settings.getSetting(settingList.get(i)) instanceof SettingPosition) {
 					String[] values = ((String) this.settings.getSetting(settingList.get(i)).getValue()).split("_");
 					List<TextFieldWidgetMod> fields = new ArrayList<>();

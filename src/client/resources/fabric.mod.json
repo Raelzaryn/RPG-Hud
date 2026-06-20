@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "rpg-hud",
-  "version": "3.12.3",
+  "version": "3.13",
   "name": "RPG-Hud",
   "description": "This mod changes the way the HUD is rendered and adds several new functionalities and styles (mainly RPG-like styles)",
   "authors": [
@@ -15,9 +15,8 @@
   "license": "GPL-3.0",
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "net.spellcraftgaming.rpghud.main.ModRPGHud"
-    ]
+    "client": [ "net.spellcraftgaming.rpghud.main.ModRPGHud"],
+    "modmenu": [ "net.spellcraftgaming.rpghud.compatibility.ModMenu" ]
   },
   "mixins": [
     "rpg-hud.mixins.json"
@@ -29,5 +28,10 @@
     "fabric-api": "*"
   },
   "suggests": {
+  },
+  "custom": {
+    "modmenu": {
+      "update_checker": true
+    }
   }
 }
