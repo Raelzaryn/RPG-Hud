@@ -24,7 +24,7 @@ license="GNU GPLv3"
 modId="rpghud" #mandatory
 
 # The version number of the mod
-version="3.10.3" #mandatory
+version="3.13" #mandatory
 
 # A display name for the mod
 displayName="RPG-HUD" #mandatory
