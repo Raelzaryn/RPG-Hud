@@ -332,11 +332,11 @@ public abstract class HudElement {
 
 		int offset = 1;
 
-		int filledWidth = width;
+		int filledWidth;
 		filledWidth = width - (offset * 2);
 		if(filledWidth < 0)
 			filledWidth = 0;
-		int filledHeight = height;
+		int filledHeight;
 		filledHeight = height - (offset * 2);
 		if(filledHeight < 0)
 			filledHeight = 0;
@@ -588,11 +588,12 @@ public abstract class HudElement {
 	}
 
 	public boolean isChatOpen() {
-		return this.mc.screen instanceof ChatScreen;
+		return this.mc.gui.screen() instanceof ChatScreen;
 	}
 
 	protected static Identifier getPlayerSkin(LocalPlayer player){
 		if(playerSkinId == null) {
+			playerSkinId = Identifier.withDefaultNamespace("textures/entity/player/slim/steve.png");
 			Minecraft instance = Minecraft.getInstance();
 			SkinManager skinProvider = instance.getSkinManager();
 			GameProfile profile = player.getGameProfile();

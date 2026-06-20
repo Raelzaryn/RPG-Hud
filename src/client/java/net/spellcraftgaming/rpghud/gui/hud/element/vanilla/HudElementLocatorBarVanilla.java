@@ -6,10 +6,10 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.contextualbar.ContextualBarRenderer;
-import net.minecraft.client.gui.contextualbar.ExperienceBarRenderer;
-import net.minecraft.client.gui.contextualbar.JumpableVehicleBarRenderer;
-import net.minecraft.client.gui.contextualbar.LocatorBarRenderer;
+import net.minecraft.client.gui.contextualbar.ContextualBar;
+import net.minecraft.client.gui.contextualbar.ExperienceBar;
+import net.minecraft.client.gui.contextualbar.JumpableVehicleBar;
+import net.minecraft.client.gui.contextualbar.LocatorBar;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.RPGHudUtils;
@@ -21,21 +21,21 @@ import java.util.function.Supplier;
 
 public class HudElementLocatorBarVanilla extends HudElement {
 
-	private final Map<BarType, Supplier<ContextualBarRenderer>> bars;
-	private Pair<BarType, ContextualBarRenderer> currentBar = Pair.of(BarType.EMPTY, ContextualBarRenderer.EMPTY);
+	private final Map<BarType, Supplier<ContextualBar>> bars;
+	private Pair<BarType, ContextualBar> currentBar = Pair.of(BarType.EMPTY, ContextualBar.EMPTY);
 
 	public HudElementLocatorBarVanilla() {
 		super(HudElementType.EXPERIENCE, 0, 0, 0, 0, false);
 		mc = Minecraft.getInstance();
 		this.bars = ImmutableMap.of(
 				BarType.EMPTY,
-				() -> ContextualBarRenderer.EMPTY,
+				() -> ContextualBar.EMPTY,
 				BarType.EXPERIENCE,
-				() -> new ExperienceBarRenderer(mc),
+				() -> new ExperienceBar(mc),
 				BarType.LOCATOR,
-				() -> new LocatorBarRenderer(mc),
+				() -> new LocatorBar(mc),
 				BarType.JUMPABLE_VEHICLE,
-				() -> new JumpableVehicleBarRenderer(mc)
+				() -> new JumpableVehicleBar(mc)
 		);
 	}
 
@@ -48,7 +48,7 @@ public class HudElementLocatorBarVanilla extends HudElement {
 
 		this.currentBar.getValue().extractBackground(graphics, deltaTracker);
 		if(RPGHudUtils.isSurvival() && this.mc.player.experienceLevel > 0) {
-			ContextualBarRenderer.extractExperienceLevel(graphics, this.mc.font, this.mc.player.experienceLevel);
+			ContextualBar.extractExperienceLevel(graphics, this.mc.font, this.mc.player.experienceLevel);
 		}
 
 		this.currentBar.getValue().extractRenderState(graphics, deltaTracker);

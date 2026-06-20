@@ -3,8 +3,8 @@ package net.spellcraftgaming.rpghud.mixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.FluidTags;
@@ -20,6 +20,7 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.main.RenderOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Environment(value = EnvType.CLIENT)
-@Mixin(Gui.class)
+@Mixin(Hud.class)
 public abstract class RenderOverlayMixin {
 
 	private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.withDefaultNamespace("hud/armor_empty");
@@ -84,7 +85,7 @@ public abstract class RenderOverlayMixin {
 		}
 		this.lastHealthValue = i;
 		int j = this.renderHealthValue;
-		random.setSeed((long) (this.ticks * 312871L));
+		random.setSeed(this.ticks * 312871L);
 		FoodData hungerManager = playerEntity.getFoodData();
 		int k = hungerManager.getFoodLevel();
 		int m = scaledWidth / 2 - 91;
@@ -160,8 +161,8 @@ public abstract class RenderOverlayMixin {
 			if(playerEntity.isEyeInFluid(FluidTags.WATER) || z < y) {
 				int ab = this.getVisibleVehicleHeartRows(x) - 1;
 				t -= ab * 10;
-				int ac = Mth.ceil((double) ((double) (z - 2) * 10.0 / (double) y));
-				int ad = Mth.ceil((double) ((double) z * 10.0 / (double) y)) - ac;
+				int ac = Mth.ceil((double) (z - 2) * 10.0 / (double) y);
+				int ad = Mth.ceil((double) z * 10.0 / (double) y) - ac;
 				for(aa = 0; aa < ac + ad; ++aa) {
 					if(aa < ac) {
 						graphics.blitSprite(RenderPipelines.GUI_TEXTURED, AIR_TEXTURE, n - aa * 8 - 9, t, 9, 9);

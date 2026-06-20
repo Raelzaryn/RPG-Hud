@@ -107,22 +107,15 @@ public class HudElementCompassVanilla extends HudElement {
 		Level level = this.mc.level;
 		this.mc.player.connection.getWaypointManager().forEachWaypoint(this.mc.getCameraEntity(), waypoint -> {
 			if(!(Boolean) waypoint.id().left().map(uuid -> uuid.equals(this.mc.getCameraEntity().getUUID())).orElse(false)) {
-				double d = waypoint.yawAngleToCamera(level, this.mc.gameRenderer.getMainCamera(), entity -> deltaTracker.getGameTimeDeltaPartialTick(false)) / 1.25;
+				double d = waypoint.yawAngleToCamera(level, this.mc.gameRenderer.mainCamera(), _ -> deltaTracker.getGameTimeDeltaPartialTick(false)) / 1.25;
 				if(!(d <= -61.0) && !(d > 60.0)) {
 					int j = Mth.ceil((this.mc.getWindow().getGuiScaledWidth() - 9) / 2.0F);
-					this.mc.getWaypointStyles().get(waypoint.icon().style);
-					WaypointStyle waypointStyleAsset = this.mc.getWaypointStyles().get(waypoint.icon().style);
+					this.mc.gui.hud.getWaypointStyles().get(waypoint.icon().style);
+					WaypointStyle waypointStyleAsset = this.mc.gui.hud.getWaypointStyles().get(waypoint.icon().style);
 					float f = Mth.sqrt((float) waypoint.distanceSquared(this.mc.getCameraEntity()));
 					Identifier identifier = waypointStyleAsset.sprite(f);
 
-					int k = waypoint.icon().color
-							        .orElseGet(
-									        () -> waypoint.id()
-											              .map(
-													              uuid -> ARGB.setBrightness(ARGB.color(255, uuid.hashCode()), 0.9F),
-													              name -> ARGB.setBrightness(ARGB.color(255, name.hashCode()), 0.9F)
-											              )
-							        );
+					int k = waypoint.icon().color.orElseGet(() -> waypoint.id().map( uuid -> ARGB.setBrightness(ARGB.color(255, uuid.hashCode()), 0.9F),name -> ARGB.setBrightness(ARGB.color(255, name.hashCode()), 0.9F)));
 					int l = (int) (d * 100.0 / 2.0 / 60.0);
 					graphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, j + l, posY - 2, 9, 9, k);
 					TrackedWaypoint.PitchDirection pitch = waypoint.pitchDirectionToCamera(level, this.mc.gameRenderer, entity -> deltaTracker.getGameTimeDeltaPartialTick(false));

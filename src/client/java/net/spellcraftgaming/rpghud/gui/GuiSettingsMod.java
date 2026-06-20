@@ -63,7 +63,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155, this.height / 6 - 14, "general", Component.translatable("gui.rpg.general"), button -> {
 				GuiButtonTooltip b = (GuiButtonTooltip) button;
 				if(b.enumOptions != null)
-					Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+					Minecraft.getInstance().gui.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 			}).setTooltip(Component.translatable("tooltip.general").getString());
 			this.addRenderableWidget(guismallbutton);
 
@@ -75,7 +75,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), Component.translatable(type.getDisplayName()), button -> {
 						GuiButtonTooltip b = (GuiButtonTooltip) button;
 						if(b.enumOptions != null) {
-							Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+							Minecraft.getInstance().gui.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 						}
 					}).setTooltip(Component.translatable("tooltip." + type.name()).getString());
 					this.addRenderableWidget(guismallbutton);
@@ -121,7 +121,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 						GuiButtonTooltip b = (GuiButtonTooltip) button;
 						if(b.enumOptions != null) {
 							if(settings.getSetting(b.enumOptions) instanceof SettingColor) {
-								Minecraft.getInstance().setScreen(new GuiSettingsModColor(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+								Minecraft.getInstance().gui.setScreen(new GuiSettingsModColor(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 							} else {
 								settings.increment(b.enumOptions);
 								button.setMessage(Component.translatable(settings.getButtonString(b.enumOptions)));
@@ -133,7 +133,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			}
 		}
 
-		this.addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> {
+		this.addRenderableWidget(Button.builder(Component.translatable("gui.done"), _ -> {
 			Settings settings = ModRPGHud.instance.settings;
 			for(String settingID : textFields.keySet()) {
 				for(TextFieldWidgetMod t : textFields.get(settingID)) {
@@ -157,7 +157,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				}
 			}
 			settings.saveSettings();
-			Minecraft.getInstance().setScreen(parent);
+			Minecraft.getInstance().gui.setScreen(parent);
 		}).bounds(this.width / 2 - 100, this.height / 6 + 168, 200, 20).build());
 	}
 
@@ -183,7 +183,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 						case DOUBLE:
 							double value;
 							try {
-								value = Double.valueOf(textFields.get(settingID).get(0).getValue());
+								value = Double.parseDouble(textFields.get(settingID).get(0).getValue());
 								this.settings.getSetting(settingID).setValue(value);
 							} catch(NumberFormatException _) {
 							}

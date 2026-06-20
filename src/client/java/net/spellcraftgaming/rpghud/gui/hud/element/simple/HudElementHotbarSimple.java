@@ -28,7 +28,7 @@ public class HudElementHotbarSimple extends HudElement {
 	@Override
 	public void drawElement(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, int scaledWidth, int scaledHeight) {
 		if(this.mc.getCameraEntity() instanceof Player entityplayer) {
-			ItemStack itemstack = this.mc.player.getMainHandItem();
+			ItemStack itemstack = this.mc.player.getOffhandItem();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = 5 + this.settings.getPositionValue(Settings.hotbar_position)[1];
 			HumanoidArm enumhandside = this.mc.player.getMainArm().getOpposite();
@@ -36,8 +36,6 @@ public class HudElementHotbarSimple extends HudElement {
 			int i = (scaledWidth / 2) + posX;
 			drawRect(graphics, scaledWidth / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
 			drawRect(graphics, scaledWidth / 2 - 91 + posX, height - 22 - 5 + 20, 182, 2, 0xA0000000);
-			if(this.mc.player.isCreative())
-				drawRect(graphics, scaledWidth / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
 			for(int x = 0; x < 10; x++) {
 				drawRect(graphics, scaledWidth / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
 				if(x < 9) {
@@ -52,16 +50,12 @@ public class HudElementHotbarSimple extends HudElement {
 					drawRect(graphics, scaledWidth / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(graphics, scaledWidth / 2 - 91 - 24 + posX, height - 22 - 5 + 20, 22, 2, 0xA0000000);
 					drawRect(graphics, scaledWidth / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
-					if(this.mc.player.isCreative())
-						drawRect(graphics, scaledWidth / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
 				} else {
 					drawRect(graphics, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
 					drawRect(graphics, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(graphics, scaledWidth / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(graphics, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 22 - 5 + 20, 22, 2, 0xA0000000);
 					drawRect(graphics, scaledWidth / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
-					if(this.mc.player.isCreative())
-						drawRect(graphics, scaledWidth / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
 				}
 			}
 
@@ -77,9 +71,9 @@ public class HudElementHotbarSimple extends HudElement {
 				int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
 				if(enumhandside == HumanoidArm.LEFT) {
-					this.renderHotbarItem(graphics, i - 91 - 26 + 5, l1 + 4, deltaTracker, this.mc.player, itemstack, s++);
+					this.renderHotbarItem(graphics, i - 91 - 26 + 5, l1 + 4, deltaTracker, this.mc.player, itemstack, s);
 				} else {
-					this.renderHotbarItem(graphics, i + 91 + 10 - 4, l1 + 4, deltaTracker, this.mc.player, itemstack, s++);
+					this.renderHotbarItem(graphics, i + 91 + 10 - 4, l1 + 4, deltaTracker, this.mc.player, itemstack, s);
 				}
 			}
 

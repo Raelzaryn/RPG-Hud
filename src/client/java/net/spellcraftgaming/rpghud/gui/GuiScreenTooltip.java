@@ -27,7 +27,7 @@ public class GuiScreenTooltip extends Screen {
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
 		super.extractRenderState(graphics, mouseX, mouseY, a);
 		for(GuiTextLabel label : labelList) {
-			label.render(this, graphics);
+			label.render(graphics);
 		}
 		if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
 			drawTooltip(graphics, mouseX, mouseY);
@@ -39,7 +39,7 @@ public class GuiScreenTooltip extends Screen {
 	 */
 	private void drawTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
-		if(!(mc.screen instanceof GuiScreenTooltip gui)) return;
+		if(!(mc.gui.screen() instanceof GuiScreenTooltip gui)) return;
 
 		boolean shouldRenderTooltip = false;
 		GuiButtonTooltip button = null;
@@ -107,7 +107,7 @@ public class GuiScreenTooltip extends Screen {
 			this.text = text;
 		}
 
-		public void render(Screen gui, GuiGraphicsExtractor graphics) {
+		public void render(GuiGraphicsExtractor graphics) {
 			graphics.text(Minecraft.getInstance().font, this.text, x, y, 0xFFFFFFFF, false);
 		}
 	}

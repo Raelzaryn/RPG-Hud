@@ -4,8 +4,8 @@ import com.google.common.collect.Ordering;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.util.ARGB;
@@ -83,7 +83,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
 						graphics.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_TEXTURE, k, l, 24, 24);
 					}
 
-					graphics.blitSprite(RenderPipelines.GUI_TEXTURED, Gui.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
+					graphics.blitSprite(RenderPipelines.GUI_TEXTURED, Hud.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
 					// Main
 					if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
 						int duration = effectinstance.getDuration() / 20;
@@ -107,13 +107,11 @@ public class HudElementStatusEffectsVanilla extends HudElement {
 
 	@Override
 	public int getPosY(int scaledHeight) {
-		return (int) 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
+		return 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
 	}
 
 	@Override
 	public float getScale() {
-		//if(scale != 0)
 		return (float) this.settings.getDoubleValue(Settings.status_scale);
-		//return 1;
 	}
 }

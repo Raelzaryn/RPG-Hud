@@ -56,15 +56,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 	@Override
 	public void init() {
 		MouseButtonEvent click = new MouseButtonEvent(0.0, 0.0, new MouseButtonInfo(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> {
-			slider.onClick(click, false);
-		}));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> {
-			slider.onClick(click, false);
-		}));
-		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> {
-			slider.onClick(click, false);
-		}));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.RED, this.width / 2 - 75, 40, this.colorR, 0F, 255F, 1F, slider -> slider.onClick(click, false)));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> slider.onClick(click, false)));
+		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> slider.onClick(click, false)));
 
 		this.colorCodeField = new TextFieldWidgetMod(Minecraft.getInstance().font, TextFieldWidgetMod.ValueType.HEX, this.width / 2 - 74, 115, 147, 20, Component.literal(Settings.intToHexString(this.color, false)));
 		this.colorCodeField.setMaxLength(7);
@@ -76,26 +70,20 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow", "color.green_frost"};
 
 		for(int i = 0; i < 7; i++) {
-			GuiButtonTooltip guiButtonTooltip = new GuiButtonTooltip(10 + i, this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), button -> {
-				actionPerformed((GuiButtonTooltip) button);
-			});
+			GuiButtonTooltip guiButtonTooltip = new GuiButtonTooltip(10 + i, this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), button -> actionPerformed((GuiButtonTooltip) button));
 			this.addRenderableWidget(guiButtonTooltip);
 		}
 
 		for(int i = 0; i < 6; i++) {
-			GuiButtonTooltip guiButtonTooltip = new GuiButtonTooltip(17 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i + 7]), button -> {
-				actionPerformed((GuiButtonTooltip) button);
-			});
+			GuiButtonTooltip guiButtonTooltip = new GuiButtonTooltip(17 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i + 7]), button -> actionPerformed((GuiButtonTooltip) button));
 			this.addRenderableWidget(guiButtonTooltip);
 		}
 
-		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), _ -> {
 			setSettingColor();
-			Minecraft.getInstance().setScreen(parent);
+			Minecraft.getInstance().gui.setScreen(parent);
 		}).setTooltip(I18n.get("tooltip.done")));
-		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), button -> {
-			Minecraft.getInstance().setScreen(parent);
-		}).setTooltip(I18n.get("tooltip.cancel")));
+		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 + 24, this.height / 6 + 168, 75, 20, Component.translatable("gui.cancel"), _ -> Minecraft.getInstance().gui.setScreen(parent)).setTooltip(I18n.get("tooltip.cancel")));
 	}
 
 	protected void actionPerformed(GuiButtonTooltip button) {
@@ -128,9 +116,9 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_GREEN_FROST);
 			} else if(button.id == 250) {
 				setSettingColor();
-				Minecraft.getInstance().setScreen(this.parent);
+				Minecraft.getInstance().gui.setScreen(this.parent);
 			} else if(button.id == 251) {
-				Minecraft.getInstance().setScreen(this.parent);
+				Minecraft.getInstance().gui.setScreen(this.parent);
 			}
 		}
 	}
