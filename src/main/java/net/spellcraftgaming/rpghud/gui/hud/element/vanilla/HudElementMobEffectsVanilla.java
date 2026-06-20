@@ -66,25 +66,26 @@ public class HudElementMobEffectsVanilla extends HudElement {
                         }
 
                     }
-                    float f = 1.0F;
+                    float alpha = 1.0F;
+                    int eDuration = effectinstance.getDuration();
                     if(effectinstance.isAmbient()) {
                         // Background Beacon
                         gg.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_AMBIENT_SPRITE, k, l, 24, 24);
                     } else {
-                        // Background Regular
-                        gg.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_SPRITE, k, l, 24, 24);
-                        if(effectinstance.getDuration() <= 200) {
-                            int i1 = 10 - effectinstance.getDuration() / 20;
-                            f = Mth.clamp((float) effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F)
-                                    + Mth.cos((float) effectinstance.getDuration() * (float) Math.PI / 5.0F)
+                        if(eDuration <= 200) {
+                            int i1 = 10 - eDuration / 20;
+                            alpha = Mth.clamp((float) eDuration / 10.0F / 5.0F * 0.5F, 0F, 0.5F)
+                                    + Mth.cos((float) eDuration * (float) Math.PI / 5.0F)
                                             * Mth.clamp((float) i1 / 10.0F * 0.25F, 0.0F, 0.25F);
                         }
+                        // Background Regular
+                        gg.blitSprite(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_SPRITE, k, l, 24, 24, ARGB.white(alpha));
                     }
-                    gg.blitSprite(RenderPipelines.GUI_TEXTURED, Hud.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(f));
+                    gg.blitSprite(RenderPipelines.GUI_TEXTURED, Hud.getMobEffectSprite(effect), k + 3, l + 3, 18, 18, ARGB.white(alpha));
 
                     // Main
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
-                        int duration = effectinstance.getDuration()/20;
+                        int duration = eDuration/20;
                         String s = "*:**";
                         if(duration < 600) s = duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60));
                         k -= mc.font.width(s)/2;

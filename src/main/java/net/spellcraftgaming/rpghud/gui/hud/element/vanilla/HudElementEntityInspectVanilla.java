@@ -164,10 +164,8 @@ public class HudElementEntityInspectVanilla extends HudElement {
                 .clip(new ClipContext(vec, vec2, OUTLINE, NONE, watcher));
 
         double distance = maxDistance;
-        if(ray != null) {
-            distance = ray.getBlockPos().distToCenterSqr(posVec);
-        }
-        Vec3 reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
+	    distance = ray.getBlockPos().distToCenterSqr(posVec);
+	    Vec3 reachVector = posVec.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
 
         double currentDistance = distance;
 
@@ -204,7 +202,7 @@ public class HudElementEntityInspectVanilla extends HudElement {
         double d0 = vecB.x - vecA.x;
         double d1 = vecB.y - vecA.y;
         double d2 = vecB.z - vecA.z;
-        enumfacing = func_197741_a(bb, vecA, adouble, enumfacing, d0, d1, d2);
+        enumfacing = func_197741_a(bb, vecA, adouble, null, d0, d1, d2);
         if(enumfacing == null) {
             return null;
         } else {

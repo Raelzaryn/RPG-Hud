@@ -33,6 +33,7 @@
     "name.use_position": "Use Custom Position",
 
     "name.enable_button_tooltip": "Button Tooltip",
+    "name.enable_config_button": "Enable Config Button",
     "name.show_armor": "Show Armor",
     "name.show_item_durability": "Show Item Durability",
     "name.show_block_count": "Show Block Count",
@@ -186,6 +187,7 @@
     "tooltip.enable_clock_color": "Set the color of the clock/nwidget to change with the/ntime of day",
     "tooltip.show_hunger_preview": "Show a preview of the/nstamina/hunger bar when/na food item is selected/nfrom the hotbar",
     "tooltip.enable_button_tooltip": "Show button tooltips",
+    "tooltip.enable_config_button": "Enables the config button/npositioned at the top right/nof the Main and Pause Menu",
     "tooltip.enable_compass": "Enable/disable the/ncompass widget",
     "tooltip.enable_immersive_compass": "Display the compass widget/nonly when a compass is inside the/nplayer's inventory",
     "tooltip.enable_compass_color": "Enable/Disable the red color/nfor the \"N\" symbol",

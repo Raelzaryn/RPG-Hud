@@ -25,8 +25,7 @@ public class Settings {
 
     public static final String hud_type = "hud_type";
     public static final String enable_button_tooltip = "enable_button_tooltip";
-    public static final String show_update_notification = "show_update_notification";
-    public static final String show_convert_notification = "show_convert_notification";
+    public static final String enable_config_button = "enable_config_button";
     public static final String hotbar_position = "hotbar_position";
     public static final String widget_position = "widget_position";
     public static final String chat_position = "chat_position";
@@ -122,13 +121,12 @@ public class Settings {
 
 
     private File rpgHudDir() {
-        Minecraft mc = Minecraft.getInstance();
-        return (new File(mc.gameDirectory.getPath(), "config" + File.separator + "RPG-HUD"));
+        return (new File(Minecraft.getInstance().gameDirectory.getPath(), "config" + File.separator + "RPG-HUD"));
     }
 
     public Settings() {
-        file = rpgHudDir();
-        init();
+        this.file = rpgHudDir();
+        this.init();
         this.load();
         this.save();
 
@@ -137,10 +135,7 @@ public class Settings {
     public void init() {
         addSetting(hud_type, new SettingHudType(hud_type, "vanilla"));
         addSetting(enable_button_tooltip, new SettingBoolean(enable_button_tooltip, true));
-        // addSetting(show_update_notification, new
-        // SettingBoolean(show_update_notification, true));
-        // addSetting(show_convert_notification, new
-        // SettingBoolean(show_convert_notification, true));
+        addSetting(enable_config_button, new SettingBoolean(enable_config_button, false));
 
         addSetting(reduce_size, new SettingBoolean(reduce_size, HudElementType.DETAILS, false));
         addSetting(show_armor, new SettingBoolean(show_armor, HudElementType.DETAILS, true));
@@ -238,13 +233,9 @@ public class Settings {
     }
 
     public void addDebugSettings(HudElementType type) {
-        // addSetting(force_render + "_" + type.name().toLowerCase(), new
-        // SettingBooleanDebug(force_render + "_" + type.name().toLowerCase(), type,
-        // false));
         addSetting(render_vanilla + "_" + type.name().toLowerCase(), new SettingBooleanDebug(render_vanilla + "_" + type.name().toLowerCase(), type, false));
         addSetting(prevent_event + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_event + "_" + type.name().toLowerCase(), type, false));
-        addSetting(prevent_element_render + "_" + type.name().toLowerCase(),
-                new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
+        addSetting(prevent_element_render + "_" + type.name().toLowerCase(), new SettingBooleanDebug(prevent_element_render + "_" + type.name().toLowerCase(), type, false));
     }
 
     public Setting getSetting(String id) {
@@ -252,8 +243,8 @@ public class Settings {
     }
 
     public int[] getPositionValue(String i) {
-        String[] postions = this.settings.get(i).getValue().toString().split("_");
-	    return new int[]{ Integer.parseInt(postions[0]), Integer.parseInt(postions[1]) };
+        String[] positions = this.settings.get(i).getValue().toString().split("_");
+	    return new int[]{ Integer.parseInt(positions[0]), Integer.parseInt(positions[1]) };
     }
 
     public Object getValue(String i) {

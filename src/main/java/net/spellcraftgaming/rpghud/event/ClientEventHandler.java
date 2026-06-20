@@ -11,6 +11,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class ClientEventHandler {
 
@@ -20,11 +21,11 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onGuiInit(ScreenEvent.Init.Pre event) {
-        if (event.getScreen() instanceof TitleScreen ||event.getScreen() instanceof PauseScreen) {
+        if (ModRPGHud.instance.settings.getBoolValue(Settings.enable_config_button) && (event.getScreen() instanceof TitleScreen ||event.getScreen() instanceof PauseScreen)) {
             Minecraft mc = Minecraft.getInstance();
             Component s = Component.translatable("name.rpghud");
 
-            event.addListener(Button.builder(s, (button) -> mc.gui.setScreen(new GuiSettingsMod(event.getScreen(), Component.translatable("gui.rpg.settings")))).bounds(event.getScreen().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20).build());
+            event.addListener(Button.builder(s, (_) -> mc.gui.setScreen(new GuiSettingsMod(event.getScreen(), Component.translatable("gui.rpg.settings")))).bounds(event.getScreen().width - mc.font.width(s.getString()) - 8, 0, mc.font.width(s.getString()) + 8, 20).build());
         }
     }
     
