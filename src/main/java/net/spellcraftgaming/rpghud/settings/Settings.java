@@ -375,7 +375,7 @@ public class Settings {
                 fos.close();
             }
         } catch(IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();		addSetting(color_hunger, new SettingColor(color_hunger, HudElementType.FOOD, HudElement.COLOR_GREEN_FROST));
         }
     }
 
