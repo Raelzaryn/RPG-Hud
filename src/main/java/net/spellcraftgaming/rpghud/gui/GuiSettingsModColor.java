@@ -54,20 +54,20 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.GREEN, this.width / 2 - 75, 65, this.colorG, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
 		this.addRenderableWidget(new GuiSliderMod(GuiSliderMod.EnumColor.BLUE, this.width / 2 - 75, 90, this.colorB, 0F, 255F, 1F, slider -> slider.onClick(0, 0)));
 
-		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, Component.translatable(Settings.intToHexString(this.color)));
-		this.colorCodeField.setValue(Settings.intToHexString(this.color));
+		this.colorCodeField = new EditBox(minecraft.font, this.width / 2 - 74, 115, 147, 20, Component.translatable(Settings.intToHexString(this.color, true)));
+		this.colorCodeField.setValue(Settings.intToHexString(this.color, true));
 		this.colorCodeField.setMaxLength(7);
 		
 		this.addRenderableWidget(colorCodeField);
 		String[] colorString = new String[] {"color.red", "color.pink", "color.brown", "color.white", "color.orange", "color.green",
-				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow"};
+				"color.purple", "color.blue", "color.aqua", "color.black", "color.grey", "color.yellow", "color.green_frost"};
 		
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 7; i++) {
 			this.addRenderableWidget(new GuiButtonTooltip(10 + i,this.width / 4 * 3 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i]), this::actionPerformed));
 		}
 
 		for(int i = 0; i < 6; i++) {
-			this.addRenderableWidget(new GuiButtonTooltip(16 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+6]), this::actionPerformed));
+			this.addRenderableWidget(new GuiButtonTooltip(17 + i, this.width / 4 * 3 + 60 - 20, 40 + (i * 20), 60, 20, Component.translatable(colorString[i+7]), this::actionPerformed));
 		}
 
 		this.addRenderableWidget(new GuiButtonTooltip(this.width / 2 - 100, this.height / 6 + 168, 125, 20, Component.translatable("gui.done"), button -> {
@@ -104,6 +104,8 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 				setColorTo(HudElement.COLOR_GREY);
 			} else if (button.id == 21) {
 				setColorTo(HudElement.COLOR_YELLOW);
+			} else if (button.id == 22) {
+				setColorTo(HudElement.COLOR_GREEN_FROST);
 			} else if (button.id == 250) {
 				setSettingColor();
 				this.minecraft.setScreen(this.parent);
@@ -124,7 +126,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		this.colorB = (this.color & 255);
 		((GuiSliderMod) this.children().get(2)).sliderValue = (float) this.colorB / 255;
 		((GuiSliderMod) this.children().get(2)).value = this.colorB;
-		this.colorCodeField.setValue(Settings.intToHexString(this.color));
+		this.colorCodeField.setValue(Settings.intToHexString(this.color, true));
 	}
 
 	@Override
@@ -160,7 +162,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 			}
 			this.colorCodeField.setValue(this.colorCodeField.getValue().toUpperCase());
 		} else {
-			this.colorCodeField.setValue(Settings.intToHexString(this.color));
+			this.colorCodeField.setValue(Settings.intToHexString(this.color, true));
 			this.colorR = ((GuiSliderMod) this.children().get(0)).getValue();
 			this.colorG = ((GuiSliderMod) this.children().get(1)).getValue();
 			this.colorB = ((GuiSliderMod) this.children().get(2)).getValue();
@@ -206,7 +208,7 @@ public class GuiSettingsModColor extends GuiScreenTooltip {
 		gg.drawCenteredString(Font, I18n.get("color.green", new Object[0]), this.width / 2, 65 - 9, -1);
 		gg.drawCenteredString(Font, I18n.get("color.blue", new Object[0]), this.width / 2, 90 - 9, -1);
 		this.colorCodeField.render(gg, mouseX, mouseY, partialTicks);
-		gg.drawCenteredString(Font, I18n.get("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color), this.width / 2, 141, -1);
+		gg.drawCenteredString(Font, I18n.get("gui.rpg.result", new Object[0]) + ": " + Settings.intToHexString(this.color, true), this.width / 2, 141, -1);
 		super.render(gg, mouseX, mouseY, partialTicks);
 		HudElement.drawCustomBar(gg, this.width / 2 - 75, 149, 150, 16, 100D, 0, 0, this.color, HudElement.offsetColorPercent(this.color, HudElement.OFFSET_PERCENT), true);
 	}
