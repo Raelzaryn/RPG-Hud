@@ -159,7 +159,7 @@ public class Settings {
         addSetting(hunger_percentage, new SettingBoolean(hunger_percentage, HudElementType.FOOD, false));
         addSetting(show_hunger_preview, new SettingBoolean(show_hunger_preview, HudElementType.FOOD, true));
         addSetting(color_food, new SettingColor(color_food, HudElementType.FOOD, HudElement.COLOR_GREEN));
-        addSetting(color_hunger, new SettingColor(color_hunger, HudElementType.FOOD, 0x9ba067));
+        addSetting(color_hunger, new SettingColor(color_hunger, HudElementType.FOOD, HudElement.COLOR_GREEN_FROST));
         addSetting(hunger_position, new SettingPosition(hunger_position, HudElementType.FOOD, 0, 0));
 
         addSetting(show_numbers_experience, new SettingBoolean(show_numbers_experience, HudElementType.EXPERIENCE, true));
