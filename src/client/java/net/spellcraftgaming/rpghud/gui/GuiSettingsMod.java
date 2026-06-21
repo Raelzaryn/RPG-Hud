@@ -26,16 +26,16 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public class GuiSettingsMod extends GuiScreenTooltip {
 
 	/** The ModSettings instance */
-	private Settings settings;
+	private final Settings settings;
 
 	/** The GuiScreen which lead to this GUI */
-	private Screen parent;
+	private final Screen parent;
 
-	private String subSetting;
+	private final String subSetting;
 
-	private Map<String, List<TextFieldWidget>> textFields = new HashMap<String, List<TextFieldWidget>>();
+	private final Map<String, List<TextFieldWidget>> textFields = new HashMap<>();
 	
-	private GuiSettingsMod instance;
+	private final GuiSettingsMod instance;
 	
 	public GuiSettingsMod(Screen parent, String subSetting, Text titleIn) {
 		super(titleIn);
@@ -53,14 +53,18 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		this.instance = this;
 	}
 
+	public GuiSettingsMod(Screen parent) {
+		this(parent, Text.translatable("gui.rpg.settings"));
+	}
+
 	@Override
 	public void init() {
 		TextRenderer fontRenderer = client.textRenderer;
-		if(this.subSetting.equals("")){
-			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", Text.translatable("gui.rpg.general"), button -> {
+		if(this.subSetting.isEmpty()){
+			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155, this.height / 6 - 14, "general", Text.translatable("gui.rpg.general"), button -> {
 					GuiButtonTooltip b = (GuiButtonTooltip) button;
 					if(b.enumOptions != null)
-					    client.setScreen(new GuiSettingsMod(instance, b.enumOptions, Text.translatable("gui.settings.rpghud")));
+					    client.setScreen(new GuiSettingsMod(instance, b.enumOptions, Text.translatable("gui.rpg.general")));
 			}).setTooltip(Text.translatable("tooltip.general").getString());
 			this.addDrawableChild(guismallbutton);
 			
@@ -72,7 +76,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), Text.translatable(type.getDisplayName()), button -> {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
-								this.client.setScreen(new GuiSettingsMod(instance, b.enumOptions, Text.translatable("gui.settings.rpghud")));
+								this.client.setScreen(new GuiSettingsMod(instance, b.enumOptions, Text.translatable("gui.rpg.general")));
 							}
 					}).setTooltip(Text.translatable("tooltip.general").getString());
 					this.addDrawableChild(guismallbutton);
@@ -85,7 +89,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				if(this.settings.getSetting(settingList.get(i)) instanceof SettingPosition)
 				{
 					String[] values = ((String) this.settings.getSetting(settingList.get(i)).getValue()).split("_");
-					List<TextFieldWidget> fields = new ArrayList<TextFieldWidget>();
+					List<TextFieldWidget> fields = new ArrayList<>();
 					
 					GuiTextLabel settingLabel = new GuiTextLabel(this.width / 2 - 152 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1), this.settings.getButtonString(settingList.get(i)));
 					labelList.add(settingLabel);
@@ -104,7 +108,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 					textFields.put(settingList.get(i), fields);
 				} else if(this.settings.getSetting(settingList.get(i)) instanceof SettingDouble) {
-                    List<TextFieldWidget> fields = new ArrayList<TextFieldWidget>();
+                    List<TextFieldWidget> fields = new ArrayList<>();
                     GuiTextLabel scaleLabel = new GuiTextLabel(this.width / 2 - 151 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1),
                             this.settings.getButtonString(settingList.get(i)));
                     TextFieldWidget scale = new TextFieldWidgetMod(fontRenderer, ValueType.DOUBLE, this.width / 2 - 100 + i % 2 * 160 + 3,
@@ -120,7 +124,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
 								if(settings.getSetting(b.enumOptions) instanceof SettingColor){
-								    client.setScreen(new GuiSettingsModColor(instance, b.enumOptions, Text.translatable("gui.settings.rpghud")));
+								    client.setScreen(new GuiSettingsModColor(instance, b.enumOptions, Text.translatable("gui.rpg.general")));
 								} else {
 									settings.increment(b.enumOptions);
 									button.setMessage(Text.translatable(settings.getButtonString(b.enumOptions)));
@@ -142,7 +146,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	                            case DOUBLE:
 	                                double value;
 	                                try {
-	                                    value = Double.valueOf(textFields.get(settingID).get(0).getText());
+	                                    value = Double.parseDouble(textFields.get(settingID).get(0).getText());
 	                                    this.settings.getSetting(settingID).setValue(value);
 	                                } catch(NumberFormatException e) {
 	                                }
@@ -163,7 +167,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	@Override
 	public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(dc);
-		dc.drawCenteredTextWithShadow(client.textRenderer, I18n.translate("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+		dc.drawCenteredTextWithShadow(client.textRenderer, I18n.translate("gui.rpg.settings"), this.width / 2, 12, 16777215);
 		for(List<TextFieldWidget> positionPairs : textFields.values()) {
 			for(TextFieldWidget t : positionPairs)
 				t.render(dc, mouseX, mouseY, partialTicks);
@@ -182,7 +186,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                         case DOUBLE:
                             double value;
                             try {
-                                value = Double.valueOf(textFields.get(settingID).get(0).getText());
+                                value = Double.parseDouble(textFields.get(settingID).get(0).getText());
                                 this.settings.getSetting(settingID).setValue(value);
                             } catch(NumberFormatException e) {
                             }

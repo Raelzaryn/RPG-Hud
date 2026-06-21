@@ -35,7 +35,7 @@ public class HudElementArmorDefault extends HudElement {
             	dc.drawTexture(ICONS, x + 48, top - 2, 25, 9, 9, 9);
             }
             if (w * 2 + 1 <= level) continue;
-            	dc.drawTexture(ICONS, x + 48, top - 2, 16, 9, 9, 9);
+            dc.drawTexture(ICONS, x + 48, top - 2, 16, 9, 9, 9);
         }
 	}
 

@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud.gui.hud.element.modern;
+package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -16,9 +16,9 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(value=EnvType.CLIENT)
-public class HudElementHotbarModern extends HudElement {
+public class HudElementHotbarSimple extends HudElement{
 
-	public HudElementHotbarModern() {
+	public HudElementHotbarSimple() {
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
     }
 
@@ -30,13 +30,15 @@ public class HudElementHotbarModern extends HudElement {
             this.mc.inGameHud.getSpectatorHud().render(dc);
 		} else if (this.mc.getCameraEntity() instanceof PlayerEntity entityplayer) {
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
 	        ItemStack itemstack = this.mc.player.getOffHandStack();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
-			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
+			int posY = 5 + this.settings.getPositionValue(Settings.hotbar_position)[1];
 			Arm enumhandside = this.mc.player.getMainArm().getOpposite();
 	        int height = scaledHeight + posY;
 			int i = (width / 2) + posX;
 	        drawRect(dc, width / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
+			drawRect(dc, width / 2 - 91 + posX, height - 22 - 5 + 20, 182, 2, 0xA0000000);
 			if(this.mc.player.isCreative()) drawRect(dc, width / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
 			for (int x = 0; x < 10; x++) {
 				drawRect(dc, width / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
@@ -50,12 +52,14 @@ public class HudElementHotbarModern extends HudElement {
 					drawRect(dc, width / 2 - 91 - 24 + posX, height - 22 - 5, 22, 2, 0xA0000000);
 					drawRect(dc, width / 2 - 91 - 24 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(dc, width / 2 - 91 - 4 + posX, height - 22 - 3, 2, 18, 0xA0000000);
+					drawRect(dc, width / 2 - 91 - 24 + posX, height - 22 - 5 + 20, 22, 2, 0xA0000000);
 					drawRect(dc, width / 2 - 91 + 2 - 24 + posX, height - 22 - 3, 18, 18, 0x60000000);
 					if(this.mc.player.isCreative()) drawRect(dc, width / 2 - 91 - 24 + posX, height - 7, 22, 2, 0xA0000000);
 				} else {
 					drawRect(dc, width / 2 - 91 - 24 + 209 + posX, height - 22 - 5, 22, 2, 0xA0000000);
 					drawRect(dc, width / 2 - 91 - 24 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
 					drawRect(dc, width / 2 - 91 - 4 + 209 + posX, height - 22 - 3, 2, 18, 0xA0000000);
+					drawRect(dc, width / 2 - 91 - 24 + 209 + posX, height - 22 - 5 + 20, 22, 2, 0xA0000000);
 					drawRect(dc, width / 2 - 91 + 2 - 24 + 209 + posX, height - 22 - 3, 18, 18, 0x60000000);
 					if(this.mc.player.isCreative()) drawRect(dc, width / 2 - 91 - 24 + 209 + posX, height - 7, 22, 2, 0xA0000000);
 				}

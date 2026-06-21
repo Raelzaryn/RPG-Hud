@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 public class HudElementEmpty extends HudElement {
 
 	public HudElementEmpty() {
-		super(HudElementType.VOID, 0, 0, 0, 0, false);
+		super(HudElementType.DEBUG, 0, 0, 0, 0, false);
 	}
 	
 	@Override

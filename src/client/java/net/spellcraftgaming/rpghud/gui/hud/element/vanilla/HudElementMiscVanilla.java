@@ -51,7 +51,7 @@ public class HudElementMiscVanilla extends HudElement{
 		int posY = (int) ((scaledHeight - 1 + this.settings.getPositionValue(Settings.system_time_position)[0]) * scale)-8;
 		
 		if(this.settings.getBoolValue(Settings.enable_system_time_background)) {
-			int width = (int) ((2*scale) + this.mc.textRenderer.getWidth(String.valueOf(time)));
+			int width = (int) ((2*scale) + this.mc.textRenderer.getWidth(time));
 			drawRect(dc, (int) (posX-(1*scale)), (int) (posY - (1*scale)), width, (int) (10 + (1*scale)), 0xA0000000);
 		}
 

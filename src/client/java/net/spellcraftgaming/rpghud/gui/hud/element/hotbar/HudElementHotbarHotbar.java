@@ -28,22 +28,19 @@ public class HudElementHotbarHotbar extends HudElement {
 	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(dc);
-		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
+		} else if (this.mc.getCameraEntity() instanceof PlayerEntity entityplayer) {
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
-			ItemStack itemstack = this.mc.player.getOffHandStack();
+	        ItemStack itemstack = this.mc.player.getOffHandStack();
 			int i = scaledWidth / 2;
-			float f = zLevel;
-			zLevel = -90.0F;
-			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
+	        int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
 			dc.drawTexture(WIDGETS_TEX_PATH, posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
-			dc.drawTexture(WIDGETS_TEX_PATH, posX + entityplayer.getInventory().selectedSlot * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
+	        dc.drawTexture(WIDGETS_TEX_PATH, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
 
-			dc.drawTexture(WIDGETS_TEX_PATH, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
+	        dc.drawTexture(WIDGETS_TEX_PATH, posX + entityplayer.getInventory().selectedSlot * 20 - 1, scaledHeight - 46 - 2 + posY, 0, 22, 24, 23);
+	        drawRect(dc,posX + entityplayer.getInventory().selectedSlot * 20 - 1, scaledHeight - 25 + posY,24,1,0xFF000000 );
 
-			zLevel = f;
-			RenderSystem.enableBlend();
+	        RenderSystem.enableBlend();
 	        RenderSystem.defaultBlendFunc();
 
 			for (int l = 0; l < 9; ++l) {

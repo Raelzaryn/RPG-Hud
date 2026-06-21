@@ -49,7 +49,7 @@ public class SettingPosition extends Setting{
 	@Override
 	public Setting setValue(Object o) {
 		String[] positions = ((String) o).split("_");
-		if(positions.length > 1 && !positions[0].equals("") && !positions[1].equals("")) {
+		if(positions.length > 1 && !positions[0].isEmpty() && !positions[1].isEmpty()) {
 			try {
 				this.x = Integer.parseInt(positions[0]);
 				this.y = Integer.parseInt(positions[1]);

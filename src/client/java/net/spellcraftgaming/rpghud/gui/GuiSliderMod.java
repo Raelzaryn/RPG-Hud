@@ -14,31 +14,29 @@ public class GuiSliderMod extends GuiButtonTooltip {
 	public enum EnumColor {
 		RED,
 		GREEN,
-		BLUE;
+		BLUE
 	}
     
-	private EnumColor color;
+	private final EnumColor color;
 
     /** The value of this slider control. */
-    public double sliderValue = 1.0F;
+    public double sliderValue;
 
     public String dispString = "";
 
     /** Is this slider control being dragged. */
     public boolean dragging = false;
-    public boolean showDecimal = true;
+    public final boolean showDecimal = true;
 
-    public double minValue = 0.0D;
-    public double maxValue = 5.0D;
-    public int precision = 1;
+    public double minValue;
+    public double maxValue;
+    public int precision;
     private final float valueStep;
     public int value;
 	
     public ISlider parent = null;
 
-    public String suffix = "";
-
-    public boolean drawString = true;
+	public final boolean drawString = true;
     
 	public GuiSliderMod(EnumColor color, int x, int y, float value, float minValueIn, float maxValue, float valueStep, ButtonWidget.PressAction titleIn) {
 		this(color, x, y, value, minValueIn, maxValue, valueStep, null, titleIn);
@@ -62,8 +60,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         }
         else
         {
-            val = Integer.toString((int)Math.round(sliderValue * (maxValue - minValue) + minValue));
-            precision = 0;
+	        precision = 0;
         }
 
         if(!drawString)
@@ -71,13 +68,8 @@ public class GuiSliderMod extends GuiButtonTooltip {
             dispString = "";
         }
 	}
-	
-	/*@Override
-	protected int getYImage(boolean p_getYImage_1_) {
-		return 0;
-	} */
-    
-    @Override
+
+	@Override
     public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
     	this.dragging = false;
     	return super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
@@ -97,19 +89,11 @@ public class GuiSliderMod extends GuiButtonTooltip {
         this.sliderValue = (d - minValue) / (maxValue - minValue);
     }
 
-    public static interface ISlider
+    public interface ISlider
     {
-        void onChangeSliderValue(GuiSliderMod guiSliderMod);
     }
-    
-    /**
-     * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     
-    @Override
-    protected void renderBackground(MatrixStack matrices, MinecraftClient client, int mouseX, int mouseY) {
-    }*/
-    
-    /**
+
+	/**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
      * e).
      */
@@ -148,7 +132,7 @@ public class GuiSliderMod extends GuiButtonTooltip {
         		updateSlider(mouseX, mouseY);
         	}
         	MinecraftClient mc = MinecraftClient.getInstance();
-        	int color = 0 + (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
+        	int color = (this.color == EnumColor.RED ? this.value << 16 : this.color == EnumColor.GREEN ? this.value << 8 : this.value);
 			HudElement.drawCustomBar(dc, this.getX(), this.getY(), this.width, this.height, 100D, color, HudElement.offsetColorPercent(color, HudElement.OFFSET_PERCENT));
 			
             color = 14737632;

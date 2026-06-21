@@ -59,6 +59,9 @@ public abstract class HudElement {
     /** The values of the color yellow */
     public static final int COLOR_YELLOW = 0xEEEE00;
 
+    /** The values of the color sickly green used by the hunger effect */
+    public static final int COLOR_GREEN_FROST = 0xFF9BA067;
+
     /** The values of the default color */
     public static final int[] COLOR_DEFAULT = { 0x4C4C4C, 0x3D3D3D };
 
@@ -92,19 +95,19 @@ public abstract class HudElement {
     /** Whether this element can be moved */
     protected boolean moveable;
     /** The Type of this element */
-    protected HudElementType type;
+    protected final HudElementType type;
 
     /** The Minecraft instance */
-    protected MinecraftClient mc;
+    protected final MinecraftClient mc;
 
     /** The Mod instance */
-    protected ModRPGHud rpgHud;
+    protected final ModRPGHud rpgHud;
 
     /** The Mod settings */
-    protected Settings settings;
+    protected final Settings settings;
 
-    protected float scale;
-    protected float scaleInverted;
+    protected final float scale;
+    protected final float scaleInverted;
 
     public HudElementType parent;
     /**
@@ -453,11 +456,11 @@ public abstract class HudElement {
 
         int offset = 1;
 
-        int filledWidth = width;
+        int filledWidth;
         filledWidth = width - (offset * 2);
         if (filledWidth < 0)
             filledWidth = 0;
-        int filledHeight = width;
+        int filledHeight;
         filledHeight = height - (offset * 2);
         if (filledHeight < 0)
             filledHeight = 0;

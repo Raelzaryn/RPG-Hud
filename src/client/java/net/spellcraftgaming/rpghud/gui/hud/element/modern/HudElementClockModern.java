@@ -10,6 +10,8 @@ import net.minecraft.item.Items;
 import net.spellcraftgaming.rpghud.gui.hud.element.vanilla.HudElementClockVanilla;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import java.util.Objects;
+
 @Environment(value=EnvType.CLIENT)
 public class HudElementClockModern extends HudElementClockVanilla {
 
@@ -25,7 +27,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
     @Override
     public boolean checkConditions() {
         return this.settings.getBoolValue(Settings.enable_clock) && !this.mc.options.debugEnabled
-                && (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
+                && (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
     }
 
     @Override
@@ -52,7 +54,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public int getPosX(int scaledWidth) {
-        return (int) (this.settings.getPositionValue(Settings.clock_position)[0] + ((2 + this.settings.getStringValue(Settings.clock_time_format) == "time.24" ? 0 :2)*getInvertedScale()));
+        return (int) (this.settings.getPositionValue(Settings.clock_position)[0] + (((2 + this.settings.getStringValue(Settings.clock_time_format)).equals("time.24") ? 0 :2)*getInvertedScale()));
     }
 
     @Override
@@ -64,7 +66,7 @@ public class HudElementClockModern extends HudElementClockVanilla {
 
     @Override
     public int getWidth(int scaledWidth) {
-        return this.settings.getStringValue(Settings.clock_time_format) == "time.24" ? 40 : 46;
+        return Objects.equals(this.settings.getStringValue(Settings.clock_time_format), "time.24") ? 40 : 46;
     }
 
     public int getHeight(int scaledHeight) {

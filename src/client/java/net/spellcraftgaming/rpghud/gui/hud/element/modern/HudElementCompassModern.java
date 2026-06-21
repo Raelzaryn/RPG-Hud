@@ -17,7 +17,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 
 	@Override
 	public boolean checkConditions() {
-		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.debugEnabled && (this.settings.getBoolValue(Settings.enable_immersive_compass) ? this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)) : true);
+		return this.settings.getBoolValue(Settings.enable_compass) && !this.mc.options.debugEnabled && (!this.settings.getBoolValue(Settings.enable_immersive_compass) || this.mc.player.getInventory().contains(new ItemStack(Items.COMPASS)));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class HudElementCompassModern extends HudElementCompassVanilla {
 	
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) (this.settings.getPositionValue(Settings.compass_position)[1]);
+        return this.settings.getPositionValue(Settings.compass_position)[1];
     }
 
     @Override

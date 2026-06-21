@@ -81,14 +81,11 @@ public class HudElementEntityInspectVanilla extends HudElement {
     }
 
     public static void drawEntityOnScreen(DrawContext dc, int posX, int posY, LivingEntity entity) {
-        int scale = 1;
+        int scale;
         int s1 = (int) (18 / entity.getHeight());
         int s3 = (int) (18 / entity.getScaleFactor());
         int offset = 0;
-        if(s1 > s3) {
-            scale = s3;
-        } else
-            scale = s1;
+	    scale = Math.min(s1, s3);
         if(entity instanceof SquidEntity) {
             scale = 11;
             offset = -13;

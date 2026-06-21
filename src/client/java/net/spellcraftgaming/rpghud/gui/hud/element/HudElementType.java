@@ -6,7 +6,7 @@ import net.minecraft.client.resource.language.I18n;
 
 @Environment(value=EnvType.CLIENT)
 public enum HudElementType {
-    VOID("name.void"),
+    DEBUG("name.debug"),
     HOTBAR("name.hotbar"),
     HEALTH("name.health"),
     ARMOR("name.armor"),
@@ -24,9 +24,9 @@ public enum HudElementType {
     STATUS_EFFECTS("name.status_effects"),
 	MISC("name.misc");
 
-	private String displayName;
+	private final String displayName;
 
-	private HudElementType(String displayName) {
+	HudElementType(String displayName) {
 		this.displayName = displayName;
 	}
 

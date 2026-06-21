@@ -24,7 +24,7 @@ public class GuiScreenTooltip extends Screen {
         super(titleIn);
     }
 
-    protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
+    protected final List<GuiTextLabel> labelList = new ArrayList<>();
 
     @Override
     public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
@@ -43,7 +43,7 @@ public class GuiScreenTooltip extends Screen {
     private void drawTooltip(DrawContext dc, int mouseX, int mouseY) {
         MinecraftClient mc = MinecraftClient.getInstance();
         TextRenderer fontRenderer = mc.textRenderer;
-        GuiScreenTooltip gui = null;
+        GuiScreenTooltip gui;
         if(mc.currentScreen instanceof GuiScreenTooltip)
             gui = (GuiScreenTooltip) mc.currentScreen;
         else
@@ -71,12 +71,12 @@ public class GuiScreenTooltip extends Screen {
             String[] tooltip = button.getTooltipNew();
             if(!(tooltip == null)) {
                 int counter = 0;
-                for(int id = 0; id < tooltip.length; id++) {
-                    int width = fontRenderer.getWidth(tooltip[id]);
-                    if(totalWidth < width)
-                        totalWidth = fontRenderer.getWidth(tooltip[id]);
-                    counter++;
-                }
+	            for(String s : tooltip) {
+		            int width = fontRenderer.getWidth(s);
+		            if(totalWidth < width)
+			            totalWidth = fontRenderer.getWidth(s);
+		            counter++;
+	            }
                 posX -= totalWidth / 2;
                 if((posX + totalWidth + 10) > gui.width)
                     posX -= (posX + totalWidth + 10) - gui.width;
@@ -105,9 +105,9 @@ public class GuiScreenTooltip extends Screen {
     }
 
     public class GuiTextLabel {
-        int x;
-        int y;
-        String text;
+        final int x;
+        final int y;
+        final String text;
 
         public GuiTextLabel(int x, int y, String text) {
             this.x = x;

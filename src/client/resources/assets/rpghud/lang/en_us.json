@@ -20,6 +20,7 @@
     "name.entity_inspect": "Entity Inspect",
     "name.status_effects": "Status Effects",
     "name.misc": "Miscellaneous",
+    "name.debug": "Debug Settings",
 
     "name.force_render": "Force Rendering",
     "name.render_vanilla": "Render Vanilla Element",
@@ -32,6 +33,7 @@
     "name.use_position": "Use Custom Position",
 
     "name.enable_button_tooltip": "Button Tooltip",
+    "name.enable_config_button": "Enable Config Button",
     "name.show_armor": "Show Armor",
     "name.show_item_durability": "Show Item Durability",
     "name.show_block_count": "Show Block Count",
@@ -76,6 +78,7 @@
     "name.enable_system_time" : "Show System Time",
     "name.color_system_time" : "System Time Color",
     "name.enable_system_time_background" : "System Time Background",
+    "name.debug_number_size" : "Debug number size",
 
     "name.health_percentage": "As Percentage",
     "name.hunger_percentage": "As Percentage",
@@ -103,11 +106,11 @@
     "name.armor_position": "Position",
     "name.fps_position": "Position",
     "name.system_time_position" : "Position",
-    
+
     "name.status_scale": "Scale",
     "name.fps_scale": "FPS Scale",
     "name.system_time_scale" : "Time Scale",
-    
+
     "name.rpghud": "RPG-Hud",
 
     "color.red": "Red",
@@ -122,6 +125,7 @@
     "color.orange": "Orange",
     "color.aqua": "Aqua",
     "color.black": "Black",
+    "color.green_frost": "Frost Green",
 
     "time.24": "24 Hours",
     "time.12": "12 Hours",
@@ -140,7 +144,7 @@
     "tooltip.done": "Save and go back",
     "tooltip.cancel": "Go back without saving",
     "tooltip.element": "Access the settings of/nthis element",
-    
+
     "tooltip.HOTBAR" : "Access the settings of/nthe hotbar",
     "tooltip.HEALTH" : "Access the settings of/nthe health display",
     "tooltip.ARMOR" : "Access the settings of/nthe armor display",
@@ -150,13 +154,14 @@
     "tooltip.JUMP_BAR" : "Access the settings of/nthe mount jump bar display",
     "tooltip.EXPERIENCE" : "Access the settings of/nthe experience display",
     "tooltip.LEVEL" : "Access the settings of/nthe player level display",
-	"tooltip.CLOCK" : "Access the settings of/nthe ingame clock display",
-	"tooltip.DETAILS" : "Access the settings for/nthe item details list",
-	"tooltip.WIDGET" : "Access the settings of/nthe player widget/nthis isn't applicable for/nthe simple HUD type",
-	"tooltip.COMPASS" : "Access the settings of/nthe compass display",
-	"tooltip.ENTITY_INSPECT" : "Access the settings of/nthe entity inspection display",
-	"tooltip.STATUS_EFFECTS" : "Access the settings for/nthe status effects",
-	"tooltip.MISC" : "Access miscellaneous settings/nThis contains settings for/nthe fps counter and/nthe system time display",
+    "tooltip.CLOCK" : "Access the settings of/nthe ingame clock display",
+    "tooltip.DETAILS" : "Access the settings for/nthe item details list",
+    "tooltip.WIDGET" : "Access the settings of/nthe player widget/nthis isn't applicable for/nthe simple HUD type",
+    "tooltip.COMPASS" : "Access the settings of/nthe compass display",
+    "tooltip.ENTITY_INSPECT" : "Access the settings of/nthe entity inspection display",
+    "tooltip.STATUS_EFFECTS" : "Access the settings for/nthe status effects",
+    "tooltip.MISC" : "Access miscellaneous settings/nThis contains settings for/nthe fps counter and/nthe system time display",
+    "tooltip.DEBUG" : "Access to debug settings",
 
     "tooltip.color_air": "Set the color of the/nbreath bar",
     "tooltip.color_experience": "Set the color of the/nexperience bar",
@@ -183,6 +188,7 @@
     "tooltip.enable_clock_color": "Set the color of the clock/nwidget to change with the/ntime of day",
     "tooltip.show_hunger_preview": "Show a preview of the/nstamina/hunger bar when/na food item is selected/nfrom the hotbar",
     "tooltip.enable_button_tooltip": "Show button tooltips",
+    "tooltip.enable_config_button": "Enables the config button/npositioned at the top right/nof the Main and Pause Menu",
     "tooltip.enable_compass": "Enable/disable the/ncompass widget",
     "tooltip.enable_immersive_compass": "Display the compass widget/nonly when a compass is inside the/nplayer's inventory",
     "tooltip.enable_compass_color": "Enable/Disable the red color/nfor the \"N\" symbol",
@@ -198,7 +204,7 @@
     "tooltip.show_entity_armor": "Show the armor value of/nthe entity you are looking at/n(should it have armor)",
     "tooltip.status_vertical": "Render the Status Effect/nicons vertically",
     "tooltip.status_time": "Show a timer for/nthe Status Effects'/nduration",
-    
+
     "tooltip.force_render": "Set this element to be rendered/nregardless if other mods disable it./n /n§cActivate this if another mod/n§cdisables this element",
     "tooltip.render_vanilla": "Force the vanilla version of/nthis element to be rendered instead./n /n§cActivate this if you encounter a/n§cproblem with this element",
     "tooltip.prevent_event": "Prevent the render event of/nthis element./nThis might disable features of/nother mods./n /n§cActivate this if another mod renders/n§csomething you don't want/n§cand can't disable it otherwise/n§cWARNING: Might disable other things, too",
@@ -213,10 +219,12 @@
     "tooltip.hunger_percentage": "Display hunger Value/nas a percentage",
     "tooltip.mount_health_percentage": "Display mount health/navalue as a percentage",
     "tooltip.experience_percentage": "Display experience value/nas a percentage",
-    
+
     "tooltip.enable_fps" : "Display current FPS ingame/nBy default in the top left",
     "tooltip.color_fps" : "Change the color of the/nFPS counter",
     "tooltip.enable_system_time" : "Display the current system time/n(Your local time)/nBy default in the bottom left",
     "tooltip.enable_system_time_background" : "Enable a background for the/nsystem time display",
-    "tooltip.color_system_time" : "Change the color of the/nSystem time display"
+    "tooltip.color_system_time" : "Change the color of the/nSystem time display",
+
+    "tooltip.debug_number_size" : "With some GUI Scale settings,/nthe numbers for the HUD can/nrender bit weird, if this/nhappens, toggle this setting"
 }

@@ -17,7 +17,7 @@ public class HudElementJumpBarDefault extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getMountJumpStrength() > 0F : true);
+		return this.mc.player.getVehicle() instanceof LivingEntity && (!this.settings.getBoolValue(Settings.limit_jump_bar) || this.mc.player.getMountJumpStrength() > 0F);
 	}
 
 	@Override

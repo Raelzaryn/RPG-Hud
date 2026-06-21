@@ -15,7 +15,7 @@ public class TextFieldWidgetMod extends TextFieldWidget {
     /** Array that contains the tooltip of this button */
     private String[] tooltip;
     
-    private ValueType type;
+    private final ValueType type;
     public TextFieldWidgetMod(TextRenderer fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Text msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
@@ -34,7 +34,7 @@ public class TextFieldWidgetMod extends TextFieldWidget {
     
     public enum ValueType{
         DOUBLE,
-        POSITION;
+        POSITION
     }
     
     /**

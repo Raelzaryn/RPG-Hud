@@ -75,7 +75,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui
+	 * @param dc
 	 *            the GUI to draw one
 	 */
 	protected void drawArmorDetails(DrawContext dc) {
@@ -99,7 +99,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui
+	 * @param dc
 	 *            the GUI to draw on
 	 * @param hand
 	 *            the hand whose item should be detailed
@@ -162,7 +162,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui
+	 * @param dc
 	 *            the GUI to draw on
 	 */
 	protected void drawArrowCount(DrawContext dc) {
@@ -311,7 +311,7 @@ public class HudElementDetailsVanilla extends HudElement {
                 DiffuseLighting.enableGuiDepthLighting();
             }
         } catch (Throwable throwable) {
-            CrashReport crashReport = CrashReport.create((Throwable)throwable, (String)"Rendering item");
+            CrashReport crashReport = CrashReport.create(throwable, "Rendering item");
             CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
             crashReportSection.add("Item Type", () -> String.valueOf(stack.getItem()));
             crashReportSection.add("Item Damage", () -> String.valueOf(stack.getDamage()));

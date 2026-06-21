@@ -26,11 +26,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	}
 
 	@Override
-	public boolean checkConditions() {
-		return !this.mc.options.debugEnabled && !this.isChatOpen();
-	}
-
-	@Override
 	public void drawElement(DrawContext dc, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16) + ((this.settings.getBoolValue(Settings.show_numbers_health) && this.settings.getBoolValue(Settings.show_numbers_food)) ? 0 : 8);
 		int width = calculateWidth();
@@ -144,7 +139,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 							z += addArrowStackIfCorrect(item, item3);
 						}
 					}
-					this.count3 = z;
 				}
 				this.count3 = 0;
 			} else {
@@ -167,7 +161,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui   the GUI to draw one
+	 * @param dc   the GUI to draw one
 	 * @param width the width of the background
 	 */
 	protected void drawArmorDetails(DrawContext dc, int width) {
@@ -191,7 +185,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param dc   the GUI to draw on
 	 * @param hand  the hand whose item should be detailed
 	 * @param width the width of the background
 	 */
@@ -256,7 +250,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param dc   the GUI to draw on
 	 * @param width the width of the background
 	 */
 	protected void drawArrowCount(DrawContext dc, int width) {

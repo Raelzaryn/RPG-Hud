@@ -11,6 +11,8 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import java.util.Objects;
+
 @Environment(value=EnvType.CLIENT)
 public class HudElementClockVanilla extends HudElement {
 
@@ -23,7 +25,7 @@ public class HudElementClockVanilla extends HudElement {
 		return super.checkConditions() 
 				&& this.settings.getBoolValue(Settings.enable_clock) 
 				&& !this.mc.options.debugEnabled
-				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
+				&& (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
 	}
 
 	@Override
@@ -51,7 +53,7 @@ public class HudElementClockVanilla extends HudElement {
 		int currentMin = (int) currentTimeMin;
 		if (currentHour > 24)
 			currentHour -= 24L;
-		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
+		if (Objects.equals(this.settings.getStringValue(Settings.clock_time_format), "time.24")) {
 			return get24HourTimeForString(currentHour, currentMin);
 		}
 		return get12HourTimeForString(currentHour, currentMin);
@@ -73,7 +75,7 @@ public class HudElementClockVanilla extends HudElement {
 		if (currentHour < 10)
 			sb.append("0");
 		sb.append(currentHour);
-		return sb.toString() + ":" + getMinuteForString(currentMin);
+		return sb + ":" + getMinuteForString(currentMin);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class HudElementClockVanilla extends HudElement {
 		if (currentHour < 10)
 			sb.append(0);
 		sb.append(currentHour);
-		return sb.toString() + ":" + getMinuteForString(currentMin) + " " + period;
+		return sb + ":" + getMinuteForString(currentMin) + " " + period;
 	}
 
 	/**

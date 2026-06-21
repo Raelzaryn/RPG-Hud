@@ -13,8 +13,8 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 @Environment(value=EnvType.CLIENT)
 public class RenderOverlay implements HudRenderCallback{
 
-    private ModRPGHud rpgHud;
-    private MinecraftClient mc;
+    private final ModRPGHud rpgHud;
+    private final MinecraftClient mc;
 
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
@@ -114,27 +114,5 @@ public class RenderOverlay implements HudRenderCallback{
         renderOverlay(dc, tickDelta);
         
     }
-    
-    /*private static HudElementType getEventAlias(ElementType type) {
-        switch(type) {
-            case HOTBAR:
-                return HudElementType.HOTBAR;
-            case HEALTH:
-                return HudElementType.HEALTH;
-            case ARMOR:
-                return HudElementType.ARMOR;
-            case FOOD:
-                return HudElementType.FOOD;
-            case HEALTHMOUNT:
-                return HudElementType.HEALTH_MOUNT;
-            case AIR:
-                return HudElementType.AIR;
-            case JUMPBAR:
-                return HudElementType.JUMP_BAR;
-            case EXPERIENCE:
-                return HudElementType.EXPERIENCE;
-            default:
-                return null;
-        }
-    }*/
+
 }

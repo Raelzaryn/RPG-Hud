@@ -1,4 +1,4 @@
-package net.spellcraftgaming.rpghud.gui.hud.element.modern;
+package net.spellcraftgaming.rpghud.gui.hud.element.simple;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -8,10 +8,11 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(value=EnvType.CLIENT)
-public class HudElementArmorModern extends HudElement {
+public class HudElementArmorSimple extends HudElement{
 
-	public HudElementArmorModern() {
+	public HudElementArmorSimple() {
 		super(HudElementType.ARMOR, 0, 0, 0, 0, true);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class HudElementArmorModern extends HudElement {
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) ((scaledHeight - 29 + 2)*getInvertedScale() - getHeight(scaledHeight) + this.settings.getPositionValue(Settings.armor_position)[1]);
+        return (int) ((scaledHeight - 29 - 11)*getInvertedScale() - getHeight(scaledHeight) + this.settings.getPositionValue(Settings.armor_position)[1]);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class HudElementArmorModern extends HudElement {
 
     @Override
     public float getScale() {
-        return 1;
+        return 0.5f;
     }
 
 }

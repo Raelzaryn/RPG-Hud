@@ -90,7 +90,7 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
-                        if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
+                        if(duration < 600) s = duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60));
                         k -= mc.textRenderer.getWidth(s)/2;
                         this.drawStringWithBackground(dc, s, k +12, l +14, -1, 0);
                     }
@@ -98,7 +98,6 @@ public class HudElementStatusEffectsVanilla extends HudElement {
                 }
             }
         }
-        scale = getInvertedScale();
     }
 
     @Override
@@ -108,14 +107,11 @@ public class HudElementStatusEffectsVanilla extends HudElement {
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
+        return 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
     }
 
     @Override
     public float getScale() {
-        float scale = (float)this.settings.getDoubleValue(Settings.status_scale);
-        //if(scale != 0)
-        return scale;
-        //return 1;
+        return (float) this.settings.getDoubleValue(Settings.status_scale);
     }
 }

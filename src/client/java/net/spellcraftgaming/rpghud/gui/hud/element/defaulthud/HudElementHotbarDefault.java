@@ -20,7 +20,7 @@ public class HudElementHotbarDefault extends HudElement {
 
     protected static final Identifier WIDGETS_TEX_PATH = new Identifier("textures/gui/widgets.png");
 
-    public int offset = -9;
+    public final int offset = -9;
     
 	public HudElementHotbarDefault() {
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
@@ -36,9 +36,7 @@ public class HudElementHotbarDefault extends HudElement {
             Arm arm = this.mc.player.getMainArm().getOpposite();
             int i = scaledWidth / 2 + this.settings.getPositionValue(Settings.hotbar_position)[0];
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
-            float f = zLevel;
-            zLevel = -90.0F;
-            dc.drawTexture(WIDGETS_TEX_PATH, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
+	        dc.drawTexture(WIDGETS_TEX_PATH, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
             dc.drawTexture(WIDGETS_TEX_PATH, i - 91 - 1 + this.mc.player.getInventory().selectedSlot * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
             if(!itemstack.isEmpty())
                 if(arm == Arm.LEFT)
@@ -46,8 +44,7 @@ public class HudElementHotbarDefault extends HudElement {
                 else
                     dc.drawTexture(WIDGETS_TEX_PATH, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
 
-            zLevel = f;
-            RenderSystem.enableBlend();
+	        RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
             for(int l = 0; l < 9; ++l) {
