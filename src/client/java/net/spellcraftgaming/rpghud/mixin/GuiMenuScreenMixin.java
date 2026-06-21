@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
+import net.spellcraftgaming.rpghud.settings.Settings;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,11 +25,12 @@ public abstract class GuiMenuScreenMixin extends Screen {
 
 	@Inject(at = @At("TAIL"), method = "init")
 	private void addModConfigButton(CallbackInfo info) {
-		Minecraft mc = Minecraft.getInstance();
-		Component s = Component.translatable("name.rpghud");
-		this.addRenderableWidget(Button.builder(s, button -> {
-			mc.setScreen(new GuiSettingsMod(this, Component.translatable("gui.settings.rpghud")));
-		}).bounds(this.width - mc.font.width(s.getString()) - 8, ModRPGHud.screenOffset, mc.font.width(s.getString()) + 8, 20).build());
+		if(!ModRPGHud.instance.compatibility.compatModMenu || ModRPGHud.instance.settings.getBoolValue(Settings.enable_config_button)) {
+			Minecraft mc = Minecraft.getInstance();
+			Component s = Component.translatable("name.rpghud");
+			this.addRenderableWidget(Button.builder(s, _ -> {
+				mc.setScreen(new GuiSettingsMod(this, Component.translatable("gui.rpg.settings")));
+			}).bounds(this.width - mc.font.width(s.getString()) - 8, ModRPGHud.screenOffsetAll, mc.font.width(s.getString()) + 8, 20).build());
+		}
 	}
-
 }

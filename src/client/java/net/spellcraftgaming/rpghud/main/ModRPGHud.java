@@ -15,9 +15,11 @@ import java.util.Objects;
 public class ModRPGHud implements ClientModInitializer {
 	public static ModRPGHud instance;
 	public static boolean[] renderDetailsAgain = {false, false, false};
-	public static int screenOffset = 0;
+	public static int screenOffsetAll = 0;
+	public static int screenOffsetTitle = 0;
 	public final String MODID = "rpg-hud";
 	public Settings settings;
+	public RPGHudCompatibility compatibility;
 
 	/**
 	 * Map of all registered HUDs
@@ -36,19 +38,24 @@ public class ModRPGHud implements ClientModInitializer {
 	public void onInitializeClient() {
 		instance = this;
 		this.settings = new Settings();
+
+		this.compatibility = new RPGHudCompatibility();
+
 		this.registerHud(new HudVanilla(Minecraft.getInstance(), "vanilla", "Vanilla"));
 		this.registerHud(new HudSimple(Minecraft.getInstance(), "simple", "Simplified"));
 		this.registerHud(new HudDefault(Minecraft.getInstance(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(Minecraft.getInstance(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(Minecraft.getInstance(), "texture", "Full Texture"));
-		//this.registerHud(new HudHotbarWidget(Minecraft.getInstance(), "hotbar", "Hotbar Widget"));
+		this.registerHud(new HudHotbarWidget(Minecraft.getInstance(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudModern(Minecraft.getInstance(), "modern", "Modern Style"));
 
 		if(!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
 		new RenderOverlay();
-		if(isClass("io.github.prospector.modmenu.ModMenu")) screenOffset = 12;
+
+		if(compatibility.compatProspector) screenOffsetAll = 12;
+		if(compatibility.compatModMenu) screenOffsetTitle = -12;
 	}
 
 	/**

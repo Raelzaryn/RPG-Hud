@@ -6,7 +6,6 @@
   ],
   "client": [
     "BossBarHudMixin",
-    "ChatMixin",
     "GuiMenuScreenMixin",
     "GuiTitleScreenMixin",
     "LocatorBarMixin",

@@ -56,6 +56,10 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		this.instance = this;
 	}
 
+	public GuiSettingsMod(Screen parent) {
+		this(parent, Component.translatable("gui.rpg.settings"));
+	}
+
 	@Override
 	public void init() {
 		Font font = Minecraft.getInstance().font;
@@ -63,7 +67,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155, this.height / 6 - 14, "general", Component.translatable("gui.rpg.general"), button -> {
 				GuiButtonTooltip b = (GuiButtonTooltip) button;
 				if(b.enumOptions != null)
-					Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+					Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 			}).setTooltip(Component.translatable("tooltip.general").getString());
 			this.addRenderableWidget(guismallbutton);
 
@@ -75,7 +79,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), Component.translatable(type.getDisplayName()), button -> {
 						GuiButtonTooltip b = (GuiButtonTooltip) button;
 						if(b.enumOptions != null) {
-							Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+							Minecraft.getInstance().setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 						}
 					}).setTooltip(Component.translatable("tooltip." + type.name()).getString());
 					this.addRenderableWidget(guismallbutton);
@@ -85,6 +89,9 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 		} else {
 			List<String> settingList = this.settings.getSettingsOf(this.subSetting);
 			for(int i = 0; i < settingList.size(); i++) {
+				if(settingList.get(i).equals("enable_config_button") && !ModRPGHud.instance.compatibility.compatModMenu){
+					break;
+				}
 				if(this.settings.getSetting(settingList.get(i)) instanceof SettingPosition) {
 					String[] values = ((String) this.settings.getSetting(settingList.get(i)).getValue()).split("_");
 					List<TextFieldWidgetMod> fields = new ArrayList<>();
@@ -121,7 +128,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 						GuiButtonTooltip b = (GuiButtonTooltip) button;
 						if(b.enumOptions != null) {
 							if(settings.getSetting(b.enumOptions) instanceof SettingColor) {
-								Minecraft.getInstance().setScreen(new GuiSettingsModColor(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+								Minecraft.getInstance().setScreen(new GuiSettingsModColor(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 							} else {
 								settings.increment(b.enumOptions);
 								button.setMessage(Component.translatable(settings.getButtonString(b.enumOptions)));
