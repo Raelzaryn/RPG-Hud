@@ -66,7 +66,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui
+	 * @param dc
 	 *            the GUI to draw one
 	 */
 	protected void drawArmorDetails(DrawContext dc) {
@@ -97,7 +97,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui
+	 * @param dc
 	 *            the GUI to draw on
 	 * @param hand
 	 *            the hand whose item should be detailed
@@ -160,7 +160,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui
+	 * @param dc
 	 *            the GUI to draw on
 	 */
 	protected void drawArrowCount(DrawContext dc) {

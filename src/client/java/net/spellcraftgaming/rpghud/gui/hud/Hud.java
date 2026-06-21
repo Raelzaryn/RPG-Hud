@@ -37,7 +37,7 @@ public abstract class Hud {
 	/** Hud name for display in settings */
 	private final String hudName;
 
-	protected Map<HudElementType, HudElement> elements = new HashMap<HudElementType, HudElement>();
+	protected Map<HudElementType, HudElement> elements = new HashMap<>();
 
 	/** Minecraft instance */
 	protected MinecraftClient mc;
@@ -138,7 +138,7 @@ public abstract class Hud {
 	 * 
 	 * @param type
 	 *            The type of the Element
-	 * @param gui
+	 * @param dc
 	 *            The gui to draw on
 	 * @param zLevel
 	 *            The zLevel to draw at

@@ -25,9 +25,8 @@ public class HudElementHotbarSimple extends HudElement{
 	public void drawElement(DrawContext dc, float zLevel, RenderTickCounter partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR) {
             this.mc.inGameHud.getSpectatorHud().render(dc);
-		} else if (this.mc.getCameraEntity() instanceof PlayerEntity) {
-			PlayerEntity entityplayer = (PlayerEntity) this.mc.getCameraEntity();
-			ItemStack itemstack = this.mc.player.getOffHandStack();
+		} else if (this.mc.getCameraEntity() instanceof PlayerEntity entityplayer) {
+	        ItemStack itemstack = this.mc.player.getOffHandStack();
 			int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = 5 + this.settings.getPositionValue(Settings.hotbar_position)[1];
 			Arm enumhandside = this.mc.player.getMainArm().getOpposite();

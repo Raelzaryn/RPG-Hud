@@ -22,7 +22,7 @@ public class GuiScreenTooltip extends Screen {
         super(titleIn);
     }
 
-    protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
+    protected List<GuiTextLabel> labelList = new ArrayList<>();
 
     @Override
     public void render(DrawContext dc, int mouseX, int mouseY, float partialTicks) {
@@ -69,12 +69,12 @@ public class GuiScreenTooltip extends Screen {
             String[] tooltip = button.getTooltipNew();
             if(!(tooltip == null)) {
                 int counter = 0;
-                for(int id = 0; id < tooltip.length; id++) {
-                    int width = fontRenderer.getWidth(tooltip[id]);
-                    if(totalWidth < width)
-                        totalWidth = fontRenderer.getWidth(tooltip[id]);
-                    counter++;
-                }
+	            for(String s : tooltip) {
+		            int width = fontRenderer.getWidth(s);
+		            if(totalWidth < width)
+			            totalWidth = fontRenderer.getWidth(s);
+		            counter++;
+	            }
                 posX -= totalWidth / 2;
                 if((posX + totalWidth + 10) > gui.width)
                     posX -= (posX + totalWidth + 10) - gui.width;

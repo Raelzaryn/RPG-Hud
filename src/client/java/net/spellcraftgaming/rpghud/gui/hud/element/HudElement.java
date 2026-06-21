@@ -56,6 +56,9 @@ public abstract class HudElement {
     /** The values of the color yellow */
     public static final int COLOR_YELLOW = 0xFFEEEE00;
 
+    /** The values of the color sickly green used by the hunger effect */
+    public static final int COLOR_GREEN_FROST = 0xFF9BA067;
+
     /** The values of the default color */
     public static final int[] COLOR_DEFAULT = { 0xFF4C4C4C, 0xFF3D3D3D };
 
@@ -616,11 +619,11 @@ public abstract class HudElement {
      *            the x position on the screen
      * @param y
      *            the y position on the screen
-     * @param partialTicks
+     * @param tickCounter
      *            the partial ticks (used for animation)
      * @param player
      *            the player who should get the item rendered
-     * @param item
+     * @param stack
      *            the item (via ItemStack)
      */
     protected void renderHotbarItem(DrawContext context, int x, int y, RenderTickCounter tickCounter, PlayerEntity player, ItemStack stack, int seed) {
