@@ -16,9 +16,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 	private String[] tooltip;
 	/**
 	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
+	 *
 	 * @param x
 	 *            The x position on the screen
 	 * @param y
@@ -33,9 +31,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
 	/**
 	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
+	 *
 	 * @param x
 	 *            The x position on the screen
 	 * @param y
@@ -60,9 +56,7 @@ public class GuiButtonTooltip extends GuiButtonLib {
 
 	/**
 	 * Initiates a new button
-	 * 
-	 * @param buttonId
-	 *            The ID of the button
+	 *
 	 * @param x
 	 *            The x position on the screen
 	 * @param y

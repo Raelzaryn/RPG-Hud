@@ -2,6 +2,7 @@ package net.spellcraftgaming.rpghud.main;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -10,13 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
-import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
-import net.spellcraftgaming.rpghud.gui.hud.HudModern;
-import net.spellcraftgaming.rpghud.gui.hud.HudSimple;
-import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.*;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(value=EnvType.CLIENT)
@@ -27,30 +22,38 @@ public class ModRPGHud implements ClientModInitializer{
     
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
-	public static int screenOffset = 0;
+	public static int screenOffsetAll = 0;
+	public static int screenOffsetTitle = 0;
+
+	public RPGHudCompatibility compatibility;
 	
 	public Settings settings;
 
 	/** Map of all registered HUDs */
-	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
+	public Map<String, Hud> huds = new LinkedHashMap<>();
 	
     public void onInitializeClient()
     {
         instance = this;
 		this.settings = new Settings();
+
+	    this.compatibility = new RPGHudCompatibility();
+
 		this.registerHud(new HudVanilla(MinecraftClient.getInstance(), "vanilla", "Vanilla"));
 		this.registerHud(new HudSimple(MinecraftClient.getInstance(), "simple", "Simplified"));
 		this.registerHud(new HudDefault(MinecraftClient.getInstance(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(MinecraftClient.getInstance(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(MinecraftClient.getInstance(), "texture", "Full Texture"));
-		//this.registerHud(new HudHotbarWidget(MinecraftClient.getInstance(), "hotbar", "Hotbar Widget"));
+		this.registerHud(new HudHotbarWidget(MinecraftClient.getInstance(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudModern(MinecraftClient.getInstance(), "modern", "Modern Style"));
 
 		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
         new RenderOverlay();
-        if (isClass("io.github.prospector.modmenu.ModMenu")) screenOffset = 12;
+
+	    if(compatibility.compatProspector) screenOffsetAll = 12;
+	    if(compatibility.compatModMenu) screenOffsetTitle = -12;
     }
     
 	/**
@@ -74,7 +77,7 @@ public class ModRPGHud implements ClientModInitializer{
 	}
 
 	public boolean isVanillaHud() {
-	    return this.settings.getStringValue(Settings.hud_type) == "vanilla";
+	    return Objects.equals(this.settings.getStringValue(Settings.hud_type), "vanilla");
 	}
 	
 	/** Checks if a Hud with the specified key is registered */
@@ -82,16 +85,7 @@ public class ModRPGHud implements ClientModInitializer{
 		return this.huds.containsKey(key);
 	}
 	
-	public static boolean isClass(String className) {
-	    try  {
-	        Class.forName(className);
-	        return true;
-	    }  catch (ClassNotFoundException e) {
-	        return false;
-	    }
-	}
-	
-    public static enum HeartTypeNew {
+    public enum HeartTypeNew {
 		CONTAINER(Identifier.ofVanilla("hud/heart/container"),
 				Identifier.ofVanilla("hud/heart/container_blinking"),
 				Identifier.ofVanilla("hud/heart/container"),
@@ -160,7 +154,7 @@ public class ModRPGHud implements ClientModInitializer{
         private final Identifier hardcoreHalfTexture;
         private final Identifier hardcoreHalfBlinkingTexture;
 
-        private HeartTypeNew(Identifier fullTexture, Identifier fullBlinkingTexture, Identifier halfTexture, Identifier halfBlinkingTexture, Identifier hardcoreFullTexture, Identifier hardcoreFullBlinkingTexture, Identifier hardcoreHalfTexture, Identifier hardcoreHalfBlinkingTexture) {
+        HeartTypeNew(Identifier fullTexture, Identifier fullBlinkingTexture, Identifier halfTexture, Identifier halfBlinkingTexture, Identifier hardcoreFullTexture, Identifier hardcoreFullBlinkingTexture, Identifier hardcoreHalfTexture, Identifier hardcoreHalfBlinkingTexture) {
             this.fullTexture = fullTexture;
             this.fullBlinkingTexture = fullBlinkingTexture;
             this.halfTexture = halfTexture;
@@ -185,8 +179,7 @@ public class ModRPGHud implements ClientModInitializer{
         }
 
         public static HeartTypeNew fromPlayerState(PlayerEntity player) {
-            HeartTypeNew HeartTypeNew = player.hasStatusEffect(StatusEffects.POISON) ? POISONED : (player.hasStatusEffect(StatusEffects.WITHER) ? WITHERED : (player.isFrozen() ? FROZEN : NORMAL));
-            return HeartTypeNew;
+	        return player.hasStatusEffect(StatusEffects.POISON) ? POISONED : (player.hasStatusEffect(StatusEffects.WITHER) ? WITHERED : (player.isFrozen() ? FROZEN : NORMAL));
         }
     }
 }

@@ -169,7 +169,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui   the GUI to draw one
+	 * @param dc   the GUI to draw one
 	 * @param width the width of the background
 	 */
 	protected void drawArmorDetails(DrawContext dc, int width) {
@@ -193,7 +193,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param dc   the GUI to draw on
 	 * @param hand  the hand whose item should be detailed
 	 * @param width the width of the background
 	 */
@@ -258,7 +258,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param dc   the GUI to draw on
 	 * @param width the width of the background
 	 */
 	protected void drawArrowCount(DrawContext dc, int width) {
