@@ -10,13 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
-import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
-import net.spellcraftgaming.rpghud.gui.hud.HudModern;
-import net.spellcraftgaming.rpghud.gui.hud.HudSimple;
-import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
+import net.spellcraftgaming.rpghud.gui.hud.*;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
 @Environment(value=EnvType.CLIENT)
@@ -27,9 +21,12 @@ public class ModRPGHud implements ClientModInitializer{
     
 	public static boolean[] renderDetailsAgain = { false, false, false };
 
-	public static int screenOffset = 0;
+	public static int screenOffsetAll = 0;
+	public static int screenOffsetTitle = 0;
 	
 	public Settings settings;
+
+	public RPGHudCompatibility compatibility;
 
 	/** Map of all registered HUDs */
 	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
@@ -38,19 +35,24 @@ public class ModRPGHud implements ClientModInitializer{
     {
         instance = this;
 		this.settings = new Settings();
-		this.registerHud(new HudVanilla(MinecraftClient.getInstance(), "vanilla", "Vanilla"));
+
+	    this.compatibility = new RPGHudCompatibility();
+
+	    this.registerHud(new HudVanilla(MinecraftClient.getInstance(), "vanilla", "Vanilla"));
 		this.registerHud(new HudSimple(MinecraftClient.getInstance(), "simple", "Simplified"));
 		this.registerHud(new HudDefault(MinecraftClient.getInstance(), "default", "Default"));
 		this.registerHud(new HudExtendedWidget(MinecraftClient.getInstance(), "extended", "Extended Widget"));
 		this.registerHud(new HudFullTexture(MinecraftClient.getInstance(), "texture", "Full Texture"));
-		//this.registerHud(new HudHotbarWidget(MinecraftClient.getInstance(), "hotbar", "Hotbar Widget"));
+		this.registerHud(new HudHotbarWidget(MinecraftClient.getInstance(), "hotbar", "Hotbar Widget"));
 		this.registerHud(new HudModern(MinecraftClient.getInstance(), "modern", "Modern Style"));
 
 		if (!isHudKeyValid(this.settings.getStringValue(Settings.hud_type))) {
 			this.settings.setSetting(Settings.hud_type, "vanilla");
 		}
         new RenderOverlay();
-        if (isClass("io.github.prospector.modmenu.ModMenu")) screenOffset = 12;
+
+	    if(compatibility.compatProspector) screenOffsetAll = 12;
+	    if(compatibility.compatModMenu) screenOffsetTitle = -12;
     }
     
 	/**
