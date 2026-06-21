@@ -17,7 +17,7 @@ public class HudElementHotbarDefault extends HudElement {
 
     protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
-    public int offset = -9;
+    public final int offset = -9;
 
     public HudElementHotbarDefault() {
         super(HudElementType.HOTBAR, 0, 0, 0, 0, true);
@@ -34,8 +34,7 @@ public class HudElementHotbarDefault extends HudElement {
             int i = scaledWidth / 2 + this.settings.getPositionValue(Settings.hotbar_position)[0];
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1] + this.offset;
             float f = zLevel;
-            zLevel = -90.0F;
-            gg.blit(WIDGETS_TEX_PATH, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
+	        gg.blit(WIDGETS_TEX_PATH, i - 91, scaledHeight - 22 + posY, 0, 0, 182, 22);
             gg.blit(WIDGETS_TEX_PATH, i - 91 - 1 + this.mc.player.getInventory().selected * 20, scaledHeight - 22 + posY - 1, 0, 22, 24, 22);
             if (!itemstack.isEmpty())
                 if (arm == HumanoidArm.LEFT)
@@ -43,22 +42,21 @@ public class HudElementHotbarDefault extends HudElement {
                 else
                 	gg.blit(WIDGETS_TEX_PATH, i + 91, scaledHeight - 23 + posY, 53, 22, 29, 24);
 
-            zLevel = f;
-            RenderSystem.enableBlend();
+	        RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
             for (int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 + posY;
-                this.renderHotbarItem(gg, i1, j1, partialTicks, this.mc.player, this.mc.player.getInventory().items.get(l));
+                this.renderHotbarItem(gg, i1, j1, partialTicks, this.mc.player.getInventory().items.get(l));
             }
 
             if (!itemstack.isEmpty()) {
                 int l1 = scaledHeight - 16 - 3 + posY;
                 if (arm == HumanoidArm.LEFT)
-                    this.renderHotbarItem(gg, i - 91 - 26, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(gg, i - 91 - 26, l1, partialTicks, itemstack);
                 else
-                    this.renderHotbarItem(gg, i + 91 + 10, l1, partialTicks, this.mc.player, itemstack);
+                    this.renderHotbarItem(gg, i + 91 + 10, l1, partialTicks, itemstack);
             }
 
             if (this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {

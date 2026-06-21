@@ -13,7 +13,7 @@ public class EditBoxMod extends EditBox {
     /** Array that contains the tooltip of this button */
     private String[] tooltip;
     
-    private ValueType type;
+    private final ValueType type;
     public EditBoxMod(Font fontIn, ValueType type, String setting, int xIn, int yIn, int widthIn, int heightIn, Component msg) {
         super(fontIn, xIn, yIn, widthIn, heightIn, msg);
         this.type = type;
@@ -32,7 +32,7 @@ public class EditBoxMod extends EditBox {
     
     public enum ValueType{
         DOUBLE,
-        POSITION;
+        POSITION
     }
     
     @Override

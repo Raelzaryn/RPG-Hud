@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.BlockItem;
@@ -66,7 +65,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui
+	 * @param gg
 	 *            the GUI to draw one
 	 */
 	protected void drawArmorDetails(GuiGraphics gg) {
@@ -79,7 +78,7 @@ public class HudElementDetailsVanilla extends HudElement {
 				ItemStack item = this.mc.player.getInventory().getArmor(i);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(item, (reducedSize ? 4 : 2) + xOffset, (reducedSize ? 124 + (typeOffset*2): 62 +typeOffset) + this.offset + yOffset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset + yOffset, reducedSize? 0.5f : 1f);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2: 62+typeOffset) + this.offset + yOffset);
 				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 132 + (typeOffset*2): 66 + typeOffset) + this.offset + yOffset, -1);
 				this.offset += 16;
 			}
@@ -90,7 +89,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui
+	 * @param gg
 	 *            the GUI to draw on
 	 * @param hand
 	 *            the hand whose item should be detailed
@@ -106,7 +105,7 @@ public class HudElementDetailsVanilla extends HudElement {
 					gg.pose().scale(0.5f, 0.5f, 0.5f);
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemModel(item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize);
-				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset, reducedSize? 0.5f : 1f);
+				if(this.settings.getBoolValue(Settings.show_durability_bar)) this.renderItemDurabilityBar(gg, item, reducedSize ? 4 : 2 + xOffset, (reducedSize ? 124 + typeOffset*2 : 62 + typeOffset) + this.offset + yOffset);
 				gg.drawString(this.mc.font, s, 23 + xOffset, (reducedSize ? 132  + typeOffset*2: 66 + typeOffset) + this.offset + yOffset, -1);
 				this.offset += 16;
 				if (reducedSize)
@@ -155,7 +154,7 @@ public class HudElementDetailsVanilla extends HudElement {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui
+	 * @param gg
 	 *            the GUI to draw on
 	 */
 	protected void drawArrowCount(GuiGraphics gg) {
@@ -200,7 +199,7 @@ public class HudElementDetailsVanilla extends HudElement {
 			this.offset += 16;
 
 		}
-		if (item == ItemStack.EMPTY || item == null) {
+		if (item == ItemStack.EMPTY) {
 			this.itemMainHandLastArrow = ItemStack.EMPTY;
 		} else {
 			this.itemMainHandLastArrow = item.copy();
@@ -245,14 +244,7 @@ public class HudElementDetailsVanilla extends HudElement {
 		else
 			return ItemStack.EMPTY;
 	}
-	
-	public static int getOffhandSide() {
-		if (Minecraft.getInstance().player.getMainArm() == HumanoidArm .RIGHT)
-			return 0;
-		else
-			return 1;
-	}
-	
+
 	public static boolean isArrow(ItemStack item) {
 		if (item != ItemStack.EMPTY) {
 			return ItemStack.matches(item, new ItemStack(Items.ARROW));
@@ -314,7 +306,7 @@ public class HudElementDetailsVanilla extends HudElement {
 
 	}
 
-	public void renderItemDurabilityBar(GuiGraphics gg,ItemStack stack, int x, int y, float scale) {
+	public void renderItemDurabilityBar(GuiGraphics gg,ItemStack stack, int x, int y) {
 		if (stack.isEmpty())
 			return;
 		if (stack.isBarVisible()) {

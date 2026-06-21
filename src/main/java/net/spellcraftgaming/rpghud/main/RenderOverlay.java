@@ -18,8 +18,8 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 
 public class RenderOverlay implements IGuiOverlay{
 
-    private ModRPGHud rpgHud;
-    private Minecraft mc;
+    private final ModRPGHud rpgHud;
+    private final Minecraft mc;
 
     public RenderOverlay() {
         this.rpgHud = ModRPGHud.instance;
@@ -35,20 +35,20 @@ public class RenderOverlay implements IGuiOverlay{
         this.drawElement(HudElementType.DETAILS, gg, partialTicks);
         this.drawElement(HudElementType.COMPASS, gg, partialTicks);
         this.drawElement(HudElementType.ENTITY_INSPECT, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.HEALTH_MOUNT))
+        if (shouldNotRenderVanilla(HudElementType.HEALTH)) this.drawElement(HudElementType.HEALTH, gg, partialTicks);
+        if (shouldNotRenderVanilla(HudElementType.ARMOR)) this.drawElement(HudElementType.ARMOR, gg, partialTicks);
+        if (shouldNotRenderVanilla(HudElementType.FOOD)) this.drawElement(HudElementType.FOOD, gg, partialTicks);
+        if (shouldNotRenderVanilla(HudElementType.HEALTH_MOUNT))
             this.drawElement(HudElementType.HEALTH_MOUNT, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.STATUS_EFFECTS))
+        if (shouldNotRenderVanilla(HudElementType.AIR)) this.drawElement(HudElementType.AIR, gg, partialTicks);
+        if (shouldNotRenderVanilla(HudElementType.JUMP_BAR)) this.drawElement(HudElementType.JUMP_BAR, gg, partialTicks);
+        if (shouldNotRenderVanilla(HudElementType.STATUS_EFFECTS))
             this.drawElement(HudElementType.STATUS_EFFECTS, gg, partialTicks);
-        if (!shouldRenderVanilla(HudElementType.EXPERIENCE)) {
+        if (shouldNotRenderVanilla(HudElementType.EXPERIENCE)) {
             this.drawElement(HudElementType.EXPERIENCE, gg, partialTicks);
             this.drawElement(HudElementType.LEVEL, gg, partialTicks);
         }
-        if (!shouldRenderVanilla(HudElementType.HOTBAR)) {
+        if (shouldNotRenderVanilla(HudElementType.HOTBAR)) {
             this.drawElement(HudElementType.HOTBAR, gg, partialTicks);
         }
         this.drawElement(HudElementType.MISC, gg, partialTicks);
@@ -92,8 +92,8 @@ public class RenderOverlay implements IGuiOverlay{
         return false;
     }
 
-    public static boolean shouldRenderVanilla(HudElementType type) {
-        return isVanillaElement(type) || forceRenderTypeVanilla(type);
+    public static boolean shouldNotRenderVanilla(HudElementType type) {
+        return !isVanillaElement(type) && !forceRenderTypeVanilla(type);
     }
 
     /**
@@ -114,7 +114,7 @@ public class RenderOverlay implements IGuiOverlay{
      * it is activated
      */
     public static boolean preventEventType(HudElementType type) {
-        if(!shouldRenderVanilla(type))return true;
+        if(shouldNotRenderVanilla(type))return true;
 
         ModRPGHud rpgHud = ModRPGHud.instance;
         String id = Settings.prevent_event + "_" + type.name().toLowerCase();
@@ -182,34 +182,4 @@ public class RenderOverlay implements IGuiOverlay{
              }
         }
     }
-
-    /*
-    @Override
-    public void onHudRender(PoseStack matrixStack, float tickDelta) {
-        renderOverlay(matrixStack, tickDelta);
-
-    }*/
-
-    /*private static HudElementType getEventAlias(ElementType type) {
-        switch(type) {
-            case HOTBAR:
-                return HudElementType.HOTBAR;
-            case HEALTH:
-                return HudElementType.HEALTH;
-            case ARMOR:
-                return HudElementType.ARMOR;
-            case FOOD:
-                return HudElementType.FOOD;
-            case HEALTHMOUNT:
-                return HudElementType.HEALTH_MOUNT;
-            case AIR:
-                return HudElementType.AIR;
-            case JUMPBAR:
-                return HudElementType.JUMP_BAR;
-            case EXPERIENCE:
-                return HudElementType.EXPERIENCE;
-            default:
-                return null;
-        }
-    }*/
 }

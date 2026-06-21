@@ -21,12 +21,12 @@ public class HudElementMiscVanilla extends HudElement{
 	
 	@Override
 	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
-		if(this.settings.getBoolValue(Settings.enable_fps)) renderFPS(gg, scaledWidth, scaledHeight);
-		if(this.settings.getBoolValue(Settings.enable_system_time)) renderSystemTime(gg, scaledWidth, scaledHeight);
+		if(this.settings.getBoolValue(Settings.enable_fps)) renderFPS(gg);
+		if(this.settings.getBoolValue(Settings.enable_system_time)) renderSystemTime(gg, scaledHeight);
 		
 	}
 	
-	private void renderFPS(GuiGraphics gg, int scaledWidth, int scaledHeight) {
+	private void renderFPS(GuiGraphics gg) {
 		float scale = (float) this.settings.getDoubleValue(Settings.fps_scale);
 		gg.pose().scale(scale, scale, scale);
 		scale = getInvertedScale(scale);
@@ -38,7 +38,7 @@ public class HudElementMiscVanilla extends HudElement{
 		gg.pose().scale(scale, scale, scale);
 	}
 	
-	private void renderSystemTime(GuiGraphics gg, int scaledWidth, int scaledHeight) {
+	private void renderSystemTime(GuiGraphics gg, int scaledHeight) {
 		float scale = (float) this.settings.getDoubleValue(Settings.system_time_scale);
 		gg.pose().scale(scale, scale, scale);
 		scale = getInvertedScale(scale);
@@ -48,7 +48,7 @@ public class HudElementMiscVanilla extends HudElement{
 		int posY = Math.round((scaledHeight - 1 + this.settings.getPositionValue(Settings.system_time_position)[0]) * scale)-8;
 		
 		if(this.settings.getBoolValue(Settings.enable_system_time_background)) {
-			int width = Math.round((2*scale) + this.mc.font.width(String.valueOf(time)));
+			int width = Math.round((2*scale) + this.mc.font.width(time));
 			drawRect(gg, Math.round(posX-(1*scale)), Math.round(posY - (1*scale))-1, width, Math.round(10 + (1*scale)), 0xA0000000);
 		}
 		

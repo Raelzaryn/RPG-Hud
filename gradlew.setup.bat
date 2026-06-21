@@ -1,1 +1,0 @@
-cmd /k gradlew genEclipseRuns -refresh-dependencies eclipse

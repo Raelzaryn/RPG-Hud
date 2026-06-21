@@ -14,13 +14,12 @@ public class HudElementJumpBarModern extends HudElement {
 
 	@Override
 	public boolean checkConditions() {
-		return  this.mc.player.getVehicle() instanceof LivingEntity && (this.settings.getBoolValue(Settings.limit_jump_bar) ? this.mc.player.getJumpRidingScale() > 0F : true);
+		return  this.mc.player.getVehicle() instanceof LivingEntity && (!this.settings.getBoolValue(Settings.limit_jump_bar) || this.mc.player.getJumpRidingScale() > 0F);
 	}
 
 	@Override
-	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int width, int scaledHeight) {
 		int height = scaledHeight + this.settings.getPositionValue(Settings.jump_bar_position)[1];
-		int width = scaledWidth;
 		float jumpPower = this.mc.player.getJumpRidingScale();
 		int value = (int) (jumpPower * 100.0F);
 		int posX = this.settings.getPositionValue(Settings.jump_bar_position)[0];

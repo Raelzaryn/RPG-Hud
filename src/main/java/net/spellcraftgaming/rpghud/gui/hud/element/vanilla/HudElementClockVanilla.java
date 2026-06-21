@@ -9,6 +9,8 @@ import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
 
+import java.util.Objects;
+
 public class HudElementClockVanilla extends HudElement {
 
 	public HudElementClockVanilla() {
@@ -20,7 +22,7 @@ public class HudElementClockVanilla extends HudElement {
 		return super.checkConditions() 
 				&& this.settings.getBoolValue(Settings.enable_clock) 
 				&& !this.mc.options.renderDebug
-				&& (this.settings.getBoolValue(Settings.enable_immersive_clock) ? this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)) : true);
+				&& (!this.settings.getBoolValue(Settings.enable_immersive_clock) || this.mc.player.getInventory().contains(new ItemStack(Items.CLOCK)));
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class HudElementClockVanilla extends HudElement {
 	/** Returns the time of the minecraft world as a String */
 	public String getTime() {
 		long time = this.mc.player.level().getDayTime();
-		long day = (long) (this.mc.player.level().getDayTime() / 24000L);
+		long day = this.mc.player.level().getDayTime() / 24000L;
 		long currentTime = time - (24000L * day);
 		long currentHour = (currentTime / 1000L) + 6L;
 		double currentTimeMin = currentTime - ((currentHour - 6L) * 1000L);
@@ -48,7 +50,7 @@ public class HudElementClockVanilla extends HudElement {
 		int currentMin = (int) currentTimeMin;
 		if (currentHour > 24)
 			currentHour -= 24L;
-		if (this.settings.getStringValue(Settings.clock_time_format) == "time.24") {
+		if (Objects.equals(this.settings.getStringValue(Settings.clock_time_format), "time.24")) {
 			return get24HourTimeForString(currentHour, currentMin);
 		}
 		return get12HourTimeForString(currentHour, currentMin);
@@ -70,7 +72,7 @@ public class HudElementClockVanilla extends HudElement {
 		if (currentHour < 10)
 			sb.append("0");
 		sb.append(currentHour);
-		return sb.toString() + ":" + getMinuteForString(currentMin);
+		return sb + ":" + getMinuteForString(currentMin);
 	}
 
 	/**
@@ -99,7 +101,7 @@ public class HudElementClockVanilla extends HudElement {
 		if (currentHour < 10)
 			sb.append(0);
 		sb.append(currentHour);
-		return sb.toString() + ":" + getMinuteForString(currentMin) + " " + period;
+		return sb + ":" + getMinuteForString(currentMin) + " " + period;
 	}
 
 	/**

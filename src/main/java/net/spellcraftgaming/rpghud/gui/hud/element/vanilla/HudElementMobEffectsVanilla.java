@@ -1,12 +1,7 @@
 package net.spellcraftgaming.rpghud.gui.hud.element.vanilla;
 
-import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.INVENTORY_LOCATION;
-
-import java.util.Collection;
-
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
@@ -16,6 +11,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElement;
 import net.spellcraftgaming.rpghud.gui.hud.element.HudElementType;
 import net.spellcraftgaming.rpghud.settings.Settings;
+
+import java.util.Collection;
+
+import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.INVENTORY_LOCATION;
 
 public class HudElementMobEffectsVanilla extends HudElement {
 
@@ -87,14 +86,14 @@ public class HudElementMobEffectsVanilla extends HudElement {
                     if(rpgHud.settings.getBoolValue(Settings.status_time) && !effectinstance.isAmbient()) {
                         int duration = effectinstance.getDuration()/20;
                         String s = "*:**";
-                        if(duration < 600) s = String.valueOf(duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60)));
+                        if(duration < 600) s = duration / 60 + ":" + (duration % 60 < 10 ? "0" + (duration % 60) : (duration % 60));
                         k -= mc.font.width(s)/2;
                         this.drawStringWithBackground(gg, s, k +12, l +14, -1, 0);
                     }
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }
-        scale = getInvertedScale();
     }
 
     @Override
@@ -104,14 +103,13 @@ public class HudElementMobEffectsVanilla extends HudElement {
 
     @Override
     public int getPosY(int scaledHeight) {
-        return (int) 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
+        return 1 + (this.settings.getPositionValue(Settings.status_position)[1]);
     }
 
     @Override
     public float getScale() {
-        float scale = (float)this.settings.getDoubleValue(Settings.status_scale);
-        //if(scale != 0)
-        return scale;
+	    //if(scale != 0)
+        return (float) this.settings.getDoubleValue(Settings.status_scale);
         //return 1;
     }
 }

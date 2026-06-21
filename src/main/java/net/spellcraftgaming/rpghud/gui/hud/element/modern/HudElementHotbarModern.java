@@ -22,23 +22,20 @@ public class HudElementHotbarModern extends HudElement {
     public static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
     @Override
-    public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
+    public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int width, int scaledHeight) {
         if (this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
-        } else if (this.mc.getCameraEntity() instanceof Player) {
+        } else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, WIDGETS_TEX_PATH);
-            Player entityplayer = (Player) this.mc.getCameraEntity();
-            ItemStack itemstack = this.mc.player.getOffhandItem();
+	        ItemStack itemstack = this.mc.player.getOffhandItem();
             int posX = this.settings.getPositionValue(Settings.hotbar_position)[0];
             int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
             HumanoidArm enumhandside = this.mc.player.getMainArm().getOpposite();
-            int width = scaledWidth;
-            int height = scaledHeight + posY;
+	        int height = scaledHeight + posY;
             int i = (width / 2) + posX;
             float f = zLevel;
-            zLevel = -90.0F;
-            drawRect(gg, width / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
+	        drawRect(gg, width / 2 - 91 + posX, height - 22 - 5, 182, 2, 0xA0000000);
             if (this.mc.player.isCreative()) drawRect(gg, width / 2 - 91 + posX, height - 7, 182, 2, 0xA0000000);
             for (int x = 0; x < 10; x++) {
                 drawRect(gg, width / 2 - 91 + (x * 20) + posX, height - 22 - 3, 2, 18, 0xA0000000);
@@ -65,23 +62,22 @@ public class HudElementHotbarModern extends HudElement {
                 }
             }
 
-            zLevel = f;
-            RenderSystem.enableBlend();
+	        RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
             for (int l = 0; l < 9; ++l) {
                 int i1 = i - 90 + l * 20 + 2;
                 int j1 = scaledHeight - 16 - 3 - 9 + 4 + posY;
-                this.renderHotbarItem(gg, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().items.get(l));
+                this.renderHotbarItem(gg, i1, j1, partialTicks, this.mc.player.getInventory().items.get(l));
             }
 
             if (itemstack != ItemStack.EMPTY) {
                 int l1 = scaledHeight - 16 - 3 - 9 + posY;
 
                 if (enumhandside == HumanoidArm.LEFT) {
-                    this.renderHotbarItem(gg, i - 91 - 26 + 5, l1 + 4, partialTicks, entityplayer, itemstack);
+                    this.renderHotbarItem(gg, i - 91 - 26 + 5, l1 + 4, partialTicks, itemstack);
                 } else {
-                    this.renderHotbarItem(gg, i + 91 + 10 - 4, l1 + 4, partialTicks, entityplayer, itemstack);
+                    this.renderHotbarItem(gg, i + 91 + 10 - 4, l1 + 4, partialTicks, itemstack);
                 }
             }
 

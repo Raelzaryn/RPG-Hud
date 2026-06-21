@@ -37,7 +37,7 @@ public class HudElementExperienceTexture extends HudElement {
 			gg.drawCenteredString( this.mc.font, stringExp, posX * 2 + 88, posY * 2 + 4, -1);
 			gg.pose().scale(2f, 2f, 2f);
 		}
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);;
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 
 }

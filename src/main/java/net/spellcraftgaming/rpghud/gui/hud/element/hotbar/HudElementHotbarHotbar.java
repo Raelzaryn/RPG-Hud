@@ -25,32 +25,29 @@ public class HudElementHotbarHotbar extends HudElement {
 	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth, int scaledHeight) {
         if(this.mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             this.mc.gui.getSpectatorGui().renderHotbar(gg);
-		} else if (this.mc.getCameraEntity() instanceof Player) {
+		} else if (this.mc.getCameraEntity() instanceof Player entityplayer) {
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			Player entityplayer = (Player) this.mc.getCameraEntity();
-			ItemStack itemstack = this.mc.player.getOffhandItem();
+	        ItemStack itemstack = this.mc.player.getOffhandItem();
 			int i = scaledWidth / 2;
 			float f = zLevel;
-			zLevel = -90.0F;
-			int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
+	        int posX = (this.settings.getBoolValue(Settings.render_player_face) ? 49 : 25) + this.settings.getPositionValue(Settings.hotbar_position)[0];
 			int posY = this.settings.getPositionValue(Settings.hotbar_position)[1];
 			gg.blit(WIDGETS_TEX_PATH, posX, scaledHeight - 47 + posY, 0, 0, 182, 22);
 			gg.blit(WIDGETS_TEX_PATH, posX + entityplayer.getInventory().selected * 20, scaledHeight - 47 - 1 + posY, 0, 22, 24, 22);
 
 			gg.blit(WIDGETS_TEX_PATH, posX + 181, scaledHeight - 47 + posY, 60, 23, 22, 22);
 
-			zLevel = f;
-			RenderSystem.enableBlend();
+	        RenderSystem.enableBlend();
 	        RenderSystem.defaultBlendFunc();
 
 			for (int l = 0; l < 9; ++l) {
 				int i1 = posX + 1 + l * 20 + 2;
 				int j1 = scaledHeight - 16 - 19 - 9 + posY;
-				this.renderHotbarItem(gg, i1, j1, partialTicks, entityplayer, this.mc.player.getInventory().items.get(l));
+				this.renderHotbarItem(gg, i1, j1, partialTicks, this.mc.player.getInventory().items.get(l));
 			}
 
 			int l1 = scaledHeight - 47 + 3 + posY;
-			this.renderHotbarItem(gg, posX + 184, l1, partialTicks, entityplayer, itemstack);
+			this.renderHotbarItem(gg, posX + 184, l1, partialTicks, itemstack);
 
             if(this.mc.options.attackIndicator().get() == AttackIndicatorStatus.HOTBAR) {
                 float f1 = this.mc.player.getAttackAnim(0.0F);

@@ -21,13 +21,13 @@ public class GuiScreenTooltip extends Screen {
         super(titleIn);
     }
 
-    protected List<GuiTextLabel> labelList = new ArrayList<GuiTextLabel>();
+    protected final List<GuiTextLabel> labelList = new ArrayList<>();
 
     @Override
     public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
         super.render(gg, mouseX, mouseY, partialTicks);
         for(GuiTextLabel label : labelList) {
-            label.render(this, gg);
+            label.render(gg);
         }
         if(ModRPGHud.instance.settings.getBoolValue(Settings.enable_button_tooltip)) {
             drawTooltip(gg, mouseX, mouseY);
@@ -40,7 +40,7 @@ public class GuiScreenTooltip extends Screen {
     private void drawTooltip(GuiGraphics gg, int mouseX, int mouseY) {
         Minecraft mc = Minecraft.getInstance();
         Font fontRenderer = mc.font;
-        GuiScreenTooltip gui = null;
+        GuiScreenTooltip gui;
         if(mc.screen instanceof GuiScreenTooltip)
             gui = (GuiScreenTooltip) mc.screen;
         else
@@ -68,12 +68,12 @@ public class GuiScreenTooltip extends Screen {
             String[] tooltip = button.getTooltipNew();
             if(!(tooltip == null)) {
                 int counter = 0;
-                for(int id = 0; id < tooltip.length; id++) {
-                    int width = fontRenderer.width(tooltip[id]);
-                    if(totalWidth < width)
-                        totalWidth = fontRenderer.width(tooltip[id]);
-                    counter++;
-                }
+	            for(String s : tooltip) {
+		            int width = fontRenderer.width(s);
+		            if(totalWidth < width)
+			            totalWidth = fontRenderer.width(s);
+		            counter++;
+	            }
                 posX -= totalWidth / 2;
                 if((posX + totalWidth + 10) > gui.width)
                     posX -= (posX + totalWidth + 10) - gui.width;
@@ -100,9 +100,9 @@ public class GuiScreenTooltip extends Screen {
     }
 
     public class GuiTextLabel {
-        int x;
-        int y;
-        String text;
+        final int x;
+        final int y;
+        final String text;
 
         public GuiTextLabel(int x, int y, String text) {
             this.x = x;
@@ -110,7 +110,7 @@ public class GuiScreenTooltip extends Screen {
             this.text = text;
         }
 
-        public void render(Screen gui, GuiGraphics gg) {
+        public void render(GuiGraphics gg) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             gg.drawString(minecraft.font, text, x, y, 0xFFFFFFFF);

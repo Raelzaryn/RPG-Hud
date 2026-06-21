@@ -1,30 +1,27 @@
 package net.spellcraftgaming.rpghud.main;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.spellcraftgaming.rpghud.event.ClientEventHandler;
-import net.spellcraftgaming.rpghud.gui.hud.Hud;
-import net.spellcraftgaming.rpghud.gui.hud.HudDefault;
-import net.spellcraftgaming.rpghud.gui.hud.HudExtendedWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudFullTexture;
-import net.spellcraftgaming.rpghud.gui.hud.HudHotbarWidget;
-import net.spellcraftgaming.rpghud.gui.hud.HudModern;
-import net.spellcraftgaming.rpghud.gui.hud.HudSimple;
-import net.spellcraftgaming.rpghud.gui.hud.HudVanilla;
+import net.spellcraftgaming.rpghud.gui.GuiSettingsMod;
+import net.spellcraftgaming.rpghud.gui.hud.*;
 import net.spellcraftgaming.rpghud.settings.Settings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 @Mod("rpghud")
@@ -32,20 +29,28 @@ public class ModRPGHud {
 
 	public static ModRPGHud instance;
 
-	public static boolean[] renderDetailsAgain = { false, false, false };
+	public static final boolean[] renderDetailsAgain = { false, false, false };
 
 	public Settings settings;
 
 	/** Map of all registered HUDs */
-	public Map<String, Hud> huds = new LinkedHashMap<String, Hud>();
+	public final Map<String, Hud> huds = new LinkedHashMap<>();
 
 	public static final Logger LOGGER = LogManager.getLogger();
+
+	public static void init() {
+		new ModRPGHud();
+	}
 
 	public ModRPGHud() {
 		instance = this;
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+			ModLoadingContext.get().registerExtensionPoint(
+					ConfigScreenHandler.ConfigScreenFactory.class,
+					() -> new ConfigScreenHandler.ConfigScreenFactory((mc, prevScreen) -> new GuiSettingsMod(prevScreen, Component.translatable("gui.rpg.settings")){})
+			);
 		} else {
 			LOGGER.warn("RPG-Hud is a client-side-only mod and should not be installed server-side, please remove it from your server");
 		}
@@ -93,7 +98,7 @@ public class ModRPGHud {
 	}
 
 	public boolean isVanillaHud() {
-		return this.settings.getStringValue(Settings.hud_type) == "vanilla";
+		return Objects.equals(this.settings.getStringValue(Settings.hud_type), "vanilla");
 	}
 
 	/** Checks if a Hud with the specified key is registered */

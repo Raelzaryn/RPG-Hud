@@ -14,7 +14,6 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.spellcraftgaming.rpghud.main.ModRPGHud;
 import net.spellcraftgaming.rpghud.settings.Settings;
@@ -82,6 +81,11 @@ public abstract class HudElement {
     public static final int COLOR_YELLOW = 0xEEEE00;
 
     /**
+     * The values of the color sickly green used by the hunger effect
+     */
+    public static final int COLOR_GREEN_FROST = 0xFF9BA067;
+
+    /**
      * The values of the default color
      */
     public static final int[] COLOR_DEFAULT = {0x4C4C4C, 0x3D3D3D};
@@ -130,25 +134,25 @@ public abstract class HudElement {
     /**
      * The Type of this element
      */
-    protected HudElementType type;
+    protected final HudElementType type;
 
     /**
      * The Minecraft instance
      */
-    protected Minecraft mc;
+    protected final Minecraft mc;
 
     /**
      * The Mod instance
      */
-    protected ModRPGHud rpgHud;
+    protected final ModRPGHud rpgHud;
 
     /**
      * The Mod settings
      */
-    protected Settings settings;
+    protected final Settings settings;
 
-    protected float scale;
-    protected float scaleInverted;
+    protected final float scale;
+    protected final float scaleInverted;
 
     public HudElementType parent;
 
@@ -440,11 +444,11 @@ public abstract class HudElement {
         if (outlined)
             offset = 1;
 
-        int filledWidth = width;
+        int filledWidth;
         filledWidth = width - (offset * 2);
         if (filledWidth < 0)
             filledWidth = 0;
-        int filledHeight = width;
+        int filledHeight;
         filledHeight = height - (offset * 2);
         if (filledHeight < 0)
             filledHeight = 0;
@@ -542,25 +546,19 @@ public abstract class HudElement {
         colorPart += (offset >> 16 & 255);
         if (colorPart > 0xFF)
             colorPart = 0xFF;
-        else if (colorPart < 0)
-            colorPart = 0;
 
-        colorOffset = colorPart << 16;
+	    colorOffset = colorPart << 16;
         colorPart = (color >> 8 & 255);
         colorPart += (offset >> 8 & 255);
         if (colorPart > 0xFF)
             colorPart = 0xFF;
-        else if (colorPart < 0)
-            colorPart = 0;
 
-        colorOffset += colorPart << 8;
+	    colorOffset += colorPart << 8;
         colorPart = (color & 255);
         colorPart += (offset & 255);
         if (colorPart > 0xFF)
             colorPart = 0xFF;
-        else if (colorPart < 0)
-            colorPart = 0;
-        colorOffset += colorPart;
+	    colorOffset += colorPart;
         return colorOffset;
     }
 
@@ -575,7 +573,7 @@ public abstract class HudElement {
     }
 
 
-    protected void renderHotbarItem(GuiGraphics gg, int x, int y, float partialTicks, Player player, ItemStack item) {
+    protected void renderHotbarItem(GuiGraphics gg, int x, int y, float partialTicks, ItemStack item) {
         if (!item.isEmpty()) {
             PoseStack PoseStack = RenderSystem.getModelViewStack();
             float f = (float) item.getPopTime() - partialTicks;

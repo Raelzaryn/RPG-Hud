@@ -23,11 +23,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	}
 
 	@Override
-	public boolean checkConditions() {
-		return !this.mc.options.renderDebug && !this.isChatOpen();
-	}
-
-	@Override
 	public void drawElement(GuiGraphics gg, float zLevel, float partialTicks, int scaledWidth,
 			int scaledHeight) {
 		this.offset = (this.settings.getBoolValue(Settings.render_player_face) ? 0 : 16)
@@ -140,7 +135,6 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 							z += addArrowStackIfCorrect(item, item3);
 						}
 					}
-					this.count3 = z;
 				}
 				this.count3 = 0;
 			} else {
@@ -151,7 +145,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			if (widthNew > width)
 				width = widthNew;
 		}
-		if (item == ItemStack.EMPTY || item == null) {
+		if (item == ItemStack.EMPTY) {
 			this.itemMainHandLastArrow = ItemStack.EMPTY;
 		} else {
 			this.itemMainHandLastArrow = item.copy();
@@ -163,7 +157,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the armor details
 	 * 
-	 * @param gui   the GUI to draw one
+	 * @param gg   the GUI to draw one
 	 * @param width the width of the background
 	 */
 	protected void drawArmorDetails(GuiGraphics gg, int width) {
@@ -178,7 +172,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				String s = (item.getMaxDamage() - item.getDamageValue()) + "/" + item.getMaxDamage();
 				this.renderGuiItemHalfSizeModel(item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
-					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset, 0.5f);
+					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2  + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
@@ -189,7 +183,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the held item details
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param gg  the GUI to draw on
 	 * @param hand  the hand whose item should be detailed
 	 * @param width the width of the background
 	 */
@@ -204,7 +198,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 				gg.pose().scale(0.5f, 0.5f, 0.5f);
 				this.renderGuiItemHalfSizeModel(item, 6 + xOffset, 62 + this.offset + yOffset);
 				if (this.settings.getBoolValue(Settings.show_durability_bar))
-					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset, 0.5f);
+					this.renderItemDurabilityBar(gg, item, 6 + xOffset, 62 + this.offset + yOffset);
 				gg.drawCenteredString( this.mc.font, s, 32 + width / 2 + xOffset, 66 + this.offset + yOffset, -1);
 				gg.pose().scale(2f, 2f, 2f);
 				this.offset += 20;
@@ -256,7 +250,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 	/**
 	 * Draws the amount of arrows the player has in his inventory on the screen
 	 * 
-	 * @param gui   the GUI to draw on
+	 * @param gg  the GUI to draw on
 	 * @param width the width of the background
 	 */
 	protected void drawArrowCount(GuiGraphics gg, int width) {
@@ -298,7 +292,7 @@ public class HudElementDetailsModern extends HudElementDetailsVanilla {
 			this.offset += 20;
 
 		}
-		if (item == ItemStack.EMPTY || item == null) {
+		if (item == ItemStack.EMPTY) {
 			this.itemMainHandLastArrow = ItemStack.EMPTY;
 		} else {
 			this.itemMainHandLastArrow = item.copy();

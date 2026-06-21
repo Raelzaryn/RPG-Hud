@@ -23,16 +23,16 @@ import net.spellcraftgaming.rpghud.settings.Settings;
 public class GuiSettingsMod extends GuiScreenTooltip {
 
 	/** The ModSettings instance */
-	private Settings settings;
+	private final Settings settings;
 
 	/** The GuiScreen which lead to this GUI */
-	private Screen parent;
+	private final Screen parent;
 
-	private String subSetting;
+	private final String subSetting;
 
-	private Map<String, List<EditBox>> textFields = new HashMap<String, List<EditBox>>();
+	private final Map<String, List<EditBox>> textFields = new HashMap<>();
 	
-	private GuiSettingsMod instance;
+	private final GuiSettingsMod instance;
 	
 	public GuiSettingsMod(Screen parent, String subSetting, Component titleIn) {
 		super(titleIn);
@@ -53,12 +53,12 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	@Override
 	public void init() {
 		Font fontRenderer = minecraft.font;
-		if(this.subSetting.equals("")){
-			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + 0 % 2 * 160, this.height / 6 - 14 + 20 * (0 >> 1), "general", Component.translatable("gui.rpg.general"), button -> {
+		if(this.subSetting.isEmpty()){
+			GuiButtonTooltip guismallbutton = new GuiButtonTooltip(this.width / 2 - 155, this.height / 6 - 14, "general", Component.translatable("gui.rpg.general"), button -> {
 					GuiButtonTooltip b = (GuiButtonTooltip) button;
 					if(b.enumOptions != null)
-					    minecraft.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
-			}).setTooltip(I18n.get("tooltip.general", new Object[0]));
+					    minecraft.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
+			}).setTooltip(I18n.get("tooltip.general"));
 			this.addRenderableWidget(guismallbutton);
 			
 			int count = 1;
@@ -69,9 +69,9 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 					guismallbutton = new GuiButtonTooltip(this.width / 2 - 155 + count % 2 * 160, this.height / 6 - 14 + 20 * (count >> 1), type.name(), Component.translatable(type.getDisplayName()), button -> {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
-								this.minecraft.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+								this.minecraft.setScreen(new GuiSettingsMod(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 							}
-					}).setTooltip(I18n.get("tooltip.element", new Object[0]));
+					}).setTooltip(I18n.get("tooltip.element"));
 					this.addRenderableWidget(guismallbutton);
 					count++;
 				}
@@ -82,7 +82,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 				if(this.settings.getSetting(settingList.get(i)) instanceof SettingPosition)
 				{
 					String[] values = ((String) this.settings.getSetting(settingList.get(i)).getValue()).split("_");
-					List<EditBox> fields = new ArrayList<EditBox>();
+					List<EditBox> fields = new ArrayList<>();
 					
 					GuiTextLabel settingLabel = new GuiTextLabel(this.width / 2 - 152 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1), this.settings.getButtonString(settingList.get(i)));
 					labelList.add(settingLabel);
@@ -101,7 +101,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 
 					textFields.put(settingList.get(i), fields);
 				} else if(this.settings.getSetting(settingList.get(i)) instanceof SettingDouble) {
-                    List<EditBox> fields = new ArrayList<EditBox>();
+                    List<EditBox> fields = new ArrayList<>();
                     GuiTextLabel scaleLabel = new GuiTextLabel(this.width / 2 - 151 + i % 2 * 160, this.height / 6 - 8 + 20 * (i >> 1),
                             this.settings.getButtonString(settingList.get(i)));
                     EditBox scale = new EditBoxMod(fontRenderer, ValueType.DOUBLE, this.width / 2 - 100 + i % 2 * 160 + 3,
@@ -117,7 +117,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 							GuiButtonTooltip b = (GuiButtonTooltip) button;
 							if(b.enumOptions != null){
 								if(settings.getSetting(b.enumOptions) instanceof SettingColor){
-								    minecraft.setScreen(new GuiSettingsModColor(instance, b.enumOptions, Component.translatable("gui.settings.rpghud")));
+								    minecraft.setScreen(new GuiSettingsModColor(instance, b.enumOptions, Component.translatable("gui.rpg.settings")));
 								} else {
 									settings.increment(b.enumOptions);
 									button.setMessage(Component.translatable(settings.getButtonString(b.enumOptions)));
@@ -139,9 +139,9 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                             case DOUBLE:
                                 double value;
                                 try {
-                                    value = Double.valueOf(textFields.get(settingID).get(0).getValue());
+                                    value = Double.parseDouble(textFields.get(settingID).get(0).getValue());
                                     this.settings.getSetting(settingID).setValue(value);
-                                } catch(NumberFormatException e) {
+                                } catch(NumberFormatException ignored) {
                                 }
                                 break;
                             case POSITION:
@@ -160,7 +160,7 @@ public class GuiSettingsMod extends GuiScreenTooltip {
 	@Override
 	public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(gg);
-		gg.drawCenteredString(minecraft.font, I18n.get("gui.rpg.settings", new Object[0]), this.width / 2, 12, 16777215);
+		gg.drawCenteredString(minecraft.font, I18n.get("gui.rpg.settings"), this.width / 2, 12, 16777215);
 		for(List<EditBox> positionPairs : textFields.values()) {
 			for(EditBox t : positionPairs)
 				t.render(gg, mouseX, mouseY, partialTicks);
@@ -179,9 +179,9 @@ public class GuiSettingsMod extends GuiScreenTooltip {
                         case DOUBLE:
                             double value;
                             try {
-                                value = Double.valueOf(textFields.get(settingID).get(0).getValue());
+                                value = Double.parseDouble(textFields.get(settingID).get(0).getValue());
                                 this.settings.getSetting(settingID).setValue(value);
-                            } catch(NumberFormatException e) {
+                            } catch(NumberFormatException ignored) {
                             }
                             break;
                         case POSITION:

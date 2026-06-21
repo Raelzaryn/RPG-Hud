@@ -17,7 +17,7 @@ license="GNU GPLv3"
 # The modid of the mod
 modId="rpghud" #mandatory
 # The version number of the mod
-version="3.10.3" #mandatory
+version="3.13" #mandatory
 # A display name for the mod
 displayName="RPG-HUD" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
